@@ -1,3 +1,5 @@
+use cotati_derive::Dsl;
+
 use super::{Animatable, FrameVariable, Measurement, Rect, Units};
 
 /// The ‘overflow’ property has the same parameter values and has the same meaning [`as defined in CSS2`](https://www.w3.org/TR/2008/REC-CSS2-20080411/visufx.html#overflow)
@@ -66,7 +68,7 @@ pub enum ClipRule {
 }
 
 /// used as an alpha mask for compositing the current object into the background.
-#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[derive(Dsl, Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Mask {
     /// Defines the coordinate system for attributes ‘x’, ‘y’, ‘width’ and ‘height’.

@@ -1,0 +1,25 @@
+[package]
+description = "This crate defines the Intermediate Representation (IR) of VGL(cotati vector graphics language)"
+documentation = "https://docs.rs/cotati-ir"
+edition.workspace = true
+license = "MIT"
+name = "cotati-ir"
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+thiserror = { workspace = true }
+log = { workspace = true }
+oxilangtag = { workspace = true }
+bitmask-enum = { workspace = true }
+serde = { workspace = true, optional = true }
+cotati-derive = { workspace = true, optional = true }
+
+[dev-dependencies]
+pretty_env_logger = { workspace = true }
+divan = { workspace = true }
+
+[features]
+default = ["serde", "dsl"]
+serde = ["dep:serde"]
+dsl = ["cotati-derive"]

@@ -17,7 +17,7 @@ where
     T: FrameVariable,
 {
     /// a reference variable to `frame register`.
-    Frame(String),
+    Animated(String),
     /// non-animated variable
     Constant(T),
 }
@@ -34,7 +34,7 @@ where
     /// * returns [`Ok(T)`](Ok) if this variant is a [`constant`](Animatable::Constant) variable
     pub fn ok(self) -> Result<T> {
         match self {
-            Animatable::Frame(n) => Err(Error::UnsatisfiedFrameVariable(n)),
+            Animatable::Animated(n) => Err(Error::UnsatisfiedFrameVariable(n)),
             Animatable::Constant(v) => Ok(v),
         }
     }
@@ -54,7 +54,7 @@ where
     T: FrameVariable,
 {
     fn from(value: &str) -> Self {
-        Self::Frame(value.to_string())
+        Self::Animated(value.to_string())
     }
 }
 
@@ -63,7 +63,7 @@ where
     T: FrameVariable,
 {
     fn from(value: String) -> Self {
-        Self::Frame(value)
+        Self::Animated(value)
     }
 }
 

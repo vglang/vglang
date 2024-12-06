@@ -1,9 +1,9 @@
 [package]
-description = "A proc-macro crate for cotati that help generate dsl methods."
-documentation = "https://docs.rs/cotati"
+description = "A utility derive crate for cotati."
+documentation = "https://docs.rs/cotati-derive"
 edition.workspace = true
 license = "MIT"
-name = "cotati-dsl"
+name = "cotati-derive"
 repository.workspace = true
 version.workspace = true
 

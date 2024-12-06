@@ -1,4 +1,5 @@
 use bitmask_enum::bitmask;
+use cotati_derive::Dsl;
 
 use super::{FrameVariable, Measurement, PathEvent, UnicodeRange};
 
@@ -27,7 +28,7 @@ use super::{FrameVariable, Measurement, PathEvent, UnicodeRange};
 /// this font.9
 ///
 /// [`CSS2`]: https://www.w3.org/TR/2008/REC-CSS2-20080411/
-#[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
+#[derive(Dsl, Debug, Default, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Font {
     /// The X-coordinate in the font coordinate system of the origin of a glyph to be used when drawing horizontally

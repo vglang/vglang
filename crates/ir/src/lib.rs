@@ -1,6 +1,9 @@
 //! An intermediate representation of the `VGL` language.
 //!
 
+mod errors;
+pub use errors::*;
+
 mod animation;
 pub use animation::*;
 

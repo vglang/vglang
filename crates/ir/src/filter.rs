@@ -1,3 +1,5 @@
+use cotati_derive::Dsl;
+
 use super::{
     Angle, Animatable, ChannelSelector, FrameVariable, Href, Measurement, NumberOptNumber,
     PreserveAspectRatio, RecognizedColor, Rgba,
@@ -37,6 +39,7 @@ impl FrameVariable for FeUnits {}
 /// Non-integer values are truncated, i.e rounded to the closest integer value towards zero.
 ///
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone, Copy)]
+#[cfg_attr(feature = "dsl", derive(Dsl))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeRes {
     /// `x-pixels`
@@ -121,6 +124,7 @@ impl FrameVariable for FeOut {}
 /// filter effect is rendered to the target device instead of the original source
 /// graphic.
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "dsl", derive(Dsl))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Fe {
     /// Defines the coordinate system for attributes ‘x’, ‘y’, ‘width’ and ‘height’.
@@ -246,6 +250,7 @@ impl Default for Fe {
 /// ‘feTile’ references a previous filter primitive and then stitches the tiles together based on the ‘x’, ‘y’,
 /// ‘width’ and ‘height’ values of the referenced filter primitive in order to fill its own filter primitive subregion.
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "dsl", derive(Dsl))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FePrimitive {
     /// The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive.
@@ -288,6 +293,7 @@ impl Default for FePrimitive {
 ///
 /// ![`distance light source`](https://www.w3.org/TR/SVG11/images/filters/azimuth-elevation.png)
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "dsl", derive(Dsl))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeDistantLight {
     /// Direction angle for the light source on the XY plane (clockwise), in degrees from the x axis.
@@ -330,6 +336,7 @@ impl FrameVariable for FeSpecularExponent {}
 
 /// Defines spot light source.
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "dsl", derive(Dsl))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeSpotLight {
     /// X location for the light source in the coordinate system established by attribute ‘primitiveUnits’ on the ‘filter’ element.
@@ -415,6 +422,7 @@ impl FrameVariable for FeBlendMode {}
 /// This filter composites two objects together using commonly used imaging software blending modes.
 /// It performs a pixel-wise combination of two input images.
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "dsl", derive(Dsl))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeBlend {
     /// common properties.
@@ -481,6 +489,7 @@ impl FrameVariable for FeColorMatrixValues {}
 ///
 /// See [`feColorMatrix`](https://www.w3.org/TR/SVG11/filters.html#feColorMatrixElement).
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "dsl", derive(Dsl))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeColorMatrix {
     /// common properties.
@@ -572,6 +581,7 @@ impl Default for FeTransferFn {
 ///
 /// for every pixel. It allows operations like brightness adjustment, contrast adjustment, color balance or thresholding.
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "dsl", derive(Dsl))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeComponentTransfer {
     /// common properties.

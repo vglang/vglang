@@ -1,6 +1,6 @@
 //! `errors`,`result` types used by this crate.
 
-/// Error variant used by `cotati`.
+/// Error variant used by crate.
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
     #[error("unsatisfied frame variable: {0}")]
@@ -10,5 +10,5 @@ pub enum Error {
     UnrecognizedColor(String),
 }
 
-/// Result type used by this `cotati`.
+/// Result type used by this crate.
 pub type Result<T> = std::result::Result<T, Error>;
