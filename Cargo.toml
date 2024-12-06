@@ -25,6 +25,8 @@ nom = "^7.1"
 xml_dom = "^0.2"
 oxilangtag = "0.1.5"
 bitmask-enum = "2.2.5"
-# inner crates
+# cotati sub-crates
+cotati-derive = { path = "./crates/derive", version = "^0.1", default-features = false }
 cotati-ir = { path = "./crates/ir", version = "^0.1", default-features = false }
-cotati-derive = { path = "./crates/derive", version = "^0.1" }
+cotati-device = { path = "./crates/device", version = "^0.1", default-features = false }
+cotati-svg = { path = "./crates/svg", version = "^0.1", default-features = false }

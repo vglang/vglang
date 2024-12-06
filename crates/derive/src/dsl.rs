@@ -49,7 +49,7 @@ pub fn derive_api(item: TokenStream) -> TokenStream {
                                     }
                                 });
 
-                                println!("animatable field: {}", content_type.to_token_stream());
+                                // println!("animatable field: {}", content_type.to_token_stream());
                             }
                             _ => {
                                 panic!("unsupport.");

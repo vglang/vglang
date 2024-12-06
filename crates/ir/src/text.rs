@@ -25,7 +25,8 @@ impl FrameVariable for TextLengthAdjust {}
 /// The ‘text’ element defines a graphics element consisting of text.
 ///
 /// See [`text`](https://www.w3.org/TR/SVG11/text.html#TextElement)
-#[derive(Dsl, Debug, Default, PartialEq, PartialOrd, Clone)]
+#[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "dsl", derive(Dsl))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Text {
     /// If a single `coordinate` is provided, then the value represents the new absolute X coordinate for

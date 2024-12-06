@@ -15,11 +15,7 @@ bitmask-enum = { workspace = true }
 serde = { workspace = true, optional = true }
 cotati-derive = { workspace = true, optional = true }
 
-[dev-dependencies]
-pretty_env_logger = { workspace = true }
-divan = { workspace = true }
-
 [features]
 default = ["serde", "dsl"]
 serde = ["dep:serde"]
-dsl = ["cotati-derive"]
+dsl = ["cotati-derive/dsl"]

@@ -1,0 +1,12 @@
+[package]
+description = "A crate that provides the render target abstract for VGL language."
+documentation = "https://docs.rs/cotati-device"
+edition.workspace = true
+license = "MIT"
+name = "cotati-device"
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+futures = { workspace = true }
+cotati-ir = { workspace = true }

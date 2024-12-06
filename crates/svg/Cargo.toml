@@ -1,0 +1,15 @@
+[package]
+description = "A svg rendering target implementation for VGL(cotati vector graphics language)"
+documentation = "https://docs.rs/cotati-svg"
+edition.workspace = true
+license = "MIT"
+name = "cotati-svg"
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+thiserror = { workspace = true }
+xml_dom = { workspace = true }
+futures = { workspace = true }
+cotati-ir = { workspace = true }
+cotati-device = { workspace = true }

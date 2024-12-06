@@ -1,0 +1,23 @@
+[package]
+description = "Rust embed dsl supports for VGL"
+documentation = "https://docs.rs/cotati-dsl"
+edition.workspace = true
+license = "MIT"
+name = "cotati-dsl"
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+cotati-ir = { workspace = true, features = ["dsl"] }
+cotati-device = { workspace = true }
+
+[dev-dependencies]
+pretty_env_logger = { workspace = true }
+cotati-svg = { workspace = true }
+divan = { workspace = true }
+futures-test = { workspace = true }
+heck = { workspace = true }
+
+[features]
+default = ["serde"]
+serde = ["cotati-ir/serde"]
