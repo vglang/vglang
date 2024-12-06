@@ -1,0 +1,31 @@
+[package]
+description = "cotati is a general-purpose VGL(vector graphics language) system"
+documentation = "https://docs.rs/cotati"
+edition.workspace = true
+license = "MIT"
+name = "cotati"
+repository = "https://github.com/HalaOS/hala-graphics.git"
+version.workspace = true
+
+[dependencies]
+thiserror = { workspace = true }
+log = { workspace = true }
+futures = { workspace = true, optional = true }
+nom = { workspace = true, optional = true }
+serde = { workspace = true, optional = true }
+oxilangtag = { workspace = true, optional = true }
+bitmask-enum = { workspace = true, optional = true }
+xml_dom = { workspace = true, optional = true }
+
+[dev-dependencies]
+pretty_env_logger = { workspace = true }
+divan = { workspace = true }
+
+[features]
+default = ["vgl", "dsl", "ir", "serde", "device", "svg"]
+dsl = ["nom", "ir"]
+vgl = ["nom", "ir"]
+serde = ["dep:serde"]
+ir = ["oxilangtag", "bitmask-enum"]
+device = ["futures"]
+svg = ["xml_dom"]
