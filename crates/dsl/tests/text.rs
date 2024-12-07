@@ -7,15 +7,9 @@ use dsl::dsl_test;
 async fn test_text() {
     dsl_test("basic", |g| {
         layer(
-            Layer::default().width(300.0).height(200.0),
+            Layer::default().width(300).height(200),
             text(
-                Text::default().y(vec![
-                    100.0.into(),
-                    105.0.into(),
-                    110.0.into(),
-                    115.0.into(),
-                    120.0.into(),
-                ]),
+                Text::default().y(vec![100, 105, 110, 115, 120]),
                 "hello world",
             ),
         )

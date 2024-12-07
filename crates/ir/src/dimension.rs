@@ -78,6 +78,12 @@ impl From<f32> for Measurement {
     }
 }
 
+impl From<i32> for Measurement {
+    fn from(value: i32) -> Self {
+        Self(value as f32, None)
+    }
+}
+
 impl Measurement {
     /// Create a measurement with `em` unit identifier.
     pub fn em(value: f32) -> Self {
