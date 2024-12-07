@@ -9,7 +9,9 @@ async fn test_text() {
         layer(
             Layer::default().width(300).height(200),
             text(
-                Text::default().y(vec![100, 105, 110, 115, 120]),
+                Text::default()
+                    .x(100)
+                    .y((103, 107, 111, 115, 120, 120, 120, 115, 110, 105, 110)),
                 "hello world",
             ),
         )

@@ -66,3 +66,40 @@ impl Default for UnicodeRange {
         }
     }
 }
+
+#[cfg(feature = "dsl")]
+mod dsl {
+    /// Map item via iterator and collect them into vec.
+    pub trait MapCollect {
+        type Item;
+        fn map_collect(self) -> Vec<Self::Item>;
+    }
+}
+
+#[cfg(feature = "dsl")]
+pub use dsl::*;
+
+#[cfg(feature = "dsl")]
+macro_rules! tuple_map_collect {
+    ($item: ident, $header: ident, $($tail: ident),+) => {
+
+        impl<$header, $($tail),+> $crate::MapCollect for ($header, $($tail),+)
+        where
+            $header: Into<$item>,
+            $($tail: Into<$item>),+,
+        {
+            type Item = $item;
+            #[allow(non_snake_case)]
+            fn map_collect(self) -> Vec<Self::Item> {
+                let ($header, $($tail),+) = self;
+                vec![$header.into(),$($tail.into()),+]
+            }
+        }
+
+        tuple_map_collect!($item, $($tail),+);
+    };
+    ($item: ident, $header: ident) => {}
+}
+
+#[cfg(feature = "dsl")]
+pub(crate) use tuple_map_collect;

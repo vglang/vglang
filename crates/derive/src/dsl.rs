@@ -45,12 +45,11 @@ pub fn derive_api(item: TokenStream) -> TokenStream {
                                 if let Some(content_type) = is_vec {
                                     apis.push(quote! {
                                         /// Set attribute `#fn_name` with constant value.
-                                        pub fn #fn_name<I>(mut self, i: I) -> Self 
+                                        pub fn #fn_name<V>(mut self, v: V) -> Self 
                                         where 
-                                            I: IntoIterator,
-                                            #content_type: From<I::Item>
+                                            V: crate::MapCollect<Item=#content_type>,
                                         {
-                                            self.#fn_name = Animatable::Constant(i.into_iter().map(|v| v.into()).collect());
+                                            self.#fn_name = Animatable::Constant(v.map_collect());
                                             self
                                         }
                                     

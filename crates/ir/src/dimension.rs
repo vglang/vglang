@@ -1,5 +1,7 @@
 use std::fmt::Display;
 
+use crate::{tuple_map_collect, MapCollect};
+
 use super::{Animatable, FrameVariable};
 
 /// The unit identifier.
@@ -372,4 +374,57 @@ impl From<(f32, f32, f32, f32, PreserveAspectRatio)> for ViewBox {
             aspect: Some(Animatable::Constant(value.4)),
         }
     }
+}
+
+#[cfg(feature = "dsl")]
+mod dsl {
+    use super::*;
+
+    impl<T> MapCollect for Vec<T>
+    where
+        Measurement: From<T>,
+    {
+        type Item = Measurement;
+
+        fn map_collect(self) -> Vec<Self::Item> {
+            self.into_iter().map(|v| v.into()).collect()
+        }
+    }
+
+    #[cfg(feature = "dsl")]
+    impl<T> MapCollect for T
+    where
+        Measurement: From<T>,
+    {
+        type Item = Measurement;
+
+        fn map_collect(self) -> Vec<Self::Item> {
+            vec![self.into()]
+        }
+    }
+
+    tuple_map_collect!(
+        Measurement,
+        A0,
+        A1,
+        A2,
+        A3,
+        A4,
+        A5,
+        A6,
+        A7,
+        A8,
+        A9,
+        A10,
+        A11,
+        A12,
+        A13,
+        A14,
+        A15,
+        A16,
+        A17,
+        A18,
+        A19,
+        A20
+    );
 }
