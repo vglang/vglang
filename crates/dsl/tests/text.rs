@@ -7,7 +7,7 @@ use dsl::dsl_test;
 async fn test_text() {
     dsl_test("basic", |g| {
         layer(
-            Layer::default().width(300).height(200),
+            Layer::attrs().width(300).height(200),
             text(
                 Text::default()
                     .x(100)

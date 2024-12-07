@@ -107,6 +107,12 @@ pub fn derive_api(item: TokenStream) -> TokenStream {
 
     quote! {
         impl #impl_generics #ident #ty_generics #where_clause {
+
+            /// Create default attrs for this element.
+            pub fn attrs() -> Self where Self: Default {
+                Self::default()
+            }
+
             #(#apis)*
         }
     }

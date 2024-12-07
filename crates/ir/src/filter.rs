@@ -473,6 +473,15 @@ pub enum FeColorMatrixValues {
     LuminanceToAlpha,
 }
 
+impl Default for FeColorMatrixValues {
+    fn default() -> Self {
+        Self::Matrix([
+            1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0,
+            0.0, 1.0, 0.0,
+        ])
+    }
+}
+
 impl FrameVariable for FeColorMatrixValues {}
 
 /// This filter applies a matrix transformation.
@@ -488,7 +497,7 @@ impl FrameVariable for FeColorMatrixValues {}
 /// can avoid the costly undoing and redoing of the premultiplication for all pixels with A = 1.
 ///
 /// See [`feColorMatrix`](https://www.w3.org/TR/SVG11/filters.html#feColorMatrixElement).
-#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "dsl", derive(Dsl))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeColorMatrix {
