@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use crate::errors::{Error, Result};
 
 /// This is a marker trait that a type with this trait can be used as frame register variable.
@@ -35,6 +37,21 @@ where
     pub fn ok(self) -> Result<T> {
         match self {
             Animatable::Animated(n) => Err(Error::UnsatisfiedFrameVariable(n)),
+            Animatable::Constant(v) => Ok(v),
+        }
+    }
+
+    /// Get animatable variable from constant storage or registers.
+    pub fn get(
+        &self,
+        animatable: &HashMap<String, AnimatableValue>,
+    ) -> std::result::Result<&T, &str> {
+        match self {
+            Animatable::Animated(name) => {
+                animatable.get(name);
+
+                todo!("cast AnimatableValue to `T`")
+            }
             Animatable::Constant(v) => Ok(v),
         }
     }

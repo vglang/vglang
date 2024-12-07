@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 use super::{Animatable, FrameVariable};
 
 /// The unit identifier.
@@ -40,10 +42,26 @@ impl AsRef<str> for Unit {
     }
 }
 
+impl Display for Unit {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.as_ref())
+    }
+}
+
 /// measurement, given as a number along with a unit.
 #[derive(Debug, PartialEq, PartialOrd, Clone, Copy)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Measurement(pub f32, pub Option<Unit>);
+
+impl Display for Measurement {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        if let Some(unit) = self.1 {
+            write!(f, "{}{}", self.0, unit)
+        } else {
+            write!(f, "{}", self.0)
+        }
+    }
+}
 
 /// Measurement can be used as context variant type.
 impl FrameVariable for Measurement {}

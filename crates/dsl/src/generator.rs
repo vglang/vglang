@@ -1,5 +1,5 @@
 use cotati_device::Device;
-use cotati_ir::{Text, IR};
+use cotati_ir::{Layer, Text, IR};
 
 /// This trait defines the compile target generator of `embed VGL language`.
 pub trait Generator {
@@ -12,8 +12,13 @@ pub trait Generator {
     }
 
     /// Push a new text element.
-    fn push_text(&mut self, text: Text) {
-        self.push(IR::Text(Box::new(text)));
+    fn push_text(&mut self, value: Text) {
+        self.push(IR::Text(Box::new(value)));
+    }
+
+    /// Push a new layer element.
+    fn push_layer(&mut self, value: Layer) {
+        self.push(IR::Layer(Box::new(value)));
     }
 }
 

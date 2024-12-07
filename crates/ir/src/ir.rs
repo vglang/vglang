@@ -1,4 +1,4 @@
-use crate::Text;
+use crate::{Layer, Text};
 
 /// A type that representation a cotai script instruction.
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -12,4 +12,7 @@ pub enum IR {
     Animated(String),
     /// A text element.
     Text(Box<Text>),
+
+    /// A layer element.
+    Layer(Box<Layer>),
 }
