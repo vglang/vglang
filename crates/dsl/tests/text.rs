@@ -9,10 +9,11 @@ async fn test_text() {
         layer(
             Layer::attrs().width(300).height(200),
             text(
-                Text::default()
+                Text::attrs()
                     .x(100)
-                    .y((103, 107, 111, 115, 120, 120, 120, 115, 110, 105, 110)),
-                "hello world",
+                    .y((103, 107, 111, 115, 120, 120, 120, 115, 110, 105, 110))
+                    .rotate((-10, 20, 0, 0, 0, 10)),
+                "Hello VGL.",
             ),
         )
         .draw(g);

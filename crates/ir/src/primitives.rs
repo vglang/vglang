@@ -70,9 +70,17 @@ impl Default for UnicodeRange {
 #[cfg(feature = "dsl")]
 mod dsl {
     /// Map item via iterator and collect them into vec.
-    pub trait MapCollect {
-        type Item;
-        fn map_collect(self) -> Vec<Self::Item>;
+    pub trait MapCollect<Item> {
+        fn map_collect(self) -> Vec<Item>;
+    }
+
+    impl<F, T> MapCollect<T> for F
+    where
+        T: From<F>,
+    {
+        fn map_collect(self) -> Vec<T> {
+            vec![self.into()]
+        }
     }
 }
 
@@ -83,14 +91,13 @@ pub use dsl::*;
 macro_rules! tuple_map_collect {
     ($item: ident, $header: ident, $($tail: ident),+) => {
 
-        impl<$header, $($tail),+> $crate::MapCollect for ($header, $($tail),+)
+        impl<$header, $($tail),+> $crate::MapCollect<$item> for ($header, $($tail),+)
         where
             $header: Into<$item>,
             $($tail: Into<$item>),+,
         {
-            type Item = $item;
             #[allow(non_snake_case)]
-            fn map_collect(self) -> Vec<Self::Item> {
+            fn map_collect(self) -> Vec<$item> {
                 let ($header, $($tail),+) = self;
                 vec![$header.into(),$($tail.into()),+]
             }

@@ -32,7 +32,7 @@ where
 {
     /// Convert self into [`Result<T>`].
     ///
-    /// * returns [`Error::UnsatisfiedFrameVariable`] if this variant is a [`frame register`](Animatable::Frame) variable.
+    /// * returns [`Error::UnsatisfiedFrameVariable`] if this variant is a [`frame register`](Animatable::Animated) variable.
     /// * returns [`Ok(T)`](Ok) if this variant is a [`constant`](Animatable::Constant) variable
     pub fn ok(self) -> Result<T> {
         match self {

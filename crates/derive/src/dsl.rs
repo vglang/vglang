@@ -47,7 +47,7 @@ pub fn derive_api(item: TokenStream) -> TokenStream {
                                         /// Set attribute `#fn_name` with constant value.
                                         pub fn #fn_name<V>(mut self, v: V) -> Self 
                                         where 
-                                            V: crate::MapCollect<Item=#content_type>,
+                                            V: crate::MapCollect<#content_type>,
                                         {
                                             self.#fn_name = Animatable::Constant(v.map_collect());
                                             self

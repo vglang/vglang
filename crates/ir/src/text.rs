@@ -570,7 +570,7 @@ pub struct TextPath {
     /// An offset from the start of the ‘path’ for the initial current text position,
     /// calculated using the user agent's [`distance along the path`] algorithm.
     ///
-    /// If a <length> other than a percentage is given, then the ‘startOffset’ represents a
+    /// If a `length` other than a percentage is given, then the ‘startOffset’ represents a
     /// distance along the path measured in the current user coordinate system.
     ///
     /// If a percentage is given, then the ‘startOffset’ represents a percentage distance along
@@ -589,7 +589,7 @@ pub struct TextPath {
     pub spacing: Animatable<TextPathSpacing>,
 
     /// An IRI reference to the ‘path’ element onto which the glyphs will be rendered.
-    /// If <iri> is an invalid reference (e.g., no such element exists, or the referenced element is not a ‘path’),
+    /// If `iri` is an invalid reference (e.g., no such element exists, or the referenced element is not a ‘path’),
     /// then the ‘textPath’ element is in error and its entire contents shall not be rendered by the user agent.
     pub href: Animatable<Href>,
 }

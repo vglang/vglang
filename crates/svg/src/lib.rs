@@ -189,6 +189,15 @@ impl<'a> SvgGenerating<'a> {
 
         el.set_attribute("y", &y)?;
 
+        let rotate = self
+            .get_value(&text.rotate)?
+            .into_iter()
+            .map(|v| v.as_deg().to_string())
+            .collect::<Vec<_>>()
+            .join(",");
+
+        el.set_attribute("rotate", &rotate)?;
+
         self.els.push(el);
 
         let mut pop_n = 0;
