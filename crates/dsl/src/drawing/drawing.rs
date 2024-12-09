@@ -77,6 +77,8 @@ tuple_drawing!(
 );
 
 /// A scope attribute must implement this trait.
+///
+/// In general, a scoped instruction and a paired `pop` instruction form a scoped attribute.
 pub trait Appliable {
     fn apply<G, C>(self, graphic: C) -> impl Graphic<G>
     where
@@ -116,7 +118,7 @@ tuple_appliable!(
     A21, A22, A23, A24, A25, A26, A27, A28, A29, A30, A31, A32, A33, A34, A35, A36, A37, A38, A39
 );
 
-/// Apply scope attributes to `target`
+/// Apply scope attributes to a `target` element.
 pub fn apply<A, C, G>(attrs: A, target: C) -> impl Graphic<G>
 where
     A: Appliable,

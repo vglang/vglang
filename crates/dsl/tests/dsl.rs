@@ -1,18 +1,15 @@
 use std::path::Path;
 
-use cotati_dsl::generator::IRGenerator;
+use cotati_dsl::{drawing::Graphic, generator::IRGenerator};
 use cotati_svg::{SvgDevice, VGLProgram};
 use heck::ToLowerCamelCase;
 
-pub async fn dsl_test<F>(name: &str, test: F)
-where
-    F: FnOnce(&mut IRGenerator),
-{
+pub async fn svg(name: &str, test: impl Graphic<IRGenerator>) {
     println!("{}", name);
 
     let mut generator = IRGenerator::default();
 
-    test(&mut generator);
+    test.draw(&mut generator);
 
     let mut svg_device = SvgDevice::default();
 
