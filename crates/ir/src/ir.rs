@@ -1,4 +1,4 @@
-use crate::{Layer, Text};
+use crate::{Layer, Rect, Text};
 
 /// A type that representation a cotai script instruction.
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -15,4 +15,7 @@ pub enum IR {
 
     /// A layer element.
     Layer(Box<Layer>),
+
+    /// Basic rect shape.
+    Rect(Box<Rect>),
 }

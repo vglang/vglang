@@ -25,6 +25,7 @@ nom = "^7.1"
 xml_dom = "^0.2"
 oxilangtag = "0.1.5"
 bitmask-enum = "2.2.5"
+proc-macro2 = "^1"
 # cotati sub-crates
 cotati-derive = { path = "./crates/derive", version = "^0.1", default-features = false }
 cotati-ir = { path = "./crates/ir", version = "^0.1", default-features = false }

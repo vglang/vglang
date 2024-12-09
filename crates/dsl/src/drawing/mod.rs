@@ -8,3 +8,6 @@ pub use text::*;
 
 mod layer;
 pub use layer::*;
+
+mod shapes;
+pub use shapes::*;
