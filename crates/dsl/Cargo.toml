@@ -1,5 +1,5 @@
 [package]
-description = "Rust embed dsl supports for VGL"
+description = "Rust dsl for VGL(cotati vector graphics language)"
 documentation = "https://docs.rs/cotati-dsl"
 edition.workspace = true
 license = "MIT"
