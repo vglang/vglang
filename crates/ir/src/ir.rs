@@ -1,4 +1,4 @@
-use crate::{Layer, Rect, Text};
+use crate::{Fill, Layer, Rect, Stroke, Text};
 
 /// A type that representation a cotai script instruction.
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -18,4 +18,10 @@ pub enum IR {
 
     /// Basic rect shape.
     Rect(Box<Rect>),
+
+    /// Fill commander.
+    Fill(Box<Fill>),
+
+    /// Stroke commander.
+    Stroke(Box<Stroke>),
 }

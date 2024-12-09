@@ -139,6 +139,15 @@ pub enum MeetOrSlice {
     Slice,
 }
 
+impl Display for MeetOrSlice {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            MeetOrSlice::Meet => write!(f, "meet"),
+            MeetOrSlice::Slice => write!(f, "slice"),
+        }
+    }
+}
+
 /// In some cases, typically when using the ‘viewBox’ attribute, i
 /// t is desirable that the graphics stretch to fit non-uniformly
 /// to take up the entire viewport. In other cases, it is desirable

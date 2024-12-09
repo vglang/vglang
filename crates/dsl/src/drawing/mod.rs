@@ -11,3 +11,5 @@ pub use layer::*;
 
 mod shapes;
 pub use shapes::*;
+
+mod painting;

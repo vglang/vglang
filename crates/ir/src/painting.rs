@@ -1,4 +1,5 @@
 use super::{Angle, Animatable, FrameVariable, Measurement, RecognizedColor, Rgba, ViewBox};
+use cotati_derive::Dsl;
 
 /// ‘fill’ and ‘stroke’ take on a value of type [`Paint`], which is specified as follows:
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -17,6 +18,12 @@ impl FrameVariable for Paint {}
 impl From<RecognizedColor> for Paint {
     fn from(value: RecognizedColor) -> Self {
         Self::Color(value.into())
+    }
+}
+
+impl From<Rgba> for Paint {
+    fn from(value: Rgba) -> Self {
+        Self::Color(value)
     }
 }
 
@@ -49,6 +56,7 @@ impl FrameVariable for FillRule {}
 
 /// The ‘fill’ instruction paints the interior of the given graphical element.
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "dsl", derive(Dsl))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Fill {
     /// paints color.
@@ -109,6 +117,7 @@ impl Default for StrokeLineJoin {
 
 /// This property affect how an element is stroked.
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "dsl", derive(Dsl))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Stroke {
     /// paints color paints along the outline of the given graphical element.

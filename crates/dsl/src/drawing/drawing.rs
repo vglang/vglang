@@ -75,3 +75,53 @@ tuple_drawing!(
     A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20,
     A21, A22, A23, A24, A25, A26, A27, A28, A29, A30, A31, A32, A33, A34, A35, A36, A37, A38, A39
 );
+
+/// A scope attribute must implement this trait.
+pub trait Appliable {
+    fn apply<G, C>(self, graphic: C) -> impl Graphic<G>
+    where
+        C: Graphic<G>,
+        G: Generator;
+}
+
+macro_rules! tuple_appliable {
+    ($header: ident, $($tail: ident),+) => {
+
+        impl<$header, $($tail),+> Appliable for ($header, $($tail),+)
+        where
+            $header: Appliable,
+            $($tail: Appliable),+,
+        {
+            #[allow(non_snake_case)]
+            fn apply<G,C>(self, graphic: C) -> impl Graphic<G>
+            where
+                C: Graphic<G>,
+                G: Generator
+            {
+                let ($header, $($tail),+) = self;
+                let graphic = $header.apply(graphic);
+                $(let graphic = $tail.apply(graphic);)+
+
+                graphic
+            }
+        }
+
+        tuple_appliable!($($tail),+);
+    };
+    ($header: ident) => {}
+}
+
+tuple_appliable!(
+    A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20,
+    A21, A22, A23, A24, A25, A26, A27, A28, A29, A30, A31, A32, A33, A34, A35, A36, A37, A38, A39
+);
+
+/// Apply scope attributes to `target`
+pub fn apply<A, C, G>(attrs: A, target: C) -> impl Graphic<G>
+where
+    A: Appliable,
+    G: Generator,
+    C: Graphic<G>,
+{
+    attrs.apply(target)
+}
