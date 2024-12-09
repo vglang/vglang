@@ -127,3 +127,21 @@ where
 {
     attrs.apply(target)
 }
+
+/// This trait defines a graphic element that may have one/more children elements.
+pub trait WithContent {
+    fn content<G, C>(self, graphic: C) -> impl Graphic<G>
+    where
+        C: Graphic<G>,
+        G: Generator;
+}
+
+/// apply graphic's content element.
+pub fn with<P, C, G>(parent: P, content: C) -> impl Graphic<G>
+where
+    P: WithContent,
+    G: Generator,
+    C: Graphic<G>,
+{
+    parent.content(content)
+}

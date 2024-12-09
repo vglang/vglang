@@ -1,4 +1,4 @@
-use super::{Angle, Animatable, FrameVariable, Measurement, RecognizedColor, Rgba, ViewBox};
+use super::{Angle, Animatable, FrameVariable, Measurement, Color, Rgba, ViewBox};
 use cotati_derive::Dsl;
 
 /// ‘fill’ and ‘stroke’ take on a value of type [`Paint`], which is specified as follows:
@@ -15,8 +15,8 @@ pub enum Paint {
 
 impl FrameVariable for Paint {}
 
-impl From<RecognizedColor> for Paint {
-    fn from(value: RecognizedColor) -> Self {
+impl From<Color> for Paint {
+    fn from(value: Color) -> Self {
         Self::Color(value.into())
     }
 }

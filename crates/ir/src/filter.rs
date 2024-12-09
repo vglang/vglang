@@ -2,7 +2,7 @@ use cotati_derive::Dsl;
 
 use super::{
     Angle, Animatable, ChannelSelector, FrameVariable, Href, Measurement, NumberOptNumber,
-    PreserveAspectRatio, RecognizedColor, Rgba,
+    PreserveAspectRatio, Color, Rgba,
 };
 
 /// Defines the coordinate system for attributes ‘x’, ‘y’, ‘width’ and ‘height’.
@@ -879,7 +879,7 @@ pub struct FeFlood(pub Rgba);
 
 impl Default for FeFlood {
     fn default() -> Self {
-        Self(RecognizedColor::black.into())
+        Self(Color::black.into())
     }
 }
 

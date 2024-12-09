@@ -5,11 +5,15 @@ use crate::generator::Generator;
 use super::Graphic;
 
 /// Create a rect graphic element.
-pub fn rect<G>(attrs: Rect) -> impl Graphic<G>
+pub fn rect() -> Rect {
+    Rect::default()
+}
+
+impl<G> Graphic<G> for Rect
 where
     G: Generator,
 {
-    |g: &mut G| {
-        g.push_rect(attrs);
+    fn draw(self, g: &mut G) {
+        g.push_rect(self);
     }
 }

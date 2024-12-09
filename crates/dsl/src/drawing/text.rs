@@ -2,17 +2,23 @@ use cotati_ir::Text;
 
 use crate::generator::Generator;
 
-use super::Graphic;
+use super::{Graphic, WithContent};
 
-/// Create a text graphic element.
-pub fn text<G, C>(attrs: Text, content: C) -> impl Graphic<G>
-where
-    G: Generator,
-    C: Graphic<G>,
-{
-    |g: &mut G| {
-        g.push_text(attrs);
-        content.draw(g);
-        g.pop(1);
+impl WithContent for Text {
+    fn content<G, C>(self, graphic: C) -> impl Graphic<G>
+    where
+        C: Graphic<G>,
+        G: Generator,
+    {
+        |g: &mut G| {
+            g.push_text(self);
+            graphic.draw(g);
+            g.pop(1);
+        }
     }
+}
+
+/// Create a new `Text` element.
+pub fn text() -> Text {
+    Text::default()
 }

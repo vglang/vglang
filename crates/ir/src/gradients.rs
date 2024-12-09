@@ -1,4 +1,4 @@
-use super::{Animatable, FrameVariable, Measurement, RecognizedColor, Rgba, Transform};
+use super::{Animatable, FrameVariable, Measurement, Color, Rgba, Transform};
 
 /// Defines the coordinate system for attributes ‘x1’, ‘y1’, ‘x2’ and ‘y2’.
 ///
@@ -212,7 +212,7 @@ impl Default for GradientStop {
     fn default() -> Self {
         Self {
             offset: Animatable::Constant(Default::default()),
-            color: Animatable::Constant(RecognizedColor::black.into()),
+            color: Animatable::Constant(Color::black.into()),
         }
     }
 }
