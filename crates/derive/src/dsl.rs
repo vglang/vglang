@@ -23,12 +23,6 @@ pub fn derive_api(item: TokenStream) -> TokenStream {
 
     quote! {
         impl #impl_generics #ident #ty_generics #where_clause {
-
-            /// Create default attrs for this element.
-            pub fn attrs() -> Self where Self: Default {
-                Self::default()
-            }
-
             #(#apis)*
         }
     }
@@ -157,7 +151,11 @@ impl DeriveFiled {
                     }
                 }
                 _ => {
-                    panic!("Unsupport field type: {}", current_type.to_token_stream());
+                    self.type_stack.push(DeriveType::Unknown(
+                        current_type.to_token_stream().to_string(),
+                    ));
+
+                    break;
                 }
             }
         }

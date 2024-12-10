@@ -1,5 +1,5 @@
 use cotati_device::Device;
-use cotati_ir::{Fill, Layer, Rect, Stroke, Text, IR};
+use cotati_ir::IR;
 
 /// This trait defines the compile target generator of `embed VGL language`.
 pub trait Generator {
@@ -12,28 +12,11 @@ pub trait Generator {
     }
 
     /// Push a new text element.
-    fn push_text(&mut self, value: Text) {
-        self.push(IR::Text(Box::new(value)));
-    }
-
-    /// Push a new layer element.
-    fn push_layer(&mut self, value: Layer) {
-        self.push(IR::Layer(Box::new(value)));
-    }
-
-    /// Push a new rect element.
-    fn push_rect(&mut self, value: Rect) {
-        self.push(IR::Rect(Box::new(value)));
-    }
-
-    /// Push a fill commander. you need call `pop` fn to exit it's scope.
-    fn push_fill(&mut self, value: Fill) {
-        self.push(IR::Fill(Box::new(value)));
-    }
-
-    /// Push a stroke commander. you need call `pop` fn to exit it's scope.
-    fn push_stroke(&mut self, value: Stroke) {
-        self.push(IR::Stroke(Box::new(value)));
+    fn push_from<V>(&mut self, value: V)
+    where
+        IR: From<V>,
+    {
+        self.push(value.into());
     }
 }
 

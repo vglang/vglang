@@ -1,8 +1,8 @@
-use cotati_ir::Text;
+use cotati_ir::{FontFamily, FontSize, Text};
 
 use crate::generator::Generator;
 
-use super::{Graphic, WithContent};
+use super::{Appliable, Graphic, WithContent};
 
 impl WithContent for Text {
     fn content<G, C>(self, graphic: C) -> impl Graphic<G>
@@ -11,14 +11,37 @@ impl WithContent for Text {
         G: Generator,
     {
         |g: &mut G| {
-            g.push_text(self);
+            g.push_from(self);
             graphic.draw(g);
             g.pop(1);
         }
     }
 }
 
-/// Create a new `Text` element.
-pub fn text() -> Text {
-    Text::default()
+impl Appliable for FontFamily {
+    fn apply<G, C>(self, graphic: C) -> impl Graphic<G>
+    where
+        C: Graphic<G>,
+        G: Generator,
+    {
+        |g: &mut G| {
+            g.push_from(self);
+            graphic.draw(g);
+            g.pop(1);
+        }
+    }
+}
+
+impl Appliable for FontSize {
+    fn apply<G, C>(self, graphic: C) -> impl Graphic<G>
+    where
+        C: Graphic<G>,
+        G: Generator,
+    {
+        |g: &mut G| {
+            g.push_from(self);
+            graphic.draw(g);
+            g.pop(1);
+        }
+    }
 }

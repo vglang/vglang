@@ -11,7 +11,7 @@ where
     C: Graphic<G>,
 {
     |g: &mut G| {
-        g.push_layer(attrs);
+        g.push_from(attrs);
         content.draw(g);
         g.pop(1);
     }

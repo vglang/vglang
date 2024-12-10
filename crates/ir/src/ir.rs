@@ -1,4 +1,4 @@
-use crate::{Fill, Layer, Rect, Stroke, Text};
+use crate::{Fill, FontFace, FontFamily, FontSize, Layer, Rect, Stroke, Text};
 
 /// A type that representation a cotai script instruction.
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -24,4 +24,61 @@ pub enum IR {
 
     /// Stroke commander.
     Stroke(Box<Stroke>),
+
+    /// FontFace instruction.
+    FontFace(Box<FontFace>),
+
+    /// FontFamily instruction.
+    FontFamily(FontFamily),
+
+    /// FontFamily instruction.
+    FontSize(FontSize),
+}
+
+impl From<Text> for IR {
+    fn from(value: Text) -> Self {
+        IR::Text(Box::new(value))
+    }
+}
+
+impl From<Layer> for IR {
+    fn from(value: Layer) -> Self {
+        IR::Layer(Box::new(value))
+    }
+}
+
+impl From<Rect> for IR {
+    fn from(value: Rect) -> Self {
+        IR::Rect(Box::new(value))
+    }
+}
+
+impl From<Fill> for IR {
+    fn from(value: Fill) -> Self {
+        IR::Fill(Box::new(value))
+    }
+}
+
+impl From<Stroke> for IR {
+    fn from(value: Stroke) -> Self {
+        IR::Stroke(Box::new(value))
+    }
+}
+
+impl From<FontFace> for IR {
+    fn from(value: FontFace) -> Self {
+        IR::FontFace(Box::new(value))
+    }
+}
+
+impl From<FontFamily> for IR {
+    fn from(value: FontFamily) -> Self {
+        IR::FontFamily(value)
+    }
+}
+
+impl From<FontSize> for IR {
+    fn from(value: FontSize) -> Self {
+        IR::FontSize(value)
+    }
 }

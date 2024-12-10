@@ -2,7 +2,8 @@ use std::slice::Iter;
 
 pub use cotati_device::{Device, VGLProgram};
 use cotati_ir::{
-    Animatable, Fill, FrameVariable, Layer, PreserveAspectRatio, Rect, Stroke, Text, IR,
+    Animatable, Fill, FontFamily, FontSize, FrameVariable, Layer, PreserveAspectRatio, Rect,
+    Stroke, Text, IR,
 };
 use futures::future::BoxFuture;
 use xml_dom::level2::{
@@ -160,6 +161,13 @@ impl<'a> SvgGenerating<'a> {
                 IR::Fill(fill) => {
                     return self.process_fill(fill).map(Some);
                 }
+                IR::FontFamily(value) => {
+                    return self.process_font_family(value).map(Some);
+                }
+                IR::FontSize(value) => {
+                    return self.process_font_size(value).map(Some);
+                }
+                IR::FontFace(_) => return Ok(Some(0)),
                 _ => todo!(),
             }
         }
@@ -333,6 +341,26 @@ impl<'a> SvgGenerating<'a> {
         } else {
             el.set_attribute("fill", "none")?
         }
+
+        self.els.push(el);
+
+        self.process_child(false)
+    }
+
+    fn process_font_family(&mut self, value: &FontFamily) -> Result<usize, Error> {
+        let mut el = self.document.create_element("g")?;
+
+        el.set_attribute("font-family", value.to_string().as_str())?;
+
+        self.els.push(el);
+
+        self.process_child(false)
+    }
+
+    fn process_font_size(&mut self, value: &FontSize) -> Result<usize, Error> {
+        let mut el = self.document.create_element("g")?;
+
+        el.set_attribute("font-size", value.0.to_string().as_str())?;
 
         self.els.push(el);
 

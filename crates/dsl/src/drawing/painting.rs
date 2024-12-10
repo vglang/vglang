@@ -11,7 +11,7 @@ impl Appliable for Fill {
         G: Generator,
     {
         |g: &mut G| {
-            g.push_fill(self);
+            g.push_from(self);
             graphic.draw(g);
             g.pop(1);
         }
@@ -25,7 +25,7 @@ impl Appliable for Stroke {
         G: Generator,
     {
         |g: &mut G| {
-            g.push_stroke(self);
+            g.push_from(self);
             graphic.draw(g);
             g.pop(1);
         }

@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 use bitmask_enum::bitmask;
 use cotati_derive::Dsl;
 
@@ -296,8 +298,9 @@ pub struct GlyphWidths {
 /// The ‘font-face’ element corresponds directly to the @font-face facility in CSS2 ([`CSS2`], section 15.3.1).
 /// It can be used to describe the characteristics of any font, SVG font or otherwise.
 ///
-/// [`CSS2`]: https://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font-descriptions
+/// [`CSS2`]: https://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#font -descriptions
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "dsl", derive(cotati_derive::Dsl))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FontFace {
     /// Same syntax and semantics as the ‘font-family’ descriptor within an [`@font-face`] rule.
@@ -492,4 +495,44 @@ pub enum FontSourceUri {
 pub struct FontSource {
     pub uri: FontSourceUri,
     pub format: Option<Vec<FontFormat>>,
+}
+
+/// This property specifies a prioritized font family names and/or generic family names.
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub enum FontFamily {
+    Serif,
+    SansSerif,
+    Cursive,
+    Fantasy,
+    Monospace,
+    Custom(String),
+}
+
+impl Display for FontFamily {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            FontFamily::Serif => write!(f, "serif"),
+            FontFamily::SansSerif => write!(f, "sans-serif"),
+            FontFamily::Cursive => write!(f, "cursive"),
+            FontFamily::Fantasy => write!(f, "fantasy"),
+            FontFamily::Monospace => write!(f, "monospace"),
+            FontFamily::Custom(v) => write!(f, "{}", v),
+        }
+    }
+}
+
+/// This property refers to the size of the font from baseline to baseline when multiple lines of
+/// text are set solid in a multiline layout environment.
+#[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct FontSize(pub Measurement);
+
+impl<T> From<T> for FontSize
+where
+    Measurement: From<T>,
+{
+    fn from(value: T) -> Self {
+        Self(value.into())
+    }
 }
