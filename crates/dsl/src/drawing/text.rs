@@ -5,7 +5,7 @@ use crate::generator::Generator;
 use super::{Appliable, Graphic, WithContent};
 
 impl WithContent for Text {
-    fn content<G, C>(self, graphic: C) -> impl Graphic<G>
+    fn with_content<G, C>(self, graphic: C) -> impl Graphic<G>
     where
         C: Graphic<G>,
         G: Generator,

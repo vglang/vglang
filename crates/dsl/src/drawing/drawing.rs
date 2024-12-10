@@ -130,7 +130,7 @@ where
 
 /// This trait defines a graphic element that may have one/more children elements.
 pub trait WithContent {
-    fn content<G, C>(self, graphic: C) -> impl Graphic<G>
+    fn with_content<G, C>(self, graphic: C) -> impl Graphic<G>
     where
         C: Graphic<G>,
         G: Generator;
@@ -143,5 +143,5 @@ where
     G: Generator,
     C: Graphic<G>,
 {
-    parent.content(content)
+    parent.with_content(content)
 }
