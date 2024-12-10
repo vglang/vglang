@@ -1,7 +1,8 @@
 mod dsl;
 use cotati_dsl::drawing::{apply, layer, with};
 use cotati_ir::{
-    Color, Fill, FontFamily, FontSize, FontStyle, Layer, Measurement, Rect, Stroke, Text,
+    Color, Fill, Font, FontFamily, FontStretch, FontStyle, FontVariant, FontWeight, Layer,
+    Measurement, Rect, Stroke, Text,
 };
 use dsl::svg;
 
@@ -21,11 +22,19 @@ async fn test_text() {
                     Rect::default().x(1).y(1).width(998).height(298).rx(20),
                 ),
                 apply(
-                    (FontFamily::Monospace, FontSize::from(50), FontStyle::Italic),
-                    // append child element to `Text`.
-                    with(
-                        Text::default().x(450).y(150).rotate((-10, 20, 0, 0, 0, 10)),
-                        "Hello VGL.",
+                    // apply font selection properties
+                    Font::from(FontFamily::Monospace)
+                        .size(50)
+                        .style(FontStyle::Italic),
+                    (
+                        with(Text::default().x(450).y(150), "Hello cotati."),
+                        // override `variant`, `weight` properties.
+                        apply(
+                            Font::from(FontVariant::Normal)
+                                .weight(FontWeight::Bold)
+                                .stretch(FontStretch::UltraCondensed),
+                            with(Text::default().x(450).y(200), "Hello VGL."),
+                        ),
                     ),
                 ),
             ),

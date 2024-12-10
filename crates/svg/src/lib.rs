@@ -2,7 +2,7 @@ use std::slice::Iter;
 
 pub use cotati_device::{Device, VGLProgram};
 use cotati_ir::{
-    Animatable, Fill, FontFamily, FontSize, FontStyle, FrameVariable, Layer, PreserveAspectRatio,
+    Animatable, Fill, Font, FontStyle, FontVariant, FrameVariable, Layer, PreserveAspectRatio,
     Rect, Stroke, Text, IR,
 };
 use futures::future::BoxFuture;
@@ -161,16 +161,9 @@ impl<'a> SvgGenerating<'a> {
                 IR::Fill(fill) => {
                     return self.process_fill(fill).map(Some);
                 }
-                IR::FontFamily(value) => {
-                    return self.process_font_family(value).map(Some);
+                IR::Font(value) => {
+                    return self.process_font(value).map(Some);
                 }
-                IR::FontSize(value) => {
-                    return self.process_font_size(value).map(Some);
-                }
-                IR::FontStyle(value) => {
-                    return self.process_font_style(value).map(Some);
-                }
-                IR::FontFace(_) => return Ok(Some(0)),
                 _ => todo!(),
             }
         }
@@ -350,35 +343,78 @@ impl<'a> SvgGenerating<'a> {
         self.process_child(false)
     }
 
-    fn process_font_family(&mut self, value: &FontFamily) -> Result<usize, Error> {
+    fn process_font(&mut self, value: &Font) -> Result<usize, Error> {
         let mut el = self.document.create_element("g")?;
 
-        el.set_attribute("font-family", value.to_string().as_str())?;
+        if let Some(size) = &value.size {
+            el.set_attribute("font-size", self.get_value(size)?.to_string().as_str())?;
+        }
 
-        self.els.push(el);
+        if let Some(value) = &value.family {
+            el.set_attribute("font-family", self.get_value(value)?.to_string().as_str())?;
+        }
 
-        self.process_child(false)
-    }
+        if let Some(value) = &value.style {
+            match self.get_value(value)? {
+                FontStyle::Normal => el.set_attribute("font-style", "normal")?,
+                FontStyle::Italic => el.set_attribute("font-style", "italic")?,
+                FontStyle::Oblique => el.set_attribute("font-style", "oblique")?,
+            }
+        }
 
-    fn process_font_size(&mut self, value: &FontSize) -> Result<usize, Error> {
-        let mut el = self.document.create_element("g")?;
+        if let Some(value) = &value.variant {
+            match self.get_value(value)? {
+                FontVariant::Normal => el.set_attribute("font-variant", "normal")?,
+                FontVariant::SmallCaps => el.set_attribute("font-variant", "small-caps")?,
+            }
+        }
 
-        el.set_attribute("font-size", value.0.to_string().as_str())?;
+        if let Some(value) = &value.weight {
+            match self.get_value(value)? {
+                cotati_ir::FontWeight::Normal => el.set_attribute("font-weight", "normal")?,
+                cotati_ir::FontWeight::Bold => el.set_attribute("font-weight", "bold")?,
+                cotati_ir::FontWeight::Bolder => el.set_attribute("font-weight", "bolder")?,
+                cotati_ir::FontWeight::Lighter => el.set_attribute("font-weight", "lighter")?,
+                cotati_ir::FontWeight::W100 => el.set_attribute("font-weight", "100")?,
+                cotati_ir::FontWeight::W200 => el.set_attribute("font-weight", "200")?,
+                cotati_ir::FontWeight::W300 => el.set_attribute("font-weight", "300")?,
+                cotati_ir::FontWeight::W400 => el.set_attribute("font-weight", "400")?,
+                cotati_ir::FontWeight::W500 => el.set_attribute("font-weight", "500")?,
+                cotati_ir::FontWeight::W600 => el.set_attribute("font-weight", "600")?,
+                cotati_ir::FontWeight::W700 => el.set_attribute("font-weight", "700")?,
+                cotati_ir::FontWeight::W800 => el.set_attribute("font-weight", "800")?,
+                cotati_ir::FontWeight::W900 => el.set_attribute("font-weight", "900")?,
+            }
+        }
 
-        self.els.push(el);
-
-        self.process_child(false)
-    }
-
-    fn process_font_style(&mut self, value: &FontStyle) -> Result<usize, Error> {
-        let mut el = self.document.create_element("g")?;
-
-        if value.contains(FontStyle::Normal) {
-            el.set_attribute("font-style", "normal")?;
-        } else if value.contains(FontStyle::Italic) {
-            el.set_attribute("font-style", "italic")?;
-        } else if value.contains(FontStyle::Oblique) {
-            el.set_attribute("font-style", "oblique")?;
+        if let Some(value) = &value.stretch {
+            match self.get_value(value)? {
+                cotati_ir::FontStretch::Normal => el.set_attribute("font-stretch", "normal")?,
+                cotati_ir::FontStretch::Wider => el.set_attribute("font-stretch", "wider")?,
+                cotati_ir::FontStretch::Narrower => el.set_attribute("font-stretch", "narrower")?,
+                cotati_ir::FontStretch::UltraCondensed => {
+                    el.set_attribute("font-stretch", "ultra-condensed")?
+                }
+                cotati_ir::FontStretch::ExtraCondensed => {
+                    el.set_attribute("font-stretch", "extra-condensed")?
+                }
+                cotati_ir::FontStretch::Condensed => {
+                    el.set_attribute("font-stretch", "condensed")?
+                }
+                cotati_ir::FontStretch::SemiCondensed => {
+                    el.set_attribute("font-stretch", "semi-condensed")?
+                }
+                cotati_ir::FontStretch::SemiExpanded => {
+                    el.set_attribute("font-stretch", "semi-expanded")?
+                }
+                cotati_ir::FontStretch::Expanded => el.set_attribute("font-stretch", "expanded")?,
+                cotati_ir::FontStretch::ExtraExpanded => {
+                    el.set_attribute("font-stretch", "extra-expanded")?
+                }
+                cotati_ir::FontStretch::UltraExpanded => {
+                    el.set_attribute("font-stretch", "ultra-expanded")?
+                }
+            }
         }
 
         self.els.push(el);
