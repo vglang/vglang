@@ -1,4 +1,4 @@
-use cotati_ir::{FontFamily, FontSize, Text};
+use cotati_ir::{FontFamily, FontSize, FontStyle, Text};
 
 use crate::generator::Generator;
 
@@ -39,6 +39,20 @@ impl Appliable for FontSize {
         G: Generator,
     {
         |g: &mut G| {
+            g.push_from(self);
+            graphic.draw(g);
+            g.pop(1);
+        }
+    }
+}
+
+impl Appliable for FontStyle {
+    fn apply<G, C>(self, graphic: C) -> impl Graphic<G>
+    where
+        C: Graphic<G>,
+        G: Generator,
+    {
+        move |g: &mut G| {
             g.push_from(self);
             graphic.draw(g);
             g.pop(1);

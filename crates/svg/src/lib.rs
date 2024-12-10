@@ -2,8 +2,8 @@ use std::slice::Iter;
 
 pub use cotati_device::{Device, VGLProgram};
 use cotati_ir::{
-    Animatable, Fill, FontFamily, FontSize, FrameVariable, Layer, PreserveAspectRatio, Rect,
-    Stroke, Text, IR,
+    Animatable, Fill, FontFamily, FontSize, FontStyle, FrameVariable, Layer, PreserveAspectRatio,
+    Rect, Stroke, Text, IR,
 };
 use futures::future::BoxFuture;
 use xml_dom::level2::{
@@ -166,6 +166,9 @@ impl<'a> SvgGenerating<'a> {
                 }
                 IR::FontSize(value) => {
                     return self.process_font_size(value).map(Some);
+                }
+                IR::FontStyle(value) => {
+                    return self.process_font_style(value).map(Some);
                 }
                 IR::FontFace(_) => return Ok(Some(0)),
                 _ => todo!(),
@@ -361,6 +364,22 @@ impl<'a> SvgGenerating<'a> {
         let mut el = self.document.create_element("g")?;
 
         el.set_attribute("font-size", value.0.to_string().as_str())?;
+
+        self.els.push(el);
+
+        self.process_child(false)
+    }
+
+    fn process_font_style(&mut self, value: &FontStyle) -> Result<usize, Error> {
+        let mut el = self.document.create_element("g")?;
+
+        if value.contains(FontStyle::Normal) {
+            el.set_attribute("font-style", "normal")?;
+        } else if value.contains(FontStyle::Italic) {
+            el.set_attribute("font-style", "italic")?;
+        } else if value.contains(FontStyle::Oblique) {
+            el.set_attribute("font-style", "oblique")?;
+        }
 
         self.els.push(el);
 

@@ -1,4 +1,4 @@
-use crate::{Fill, FontFace, FontFamily, FontSize, Layer, Rect, Stroke, Text};
+use crate::{Fill, FontFace, FontFamily, FontSize, FontStyle, Layer, Rect, Stroke, Text};
 
 /// A type that representation a cotai script instruction.
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -33,6 +33,9 @@ pub enum IR {
 
     /// FontFamily instruction.
     FontSize(FontSize),
+
+    /// FontStyle instruction.
+    FontStyle(FontStyle),
 }
 
 impl From<Text> for IR {
@@ -80,5 +83,11 @@ impl From<FontFamily> for IR {
 impl From<FontSize> for IR {
     fn from(value: FontSize) -> Self {
         IR::FontSize(value)
+    }
+}
+
+impl From<FontStyle> for IR {
+    fn from(value: FontStyle) -> Self {
+        IR::FontStyle(value)
     }
 }
