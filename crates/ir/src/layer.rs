@@ -13,3 +13,16 @@ pub struct Layer {
     /// stretch to fit a particular container element.
     pub viewbox: Option<Animatable<ViewBox>>,
 }
+
+impl<W, H> From<(W, H)> for Layer
+where
+    Measurement: From<W> + From<H>,
+{
+    fn from(value: (W, H)) -> Self {
+        Layer {
+            width: Animatable::Constant(value.0.into()),
+            height: Animatable::Constant(value.1.into()),
+            viewbox: None,
+        }
+    }
+}

@@ -81,6 +81,12 @@ pub enum FontFamily {
     Custom(String),
 }
 
+impl From<&str> for FontFamily {
+    fn from(value: &str) -> Self {
+        Self::Custom(value.to_string())
+    }
+}
+
 impl Default for FontFamily {
     fn default() -> Self {
         Self::Serif

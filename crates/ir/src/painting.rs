@@ -69,6 +69,18 @@ pub struct Fill {
     pub rule: Option<Animatable<FillRule>>,
 }
 
+impl<P> From<P> for Fill
+where
+    Paint: From<P>,
+{
+    fn from(value: P) -> Self {
+        Self {
+            paint: Some(Animatable::Constant(value.into())),
+            ..Default::default()
+        }
+    }
+}
+
 /// Specifies the shape to be used at the end of open subpaths when they are stroked
 #[derive(Debug, PartialEq, PartialOrd, Clone, Copy)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -150,6 +162,18 @@ pub struct Stroke {
     ///
     /// `Inherited: yes`
     pub dashoffset: Option<Animatable<Measurement>>,
+}
+
+impl<P> From<P> for Stroke
+where
+    Paint: From<P>,
+{
+    fn from(value: P) -> Self {
+        Self {
+            paint: Some(Animatable::Constant(value.into())),
+            ..Default::default()
+        }
+    }
 }
 
 /// Defines the coordinate system for attributes ‘markerWidth’, ‘markerHeight’ and the contents of the ‘marker’.

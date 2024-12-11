@@ -86,6 +86,103 @@ impl From<i32> for Measurement {
     }
 }
 
+/// A trait convert self into [`Measurement`]
+pub trait IntoMeasurement {
+    fn em(self) -> Measurement;
+
+    fn ex(self) -> Measurement;
+
+    fn px(self) -> Measurement;
+
+    fn inch(self) -> Measurement;
+
+    fn cm(self) -> Measurement;
+
+    fn mm(self) -> Measurement;
+
+    fn pt(self) -> Measurement;
+
+    fn pc(self) -> Measurement;
+
+    fn percentage(self) -> Measurement;
+}
+
+impl IntoMeasurement for f32 {
+    fn em(self) -> Measurement {
+        Measurement::em(self)
+    }
+
+    fn ex(self) -> Measurement {
+        Measurement::ex(self)
+    }
+
+    fn px(self) -> Measurement {
+        Measurement::px(self)
+    }
+
+    fn inch(self) -> Measurement {
+        Measurement::inch(self)
+    }
+
+    fn cm(self) -> Measurement {
+        Measurement::cm(self)
+    }
+
+    fn mm(self) -> Measurement {
+        Measurement::mm(self)
+    }
+
+    fn pt(self) -> Measurement {
+        Measurement::pt(self)
+    }
+
+    fn pc(self) -> Measurement {
+        Measurement::pc(self)
+    }
+
+    fn percentage(self) -> Measurement {
+        Measurement::percentage(self)
+    }
+}
+
+impl IntoMeasurement for i32 {
+    fn em(self) -> Measurement {
+        Measurement::em(self as f32)
+    }
+
+    fn ex(self) -> Measurement {
+        Measurement::ex(self as f32)
+    }
+
+    fn px(self) -> Measurement {
+        Measurement::px(self as f32)
+    }
+
+    fn inch(self) -> Measurement {
+        Measurement::inch(self as f32)
+    }
+
+    fn cm(self) -> Measurement {
+        Measurement::cm(self as f32)
+    }
+
+    fn mm(self) -> Measurement {
+        Measurement::mm(self as f32)
+    }
+
+    fn pt(self) -> Measurement {
+        Measurement::pt(self as f32)
+    }
+
+    fn pc(self) -> Measurement {
+        Measurement::pc(self as f32)
+    }
+
+    fn percentage(self) -> Measurement {
+        Measurement::percentage(self as f32)
+    }
+}
+
 impl Measurement {
     /// Create a measurement with `em` unit identifier.
     pub fn em(value: f32) -> Self {
@@ -125,7 +222,7 @@ impl Measurement {
 
     /// Create a measurement with `px` unit identifier.
     pub fn percentage(value: f32) -> Self {
-        Self(value, Some(Unit::Percentages))
+        Self(value.into(), Some(Unit::Percentages))
     }
 }
 
@@ -377,6 +474,7 @@ impl Point {
 /// It is often desirable to specify that a given set of graphics stretch to fit a particular container element.
 /// The ‘viewBox’ attribute provides this capability.
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "dsl", derive(vglang_derive::Dsl))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct ViewBox {
     /// ViewBox left-top x coordinate,
@@ -393,26 +491,17 @@ pub struct ViewBox {
 
 impl FrameVariable for ViewBox {}
 
-impl From<(f32, f32, f32, f32)> for ViewBox {
-    fn from(value: (f32, f32, f32, f32)) -> Self {
+impl<X, Y, W, H> From<(X, Y, W, H)> for ViewBox
+where
+    Measurement: From<X> + From<Y> + From<W> + From<H>,
+{
+    fn from(value: (X, Y, W, H)) -> Self {
         Self {
             minx: Animatable::Constant(value.0.into()),
             miny: Animatable::Constant(value.1.into()),
             width: Animatable::Constant(value.2.into()),
             height: Animatable::Constant(value.3.into()),
             aspect: None,
-        }
-    }
-}
-
-impl From<(f32, f32, f32, f32, PreserveAspectRatio)> for ViewBox {
-    fn from(value: (f32, f32, f32, f32, PreserveAspectRatio)) -> Self {
-        Self {
-            minx: Animatable::Constant(value.0.into()),
-            miny: Animatable::Constant(value.1.into()),
-            width: Animatable::Constant(value.2.into()),
-            height: Animatable::Constant(value.3.into()),
-            aspect: Some(Animatable::Constant(value.4)),
         }
     }
 }

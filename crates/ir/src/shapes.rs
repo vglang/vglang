@@ -55,6 +55,21 @@ pub struct Rect {
     pub ry: Option<Animatable<Measurement>>,
 }
 
+impl<X, Y, W, H> From<(X, Y, W, H)> for Rect
+where
+    Measurement: From<X> + From<Y> + From<W> + From<H>,
+{
+    fn from(value: (X, Y, W, H)) -> Self {
+        Self {
+            x: Animatable::Constant(value.0.into()),
+            y: Animatable::Constant(value.1.into()),
+            width: Animatable::Constant(value.2.into()),
+            height: Animatable::Constant(value.3.into()),
+            ..Default::default()
+        }
+    }
+}
+
 /// The ‘circle’ element defines a circle based on a center point and a radius.
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]

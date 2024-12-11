@@ -229,7 +229,7 @@ impl<'a> SvgGenerating<'a> {
             let viewbox = self.get_value(viewbox)?;
 
             el.set_attribute(
-                "viewbox",
+                "viewBox",
                 format!(
                     "{} {} {} {}",
                     self.get_value(&viewbox.minx)?,
@@ -272,6 +272,8 @@ impl<'a> SvgGenerating<'a> {
                 };
 
                 el.set_attribute("preserveAspectRatio", v.as_str())?;
+            } else {
+                el.set_attribute("preserveAspectRatio", "none")?;
             }
         }
 
