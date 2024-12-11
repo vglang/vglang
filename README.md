@@ -1,2 +1,3 @@
-# cotati
-A general-purpose VGL(vector graphics language) system
+# vglang
+
+A simple and fast Vector Graphics programming Language.
