@@ -31,7 +31,7 @@ async fn test_text() {
                         // override `variant`, `weight` properties.
                         apply(
                             Font::from(FontVariant::Normal)
-                                .weight(FontWeight::Bold)
+                                .weight(FontWeight::Bolder)
                                 .stretch(FontStretch::UltraCondensed),
                             with(Text::default().x(450).y(200), "Hello VGL."),
                         ),
