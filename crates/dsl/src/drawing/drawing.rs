@@ -1,4 +1,4 @@
-use cotati_ir::IR;
+use vglang_ir::IR;
 
 use crate::generator::Generator;
 

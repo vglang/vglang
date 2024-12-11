@@ -1,11 +1,9 @@
 mod dsl;
-use cotati_dsl::drawing::{apply, layer, with};
-use cotati_ir::{
-    AlignmentBaseline, Color, Fill, Font, FontFamily, FontStretch, FontStyle, FontVariant,
-    FontWeight, Layer, Measurement, PreserveAspectRatio, Rect, Stroke, Text, TextAnchor,
-    TextLayout,
-};
 use dsl::svg;
+use vglang_dsl::{
+    attrs::*,
+    drawing::{apply, layer, with},
+};
 
 #[futures_test::test]
 async fn test_text() {
@@ -41,8 +39,8 @@ async fn test_text() {
                                     .size(30)
                                     .stretch(FontStretch::UltraCondensed),
                                 TextLayout::from(TextAnchor::Middle)
-                                    .write_mode(cotati_ir::WritingMode::TbRl)
-                                    .vertical(cotati_ir::GlyphOrientationVertical::Angle(
+                                    .write_mode(vglang_ir::WritingMode::TbRl)
+                                    .vertical(vglang_ir::GlyphOrientationVertical::Angle(
                                         90.into(),
                                     )),
                             ),

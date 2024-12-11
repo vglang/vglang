@@ -1,11 +1,11 @@
 use std::slice::Iter;
 
-pub use cotati_device::{Device, VGLProgram};
-use cotati_ir::{
+use futures::future::BoxFuture;
+pub use vglang_device::{Device, VGLProgram};
+use vglang_ir::{
     Animatable, Fill, Font, FontStyle, FontVariant, FrameVariable, Layer, PreserveAspectRatio,
     Rect, Stroke, Text, TextLayout, IR,
 };
-use futures::future::BoxFuture;
 use xml_dom::level2::{
     ext::{DocumentDecl, XmlDecl},
     get_implementation, Document, Element, Node, RefNode,
@@ -38,7 +38,7 @@ impl Device for SvgDevice {
     where
         Self: 'a;
 
-    fn compile(&self, codes: Vec<cotati_ir::IR>) -> Self::Compile<'_> {
+    fn compile(&self, codes: Vec<vglang_ir::IR>) -> Self::Compile<'_> {
         Box::pin(async move { Ok(SvgGenerator(codes)) })
     }
 }
@@ -59,7 +59,7 @@ impl VGLProgram for SvgGenerator {
 
     fn execute<'a>(
         &'a self,
-        animatable: &'a std::collections::HashMap<String, cotati_ir::AnimatableValue>,
+        animatable: &'a std::collections::HashMap<String, vglang_ir::AnimatableValue>,
     ) -> Self::Execute<'a> {
         Box::pin(async move { SvgGenerating::new(self.0.iter(), animatable)?.generate() })
     }
@@ -67,7 +67,7 @@ impl VGLProgram for SvgGenerator {
 
 struct SvgGenerating<'a> {
     codes: Iter<'a, IR>,
-    animatable: &'a std::collections::HashMap<String, cotati_ir::AnimatableValue>,
+    animatable: &'a std::collections::HashMap<String, vglang_ir::AnimatableValue>,
     document: RefNode,
     els: Vec<RefNode>,
 }
@@ -75,7 +75,7 @@ struct SvgGenerating<'a> {
 impl<'a> SvgGenerating<'a> {
     fn new(
         codes: Iter<'a, IR>,
-        animatable: &'a std::collections::HashMap<String, cotati_ir::AnimatableValue>,
+        animatable: &'a std::collections::HashMap<String, vglang_ir::AnimatableValue>,
     ) -> Result<Self, Error> {
         // let doc_type = get_implementation().create_document_type(
         //     "svg",
@@ -287,7 +287,7 @@ impl<'a> SvgGenerating<'a> {
 
         if let Some(paint) = &stroke.paint {
             match self.get_value(paint)? {
-                cotati_ir::Paint::Color(rgba) => el.set_attribute(
+                vglang_ir::Paint::Color(rgba) => el.set_attribute(
                     "stroke",
                     format!(
                         "rgb({},{},{})",
@@ -297,10 +297,10 @@ impl<'a> SvgGenerating<'a> {
                     )
                     .as_str(),
                 )?,
-                cotati_ir::Paint::Gradient(uri) => {
+                vglang_ir::Paint::Gradient(uri) => {
                     el.set_attribute("stroke", format!("url(#{})", uri).as_str())?
                 }
-                cotati_ir::Paint::Pattern(uri) => {
+                vglang_ir::Paint::Pattern(uri) => {
                     el.set_attribute("stroke", format!("url(#{})", uri).as_str())?
                 }
             }
@@ -316,7 +316,7 @@ impl<'a> SvgGenerating<'a> {
 
         if let Some(paint) = &fill.paint {
             match self.get_value(paint)? {
-                cotati_ir::Paint::Color(rgba) => el.set_attribute(
+                vglang_ir::Paint::Color(rgba) => el.set_attribute(
                     "fill",
                     format!(
                         "rgb({},{},{})",
@@ -326,10 +326,10 @@ impl<'a> SvgGenerating<'a> {
                     )
                     .as_str(),
                 )?,
-                cotati_ir::Paint::Gradient(uri) => {
+                vglang_ir::Paint::Gradient(uri) => {
                     el.set_attribute("fill", format!("url(#{})", uri).as_str())?
                 }
-                cotati_ir::Paint::Pattern(uri) => {
+                vglang_ir::Paint::Pattern(uri) => {
                     el.set_attribute("fill", format!("url(#{})", uri).as_str())?
                 }
             }
@@ -370,47 +370,47 @@ impl<'a> SvgGenerating<'a> {
 
         if let Some(value) = &value.weight {
             match self.get_value(value)? {
-                cotati_ir::FontWeight::Normal => el.set_attribute("font-weight", "normal")?,
-                cotati_ir::FontWeight::Bold => el.set_attribute("font-weight", "bold")?,
-                cotati_ir::FontWeight::Bolder => el.set_attribute("font-weight", "bolder")?,
-                cotati_ir::FontWeight::Lighter => el.set_attribute("font-weight", "lighter")?,
-                cotati_ir::FontWeight::W100 => el.set_attribute("font-weight", "100")?,
-                cotati_ir::FontWeight::W200 => el.set_attribute("font-weight", "200")?,
-                cotati_ir::FontWeight::W300 => el.set_attribute("font-weight", "300")?,
-                cotati_ir::FontWeight::W400 => el.set_attribute("font-weight", "400")?,
-                cotati_ir::FontWeight::W500 => el.set_attribute("font-weight", "500")?,
-                cotati_ir::FontWeight::W600 => el.set_attribute("font-weight", "600")?,
-                cotati_ir::FontWeight::W700 => el.set_attribute("font-weight", "700")?,
-                cotati_ir::FontWeight::W800 => el.set_attribute("font-weight", "800")?,
-                cotati_ir::FontWeight::W900 => el.set_attribute("font-weight", "900")?,
+                vglang_ir::FontWeight::Normal => el.set_attribute("font-weight", "normal")?,
+                vglang_ir::FontWeight::Bold => el.set_attribute("font-weight", "bold")?,
+                vglang_ir::FontWeight::Bolder => el.set_attribute("font-weight", "bolder")?,
+                vglang_ir::FontWeight::Lighter => el.set_attribute("font-weight", "lighter")?,
+                vglang_ir::FontWeight::W100 => el.set_attribute("font-weight", "100")?,
+                vglang_ir::FontWeight::W200 => el.set_attribute("font-weight", "200")?,
+                vglang_ir::FontWeight::W300 => el.set_attribute("font-weight", "300")?,
+                vglang_ir::FontWeight::W400 => el.set_attribute("font-weight", "400")?,
+                vglang_ir::FontWeight::W500 => el.set_attribute("font-weight", "500")?,
+                vglang_ir::FontWeight::W600 => el.set_attribute("font-weight", "600")?,
+                vglang_ir::FontWeight::W700 => el.set_attribute("font-weight", "700")?,
+                vglang_ir::FontWeight::W800 => el.set_attribute("font-weight", "800")?,
+                vglang_ir::FontWeight::W900 => el.set_attribute("font-weight", "900")?,
             }
         }
 
         if let Some(value) = &value.stretch {
             match self.get_value(value)? {
-                cotati_ir::FontStretch::Normal => el.set_attribute("font-stretch", "normal")?,
-                cotati_ir::FontStretch::Wider => el.set_attribute("font-stretch", "wider")?,
-                cotati_ir::FontStretch::Narrower => el.set_attribute("font-stretch", "narrower")?,
-                cotati_ir::FontStretch::UltraCondensed => {
+                vglang_ir::FontStretch::Normal => el.set_attribute("font-stretch", "normal")?,
+                vglang_ir::FontStretch::Wider => el.set_attribute("font-stretch", "wider")?,
+                vglang_ir::FontStretch::Narrower => el.set_attribute("font-stretch", "narrower")?,
+                vglang_ir::FontStretch::UltraCondensed => {
                     el.set_attribute("font-stretch", "ultra-condensed")?
                 }
-                cotati_ir::FontStretch::ExtraCondensed => {
+                vglang_ir::FontStretch::ExtraCondensed => {
                     el.set_attribute("font-stretch", "extra-condensed")?
                 }
-                cotati_ir::FontStretch::Condensed => {
+                vglang_ir::FontStretch::Condensed => {
                     el.set_attribute("font-stretch", "condensed")?
                 }
-                cotati_ir::FontStretch::SemiCondensed => {
+                vglang_ir::FontStretch::SemiCondensed => {
                     el.set_attribute("font-stretch", "semi-condensed")?
                 }
-                cotati_ir::FontStretch::SemiExpanded => {
+                vglang_ir::FontStretch::SemiExpanded => {
                     el.set_attribute("font-stretch", "semi-expanded")?
                 }
-                cotati_ir::FontStretch::Expanded => el.set_attribute("font-stretch", "expanded")?,
-                cotati_ir::FontStretch::ExtraExpanded => {
+                vglang_ir::FontStretch::Expanded => el.set_attribute("font-stretch", "expanded")?,
+                vglang_ir::FontStretch::ExtraExpanded => {
                     el.set_attribute("font-stretch", "extra-expanded")?
                 }
-                cotati_ir::FontStretch::UltraExpanded => {
+                vglang_ir::FontStretch::UltraExpanded => {
                     el.set_attribute("font-stretch", "ultra-expanded")?
                 }
             }
@@ -426,21 +426,21 @@ impl<'a> SvgGenerating<'a> {
 
         if let Some(property) = &value.write_mode {
             match property {
-                cotati_ir::WritingMode::LrTb => el.set_attribute("writing-mode", "lr-tb")?,
-                cotati_ir::WritingMode::RlTb => el.set_attribute("writing-mode", "rl-tb")?,
-                cotati_ir::WritingMode::TbRl => el.set_attribute("writing-mode", "tb-rl")?,
-                cotati_ir::WritingMode::Lr => el.set_attribute("writing-mode", "lr")?,
-                cotati_ir::WritingMode::Rl => el.set_attribute("writing-mode", "rl")?,
-                cotati_ir::WritingMode::Tb => el.set_attribute("writing-mode", "tb")?,
+                vglang_ir::WritingMode::LrTb => el.set_attribute("writing-mode", "lr-tb")?,
+                vglang_ir::WritingMode::RlTb => el.set_attribute("writing-mode", "rl-tb")?,
+                vglang_ir::WritingMode::TbRl => el.set_attribute("writing-mode", "tb-rl")?,
+                vglang_ir::WritingMode::Lr => el.set_attribute("writing-mode", "lr")?,
+                vglang_ir::WritingMode::Rl => el.set_attribute("writing-mode", "rl")?,
+                vglang_ir::WritingMode::Tb => el.set_attribute("writing-mode", "tb")?,
             }
         }
 
         if let Some(property) = &value.vertical {
             match property {
-                cotati_ir::GlyphOrientationVertical::Auto => {
+                vglang_ir::GlyphOrientationVertical::Auto => {
                     el.set_attribute("glyph-orientation-vertical", "auto")?
                 }
-                cotati_ir::GlyphOrientationVertical::Angle(angle) => el.set_attribute(
+                vglang_ir::GlyphOrientationVertical::Angle(angle) => el.set_attribute(
                     "glyph-orientation-vertical",
                     format!("{}", angle.as_deg()).as_str(),
                 )?,
@@ -456,16 +456,16 @@ impl<'a> SvgGenerating<'a> {
 
         if let Some(property) = &value.direction {
             match property {
-                cotati_ir::TextDirection::Ltr => el.set_attribute("direction", "ltr")?,
-                cotati_ir::TextDirection::Rtl => el.set_attribute("direction", "rtl")?,
+                vglang_ir::TextDirection::Ltr => el.set_attribute("direction", "ltr")?,
+                vglang_ir::TextDirection::Rtl => el.set_attribute("direction", "rtl")?,
             }
         }
 
         if let Some(property) = &value.unicode_bidi {
             match property {
-                cotati_ir::UnicodeBidi::Normal => el.set_attribute("unicode-bidi", "normal")?,
-                cotati_ir::UnicodeBidi::Embed => el.set_attribute("unicode-bidi", "embed")?,
-                cotati_ir::UnicodeBidi::BidiOverride => {
+                vglang_ir::UnicodeBidi::Normal => el.set_attribute("unicode-bidi", "normal")?,
+                vglang_ir::UnicodeBidi::Embed => el.set_attribute("unicode-bidi", "embed")?,
+                vglang_ir::UnicodeBidi::BidiOverride => {
                     el.set_attribute("unicode-bidi", "bidi-override")?
                 }
             }
@@ -473,48 +473,48 @@ impl<'a> SvgGenerating<'a> {
 
         if let Some(property) = &value.anchor {
             match self.get_value(property)? {
-                cotati_ir::TextAnchor::Start => el.set_attribute("text-anchor", "start")?,
-                cotati_ir::TextAnchor::Middle => el.set_attribute("text-anchor", "middle")?,
-                cotati_ir::TextAnchor::End => el.set_attribute("text-anchor", "end")?,
+                vglang_ir::TextAnchor::Start => el.set_attribute("text-anchor", "start")?,
+                vglang_ir::TextAnchor::Middle => el.set_attribute("text-anchor", "middle")?,
+                vglang_ir::TextAnchor::End => el.set_attribute("text-anchor", "end")?,
             }
         }
 
         if let Some(property) = &value.dominant_baseline {
             match self.get_value(property)? {
-                cotati_ir::DominantBaseline::Auto => {
+                vglang_ir::DominantBaseline::Auto => {
                     el.set_attribute("dominant-baseline", "auto")?
                 }
-                cotati_ir::DominantBaseline::UseScript => {
+                vglang_ir::DominantBaseline::UseScript => {
                     el.set_attribute("dominant-baseline", "use-script")?
                 }
-                cotati_ir::DominantBaseline::NoChange => {
+                vglang_ir::DominantBaseline::NoChange => {
                     el.set_attribute("dominant-baseline", "no-change")?
                 }
-                cotati_ir::DominantBaseline::ResetSize => {
+                vglang_ir::DominantBaseline::ResetSize => {
                     el.set_attribute("dominant-baseline", "reset-size")?
                 }
-                cotati_ir::DominantBaseline::Ideographic => {
+                vglang_ir::DominantBaseline::Ideographic => {
                     el.set_attribute("dominant-baseline", "ideographic")?
                 }
-                cotati_ir::DominantBaseline::Alphabetic => {
+                vglang_ir::DominantBaseline::Alphabetic => {
                     el.set_attribute("dominant-baseline", "alphabetic")?
                 }
-                cotati_ir::DominantBaseline::Hanging => {
+                vglang_ir::DominantBaseline::Hanging => {
                     el.set_attribute("dominant-baseline", "hanging")?
                 }
-                cotati_ir::DominantBaseline::Mathematical => {
+                vglang_ir::DominantBaseline::Mathematical => {
                     el.set_attribute("dominant-baseline", "mathematical")?
                 }
-                cotati_ir::DominantBaseline::Central => {
+                vglang_ir::DominantBaseline::Central => {
                     el.set_attribute("dominant-baseline", "central")?
                 }
-                cotati_ir::DominantBaseline::Middle => {
+                vglang_ir::DominantBaseline::Middle => {
                     el.set_attribute("dominant-baseline", "middle")?
                 }
-                cotati_ir::DominantBaseline::TextAfterEdge => {
+                vglang_ir::DominantBaseline::TextAfterEdge => {
                     el.set_attribute("dominant-baseline", "text-after-edge")?
                 }
-                cotati_ir::DominantBaseline::TextBeforeEdge => {
+                vglang_ir::DominantBaseline::TextBeforeEdge => {
                     el.set_attribute("dominant-baseline", "text-before-edge")?
                 }
             }
@@ -522,40 +522,40 @@ impl<'a> SvgGenerating<'a> {
 
         if let Some(property) = &value.alignment_baseline {
             match self.get_value(property)? {
-                cotati_ir::AlignmentBaseline::Auto => {
+                vglang_ir::AlignmentBaseline::Auto => {
                     el.set_attribute("alignment-baseline", "auto")?
                 }
-                cotati_ir::AlignmentBaseline::Baseline => {
+                vglang_ir::AlignmentBaseline::Baseline => {
                     el.set_attribute("alignment-baseline", "baseline")?
                 }
-                cotati_ir::AlignmentBaseline::BeforeEdge => {
+                vglang_ir::AlignmentBaseline::BeforeEdge => {
                     el.set_attribute("alignment-baseline", "before-edge")?
                 }
-                cotati_ir::AlignmentBaseline::TextBeforeEdge => {
+                vglang_ir::AlignmentBaseline::TextBeforeEdge => {
                     el.set_attribute("alignment-baseline", "text-before-edge")?
                 }
-                cotati_ir::AlignmentBaseline::Middle => {
+                vglang_ir::AlignmentBaseline::Middle => {
                     el.set_attribute("alignment-baseline", "middle")?
                 }
-                cotati_ir::AlignmentBaseline::Central => {
+                vglang_ir::AlignmentBaseline::Central => {
                     el.set_attribute("alignment-baseline", "central")?
                 }
-                cotati_ir::AlignmentBaseline::AfterEdge => {
+                vglang_ir::AlignmentBaseline::AfterEdge => {
                     el.set_attribute("alignment-baseline", "after-edge")?
                 }
-                cotati_ir::AlignmentBaseline::TextAfterEdge => {
+                vglang_ir::AlignmentBaseline::TextAfterEdge => {
                     el.set_attribute("alignment-baseline", "text-after-edge")?
                 }
-                cotati_ir::AlignmentBaseline::Ideographic => {
+                vglang_ir::AlignmentBaseline::Ideographic => {
                     el.set_attribute("alignment-baseline", "ideographic")?
                 }
-                cotati_ir::AlignmentBaseline::Alphabetic => {
+                vglang_ir::AlignmentBaseline::Alphabetic => {
                     el.set_attribute("alignment-baseline", "alphabetic")?
                 }
-                cotati_ir::AlignmentBaseline::Hanging => {
+                vglang_ir::AlignmentBaseline::Hanging => {
                     el.set_attribute("alignment-baseline", "hanging")?
                 }
-                cotati_ir::AlignmentBaseline::Mathematical => {
+                vglang_ir::AlignmentBaseline::Mathematical => {
                     el.set_attribute("alignment-baseline", "mathematical")?
                 }
             }
@@ -563,12 +563,12 @@ impl<'a> SvgGenerating<'a> {
 
         if let Some(property) = &value.baseline_shift {
             match self.get_value(property)? {
-                cotati_ir::BaselineShift::Baseline => {
+                vglang_ir::BaselineShift::Baseline => {
                     el.set_attribute("baseline-shift", "baseline")?
                 }
-                cotati_ir::BaselineShift::Sub => el.set_attribute("baseline-shift", "sub")?,
-                cotati_ir::BaselineShift::Super => el.set_attribute("baseline-shift", "super")?,
-                cotati_ir::BaselineShift::Value(measurement) => {
+                vglang_ir::BaselineShift::Sub => el.set_attribute("baseline-shift", "sub")?,
+                vglang_ir::BaselineShift::Super => el.set_attribute("baseline-shift", "super")?,
+                vglang_ir::BaselineShift::Value(measurement) => {
                     el.set_attribute("baseline-shift", measurement.to_string().as_str())?
                 }
             }

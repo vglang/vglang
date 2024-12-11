@@ -2,7 +2,7 @@
 
 use std::{collections::HashMap, future::Future};
 
-use cotati_ir::{AnimatableValue, IR};
+use vglang_ir::{AnimatableValue, IR};
 
 /// All `VGL language` rendering target must implement this trait.
 pub trait Device {

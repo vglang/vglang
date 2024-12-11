@@ -15,7 +15,7 @@ use super::{Animatable, Measurement, Point};
 /// 1. If ry is greater than half of ‘height’, then set ry to half of ‘height’.
 /// 1. The effective values of ‘rx’ and ‘ry’ are rx and ry, respectively.
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
-#[cfg_attr(feature = "dsl", derive(cotati_derive::Dsl))]
+#[cfg_attr(feature = "dsl", derive(vglang_derive::Dsl))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Rect {
     /// The x-axis coordinate of the side of the rectangle which has the smaller x-axis coordinate value in the current user coordinate system.

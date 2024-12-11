@@ -1,12 +1,12 @@
 [package]
-description = "A crate that provides the render target abstract for VGL language."
-documentation = "https://docs.rs/cotati-device"
+description = "Provides the render target abstract for vglang."
+documentation = "https://docs.rs/vglang-device"
 edition.workspace = true
 license = "MIT"
-name = "cotati-device"
+name = "vglang-device"
 repository.workspace = true
 version.workspace = true
 
 [dependencies]
 futures = { workspace = true }
-cotati-ir = { workspace = true }
+vglang-ir = { workspace = true }

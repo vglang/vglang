@@ -1,5 +1,5 @@
-use super::{Angle, Animatable, FrameVariable, Measurement, Color, Rgba, ViewBox};
-use cotati_derive::Dsl;
+use super::{Angle, Animatable, Color, FrameVariable, Measurement, Rgba, ViewBox};
+use vglang_derive::Dsl;
 
 /// ‘fill’ and ‘stroke’ take on a value of type [`Paint`], which is specified as follows:
 #[derive(Debug, PartialEq, PartialOrd, Clone)]

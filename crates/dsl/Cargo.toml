@@ -1,23 +1,23 @@
 [package]
-description = "Rust dsl for VGL(cotati vector graphics language)"
-documentation = "https://docs.rs/cotati-dsl"
+description = "Rust domain specific language for vglang"
+documentation = "https://docs.rs/vglang-dsl"
 edition.workspace = true
 license = "MIT"
-name = "cotati-dsl"
+name = "vglang-dsl"
 repository.workspace = true
 version.workspace = true
 
 [dependencies]
-cotati-ir = { workspace = true, features = ["dsl"] }
-cotati-device = { workspace = true }
+vglang-ir = { workspace = true, features = ["dsl"] }
+vglang-device = { workspace = true }
 
 [dev-dependencies]
 pretty_env_logger = { workspace = true }
-cotati-svg = { workspace = true }
+vglang-svg = { workspace = true }
 divan = { workspace = true }
 futures-test = { workspace = true }
 heck = { workspace = true }
 
 [features]
 default = ["serde"]
-serde = ["cotati-ir/serde"]
+serde = ["vglang-ir/serde"]

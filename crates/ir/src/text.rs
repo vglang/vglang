@@ -1,4 +1,4 @@
-use cotati_derive::Dsl;
+use vglang_derive::Dsl;
 
 use super::{Angle, Animatable, FrameVariable, Href, Measurement};
 
@@ -599,7 +599,7 @@ pub struct TextPath {
 /// support for various international writing directions, such as left-to-right (e.g., Latin scripts) and
 /// bidirectional (e.g., Hebrew or Arabic) and vertical (e.g., Asian scripts).
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
-#[cfg_attr(feature = "dsl", derive(cotati_derive::Dsl))]
+#[cfg_attr(feature = "dsl", derive(vglang_derive::Dsl))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct TextLayout {
     /// See [`WritingMode`]

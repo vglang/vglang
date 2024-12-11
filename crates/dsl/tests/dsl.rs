@@ -1,8 +1,8 @@
 use std::path::Path;
 
-use cotati_dsl::{drawing::Graphic, generator::IRGenerator};
-use cotati_svg::{SvgDevice, VGLProgram};
 use heck::ToLowerCamelCase;
+use vglang_dsl::{drawing::Graphic, generator::IRGenerator};
+use vglang_svg::{SvgDevice, VGLProgram};
 
 pub async fn svg(name: &str, test: impl Graphic<IRGenerator>) {
     println!("{}", name);

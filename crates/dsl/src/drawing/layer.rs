@@ -1,4 +1,4 @@
-use cotati_ir::Layer;
+use vglang_ir::Layer;
 
 use crate::generator::Generator;
 

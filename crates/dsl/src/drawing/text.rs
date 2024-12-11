@@ -1,4 +1,4 @@
-use cotati_ir::{Font, Text, TextLayout};
+use vglang_ir::{Font, Text, TextLayout};
 
 use crate::generator::Generator;
 

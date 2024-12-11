@@ -1,4 +1,4 @@
-use cotati_ir::{Fill, Stroke};
+use vglang_ir::{Fill, Stroke};
 
 use crate::generator::Generator;
 

@@ -1,4 +1,4 @@
-use cotati_derive::Dsl;
+use vglang_derive::Dsl;
 
 use super::{
     Angle, Animatable, ChannelSelector, FrameVariable, Href, Measurement, NumberOptNumber,

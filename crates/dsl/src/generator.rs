@@ -1,5 +1,5 @@
-use cotati_device::Device;
-use cotati_ir::IR;
+use vglang_device::Device;
+use vglang_ir::IR;
 
 /// This trait defines the compile target generator of `embed VGL language`.
 pub trait Generator {

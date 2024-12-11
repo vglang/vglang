@@ -1,9 +1,9 @@
 [package]
-description = "A utility derive crate for cotati."
-documentation = "https://docs.rs/cotati-derive"
+description = "proc-macros for other vglang crates."
+documentation = "https://docs.rs/vglang-derive"
 edition.workspace = true
 license = "MIT"
-name = "cotati-derive"
+name = "vglang-derive"
 repository.workspace = true
 version.workspace = true
 

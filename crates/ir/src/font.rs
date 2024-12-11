@@ -129,7 +129,7 @@ impl FrameVariable for FontStretch {}
 
 /// Shorthand property for setting ‘font-style’, ‘font-variant’, ‘font-weight’, ‘font-size’, ‘line-height’ and ‘font-family’.
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
-#[cfg_attr(feature = "dsl", derive(cotati_derive::Dsl))]
+#[cfg_attr(feature = "dsl", derive(vglang_derive::Dsl))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Font {
     /// See [`FontFamily`]
