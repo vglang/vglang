@@ -1,4 +1,4 @@
-use cotati_ir::{Font, Text};
+use cotati_ir::{Font, Text, TextLayout};
 
 use crate::generator::Generator;
 
@@ -19,6 +19,20 @@ impl WithContent for Text {
 }
 
 impl Appliable for Font {
+    fn apply<G, C>(self, graphic: C) -> impl Graphic<G>
+    where
+        C: Graphic<G>,
+        G: Generator,
+    {
+        move |g: &mut G| {
+            g.push_from(self);
+            graphic.draw(g);
+            g.pop(1);
+        }
+    }
+}
+
+impl Appliable for TextLayout {
     fn apply<G, C>(self, graphic: C) -> impl Graphic<G>
     where
         C: Graphic<G>,

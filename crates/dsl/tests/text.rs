@@ -1,8 +1,9 @@
 mod dsl;
 use cotati_dsl::drawing::{apply, layer, with};
 use cotati_ir::{
-    Color, Fill, Font, FontFamily, FontStretch, FontStyle, FontVariant, FontWeight, Layer,
-    Measurement, Rect, Stroke, Text,
+    AlignmentBaseline, Color, Fill, Font, FontFamily, FontStretch, FontStyle, FontVariant,
+    FontWeight, Layer, Measurement, PreserveAspectRatio, Rect, Stroke, Text, TextAnchor,
+    TextLayout,
 };
 use dsl::svg;
 
@@ -14,7 +15,7 @@ async fn test_text() {
             Layer::default()
                 .width(Measurement::cm(10.0))
                 .height(Measurement::cm(3.0))
-                .viewbox((0.0, 0.0, 1000.0, 300.0)),
+                .viewbox((0.0, 0.0, 1000.0, 300.0, PreserveAspectRatio::default())),
             (
                 // apply `fill`,`stroke` to `rect` element.
                 apply(
@@ -23,17 +24,29 @@ async fn test_text() {
                 ),
                 apply(
                     // apply font selection properties
-                    Font::from(FontFamily::Monospace)
-                        .size(50)
-                        .style(FontStyle::Italic),
                     (
-                        with(Text::default().x(450).y(150), "Hello cotati."),
+                        Font::from(FontFamily::Monospace)
+                            .size(50)
+                            .style(FontStyle::Italic),
+                        TextLayout::from(TextAnchor::Middle)
+                            .alignment_baseline(AlignmentBaseline::Hanging),
+                    ),
+                    (
+                        with(Text::default().x(500).y(150), "Hello cotati. 你好"),
                         // override `variant`, `weight` properties.
                         apply(
-                            Font::from(FontVariant::Normal)
-                                .weight(FontWeight::Bolder)
-                                .stretch(FontStretch::UltraCondensed),
-                            with(Text::default().x(450).y(200), "Hello VGL."),
+                            (
+                                Font::from(FontVariant::Normal)
+                                    .weight(FontWeight::Bolder)
+                                    .size(30)
+                                    .stretch(FontStretch::UltraCondensed),
+                                TextLayout::from(TextAnchor::Middle)
+                                    .write_mode(cotati_ir::WritingMode::TbRl)
+                                    .vertical(cotati_ir::GlyphOrientationVertical::Angle(
+                                        90.into(),
+                                    )),
+                            ),
+                            with(Text::default().x(900).y(150), "你好 Hello VGL."),
                         ),
                     ),
                 ),

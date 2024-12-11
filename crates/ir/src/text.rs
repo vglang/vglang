@@ -348,6 +348,8 @@ impl Default for TextAnchor {
     }
 }
 
+impl FrameVariable for TextAnchor {}
+
 /// See [`baseline`](https://www.w3.org/TR/SVG11/text.html#BaselineAlignmentProperties)
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -592,4 +594,119 @@ pub struct TextPath {
     /// If `iri` is an invalid reference (e.g., no such element exists, or the referenced element is not a ‘path’),
     /// then the ‘textPath’ element is in error and its entire contents shall not be rendered by the user agent.
     pub href: Animatable<Href>,
+}
+
+/// support for various international writing directions, such as left-to-right (e.g., Latin scripts) and
+/// bidirectional (e.g., Hebrew or Arabic) and vertical (e.g., Asian scripts).
+#[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "dsl", derive(cotati_derive::Dsl))]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct TextLayout {
+    /// See [`WritingMode`]
+    pub write_mode: Option<WritingMode>,
+
+    /// See [`GlyphOrientationVertical`]
+    pub vertical: Option<GlyphOrientationVertical>,
+
+    /// See [`GlyphOrientationHorizontal`]
+    pub horizontal: Option<GlyphOrientationHorizontal>,
+
+    /// See [`GlyphOrientationHorizontal`]
+    pub direction: Option<TextDirection>,
+
+    /// See [`UnicodeBidi`]
+    pub unicode_bidi: Option<UnicodeBidi>,
+
+    /// See [`TextAnchor`]
+    pub anchor: Option<Animatable<TextAnchor>>,
+
+    /// See [`DominantBaseline`]
+    pub dominant_baseline: Option<Animatable<DominantBaseline>>,
+
+    /// See [`AlignmentBaseline`]
+    pub alignment_baseline: Option<Animatable<AlignmentBaseline>>,
+
+    /// See [`BaselineShift`]
+    pub baseline_shift: Option<Animatable<BaselineShift>>,
+}
+
+impl From<WritingMode> for TextLayout {
+    fn from(value: WritingMode) -> Self {
+        Self {
+            write_mode: Some(value),
+            ..Default::default()
+        }
+    }
+}
+
+impl From<GlyphOrientationVertical> for TextLayout {
+    fn from(value: GlyphOrientationVertical) -> Self {
+        Self {
+            vertical: Some(value),
+            ..Default::default()
+        }
+    }
+}
+
+impl From<GlyphOrientationHorizontal> for TextLayout {
+    fn from(value: GlyphOrientationHorizontal) -> Self {
+        Self {
+            horizontal: Some(value),
+            ..Default::default()
+        }
+    }
+}
+
+impl From<TextDirection> for TextLayout {
+    fn from(value: TextDirection) -> Self {
+        Self {
+            direction: Some(value),
+            ..Default::default()
+        }
+    }
+}
+
+impl From<UnicodeBidi> for TextLayout {
+    fn from(value: UnicodeBidi) -> Self {
+        Self {
+            unicode_bidi: Some(value),
+            ..Default::default()
+        }
+    }
+}
+
+impl From<TextAnchor> for TextLayout {
+    fn from(value: TextAnchor) -> Self {
+        Self {
+            anchor: Some(Animatable::Constant(value)),
+            ..Default::default()
+        }
+    }
+}
+
+impl From<DominantBaseline> for TextLayout {
+    fn from(value: DominantBaseline) -> Self {
+        Self {
+            dominant_baseline: Some(Animatable::Constant(value)),
+            ..Default::default()
+        }
+    }
+}
+
+impl From<AlignmentBaseline> for TextLayout {
+    fn from(value: AlignmentBaseline) -> Self {
+        Self {
+            alignment_baseline: Some(Animatable::Constant(value)),
+            ..Default::default()
+        }
+    }
+}
+
+impl From<BaselineShift> for TextLayout {
+    fn from(value: BaselineShift) -> Self {
+        Self {
+            baseline_shift: Some(Animatable::Constant(value)),
+            ..Default::default()
+        }
+    }
 }

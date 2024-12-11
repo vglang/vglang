@@ -1,4 +1,4 @@
-use crate::{Fill, Font, Layer, Rect, Stroke, Text};
+use crate::{Fill, Font, Layer, Rect, Stroke, Text, TextLayout};
 
 /// A type that representation a cotai script instruction.
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -27,6 +27,8 @@ pub enum IR {
 
     /// Font properties.
     Font(Box<Font>),
+    /// text-layout properties.
+    TextLayout(Box<TextLayout>),
 }
 
 impl From<Text> for IR {
@@ -62,5 +64,11 @@ impl From<Stroke> for IR {
 impl From<Font> for IR {
     fn from(value: Font) -> Self {
         IR::Font(Box::new(value))
+    }
+}
+
+impl From<TextLayout> for IR {
+    fn from(value: TextLayout) -> Self {
+        IR::TextLayout(Box::new(value))
     }
 }

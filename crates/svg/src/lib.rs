@@ -3,7 +3,7 @@ use std::slice::Iter;
 pub use cotati_device::{Device, VGLProgram};
 use cotati_ir::{
     Animatable, Fill, Font, FontStyle, FontVariant, FrameVariable, Layer, PreserveAspectRatio,
-    Rect, Stroke, Text, IR,
+    Rect, Stroke, Text, TextLayout, IR,
 };
 use futures::future::BoxFuture;
 use xml_dom::level2::{
@@ -77,23 +77,19 @@ impl<'a> SvgGenerating<'a> {
         codes: Iter<'a, IR>,
         animatable: &'a std::collections::HashMap<String, cotati_ir::AnimatableValue>,
     ) -> Result<Self, Error> {
-        let doc_type = get_implementation().create_document_type(
-            "svg",
-            Some("-//W3C//DTD SVG 1.1//EN"),
-            Some("http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"),
-        )?;
+        // let doc_type = get_implementation().create_document_type(
+        //     "svg",
+        //     Some("-//W3C//DTD SVG 1.1//EN"),
+        //     Some("http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"),
+        // )?;
 
         let mut document = get_implementation().create_document(
             Some("http://www.w3.org/2000/svg"),
             Some("svg"),
-            Some(doc_type),
+            None,
         )?;
 
-        let xml_decl = XmlDecl::new(
-            xml_dom::level2::ext::XmlVersion::V11,
-            Some("utf-8".to_owned()),
-            Some(true),
-        );
+        let xml_decl = XmlDecl::new(xml_dom::level2::ext::XmlVersion::V11, None, Some(true));
 
         document.set_xml_declaration(xml_decl)?;
 
@@ -163,6 +159,9 @@ impl<'a> SvgGenerating<'a> {
                 }
                 IR::Font(value) => {
                     return self.process_font(value).map(Some);
+                }
+                IR::TextLayout(value) => {
+                    return self.process_text_layout(value).map(Some);
                 }
                 _ => todo!(),
             }
@@ -413,6 +412,164 @@ impl<'a> SvgGenerating<'a> {
                 }
                 cotati_ir::FontStretch::UltraExpanded => {
                     el.set_attribute("font-stretch", "ultra-expanded")?
+                }
+            }
+        }
+
+        self.els.push(el);
+
+        self.process_child(false)
+    }
+
+    fn process_text_layout(&mut self, value: &TextLayout) -> Result<usize, Error> {
+        let mut el = self.document.create_element("g")?;
+
+        if let Some(property) = &value.write_mode {
+            match property {
+                cotati_ir::WritingMode::LrTb => el.set_attribute("writing-mode", "lr-tb")?,
+                cotati_ir::WritingMode::RlTb => el.set_attribute("writing-mode", "rl-tb")?,
+                cotati_ir::WritingMode::TbRl => el.set_attribute("writing-mode", "tb-rl")?,
+                cotati_ir::WritingMode::Lr => el.set_attribute("writing-mode", "lr")?,
+                cotati_ir::WritingMode::Rl => el.set_attribute("writing-mode", "rl")?,
+                cotati_ir::WritingMode::Tb => el.set_attribute("writing-mode", "tb")?,
+            }
+        }
+
+        if let Some(property) = &value.vertical {
+            match property {
+                cotati_ir::GlyphOrientationVertical::Auto => {
+                    el.set_attribute("glyph-orientation-vertical", "auto")?
+                }
+                cotati_ir::GlyphOrientationVertical::Angle(angle) => el.set_attribute(
+                    "glyph-orientation-vertical",
+                    format!("{}", angle.as_deg()).as_str(),
+                )?,
+            }
+        }
+
+        if let Some(property) = &value.horizontal {
+            el.set_attribute(
+                "glyph-orientation-vertical",
+                format!("{}", property.0.as_deg()).as_str(),
+            )?
+        }
+
+        if let Some(property) = &value.direction {
+            match property {
+                cotati_ir::TextDirection::Ltr => el.set_attribute("direction", "ltr")?,
+                cotati_ir::TextDirection::Rtl => el.set_attribute("direction", "rtl")?,
+            }
+        }
+
+        if let Some(property) = &value.unicode_bidi {
+            match property {
+                cotati_ir::UnicodeBidi::Normal => el.set_attribute("unicode-bidi", "normal")?,
+                cotati_ir::UnicodeBidi::Embed => el.set_attribute("unicode-bidi", "embed")?,
+                cotati_ir::UnicodeBidi::BidiOverride => {
+                    el.set_attribute("unicode-bidi", "bidi-override")?
+                }
+            }
+        }
+
+        if let Some(property) = &value.anchor {
+            match self.get_value(property)? {
+                cotati_ir::TextAnchor::Start => el.set_attribute("text-anchor", "start")?,
+                cotati_ir::TextAnchor::Middle => el.set_attribute("text-anchor", "middle")?,
+                cotati_ir::TextAnchor::End => el.set_attribute("text-anchor", "end")?,
+            }
+        }
+
+        if let Some(property) = &value.dominant_baseline {
+            match self.get_value(property)? {
+                cotati_ir::DominantBaseline::Auto => {
+                    el.set_attribute("dominant-baseline", "auto")?
+                }
+                cotati_ir::DominantBaseline::UseScript => {
+                    el.set_attribute("dominant-baseline", "use-script")?
+                }
+                cotati_ir::DominantBaseline::NoChange => {
+                    el.set_attribute("dominant-baseline", "no-change")?
+                }
+                cotati_ir::DominantBaseline::ResetSize => {
+                    el.set_attribute("dominant-baseline", "reset-size")?
+                }
+                cotati_ir::DominantBaseline::Ideographic => {
+                    el.set_attribute("dominant-baseline", "ideographic")?
+                }
+                cotati_ir::DominantBaseline::Alphabetic => {
+                    el.set_attribute("dominant-baseline", "alphabetic")?
+                }
+                cotati_ir::DominantBaseline::Hanging => {
+                    el.set_attribute("dominant-baseline", "hanging")?
+                }
+                cotati_ir::DominantBaseline::Mathematical => {
+                    el.set_attribute("dominant-baseline", "mathematical")?
+                }
+                cotati_ir::DominantBaseline::Central => {
+                    el.set_attribute("dominant-baseline", "central")?
+                }
+                cotati_ir::DominantBaseline::Middle => {
+                    el.set_attribute("dominant-baseline", "middle")?
+                }
+                cotati_ir::DominantBaseline::TextAfterEdge => {
+                    el.set_attribute("dominant-baseline", "text-after-edge")?
+                }
+                cotati_ir::DominantBaseline::TextBeforeEdge => {
+                    el.set_attribute("dominant-baseline", "text-before-edge")?
+                }
+            }
+        }
+
+        if let Some(property) = &value.alignment_baseline {
+            match self.get_value(property)? {
+                cotati_ir::AlignmentBaseline::Auto => {
+                    el.set_attribute("alignment-baseline", "auto")?
+                }
+                cotati_ir::AlignmentBaseline::Baseline => {
+                    el.set_attribute("alignment-baseline", "baseline")?
+                }
+                cotati_ir::AlignmentBaseline::BeforeEdge => {
+                    el.set_attribute("alignment-baseline", "before-edge")?
+                }
+                cotati_ir::AlignmentBaseline::TextBeforeEdge => {
+                    el.set_attribute("alignment-baseline", "text-before-edge")?
+                }
+                cotati_ir::AlignmentBaseline::Middle => {
+                    el.set_attribute("alignment-baseline", "middle")?
+                }
+                cotati_ir::AlignmentBaseline::Central => {
+                    el.set_attribute("alignment-baseline", "central")?
+                }
+                cotati_ir::AlignmentBaseline::AfterEdge => {
+                    el.set_attribute("alignment-baseline", "after-edge")?
+                }
+                cotati_ir::AlignmentBaseline::TextAfterEdge => {
+                    el.set_attribute("alignment-baseline", "text-after-edge")?
+                }
+                cotati_ir::AlignmentBaseline::Ideographic => {
+                    el.set_attribute("alignment-baseline", "ideographic")?
+                }
+                cotati_ir::AlignmentBaseline::Alphabetic => {
+                    el.set_attribute("alignment-baseline", "alphabetic")?
+                }
+                cotati_ir::AlignmentBaseline::Hanging => {
+                    el.set_attribute("alignment-baseline", "hanging")?
+                }
+                cotati_ir::AlignmentBaseline::Mathematical => {
+                    el.set_attribute("alignment-baseline", "mathematical")?
+                }
+            }
+        }
+
+        if let Some(property) = &value.baseline_shift {
+            match self.get_value(property)? {
+                cotati_ir::BaselineShift::Baseline => {
+                    el.set_attribute("baseline-shift", "baseline")?
+                }
+                cotati_ir::BaselineShift::Sub => el.set_attribute("baseline-shift", "sub")?,
+                cotati_ir::BaselineShift::Super => el.set_attribute("baseline-shift", "super")?,
+                cotati_ir::BaselineShift::Value(measurement) => {
+                    el.set_attribute("baseline-shift", measurement.to_string().as_str())?
                 }
             }
         }
