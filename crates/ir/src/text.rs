@@ -1,5 +1,7 @@
 use vglang_derive::Dsl;
 
+use crate::MapCollect;
+
 use super::{Angle, Animatable, FrameVariable, Href, Measurement};
 
 /// See [`length_adjust`](Text::length_adjust)
@@ -102,6 +104,20 @@ pub struct Text {
     ///
     /// If the attribute is not specified, the effect is as a value of 'spacing' were specified.
     pub length_adjust: Animatable<TextLengthAdjust>,
+}
+
+impl<X, Y> From<(X, Y)> for Text
+where
+    X: MapCollect<Measurement>,
+    Y: MapCollect<Measurement>,
+{
+    fn from(value: (X, Y)) -> Self {
+        Self {
+            x: Animatable::Constant(value.0.map_collect()),
+            y: Animatable::Constant(value.1.map_collect()),
+            ..Default::default()
+        }
+    }
 }
 
 /// Within a ‘text’ element, text and font properties and the current text position can be adjusted with absolute or

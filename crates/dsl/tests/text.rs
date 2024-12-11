@@ -2,7 +2,7 @@ mod dsl;
 use dsl::svg;
 use vglang_dsl::{
     attrs::*,
-    dsl::{apply, layer, with, MeasurementDsl, ViewBoxDsl},
+    dsl::{apply, layer, with, MeasurementDsl},
 };
 
 #[futures_test::test]
@@ -22,7 +22,7 @@ async fn test_viewbox() {
                         (
                             Fill::from(Color::black),
                             TextLayout::from(TextAnchor::Middle),
-                            Font::from(FontFamily::from("Verdana")).size(200),
+                            Font::from("Verdana").size(200),
                         ),
                         with(
                             Text::default().x(50.percentage()).y(60.percentage()),
@@ -38,7 +38,13 @@ async fn test_viewbox() {
     svg(
         "PreserveAspectRatio",
         layer(
-            Layer::from((300, 600)).viewbox((0, 0, 1500, 1000).with_aspect(Default::default())),
+            Layer::from((300, 600)).viewbox((
+                0,
+                0,
+                1500,
+                1000,
+                PreserveAspectRatio::xMidYMid(MeetOrSlice::Meet),
+            )),
             apply(
                 (
                     Fill::from(Color::yellow),
@@ -53,7 +59,7 @@ async fn test_viewbox() {
                             Font::from(FontFamily::from("Verdana")).size(200),
                         ),
                         with(
-                            Text::default().x(50.percentage()).y(60.percentage()),
+                            Text::from((50.percentage(), 60.percentage())),
                             "Stretch to fit",
                         ),
                     ),

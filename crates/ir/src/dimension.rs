@@ -409,6 +409,22 @@ where
     }
 }
 
+impl<X, Y, W, H, P> From<(X, Y, W, H, P)> for ViewBox
+where
+    Measurement: From<X> + From<Y> + From<W> + From<H>,
+    PreserveAspectRatio: From<P>,
+{
+    fn from(value: (X, Y, W, H, P)) -> Self {
+        Self {
+            minx: Animatable::Constant(value.0.into()),
+            miny: Animatable::Constant(value.1.into()),
+            width: Animatable::Constant(value.2.into()),
+            height: Animatable::Constant(value.3.into()),
+            aspect: Some(Animatable::Constant(value.4.into())),
+        }
+    }
+}
+
 #[cfg(feature = "dsl")]
 mod dsl {
     use super::*;

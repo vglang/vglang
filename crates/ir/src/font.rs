@@ -162,6 +162,24 @@ impl From<FontFamily> for Font {
     }
 }
 
+impl From<String> for Font {
+    fn from(value: String) -> Self {
+        Self {
+            family: Some(Animatable::Constant(FontFamily::Custom(value))),
+            ..Default::default()
+        }
+    }
+}
+
+impl From<&str> for Font {
+    fn from(value: &str) -> Self {
+        Self {
+            family: Some(Animatable::Constant(FontFamily::Custom(value.to_owned()))),
+            ..Default::default()
+        }
+    }
+}
+
 impl From<FontStyle> for Font {
     fn from(value: FontStyle) -> Self {
         Self {
