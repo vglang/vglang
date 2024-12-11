@@ -1,3 +1,3 @@
 # vglang
 
-A simple and fast Vector Graphics programming Language.
+`vglang` is a simple and fast Vector Graphics programming Language.
