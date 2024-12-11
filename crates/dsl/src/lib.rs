@@ -1,6 +1,6 @@
 //! Rust dsl for cotati vector graphics language(VGL)
 
-pub mod drawing;
+pub mod dsl;
 pub mod generator;
 
 /// The attributes used by graphic elements.

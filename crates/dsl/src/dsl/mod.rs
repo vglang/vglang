@@ -11,3 +11,6 @@ pub use layer::*;
 mod shapes;
 
 mod painting;
+
+mod dimension;
+pub use dimension::*;
