@@ -1,0 +1,10 @@
+[package]
+description = "S-expression of vglang."
+documentation = "https://docs.rs/vglang-sexpr"
+edition.workspace = true
+license = "MIT"
+name = "vglang-sexpr"
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
