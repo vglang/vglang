@@ -4,7 +4,7 @@ use futures::future::BoxFuture;
 pub use vglang_device::{Device, VGLProgram};
 use vglang_ir::{
     Animatable, Fill, Font, FontStyle, FontVariant, FrameVariable, Layer, PreserveAspectRatio,
-    Rect, Stroke, Text, TextLayout, IR,
+    Rect, Stroke, Text, TextLayout, TextSpan, IR,
 };
 use xml_dom::level2::{
     ext::{DocumentDecl, XmlDecl},
@@ -163,6 +163,9 @@ impl<'a> SvgGenerating<'a> {
                 IR::TextLayout(value) => {
                     return self.process_text_layout(value).map(Some);
                 }
+                IR::TextSpan(value) => {
+                    return self.process_text_span(value).map(Some);
+                }
                 _ => todo!(),
             }
         }
@@ -287,7 +290,15 @@ impl<'a> SvgGenerating<'a> {
     fn process_stroke(&mut self, stroke: &Stroke) -> Result<usize, Error> {
         let mut el = self.document.create_element("g")?;
 
-        if let Some(paint) = &stroke.paint {
+        self.process_stroke_inner(&mut el, stroke)?;
+
+        self.els.push(el);
+
+        self.process_child(false)
+    }
+
+    fn process_stroke_inner(&self, el: &mut RefNode, value: &Stroke) -> Result<(), Error> {
+        if let Some(paint) = &value.paint {
             match self.get_value(paint)? {
                 vglang_ir::Paint::Color(rgba) => el.set_attribute(
                     "stroke",
@@ -308,15 +319,25 @@ impl<'a> SvgGenerating<'a> {
             }
         }
 
-        self.els.push(el);
+        if let Some(value) = &value.width {
+            el.set_attribute("stroke-width", self.get_value(value)?.to_string().as_str())?
+        }
 
-        self.process_child(false)
+        Ok(())
     }
 
     fn process_fill(&mut self, fill: &Fill) -> Result<usize, Error> {
         let mut el = self.document.create_element("g")?;
 
-        if let Some(paint) = &fill.paint {
+        self.process_fill_inner(&mut el, fill)?;
+
+        self.els.push(el);
+
+        self.process_child(false)
+    }
+
+    fn process_fill_inner(&self, el: &mut RefNode, value: &Fill) -> Result<(), Error> {
+        if let Some(paint) = &value.paint {
             match self.get_value(paint)? {
                 vglang_ir::Paint::Color(rgba) => el.set_attribute(
                     "fill",
@@ -339,14 +360,19 @@ impl<'a> SvgGenerating<'a> {
             el.set_attribute("fill", "none")?
         }
 
+        Ok(())
+    }
+    fn process_font(&mut self, value: &Font) -> Result<usize, Error> {
+        let mut el = self.document.create_element("g")?;
+
+        self.process_font_inner(&mut el, value)?;
+
         self.els.push(el);
 
         self.process_child(false)
     }
 
-    fn process_font(&mut self, value: &Font) -> Result<usize, Error> {
-        let mut el = self.document.create_element("g")?;
-
+    fn process_font_inner(&self, el: &mut RefNode, value: &Font) -> Result<(), Error> {
         if let Some(size) = &value.size {
             el.set_attribute("font-size", self.get_value(size)?.to_string().as_str())?;
         }
@@ -418,14 +444,20 @@ impl<'a> SvgGenerating<'a> {
             }
         }
 
-        self.els.push(el);
-
-        self.process_child(false)
+        Ok(())
     }
 
     fn process_text_layout(&mut self, value: &TextLayout) -> Result<usize, Error> {
         let mut el = self.document.create_element("g")?;
 
+        self.process_text_layout_inner(&mut el, value)?;
+
+        self.els.push(el);
+
+        self.process_child(false)
+    }
+
+    fn process_text_layout_inner(&self, el: &mut RefNode, value: &TextLayout) -> Result<(), Error> {
         if let Some(property) = &value.write_mode {
             match property {
                 vglang_ir::WritingMode::LrTb => el.set_attribute("writing-mode", "lr-tb")?,
@@ -576,9 +608,7 @@ impl<'a> SvgGenerating<'a> {
             }
         }
 
-        self.els.push(el);
-
-        self.process_child(false)
+        Ok(())
     }
 
     fn process_text(&mut self, text: &Text) -> Result<usize, Error> {
@@ -602,6 +632,24 @@ impl<'a> SvgGenerating<'a> {
 
         el.set_attribute("y", &y)?;
 
+        let dx = self
+            .get_value(&text.dx)?
+            .into_iter()
+            .map(|v| v.to_string())
+            .collect::<Vec<_>>()
+            .join(",");
+
+        el.set_attribute("dx", &dx)?;
+
+        let dy = self
+            .get_value(&text.dy)?
+            .into_iter()
+            .map(|v| v.to_string())
+            .collect::<Vec<_>>()
+            .join(",");
+
+        el.set_attribute("dy", &dy)?;
+
         let rotate = self
             .get_value(&text.rotate)?
             .into_iter()
@@ -610,6 +658,101 @@ impl<'a> SvgGenerating<'a> {
             .join(",");
 
         el.set_attribute("rotate", &rotate)?;
+
+        let text_length = self.get_value(&text.text_length)?;
+
+        el.set_attribute("textLength", text_length.to_string().as_str())?;
+
+        let length_adjust = self.get_value(&text.length_adjust)?;
+
+        match length_adjust {
+            vglang_ir::TextLengthAdjust::Spacing => el.set_attribute("lengthAdjust", "spacing")?,
+            vglang_ir::TextLengthAdjust::SpacingAndGlyphs => {
+                el.set_attribute("lengthAdjust", "spacingAndGlyphs")?
+            }
+        }
+
+        self.els.push(el);
+
+        self.process_child(false)
+    }
+
+    fn process_text_span(&mut self, text: &TextSpan) -> Result<usize, Error> {
+        let mut el = self.document.create_element("tspan")?;
+
+        let x = self
+            .get_value(&text.x)?
+            .into_iter()
+            .map(|v| v.to_string())
+            .collect::<Vec<_>>()
+            .join(",");
+
+        el.set_attribute("x", &x)?;
+
+        let y = self
+            .get_value(&text.y)?
+            .into_iter()
+            .map(|v| v.to_string())
+            .collect::<Vec<_>>()
+            .join(",");
+
+        el.set_attribute("y", &y)?;
+
+        let dx = self
+            .get_value(&text.dx)?
+            .into_iter()
+            .map(|v| v.to_string())
+            .collect::<Vec<_>>()
+            .join(",");
+
+        el.set_attribute("dx", &dx)?;
+
+        let dy = self
+            .get_value(&text.dy)?
+            .into_iter()
+            .map(|v| v.to_string())
+            .collect::<Vec<_>>()
+            .join(",");
+
+        el.set_attribute("dy", &dy)?;
+
+        let rotate = self
+            .get_value(&text.rotate)?
+            .into_iter()
+            .map(|v| v.as_deg().to_string())
+            .collect::<Vec<_>>()
+            .join(",");
+
+        el.set_attribute("rotate", &rotate)?;
+
+        let text_length = self.get_value(&text.text_length)?;
+
+        el.set_attribute("textLength", text_length.to_string().as_str())?;
+
+        let length_adjust = self.get_value(&text.length_adjust)?;
+
+        match length_adjust {
+            vglang_ir::TextLengthAdjust::Spacing => el.set_attribute("lengthAdjust", "spacing")?,
+            vglang_ir::TextLengthAdjust::SpacingAndGlyphs => {
+                el.set_attribute("lengthAdjust", "spacingAndGlyphs")?
+            }
+        }
+
+        if let Some(value) = &text.font {
+            self.process_font_inner(&mut el, value)?;
+        }
+
+        if let Some(value) = &text.layout {
+            self.process_text_layout_inner(&mut el, value)?;
+        }
+
+        if let Some(value) = &text.fill {
+            self.process_fill_inner(&mut el, value)?;
+        }
+
+        if let Some(value) = &text.stroke {
+            self.process_stroke_inner(&mut el, value)?;
+        }
 
         self.els.push(el);
 

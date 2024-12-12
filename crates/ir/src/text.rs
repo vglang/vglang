@@ -1,6 +1,6 @@
 use vglang_derive::Dsl;
 
-use crate::MapCollect;
+use crate::{Fill, Font, MapCollect, Stroke};
 
 use super::{Angle, Animatable, FrameVariable, Href, Measurement};
 
@@ -124,7 +124,8 @@ where
 /// relative coordinate values by including a ‘tspan’ element.
 ///
 /// See [`tspan`](https://www.w3.org/TR/SVG11/text.html#TSpanElement)
-#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "dsl", derive(vglang_derive::Dsl))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct TextSpan {
     /// If a single coordinate is provided, then the value represents the new absolute X coordinate for the current
@@ -222,6 +223,40 @@ pub struct TextSpan {
     /// If the attribute is not specified anywhere within a ‘text’ element, the effect is as if the author's computation exactly matched
     /// the value calculated by the user agent; thus, no advance adjustments are made.
     pub text_length: Animatable<Measurement>,
+
+    /// Indicates the type of adjustments which the user agent shall make to make the rendered length of the text match the
+    /// value specified on the ‘textLength’ attribute.
+    ///
+    /// The user agent is required to achieve correct start and end positions for the text strings, but the locations of
+    /// intermediate glyphs are not predictable because user agents might employ advanced algorithms to stretch or compress
+    /// text strings in order to balance correct start and end positioning with optimal typography.
+    ///
+    /// Note that, for a text string that contains n characters, the adjustments to the advance values often occur only for n−1
+    /// characters (see description of attribute ‘textLength’), whereas stretching or compressing of the glyphs will be applied
+    /// to all n characters.
+    ///
+    /// If the attribute is not specified, the effect is as a value of 'spacing' were specified.
+    pub length_adjust: Animatable<TextLengthAdjust>,
+
+    /// font properties.
+    ///
+    /// See [`Font`]
+    pub font: Option<Font>,
+
+    /// text layout properties.
+    ///
+    /// See [`TextLayout`]
+    pub layout: Option<TextLayout>,
+
+    /// fill properties.
+    ///
+    /// See [`Fill`]
+    pub fill: Option<Fill>,
+
+    /// Stroke properties.
+    ///
+    /// See [`Stroke`]
+    pub stroke: Option<Stroke>,
 }
 
 /// The ‘writing-mode’ property specifies whether the initial inline-progression-direction for a ‘text’ element shall be
