@@ -1,4 +1,4 @@
-use crate::expr::{Color, Sref, Srgb};
+use crate::expr::{Color, Reference, Srgb};
 
 /// ‘fill’ and ‘stroke’ take on a value of type [`Paint`], which is specified as follows:
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -7,9 +7,9 @@ pub enum Paint {
     /// the explicit color to be used to paint the current object
     Color(Srgb),
     /// A gradient entity reference.
-    Gradient(Sref),
+    Gradient(Reference),
     /// A pattern entity reference.
-    Pattern(Sref),
+    Pattern(Reference),
 }
 
 impl From<Color> for Paint {

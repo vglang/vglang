@@ -1,4 +1,4 @@
-use super::{Smath, Svariable};
+use super::{Smath, Variable};
 
 /// Instruction of bool expression.
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
@@ -38,7 +38,7 @@ pub enum ControlFlow {
         /// variable name for foreach item.
         item: String,
         /// Operand of foreach expression.
-        operand: Svariable,
+        operand: Variable,
     },
 
     /// Push a `for range` control-flow block.
@@ -46,9 +46,9 @@ pub enum ControlFlow {
         /// index variable name.
         index: String,
         /// The lower bound of the range (inclusive).
-        start: Svariable,
+        start: Variable,
         /// The upper bound of the range (exclusive).
-        end: Svariable,
+        end: Variable,
     },
 
     /// Push a `close tag` for the latest control-flow block.

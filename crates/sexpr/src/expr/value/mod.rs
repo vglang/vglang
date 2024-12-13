@@ -20,7 +20,7 @@ use super::Sexpr;
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Svalue {
     /// [`Length`] value.
-    Length(Slength),
+    Length(Length),
     /// a float point value.
     Number(f32),
     /// A utf-9 string value.

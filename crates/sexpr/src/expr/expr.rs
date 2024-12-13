@@ -1,4 +1,4 @@
-use super::{Block, ControlFlow, Property, Svariable, Syscall};
+use super::{Block, ControlFlow, Property, Syscall, Variable};
 
 /// sexpr variant for vglang.
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
@@ -13,11 +13,11 @@ pub enum Sexpr {
     /// Create a inherit property.
     Property(Box<Property>),
     /// Mixin an entity by [`Svariable`].
-    Mixin(Box<Svariable>),
+    Mixin(Box<Variable>),
 }
 
-impl From<Svariable> for Sexpr {
-    fn from(value: Svariable) -> Self {
+impl From<Variable> for Sexpr {
+    fn from(value: Variable) -> Self {
         Self::Mixin(Box::new(value))
     }
 }

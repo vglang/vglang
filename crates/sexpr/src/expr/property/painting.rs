@@ -1,4 +1,4 @@
-use crate::expr::{FillRule, Paint, Sanimatable, Slength, StrokeLineCap, StrokeLineJoin};
+use crate::expr::{Animatable, FillRule, Length, Paint, StrokeLineCap, StrokeLineJoin};
 
 /// The ‘fill’ instruction paints the interior of the given graphical element.
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
@@ -7,11 +7,11 @@ pub struct Fill {
     /// paints color.
     ///
     /// `Inherited: yes`
-    pub paint: Option<Sanimatable<Paint>>,
+    pub paint: Option<Animatable<Paint>>,
     /// fill painting rule, see [`FillRule`] for more information.
     ///
     /// `Inherited: yes`
-    pub rule: Option<Sanimatable<FillRule>>,
+    pub rule: Option<Animatable<FillRule>>,
 }
 
 /// This property affect how an element is stroked.
@@ -21,21 +21,21 @@ pub struct Stroke {
     /// paints color paints along the outline of the given graphical element.
     ///
     /// `Inherited: yes`
-    pub paint: Option<Sanimatable<Paint>>,
+    pub paint: Option<Animatable<Paint>>,
     /// This property specifies the width of the stroke on the current object
     ///
     /// `Inherited: yes`
-    pub width: Option<Sanimatable<Slength>>,
+    pub width: Option<Animatable<Length>>,
 
     /// specifies the shape to be used at the end of open subpaths when they are stroked.
     ///
     /// `Inherited: yes`
-    pub linecap: Option<Sanimatable<StrokeLineCap>>,
+    pub linecap: Option<Animatable<StrokeLineCap>>,
 
     /// specifies the shape to be used at the corners of paths or basic shapes when they are stroked.
     ///
     /// `Inherited: yes`
-    pub linejoin: Option<Sanimatable<StrokeLineJoin>>,
+    pub linejoin: Option<Animatable<StrokeLineJoin>>,
 
     /// controls the pattern of dashes and gaps used to stroke paths. `<dasharray>` contains a list of comma and/or
     /// white space separated `<length>s` and `<percentage>s` that specify the lengths of alternating dashes and gaps.
@@ -43,11 +43,11 @@ pub struct Stroke {
     /// Thus, stroke-dasharray: 5,3,2 is equivalent to stroke-dasharray: 5,3,2,5,3,2.
     ///
     /// `Inherited: yes`
-    pub dasharray: Option<Sanimatable<Vec<Slength>>>,
+    pub dasharray: Option<Animatable<Vec<Length>>>,
     /// specifies the distance into the dash pattern to start the dash
     ///
     /// `Inherited: yes`
-    pub dashoffset: Option<Sanimatable<Slength>>,
+    pub dashoffset: Option<Animatable<Length>>,
 }
 
 impl<P> From<P> for Stroke
@@ -56,7 +56,7 @@ where
 {
     fn from(value: P) -> Self {
         Self {
-            paint: Some(Sanimatable::Constant(value.into())),
+            paint: Some(Animatable::Constant(value.into())),
             ..Default::default()
         }
     }

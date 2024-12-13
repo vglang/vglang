@@ -1,4 +1,4 @@
-use crate::expr::{Sangle, Sanimatable, Slength, StextLengthAdjust};
+use crate::expr::{Length, Sangle, Animatable, StextLengthAdjust};
 
 /// The ‘text’ element defines a graphics element consisting of text.
 ///
@@ -17,13 +17,13 @@ pub struct Text {
     /// For additional processing rules, refer to the description of the ‘x’ attribute on the ‘tspan’ element.
     ///
     /// If the attribute is not specified, the effect is as if a value of "0" were specified.
-    pub x: Sanimatable<Vec<Slength>>,
+    pub x: Animatable<Vec<Length>>,
 
     /// The corresponding list of absolute Y coordinates for the glyphs corresponding to the characters within this element.
     /// The processing rules for the ‘y’ attribute parallel the processing rules for the ‘x’ attribute.
     ///
     /// If the attribute is not specified, the effect is as if a value of "0" were specified.
-    pub y: Sanimatable<Vec<Slength>>,
+    pub y: Animatable<Vec<Length>>,
 
     /// Shifts in the current text position along the x-axis for the characters within this element or any of its descendants.
     ///
@@ -31,7 +31,7 @@ pub struct Text {
     ///
     /// If the attribute is not specified on this element or any of its descendants, no supplemental shifts along
     /// the x-axis will occur.
-    pub dx: Sanimatable<Vec<Slength>>,
+    pub dx: Animatable<Vec<Length>>,
 
     /// Shifts in the current text position along the y-axis for the characters within this element or any of its descendants.
     ///
@@ -39,7 +39,7 @@ pub struct Text {
     ///
     /// If the attribute is not specified on this element or any of its descendants, no supplemental shifts along
     /// the y-axis will occur.
-    pub dy: Sanimatable<Vec<Slength>>,
+    pub dy: Animatable<Vec<Length>>,
 
     /// The supplemental rotation about the current text position that will be applied to all of the glyphs corresponding
     /// to each character within this element.
@@ -47,7 +47,7 @@ pub struct Text {
     /// Refer to the description of the ‘rotate’ attribute on the ‘tspan’ element.
     ///
     /// If the attribute is not specified on this element or any of its descendants, no supplemental rotations will occur.
-    pub rotate: Sanimatable<Vec<Sangle>>,
+    pub rotate: Animatable<Vec<Sangle>>,
 
     /// The author's computation of the total sum of all of the advance values that correspond to character data within
     /// this element, including the advance value on the glyph (horizontal or vertical), the effect of properties ‘kerning’,
@@ -64,7 +64,7 @@ pub struct Text {
     ///
     /// If the attribute is not specified, the effect is as if the author's computation exactly matched the value calculated
     /// by the user agent; thus, no advance adjustments are made.
-    pub text_length: Sanimatable<Slength>,
+    pub text_length: Animatable<Length>,
 
     /// Indicates the type of adjustments which the user agent shall make to make the rendered length of the text match the
     /// value specified on the ‘textLength’ attribute.
@@ -78,7 +78,7 @@ pub struct Text {
     /// to all n characters.
     ///
     /// If the attribute is not specified, the effect is as a value of 'spacing' were specified.
-    pub length_adjust: Sanimatable<StextLengthAdjust>,
+    pub length_adjust: Animatable<StextLengthAdjust>,
 }
 
 /// Within a ‘text’ element, text and font properties and the current text position can be adjusted with absolute or
@@ -99,13 +99,13 @@ pub struct TextSpan {
     /// For additional processing rules, refer to the description of the ‘x’ attribute on the ‘tspan’ element.
     ///
     /// If the attribute is not specified, the effect is as if a value of "0" were specified.
-    pub x: Sanimatable<Vec<Slength>>,
+    pub x: Animatable<Vec<Length>>,
 
     /// The corresponding list of absolute Y coordinates for the glyphs corresponding to the characters within this element.
     /// The processing rules for the ‘y’ attribute parallel the processing rules for the ‘x’ attribute.
     ///
     /// If the attribute is not specified, the effect is as if a value of "0" were specified.
-    pub y: Sanimatable<Vec<Slength>>,
+    pub y: Animatable<Vec<Length>>,
 
     /// Shifts in the current text position along the x-axis for the characters within this element or any of its descendants.
     ///
@@ -113,7 +113,7 @@ pub struct TextSpan {
     ///
     /// If the attribute is not specified on this element or any of its descendants, no supplemental shifts along
     /// the x-axis will occur.
-    pub dx: Sanimatable<Vec<Slength>>,
+    pub dx: Animatable<Vec<Length>>,
 
     /// Shifts in the current text position along the y-axis for the characters within this element or any of its descendants.
     ///
@@ -121,7 +121,7 @@ pub struct TextSpan {
     ///
     /// If the attribute is not specified on this element or any of its descendants, no supplemental shifts along
     /// the y-axis will occur.
-    pub dy: Sanimatable<Vec<Slength>>,
+    pub dy: Animatable<Vec<Length>>,
 
     /// The supplemental rotation about the current text position that will be applied to all of the glyphs corresponding
     /// to each character within this element.
@@ -129,7 +129,7 @@ pub struct TextSpan {
     /// Refer to the description of the ‘rotate’ attribute on the ‘tspan’ element.
     ///
     /// If the attribute is not specified on this element or any of its descendants, no supplemental rotations will occur.
-    pub rotate: Sanimatable<Vec<Sangle>>,
+    pub rotate: Animatable<Vec<Sangle>>,
 
     /// The author's computation of the total sum of all of the advance values that correspond to character data within
     /// this element, including the advance value on the glyph (horizontal or vertical), the effect of properties ‘kerning’,
@@ -146,7 +146,7 @@ pub struct TextSpan {
     ///
     /// If the attribute is not specified, the effect is as if the author's computation exactly matched the value calculated
     /// by the user agent; thus, no advance adjustments are made.
-    pub text_length: Sanimatable<Slength>,
+    pub text_length: Animatable<Length>,
 
     /// Indicates the type of adjustments which the user agent shall make to make the rendered length of the text match the
     /// value specified on the ‘textLength’ attribute.
@@ -160,5 +160,5 @@ pub struct TextSpan {
     /// to all n characters.
     ///
     /// If the attribute is not specified, the effect is as a value of 'spacing' were specified.
-    pub length_adjust: Sanimatable<StextLengthAdjust>,
+    pub length_adjust: Animatable<StextLengthAdjust>,
 }

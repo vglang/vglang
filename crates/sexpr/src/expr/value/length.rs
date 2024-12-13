@@ -6,7 +6,7 @@ use super::Svalue;
 #[allow(non_camel_case_types)]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub enum Slength {
+pub enum Length {
     /// Represents the calculated font-size of the element. If used on the font-size property itself,
     /// it represents the inherited font-size of the element.
     em(f32),
@@ -29,19 +29,19 @@ pub enum Slength {
     percent(f32),
 }
 
-impl Default for Slength {
+impl Default for Length {
     fn default() -> Self {
         Self::px(0.0)
     }
 }
 
-impl From<Slength> for Svalue {
-    fn from(value: Slength) -> Self {
+impl From<Length> for Svalue {
+    fn from(value: Length) -> Self {
         Self::Length(value)
     }
 }
 
-impl TryFrom<Svalue> for Slength {
+impl TryFrom<Svalue> for Length {
     type Error = Svalue;
     fn try_from(value: Svalue) -> Result<Self, Self::Error> {
         match value {
