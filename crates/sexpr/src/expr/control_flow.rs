@@ -23,7 +23,7 @@ pub enum Sbool {
 /// control-flow instruction.
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub enum ScontrolFlow {
+pub enum ControlFlow {
     /// Push a `if` control-flow block.
     If(Vec<Sbool>),
 

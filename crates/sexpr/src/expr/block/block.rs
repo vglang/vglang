@@ -1,17 +1,13 @@
-use super::{Fill, Stext, StextSpan, Stroke};
+use super::{Text, TextSpan};
 
 /// sexpr to create a block.
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub enum Sblock {
+pub enum Block {
     /// Create a text block.
-    Text(Stext),
+    Text(Text),
     /// create a text-span block.
-    TextSpan(StextSpan),
-    /// Create a fill block.
-    Fill(Fill),
-    /// Create a fill block.
-    Stroke(Stroke),
+    TextSpan(TextSpan),
     /// Pop a block.
     End,
 }

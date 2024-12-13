@@ -1,22 +1,25 @@
 //! Rust sexpr implementation for vglang.
 
-mod s_block;
-pub use s_block::*;
+mod block;
+pub use block::*;
 
-mod s_control_flow;
-pub use s_control_flow::*;
+mod control_flow;
+pub use control_flow::*;
 
-mod s_call;
-pub use s_call::*;
+mod call;
+pub use call::*;
 
-mod s_math;
-pub use s_math::*;
+mod math;
+pub use math::*;
 
-mod s_value;
-pub use s_value::*;
+mod value;
+pub use value::*;
 
-mod s_expr;
-pub use s_expr::*;
+mod expr;
+pub use expr::*;
 
-mod s_variable;
-pub use s_variable::*;
+mod variable;
+pub use variable::*;
+
+mod property;
+pub use property::*;

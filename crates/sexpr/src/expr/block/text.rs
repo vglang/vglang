@@ -5,7 +5,7 @@ use crate::expr::{Sangle, Sanimatable, Slength, StextLengthAdjust};
 /// See [`text`](https://www.w3.org/TR/SVG11/text.html#TextElement)
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Stext {
+pub struct Text {
     /// If a single `coordinate` is provided, then the value represents the new absolute X coordinate for
     /// the current text position for rendering the glyphs that correspond to the first character within
     /// this element or any of its descendants.
@@ -87,7 +87,7 @@ pub struct Stext {
 /// See [`tspan`](https://www.w3.org/TR/SVG11/text.html#TSpanElement)
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct StextSpan {
+pub struct TextSpan {
     /// If a single `coordinate` is provided, then the value represents the new absolute X coordinate for
     /// the current text position for rendering the glyphs that correspond to the first character within
     /// this element or any of its descendants.
