@@ -1,7 +1,4 @@
-mod text;
-pub use text::*;
-
-use super::{Sattribute, Smath, Svariable};
+use super::{Smath, Svariable};
 
 /// Instruction of bool expression.
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
@@ -53,15 +50,6 @@ pub enum ScontrolFlow {
         /// The upper bound of the range (exclusive).
         end: Svariable,
     },
-
-    /// Apply an attributes block.
-    Attrs(Vec<Sattribute>),
-
-    /// Apply a text block.
-    Text(Stext),
-
-    /// Apply a text-span block.
-    TextSpan(StextSpan),
 
     /// Push a `close tag` for the latest control-flow block.
     End,

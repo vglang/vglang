@@ -10,6 +10,9 @@ pub use text::*;
 mod angle;
 pub use angle::*;
 
+mod painting;
+pub use painting::*;
+
 use super::Sexpr;
 
 /// constant / literal / register value.
@@ -28,6 +31,12 @@ pub enum Svalue {
     TextLengthAdjust(StextLengthAdjust),
     /// angle value.
     Angle(Sangle),
+    /// paint value.
+    Paint(Paint),
+    FillRule(FillRule),
+    StrokeLineJoin(StrokeLineJoin),
+    StrokeLineCap(StrokeLineCap),
+
     /// List of `Svalue`.
     ListOf(Vec<Svalue>),
     /// a fragment of sexpr codes.
@@ -89,6 +98,70 @@ impl TryFrom<Svalue> for String {
     fn try_from(value: Svalue) -> Result<Self, Self::Error> {
         match value {
             Svalue::String(v) => Ok(v),
+            _ => Err(value),
+        }
+    }
+}
+
+impl From<Paint> for Svalue {
+    fn from(value: Paint) -> Self {
+        Self::Paint(value)
+    }
+}
+
+impl TryFrom<Svalue> for Paint {
+    type Error = Svalue;
+    fn try_from(value: Svalue) -> Result<Self, Self::Error> {
+        match value {
+            Svalue::Paint(v) => Ok(v),
+            _ => Err(value),
+        }
+    }
+}
+
+impl From<FillRule> for Svalue {
+    fn from(value: FillRule) -> Self {
+        Self::FillRule(value)
+    }
+}
+
+impl TryFrom<Svalue> for FillRule {
+    type Error = Svalue;
+    fn try_from(value: Svalue) -> Result<Self, Self::Error> {
+        match value {
+            Svalue::FillRule(v) => Ok(v),
+            _ => Err(value),
+        }
+    }
+}
+
+impl From<StrokeLineCap> for Svalue {
+    fn from(value: StrokeLineCap) -> Self {
+        Self::StrokeLineCap(value)
+    }
+}
+
+impl TryFrom<Svalue> for StrokeLineCap {
+    type Error = Svalue;
+    fn try_from(value: Svalue) -> Result<Self, Self::Error> {
+        match value {
+            Svalue::StrokeLineCap(v) => Ok(v),
+            _ => Err(value),
+        }
+    }
+}
+
+impl From<StrokeLineJoin> for Svalue {
+    fn from(value: StrokeLineJoin) -> Self {
+        Self::StrokeLineJoin(value)
+    }
+}
+
+impl TryFrom<Svalue> for StrokeLineJoin {
+    type Error = Svalue;
+    fn try_from(value: Svalue) -> Result<Self, Self::Error> {
+        match value {
+            Svalue::StrokeLineJoin(v) => Ok(v),
             _ => Err(value),
         }
     }

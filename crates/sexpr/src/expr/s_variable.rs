@@ -1,6 +1,6 @@
 use super::Svalue;
 
-/// variable reference to stack value.
+/// A reference to in-program entity.
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Sref {
@@ -66,4 +66,6 @@ pub enum Svariable {
     Item(Sref),
     /// variable reference to `for range` index.
     Index(Sref),
+    /// variable reference to code fragment.
+    Fragment(Sref),
 }

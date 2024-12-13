@@ -1,7 +1,7 @@
 //! Rust sexpr implementation for vglang.
 
-mod s_attr;
-pub use s_attr::*;
+mod s_block;
+pub use s_block::*;
 
 mod s_control_flow;
 pub use s_control_flow::*;
