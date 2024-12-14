@@ -1,9 +1,9 @@
 [package]
-description = "S-expression of vglang."
-documentation = "https://docs.rs/vglang-sexpr"
+description = "opcode for vglang device"
+documentation = "https://docs.rs/vglang-opcode"
 edition.workspace = true
 license = "MIT"
-name = "vglang-sexpr"
+name = "vglang-opcode"
 repository.workspace = true
 version.workspace = true
 
