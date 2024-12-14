@@ -1,5 +1,5 @@
 [package]
-description = "opcode for vglang device"
+description = "low-level instructions for vglang executor"
 documentation = "https://docs.rs/vglang-opcode"
 edition.workspace = true
 license = "MIT"
