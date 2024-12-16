@@ -1,6 +1,4 @@
 //! Defines the optimised low-level instructions.
-
-/// low-level instructions.
 ///
 /// Some `Opcode`s have a [`usize`] parameter that points to the row ID of the property table.
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Clone, Copy)]
