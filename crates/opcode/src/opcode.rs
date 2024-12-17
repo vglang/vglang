@@ -4,7 +4,7 @@
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Clone, Copy)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Opcode {
-    /// Create a `canvas` element.
+    /// Create a new `canvas` to draw vector graphics.
     Canvas(usize),
     /// Render a `text` element.
     Text(usize),
