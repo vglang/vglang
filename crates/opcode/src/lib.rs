@@ -2,3 +2,6 @@
 
 mod opcode;
 pub use opcode::*;
+
+mod operand;
+pub use operand::*;

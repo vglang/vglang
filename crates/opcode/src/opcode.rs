@@ -1,23 +1,53 @@
-//! Defines the optimised low-level instructions.
-///
-/// Some `Opcode`s have a [`usize`] parameter that points to the row ID of the property table.
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Clone, Copy)]
+//! Defines the optimised intermediate instructions.
+
+use crate::operand::{Fill, Stroke, Text, TextSpan, Variable};
+
+/// Opcodes for vglang.
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Opcode {
     /// Create a new `canvas` to draw vector graphics.
     Canvas(usize),
     /// Render a `text` element.
-    Text(usize),
+    Text(Box<Text>),
     /// Render a `text-span` element.
-    TextSpan(usize),
+    TextSpan(Box<TextSpan>),
     /// characters content of the text/text-span element.
-    TextContent(usize),
+    Characters(Box<Variable<String>>),
     /// Apply inheritable property `Fill` to all children instructions.
-    Fill(usize),
+    Fill(Box<Fill>),
     /// Apply inheritable property `Stroke` to all children instructions.
-    Stroke(usize),
+    Stroke(Box<Stroke>),
     /// Popup elements, indicates that the popup elements ared fully rendered.
-    ///
-    /// Unlike other instructions, the [`usize`] parameter of this instruction indicates the number of elements to pop.
     Pop(usize),
+}
+
+impl From<Text> for Opcode {
+    fn from(value: Text) -> Self {
+        Self::Text(Box::new(value))
+    }
+}
+
+impl From<TextSpan> for Opcode {
+    fn from(value: TextSpan) -> Self {
+        Self::TextSpan(Box::new(value))
+    }
+}
+
+impl From<Fill> for Opcode {
+    fn from(value: Fill) -> Self {
+        Self::Fill(Box::new(value))
+    }
+}
+
+impl From<Stroke> for Opcode {
+    fn from(value: Stroke) -> Self {
+        Self::Stroke(Box::new(value))
+    }
+}
+
+impl From<Variable<String>> for Opcode {
+    fn from(value: Variable<String>) -> Self {
+        Self::Characters(Box::new(value))
+    }
 }
