@@ -2,7 +2,6 @@ mod drawing;
 pub use drawing::*;
 
 mod canvas;
-pub use canvas::*;
 
 mod painting;
 

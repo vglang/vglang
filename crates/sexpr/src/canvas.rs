@@ -1,17 +1,18 @@
 use vglang_opcode::operand::Canvas;
 use vglang_targets::Builder;
 
-use crate::Graphic;
+use crate::{Graphic, WithContent};
 
-/// Create a layer graphic element.
-pub fn canvas<G, C>(attrs: Canvas, content: C) -> impl Graphic<G>
-where
-    G: Builder,
-    C: Graphic<G>,
-{
-    |g: &mut G| {
-        g.push(attrs);
-        content.draw(g);
-        g.pop();
+impl WithContent for Canvas {
+    fn with_content<G, C>(self, graphic: C) -> impl Graphic<G>
+    where
+        C: Graphic<G>,
+        G: Builder,
+    {
+        |g: &mut G| {
+            g.push(self);
+            graphic.draw(g);
+            g.pop();
+        }
     }
 }

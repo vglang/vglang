@@ -1,6 +1,6 @@
 mod svg;
 use svg::svg;
-use vglang_sexpr::{apply, canvas, operand::*, with, Graphic, Slength};
+use vglang_sexpr::{apply, operand::*, with_content, Graphic, Slength};
 use vglang_svg::Builder;
 
 fn border<G>() -> impl Graphic<G>
@@ -20,7 +20,7 @@ where
 async fn test_viewbox() {
     svg(
         "stretch to fit",
-        canvas(
+        with_content(
             Canvas::from((300, 600)).viewbox((0, 0, 1500, 1000)),
             (
                 border(),
@@ -30,7 +30,7 @@ async fn test_viewbox() {
                         TextLayout::from(TextAnchor::Middle),
                         Font::from("Verdana").size(200),
                     ),
-                    with(
+                    with_content(
                         Text::default().x(50.percent()).y(60.percent()),
                         "Stretch to fit",
                     ),
@@ -42,7 +42,7 @@ async fn test_viewbox() {
 
     svg(
         "PreserveAspectRatio",
-        canvas(
+        with_content(
             Canvas::from((300, 600)).viewbox((
                 0,
                 0,
@@ -58,7 +58,7 @@ async fn test_viewbox() {
                         TextLayout::from(TextAnchor::Middle),
                         Font::from(FontFamily::from("Verdana")).size(200),
                     ),
-                    with(Text::from((50.percent(), 60.percent())), "Stretch to fit"),
+                    with_content(Text::from((50.percent(), 60.percent())), "Stretch to fit"),
                 ),
             ),
         ),
@@ -67,21 +67,25 @@ async fn test_viewbox() {
 
     svg(
         "tspan",
-        canvas(
+        with_content(
             Canvas::from((800, 600)),
             apply(
-                (Font::from(1.em()), TextLayout::from(TextAnchor::Middle)),
+                (
+                    Font::from(3.em()),
+                    TextLayout::from(TextAnchor::Middle)
+                        .dominant_baseline(DominantBaseline::Hanging),
+                ),
                 (
                     border(),
-                    with(
+                    with_content(
                         Text::from((50.percent(), 50.percent())),
                         (
                             "You are",
-                            with(
+                            with_content(
                                 TextSpan::default()
-                                    .font(Font::from(FontWeight::Bolder))
+                                    .font(Font::from(FontWeight::Bolder).size(2.em()))
                                     .fill(Color::red),
-                                " not",
+                                " NOT(1)",
                             ),
                             " a banana",
                         ),

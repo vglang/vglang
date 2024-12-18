@@ -131,7 +131,7 @@ pub trait WithContent {
 }
 
 /// apply graphic's content element.
-pub fn with<P, C, G>(parent: P, content: C) -> impl Graphic<G>
+pub fn with_content<P, C, G>(parent: P, content: C) -> impl Graphic<G>
 where
     P: WithContent,
     G: Builder,
