@@ -48,7 +48,7 @@ async fn test_viewbox() {
                 0,
                 1500,
                 1000,
-                PreserveAspectRatio::xMidYMid(MeetOrSlice::Meet),
+                PreserveAspectRatio::xMinYMin(MeetOrSlice::Meet),
             )),
             (
                 border(),
