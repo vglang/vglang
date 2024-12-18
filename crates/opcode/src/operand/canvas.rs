@@ -133,6 +133,7 @@ where
 
 /// Create a new layer into which the backend render child elements.
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "sexpr", derive(vglang_derive::Sexpr))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Canvas {
     /// a number (usually an integer) that represents the width of the rendering layer.

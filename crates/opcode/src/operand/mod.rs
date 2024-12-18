@@ -21,3 +21,9 @@ pub use color::*;
 
 mod canvas;
 pub use canvas::*;
+
+mod shapes;
+pub use shapes::*;
+
+mod font;
+pub use font::*;

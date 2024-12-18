@@ -1,6 +1,6 @@
 use std::{collections::HashMap, future::Future};
 
-use vglang_opcode::{Opcode, Value};
+use vglang_opcode::{operand::Value, Opcode};
 
 /// Rendering target must implement this trait.
 pub trait Target {
@@ -31,8 +31,12 @@ pub trait Builder {
     where
         Opcode: From<O>;
 
+    fn pop(&mut self) {
+        self.push(Opcode::Pop(1));
+    }
+
     /// Build vglang program via opcodes.
-    fn build(self) -> Self::Build;
+    fn create(self) -> Self::Build;
 }
 
 /// A optimized vglang program created by [`build`](Device::build) function.

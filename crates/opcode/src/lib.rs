@@ -6,8 +6,7 @@
 mod opcode;
 pub use opcode::*;
 
-mod operand;
-pub use operand::*;
+pub mod operand;
 
 #[cfg_attr(docsrs, doc(cfg(feature = "sexpr")))]
 #[cfg(feature = "sexpr")]

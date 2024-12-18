@@ -1,6 +1,7 @@
 use super::{
-    Angle, FillRule, Length, Paint, PreserveAspectRatio, Rgb, StrokeLineCap, StrokeLineJoin,
-    TextLengthAdjust,
+    AlignmentBaseline, Angle, BaselineShift, DominantBaseline, FillRule, FontFamily, FontStretch,
+    FontStyle, FontVariant, FontWeight, Length, Paint, PreserveAspectRatio, Rgb, StrokeLineCap,
+    StrokeLineJoin, TextAnchor, TextLengthAdjust,
 };
 
 /// Values passed by register.
@@ -19,6 +20,159 @@ pub enum Value {
     StrokeLineCap(StrokeLineCap),
     StrokeLineJoin(StrokeLineJoin),
     PreserveAspectRatio(PreserveAspectRatio),
+    TextAnchor(TextAnchor),
+    DominantBaseline(DominantBaseline),
+    AlignmentBaseline(AlignmentBaseline),
+    BaselineShift(BaselineShift),
+    FontFamily(FontFamily),
+    FontStyle(FontStyle),
+    FontWeight(FontWeight),
+    FontStretch(FontStretch),
+    FontVariant(FontVariant),
+}
+
+impl From<FontVariant> for Value {
+    fn from(value: FontVariant) -> Self {
+        Self::FontVariant(value)
+    }
+}
+
+impl TryFrom<Value> for FontVariant {
+    type Error = Value;
+    fn try_from(value: Value) -> Result<Self, Self::Error> {
+        match value {
+            Value::FontVariant(v) => Ok(v),
+            _ => Err(value),
+        }
+    }
+}
+
+impl From<FontFamily> for Value {
+    fn from(value: FontFamily) -> Self {
+        Self::FontFamily(value)
+    }
+}
+
+impl TryFrom<Value> for FontFamily {
+    type Error = Value;
+    fn try_from(value: Value) -> Result<Self, Self::Error> {
+        match value {
+            Value::FontFamily(v) => Ok(v),
+            _ => Err(value),
+        }
+    }
+}
+
+impl From<FontStyle> for Value {
+    fn from(value: FontStyle) -> Self {
+        Self::FontStyle(value)
+    }
+}
+
+impl TryFrom<Value> for FontStyle {
+    type Error = Value;
+    fn try_from(value: Value) -> Result<Self, Self::Error> {
+        match value {
+            Value::FontStyle(v) => Ok(v),
+            _ => Err(value),
+        }
+    }
+}
+
+impl From<FontWeight> for Value {
+    fn from(value: FontWeight) -> Self {
+        Self::FontWeight(value)
+    }
+}
+
+impl TryFrom<Value> for FontWeight {
+    type Error = Value;
+    fn try_from(value: Value) -> Result<Self, Self::Error> {
+        match value {
+            Value::FontWeight(v) => Ok(v),
+            _ => Err(value),
+        }
+    }
+}
+
+impl From<FontStretch> for Value {
+    fn from(value: FontStretch) -> Self {
+        Self::FontStretch(value)
+    }
+}
+
+impl TryFrom<Value> for FontStretch {
+    type Error = Value;
+    fn try_from(value: Value) -> Result<Self, Self::Error> {
+        match value {
+            Value::FontStretch(v) => Ok(v),
+            _ => Err(value),
+        }
+    }
+}
+
+impl From<TextAnchor> for Value {
+    fn from(value: TextAnchor) -> Self {
+        Self::TextAnchor(value)
+    }
+}
+
+impl TryFrom<Value> for TextAnchor {
+    type Error = Value;
+    fn try_from(value: Value) -> Result<Self, Self::Error> {
+        match value {
+            Value::TextAnchor(v) => Ok(v),
+            _ => Err(value),
+        }
+    }
+}
+
+impl From<DominantBaseline> for Value {
+    fn from(value: DominantBaseline) -> Self {
+        Self::DominantBaseline(value)
+    }
+}
+
+impl TryFrom<Value> for DominantBaseline {
+    type Error = Value;
+    fn try_from(value: Value) -> Result<Self, Self::Error> {
+        match value {
+            Value::DominantBaseline(v) => Ok(v),
+            _ => Err(value),
+        }
+    }
+}
+
+impl From<AlignmentBaseline> for Value {
+    fn from(value: AlignmentBaseline) -> Self {
+        Self::AlignmentBaseline(value)
+    }
+}
+
+impl TryFrom<Value> for AlignmentBaseline {
+    type Error = Value;
+    fn try_from(value: Value) -> Result<Self, Self::Error> {
+        match value {
+            Value::AlignmentBaseline(v) => Ok(v),
+            _ => Err(value),
+        }
+    }
+}
+
+impl From<BaselineShift> for Value {
+    fn from(value: BaselineShift) -> Self {
+        Self::BaselineShift(value)
+    }
+}
+
+impl TryFrom<Value> for BaselineShift {
+    type Error = Value;
+    fn try_from(value: Value) -> Result<Self, Self::Error> {
+        match value {
+            Value::BaselineShift(v) => Ok(v),
+            _ => Err(value),
+        }
+    }
 }
 
 impl<T> From<Vec<T>> for Value

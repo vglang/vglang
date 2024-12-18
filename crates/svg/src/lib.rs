@@ -1,7 +1,7 @@
 use std::{future::Future, pin::Pin, slice::Iter};
 
-use vglang_opcode::Opcode;
-use vglang_targets::{Builder, Program, Target};
+use vglang_opcode::{operand::Value, Opcode};
+pub use vglang_targets::*;
 
 /// Error raised by this crate.
 #[derive(Debug, thiserror::Error)]
@@ -44,7 +44,7 @@ impl Builder for SvgBuilder {
         self.0.push(opcode.into());
     }
 
-    fn build(self) -> Self::Build {
+    fn create(self) -> Self::Build {
         Box::pin(async move { Ok(SvgProgram(self.0)) })
     }
 }
@@ -63,10 +63,7 @@ impl Program for SvgProgram {
     where
         Self: 'a;
 
-    fn run<'a>(
-        &'a self,
-        registers: &'a std::collections::HashMap<String, vglang_opcode::Value>,
-    ) -> Self::Run<'a> {
+    fn run<'a>(&'a self, registers: &'a std::collections::HashMap<String, Value>) -> Self::Run<'a> {
         Box::pin(async move {
             SvgRun {
                 opcodes: self.0.iter(),
@@ -80,7 +77,7 @@ impl Program for SvgProgram {
 #[allow(unused)]
 struct SvgRun<'a> {
     opcodes: Iter<'a, Opcode>,
-    registers: &'a std::collections::HashMap<String, vglang_opcode::Value>,
+    registers: &'a std::collections::HashMap<String, Value>,
 }
 
 impl<'a> SvgRun<'a> {

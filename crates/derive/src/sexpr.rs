@@ -234,7 +234,7 @@ impl DeriveFiled {
                     where
                         S: ToOwned<Owned = String>
                     {
-                        self.#fn_name = Variable::Animated(crate::RefBy::Named(v.to_owned()));
+                        self.#fn_name = Variable::Animated(crate::operand::RefBy::Named(v.to_owned()));
                         self
                     }
                 });
@@ -267,7 +267,7 @@ impl DeriveFiled {
                                 where
                                     S: ToOwned<Owned = String>
                                 {
-                                    self.#fn_name = Some(Variable::Animated(crate::RefBy::Named(v.to_owned())));
+                                    self.#fn_name = Some(Variable::Animated(crate::operand::RefBy::Named(v.to_owned())));
                                     self
                                 }
                             });
