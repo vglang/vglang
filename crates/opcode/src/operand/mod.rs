@@ -18,3 +18,6 @@ pub use painting::*;
 
 mod color;
 pub use color::*;
+
+mod canvas;
+pub use canvas::*;

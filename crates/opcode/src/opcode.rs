@@ -1,13 +1,16 @@
 //! Defines the optimised intermediate instructions.
 
-use crate::operand::{Fill, Stroke, Text, TextSpan, Variable};
+use crate::{
+    operand::{Fill, Stroke, Text, TextSpan, Variable},
+    Canvas,
+};
 
 /// Opcodes for vglang.
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Opcode {
     /// Create a new `canvas` to draw vector graphics.
-    Canvas(usize),
+    Canvas(Box<Canvas>),
     /// Render a `text` element.
     Text(Box<Text>),
     /// Render a `text-span` element.
@@ -20,6 +23,12 @@ pub enum Opcode {
     Stroke(Box<Stroke>),
     /// Popup elements, indicates that the popup elements ared fully rendered.
     Pop(usize),
+}
+
+impl From<Canvas> for Opcode {
+    fn from(value: Canvas) -> Self {
+        Self::Canvas(Box::new(value))
+    }
 }
 
 impl From<Text> for Opcode {

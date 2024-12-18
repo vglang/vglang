@@ -9,7 +9,9 @@ version.workspace = true
 
 [dependencies]
 serde = { workspace = true, optional = true }
+vglang-derive = { workspace = true, optional = true }
 
 [features]
-default = ["serde"]
+default = ["serde", "sexpr"]
 serde = ["dep:serde"]
+sexpr = ["vglang-derive/sexpr"]

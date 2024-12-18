@@ -1,9 +1,9 @@
 [package]
-description = "An abstract of vglang rendering target."
-documentation = "https://docs.rs/vglang-device"
+description = "An abstract of vglang rendering targets."
+documentation = "https://docs.rs/vglang-targets"
 edition.workspace = true
 license = "MIT"
-name = "vglang-device"
+name = "vglang-targets"
 repository.workspace = true
 version.workspace = true
 

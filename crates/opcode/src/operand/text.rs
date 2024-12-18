@@ -22,6 +22,7 @@ impl Default for TextLengthAdjust {
 ///
 /// See [`text`](https://www.w3.org/TR/SVG11/text.html#TextElement)
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "sexpr", derive(vglang_derive::Sexpr))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Text {
     /// If a single `coordinate` is provided, then the value represents the new absolute X coordinate for

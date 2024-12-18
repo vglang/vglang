@@ -3,7 +3,7 @@ use std::{collections::HashMap, future::Future};
 use vglang_opcode::{Opcode, Value};
 
 /// Rendering target must implement this trait.
-pub trait Device {
+pub trait Target {
     /// `vglang` program builder.
     ///
     /// See [`Builder`]
@@ -13,7 +13,7 @@ pub trait Device {
     fn build(&self) -> Self::Builder;
 }
 
-/// A vglang program builder must implement this trait.
+/// A builder comsume input [`Opcode`]s and on success, output target specific [`Program`]
 pub trait Builder {
     /// On successfully, returns the `Program`.
     ///
@@ -24,16 +24,15 @@ pub trait Builder {
     type Error;
 
     /// Future type returns by [`build`](Builder::build) function.
-    type Build<'a>: Future<Output = Result<Self::Program, Self::Error>>
-    where
-        Self: 'a;
+    type Build: Future<Output = Result<Self::Program, Self::Error>> + 'static;
+
     /// Push a new `opcode` to cache buf..
     fn push<O>(&mut self, opcode: O)
     where
         Opcode: From<O>;
 
     /// Build vglang program via opcodes.
-    fn build(&mut self) -> Self::Build<'_>;
+    fn build(self) -> Self::Build;
 }
 
 /// A optimized vglang program created by [`build`](Device::build) function.
@@ -48,5 +47,5 @@ pub trait Program {
         Self: 'a;
 
     /// run this program with provided animation registers instance.
-    fn run(&self, registers: &HashMap<String, Value>) -> Self::Run<'_>;
+    fn run<'a>(&'a self, registers: &'a HashMap<String, Value>) -> Self::Run<'a>;
 }

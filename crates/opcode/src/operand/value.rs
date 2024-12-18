@@ -1,4 +1,7 @@
-use super::{Angle, FillRule, Length, Paint, Rgb, StrokeLineCap, StrokeLineJoin, TextLengthAdjust};
+use super::{
+    Angle, FillRule, Length, Paint, PreserveAspectRatio, Rgb, StrokeLineCap, StrokeLineJoin,
+    TextLengthAdjust,
+};
 
 /// Values passed by register.
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -15,6 +18,7 @@ pub enum Value {
     FillRule(FillRule),
     StrokeLineCap(StrokeLineCap),
     StrokeLineJoin(StrokeLineJoin),
+    PreserveAspectRatio(PreserveAspectRatio),
 }
 
 impl<T> From<Vec<T>> for Value
@@ -194,6 +198,22 @@ impl TryFrom<Value> for String {
     fn try_from(value: Value) -> Result<Self, Self::Error> {
         match value {
             Value::Characters(v) => Ok(v),
+            _ => Err(value),
+        }
+    }
+}
+
+impl From<PreserveAspectRatio> for Value {
+    fn from(value: PreserveAspectRatio) -> Self {
+        Self::PreserveAspectRatio(value)
+    }
+}
+
+impl TryFrom<Value> for PreserveAspectRatio {
+    type Error = Value;
+    fn try_from(value: Value) -> Result<Self, Self::Error> {
+        match value {
+            Value::PreserveAspectRatio(v) => Ok(v),
             _ => Err(value),
         }
     }
