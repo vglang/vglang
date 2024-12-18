@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 /// A length is a distance Length, given as a number along with a unit which may be optional.
 ///
 /// See [`length`](https://www.w3.org/TR/SVG11/types.html#DataTypeLength)
@@ -25,6 +27,22 @@ pub enum Length {
     pc(f32),
     /// A percentage value
     percent(f32),
+}
+
+impl Display for Length {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Length::em(v) => write!(f, "{}em", v),
+            Length::ex(v) => write!(f, "{}ex", v),
+            Length::px(v) => write!(f, "{}px", v),
+            Length::r#in(v) => write!(f, "{}in", v),
+            Length::cm(v) => write!(f, "{}cm", v),
+            Length::mm(v) => write!(f, "{}mm", v),
+            Length::pt(v) => write!(f, "{}pt", v),
+            Length::pc(v) => write!(f, "{}pc", v),
+            Length::percent(v) => write!(f, "{}%", v),
+        }
+    }
 }
 
 impl Default for Length {

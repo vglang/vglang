@@ -1,6 +1,6 @@
 use std::fmt::Display;
 
-use super::{Length, Variable};
+use super::{Length, Number, Variable};
 
 /// see [`svg`] document for more information.
 ///
@@ -89,20 +89,20 @@ impl Default for PreserveAspectRatio {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct ViewBox {
     /// ViewBox left-top x coordinate,
-    pub minx: Variable<Length>,
+    pub minx: Variable<Number>,
     /// ViewBox left-top y coordinate,
-    pub miny: Variable<Length>,
+    pub miny: Variable<Number>,
     /// ViewBox width dimension.
-    pub width: Variable<Length>,
+    pub width: Variable<Number>,
     /// ViewBox height dimension.
-    pub height: Variable<Length>,
+    pub height: Variable<Number>,
     /// clip preserve aspect ratio.
     pub aspect: Option<Variable<PreserveAspectRatio>>,
 }
 
 impl<X, Y, W, H> From<(X, Y, W, H)> for ViewBox
 where
-    Length: From<X> + From<Y> + From<W> + From<H>,
+    Number: From<X> + From<Y> + From<W> + From<H>,
 {
     fn from(value: (X, Y, W, H)) -> Self {
         Self {
@@ -117,7 +117,7 @@ where
 
 impl<X, Y, W, H, P> From<(X, Y, W, H, P)> for ViewBox
 where
-    Length: From<X> + From<Y> + From<W> + From<H>,
+    Number: From<X> + From<Y> + From<W> + From<H>,
     PreserveAspectRatio: From<P>,
 {
     fn from(value: (X, Y, W, H, P)) -> Self {

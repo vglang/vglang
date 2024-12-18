@@ -25,7 +25,7 @@ pub enum Context {
 pub enum Variable<T>
 where
     Value: From<T>,
-    T: TryFrom<Value, Error = Value>,
+    for<'a> &'a T: TryFrom<&'a Value, Error = &'a Value>,
 {
     /// Variable is a constant value.
     Constant(T),
@@ -38,7 +38,8 @@ where
 impl<T> Default for Variable<T>
 where
     Value: From<T>,
-    T: TryFrom<Value, Error = Value> + Default,
+    for<'a> &'a T: TryFrom<&'a Value, Error = &'a Value>,
+    T: Default,
 {
     fn default() -> Self {
         Self::Constant(T::default())

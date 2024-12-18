@@ -1,3 +1,5 @@
+use std::f32::consts::PI;
+
 /// Angles are specified in one of two ways depending upon
 /// whether they are used in CSS property syntax or SVG
 /// presentation attribute syntax:
@@ -13,6 +15,16 @@ pub enum Angle {
 impl Default for Angle {
     fn default() -> Self {
         Self::deg(0.0)
+    }
+}
+
+impl Angle {
+    pub fn as_deg(&self) -> f32 {
+        match self {
+            Angle::deg(v) => *v,
+            Angle::grad(v) => *v * 360.0 / 400.0,
+            Angle::rad(v) => *v * 180.0 / PI,
+        }
     }
 }
 

@@ -27,3 +27,6 @@ pub use shapes::*;
 
 mod font;
 pub use font::*;
+
+mod num;
+pub use num::*;
