@@ -1,6 +1,8 @@
 //! Defines the optimised intermediate instructions.
 
-use crate::operand::{Canvas, Fill, Font, Rect, Stroke, Text, TextLayout, TextSpan, Variable};
+use crate::operand::{
+    Canvas, Circle, Fill, Font, Rect, Stroke, Text, TextLayout, TextSpan, Transform, Variable,
+};
 
 /// Opcodes for vglang.
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -21,14 +23,31 @@ pub enum Opcode {
     /// Render a `rect` element.
     Rect(Box<Rect>),
 
+    /// Render a `circle` element.
+    Circle(Box<Circle>),
+
     /// Apply inheritable property `Font` to all children instructions.
     Font(Box<Font>),
 
     /// Apply inheritable property `TextLayout` to all children instructions.
     TextLayout(Box<TextLayout>),
 
+    Transform(Box<Variable<Transform>>),
+
     /// Popup elements, indicates that the popup elements ared fully rendered.
     Pop(usize),
+}
+
+impl From<Transform> for Opcode {
+    fn from(value: Transform) -> Self {
+        Self::Transform(Box::new(Variable::Constant(value)))
+    }
+}
+
+impl From<Circle> for Opcode {
+    fn from(value: Circle) -> Self {
+        Self::Circle(Box::new(value))
+    }
 }
 
 impl From<TextLayout> for Opcode {

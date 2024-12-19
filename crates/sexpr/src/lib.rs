@@ -9,6 +9,8 @@ mod shapes;
 
 mod text;
 
+mod transform;
+
 mod length;
 pub use length::*;
 

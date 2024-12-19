@@ -2,10 +2,10 @@ use std::{fmt::Debug, future::Future, pin::Pin, slice::Iter};
 
 use vglang_opcode::{
     operand::{
-        AlignmentBaseline, BaselineShift, Canvas, DominantBaseline, Fill, Font, FontStretch,
-        FontStyle, FontVariant, FontWeight, Paint, PreserveAspectRatio, Rect, RefBy, Stroke, Text,
-        TextAnchor, TextDirection, TextLayout, TextLengthAdjust, TextSpan, UnicodeBidi, Value,
-        Variable, WritingMode,
+        AlignmentBaseline, BaselineShift, Canvas, Circle, DominantBaseline, Fill, Font,
+        FontStretch, FontStyle, FontVariant, FontWeight, Paint, PreserveAspectRatio, Rect, RefBy,
+        Stroke, Text, TextAnchor, TextDirection, TextLayout, TextLengthAdjust, TextSpan, Transform,
+        UnicodeBidi, Value, Variable, WritingMode,
     },
     Opcode,
 };
@@ -125,6 +125,17 @@ impl<'a> SvgCreator<'a> {
 
         while let Some(opcode) = self.opcodes.next() {
             match opcode {
+                Opcode::Pop(n) => {
+                    for _ in 0..*n {
+                        let el = self.el_stack.pop().ok_or_else(|| {
+                            return Error::Pop(*n);
+                        })?;
+
+                        if let Some(parent) = self.el_stack.last_mut() {
+                            parent.append_child(el)?;
+                        }
+                    }
+                }
                 Opcode::Canvas(canvs) => {
                     let mut el = self.document.create_element("svg")?;
                     self.handle_canvas(&mut el, canvs)?;
@@ -153,24 +164,18 @@ impl<'a> SvgCreator<'a> {
                     self.handle_text_layout(&mut el, operand)?;
                     self.el_stack.push(el);
                 }
-                Opcode::Rect(operand) => {
-                    self.handle_rect(operand)?;
-                }
+
                 Opcode::Characters(operand) => {
                     let text = self.get_value(operand)?;
                     let text_node = self.document.create_text_node(text);
                     self.append_child(text_node)?;
                 }
-                Opcode::Pop(n) => {
-                    for _ in 0..*n {
-                        let el = self.el_stack.pop().ok_or_else(|| {
-                            return Error::Pop(*n);
-                        })?;
+                Opcode::Rect(operand) => self.handle_rect(operand)?,
+                Opcode::Circle(circle) => self.handle_circle(circle)?,
+                Opcode::Transform(transform) => {
+                    let transform = self.get_value(transform)?.clone();
 
-                        if let Some(parent) = self.el_stack.last_mut() {
-                            parent.append_child(el)?;
-                        }
-                    }
+                    self.handle_transform(&transform)?;
                 }
             }
         }
@@ -212,6 +217,16 @@ impl<'a> SvgCreator<'a> {
         Ok(())
     }
 
+    fn handle_transform(&mut self, transform: &Transform) -> Result<(), Error> {
+        let mut el = self.document.create_element("g")?;
+
+        el.set_attribute("transform", transform.to_string().as_str())?;
+
+        self.append_child(el)?;
+
+        Ok(())
+    }
+
     fn handle_rect(&mut self, rect: &Rect) -> Result<(), Error> {
         let mut node = self.document.create_element("rect")?;
 
@@ -228,6 +243,20 @@ impl<'a> SvgCreator<'a> {
         node.set_attribute("width", self.get_value(&rect.width)?.to_string().as_str())?;
 
         node.set_attribute("height", self.get_value(&rect.height)?.to_string().as_str())?;
+
+        self.append_child(node)?;
+
+        Ok(())
+    }
+
+    fn handle_circle(&mut self, circle: &Circle) -> Result<(), Error> {
+        let mut node = self.document.create_element("circle")?;
+
+        node.set_attribute("cx", self.get_value(&circle.cx)?.to_string().as_str())?;
+
+        node.set_attribute("cy", self.get_value(&circle.cy)?.to_string().as_str())?;
+
+        node.set_attribute("r", self.get_value(&circle.r)?.to_string().as_str())?;
 
         self.append_child(node)?;
 

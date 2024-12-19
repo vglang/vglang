@@ -1,7 +1,7 @@
 use super::{
     AlignmentBaseline, Angle, BaselineShift, DominantBaseline, FillRule, FontFamily, FontStretch,
     FontStyle, FontVariant, FontWeight, Length, Number, Paint, PreserveAspectRatio, Rgb,
-    StrokeLineCap, StrokeLineJoin, TextAnchor, TextLengthAdjust,
+    StrokeLineCap, StrokeLineJoin, TextAnchor, TextLengthAdjust, Transform,
 };
 
 /// Values passed by register.
@@ -31,6 +31,7 @@ pub enum Value {
     FontWeight(FontWeight),
     FontStretch(FontStretch),
     FontVariant(FontVariant),
+    Transform(Transform),
 }
 
 macro_rules! value_type {
@@ -70,6 +71,7 @@ macro_rules! value_type {
     };
 }
 
+value_type!(Transform);
 value_type!(FontVariant);
 value_type!(FontFamily);
 value_type!(FontStyle);
