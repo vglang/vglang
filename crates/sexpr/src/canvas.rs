@@ -1,10 +1,10 @@
 use vglang_opcode::operand::Canvas;
 use vglang_targets::Builder;
 
-use crate::{Graphic, WithContent};
+use crate::{Appliable, Graphic};
 
-impl WithContent for Canvas {
-    fn with_content<G, C>(self, graphic: C) -> impl Graphic<G>
+impl Appliable for Canvas {
+    fn apply<G, C>(self, graphic: C) -> impl Graphic<G>
     where
         C: Graphic<G>,
         G: Builder,

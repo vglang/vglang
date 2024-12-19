@@ -95,8 +95,9 @@ macro_rules! tuple_appliable {
                 G: Builder
             {
                 let ($header, $($tail),+) = self;
-                let graphic = $header.apply(graphic);
+
                 $(let graphic = $tail.apply(graphic);)+
+                let graphic = $header.apply(graphic);
 
                 graphic
             }
@@ -120,22 +121,4 @@ where
     C: Graphic<G>,
 {
     attrs.apply(target)
-}
-
-/// This trait defines a graphic element that may have one/more children elements.
-pub trait WithContent {
-    fn with_content<G, C>(self, graphic: C) -> impl Graphic<G>
-    where
-        C: Graphic<G>,
-        G: Builder;
-}
-
-/// apply graphic's content element.
-pub fn with_content<P, C, G>(parent: P, content: C) -> impl Graphic<G>
-where
-    P: WithContent,
-    G: Builder,
-    C: Graphic<G>,
-{
-    parent.with_content(content)
 }

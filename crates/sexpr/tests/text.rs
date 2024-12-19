@@ -1,6 +1,6 @@
 mod svg;
 use svg::svg;
-use vglang_sexpr::{apply, operand::*, with_content, Graphic, Slength};
+use vglang_sexpr::{apply, operand::*, Graphic, Slength};
 use vglang_svg::Builder;
 
 fn border<G>() -> impl Graphic<G>
@@ -20,20 +20,18 @@ where
 async fn test_viewbox() {
     svg(
         "stretch to fit",
-        with_content(
-            Canvas::from((300, 600)).viewbox((0, 0, 1500, 1000)),
+        apply(
+            (
+                Canvas::from((300, 600)).viewbox((0, 0, 1500, 1000)),
+                Fill::from(Color::black),
+                TextLayout::from(TextAnchor::Middle),
+                Font::from("Verdana").size(200),
+            ),
             (
                 border(),
                 apply(
-                    (
-                        Fill::from(Color::black),
-                        TextLayout::from(TextAnchor::Middle),
-                        Font::from("Verdana").size(200),
-                    ),
-                    with_content(
-                        Text::default().x(50.percent()).y(60.percent()),
-                        "Stretch to fit",
-                    ),
+                    Text::default().x(50.percent()).y(60.percent()),
+                    "Stretch to fit",
                 ),
             ),
         ),
@@ -42,24 +40,22 @@ async fn test_viewbox() {
 
     svg(
         "PreserveAspectRatio",
-        with_content(
-            Canvas::from((300, 600)).viewbox((
-                0,
-                0,
-                1500,
-                1000,
-                PreserveAspectRatio::xMinYMin(MeetOrSlice::Meet),
-            )),
+        apply(
+            (
+                Canvas::from((300, 600)).viewbox((
+                    0,
+                    0,
+                    1500,
+                    1000,
+                    PreserveAspectRatio::xMinYMin(MeetOrSlice::Meet),
+                )),
+                Fill::from(Color::black),
+                TextLayout::from(TextAnchor::Middle),
+                Font::from(FontFamily::from("Verdana")).size(200),
+            ),
             (
                 border(),
-                apply(
-                    (
-                        Fill::from(Color::black),
-                        TextLayout::from(TextAnchor::Middle),
-                        Font::from(FontFamily::from("Verdana")).size(200),
-                    ),
-                    with_content(Text::from((50.percent(), 60.percent())), "Stretch to fit"),
-                ),
+                apply(Text::from((50.percent(), 60.percent())), "Stretch to fit"),
             ),
         ),
     )
@@ -67,28 +63,31 @@ async fn test_viewbox() {
 
     svg(
         "tspan",
-        with_content(
-            Canvas::from((800, 600)),
-            apply(
-                (
-                    Font::from(3.em()),
-                    TextLayout::from(TextAnchor::Middle)
-                        .dominant_baseline(DominantBaseline::Hanging),
-                ),
-                (
-                    border(),
-                    with_content(
-                        Text::from((50.percent(), 50.percent())),
-                        (
-                            "You are",
-                            with_content(
-                                TextSpan::default()
-                                    .font(Font::from(FontWeight::Bolder).size(2.em()))
-                                    .fill(Color::red),
-                                " NOT(1)",
-                            ),
-                            " a banana",
+        apply(
+            (
+                Canvas::from((200, 400)).viewbox((
+                    0,
+                    0,
+                    1500,
+                    1000,
+                    PreserveAspectRatio::xMidYMid(MeetOrSlice::Meet),
+                )),
+                Font::from(3.em()),
+                TextLayout::from(TextAnchor::Middle).dominant_baseline(DominantBaseline::Hanging),
+            ),
+            (
+                border(),
+                apply(
+                    Text::from((50.percent(), 50.percent())),
+                    (
+                        "You are",
+                        apply(
+                            TextSpan::default()
+                                .font(Font::from(FontWeight::Bolder).size(2.em()))
+                                .fill(Color::red),
+                            " NOT(1)",
                         ),
+                        " a banana",
                     ),
                 ),
             ),
