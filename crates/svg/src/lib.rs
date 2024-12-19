@@ -217,16 +217,6 @@ impl<'a> SvgCreator<'a> {
         Ok(())
     }
 
-    fn handle_transform(&mut self, transform: &Transform) -> Result<(), Error> {
-        let mut el = self.document.create_element("g")?;
-
-        el.set_attribute("transform", transform.to_string().as_str())?;
-
-        self.append_child(el)?;
-
-        Ok(())
-    }
-
     fn handle_rect(&mut self, rect: &Rect) -> Result<(), Error> {
         let mut node = self.document.create_element("rect")?;
 
@@ -259,6 +249,16 @@ impl<'a> SvgCreator<'a> {
         node.set_attribute("r", self.get_value(&circle.r)?.to_string().as_str())?;
 
         self.append_child(node)?;
+
+        Ok(())
+    }
+
+    fn handle_transform(&mut self, transform: &Transform) -> Result<(), Error> {
+        let mut el = self.document.create_element("g")?;
+
+        el.set_attribute("transform", transform.to_string().as_str())?;
+
+        self.el_stack.push(el);
 
         Ok(())
     }

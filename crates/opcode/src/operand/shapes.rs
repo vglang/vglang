@@ -93,6 +93,19 @@ pub struct Circle {
     pub r: Variable<Length>,
 }
 
+impl<X, Y, R> From<(X, Y, R)> for Circle
+where
+    Length: From<X> + From<Y> + From<R>,
+{
+    fn from(value: (X, Y, R)) -> Self {
+        Self {
+            cx: Variable::Constant(value.0.into()),
+            cy: Variable::Constant(value.1.into()),
+            r: Variable::Constant(value.2.into()),
+        }
+    }
+}
+
 /// The ‘ellipse’ element defines an ellipse which is axis-aligned with the current user coordinate
 /// system based on a center point and two radii.
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]

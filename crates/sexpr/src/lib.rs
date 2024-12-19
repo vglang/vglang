@@ -10,6 +10,7 @@ mod shapes;
 mod text;
 
 mod transform;
+pub use transform::*;
 
 mod length;
 pub use length::*;
