@@ -16,6 +16,7 @@ async fn test_coords() {
     svg("aspect", aspect()).await;
 }
 
+/// See [`https://www.w3.org/TR/SVG11/coords.html#TransformAttribute`]
 fn aspect<G>() -> impl Graphic<G>
 where
     G: Builder,

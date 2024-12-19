@@ -130,17 +130,29 @@ impl Default for FontStretch {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Font {
     /// See [`FontFamily`]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub family: Option<Variable<FontFamily>>,
     /// See [`FontStyle`]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub style: Option<Variable<FontStyle>>,
     /// See [`FontVariant`]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub variant: Option<Variable<FontVariant>>,
     /// See [`FontWeight`]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub weight: Option<Variable<FontWeight>>,
     /// This property refers to the size of the font from baseline to baseline when multiple lines of
     /// text are set solid in a multiline layout environment.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub size: Option<Variable<Length>>,
     /// See [`FontStretch`]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub stretch: Option<Variable<FontStretch>>,
 }
 

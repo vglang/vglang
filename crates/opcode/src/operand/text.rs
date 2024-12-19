@@ -184,21 +184,29 @@ pub struct TextSpan {
     /// font properties.
     ///
     /// See [`Font`]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub font: Option<Font>,
 
     /// text layout properties.
     ///
     /// See [`TextLayout`]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub layout: Option<TextLayout>,
 
     /// fill properties.
     ///
     /// See [`Fill`]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub fill: Option<Fill>,
 
     /// Stroke properties.
     ///
     /// See [`Stroke`]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub stroke: Option<Stroke>,
 }
 

@@ -81,10 +81,14 @@ pub struct Fill {
     /// paints color.
     ///
     /// `Inherited: yes`
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub paint: Option<Variable<Paint>>,
     /// fill painting rule, see [`FillRule`] for more information.
     ///
     /// `Inherited: yes`
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub rule: Option<Variable<FillRule>>,
 }
 
@@ -108,20 +112,28 @@ pub struct Stroke {
     /// paints color paints along the outline of the given graphical element.
     ///
     /// `Inherited: yes`
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub paint: Option<Variable<Paint>>,
     /// This property specifies the width of the stroke on the current object
     ///
     /// `Inherited: yes`
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub width: Option<Variable<Length>>,
 
     /// specifies the shape to be used at the end of open subpaths when they are stroked.
     ///
     /// `Inherited: yes`
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub linecap: Option<Variable<StrokeLineCap>>,
 
     /// specifies the shape to be used at the corners of paths or basic shapes when they are stroked.
     ///
     /// `Inherited: yes`
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub linejoin: Option<Variable<StrokeLineJoin>>,
 
     /// controls the pattern of dashes and gaps used to stroke paths. `<dasharray>` contains a list of comma and/or
@@ -130,10 +142,14 @@ pub struct Stroke {
     /// Thus, stroke-dasharray: 5,3,2 is equivalent to stroke-dasharray: 5,3,2,5,3,2.
     ///
     /// `Inherited: yes`
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub dasharray: Option<Variable<Vec<Length>>>,
     /// specifies the distance into the dash pattern to start the dash
     ///
     /// `Inherited: yes`
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub dashoffset: Option<Variable<Length>>,
 }
 

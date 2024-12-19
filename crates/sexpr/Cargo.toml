@@ -18,6 +18,10 @@ vglang-svg = { workspace = true }
 divan = { workspace = true }
 futures-test = { workspace = true }
 heck = { workspace = true }
+serde_json = { workspace = true }
+bson = { workspace = true }
+rmp-serde = { workspace = true }
+serde = { workspace = true }
 
 [features]
 default = ["serde"]

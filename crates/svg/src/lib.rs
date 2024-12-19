@@ -65,7 +65,7 @@ impl Builder for SvgBuilder {
 
 /// A svg [`Program`] builder.
 #[derive(Default, Debug)]
-pub struct SvgProgram(Vec<Opcode>);
+pub struct SvgProgram(pub Vec<Opcode>);
 
 impl Program for SvgProgram {
     type Output = String;
