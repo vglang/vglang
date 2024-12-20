@@ -127,3 +127,27 @@ pub struct Path {
     /// A negative value is an error (see Error processing).
     pub length: Variable<Length>,
 }
+
+#[cfg(feature = "sexpr")]
+mod sexpr {
+    use crate::{tuple_map_collect, MapCollect};
+
+    use super::*;
+
+    impl<T> From<T> for Path
+    where
+        T: MapCollect<PathEvent>,
+    {
+        fn from(value: T) -> Self {
+            Self {
+                data: value.map_collect(),
+                ..Default::default()
+            }
+        }
+    }
+
+    tuple_map_collect!(
+        PathEvent, A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17,
+        A18, A19
+    );
+}

@@ -2,12 +2,12 @@ mod tester;
 
 use tester::{border, svg};
 use vglang_sexpr::{
-    apply, arc, move_to,
+    apply,
     operand::{
-        Canvas, Circle, Color, Fill, Font, MeetOrSlice, Path, PreserveAspectRatio, Rect, Stroke,
-        Text, Transform,
+        Canvas, Circle, Color, Fill, Font, MeetOrSlice, Path, PathEvent, PreserveAspectRatio, Rect,
+        Stroke, Text, Transform,
     },
-    FromPathEventBuilder, Graphic, Stranslate,
+    Graphic, Stranslate,
 };
 use vglang_svg::Builder;
 
@@ -36,10 +36,17 @@ where
                     apply(Fill::from(Color::black), Circle::from((17, 12, 1.5))),
                     apply(
                         Stroke::from(Color::black).width(2),
-                        Path::from_events((
-                            move_to((10, 19)),
-                            move_to((10, 19)),
-                            arc(8, 8, 0, false, false, (20, 19)),
+                        Path::from((
+                            PathEvent::MoveTo((10, 19).into()),
+                            PathEvent::MoveTo((10, 19).into()),
+                            PathEvent::Arc {
+                                rx: 8.0,
+                                ry: 8.0,
+                                x_rotation: 0.0,
+                                sweep: false,
+                                large_arc: false,
+                                to: (20, 19).into(),
+                            },
                         )),
                     ),
                 ),

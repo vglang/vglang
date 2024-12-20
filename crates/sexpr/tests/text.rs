@@ -4,7 +4,7 @@ use tester::*;
 use vglang_sexpr::{
     apply, cubic_bezier, move_to,
     operand::{Canvas, Color, Fill, Font, Id, Path, Stroke, Text, TextPath, Use},
-    FromPathEventBuilder, Graphic, Slength,
+    Graphic, Slength,
 };
 use vglang_svg::Builder;
 
@@ -22,8 +22,8 @@ where
             border(998, 298),
             apply(
                 Id::from("MyPath"),
-                Path::from_events((
-                    move_to((100, 200)),
+                Path::from((
+                    move_to(100, 200),
                     cubic_bezier((200, 100), (300, 0), (400, 100)),
                     cubic_bezier((500, 200), (600, 300), (700, 200)),
                     cubic_bezier((800, 100), (900, 100), (900, 100)),
