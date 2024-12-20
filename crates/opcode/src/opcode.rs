@@ -1,7 +1,7 @@
 //! Defines the optimised intermediate instructions.
 
 use crate::operand::{
-    Canvas, Circle, Fill, Font, Rect, Stroke, Text, TextLayout, TextSpan, Transform, Variable,
+    Canvas, Circle, Fill, Font, Path, Rect, Stroke, Text, TextLayout, TextSpan, Transform, Variable,
 };
 
 /// Opcodes for vglang.
@@ -34,8 +34,16 @@ pub enum Opcode {
 
     Transform(Box<Variable<Transform>>),
 
+    Path(Box<Path>),
+
     /// Popup elements, indicates that the popup elements ared fully rendered.
     Pop(usize),
+}
+
+impl From<Path> for Opcode {
+    fn from(value: Path) -> Self {
+        Self::Path(Box::new(value))
+    }
 }
 
 impl From<Transform> for Opcode {

@@ -3,9 +3,9 @@ use std::{fmt::Debug, future::Future, pin::Pin, slice::Iter};
 use vglang_opcode::{
     operand::{
         AlignmentBaseline, BaselineShift, Canvas, Circle, DominantBaseline, Fill, Font,
-        FontStretch, FontStyle, FontVariant, FontWeight, Paint, PreserveAspectRatio, Rect, RefBy,
-        Stroke, Text, TextAnchor, TextDirection, TextLayout, TextLengthAdjust, TextSpan, Transform,
-        UnicodeBidi, Value, Variable, WritingMode,
+        FontStretch, FontStyle, FontVariant, FontWeight, Paint, Path, PreserveAspectRatio, Rect,
+        RefBy, Stroke, Text, TextAnchor, TextDirection, TextLayout, TextLengthAdjust, TextSpan,
+        Transform, UnicodeBidi, Value, Variable, WritingMode,
     },
     Opcode,
 };
@@ -28,6 +28,9 @@ pub enum Error {
 
     #[error("Unsatisfied register name")]
     Register(String),
+
+    #[error(transparent)]
+    FormatError(#[from] std::fmt::Error),
 }
 
 /// A target output rendering result to svg image.
@@ -170,13 +173,15 @@ impl<'a> SvgCreator<'a> {
                     let text_node = self.document.create_text_node(text);
                     self.append_child(text_node)?;
                 }
-                Opcode::Rect(operand) => self.handle_rect(operand)?,
-                Opcode::Circle(circle) => self.handle_circle(circle)?,
                 Opcode::Transform(transform) => {
                     let transform = self.get_value(transform)?.clone();
 
                     self.handle_transform(&transform)?;
                 }
+                Opcode::Rect(operand) => self.handle_rect(operand)?,
+                Opcode::Circle(circle) => self.handle_circle(circle)?,
+
+                Opcode::Path(path) => self.handle_path(path)?,
             }
         }
 
@@ -213,6 +218,23 @@ impl<'a> SvgCreator<'a> {
                 return Error::Pop(1);
             })?
             .append_child(el)?;
+
+        Ok(())
+    }
+
+    fn handle_path(&mut self, path: &Path) -> Result<(), Error> {
+        let mut node = self.document.create_element("path")?;
+
+        let data = path
+            .data
+            .iter()
+            .map(|v| v.to_string())
+            .collect::<Vec<_>>()
+            .join(" ");
+
+        node.set_attribute("d", &data)?;
+
+        self.append_child(node)?;
 
         Ok(())
     }

@@ -18,6 +18,18 @@ impl Default for Angle {
     }
 }
 
+impl From<i32> for Angle {
+    fn from(value: i32) -> Self {
+        Self::deg(value as f32)
+    }
+}
+
+impl From<f32> for Angle {
+    fn from(value: f32) -> Self {
+        Self::deg(value)
+    }
+}
+
 impl Angle {
     pub fn as_deg(&self) -> f32 {
         match self {

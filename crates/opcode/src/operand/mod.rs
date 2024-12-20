@@ -36,3 +36,6 @@ pub use transform::*;
 
 mod path;
 pub use path::*;
+
+mod point;
+pub use point::*;

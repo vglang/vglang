@@ -1,11 +1,11 @@
 use svg::svg;
 use vglang_sexpr::{
-    apply,
+    apply, arc, move_to,
     operand::{
         Canvas, Circle, Color, Fill, Font, MeetOrSlice, PreserveAspectRatio, Rect, Stroke, Text,
         Transform,
     },
-    Graphic, Stranslate,
+    path, Graphic, Stranslate,
 };
 use vglang_svg::Builder;
 
@@ -34,6 +34,14 @@ where
                     apply(Fill::from(Color::yellow), Circle::from((15, 15, 10))),
                     apply(Fill::from(Color::black), Circle::from((12, 12, 1.5))),
                     apply(Fill::from(Color::black), Circle::from((17, 12, 1.5))),
+                    apply(
+                        Stroke::from(Color::black).width(2),
+                        path((
+                            move_to((10, 19)),
+                            move_to((10, 19)),
+                            arc(8, 8, 0, false, false, (20, 19)),
+                        )),
+                    ),
                 ),
             ),
         )

@@ -4,7 +4,7 @@ use std::fmt::Display;
 ///
 /// See [`length`](https://www.w3.org/TR/SVG11/types.html#DataTypeLength)
 #[allow(non_camel_case_types)]
-#[derive(Debug, Clone, PartialEq, PartialOrd)]
+#[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Length {
     /// Represents the calculated font-size of the element. If used on the font-size property itself,
