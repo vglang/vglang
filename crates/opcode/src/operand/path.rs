@@ -7,26 +7,46 @@ use super::{Length, Point, Variable};
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum PathEvent {
     // (absolute) Start a new sub-path at the given (x,y) coordinate.
-    MoveTo(Point),
+    MoveTo(Point, bool),
     /// Close the current subpath by drawing a straight line from the current point to current subpath's initial point.
     Close,
-    /// Draw a line from the current point to the given (x,y) coordinate which becomes the new current point.
-    LineTo(Point),
-    /// Draw a polyline. At the end of the command, the new current point is set to the final set of coordinates provided.
-    Polyline(Vec<Point>),
-
+    /// (absolute) Draw a line from the current point to the given (x,y) coordinate which becomes the new current point.
+    LineTo(Point, bool),
+    /// (absolute) Draw a polyline. At the end of the command, the new current point is set to the final set of coordinates provided.
+    Polyline(Vec<Point>, bool),
     /// Draws a cubic Bézier curve from the current point to `to` point,
     /// using `ctrl1` as the control point at the beginning of the curve and `ctrl2` as the control point at the end of the curve.
     CubicBezier {
         ctrl1: Point,
         ctrl2: Point,
         to: Point,
+        relative: bool,
+    },
+
+    /// Draws a cubic Bézier curve from the current point to `to` point,
+    /// using `ctrl1` as the control point at the beginning of the curve and `ctrl2` as the control point at the end of the curve.
+    CubicBezierSmooth {
+        ctrl2: Point,
+        to: Point,
+        relative: bool,
     },
 
     /// Draws a quadratic Bézier curve from the current point to `to` point using `ctrl` as the control point.
     QuadraticBezier {
         ctrl: Point,
         to: Point,
+        relative: bool,
+    },
+
+    /// Draws a quadratic Bézier curve from the current point to (x,y). The control point is assumed to be the reflection
+    /// of the control point on the previous command relative to the current point. (If there is no previous command or
+    /// if the previous command was not a Q, q, T or t, assume the control point is coincident with the current point.)
+    /// T (uppercase) indicates that absolute coordinates will follow; t (lowercase) indicates that relative coordinates
+    /// will follow. At the end of the command, the new current point becomes the final (x,y) coordinate pair used in the
+    /// polybézier.
+    QuadraticBezierSmooth {
+        to: Point,
+        relative: bool,
     },
 
     /// Draws an elliptical arc from the current point to `to` point.
@@ -48,40 +68,77 @@ pub enum PathEvent {
         sweep: bool,
         /// Draws an elliptical arc from the current point to `to` point.
         to: Point,
+        relative: bool,
     },
 }
 
 impl Display for PathEvent {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            PathEvent::MoveTo(point) => {
-                write!(f, "M{},{}", point.x, point.y)
+            PathEvent::MoveTo(point, relative) => {
+                if *relative {
+                    write!(f, "m{},{}", point.x, point.y)
+                } else {
+                    write!(f, "M{},{}", point.x, point.y)
+                }
             }
             PathEvent::Close => {
                 write!(f, "Z")
             }
-            PathEvent::LineTo(point) => {
-                write!(f, "L{},{}", point.x, point.y)
+            PathEvent::LineTo(point, relative) => {
+                if *relative {
+                    write!(f, "l{},{}", point.x, point.y)
+                } else {
+                    write!(f, "L{},{}", point.x, point.y)
+                }
             }
-            PathEvent::Polyline(vec) => {
-                write!(
-                    f,
-                    "L{}",
-                    vec.iter()
-                        .map(|v| format!("{},{}", v.x, v.y))
-                        .collect::<Vec<_>>()
-                        .join(" ")
-                )
+            PathEvent::Polyline(vec, relative) => {
+                if *relative {
+                    write!(
+                        f,
+                        "l{}",
+                        vec.iter()
+                            .map(|v| format!("{},{}", v.x, v.y))
+                            .collect::<Vec<_>>()
+                            .join(" ")
+                    )
+                } else {
+                    write!(
+                        f,
+                        "L{}",
+                        vec.iter()
+                            .map(|v| format!("{},{}", v.x, v.y))
+                            .collect::<Vec<_>>()
+                            .join(" ")
+                    )
+                }
             }
-            PathEvent::CubicBezier { ctrl1, ctrl2, to } => {
-                write!(
-                    f,
-                    "C{},{} {},{} {},{}",
-                    ctrl1.x, ctrl1.y, ctrl2.x, ctrl2.y, to.x, to.y
-                )
+            PathEvent::CubicBezier {
+                ctrl1,
+                ctrl2,
+                to,
+                relative,
+            } => {
+                if *relative {
+                    write!(
+                        f,
+                        "c{},{} {},{} {},{}",
+                        ctrl1.x, ctrl1.y, ctrl2.x, ctrl2.y, to.x, to.y
+                    )
+                } else {
+                    write!(
+                        f,
+                        "C{},{} {},{} {},{}",
+                        ctrl1.x, ctrl1.y, ctrl2.x, ctrl2.y, to.x, to.y
+                    )
+                }
             }
-            PathEvent::QuadraticBezier { ctrl, to } => {
-                write!(f, "Q{},{} {},{}", ctrl.x, ctrl.y, to.x, to.y)
+            PathEvent::QuadraticBezier { ctrl, to, relative } => {
+                if *relative {
+                    write!(f, "q{},{} {},{}", ctrl.x, ctrl.y, to.x, to.y)
+                } else {
+                    write!(f, "Q{},{} {},{}", ctrl.x, ctrl.y, to.x, to.y)
+                }
             }
             PathEvent::Arc {
                 rx,
@@ -90,18 +147,51 @@ impl Display for PathEvent {
                 large_arc,
                 sweep,
                 to,
+                relative,
             } => {
-                write!(
-                    f,
-                    "A{},{} {} {},{} {},{}",
-                    *rx,
-                    *ry,
-                    *x_rotation,
-                    if *large_arc { 1 } else { 0 },
-                    if *sweep { 1 } else { 0 },
-                    to.x,
-                    to.y
-                )
+                if *relative {
+                    write!(
+                        f,
+                        "a{},{} {} {},{} {},{}",
+                        *rx,
+                        *ry,
+                        *x_rotation,
+                        if *large_arc { 1 } else { 0 },
+                        if *sweep { 1 } else { 0 },
+                        to.x,
+                        to.y
+                    )
+                } else {
+                    write!(
+                        f,
+                        "A{},{} {} {},{} {},{}",
+                        *rx,
+                        *ry,
+                        *x_rotation,
+                        if *large_arc { 1 } else { 0 },
+                        if *sweep { 1 } else { 0 },
+                        to.x,
+                        to.y
+                    )
+                }
+            }
+            PathEvent::CubicBezierSmooth {
+                ctrl2,
+                to,
+                relative,
+            } => {
+                if *relative {
+                    write!(f, "s{},{} {},{}", ctrl2.x, ctrl2.y, to.x, to.y)
+                } else {
+                    write!(f, "S{},{} {},{}", ctrl2.x, ctrl2.y, to.x, to.y)
+                }
+            }
+            PathEvent::QuadraticBezierSmooth { to, relative } => {
+                if *relative {
+                    write!(f, "t{},{}", to.x, to.y)
+                } else {
+                    write!(f, "T{},{}", to.x, to.y)
+                }
             }
         }
     }

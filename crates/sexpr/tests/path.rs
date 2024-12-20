@@ -1,11 +1,11 @@
 mod tester;
 use tester::{border, svg};
 use vglang_sexpr::{
-    apply, close, cubic_bezier, line_to, move_to,
+    apply, close, cubic_bezier, cubic_bezier_smooth, line_to, line_to_relative, move_to,
     operand::{
         Canvas, Circle, Color, Fill, Font, Id, Path, Polyline, Rect, Rgb, Stroke, Text, Use,
     },
-    quadratic_bezier, Graphic, Slength,
+    quadratic_bezier, quadratic_bezier_smooth, Graphic, Slength,
 };
 use vglang_svg::Builder;
 
@@ -52,13 +52,13 @@ where
                     move_to(600, 350),
                     line_to(650, 325),
                     vglang_sexpr::arc(25, 25, -30, false, true, (700, 300)),
-                    line_to(750, 275),
+                    line_to_relative(50, -25),
                     vglang_sexpr::arc(25, 50, -30, false, true, (800, 250)),
-                    line_to(850, 225),
+                    line_to_relative(50, -25),
                     vglang_sexpr::arc(25, 75, -30, false, true, (900, 200)),
-                    line_to(950, 175),
+                    line_to_relative(50, -25),
                     vglang_sexpr::arc(25, 100, -30, false, true, (1000, 150)),
-                    line_to(1050, 125),
+                    line_to_relative(50, -25),
                 )),
             ),
         ),
@@ -78,7 +78,7 @@ where
                 Path::from((
                     move_to(200, 300),
                     quadratic_bezier((400, 50), (600, 300)),
-                    quadratic_bezier((800, 550), (1000, 300)),
+                    quadratic_bezier_smooth((1000, 300)),
                 )),
             ),
             apply(
@@ -219,7 +219,7 @@ where
             sample_path_style(Path::from((
                 move_to(100, 200),
                 cubic_bezier((100, 100), (250, 100), (250, 200)),
-                cubic_bezier((250, 300), (400, 300), (400, 200)),
+                cubic_bezier_smooth((400, 300), (400, 200)),
             ))),
             connect_style((
                 Polyline::from((100, 200, 100, 100)),

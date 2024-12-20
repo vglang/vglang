@@ -2,10 +2,10 @@ mod tester;
 
 use tester::{border, svg};
 use vglang_sexpr::{
-    apply,
+    apply, arc, move_to,
     operand::{
-        Canvas, Circle, Color, Fill, Font, MeetOrSlice, Path, PathEvent, PreserveAspectRatio, Rect,
-        Stroke, Text, Transform,
+        Canvas, Circle, Color, Fill, Font, MeetOrSlice, Path, PreserveAspectRatio, Rect, Stroke,
+        Text, Transform,
     },
     Graphic, Stranslate,
 };
@@ -37,16 +37,9 @@ where
                     apply(
                         Stroke::from(Color::black).width(2),
                         Path::from((
-                            PathEvent::MoveTo((10, 19).into()),
-                            PathEvent::MoveTo((10, 19).into()),
-                            PathEvent::Arc {
-                                rx: 8.0,
-                                ry: 8.0,
-                                x_rotation: 0.0,
-                                sweep: false,
-                                large_arc: false,
-                                to: (20, 19).into(),
-                            },
+                            move_to(10, 19),
+                            move_to(10, 19),
+                            arc(8.0, 8.0, 0, false, false, (20, 19)),
                         )),
                     ),
                 ),
