@@ -17,6 +17,11 @@ impl From<Color> for Paint {
         Self::Color(value.into())
     }
 }
+impl From<Rgb> for Paint {
+    fn from(value: Rgb) -> Self {
+        Self::Color(value)
+    }
+}
 
 //// The ‘fill-rule’ property indicates the algorithm which is to be used to determine what parts of the canvas are
 //// included inside the shape. For a simple, non-intersecting path, it is intuitively clear what region lies "inside";

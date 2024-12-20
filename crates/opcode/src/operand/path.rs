@@ -55,20 +55,20 @@ impl Display for PathEvent {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             PathEvent::MoveTo(point) => {
-                write!(f, "M {} {}", point.x, point.y)
+                write!(f, "M{},{}", point.x, point.y)
             }
             PathEvent::Close => {
                 write!(f, "Z")
             }
             PathEvent::LineTo(point) => {
-                write!(f, "L {} {}", point.x, point.y)
+                write!(f, "L{},{}", point.x, point.y)
             }
             PathEvent::Polyline(vec) => {
                 write!(
                     f,
-                    "L {}",
+                    "L{}",
                     vec.iter()
-                        .map(|v| format!("{} {}", v.x, v.y))
+                        .map(|v| format!("{},{}", v.x, v.y))
                         .collect::<Vec<_>>()
                         .join(" ")
                 )
@@ -76,12 +76,12 @@ impl Display for PathEvent {
             PathEvent::CubicBezier { ctrl1, ctrl2, to } => {
                 write!(
                     f,
-                    "C {} {} {} {} {} {}",
+                    "C{},{} {},{} {},{}",
                     ctrl1.x, ctrl1.y, ctrl2.x, ctrl2.y, to.x, to.y
                 )
             }
             PathEvent::QuadraticBezier { ctrl, to } => {
-                write!(f, "Q {} {} {} {}", ctrl.x, ctrl.y, to.x, to.y)
+                write!(f, "Q{},{} {},{}", ctrl.x, ctrl.y, to.x, to.y)
             }
             PathEvent::Arc {
                 rx,
@@ -93,7 +93,7 @@ impl Display for PathEvent {
             } => {
                 write!(
                     f,
-                    "A {} {} {} {} {} {} {}",
+                    "A{},{} {} {},{} {},{}",
                     *rx,
                     *ry,
                     *x_rotation,

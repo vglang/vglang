@@ -1,4 +1,6 @@
-use super::{Length, Variable};
+use crate::MapCollect;
+
+use super::{Length, Point, Variable};
 
 /// The ‘rect’ element defines a rectangle which is axis-aligned with the current user coordinate system.
 /// Rounded rectangles can be achieved by setting appropriate values for attributes ‘rx’ and ‘ry’.
@@ -167,4 +169,23 @@ pub struct Line {
     ///
     /// Animatable: yes.
     pub y2: Variable<Length>,
+}
+
+/// The ‘polygon’ element defines a closed shape consisting of a set of connected straight line segments.
+#[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct Polyline(
+    /// The points that make up the polygon. All coordinate values are in the user coordinate system.
+    ///
+    /// Animatable: yes.
+    pub Variable<Vec<Point>>,
+);
+
+impl<T> From<T> for Polyline
+where
+    T: MapCollect<Point>,
+{
+    fn from(value: T) -> Self {
+        Self(Variable::Constant(value.map_collect()))
+    }
 }

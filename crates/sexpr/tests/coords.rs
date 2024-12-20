@@ -1,15 +1,15 @@
-use svg::svg;
+mod tester;
+
+use tester::{border, svg};
 use vglang_sexpr::{
     apply, arc, move_to,
     operand::{
-        Canvas, Circle, Color, Fill, Font, MeetOrSlice, PreserveAspectRatio, Rect, Stroke, Text,
-        Transform,
+        Canvas, Circle, Color, Fill, Font, MeetOrSlice, Path, PreserveAspectRatio, Rect, Stroke,
+        Text, Transform,
     },
-    path, Graphic, Stranslate,
+    FromPathEventBuilder, Graphic, Stranslate,
 };
 use vglang_svg::Builder;
-
-mod svg;
 
 #[futures_test::test]
 async fn test_coords() {
@@ -36,7 +36,7 @@ where
                     apply(Fill::from(Color::black), Circle::from((17, 12, 1.5))),
                     apply(
                         Stroke::from(Color::black).width(2),
-                        path((
+                        Path::from_events((
                             move_to((10, 19)),
                             move_to((10, 19)),
                             arc(8, 8, 0, false, false, (20, 19)),
@@ -191,10 +191,7 @@ where
             Font::from(9),
         ),
         (
-            apply(
-                (Stroke::from(Color::blue), Fill::default()),
-                Rect::from((1, 1, 448, 298)),
-            ),
+            border(448, 298),
             apply(Text::default().x(10).y(30), "SVG to fit"),
             apply((20, 40).translate(), smile()),
             apply((10, 120).translate(), viewport_1()),

@@ -3,9 +3,10 @@ use std::{fmt::Debug, future::Future, pin::Pin, slice::Iter};
 use vglang_opcode::{
     operand::{
         AlignmentBaseline, BaselineShift, Canvas, Circle, DominantBaseline, Fill, Font,
-        FontStretch, FontStyle, FontVariant, FontWeight, Paint, Path, PreserveAspectRatio, Rect,
-        RefBy, Stroke, Text, TextAnchor, TextDirection, TextLayout, TextLengthAdjust, TextSpan,
-        Transform, UnicodeBidi, Value, Variable, WritingMode,
+        FontStretch, FontStyle, FontVariant, FontWeight, Paint, Path, Polyline,
+        PreserveAspectRatio, Rect, RefBy, Stroke, Text, TextAnchor, TextDirection, TextLayout,
+        TextLengthAdjust, TextPath, TextSpan, Transform, UnicodeBidi, Use, Value, Variable,
+        WritingMode,
     },
     Opcode,
 };
@@ -102,6 +103,7 @@ impl Program for SvgProgram {
                 el_stack: vec![root_element],
                 opcodes: self.0.iter(),
                 registers,
+                id: Default::default(),
             }
             .create()
         })
@@ -114,6 +116,7 @@ struct SvgCreator<'a> {
     registers: &'a std::collections::HashMap<String, Value>,
     document: RefNode,
     el_stack: Vec<RefNode>,
+    id: Option<String>,
 }
 
 impl<'a> SvgCreator<'a> {
@@ -128,6 +131,11 @@ impl<'a> SvgCreator<'a> {
 
         while let Some(opcode) = self.opcodes.next() {
             match opcode {
+                Opcode::Define(id) => {
+                    self.id = Some(id.0.clone());
+                    let el = self.document.create_element("defs")?;
+                    self.el_stack.push(el);
+                }
                 Opcode::Pop(n) => {
                     for _ in 0..*n {
                         let el = self.el_stack.pop().ok_or_else(|| {
@@ -141,36 +149,39 @@ impl<'a> SvgCreator<'a> {
                 }
                 Opcode::Canvas(canvs) => {
                     let mut el = self.document.create_element("svg")?;
+                    self.append_id(&mut el)?;
                     self.handle_canvas(&mut el, canvs)?;
                     self.el_stack.push(el);
                 }
-
-                Opcode::Text(operand) => self.handle_text(operand)?,
-                Opcode::TextSpan(operand) => self.handle_text_span(operand)?,
                 Opcode::Fill(operand) => {
                     let mut el = self.document.create_element("g")?;
+                    self.append_id(&mut el)?;
                     self.handle_fill(&mut el, operand)?;
                     self.el_stack.push(el);
                 }
                 Opcode::Stroke(operand) => {
                     let mut el = self.document.create_element("g")?;
+                    self.append_id(&mut el)?;
                     self.handle_stroke(&mut el, operand)?;
                     self.el_stack.push(el);
                 }
                 Opcode::Font(operand) => {
                     let mut el = self.document.create_element("g")?;
+                    self.append_id(&mut el)?;
                     self.handle_font(&mut el, operand)?;
                     self.el_stack.push(el);
                 }
                 Opcode::TextLayout(operand) => {
                     let mut el = self.document.create_element("g")?;
+                    self.append_id(&mut el)?;
                     self.handle_text_layout(&mut el, operand)?;
                     self.el_stack.push(el);
                 }
 
                 Opcode::Characters(operand) => {
                     let text = self.get_value(operand)?;
-                    let text_node = self.document.create_text_node(text);
+                    let mut text_node = self.document.create_text_node(text);
+                    self.append_id(&mut text_node)?;
                     self.append_child(text_node)?;
                 }
                 Opcode::Transform(transform) => {
@@ -178,14 +189,27 @@ impl<'a> SvgCreator<'a> {
 
                     self.handle_transform(&transform)?;
                 }
+                Opcode::Text(operand) => self.handle_text(operand)?,
+                Opcode::TextSpan(operand) => self.handle_text_span(operand)?,
+                Opcode::TextPath(operand) => self.handle_text_path(operand)?,
                 Opcode::Rect(operand) => self.handle_rect(operand)?,
                 Opcode::Circle(circle) => self.handle_circle(circle)?,
 
                 Opcode::Path(path) => self.handle_path(path)?,
+                Opcode::Polyline(polyline) => self.handle_polyline(polyline)?,
+                Opcode::Use(v) => self.handle_use(v)?,
             }
         }
 
         Ok(self.document.to_string())
+    }
+
+    fn append_id(&mut self, el: &mut RefNode) -> Result<(), Error> {
+        if let Some(id) = self.id.take() {
+            el.set_attribute("id", &id)?;
+        }
+
+        Ok(())
     }
 
     /// get variable referenced value.
@@ -222,8 +246,41 @@ impl<'a> SvgCreator<'a> {
         Ok(())
     }
 
+    fn handle_use(&mut self, v: &Use) -> Result<(), Error> {
+        let mut node = self.document.create_element("use")?;
+
+        self.append_id(&mut node)?;
+
+        node.set_attribute("xlink:href", &format!("#{}", v.0))?;
+
+        self.append_child(node)?;
+
+        Ok(())
+    }
+
+    fn handle_polyline(&mut self, polyline: &Polyline) -> Result<(), Error> {
+        let mut node = self.document.create_element("polyline")?;
+
+        self.append_id(&mut node)?;
+
+        let data = self
+            .get_value(&polyline.0)?
+            .iter()
+            .map(|v| format!("{},{}", v.x, v.y))
+            .collect::<Vec<_>>()
+            .join(" ");
+
+        node.set_attribute("points", &data)?;
+
+        self.append_child(node)?;
+
+        Ok(())
+    }
+
     fn handle_path(&mut self, path: &Path) -> Result<(), Error> {
         let mut node = self.document.create_element("path")?;
+
+        self.append_id(&mut node)?;
 
         let data = path
             .data
@@ -241,6 +298,8 @@ impl<'a> SvgCreator<'a> {
 
     fn handle_rect(&mut self, rect: &Rect) -> Result<(), Error> {
         let mut node = self.document.create_element("rect")?;
+
+        self.append_id(&mut node)?;
 
         node.set_attribute("x", self.get_value(&rect.x)?.to_string().as_str())?;
 
@@ -264,6 +323,8 @@ impl<'a> SvgCreator<'a> {
     fn handle_circle(&mut self, circle: &Circle) -> Result<(), Error> {
         let mut node = self.document.create_element("circle")?;
 
+        self.append_id(&mut node)?;
+
         node.set_attribute("cx", self.get_value(&circle.cx)?.to_string().as_str())?;
 
         node.set_attribute("cy", self.get_value(&circle.cy)?.to_string().as_str())?;
@@ -278,6 +339,8 @@ impl<'a> SvgCreator<'a> {
     fn handle_transform(&mut self, transform: &Transform) -> Result<(), Error> {
         let mut el = self.document.create_element("g")?;
 
+        self.append_id(&mut el)?;
+
         el.set_attribute("transform", transform.to_string().as_str())?;
 
         self.el_stack.push(el);
@@ -287,6 +350,8 @@ impl<'a> SvgCreator<'a> {
 
     fn handle_text(&mut self, text: &Text) -> Result<(), Error> {
         let mut el = self.document.create_element("text")?;
+
+        self.append_id(&mut el)?;
 
         let x = self
             .get_value(&text.x)?
@@ -360,8 +425,32 @@ impl<'a> SvgCreator<'a> {
         Ok(())
     }
 
+    fn handle_text_path(&mut self, text_path: &TextPath) -> Result<(), Error> {
+        let mut el = self.document.create_element("textPath")?;
+
+        el.set_attribute(
+            "startOffset",
+            &self.get_value(&text_path.start_offset)?.to_string(),
+        )?;
+
+        el.set_attribute("method", &self.get_value(&text_path.method)?.to_string())?;
+        el.set_attribute("spacing", &self.get_value(&text_path.spacing)?.to_string())?;
+
+        el.set_attribute(
+            "xlink:href",
+            &format!("#{}", &self.get_value(&text_path.href)?),
+        )?;
+
+        self.append_id(&mut el)?;
+
+        self.el_stack.push(el);
+        Ok(())
+    }
+
     fn handle_text_span(&mut self, text: &TextSpan) -> Result<(), Error> {
         let mut el = self.document.create_element("tspan")?;
+
+        self.append_id(&mut el)?;
 
         let x = self
             .get_value(&text.x)?

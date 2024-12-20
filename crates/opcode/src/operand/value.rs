@@ -1,7 +1,8 @@
 use super::{
     AlignmentBaseline, Angle, BaselineShift, DominantBaseline, FillRule, FontFamily, FontStretch,
-    FontStyle, FontVariant, FontWeight, Length, Number, Paint, PreserveAspectRatio, Rgb,
-    StrokeLineCap, StrokeLineJoin, TextAnchor, TextLengthAdjust, Transform,
+    FontStyle, FontVariant, FontWeight, Length, Number, Paint, Point, PreserveAspectRatio, Rgb,
+    StrokeLineCap, StrokeLineJoin, TextAnchor, TextLengthAdjust, TextPathMethod, TextPathSpacing,
+    Transform,
 };
 
 /// Values passed by register.
@@ -12,7 +13,7 @@ pub enum Value {
     Number(Number),
     TextLengthAdjust(TextLengthAdjust),
     Length(Length),
-    LengthList(Vec<Length>),
+    LengthList(Box<Vec<Length>>),
     Angle(Angle),
     AngleList(Vec<Angle>),
     ListOf(Box<Vec<Value>>),
@@ -32,6 +33,9 @@ pub enum Value {
     FontStretch(FontStretch),
     FontVariant(FontVariant),
     Transform(Transform),
+    PointList(Box<Vec<Point>>),
+    TextPathMethod(TextPathMethod),
+    TextPathSpacing(TextPathSpacing),
 }
 
 macro_rules! value_type {
@@ -71,6 +75,8 @@ macro_rules! value_type {
     };
 }
 
+value_type!(TextPathSpacing);
+value_type!(TextPathMethod);
 value_type!(Transform);
 value_type!(FontVariant);
 value_type!(FontFamily);
@@ -110,7 +116,7 @@ impl<'a> TryFrom<&'a Value> for &'a String {
 
 impl From<Vec<Length>> for Value {
     fn from(value: Vec<Length>) -> Self {
-        Self::LengthList(value)
+        Self::LengthList(Box::new(value))
     }
 }
 
@@ -119,6 +125,22 @@ impl<'a> TryFrom<&'a Value> for &'a Vec<Length> {
     fn try_from(value: &'a Value) -> Result<Self, Self::Error> {
         match value {
             Value::LengthList(v) => Ok(v),
+            _ => Err(value),
+        }
+    }
+}
+
+impl From<Vec<Point>> for Value {
+    fn from(value: Vec<Point>) -> Self {
+        Self::PointList(Box::new(value))
+    }
+}
+
+impl<'a> TryFrom<&'a Value> for &'a Vec<Point> {
+    type Error = &'a Value;
+    fn try_from(value: &'a Value) -> Result<Self, Self::Error> {
+        match value {
+            Value::PointList(v) => Ok(v),
             _ => Err(value),
         }
     }

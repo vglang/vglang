@@ -147,17 +147,20 @@ where
     }
 }
 
-/// Create a new [`Path`]
-pub fn path<P>(events: P) -> Path
-where
-    P: PathEventBuilder,
-{
-    let mut data = Vec::new();
+pub trait FromPathEventBuilder {
+    fn from_events<P>(events: P) -> Path
+    where
+        P: PathEventBuilder,
+    {
+        let mut data = Vec::new();
 
-    events.build(&mut data);
+        events.build(&mut data);
 
-    Path {
-        data,
-        ..Default::default()
+        Path {
+            data,
+            ..Default::default()
+        }
     }
 }
+
+impl FromPathEventBuilder for Path {}

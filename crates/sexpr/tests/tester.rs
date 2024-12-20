@@ -2,7 +2,11 @@ use std::path::Path;
 
 use heck::ToLowerCamelCase;
 use serde::Serialize;
-use vglang_sexpr::Graphic;
+use vglang_sexpr::{
+    apply,
+    operand::{Color, Fill, Number, Rect, Stroke},
+    Graphic,
+};
 use vglang_svg::{Builder, Program, SvgBuilder, SvgTarget, Target};
 
 pub async fn svg(name: &str, test: impl Graphic<SvgBuilder>) {
@@ -57,4 +61,20 @@ pub async fn svg(name: &str, test: impl Graphic<SvgBuilder>) {
     program.0.serialize(&mut serializer).unwrap();
 
     std::fs::write(output_file_path, buf).unwrap();
+}
+
+pub fn border<G, W, H>(width: W, height: H) -> impl Graphic<G>
+where
+    G: Builder,
+    Number: From<W> + From<H>,
+{
+    apply(
+        (Fill::default(), Stroke::from(Color::blue)),
+        Rect::from((
+            1,
+            1,
+            Number::from(width).0 - 1.0,
+            Number::from(height).0 - 1.0,
+        )),
+    )
 }

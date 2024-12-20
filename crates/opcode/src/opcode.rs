@@ -1,7 +1,8 @@
 //! Defines the optimised intermediate instructions.
 
 use crate::operand::{
-    Canvas, Circle, Fill, Font, Path, Rect, Stroke, Text, TextLayout, TextSpan, Transform, Variable,
+    Canvas, Circle, Fill, Font, Id, Path, Polyline, Rect, Stroke, Text, TextLayout, TextPath,
+    TextSpan, Transform, Use, Variable,
 };
 
 /// Opcodes for vglang.
@@ -14,6 +15,8 @@ pub enum Opcode {
     Text(Box<Text>),
     /// Render a `text-span` element.
     TextSpan(Box<TextSpan>),
+    /// Render a `textPath` element.
+    TextPath(Box<TextPath>),
     /// characters content of the text/text-span element.
     Characters(Box<Variable<String>>),
     /// Apply inheritable property `Fill` to all children instructions.
@@ -22,22 +25,43 @@ pub enum Opcode {
     Stroke(Box<Stroke>),
     /// Render a `rect` element.
     Rect(Box<Rect>),
-
     /// Render a `circle` element.
     Circle(Box<Circle>),
-
     /// Apply inheritable property `Font` to all children instructions.
     Font(Box<Font>),
-
     /// Apply inheritable property `TextLayout` to all children instructions.
     TextLayout(Box<TextLayout>),
-
     Transform(Box<Variable<Transform>>),
-
     Path(Box<Path>),
-
+    Polyline(Box<Polyline>),
+    Define(Box<Id>),
+    Use(Box<Use>),
     /// Popup elements, indicates that the popup elements ared fully rendered.
     Pop(usize),
+}
+
+impl From<TextPath> for Opcode {
+    fn from(value: TextPath) -> Self {
+        Self::TextPath(Box::new(value))
+    }
+}
+
+impl From<Id> for Opcode {
+    fn from(value: Id) -> Self {
+        Self::Define(Box::new(value))
+    }
+}
+
+impl From<Use> for Opcode {
+    fn from(value: Use) -> Self {
+        Self::Use(Box::new(value))
+    }
+}
+
+impl From<Polyline> for Opcode {
+    fn from(value: Polyline) -> Self {
+        Self::Polyline(Box::new(value))
+    }
 }
 
 impl From<Path> for Opcode {
