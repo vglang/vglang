@@ -96,6 +96,7 @@ impl Program for SvgProgram {
             let mut root_element = document.document_element().unwrap();
 
             root_element.set_attribute("xmlns", "http://www.w3.org/2000/svg")?;
+            root_element.set_attribute("xmlns:xlink", "http://www.w3.org/1999/xlink")?;
             root_element.set_attribute("version", "1.1")?;
 
             SvgCreator {
