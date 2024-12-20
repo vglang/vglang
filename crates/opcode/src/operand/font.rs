@@ -2,7 +2,7 @@ use std::fmt::Display;
 
 use super::{Length, Variable};
 
-/// See [`style`](FontFace::style)
+/// See [`css2`](https://www.w3.org/TR/2008/REC-CSS2-20080411/fonts.html#descdef-font-style)
 #[derive(Debug, PartialEq, PartialOrd, Clone, Copy)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum FontStyle {
@@ -37,8 +37,6 @@ impl Default for FontVariant {
 }
 
 /// Same syntax and semantics as the ‘font-weight’ descriptor within an @font-face rule.
-///
-/// See [`FontFace`]
 #[derive(Debug, PartialEq, PartialOrd, Clone, Copy)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum FontWeight {

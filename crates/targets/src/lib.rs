@@ -20,11 +20,11 @@ pub trait Builder {
     /// See [`Program`]
     type Program: Program;
 
-    /// Error type returns by [`Build`](Builder::Build) future.
+    /// Error type returns by [`Build`](Builder::Create) future.
     type Error;
 
-    /// Future type returns by [`build`](Builder::build) function.
-    type Build: Future<Output = Result<Self::Program, Self::Error>> + 'static;
+    /// Future type returns by [`create`](Builder::create) function.
+    type Create: Future<Output = Result<Self::Program, Self::Error>> + 'static;
 
     /// Push a new `opcode` to cache buf..
     fn push<O>(&mut self, opcode: O)
@@ -36,10 +36,10 @@ pub trait Builder {
     }
 
     /// Build vglang program via opcodes.
-    fn create(self) -> Self::Build;
+    fn create(self) -> Self::Create;
 }
 
-/// A optimized vglang program created by [`build`](Device::build) function.
+/// A optimized vglang program created by [`build`](Target::build) function.
 pub trait Program {
     /// On success, returns by [`Run`](Program::Run) future.
     type Output;

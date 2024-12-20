@@ -485,7 +485,7 @@ impl Default for BaselineShift {
 pub struct TextLayout {
     /// See [`WritingMode`]
     pub write_mode: Option<WritingMode>,
-    /// See [`GlyphOrientationHorizontal`]
+    /// See [`TextDirection`]
     pub direction: Option<TextDirection>,
 
     /// See [`UnicodeBidi`]

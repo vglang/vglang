@@ -36,9 +36,9 @@ where
             apply(
                 (
                     Font::from(42.5).family("Verdana"),
-                    TextPath::from("MyPath").start_offset(30),
-                    Text::default(),
                     Fill::from(Color::blue),
+                    Text::default(),
+                    TextPath::from("MyPath").start_offset(30),
                 ),
                 " We go up, then we go down, then up again",
             ),

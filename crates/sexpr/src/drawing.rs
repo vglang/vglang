@@ -95,17 +95,32 @@ macro_rules! tuple_appliable {
                 G: Builder
             {
                 let ($header, $($tail),+) = self;
-
-                $(let graphic = $tail.apply(graphic);)+
-                let graphic = $header.apply(graphic);
-
-                graphic
+                reseved_apply!(graphic, [$header, $($tail),+],[]);
             }
         }
 
         tuple_appliable!($($tail),+);
     };
     ($header: ident) => {}
+}
+
+macro_rules! reseved_apply {
+    ( $graphic: ident,[$header: ident, $($item: ident),+],[]) => {
+        reseved_apply!($graphic,[$($item),*],[$header]);
+    };
+    ($graphic: ident,[$header: ident, $($item: ident),+],[$($reseved:ident),+]) => {
+        reseved_apply!( $graphic,[$($item),*],[$header,$($reseved),+]);
+    };
+    ($graphic: ident,[$header: ident, $($item: ident),+],[$reseved: ident]) => {
+        reseved_apply!($graphic,[$($item),*],[$header, $($reseved),+]);
+    };
+    ($graphic: ident,[$header: ident],[$($reseved: ident),+]) => {
+        let graphic = $header.apply($graphic);
+
+        $(let graphic = $reseved.apply(graphic);)+
+
+        return graphic;
+    }
 }
 
 tuple_appliable!(

@@ -53,7 +53,7 @@ impl Builder for SvgBuilder {
     type Error = Error;
     type Program = SvgProgram;
 
-    type Build = Pin<Box<dyn Future<Output = Result<Self::Program, Self::Error>> + 'static>>;
+    type Create = Pin<Box<dyn Future<Output = Result<Self::Program, Self::Error>> + 'static>>;
 
     fn push<O>(&mut self, opcode: O)
     where
@@ -62,7 +62,7 @@ impl Builder for SvgBuilder {
         self.0.push(opcode.into());
     }
 
-    fn create(self) -> Self::Build {
+    fn create(self) -> Self::Create {
         Box::pin(async move { Ok(SvgProgram(self.0)) })
     }
 }
