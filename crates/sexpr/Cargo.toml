@@ -11,6 +11,7 @@ version.workspace = true
 vglang-opcode = { workspace = true, features = ["sexpr"] }
 vglang-targets = { workspace = true }
 thiserror = { workspace = true }
+num = { workspace = true }
 
 [dev-dependencies]
 pretty_env_logger = { workspace = true }

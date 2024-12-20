@@ -19,7 +19,7 @@ pub enum Transform {
     },
     Scale {
         sx: f32,
-        sy: f32,
+        sy: Option<f32>,
     },
     Rotate {
         angle: f32,
@@ -33,11 +33,19 @@ pub enum Transform {
 impl Display for Transform {
     fn fmt(&self, _f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Transform::Translate { tx, ty } => write!(_f, "translate({},{})", tx, ty),
+            Transform::Translate { tx, ty } => {
+                write!(_f, "translate({},{})", tx, ty)
+            }
             Transform::Matrix { a, b, c, d, e, f } => {
                 write!(_f, "matrix({},{},{},{},{},{})", a, b, c, d, e, f)
             }
-            Transform::Scale { sx, sy } => write!(_f, "scale({},{})", sx, sy),
+            Transform::Scale { sx, sy } => {
+                if let Some(sy) = sy {
+                    write!(_f, "scale({},{})", sx, sy)
+                } else {
+                    write!(_f, "scale({})", sx)
+                }
+            }
             Transform::Rotate { angle, cx, cy } => write!(_f, "rotate({},{},{})", angle, cx, cy),
             Transform::SkewX(angle) => write!(_f, "skewX({})", angle),
             Transform::SkewY(angle) => write!(_f, "skewY({})", angle),

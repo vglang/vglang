@@ -29,7 +29,7 @@ where
                 Rect::from((0.5, 0.5, 29, 39)),
             ),
             apply(
-                Transform::Translate { tx: 0.0, ty: 5.0 },
+                (0, 5).translate(),
                 (
                     apply(Fill::from(Color::yellow), Circle::from((15, 15, 10))),
                     apply(Fill::from(Color::black), Circle::from((12, 12, 1.5))),
@@ -188,7 +188,7 @@ where
                 Rect::from((1, 1, 448, 298)),
             ),
             apply(Text::default().x(10).y(30), "SVG to fit"),
-            apply(Transform::Translate { tx: 20.0, ty: 40.0 }, smile()),
+            apply((20, 40).translate(), smile()),
             apply((10, 120).translate(), viewport_1()),
             apply((20, 190).translate(), viewport_2()),
             apply((100, 60).translate(), meet_group_1()),
