@@ -189,27 +189,9 @@ where
             ),
             apply(Text::default().x(10).y(30), "SVG to fit"),
             apply(Transform::Translate { tx: 20.0, ty: 40.0 }, smile()),
-            apply(
-                Transform::Translate {
-                    tx: 10.0,
-                    ty: 120.0,
-                },
-                viewport_1(),
-            ),
-            apply(
-                Transform::Translate {
-                    tx: 20.0,
-                    ty: 190.0,
-                },
-                viewport_2(),
-            ),
-            apply(
-                Transform::Translate {
-                    tx: 100.0,
-                    ty: 60.0,
-                },
-                meet_group_1(),
-            ),
+            apply((10, 120).translate(), viewport_1()),
+            apply((20, 190).translate(), viewport_2()),
+            apply((100, 60).translate(), meet_group_1()),
             apply((250, 220).translate(), slice_group_2()),
             apply((250, 60).translate(), meet_group_2()),
             apply((100, 220).translate(), slice_group_1()),
