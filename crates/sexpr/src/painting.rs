@@ -1,4 +1,4 @@
-use vglang_opcode::operand::{Fill, Stroke};
+use vglang_opcode::operand::{Fill, Paint, RefBy, Stroke};
 use vglang_targets::Builder;
 
 use super::{Appliable, Graphic};
@@ -28,5 +28,22 @@ impl Appliable for Stroke {
             graphic.draw(g);
             g.pop();
         }
+    }
+}
+
+/// A helper trait that convert self into [`Paint`](vglang_opcode::operand::Paint)
+pub trait Sgradient {
+    fn gradient(self) -> Paint;
+}
+
+impl Sgradient for String {
+    fn gradient(self) -> Paint {
+        Paint::Gradient(RefBy::Named(self))
+    }
+}
+
+impl Sgradient for &str {
+    fn gradient(self) -> Paint {
+        Paint::Gradient(RefBy::Named(self.to_owned()))
     }
 }

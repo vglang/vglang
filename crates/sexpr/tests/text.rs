@@ -3,7 +3,7 @@ mod tester;
 use tester::*;
 use vglang_sexpr::{
     apply, cubic_bezier, move_to,
-    operand::{Canvas, Color, Fill, Font, Id, Path, Stroke, Text, TextPath, Use},
+    operand::{Canvas, Color, Fill, Font, FontWeight, Id, Path, Stroke, Text, TextPath, Use},
     Graphic, Slength,
 };
 use vglang_svg::Builder;
@@ -19,7 +19,7 @@ where
     apply(
         Canvas::from((12.cm(), 3.6.cm())).viewbox((0, 0, 1000, 300)),
         (
-            border(998, 298),
+            border(1000, 300),
             apply(
                 Id::from("MyPath"),
                 Path::from((
@@ -35,10 +35,11 @@ where
             ),
             apply(
                 (
-                    Font::from(42.5).family("Verdana"),
+                    Font::from(42.5).family("Verdana").weight(FontWeight::W100),
                     Fill::from(Color::blue),
+                    Stroke::from(Color::red).width(2),
                     Text::default(),
-                    TextPath::from("MyPath").start_offset(30),
+                    TextPath::from("MyPath"),
                 ),
                 " We go up, then we go down, then up again",
             ),

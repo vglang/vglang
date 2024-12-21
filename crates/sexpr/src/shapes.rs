@@ -1,4 +1,4 @@
-use vglang_opcode::operand::{Circle, Polyline, Rect};
+use vglang_opcode::operand::{Circle, Polygon, Polyline, Rect};
 use vglang_targets::Builder;
 
 use crate::Graphic;
@@ -22,6 +22,15 @@ where
 }
 
 impl<G> Graphic<G> for Polyline
+where
+    G: Builder,
+{
+    fn draw(self, g: &mut G) {
+        g.push(self);
+    }
+}
+
+impl<G> Graphic<G> for Polygon
 where
     G: Builder,
 {

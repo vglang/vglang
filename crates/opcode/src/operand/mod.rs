@@ -42,3 +42,9 @@ pub use point::*;
 
 mod defs;
 pub use defs::*;
+
+mod gradients;
+pub use gradients::*;
+
+mod coords;
+pub use coords::*;

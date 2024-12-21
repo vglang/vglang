@@ -171,7 +171,7 @@ pub struct Line {
     pub y2: Variable<Length>,
 }
 
-/// The ‘polygon’ element defines a closed shape consisting of a set of connected straight line segments.
+/// The ‘polyline’ element defines a set of connected straight line segments. Typically, ‘polyline’ elements define open shapes.
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Polyline(
@@ -182,6 +182,25 @@ pub struct Polyline(
 );
 
 impl<T> From<T> for Polyline
+where
+    T: MapCollect<Point>,
+{
+    fn from(value: T) -> Self {
+        Self(Variable::Constant(value.map_collect()))
+    }
+}
+
+/// The ‘polygon’ element defines a closed shape consisting of a set of connected straight line segments.
+#[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct Polygon(
+    /// The points that make up the polygon. All coordinate values are in the user coordinate system.
+    ///
+    /// Animatable: yes.
+    pub Variable<Vec<Point>>,
+);
+
+impl<T> From<T> for Polygon
 where
     T: MapCollect<Point>,
 {

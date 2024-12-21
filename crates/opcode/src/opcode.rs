@@ -1,8 +1,8 @@
 //! Defines the optimised intermediate instructions.
 
 use crate::operand::{
-    Canvas, Circle, Fill, Font, Id, Path, Polyline, Rect, Stroke, Text, TextLayout, TextPath,
-    TextSpan, Transform, Use, Variable,
+    Canvas, Circle, Fill, Font, GradientStop, Id, LinearGradient, Path, Polygon, Polyline,
+    RadialGradient, Rect, Stroke, Text, TextLayout, TextPath, TextSpan, Transform, Use, Variable,
 };
 
 /// Opcodes for vglang.
@@ -34,104 +34,53 @@ pub enum Opcode {
     Transform(Box<Variable<Transform>>),
     Path(Box<Path>),
     Polyline(Box<Polyline>),
-    Define(Box<Id>),
+    Polygon(Box<Polygon>),
+    Id(Box<Id>),
     Use(Box<Use>),
+    LinearGradient(Box<LinearGradient>),
+    RadialGradient(Box<RadialGradient>),
+    GradientStop(Box<GradientStop>),
     /// Popup elements, indicates that the popup elements ared fully rendered.
     Pop(usize),
 }
 
-impl From<TextPath> for Opcode {
-    fn from(value: TextPath) -> Self {
-        Self::TextPath(Box::new(value))
-    }
+macro_rules! opcode_from {
+    ($v: tt) => {
+        impl From<$v> for Opcode {
+            fn from(value: $v) -> Self {
+                Self::$v(Box::new(value))
+            }
+        }
+    };
 }
 
-impl From<Id> for Opcode {
-    fn from(value: Id) -> Self {
-        Self::Define(Box::new(value))
-    }
-}
+opcode_from!(Canvas);
+opcode_from!(Text);
+opcode_from!(TextSpan);
+opcode_from!(TextPath);
+opcode_from!(Fill);
+opcode_from!(Stroke);
+opcode_from!(Circle);
+opcode_from!(Rect);
+opcode_from!(Font);
+opcode_from!(TextLayout);
+opcode_from!(Path);
+opcode_from!(Polyline);
+opcode_from!(Polygon);
+opcode_from!(Id);
+opcode_from!(Use);
+opcode_from!(LinearGradient);
+opcode_from!(RadialGradient);
+opcode_from!(GradientStop);
 
-impl From<Use> for Opcode {
-    fn from(value: Use) -> Self {
-        Self::Use(Box::new(value))
-    }
-}
-
-impl From<Polyline> for Opcode {
-    fn from(value: Polyline) -> Self {
-        Self::Polyline(Box::new(value))
-    }
-}
-
-impl From<Path> for Opcode {
-    fn from(value: Path) -> Self {
-        Self::Path(Box::new(value))
+impl From<Variable<String>> for Opcode {
+    fn from(value: Variable<String>) -> Self {
+        Self::Characters(Box::new(value))
     }
 }
 
 impl From<Transform> for Opcode {
     fn from(value: Transform) -> Self {
         Self::Transform(Box::new(Variable::Constant(value)))
-    }
-}
-
-impl From<Circle> for Opcode {
-    fn from(value: Circle) -> Self {
-        Self::Circle(Box::new(value))
-    }
-}
-
-impl From<TextLayout> for Opcode {
-    fn from(value: TextLayout) -> Self {
-        Self::TextLayout(Box::new(value))
-    }
-}
-
-impl From<Font> for Opcode {
-    fn from(value: Font) -> Self {
-        Self::Font(Box::new(value))
-    }
-}
-
-impl From<Rect> for Opcode {
-    fn from(value: Rect) -> Self {
-        Self::Rect(Box::new(value))
-    }
-}
-
-impl From<Canvas> for Opcode {
-    fn from(value: Canvas) -> Self {
-        Self::Canvas(Box::new(value))
-    }
-}
-
-impl From<Text> for Opcode {
-    fn from(value: Text) -> Self {
-        Self::Text(Box::new(value))
-    }
-}
-
-impl From<TextSpan> for Opcode {
-    fn from(value: TextSpan) -> Self {
-        Self::TextSpan(Box::new(value))
-    }
-}
-
-impl From<Fill> for Opcode {
-    fn from(value: Fill) -> Self {
-        Self::Fill(Box::new(value))
-    }
-}
-
-impl From<Stroke> for Opcode {
-    fn from(value: Stroke) -> Self {
-        Self::Stroke(Box::new(value))
-    }
-}
-
-impl From<Variable<String>> for Opcode {
-    fn from(value: Variable<String>) -> Self {
-        Self::Characters(Box::new(value))
     }
 }

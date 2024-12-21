@@ -1,7 +1,21 @@
+use std::fmt::Display;
+
 /// A sexpr to create rgb value, the storage value is normalized.
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Rgb(pub f32, pub f32, pub f32);
+
+impl Display for Rgb {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "rgb({},{},{})",
+            (self.0 * 255.0) as u8,
+            (self.1 * 255.0) as u8,
+            (self.2 * 255.0) as u8
+        )
+    }
+}
 
 impl From<(u8, u8, u8)> for Rgb {
     fn from(value: (u8, u8, u8)) -> Self {

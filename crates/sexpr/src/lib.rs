@@ -4,6 +4,7 @@ pub use drawing::*;
 mod canvas;
 
 mod painting;
+pub use painting::*;
 
 mod shapes;
 
@@ -19,6 +20,8 @@ mod defs;
 
 mod path;
 pub use path::*;
+
+mod gradients;
 
 pub mod operand {
     pub use vglang_opcode::operand::*;

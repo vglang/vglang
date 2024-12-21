@@ -3,10 +3,10 @@ use std::{fmt::Debug, future::Future, pin::Pin, slice::Iter};
 use vglang_opcode::{
     operand::{
         AlignmentBaseline, BaselineShift, Canvas, Circle, DominantBaseline, Fill, Font,
-        FontStretch, FontStyle, FontVariant, FontWeight, Paint, Path, Polyline,
-        PreserveAspectRatio, Rect, RefBy, Stroke, Text, TextAnchor, TextDirection, TextLayout,
-        TextLengthAdjust, TextPath, TextSpan, Transform, UnicodeBidi, Use, Value, Variable,
-        WritingMode,
+        FontStretch, FontStyle, FontVariant, FontWeight, GradientStop, LinearGradient, Paint, Path,
+        Polygon, Polyline, PreserveAspectRatio, RadialGradient, Rect, RefBy, Stroke, Text,
+        TextAnchor, TextDirection, TextLayout, TextLengthAdjust, TextPath, TextSpan, Transform,
+        UnicodeBidi, Use, Value, Variable, WritingMode,
     },
     Opcode,
 };
@@ -132,7 +132,7 @@ impl<'a> SvgCreator<'a> {
 
         while let Some(opcode) = self.opcodes.next() {
             match opcode {
-                Opcode::Define(id) => {
+                Opcode::Id(id) => {
                     self.id = Some(id.0.clone());
                     let el = self.document.create_element("defs")?;
                     self.el_stack.push(el);
@@ -195,10 +195,13 @@ impl<'a> SvgCreator<'a> {
                 Opcode::TextPath(operand) => self.handle_text_path(operand)?,
                 Opcode::Rect(operand) => self.handle_rect(operand)?,
                 Opcode::Circle(circle) => self.handle_circle(circle)?,
-
                 Opcode::Path(path) => self.handle_path(path)?,
                 Opcode::Polyline(polyline) => self.handle_polyline(polyline)?,
+                Opcode::Polygon(operand) => self.handle_polygon(operand)?,
                 Opcode::Use(v) => self.handle_use(v)?,
+                Opcode::LinearGradient(operand) => self.handle_linear_gradient(operand)?,
+                Opcode::RadialGradient(operand) => self.handle_radial_gradient(operand)?,
+                Opcode::GradientStop(operand) => self.handle_gradient_stop(operand)?,
             }
         }
 
@@ -253,6 +256,25 @@ impl<'a> SvgCreator<'a> {
         self.append_id(&mut node)?;
 
         node.set_attribute("xlink:href", &format!("#{}", v.0))?;
+
+        self.append_child(node)?;
+
+        Ok(())
+    }
+
+    fn handle_polygon(&mut self, polygon: &Polygon) -> Result<(), Error> {
+        let mut node = self.document.create_element("polygon")?;
+
+        self.append_id(&mut node)?;
+
+        let data = self
+            .get_value(&polygon.0)?
+            .iter()
+            .map(|v| format!("{},{}", v.x, v.y))
+            .collect::<Vec<_>>()
+            .join(" ");
+
+        node.set_attribute("points", &data)?;
 
         self.append_child(node)?;
 
@@ -345,6 +367,108 @@ impl<'a> SvgCreator<'a> {
         el.set_attribute("transform", transform.to_string().as_str())?;
 
         self.el_stack.push(el);
+
+        Ok(())
+    }
+
+    fn handle_linear_gradient(&mut self, gradient: &LinearGradient) -> Result<(), Error> {
+        let mut el = self.document.create_element("linearGradient")?;
+
+        self.append_id(&mut el)?;
+
+        if let Some(value) = &gradient.unit {
+            el.set_attribute("gradientUnits", &self.get_value(value)?.to_string())?;
+        }
+
+        if let Some(transform) = &gradient.transform {
+            el.set_attribute("gradientTransform", &self.get_value(transform)?.to_string())?;
+        }
+
+        if let Some(value) = &gradient.x1 {
+            el.set_attribute("x1", &self.get_value(value)?.to_string())?;
+        }
+
+        if let Some(value) = &gradient.y1 {
+            el.set_attribute("y1", &self.get_value(value)?.to_string())?;
+        }
+
+        if let Some(value) = &gradient.x2 {
+            el.set_attribute("x2", &self.get_value(value)?.to_string())?;
+        }
+
+        if let Some(value) = &gradient.y2 {
+            el.set_attribute("y2", &self.get_value(value)?.to_string())?;
+        }
+
+        if let Some(value) = &gradient.spread {
+            el.set_attribute("spreadMethod", &self.get_value(value)?.to_string())?;
+        }
+
+        self.append_id(&mut el)?;
+
+        self.el_stack.push(el);
+
+        Ok(())
+    }
+
+    fn handle_radial_gradient(&mut self, gradient: &RadialGradient) -> Result<(), Error> {
+        let mut el = self.document.create_element("radialGradient")?;
+
+        self.append_id(&mut el)?;
+
+        if let Some(value) = &gradient.unit {
+            el.set_attribute("gradientUnits", &self.get_value(value)?.to_string())?;
+        }
+
+        if let Some(transform) = &gradient.transform {
+            el.set_attribute("gradientTransform", &self.get_value(transform)?.to_string())?;
+        }
+
+        if let Some(value) = &gradient.fx {
+            el.set_attribute("fx", &self.get_value(value)?.to_string())?;
+        }
+
+        if let Some(value) = &gradient.fy {
+            el.set_attribute("fy", &self.get_value(value)?.to_string())?;
+        }
+
+        if let Some(value) = &gradient.cx {
+            el.set_attribute("cx", &self.get_value(value)?.to_string())?;
+        }
+
+        if let Some(value) = &gradient.cy {
+            el.set_attribute("cy", &self.get_value(value)?.to_string())?;
+        }
+
+        if let Some(value) = &gradient.r {
+            el.set_attribute("r", &self.get_value(value)?.to_string())?;
+        }
+
+        if let Some(value) = &gradient.spread {
+            el.set_attribute("spreadMethod", &self.get_value(value)?.to_string())?;
+        }
+
+        self.append_id(&mut el)?;
+
+        self.el_stack.push(el);
+
+        Ok(())
+    }
+
+    fn handle_gradient_stop(&mut self, stop: &GradientStop) -> Result<(), Error> {
+        let mut el = self.document.create_element("stop")?;
+
+        el.set_attribute("offset", &self.get_value(&stop.offset)?.to_string())?;
+
+        if let Some(value) = &stop.color {
+            el.set_attribute("stop-color", &self.get_value(value)?.to_string())?;
+        }
+
+        if let Some(value) = &stop.opacity {
+            el.set_attribute("stop-opacity", &self.get_value(value)?.to_string())?;
+        }
+
+        self.append_child(el)?;
 
         Ok(())
     }
@@ -541,25 +665,19 @@ impl<'a> SvgCreator<'a> {
         Ok(())
     }
 
+    fn handle_uri(&self, uri: &RefBy) -> Result<String, Error> {
+        match uri {
+            RefBy::Named(name) => Ok(format!("url(#{})", name)),
+            RefBy::Index(_) => todo!(),
+        }
+    }
+
     fn handle_stroke(&self, el: &mut RefNode, value: &Stroke) -> Result<(), Error> {
         if let Some(paint) = &value.paint {
             match self.get_value(paint)? {
-                Paint::Color(rgba) => el.set_attribute(
-                    "stroke",
-                    format!(
-                        "rgb({},{},{})",
-                        (rgba.0 * 255.0) as u8,
-                        (rgba.1 * 255.0) as u8,
-                        (rgba.2 * 255.0) as u8
-                    )
-                    .as_str(),
-                )?,
-                Paint::Gradient(uri) => {
-                    el.set_attribute("stroke", format!("url(#{:?})", uri).as_str())?
-                }
-                Paint::Pattern(uri) => {
-                    el.set_attribute("stroke", format!("url(#{:?})", uri).as_str())?
-                }
+                Paint::Color(rgba) => el.set_attribute("stroke", rgba.to_string().as_str())?,
+                Paint::Gradient(uri) => el.set_attribute("stroke", &self.handle_uri(uri)?)?,
+                Paint::Pattern(uri) => el.set_attribute("stroke", &self.handle_uri(uri)?)?,
             }
         }
 
@@ -573,22 +691,9 @@ impl<'a> SvgCreator<'a> {
     fn handle_fill(&self, el: &mut RefNode, value: &Fill) -> Result<(), Error> {
         if let Some(paint) = &value.paint {
             match self.get_value(paint)? {
-                Paint::Color(rgba) => el.set_attribute(
-                    "fill",
-                    format!(
-                        "rgb({},{},{})",
-                        (rgba.0 * 255.0) as u8,
-                        (rgba.1 * 255.0) as u8,
-                        (rgba.2 * 255.0) as u8
-                    )
-                    .as_str(),
-                )?,
-                Paint::Gradient(uri) => {
-                    el.set_attribute("fill", format!("url(#{:?})", uri).as_str())?
-                }
-                Paint::Pattern(uri) => {
-                    el.set_attribute("fill", format!("url(#{:?})", uri).as_str())?
-                }
+                Paint::Color(rgba) => el.set_attribute("fill", rgba.to_string().as_str())?,
+                Paint::Gradient(uri) => el.set_attribute("fill", &self.handle_uri(uri)?)?,
+                Paint::Pattern(uri) => el.set_attribute("fill", &self.handle_uri(uri)?)?,
             }
         } else {
             el.set_attribute("fill", "none")?

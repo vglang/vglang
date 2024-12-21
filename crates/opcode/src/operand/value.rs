@@ -1,8 +1,8 @@
 use super::{
-    AlignmentBaseline, Angle, BaselineShift, DominantBaseline, FillRule, FontFamily, FontStretch,
-    FontStyle, FontVariant, FontWeight, Length, Number, Paint, Point, PreserveAspectRatio, Rgb,
-    StrokeLineCap, StrokeLineJoin, TextAnchor, TextLengthAdjust, TextPathMethod, TextPathSpacing,
-    Transform,
+    AlignmentBaseline, Angle, BaselineShift, Coords, DominantBaseline, FillRule, FontFamily,
+    FontStretch, FontStyle, FontVariant, FontWeight, Length, Number, Paint, Point,
+    PreserveAspectRatio, Rgb, SpreadMethod, StrokeLineCap, StrokeLineJoin, TextAnchor,
+    TextLengthAdjust, TextPathMethod, TextPathSpacing, Transform,
 };
 
 /// Values passed by register.
@@ -33,6 +33,8 @@ pub enum Value {
     FontStretch(FontStretch),
     FontVariant(FontVariant),
     Transform(Transform),
+    SpreadMethod(SpreadMethod),
+    Coords(Coords),
     PointList(Box<Vec<Point>>),
     TextPathMethod(TextPathMethod),
     TextPathSpacing(TextPathSpacing),
@@ -75,6 +77,8 @@ macro_rules! value_type {
     };
 }
 
+value_type!(SpreadMethod);
+value_type!(Coords);
 value_type!(TextPathSpacing);
 value_type!(TextPathMethod);
 value_type!(Transform);

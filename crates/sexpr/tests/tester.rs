@@ -69,7 +69,7 @@ where
     Number: From<W> + From<H>,
 {
     apply(
-        (Fill::default(), Stroke::from(Color::blue)),
+        (Fill::default(), Stroke::from(Color::blue).width(2)),
         Rect::from((
             1,
             1,
