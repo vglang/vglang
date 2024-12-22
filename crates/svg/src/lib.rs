@@ -2,11 +2,11 @@ use std::{fmt::Debug, future::Future, pin::Pin, slice::Iter};
 
 use vglang_opcode::{
     operand::{
-        AlignmentBaseline, BaselineShift, Canvas, Circle, DominantBaseline, Fill, Font,
+        AlignmentBaseline, BaselineShift, Canvas, Circle, DominantBaseline, Ellipse, Fill, Font,
         FontStretch, FontStyle, FontVariant, FontWeight, GradientStop, LinearGradient, Paint, Path,
-        Polygon, Polyline, PreserveAspectRatio, RadialGradient, Rect, RefBy, Stroke, Text,
-        TextAnchor, TextDirection, TextLayout, TextLengthAdjust, TextPath, TextSpan, Transform,
-        UnicodeBidi, Use, Value, Variable, WritingMode,
+        Pattern, Polygon, Polyline, RadialGradient, Rect, RefBy, Stroke, Text, TextAnchor,
+        TextDirection, TextLayout, TextLengthAdjust, TextPath, TextSpan, Transform, UnicodeBidi,
+        Use, Value, Variable, WritingMode,
     },
     Opcode,
 };
@@ -195,6 +195,7 @@ impl<'a> SvgCreator<'a> {
                 Opcode::TextPath(operand) => self.handle_text_path(operand)?,
                 Opcode::Rect(operand) => self.handle_rect(operand)?,
                 Opcode::Circle(circle) => self.handle_circle(circle)?,
+                Opcode::Ellipse(operand) => self.handle_ellipse(operand)?,
                 Opcode::Path(path) => self.handle_path(path)?,
                 Opcode::Polyline(polyline) => self.handle_polyline(polyline)?,
                 Opcode::Polygon(operand) => self.handle_polygon(operand)?,
@@ -202,6 +203,7 @@ impl<'a> SvgCreator<'a> {
                 Opcode::LinearGradient(operand) => self.handle_linear_gradient(operand)?,
                 Opcode::RadialGradient(operand) => self.handle_radial_gradient(operand)?,
                 Opcode::GradientStop(operand) => self.handle_gradient_stop(operand)?,
+                Opcode::Pattern(operand) => self.handle_pattern(operand)?,
             }
         }
 
@@ -359,6 +361,23 @@ impl<'a> SvgCreator<'a> {
         Ok(())
     }
 
+    fn handle_ellipse(&mut self, ellipse: &Ellipse) -> Result<(), Error> {
+        let mut node = self.document.create_element("ellipse")?;
+
+        self.append_id(&mut node)?;
+
+        node.set_attribute("cx", self.get_value(&ellipse.cx)?.to_string().as_str())?;
+
+        node.set_attribute("cy", self.get_value(&ellipse.cy)?.to_string().as_str())?;
+
+        node.set_attribute("rx", self.get_value(&ellipse.rx)?.to_string().as_str())?;
+        node.set_attribute("ry", self.get_value(&ellipse.ry)?.to_string().as_str())?;
+
+        self.append_child(node)?;
+
+        Ok(())
+    }
+
     fn handle_transform(&mut self, transform: &Transform) -> Result<(), Error> {
         let mut el = self.document.create_element("g")?;
 
@@ -469,6 +488,62 @@ impl<'a> SvgCreator<'a> {
         }
 
         self.append_child(el)?;
+
+        Ok(())
+    }
+
+    fn handle_pattern(&mut self, pattern: &Pattern) -> Result<(), Error> {
+        let mut el = self.document.create_element("pattern")?;
+
+        self.append_id(&mut el)?;
+
+        if let Some(value) = &pattern.x {
+            el.set_attribute("x", &self.get_value(value)?.to_string())?;
+        }
+
+        if let Some(value) = &pattern.y {
+            el.set_attribute("y", &self.get_value(value)?.to_string())?;
+        }
+
+        if let Some(value) = &pattern.width {
+            el.set_attribute("width", &self.get_value(value)?.to_string())?;
+        }
+
+        if let Some(value) = &pattern.height {
+            el.set_attribute("height", &self.get_value(value)?.to_string())?;
+        }
+
+        if let Some(value) = &pattern.units {
+            el.set_attribute("patternUnits", &self.get_value(value)?.to_string())?;
+        }
+
+        if let Some(value) = &pattern.content_units {
+            el.set_attribute("patternContentUnits", &self.get_value(value)?.to_string())?;
+        }
+
+        if let Some(value) = &pattern.transform {
+            el.set_attribute("patternTransform", &self.get_value(value)?.to_string())?;
+        }
+
+        if let Some(value) = &pattern.viewbox {
+            el.set_attribute(
+                "viewBox",
+                format!(
+                    "{} {} {} {}",
+                    self.get_value(&value.minx)?,
+                    self.get_value(&value.miny)?,
+                    self.get_value(&value.width)?,
+                    self.get_value(&value.height)?
+                )
+                .as_str(),
+            )?;
+
+            if let Some(aspect) = &value.aspect {
+                el.set_attribute("preserveAspectRatio", &self.get_value(aspect)?.to_string())?;
+            }
+        }
+
+        self.el_stack.push(el);
 
         Ok(())
     }
@@ -903,37 +978,10 @@ impl<'a> SvgCreator<'a> {
             )?;
 
             if let Some(aspect) = &viewbox.aspect {
-                let v = match self.get_value(aspect)? {
-                    PreserveAspectRatio::xMinYMin(meet_or_slice) => {
-                        format!("xMinYMin {}", meet_or_slice)
-                    }
-                    PreserveAspectRatio::xMidYMin(meet_or_slice) => {
-                        format!("xMidYMin {}", meet_or_slice)
-                    }
-                    PreserveAspectRatio::xMaxYMin(meet_or_slice) => {
-                        format!("xMaxYMin {}", meet_or_slice)
-                    }
-                    PreserveAspectRatio::xMinYMid(meet_or_slice) => {
-                        format!("xMinYMid {}", meet_or_slice)
-                    }
-                    PreserveAspectRatio::xMidYMid(meet_or_slice) => {
-                        format!("xMidYMid {}", meet_or_slice)
-                    }
-                    PreserveAspectRatio::xMaxYMid(meet_or_slice) => {
-                        format!("xMaxYMid {}", meet_or_slice)
-                    }
-                    PreserveAspectRatio::xMinYMax(meet_or_slice) => {
-                        format!("xMinYMax {}", meet_or_slice)
-                    }
-                    PreserveAspectRatio::xMidYMax(meet_or_slice) => {
-                        format!("xMidYMax {}", meet_or_slice)
-                    }
-                    PreserveAspectRatio::xMaxYMax(meet_or_slice) => {
-                        format!("xMaxYMax {}", meet_or_slice)
-                    }
-                };
-
-                el.set_attribute("preserveAspectRatio", v.as_str())?;
+                el.set_attribute(
+                    "preserveAspectRatio",
+                    self.get_value(aspect)?.to_string().as_str(),
+                )?;
             } else {
                 el.set_attribute("preserveAspectRatio", "none")?;
             }

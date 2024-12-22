@@ -47,3 +47,20 @@ impl Sgradient for &str {
         Paint::Gradient(RefBy::Named(self.to_owned()))
     }
 }
+
+/// A helper trait that convert self into [`Paint`](vglang_opcode::operand::Paint)
+pub trait Spattern {
+    fn pattern(self) -> Paint;
+}
+
+impl Spattern for String {
+    fn pattern(self) -> Paint {
+        Paint::Pattern(RefBy::Named(self))
+    }
+}
+
+impl Spattern for &str {
+    fn pattern(self) -> Paint {
+        Paint::Pattern(RefBy::Named(self.to_owned()))
+    }
+}

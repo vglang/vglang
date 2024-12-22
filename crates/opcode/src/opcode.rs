@@ -1,8 +1,9 @@
 //! Defines the optimised intermediate instructions.
 
 use crate::operand::{
-    Canvas, Circle, Fill, Font, GradientStop, Id, LinearGradient, Path, Polygon, Polyline,
-    RadialGradient, Rect, Stroke, Text, TextLayout, TextPath, TextSpan, Transform, Use, Variable,
+    Canvas, Circle, Ellipse, Fill, Font, GradientStop, Id, LinearGradient, Path, Pattern, Polygon,
+    Polyline, RadialGradient, Rect, Stroke, Text, TextLayout, TextPath, TextSpan, Transform, Use,
+    Variable,
 };
 
 /// Opcodes for vglang.
@@ -40,6 +41,8 @@ pub enum Opcode {
     LinearGradient(Box<LinearGradient>),
     RadialGradient(Box<RadialGradient>),
     GradientStop(Box<GradientStop>),
+    Pattern(Box<Pattern>),
+    Ellipse(Box<Ellipse>),
     /// Popup elements, indicates that the popup elements ared fully rendered.
     Pop(usize),
 }
@@ -54,6 +57,8 @@ macro_rules! opcode_from {
     };
 }
 
+opcode_from!(Ellipse);
+opcode_from!(Pattern);
 opcode_from!(Canvas);
 opcode_from!(Text);
 opcode_from!(TextSpan);

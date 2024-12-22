@@ -48,3 +48,6 @@ pub use gradients::*;
 
 mod coords;
 pub use coords::*;
+
+mod pattern;
+pub use pattern::*;

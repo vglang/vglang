@@ -77,6 +77,40 @@ pub enum PreserveAspectRatio {
     xMaxYMax(MeetOrSlice),
 }
 
+impl Display for PreserveAspectRatio {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            PreserveAspectRatio::xMinYMin(meet_or_slice) => {
+                write!(f, "xMinYMin {}", meet_or_slice)
+            }
+            PreserveAspectRatio::xMidYMin(meet_or_slice) => {
+                write!(f, "xMidYMin {}", meet_or_slice)
+            }
+            PreserveAspectRatio::xMaxYMin(meet_or_slice) => {
+                write!(f, "xMaxYMin {}", meet_or_slice)
+            }
+            PreserveAspectRatio::xMinYMid(meet_or_slice) => {
+                write!(f, "xMinYMid {}", meet_or_slice)
+            }
+            PreserveAspectRatio::xMidYMid(meet_or_slice) => {
+                write!(f, "xMidYMid {}", meet_or_slice)
+            }
+            PreserveAspectRatio::xMaxYMid(meet_or_slice) => {
+                write!(f, "xMaxYMid {}", meet_or_slice)
+            }
+            PreserveAspectRatio::xMinYMax(meet_or_slice) => {
+                write!(f, "xMinYMax {}", meet_or_slice)
+            }
+            PreserveAspectRatio::xMidYMax(meet_or_slice) => {
+                write!(f, "xMidYMax {}", meet_or_slice)
+            }
+            PreserveAspectRatio::xMaxYMax(meet_or_slice) => {
+                write!(f, "xMaxYMax {}", meet_or_slice)
+            }
+        }
+    }
+}
+
 impl Default for PreserveAspectRatio {
     fn default() -> Self {
         Self::xMidYMid(MeetOrSlice::Meet)

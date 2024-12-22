@@ -138,6 +138,20 @@ pub struct Ellipse {
     pub ry: Variable<Length>,
 }
 
+impl<CX, CY, RX, RY> From<(CX, CY, RX, RY)> for Ellipse
+where
+    Length: From<CX> + From<CY> + From<RX> + From<RY>,
+{
+    fn from(value: (CX, CY, RX, RY)) -> Self {
+        Self {
+            cx: Variable::Constant(value.0.into()),
+            cy: Variable::Constant(value.1.into()),
+            rx: Variable::Constant(value.2.into()),
+            ry: Variable::Constant(value.3.into()),
+        }
+    }
+}
+
 /// The ‘line’ element defines a line segment that starts at one point and ends at another.
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]

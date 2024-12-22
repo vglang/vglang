@@ -22,6 +22,7 @@ mod path;
 pub use path::*;
 
 mod gradients;
+mod pattern;
 
 pub mod operand {
     pub use vglang_opcode::operand::*;
