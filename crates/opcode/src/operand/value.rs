@@ -1,7 +1,7 @@
 use super::{
-    AlignmentBaseline, Angle, BaselineShift, Coords, DominantBaseline, FillRule, FontFamily,
-    FontStretch, FontStyle, FontVariant, FontWeight, Length, Number, Paint, Point,
-    PreserveAspectRatio, Rgb, SpreadMethod, StrokeLineCap, StrokeLineJoin, TextAnchor,
+    AlignmentBaseline, Angle, BaselineShift, ClipRule, Coords, DominantBaseline, FillRule,
+    FontFamily, FontStretch, FontStyle, FontVariant, FontWeight, FuncIRI, Length, Number, Paint,
+    Point, PreserveAspectRatio, Rgb, SpreadMethod, StrokeLineCap, StrokeLineJoin, TextAnchor,
     TextLengthAdjust, TextPathMethod, TextPathSpacing, Transform,
 };
 
@@ -38,6 +38,8 @@ pub enum Value {
     PointList(Box<Vec<Point>>),
     TextPathMethod(TextPathMethod),
     TextPathSpacing(TextPathSpacing),
+    FuncIRI(Box<FuncIRI>),
+    ClipRule(ClipRule),
 }
 
 macro_rules! value_type {
@@ -77,6 +79,8 @@ macro_rules! value_type {
     };
 }
 
+value_type!(box, FuncIRI);
+value_type!(ClipRule);
 value_type!(SpreadMethod);
 value_type!(Coords);
 value_type!(TextPathSpacing);

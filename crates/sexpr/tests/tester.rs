@@ -63,6 +63,7 @@ pub async fn svg(name: &str, test: impl Graphic<SvgBuilder>) {
     std::fs::write(output_file_path, buf).unwrap();
 }
 
+#[allow(unused)]
 pub fn border<G, W, H>(width: W, height: H) -> impl Graphic<G>
 where
     G: Builder,

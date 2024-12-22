@@ -51,3 +51,9 @@ pub use coords::*;
 
 mod pattern;
 pub use pattern::*;
+
+mod compositing;
+pub use compositing::*;
+
+mod iri;
+pub use iri::*;

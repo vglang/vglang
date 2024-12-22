@@ -1,9 +1,9 @@
 //! Defines the optimised intermediate instructions.
 
 use crate::operand::{
-    Canvas, Circle, Ellipse, Fill, Font, GradientStop, Id, LinearGradient, Path, Pattern, Polygon,
-    Polyline, RadialGradient, Rect, Stroke, Text, TextLayout, TextPath, TextSpan, Transform, Use,
-    Variable,
+    Canvas, Circle, ClipPath, ClipPathed, ClipRule, Ellipse, Fill, Font, GradientStop, Id,
+    LinearGradient, Mask, Masked, Opacity, Path, Pattern, Polygon, Polyline, RadialGradient, Rect,
+    Stroke, Text, TextLayout, TextPath, TextSpan, Transform, Use, Variable,
 };
 
 /// Opcodes for vglang.
@@ -43,8 +43,32 @@ pub enum Opcode {
     GradientStop(Box<GradientStop>),
     Pattern(Box<Pattern>),
     Ellipse(Box<Ellipse>),
+    Mask(Box<Mask>),
+    Masked(Box<Masked>),
+    Opacity(Box<Opacity>),
+    ClipPath(Box<ClipPath>),
+    ClipPathed(Box<ClipPathed>),
+    ClipRule(Box<Variable<ClipRule>>),
     /// Popup elements, indicates that the popup elements ared fully rendered.
     Pop(usize),
+}
+
+impl From<Variable<ClipRule>> for Opcode {
+    fn from(value: Variable<ClipRule>) -> Self {
+        Self::ClipRule(Box::new(value))
+    }
+}
+
+impl From<Variable<String>> for Opcode {
+    fn from(value: Variable<String>) -> Self {
+        Self::Characters(Box::new(value))
+    }
+}
+
+impl From<Transform> for Opcode {
+    fn from(value: Transform) -> Self {
+        Self::Transform(Box::new(Variable::Constant(value)))
+    }
 }
 
 macro_rules! opcode_from {
@@ -57,6 +81,11 @@ macro_rules! opcode_from {
     };
 }
 
+opcode_from!(ClipPath);
+opcode_from!(ClipPathed);
+opcode_from!(Opacity);
+opcode_from!(Masked);
+opcode_from!(Mask);
 opcode_from!(Ellipse);
 opcode_from!(Pattern);
 opcode_from!(Canvas);
@@ -77,15 +106,3 @@ opcode_from!(Use);
 opcode_from!(LinearGradient);
 opcode_from!(RadialGradient);
 opcode_from!(GradientStop);
-
-impl From<Variable<String>> for Opcode {
-    fn from(value: Variable<String>) -> Self {
-        Self::Characters(Box::new(value))
-    }
-}
-
-impl From<Transform> for Opcode {
-    fn from(value: Transform) -> Self {
-        Self::Transform(Box::new(Variable::Constant(value)))
-    }
-}

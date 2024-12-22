@@ -9,6 +9,24 @@ pub enum RefBy {
     Index(usize),
 }
 
+impl From<String> for RefBy {
+    fn from(value: String) -> Self {
+        Self::Named(value)
+    }
+}
+
+impl From<&str> for RefBy {
+    fn from(value: &str) -> Self {
+        Self::Named(value.to_owned())
+    }
+}
+
+impl From<usize> for RefBy {
+    fn from(value: usize) -> Self {
+        Self::Index(value)
+    }
+}
+
 /// Variable is reference to context value.
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]

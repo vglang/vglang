@@ -1,4 +1,4 @@
-use super::{Color, Length, RefBy, Rgb, Variable};
+use super::{Color, FuncIRI, Length, Rgb, Variable};
 
 /// ‘fill’ and ‘stroke’ take on a value of type [`Paint`], which is specified as follows:
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -7,9 +7,9 @@ pub enum Paint {
     /// the explicit color to be used to paint the current object
     Color(Rgb),
     /// A gradient entity reference.
-    Gradient(RefBy),
+    Gradient(FuncIRI),
     /// A pattern entity reference.
-    Pattern(RefBy),
+    Pattern(FuncIRI),
 }
 
 impl From<Color> for Paint {

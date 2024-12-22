@@ -38,7 +38,7 @@ impl Default for SpreadMethod {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct LinearGradient {
     /// Defines the coordinate system for attributes ‘x1’, ‘y1’, ‘x2’ and ‘y2’.
-    pub unit: Option<Variable<Coords>>,
+    pub units: Option<Variable<Coords>>,
 
     /// Contains the definition of an optional additional transformation from the gradient coordinate system onto the
     /// target coordinate system (i.e., userSpaceOnUse or objectBoundingBox). This allows for things such as skewing

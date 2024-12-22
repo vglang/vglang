@@ -1,4 +1,4 @@
-use vglang_opcode::operand::{Fill, Paint, RefBy, Stroke};
+use vglang_opcode::operand::{Fill, FuncIRI, Paint, Stroke};
 use vglang_targets::Builder;
 
 use super::{Appliable, Graphic};
@@ -36,15 +36,12 @@ pub trait Sgradient {
     fn gradient(self) -> Paint;
 }
 
-impl Sgradient for String {
+impl<T> Sgradient for T
+where
+    FuncIRI: From<T>,
+{
     fn gradient(self) -> Paint {
-        Paint::Gradient(RefBy::Named(self))
-    }
-}
-
-impl Sgradient for &str {
-    fn gradient(self) -> Paint {
-        Paint::Gradient(RefBy::Named(self.to_owned()))
+        Paint::Gradient(self.into())
     }
 }
 
@@ -53,14 +50,11 @@ pub trait Spattern {
     fn pattern(self) -> Paint;
 }
 
-impl Spattern for String {
+impl<T> Spattern for T
+where
+    FuncIRI: From<T>,
+{
     fn pattern(self) -> Paint {
-        Paint::Pattern(RefBy::Named(self))
-    }
-}
-
-impl Spattern for &str {
-    fn pattern(self) -> Paint {
-        Paint::Pattern(RefBy::Named(self.to_owned()))
+        Paint::Pattern(self.into())
     }
 }

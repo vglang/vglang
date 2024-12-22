@@ -2,11 +2,12 @@ use std::{fmt::Debug, future::Future, pin::Pin, slice::Iter};
 
 use vglang_opcode::{
     operand::{
-        AlignmentBaseline, BaselineShift, Canvas, Circle, DominantBaseline, Ellipse, Fill, Font,
-        FontStretch, FontStyle, FontVariant, FontWeight, GradientStop, LinearGradient, Paint, Path,
-        Pattern, Polygon, Polyline, RadialGradient, Rect, RefBy, Stroke, Text, TextAnchor,
-        TextDirection, TextLayout, TextLengthAdjust, TextPath, TextSpan, Transform, UnicodeBidi,
-        Use, Value, Variable, WritingMode,
+        AlignmentBaseline, BaselineShift, Canvas, Circle, ClipPath, ClipPathed, ClipRule,
+        DominantBaseline, Ellipse, Fill, Font, FontStretch, FontStyle, FontVariant, FontWeight,
+        GradientStop, LinearGradient, Mask, Masked, Opacity, Paint, Path, Pattern, Polygon,
+        Polyline, RadialGradient, Rect, RefBy, Stroke, Text, TextAnchor, TextDirection, TextLayout,
+        TextLengthAdjust, TextPath, TextSpan, Transform, UnicodeBidi, Use, Value, Variable,
+        WritingMode,
     },
     Opcode,
 };
@@ -204,6 +205,12 @@ impl<'a> SvgCreator<'a> {
                 Opcode::RadialGradient(operand) => self.handle_radial_gradient(operand)?,
                 Opcode::GradientStop(operand) => self.handle_gradient_stop(operand)?,
                 Opcode::Pattern(operand) => self.handle_pattern(operand)?,
+                Opcode::Mask(operand) => self.handle_mask(operand)?,
+                Opcode::Masked(operand) => self.handle_masked(operand)?,
+                Opcode::Opacity(operand) => self.handle_opacity(operand)?,
+                Opcode::ClipPath(operand) => self.handle_clip_path(operand)?,
+                Opcode::ClipPathed(operand) => self.handle_clip_pathed(operand)?,
+                Opcode::ClipRule(operand) => self.handle_clip_rule(operand)?,
             }
         }
 
@@ -395,7 +402,7 @@ impl<'a> SvgCreator<'a> {
 
         self.append_id(&mut el)?;
 
-        if let Some(value) = &gradient.unit {
+        if let Some(value) = &gradient.units {
             el.set_attribute("gradientUnits", &self.get_value(value)?.to_string())?;
         }
 
@@ -548,6 +555,100 @@ impl<'a> SvgCreator<'a> {
         Ok(())
     }
 
+    fn handle_opacity(&mut self, operand: &Opacity) -> Result<(), Error> {
+        let mut el = self.document.create_element("g")?;
+
+        el.set_attribute(
+            "opacity",
+            self.get_value(&operand.0)?.0.to_string().as_str(),
+        )?;
+
+        self.el_stack.push(el);
+
+        Ok(())
+    }
+
+    fn handle_clip_rule(&mut self, operand: &Variable<ClipRule>) -> Result<(), Error> {
+        let mut el = self.document.create_element("g")?;
+
+        el.set_attribute("clip-rule", self.get_value(operand)?.to_string().as_str())?;
+
+        self.el_stack.push(el);
+
+        Ok(())
+    }
+
+    fn handle_clip_pathed(&mut self, operand: &ClipPathed) -> Result<(), Error> {
+        let mut el = self.document.create_element("g")?;
+
+        el.set_attribute(
+            "clip-path",
+            self.get_value(&operand.0)?.to_string().as_str(),
+        )?;
+
+        self.el_stack.push(el);
+
+        Ok(())
+    }
+
+    fn handle_masked(&mut self, operand: &Masked) -> Result<(), Error> {
+        let mut el = self.document.create_element("g")?;
+
+        el.set_attribute("mask", self.get_value(&operand.0)?.to_string().as_str())?;
+
+        self.el_stack.push(el);
+
+        Ok(())
+    }
+
+    fn handle_clip_path(&mut self, operand: &ClipPath) -> Result<(), Error> {
+        let mut el = self.document.create_element("clipPath")?;
+
+        self.append_id(&mut el)?;
+
+        if let Some(value) = &operand.0 {
+            el.set_attribute("clipPathUnits", &self.get_value(value)?.to_string())?;
+        }
+
+        self.el_stack.push(el);
+
+        Ok(())
+    }
+
+    fn handle_mask(&mut self, operand: &Mask) -> Result<(), Error> {
+        let mut el = self.document.create_element("mask")?;
+
+        self.append_id(&mut el)?;
+
+        if let Some(value) = &operand.x {
+            el.set_attribute("x", &self.get_value(value)?.to_string())?;
+        }
+
+        if let Some(value) = &operand.y {
+            el.set_attribute("y", &self.get_value(value)?.to_string())?;
+        }
+
+        if let Some(value) = &operand.width {
+            el.set_attribute("width", &self.get_value(value)?.to_string())?;
+        }
+
+        if let Some(value) = &operand.height {
+            el.set_attribute("height", &self.get_value(value)?.to_string())?;
+        }
+
+        if let Some(value) = &operand.units {
+            el.set_attribute("patternUnits", &self.get_value(value)?.to_string())?;
+        }
+
+        if let Some(value) = &operand.content_units {
+            el.set_attribute("patternContentUnits", &self.get_value(value)?.to_string())?;
+        }
+
+        self.el_stack.push(el);
+
+        Ok(())
+    }
+
     fn handle_text(&mut self, text: &Text) -> Result<(), Error> {
         let mut el = self.document.create_element("text")?;
 
@@ -619,6 +720,22 @@ impl<'a> SvgCreator<'a> {
             TextLengthAdjust::SpacingAndGlyphs => {
                 el.set_attribute("lengthAdjust", "spacingAndGlyphs")?
             }
+        }
+
+        if let Some(value) = &text.font {
+            self.handle_font(&mut el, value)?;
+        }
+
+        if let Some(value) = &text.layout {
+            self.handle_text_layout(&mut el, value)?;
+        }
+
+        if let Some(value) = &text.fill {
+            self.handle_fill(&mut el, value)?;
+        }
+
+        if let Some(value) = &text.stroke {
+            self.handle_stroke(&mut el, value)?;
         }
 
         self.el_stack.push(el);
@@ -740,19 +857,12 @@ impl<'a> SvgCreator<'a> {
         Ok(())
     }
 
-    fn handle_uri(&self, uri: &RefBy) -> Result<String, Error> {
-        match uri {
-            RefBy::Named(name) => Ok(format!("url(#{})", name)),
-            RefBy::Index(_) => todo!(),
-        }
-    }
-
     fn handle_stroke(&self, el: &mut RefNode, value: &Stroke) -> Result<(), Error> {
         if let Some(paint) = &value.paint {
             match self.get_value(paint)? {
                 Paint::Color(rgba) => el.set_attribute("stroke", rgba.to_string().as_str())?,
-                Paint::Gradient(uri) => el.set_attribute("stroke", &self.handle_uri(uri)?)?,
-                Paint::Pattern(uri) => el.set_attribute("stroke", &self.handle_uri(uri)?)?,
+                Paint::Gradient(uri) => el.set_attribute("stroke", uri.to_string().as_str())?,
+                Paint::Pattern(uri) => el.set_attribute("stroke", uri.to_string().as_str())?,
             }
         }
 
@@ -767,8 +877,8 @@ impl<'a> SvgCreator<'a> {
         if let Some(paint) = &value.paint {
             match self.get_value(paint)? {
                 Paint::Color(rgba) => el.set_attribute("fill", rgba.to_string().as_str())?,
-                Paint::Gradient(uri) => el.set_attribute("fill", &self.handle_uri(uri)?)?,
-                Paint::Pattern(uri) => el.set_attribute("fill", &self.handle_uri(uri)?)?,
+                Paint::Gradient(uri) => el.set_attribute("fill", uri.to_string().as_str())?,
+                Paint::Pattern(uri) => el.set_attribute("fill", uri.to_string().as_str())?,
             }
         } else {
             el.set_attribute("fill", "none")?
