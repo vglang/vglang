@@ -1,0 +1,11 @@
+[package]
+description = "An abstract of vglang rendering surface."
+documentation = "https://docs.rs/vglang-surface"
+edition.workspace = true
+license = "MIT"
+name = "vglang-surface"
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+vglang-opcode = { workspace = true }

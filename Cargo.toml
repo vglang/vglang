@@ -33,5 +33,5 @@ concat-idents = "1.1.5"
 # sub-crates
 vglang-derive = { path = "./crates/derive", version = "^0.1", default-features = false }
 vglang-opcode = { path = "./crates/opcode", version = "^0.1", default-features = false }
-vglang-targets = { path = "./crates/targets", version = "^0.1", default-features = false }
+vglang-surface = { path = "./crates/surface", version = "^0.1", default-features = false }
 vglang-svg = { path = "./crates/svg", version = "^0.1", default-features = false }
