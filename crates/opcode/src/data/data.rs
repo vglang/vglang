@@ -11,48 +11,48 @@ pub trait DataType {
 
 macro_rules! impl_data_type {
     ($name: ident) => {
-        impl DataType for $name {
+        impl $crate::data::DataType for $name {
             fn downcast_ref(data: &super::Data) -> Option<&Self> {
                 match data {
-                    Data::$name(v) => Some(v),
+                    $crate::data::Data::$name(v) => Some(v),
                     _ => None,
                 }
             }
 
             fn into_data(self) -> super::Data {
-                Data::$name(self)
+                $crate::data::Data::$name(self)
             }
         }
     };
 
     (box, $name: ident) => {
-        impl DataType for $name {
+        impl $crate::data::DataType for $name {
             fn downcast_ref(data: &super::Data) -> Option<&Self> {
                 match data {
-                    Data::$name(v) => Some(v),
+                    $crate::data::Data::$name(v) => Some(v),
                     _ => None,
                 }
             }
 
             fn into_data(self) -> super::Data {
-                Data::$name(Box::new(self))
+                $crate::data::Data::$name(Box::new(self))
             }
         }
     };
 
     (listof, $name: ident) => {
         concat_idents::concat_idents!(field_name = ListOf, $name {
-        impl DataType for Vec<$name> {
+        impl $crate::data::DataType for Vec<$name> {
             fn downcast_ref(data: &super::Data) -> Option<&Vec<$name>> {
                 match data {
-                        Data::field_name(v) => return Some(v),
+                        $crate::data::Data::field_name(v) => return Some(v),
                         _ => None,
                 }
 
             }
 
             fn into_data(self) -> super::Data {
-                Data::field_name(Box::new(self))
+                $crate::data::Data::field_name(Box::new(self))
             }
         }
     });
@@ -81,4 +81,8 @@ pub enum Data {
     Percentage(Percentage),
     Paint(Box<Paint>),
     NumberOptNumber(NumberOptNumber),
+    StrokeLineCap(StrokeLineCap),
+    StrokeLineJoin(StrokeLineJoin),
+    FillRule(FillRule),
+    TextLengthAdjust(TextLengthAdjust),
 }
