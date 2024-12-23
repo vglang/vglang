@@ -1,9 +1,10 @@
 //! Defines the optimised intermediate instructions.
 
 use crate::operand::{
-    Canvas, Circle, ClipPath, ClipPathed, ClipRule, Ellipse, Fill, Font, GradientStop, Id,
-    LinearGradient, Mask, Masked, Opacity, Path, Pattern, Polygon, Polyline, RadialGradient, Rect,
-    Stroke, Text, TextLayout, TextPath, TextSpan, Transform, Use, Variable,
+    Canvas, Circle, ClipPath, ClipPathed, ClipRule, Ellipse, FeDistantLight, FePointLight,
+    FeSpotLight, Fill, Filter, Font, GradientStop, Id, LightingColor, LinearGradient, Mask, Masked,
+    Opacity, Path, Pattern, Polygon, Polyline, RadialGradient, Rect, Stroke, Text, TextLayout,
+    TextPath, TextSpan, Transform, Use, Variable,
 };
 
 /// Opcodes for vglang.
@@ -49,26 +50,13 @@ pub enum Opcode {
     ClipPath(Box<ClipPath>),
     ClipPathed(Box<ClipPathed>),
     ClipRule(Box<Variable<ClipRule>>),
+    Filter(Box<Filter>),
+    FeDistantLight(Box<FeDistantLight>),
+    FePointLight(Box<FePointLight>),
+    FeSpotLight(Box<FeSpotLight>),
+    LightingColor(Box<LightingColor>),
     /// Popup elements, indicates that the popup elements ared fully rendered.
     Pop(usize),
-}
-
-impl From<Variable<ClipRule>> for Opcode {
-    fn from(value: Variable<ClipRule>) -> Self {
-        Self::ClipRule(Box::new(value))
-    }
-}
-
-impl From<Variable<String>> for Opcode {
-    fn from(value: Variable<String>) -> Self {
-        Self::Characters(Box::new(value))
-    }
-}
-
-impl From<Transform> for Opcode {
-    fn from(value: Transform) -> Self {
-        Self::Transform(Box::new(Variable::Constant(value)))
-    }
 }
 
 macro_rules! opcode_from {
@@ -81,6 +69,11 @@ macro_rules! opcode_from {
     };
 }
 
+opcode_from!(LightingColor);
+opcode_from!(FeSpotLight);
+opcode_from!(FePointLight);
+opcode_from!(FeDistantLight);
+opcode_from!(Filter);
 opcode_from!(ClipPath);
 opcode_from!(ClipPathed);
 opcode_from!(Opacity);
@@ -106,3 +99,21 @@ opcode_from!(Use);
 opcode_from!(LinearGradient);
 opcode_from!(RadialGradient);
 opcode_from!(GradientStop);
+
+impl From<Variable<ClipRule>> for Opcode {
+    fn from(value: Variable<ClipRule>) -> Self {
+        Self::ClipRule(Box::new(value))
+    }
+}
+
+impl From<Variable<String>> for Opcode {
+    fn from(value: Variable<String>) -> Self {
+        Self::Characters(Box::new(value))
+    }
+}
+
+impl From<Transform> for Opcode {
+    fn from(value: Transform) -> Self {
+        Self::Transform(Box::new(Variable::Constant(value)))
+    }
+}

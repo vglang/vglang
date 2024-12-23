@@ -28,9 +28,6 @@ pub use shapes::*;
 mod font;
 pub use font::*;
 
-mod num;
-pub use num::*;
-
 mod transform;
 pub use transform::*;
 
@@ -55,5 +52,5 @@ pub use pattern::*;
 mod compositing;
 pub use compositing::*;
 
-mod iri;
-pub use iri::*;
+mod filter;
+pub use filter::*;

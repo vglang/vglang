@@ -211,6 +211,7 @@ impl<'a> SvgCreator<'a> {
                 Opcode::ClipPath(operand) => self.handle_clip_path(operand)?,
                 Opcode::ClipPathed(operand) => self.handle_clip_pathed(operand)?,
                 Opcode::ClipRule(operand) => self.handle_clip_rule(operand)?,
+                _ => todo!(),
             }
         }
 
