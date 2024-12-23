@@ -3,28 +3,13 @@ description = "low-level instructions for vglang executor"
 documentation = "https://docs.rs/vglang-opcode"
 license = "MIT"
 name = "vglang-opcode"
+edition.workspace = true
+repository.workspace = true
+version.workspace = true
 
-[package.edition]
-workspace = true
-
-[package.repository]
-workspace = true
-
-[package.version]
-workspace = true
-
-[dependencies.serde]
-workspace = true
-optional = true
-
-[dependencies.vglang-derive]
-workspace = true
-optional = true
-
-[dependencies.num]
-workspace = true
+[dependencies]
+serde = { workspace = true, optional = true }
 
 [features]
-default = ["serde", "sexpr"]
+default = ["serde"]
 serde = ["dep:serde"]
-sexpr = ["vglang-derive/sexpr"]
