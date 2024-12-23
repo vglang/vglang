@@ -29,6 +29,7 @@ oxilangtag = "0.1.5"
 bitmask-enum = "2.2.5"
 proc-macro2 = "^1"
 num = "0.4.3"
+concat-idents = "1.1.5"
 # sub-crates
 vglang-derive = { path = "./crates/derive", version = "^0.1", default-features = false }
 vglang-opcode = { path = "./crates/opcode", version = "^0.1", default-features = false }

@@ -9,6 +9,7 @@ version.workspace = true
 
 [dependencies]
 serde = { workspace = true, optional = true }
+concat-idents = { workspace = true }
 
 [features]
 default = ["serde"]
