@@ -1,4 +1,3 @@
-use vglang_opcode::el::{Element, Group, Text, TextSpan};
 use vglang_surface::Builder;
 
 /// The returns types of all sexprs must implement this trait.
@@ -19,17 +18,3 @@ where
         self(builder)
     }
 }
-
-macro_rules! impl_graphics {
-    ($($name: ident),+) => {
-        $(impl<B> Graphics<B> for $name
-        where
-            B: Builder,{
-            fn build(self, builder: &mut B) {
-                builder.push(self.into_opcode())
-            }
-        })+
-    };
-}
-
-impl_graphics!(Text, TextSpan, Group);

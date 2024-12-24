@@ -30,6 +30,7 @@ bitmask-enum = "2.2.5"
 proc-macro2 = "^1"
 num = "0.4.3"
 concat-idents = "1.1.5"
+impl-trait-for-tuples = "0.2.3"
 # sub-crates
 vglang-derive = { path = "./crates/derive", version = "^0.1", default-features = false }
 vglang-opcode = { path = "./crates/opcode", version = "^0.1", default-features = false }

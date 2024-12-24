@@ -1,10 +1,7 @@
 use crate::{
-    attrs::{impl_apply_to, Fill, Stroke},
     data::{Angle, Length, TextLengthAdjust},
     variable::Variable,
 };
-
-use super::{impl_content_of, Container, Shape};
 
 /// The ‘text’ element defines a graphics element consisting of text.
 ///
@@ -88,11 +85,6 @@ pub struct Text {
     pub length_adjust: Variable<TextLengthAdjust>,
 }
 
-impl_apply_to!(box, Fill, Text);
-impl_apply_to!(box, Stroke, Text);
-impl_content_of!(box, TextSpan, Text, Container);
-impl_content_of!(box, Characters, Text, Shape);
-
 /// The ‘text’ element defines a graphics element consisting of text.
 ///
 /// See [`text`](https://www.w3.org/TR/SVG11/text.html#TextElement)
@@ -174,10 +166,6 @@ pub struct TextSpan {
     /// If the attribute is not specified, the effect is as a value of 'spacing' were specified.
     pub length_adjust: Variable<TextLengthAdjust>,
 }
-
-impl_apply_to!(box, Fill, TextSpan);
-impl_apply_to!(box, Stroke, TextSpan);
-impl_content_of!(box, Characters, TextSpan, Shape);
 
 /// Text content chars.
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]

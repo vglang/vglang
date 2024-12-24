@@ -12,6 +12,7 @@ vglang-opcode = { workspace = true, features = ["sexpr"] }
 vglang-surface = { workspace = true }
 thiserror = { workspace = true }
 num = { workspace = true }
+impl-trait-for-tuples = { workspace = true }
 
 [dev-dependencies]
 pretty_env_logger = { workspace = true }
