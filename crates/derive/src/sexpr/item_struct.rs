@@ -1,8 +1,8 @@
-use proc_macro::TokenStream;
+use proc_macro2::TokenStream;
 use quote::{format_ident, quote, ToTokens};
-use syn::{parse_macro_input, Field, GenericArgument, Ident, ItemStruct, PathSegment, Type};
+use syn::{Field, GenericArgument, Ident, ItemStruct, PathSegment, Type};
 
-pub fn derive_api(item: TokenStream) -> TokenStream {
+pub(super) fn drive_struct(item: ItemStruct) -> TokenStream {
     let ItemStruct {
         attrs: _,
         vis: _,
@@ -11,7 +11,7 @@ pub fn derive_api(item: TokenStream) -> TokenStream {
         generics,
         fields,
         semi_token: _,
-    } = parse_macro_input!(item as ItemStruct);
+    } = item;
 
     let mut apis = vec![];
 

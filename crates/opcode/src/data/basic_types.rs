@@ -1,7 +1,5 @@
 use std::{f32::consts::PI, ops::Deref};
 
-use super::impl_data_type;
-
 /// An `integer` is specified as an optional sign character ("+" or "-") followed by one or more digits "0" to "9":
 ///
 /// ***integer ::= [+-]? [0-9]+***
@@ -24,8 +22,6 @@ impl Deref for Integer {
         &self.0
     }
 }
-
-impl_data_type!(Integer);
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -52,8 +48,6 @@ impl Deref for Number {
         &self.0
     }
 }
-
-impl_data_type!(Number);
 
 /// Angles are specified in one of two ways depending upon
 /// whether they are used in CSS property syntax or SVG
@@ -91,9 +85,6 @@ impl Angle {
         }
     }
 }
-
-impl_data_type!(Angle);
-impl_data_type!(listof, Angle);
 
 /// Recognized color keyword names, compliant with svg 1.1.
 #[allow(non_camel_case_types)]
@@ -423,8 +414,6 @@ impl Rgb {
     }
 }
 
-impl_data_type!(Rgb);
-
 /// A length is a distance Length, given as a number along with a unit which may be optional.
 ///
 /// See [`length`](https://www.w3.org/TR/SVG11/types.html#DataTypeLength)
@@ -469,9 +458,6 @@ where
     }
 }
 
-impl_data_type!(Length);
-impl_data_type!(listof, Length);
-
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Iri(
@@ -498,8 +484,6 @@ impl From<&str> for Iri {
         Self(value.to_owned())
     }
 }
-
-impl_data_type!(box, Iri);
 
 /// Functional notation for a reference. The syntax for this reference is the same as the [`CSS URI`].
 ///
@@ -529,8 +513,6 @@ impl From<Iri> for FuncIRI {
     }
 }
 
-impl_data_type!(box, FuncIRI);
-
 /// This property specifies a prioritized font family names and/or generic family names.
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -548,9 +530,6 @@ impl From<String> for FontFamily {
         Self::Generic(value)
     }
 }
-
-impl_data_type!(box, FontFamily);
-impl_data_type!(listof, FontFamily);
 
 /// A 2d coordinate point.
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone, Copy)]
@@ -573,9 +552,6 @@ where
     }
 }
 
-impl_data_type!(Point);
-impl_data_type!(listof, Point);
-
 /// Percentages are specified as a number followed by a "%" character:
 #[derive(Debug, PartialEq, PartialOrd, Clone, Copy)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -590,8 +566,6 @@ where
     }
 }
 
-impl_data_type!(Percentage);
-
 /// ‘fill’ and ‘stroke’ take on a value of type [`Paint`], which is specified as follows:
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -601,8 +575,6 @@ pub enum Paint {
     /// A reference to a paint server.
     Server(FuncIRI),
 }
-
-impl_data_type!(box, Paint);
 
 impl From<Rgb> for Paint {
     fn from(value: Rgb) -> Self {
@@ -652,8 +624,6 @@ where
         Self(Number::from(value.0).0, Some(Number::from(value.1).0))
     }
 }
-
-impl_data_type!(NumberOptNumber);
 
 #[cfg(feature = "sexpr")]
 mod sexpr {

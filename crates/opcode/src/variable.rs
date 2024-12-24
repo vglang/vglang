@@ -1,6 +1,6 @@
 //! Defines reference types that can be used as properties and attributes values.
 
-use crate::data::DataType;
+use crate::data::Data;
 
 /// The path used by [`Variable`] is used to point to [`Target`].
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -49,7 +49,7 @@ pub enum Target {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Variable<T>
 where
-    T: DataType,
+    Data: From<T>,
 {
     /// A literal constant value.
     Constant(T),
@@ -62,7 +62,7 @@ where
 
 impl<T> From<T> for Variable<T>
 where
-    T: DataType,
+    Data: From<T>,
 {
     fn from(value: T) -> Self {
         Self::Constant(value)
@@ -71,7 +71,8 @@ where
 
 impl<T> Default for Variable<T>
 where
-    T: DataType + Default,
+    Data: From<T>,
+    T: Default,
 {
     fn default() -> Self {
         Self::Constant(T::default())
@@ -80,7 +81,7 @@ where
 
 impl<P, T> From<(P, Target)> for Variable<T>
 where
-    T: DataType,
+    Data: From<T>,
     Path: From<P>,
 {
     fn from(value: (P, Target)) -> Self {

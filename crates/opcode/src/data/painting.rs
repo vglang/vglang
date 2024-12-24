@@ -25,8 +25,6 @@ impl Default for FillRule {
     }
 }
 
-impl_data_type!(FillRule);
-
 /// Specifies the shape to be used at the end of open subpaths when they are stroked
 #[derive(Debug, PartialEq, PartialOrd, Clone, Copy)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -41,8 +39,6 @@ impl Default for StrokeLineCap {
         Self::Butt
     }
 }
-
-impl_data_type!(StrokeLineCap);
 
 /// Specifies the shape to be used at the corners of paths or basic shapes when they are stroked.
 #[derive(Debug, PartialEq, PartialOrd, Clone, Copy)]
@@ -67,5 +63,3 @@ where
         Self::Miter(Number::from(value).0)
     }
 }
-
-impl_data_type!(StrokeLineJoin);

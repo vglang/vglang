@@ -1,5 +1,3 @@
-use super::impl_data_type;
-
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum TextLengthAdjust {
@@ -16,5 +14,3 @@ impl Default for TextLengthAdjust {
         Self::Spacing
     }
 }
-
-impl_data_type!(TextLengthAdjust);

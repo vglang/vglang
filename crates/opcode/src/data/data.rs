@@ -1,68 +1,8 @@
 use super::*;
 
-/// Any value that can be put into [`Data`] must implement this trait.
-pub trait DataType {
-    /// Returns some reference to the inner value of [`Data`] if it is of type `Self`, or None if it isn’t.
-    fn downcast_ref(data: &Data) -> Option<&Self>;
-
-    /// Convert self into [`Data`]
-    fn into_data(self) -> Data;
-}
-
-macro_rules! impl_data_type {
-    ($name: ident) => {
-        impl $crate::data::DataType for $name {
-            fn downcast_ref(data: &super::Data) -> Option<&Self> {
-                match data {
-                    $crate::data::Data::$name(v) => Some(v),
-                    _ => None,
-                }
-            }
-
-            fn into_data(self) -> super::Data {
-                $crate::data::Data::$name(self)
-            }
-        }
-    };
-
-    (box, $name: ident) => {
-        impl $crate::data::DataType for $name {
-            fn downcast_ref(data: &super::Data) -> Option<&Self> {
-                match data {
-                    $crate::data::Data::$name(v) => Some(v),
-                    _ => None,
-                }
-            }
-
-            fn into_data(self) -> super::Data {
-                $crate::data::Data::$name(Box::new(self))
-            }
-        }
-    };
-
-    (listof, $name: ident) => {
-        concat_idents::concat_idents!(field_name = ListOf, $name {
-        impl $crate::data::DataType for Vec<$name> {
-            fn downcast_ref(data: &super::Data) -> Option<&Vec<$name>> {
-                match data {
-                        $crate::data::Data::field_name(v) => return Some(v),
-                        _ => None,
-                }
-
-            }
-
-            fn into_data(self) -> super::Data {
-                $crate::data::Data::field_name(Box::new(self))
-            }
-        }
-    });
-    };
-}
-
-pub(super) use impl_data_type;
-
 /// the data types that can be passed to the animation registers.
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
+#[cfg_attr(feature = "sexpr", derive(vglang_derive::Sexpr))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Data {
     Integer(Integer),
@@ -85,4 +25,25 @@ pub enum Data {
     StrokeLineJoin(StrokeLineJoin),
     FillRule(FillRule),
     TextLengthAdjust(TextLengthAdjust),
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::data::{Angle, MapCollect};
+
+    use super::Data;
+
+    #[test]
+    fn test_from_data() {
+        let angle = Data::Angle(10.into());
+
+        assert_eq!(TryFrom::try_from(&angle), Ok(&Angle::deg(10.0)));
+
+        let angles = Data::ListOfAngle(Box::new((10, 11).map_collect()));
+
+        assert_eq!(
+            TryFrom::try_from(&angles),
+            Ok(&MapCollect::<Angle>::map_collect((10, 11)))
+        );
+    }
 }
