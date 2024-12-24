@@ -27,9 +27,7 @@ pub trait Builder {
     type Create: Future<Output = Result<Self::Program, Self::Error>> + 'static;
 
     /// Push a new `opcode` to cache buf..
-    fn push<O>(&mut self, opcode: O)
-    where
-        Opcode: From<O>;
+    fn push(&mut self, opcode: Opcode);
 
     fn pop(&mut self) {
         self.push(Opcode::Pop);

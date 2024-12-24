@@ -195,3 +195,38 @@ impl From<&str> for Characters {
         Self(value.to_owned())
     }
 }
+
+#[cfg(feature = "sexpr")]
+mod sexpr {
+    use crate::data::MapCollect;
+
+    use super::*;
+
+    impl<X, Y> From<(X, Y)> for Text
+    where
+        X: MapCollect<Length>,
+        Y: MapCollect<Length>,
+    {
+        fn from(value: (X, Y)) -> Self {
+            Self {
+                x: Variable::Constant(value.0.map_collect()),
+                y: Variable::Constant(value.1.map_collect()),
+                ..Default::default()
+            }
+        }
+    }
+
+    impl<X, Y> From<(X, Y)> for TextSpan
+    where
+        X: MapCollect<Length>,
+        Y: MapCollect<Length>,
+    {
+        fn from(value: (X, Y)) -> Self {
+            Self {
+                x: Variable::Constant(value.0.map_collect()),
+                y: Variable::Constant(value.1.map_collect()),
+                ..Default::default()
+            }
+        }
+    }
+}

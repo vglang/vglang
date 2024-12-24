@@ -604,6 +604,27 @@ pub enum Paint {
 
 impl_data_type!(box, Paint);
 
+impl From<Rgb> for Paint {
+    fn from(value: Rgb) -> Self {
+        Self::Color(value)
+    }
+}
+
+impl From<Color> for Paint {
+    fn from(value: Color) -> Self {
+        Self::Color(value.into())
+    }
+}
+
+impl<S> From<S> for Paint
+where
+    FuncIRI: From<S>,
+{
+    fn from(value: S) -> Self {
+        Self::Server(value.into())
+    }
+}
+
 /// A pair of `number`s, where the second `number` is optional.
 #[derive(Debug, PartialEq, PartialOrd, Clone, Copy)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]

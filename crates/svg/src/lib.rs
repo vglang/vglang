@@ -46,11 +46,8 @@ impl Builder for SvgBuilder {
 
     type Create = Pin<Box<dyn Future<Output = Result<Self::Program, Self::Error>> + 'static>>;
 
-    fn push<O>(&mut self, opcode: O)
-    where
-        Opcode: From<O>,
-    {
-        self.0.push(opcode.into());
+    fn push(&mut self, opcode: Opcode) {
+        self.0.push(opcode);
     }
 
     fn create(self) -> Self::Create {

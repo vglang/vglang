@@ -1,7 +1,7 @@
 use super::{Fill, Stroke};
 
 /// If an attribute want to be applied to a graphic element, it should implement this trait.
-pub trait Apply<Target> {
+pub trait Apply<Target: ?Sized> {
     /// convert self into [`Attr`]
     fn into_attribute(self) -> Attr;
 }
