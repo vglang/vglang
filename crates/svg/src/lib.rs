@@ -1,7 +1,10 @@
 use std::{fmt::Debug, future::Future, pin::Pin, slice::Iter};
 
-use vglang_opcode::{data::Data, Opcode};
-use vglang_surface::*;
+use vglang::{
+    opcode::{data::Data, Opcode},
+    surface::{Builder, Program, Target},
+};
+
 use xml_dom::level2::{
     ext::{DocumentDecl, XmlDecl},
     get_implementation, Document, Element, RefNode,

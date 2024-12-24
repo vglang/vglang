@@ -1,6 +1,6 @@
 use std::{collections::HashMap, future::Future};
 
-use vglang_opcode::{data::Data, Opcode};
+use crate::opcode::{data::Data, Opcode};
 
 /// Rendering target must implement this trait.
 pub trait Target {

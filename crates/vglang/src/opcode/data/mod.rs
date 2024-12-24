@@ -11,9 +11,3 @@ pub use painting::*;
 
 mod text;
 pub use text::*;
-
-#[cfg(feature = "sexpr")]
-#[cfg_attr(docsrs, doc(cfg(feature = "sexpr")))]
-mod map_collect;
-#[cfg(feature = "sexpr")]
-pub use map_collect::*;

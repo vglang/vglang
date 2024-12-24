@@ -1,4 +1,4 @@
-use crate::{
+use crate::opcode::{
     data::{FillRule, Length, Paint, StrokeLineCap, StrokeLineJoin},
     variable::Variable,
 };

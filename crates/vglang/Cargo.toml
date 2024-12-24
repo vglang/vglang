@@ -1,8 +1,8 @@
 [package]
-description = "low-level instructions for vglang executor"
-documentation = "https://docs.rs/vglang-opcode"
+description = "`vglang` is a simple and fast **Vector Graphics programming Language**."
+documentation = "https://docs.rs/vglang"
 license = "MIT"
-name = "vglang-opcode"
+name = "vglang"
 edition.workspace = true
 repository.workspace = true
 version.workspace = true
@@ -13,6 +13,7 @@ vglang-derive = { workspace = true, optional = true }
 concat-idents = { workspace = true }
 
 [features]
-default = ["serde"]
+default = ["serde", "sexpr"]
 serde = ["dep:serde"]
-sexpr = ["vglang-derive/sexpr"]
+surface = []
+sexpr = ["vglang-derive/sexpr", "surface"]

@@ -1,6 +1,6 @@
 //! Defines reference types that can be used as properties and attributes values.
 
-use crate::data::Data;
+use crate::opcode::data::Data;
 
 /// The path used by [`Variable`] is used to point to [`Target`].
 #[derive(Debug, PartialEq, PartialOrd, Clone)]

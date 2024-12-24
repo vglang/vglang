@@ -197,7 +197,7 @@ impl DeriveFiled {
                 apis.push(quote! {
                     pub fn #fn_name<V>(mut self, v: V) -> Self
                     where
-                        V: crate::data::MapCollect<#content_type>,
+                        V: crate::sexpr::MapCollect<#content_type>,
                     {
                         self.#fn_name = v.map_collect();
                         self
@@ -211,7 +211,7 @@ impl DeriveFiled {
                     apis.push(quote! {
                         pub fn #fn_name<V>(mut self, v: V) -> Self
                         where
-                            V: crate::data::MapCollect<#content_type>,
+                            V: crate::sexpr::MapCollect<#content_type>,
                         {
                             self.#fn_name = Variable::Constant(v.map_collect());
                             self
@@ -235,8 +235,8 @@ impl DeriveFiled {
                         S: ToOwned<Owned = String>
                     {
                         self.#fn_name = Variable::Reference {
-                            path: crate::variable::Path::Named(v.to_owned()),
-                            target: crate::variable::Target::Register,
+                            path: crate::opcode::variable::Path::Named(v.to_owned()),
+                            target: crate::opcode::variable::Target::Register,
                         };
                         self
                     }
@@ -249,7 +249,7 @@ impl DeriveFiled {
                             apis.push(quote! {
                                 pub fn #fn_name<V>(mut self, v: V) -> Self
                                 where
-                                    V: crate::data::MapCollect<#content_type>,
+                                    V: crate::sexpr::MapCollect<#content_type>,
                                 {
                                     self.#fn_name = Some(v.map_collect());
                                     self
@@ -271,8 +271,8 @@ impl DeriveFiled {
                                     S: ToOwned<Owned = String>
                                 {
                                     self.#fn_name = Some(Variable::Reference {
-                                        path: crate::variable::Path::Named(v.to_owned()),
-                                        target: crate::variable::Target::Register,
+                                        path: crate::opcode::variable::Path::Named(v.to_owned()),
+                                        target: crate::opcode::variable::Target::Register,
                                     });
                                     self
                                 }

@@ -26,24 +26,3 @@ pub enum Data {
     FillRule(FillRule),
     TextLengthAdjust(TextLengthAdjust),
 }
-
-#[cfg(test)]
-mod tests {
-    use crate::data::{Angle, MapCollect};
-
-    use super::Data;
-
-    #[test]
-    fn test_from_data() {
-        let angle = Data::Angle(10.into());
-
-        assert_eq!(TryFrom::try_from(&angle), Ok(&Angle::deg(10.0)));
-
-        let angles = Data::ListOfAngle(Box::new((10, 11).map_collect()));
-
-        assert_eq!(
-            TryFrom::try_from(&angles),
-            Ok(&MapCollect::<Angle>::map_collect((10, 11)))
-        );
-    }
-}

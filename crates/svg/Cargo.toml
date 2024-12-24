@@ -8,7 +8,6 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
-vglang-opcode = { workspace = true }
-vglang-surface = { workspace = true }
+vglang = { workspace = true }
 thiserror = { workspace = true }
 xml_dom = { workspace = true }

@@ -1,4 +1,4 @@
-use crate::{attrs::Attr, el::Container, el::Shape};
+use crate::opcode::{attrs::Attr, el::Container, el::Shape};
 
 /// hight level `opcode` for vglang.
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
