@@ -6,7 +6,7 @@ use crate::sexpr::stream::derive_stream_api;
 
 use super::element::{derive_content_of, Element};
 
-pub fn derive_shape(
+pub fn derive_container(
     attr: proc_macro::TokenStream,
     item: proc_macro::TokenStream,
 ) -> proc_macro::TokenStream {
@@ -42,7 +42,7 @@ fn derive_graphics(boxed: bool, item: &ItemStruct) -> TokenStream {
                 where B: crate::surface::Builder,
             {
                 fn build(self, builder: &mut B) {
-                    builder.push(crate::opcode::el::Shape::#ident(Box::new(self)).into())
+                    builder.push(crate::opcode::el::Container::#ident(Box::new(self)).into())
                 }
             }
         }
@@ -52,7 +52,7 @@ fn derive_graphics(boxed: bool, item: &ItemStruct) -> TokenStream {
                 where B: crate::surface::Builder,
             {
                 fn build(self, builder: &mut B) {
-                    builder.push(crate::opcode::el::Shape::#ident(self).into())
+                    builder.push(crate::opcode::el::Container::#ident(self).into())
                 }
             }
         }

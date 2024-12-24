@@ -3,10 +3,14 @@ use crate::opcode::{
     variable::Variable,
 };
 
+#[cfg(feature = "sexpr")]
+use super::Group;
+
 /// The ‘text’ element defines a graphics element consisting of text.
 ///
 /// See [`text`](https://www.w3.org/TR/SVG11/text.html#TextElement)
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "sexpr", vglang_derive::container_element(boxed, Group))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Text {
     /// If a single `coordinate` is provided, then the value represents the new absolute X coordinate for
@@ -88,6 +92,10 @@ pub struct Text {
 ///
 /// See [`text`](https://www.w3.org/TR/SVG11/text.html#TextElement)
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(
+    feature = "sexpr",
+    vglang_derive::container_element(boxed, Group, Text, TextSpan)
+)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct TextSpan {
     /// If a single `coordinate` is provided, then the value represents the new absolute X coordinate for
@@ -167,7 +175,7 @@ pub struct TextSpan {
 
 /// Text content chars.
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
-#[cfg_attr(feature = "sexpr", derive(vglang_derive::Shape))]
+#[cfg_attr(feature = "sexpr", vglang_derive::shape_element(boxed, Text, TextSpan))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Characters(pub String);
 
