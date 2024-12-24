@@ -5,7 +5,6 @@ use crate::opcode::{
 
 /// The ‘fill’ instruction paints the interior of the given graphical element.
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
-#[cfg_attr(feature = "sexpr", derive(vglang_derive::Sexpr))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Fill {
     /// paints color.
@@ -36,7 +35,6 @@ where
 
 /// This property affect how an element is stroked.
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
-#[cfg_attr(feature = "sexpr", derive(vglang_derive::Sexpr))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Stroke {
     /// paints color paints along the outline of the given graphical element.

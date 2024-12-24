@@ -1,15 +1,7 @@
-use proc_macro::TokenStream;
-use syn::{parse_macro_input, Item};
+mod shape;
+pub use shape::*;
 
-mod item_enum;
-mod item_struct;
+mod stream;
 
-pub fn derive_api(item: TokenStream) -> TokenStream {
-    let item = parse_macro_input!(item as Item);
-
-    match item {
-        Item::Enum(item) => item_enum::derive_api(item).into(),
-        Item::Struct(item) => item_struct::drive_struct(item).into(),
-        _ => unimplemented!("unsupport item."),
-    }
-}
+mod data;
+pub use data::*;

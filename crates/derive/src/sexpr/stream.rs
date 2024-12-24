@@ -2,7 +2,7 @@ use proc_macro2::TokenStream;
 use quote::{format_ident, quote, ToTokens};
 use syn::{Field, GenericArgument, Ident, ItemStruct, PathSegment, Type};
 
-pub(super) fn drive_struct(item: ItemStruct) -> TokenStream {
+pub(super) fn derive_stream_api(item: &ItemStruct) -> TokenStream {
     let ItemStruct {
         attrs: _,
         vis: _,
@@ -13,20 +13,25 @@ pub(super) fn drive_struct(item: ItemStruct) -> TokenStream {
         semi_token: _,
     } = item;
 
-    let mut apis = vec![];
-
-    for field in fields {
-        DeriveFiled::new(field).derive(&mut apis);
-    }
-
     let (impl_generics, ty_generics, where_clause) = generics.split_for_impl();
 
-    quote! {
-        impl #impl_generics #ident #ty_generics #where_clause {
-            #(#apis)*
+    let mut apis = vec![];
+
+    match fields {
+        syn::Fields::Named(fields_named) => {
+            for field in &fields_named.named {
+                DeriveFiled::new(field.clone()).derive(&mut apis);
+            }
+
+            quote! {
+                impl #impl_generics #ident #ty_generics #where_clause {
+                    #(#apis)*
+                }
+            }
         }
+        syn::Fields::Unnamed(_) => quote! {},
+        syn::Fields::Unit => quote! {},
     }
-    .into()
 }
 
 #[derive(PartialEq, Debug)]

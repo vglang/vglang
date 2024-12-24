@@ -1,6 +1,5 @@
-use proc_macro2::TokenStream;
 use quote::{quote, ToTokens};
-use syn::{GenericArgument, ItemEnum, PathSegment, Type};
+use syn::{parse_macro_input, GenericArgument, ItemEnum, PathSegment, Type};
 
 fn parse_generic_type(seg: &PathSegment) -> &Type {
     match &seg.arguments {
@@ -18,7 +17,9 @@ fn parse_generic_type(seg: &PathSegment) -> &Type {
     }
 }
 
-pub(super) fn derive_api(item: ItemEnum) -> TokenStream {
+pub fn derive_data(item: proc_macro::TokenStream) -> proc_macro::TokenStream {
+    // let item = parse_macro_input!(item as ItemEnum);
+
     let ItemEnum {
         attrs: _,
         vis: _,
@@ -27,7 +28,7 @@ pub(super) fn derive_api(item: ItemEnum) -> TokenStream {
         generics,
         brace_token: _,
         variants,
-    } = item;
+    } = parse_macro_input!(item as ItemEnum);
 
     assert_eq!(
         generics.params.len(),
@@ -130,4 +131,5 @@ pub(super) fn derive_api(item: ItemEnum) -> TokenStream {
     quote! {
         #(#impls)*
     }
+    .into()
 }

@@ -2,7 +2,7 @@ use super::*;
 
 /// the data types that can be passed to the animation registers.
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
-#[cfg_attr(feature = "sexpr", derive(vglang_derive::Sexpr))]
+#[cfg_attr(feature = "sexpr", derive(vglang_derive::Data))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Data {
     Integer(Integer),

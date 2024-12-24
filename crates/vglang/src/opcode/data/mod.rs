@@ -3,8 +3,8 @@
 mod data;
 pub use data::*;
 
-mod basic_types;
-pub use basic_types::*;
+mod primitives;
+pub use primitives::*;
 
 mod painting;
 pub use painting::*;
