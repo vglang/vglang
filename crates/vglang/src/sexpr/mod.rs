@@ -20,11 +20,12 @@ vglang_derive::make_tuple_impl!(40);
 
 #[cfg(test)]
 mod tests {
+
     use crate::{
         opcode::{
             attrs::{Fill, Stroke},
             data::Color,
-            el::{Characters, Group, Text},
+            el::{Characters, For, Group, Text},
         },
         sexpr::{BuildContext, Graphics},
     };
@@ -38,16 +39,12 @@ mod tests {
 
         Group
             .apply((Stroke::from(Color::aliceblue), Fill::default()))
-            .children((
+            .children(For::from(0..10).children((
                 create_text(),
                 create_text(),
                 create_text(),
                 create_text(),
-                create_text(),
-                create_text(),
-                create_text(),
-                create_text(),
-            ))
+            )))
             .build(&mut BuildContext::default());
     }
 }

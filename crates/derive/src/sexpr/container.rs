@@ -47,12 +47,14 @@ pub fn derive_container(
 fn derive_apply(item: &ItemStruct) -> TokenStream {
     let ident = &item.ident;
 
+    let (impl_generics, ty_generics, where_clause) = item.generics.split_for_impl();
+
     quote! {
-        impl #ident
+        impl #impl_generics #ident #ty_generics #where_clause
         {
-            pub fn apply<A>(self, attrs: A) -> crate::sexpr::ApplyContainer<A,#ident>
+            pub fn apply<A>(self, attrs: A) -> crate::sexpr::ApplyContainer<A,#ident #ty_generics>
             where
-                A: crate::sexpr::Graphics + crate::sexpr::ApplyTo<#ident>,
+                A: crate::sexpr::Graphics + crate::sexpr::ApplyTo<#ident #ty_generics>,
             {
                 crate::sexpr::ApplyContainer {
                     attrs,
@@ -66,10 +68,12 @@ fn derive_apply(item: &ItemStruct) -> TokenStream {
 fn derive_children(item: &ItemStruct) -> TokenStream {
     let ident = &item.ident;
 
+    let (impl_generics, ty_generics, where_clause) = item.generics.split_for_impl();
+
     quote! {
-        impl #ident
+        impl #impl_generics #ident #ty_generics #where_clause
         {
-            pub fn children<C>(self, children: C) -> crate::sexpr::ContainerChildren<#ident,C>
+            pub fn children<C>(self, children: C) -> crate::sexpr::ContainerChildren<#ident #ty_generics,C>
             where
                 C: crate::sexpr::Graphics,
             {
@@ -85,9 +89,11 @@ fn derive_children(item: &ItemStruct) -> TokenStream {
 fn derive_graphics(boxed: bool, item: &ItemStruct) -> TokenStream {
     let ident = &item.ident;
 
+    let (impl_generics, ty_generics, where_clause) = item.generics.split_for_impl();
+
     if boxed {
         quote! {
-            impl crate::sexpr::Graphics for #ident
+            impl #impl_generics crate::sexpr::Graphics for #ident #ty_generics #where_clause
             {
                 fn build(self, builder: &mut crate::sexpr::BuildContext) {
                     builder.push(crate::opcode::el::Container::#ident(Box::new(self)))
@@ -96,7 +102,7 @@ fn derive_graphics(boxed: bool, item: &ItemStruct) -> TokenStream {
         }
     } else {
         quote! {
-            impl crate::sexpr::Graphics for #ident
+            impl #impl_generics crate::sexpr::Graphics for #ident #ty_generics #where_clause
             {
                 fn build(self, builder: &mut crate::sexpr::BuildContext) {
                     builder.push(crate::opcode::el::Container::#ident(self))

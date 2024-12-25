@@ -1,28 +1,5 @@
 use std::{f32::consts::PI, ops::Deref};
 
-/// An `integer` is specified as an optional sign character ("+" or "-") followed by one or more digits "0" to "9":
-///
-/// ***integer ::= [+-]? [0-9]+***
-#[derive(Debug, Clone, PartialEq, PartialOrd)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Integer(
-    /// The wrapped [`i32`] value.
-    pub i32,
-);
-
-impl From<i32> for Integer {
-    fn from(value: i32) -> Self {
-        Self(value)
-    }
-}
-
-impl Deref for Integer {
-    type Target = i32;
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Number(

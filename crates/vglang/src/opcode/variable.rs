@@ -47,7 +47,10 @@ pub enum Target {
 /// Variable used by property fields.
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub enum Variable<T> {
+pub enum Variable<T>
+where
+    Data: From<T>,
+{
     /// A literal constant value.
     Constant(T),
 
@@ -57,7 +60,10 @@ pub enum Variable<T> {
     },
 }
 
-impl<T> From<T> for Variable<T> {
+impl<T> From<T> for Variable<T>
+where
+    Data: From<T>,
+{
     fn from(value: T) -> Self {
         Self::Constant(value)
     }
@@ -66,6 +72,7 @@ impl<T> From<T> for Variable<T> {
 impl<T> Default for Variable<T>
 where
     T: Default,
+    Data: From<T>,
 {
     fn default() -> Self {
         Self::Constant(T::default())

@@ -19,8 +19,8 @@ impl Parse for Graphics {
 
         let mut content_of = vec![];
 
-        loop {
-            content_of.push(input.parse()?);
+        while let Some(target) = input.parse()? {
+            content_of.push(target);
 
             if input.parse::<Option<syn::Token![,]>>()?.is_none() {
                 break;
@@ -37,11 +37,13 @@ impl Parse for Graphics {
 pub(super) fn derive_content_of(targets: &[syn::Ident], item: &ItemStruct) -> TokenStream {
     let ident = &item.ident;
 
+    let (impl_generics, ty_generics, where_clause) = item.generics.split_for_impl();
+
     let content_of = targets
         .iter()
         .map(|parent| {
             quote! {
-                impl crate::sexpr::ContentOf<#parent> for #ident {}
+                impl #impl_generics crate::sexpr::ContentOf<#parent> for #ident #ty_generics #where_clause {}
             }
         })
         .collect::<Vec<_>>();
@@ -57,11 +59,13 @@ pub(super) fn derive_content_of(targets: &[syn::Ident], item: &ItemStruct) -> To
 pub(super) fn derive_apply_to(content_of: &[syn::Ident], item: &ItemStruct) -> TokenStream {
     let ident = &item.ident;
 
+    let (impl_generics, ty_generics, where_clause) = item.generics.split_for_impl();
+
     let apply_to = content_of
         .iter()
         .map(|parent| {
             quote! {
-                impl crate::sexpr::ApplyTo<#parent> for #ident {}
+                impl #impl_generics crate::sexpr::ApplyTo<#parent> for #ident #ty_generics #where_clause{}
             }
         })
         .collect::<Vec<_>>();

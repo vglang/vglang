@@ -43,8 +43,10 @@ pub fn derive_shape(
 fn derive_apply(item: &ItemStruct) -> TokenStream {
     let ident = &item.ident;
 
+    let (impl_generics, ty_generics, where_clause) = item.generics.split_for_impl();
+
     quote! {
-        impl #ident
+        impl #impl_generics #ident #ty_generics #where_clause
         {
             pub fn apply<A>(self, attrs: A) -> crate::sexpr::ApplyContainer<A,#ident>
             where
@@ -62,9 +64,11 @@ fn derive_apply(item: &ItemStruct) -> TokenStream {
 fn derive_graphics(boxed: bool, item: &ItemStruct) -> TokenStream {
     let ident = &item.ident;
 
+    let (impl_generics, ty_generics, where_clause) = item.generics.split_for_impl();
+
     if boxed {
         quote! {
-            impl crate::sexpr::Graphics for #ident
+            impl #impl_generics crate::sexpr::Graphics for #ident #ty_generics #where_clause
             {
                 fn build(self, builder: &mut crate::sexpr::BuildContext) {
                     builder.push(crate::opcode::el::Shape::#ident(Box::new(self)))
