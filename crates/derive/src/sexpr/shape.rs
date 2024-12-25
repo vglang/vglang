@@ -23,6 +23,8 @@ pub fn derive_shape(
 
     let content_of = derive_content_of(&content_of, &item);
 
+    let apply = derive_apply(&item);
+
     quote! {
 
         #item
@@ -32,8 +34,29 @@ pub fn derive_shape(
         #graphics
 
         #content_of
+
+        #apply
     }
     .into()
+}
+
+fn derive_apply(item: &ItemStruct) -> TokenStream {
+    let ident = &item.ident;
+
+    quote! {
+        impl #ident
+        {
+            pub fn apply<A>(self, attrs: A) -> crate::sexpr::ApplyContainer<A,#ident>
+            where
+                A: crate::sexpr::Graphics + crate::sexpr::ApplyTo<#ident>,
+            {
+                crate::sexpr::ApplyContainer {
+                    attrs,
+                    container: self,
+                }
+            }
+        }
+    }
 }
 
 fn derive_graphics(boxed: bool, item: &ItemStruct) -> TokenStream {

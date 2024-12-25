@@ -10,7 +10,7 @@ use crate::opcode::el::*;
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(
     feature = "sexpr",
-    vglang_derive::attribute(boxed, Group, Text, TextSpan)
+    vglang_derive::attribute(boxed, Group, Text, TextSpan, Characters)
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Fill {

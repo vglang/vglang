@@ -19,6 +19,10 @@ pub fn derive_container(
 
     let stream_apis = derive_stream_api(&item);
 
+    let apply = derive_apply(&item);
+
+    let children = derive_children(&item);
+
     let graphics = derive_graphics(boxed, &item);
 
     let content_of = derive_content_of(&content_of, &item);
@@ -32,8 +36,50 @@ pub fn derive_container(
         #graphics
 
         #content_of
+
+        #apply
+
+        #children
     }
     .into()
+}
+
+fn derive_apply(item: &ItemStruct) -> TokenStream {
+    let ident = &item.ident;
+
+    quote! {
+        impl #ident
+        {
+            pub fn apply<A>(self, attrs: A) -> crate::sexpr::ApplyContainer<A,#ident>
+            where
+                A: crate::sexpr::Graphics + crate::sexpr::ApplyTo<#ident>,
+            {
+                crate::sexpr::ApplyContainer {
+                    attrs,
+                    container: self,
+                }
+            }
+        }
+    }
+}
+
+fn derive_children(item: &ItemStruct) -> TokenStream {
+    let ident = &item.ident;
+
+    quote! {
+        impl #ident
+        {
+            pub fn children<C>(self, children: C) -> crate::sexpr::ContainerChildren<#ident,C>
+            where
+                C: crate::sexpr::Graphics,
+            {
+                crate::sexpr::ContainerChildren {
+                    container: self,
+                    children
+                }
+            }
+        }
+    }
 }
 
 fn derive_graphics(boxed: bool, item: &ItemStruct) -> TokenStream {

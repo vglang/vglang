@@ -1,4 +1,4 @@
-use super::{ApplyTo, ContentOf, Graphics};
+use super::{ApplyTo, Graphics};
 
 /// All elements must implement this trait.
 pub trait Element {}
@@ -20,26 +20,10 @@ where
     }
 }
 
-impl<Attrs, Shape, Target> ContentOf<Target> for ApplyShape<Attrs, Shape>
-where
-    Attrs: ApplyTo<Shape> + Graphics,
-    Shape: Element + Graphics + ContentOf<Target>,
-    crate::opcode::el::Container: From<Target>,
-{
-}
-
 /// A wrapper [`Graphics`] returns by container's apply function.
 pub struct ApplyContainer<Attrs, Container> {
     pub attrs: Attrs,
     pub container: Container,
-}
-
-impl<Attrs, Container, Target> ContentOf<Target> for ApplyContainer<Attrs, Container>
-where
-    Attrs: ApplyTo<Container> + Graphics,
-    Container: Element + Graphics + ContentOf<Target>,
-    crate::opcode::el::Container: From<Target>,
-{
 }
 
 impl<Attrs, Container> ApplyContainer<Attrs, Container>
@@ -52,10 +36,7 @@ where
     pub fn children<Children>(
         self,
         children: Children,
-    ) -> ApplyChildrenContainer<Attrs, Container, Children>
-    where
-        Children: ContentOf<Container>,
-    {
+    ) -> ApplyChildrenContainer<Attrs, Container, Children> {
         ApplyChildrenContainer {
             attrs: self.attrs,
             container: self.container,
@@ -81,19 +62,10 @@ pub struct ContainerChildren<Container, Children> {
     pub children: Children,
 }
 
-impl<Container, Children, Target> ContentOf<Target> for ContainerChildren<Container, Children>
-where
-    Container: Element + Graphics + ContentOf<Target>,
-    crate::opcode::el::Container: From<Container> + From<Target>,
-    Children: ContentOf<Container>,
-{
-}
-
 impl<Container, Children> ContainerChildren<Container, Children>
 where
     Container: Element + Graphics,
     crate::opcode::el::Container: From<Container>,
-    Children: ContentOf<Container>,
 {
     /// Apply the children node.
     pub fn apply<Attrs>(self, attrs: Attrs) -> ApplyChildrenContainer<Attrs, Container, Children>
@@ -112,7 +84,7 @@ impl<Container, Children> Graphics for ContainerChildren<Container, Children>
 where
     Container: Element + Graphics,
     crate::opcode::el::Container: From<Container>,
-    Children: ContentOf<Container> + Graphics,
+    Children: Graphics,
 {
     fn build(self, builder: &mut super::BuildContext) {
         self.container.build(builder);
@@ -133,7 +105,7 @@ where
     Attrs: ApplyTo<Container> + Graphics,
     Container: Element + Graphics,
     crate::opcode::el::Container: From<Container>,
-    Children: ContentOf<Container> + Graphics,
+    Children: Graphics,
 {
     fn build(self, builder: &mut super::BuildContext) {
         self.attrs.build(builder);
@@ -141,14 +113,4 @@ where
         self.children.build(builder);
         builder.pop();
     }
-}
-
-impl<Attrs, Container, Children, Target> ContentOf<Target>
-    for ApplyChildrenContainer<Attrs, Container, Children>
-where
-    Attrs: ApplyTo<Container> + Graphics,
-    Container: Element + Graphics + ContentOf<Target>,
-    crate::opcode::el::Container: From<Container> + From<Target>,
-    Children: ContentOf<Container>,
-{
 }
