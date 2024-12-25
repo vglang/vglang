@@ -16,6 +16,8 @@ pub use apply_to::*;
 mod context;
 pub use context::*;
 
+vglang_derive::make_tuple_impl!(40);
+
 #[cfg(test)]
 mod tests {
     use crate::{
@@ -24,18 +26,19 @@ mod tests {
             data::Color,
             el::{Characters, Group, Text},
         },
-        sexpr::Graphics,
+        sexpr::{BuildContext, Graphics},
     };
 
     #[test]
     fn test_apply_children() {
         fn create_text() -> impl Graphics {
-            Text::from((10, 100))
+            Text::from(((10, 20, 30), 100))
                 .children(Characters::from("hello world").apply(Fill::from(Color::red)))
         }
 
         Group
-            .apply(Stroke::from(Color::aliceblue))
-            .children(create_text());
+            .apply((Stroke::from(Color::aliceblue), Fill::default()))
+            .children(create_text())
+            .build(&mut BuildContext::default());
     }
 }

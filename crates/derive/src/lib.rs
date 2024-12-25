@@ -33,3 +33,13 @@ pub fn attribute(
 pub fn derive_data(item: proc_macro::TokenStream) -> proc_macro::TokenStream {
     sexpr::derive_data(item)
 }
+
+#[cfg(feature = "sexpr")]
+#[proc_macro]
+pub fn make_tuple_impl(item: proc_macro::TokenStream) -> proc_macro::TokenStream {
+    use syn::{parse_macro_input, LitInt};
+
+    let max_length = parse_macro_input!(item as LitInt);
+
+    sexpr::derive_tuple_traits(max_length.base10_parse().unwrap())
+}
