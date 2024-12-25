@@ -44,6 +44,9 @@ pub(super) fn derive_content_of(content_of: &[syn::Ident], item: &ItemStruct) ->
         .collect::<Vec<_>>();
 
     quote! {
+
+        impl crate::sexpr::Element for #ident {}
+
         #(#content_of)*
     }
 }
