@@ -20,6 +20,15 @@ pub fn container_element(
 }
 
 #[cfg(feature = "sexpr")]
+#[proc_macro_attribute]
+pub fn attribute(
+    attr: proc_macro::TokenStream,
+    item: proc_macro::TokenStream,
+) -> proc_macro::TokenStream {
+    sexpr::derive_attr(attr, item)
+}
+
+#[cfg(feature = "sexpr")]
 #[proc_macro_derive(Data)]
 pub fn derive_data(item: proc_macro::TokenStream) -> proc_macro::TokenStream {
     sexpr::derive_data(item)

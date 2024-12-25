@@ -3,12 +3,12 @@ use quote::quote;
 use syn::{parse::Parse, ItemStruct};
 
 syn::custom_keyword!(boxed);
-pub(super) struct Element {
+pub(super) struct Graphics {
     pub boxed: bool,
-    pub content_of: Vec<syn::Ident>,
+    pub targets: Vec<syn::Ident>,
 }
 
-impl Parse for Element {
+impl Parse for Graphics {
     fn parse(input: syn::parse::ParseStream) -> syn::Result<Self> {
         let boxed = if input.parse::<Option<boxed>>()?.is_some() {
             input.parse::<Option<syn::Token![,]>>()?;
@@ -27,14 +27,17 @@ impl Parse for Element {
             }
         }
 
-        Ok(Self { content_of, boxed })
+        Ok(Self {
+            targets: content_of,
+            boxed,
+        })
     }
 }
 
-pub(super) fn derive_content_of(content_of: &[syn::Ident], item: &ItemStruct) -> TokenStream {
+pub(super) fn derive_content_of(targets: &[syn::Ident], item: &ItemStruct) -> TokenStream {
     let ident = &item.ident;
 
-    let content_of = content_of
+    let content_of = targets
         .iter()
         .map(|parent| {
             quote! {
@@ -48,5 +51,22 @@ pub(super) fn derive_content_of(content_of: &[syn::Ident], item: &ItemStruct) ->
         impl crate::sexpr::Element for #ident {}
 
         #(#content_of)*
+    }
+}
+
+pub(super) fn derive_apply_to(content_of: &[syn::Ident], item: &ItemStruct) -> TokenStream {
+    let ident = &item.ident;
+
+    let apply_to = content_of
+        .iter()
+        .map(|parent| {
+            quote! {
+                impl crate::sexpr::ApplyTo<#parent> for #ident {}
+            }
+        })
+        .collect::<Vec<_>>();
+
+    quote! {
+        #(#apply_to)*
     }
 }

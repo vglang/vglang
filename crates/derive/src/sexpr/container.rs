@@ -4,13 +4,16 @@ use syn::{parse_macro_input, ItemStruct};
 
 use crate::sexpr::stream::derive_stream_api;
 
-use super::element::{derive_content_of, Element};
+use super::graphics::{derive_content_of, Graphics};
 
 pub fn derive_container(
     attr: proc_macro::TokenStream,
     item: proc_macro::TokenStream,
 ) -> proc_macro::TokenStream {
-    let Element { boxed, content_of } = parse_macro_input!(attr as Element);
+    let Graphics {
+        boxed,
+        targets: content_of,
+    } = parse_macro_input!(attr as Graphics);
 
     let item = parse_macro_input!(item as ItemStruct);
 
@@ -19,6 +22,8 @@ pub fn derive_container(
     let graphics = derive_graphics(boxed, &item);
 
     let content_of = derive_content_of(&content_of, &item);
+
+    let apply_children = derive_apply_children(&item);
 
     quote! {
 
@@ -29,8 +34,38 @@ pub fn derive_container(
         #graphics
 
         #content_of
+
+        #apply_children
     }
     .into()
+}
+
+fn derive_apply_children(item: &ItemStruct) -> TokenStream {
+    let ident = &item.ident;
+
+    quote! {
+        impl #ident {
+            pub fn apply<Attrs>(self, attrs: Attrs) -> crate::sexpr::ApplyContainer<Attrs,#ident>
+            where
+                Attrs: crate::sexpr::ApplyTo<#ident>,
+            {
+                crate::sexpr::ApplyContainer {
+                    attrs,
+                    container: self,
+                }
+            }
+
+            pub fn children<Children>(self, children: Children) -> crate::sexpr::ContainerChildren<#ident,Children>
+            where
+                Children: crate::sexpr::ContentOf<#ident>,
+            {
+                crate::sexpr::ContainerChildren {
+                    container: self,
+                    children,
+                }
+            }
+        }
+    }
 }
 
 fn derive_graphics(boxed: bool, item: &ItemStruct) -> TokenStream {
@@ -38,21 +73,19 @@ fn derive_graphics(boxed: bool, item: &ItemStruct) -> TokenStream {
 
     if boxed {
         quote! {
-            impl<B> crate::sexpr::Graphics<B> for #ident
-                where B: crate::surface::Builder,
+            impl crate::sexpr::Graphics for #ident
             {
-                fn build(self, builder: &mut B) {
-                    builder.push(crate::opcode::el::Container::#ident(Box::new(self)).into())
+                fn build(self, builder: &mut crate::sexpr::BuildContext) {
+                    builder.push(crate::opcode::el::Container::#ident(Box::new(self)))
                 }
             }
         }
     } else {
         quote! {
-            impl<B> crate::sexpr::Graphics<B> for #ident
-                where B: crate::surface::Builder,
+            impl crate::sexpr::Graphics for #ident
             {
-                fn build(self, builder: &mut B) {
-                    builder.push(crate::opcode::el::Container::#ident(self).into())
+                fn build(self, builder: &mut crate::sexpr::BuildContext) {
+                    builder.push(crate::opcode::el::Container::#ident(self))
                 }
             }
         }
