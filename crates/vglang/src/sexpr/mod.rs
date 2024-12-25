@@ -38,7 +38,16 @@ mod tests {
 
         Group
             .apply((Stroke::from(Color::aliceblue), Fill::default()))
-            .children(create_text())
+            .children((
+                create_text(),
+                create_text(),
+                create_text(),
+                create_text(),
+                create_text(),
+                create_text(),
+                create_text(),
+                create_text(),
+            ))
             .build(&mut BuildContext::default());
     }
 }
