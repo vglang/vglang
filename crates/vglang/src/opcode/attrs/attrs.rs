@@ -1,4 +1,4 @@
-use super::{Fill, Stroke};
+use super::{ClipPathed, Fill, Font, Id, Masked, Opacity, Stroke, ViewBox};
 
 /// the attribute types that can be used as `opcode operand`.
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
@@ -7,4 +7,10 @@ use super::{Fill, Stroke};
 pub enum Attr {
     Fill(Box<Fill>),
     Stroke(Box<Stroke>),
+    Id(Box<Id>),
+    Font(Box<Font>),
+    ViewBox(Box<ViewBox>),
+    Masked(Box<Masked>),
+    Opacity(Box<Opacity>),
+    ClipPathed(Box<ClipPathed>),
 }

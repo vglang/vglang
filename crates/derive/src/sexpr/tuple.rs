@@ -84,6 +84,17 @@ pub fn derive_tuple_traits(max_length: usize) -> proc_macro::TokenStream {
                 }
             }
 
+            impl<#(#params),*> crate::sexpr::MapCollect<crate::opcode::data::PathEvent> for (#(#params),*)
+            where
+                #(crate::opcode::data::PathEvent: From<#params>),*
+            {
+                fn map_collect(self) -> Vec<crate::opcode::data::PathEvent> {
+                    let (#(#params),*) = self;
+
+                    vec![#(#params.into()),*]
+                }
+            }
+
             impl<#(#point_params),*> crate::sexpr::MapCollect<crate::opcode::data::Point> for (#(#point_params),*)
             where
                 #(#point_where_params),*

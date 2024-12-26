@@ -490,24 +490,6 @@ impl From<Iri> for FuncIRI {
     }
 }
 
-/// This property specifies a prioritized font family names and/or generic family names.
-#[derive(Debug, PartialEq, PartialOrd, Clone)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub enum FontFamily {
-    Serif,
-    SansSerif,
-    Cursive,
-    Fantasy,
-    Monospace,
-    Generic(String),
-}
-
-impl From<String> for FontFamily {
-    fn from(value: String) -> Self {
-        Self::Generic(value)
-    }
-}
-
 /// A 2d coordinate point.
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone, Copy)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -600,4 +582,99 @@ where
     fn from(value: (X, Y)) -> Self {
         Self(Number::from(value.0).0, Some(Number::from(value.1).0))
     }
+}
+
+/// Defines the coordinate system for attributes ‘x1’, ‘y1’, ‘x2’ and ‘y2’.
+///
+/// If attribute ‘gradientUnits’ is not specified, then the effect is as if a value of 'objectBoundingBox' were specified.
+///
+/// Animatable: yes.
+#[derive(Debug, PartialEq, PartialOrd, Clone, Copy)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub enum Coords {
+    /// If gradientUnits="userSpaceOnUse", ‘x1’, ‘y1’, ‘x2’ and ‘y2’ represent values in the coordinate system
+    /// that results from taking the current user coordinate system in place at the time when the gradient element
+    /// is referenced (i.e., the user coordinate system for the element referencing the gradient element via a ‘fill’
+    /// or ‘stroke’ property) and then applying the transform specified by attribute ‘gradientTransform’.
+    UserSpaceOnUse,
+    /// If gradientUnits="objectBoundingBox", the user coordinate system for attributes ‘x1’, ‘y1’, ‘x2’ and ‘y2’ is
+    /// established using the bounding box of the element to which the gradient is applied (see Object bounding box units)
+    /// and then applying the transform specified by attribute ‘gradientTransform’.
+    ///
+    /// When gradientUnits="objectBoundingBox" and ‘gradientTransform’ is the identity matrix, the normal of the linear
+    /// gradient is perpendicular to the gradient vector in object bounding box space (i.e., the abstract coordinate
+    /// system where (0,0) is at the top/left of the object bounding box and (1,1) is at the bottom/right of the object bounding box).
+    /// When the object's bounding box is not square, the gradient normal which is initially perpendicular to the gradient vector
+    /// within object bounding box space may render non-perpendicular relative to the gradient vector in user space. If the gradient
+    /// vector is parallel to one of the axes of the bounding box, the gradient normal will remain perpendicular. This transformation
+    /// is due to application of the non-uniform scaling transformation from bounding box space to user space.
+    ObjectBoundingBox,
+}
+
+impl Default for Coords {
+    fn default() -> Self {
+        Self::ObjectBoundingBox
+    }
+}
+
+/// A `transform` attribute.
+#[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub enum Transform {
+    Translate {
+        tx: f32,
+        ty: f32,
+    },
+    /// compressed 3x3 matrix.
+    Matrix {
+        a: f32,
+        b: f32,
+        c: f32,
+        d: f32,
+        e: f32,
+        f: f32,
+    },
+    Scale {
+        sx: f32,
+        sy: Option<f32>,
+    },
+    Rotate {
+        angle: f32,
+        cx: f32,
+        cy: f32,
+    },
+    SkewX(f32),
+    SkewY(f32),
+}
+
+impl Transform {
+    /// Create an [`identity matrix`](https://www.wikiwand.com/en/articles/Identity_matrix).
+    pub fn identity() -> Self {
+        Self::Matrix {
+            a: 1.0,
+            b: 0.0,
+            c: 0.0,
+            d: 1.0,
+            e: 0.0,
+            f: 0.0,
+        }
+    }
+}
+
+/// Indicates which channel of rgba is selected.
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub enum ChannelSelector {
+    R,
+    G,
+    B,
+    A,
+}
+
+/// The  property only applies to graphics elements that are contained within a [`ClipPath`] element.
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub enum ClipRule {
+    Nonzero,
+    EvenOdd,
 }

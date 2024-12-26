@@ -11,3 +11,18 @@ pub use painting::*;
 
 mod text;
 pub use text::*;
+
+mod font;
+pub use font::*;
+
+mod path;
+pub use path::*;
+
+mod canvas;
+pub use canvas::*;
+
+mod gradients;
+pub use gradients::*;
+
+mod filter;
+pub use filter::*;
