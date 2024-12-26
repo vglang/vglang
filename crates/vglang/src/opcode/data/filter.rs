@@ -127,7 +127,7 @@ impl Default for FeColorMatrixValues {
 
 /// transfer functions for the rgba channels.
 ///
-/// See [`FeComponentTransfer`]
+/// See [`FeComponentTransfer`](crate::opcode::el::FeComponentTransfer)
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum FeFunc {
@@ -267,7 +267,7 @@ impl Default for FeMorphologyOperator {
     }
 }
 
-/// See [`stitch_tiles`](FeTurbulence::stitch_tiles)
+/// See [`stitch_tiles`](crate::opcode::el::FeTurbulence::stitch_tiles)
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum FeStitchTiles {

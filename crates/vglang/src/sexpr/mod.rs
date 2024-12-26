@@ -1,3 +1,5 @@
+//! Rust s-expr implementation for vglang.
+
 mod graphics;
 pub use graphics::*;
 

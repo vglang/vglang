@@ -13,7 +13,7 @@ vglang-derive = { workspace = true, optional = true }
 concat-idents = { workspace = true }
 
 [features]
-default = ["serde", "sexpr"]
+default = ["serde", "sexpr", "surface"]
 serde = ["dep:serde"]
-surface = []
 sexpr = ["vglang-derive/sexpr", "surface"]
+surface = []

@@ -1,3 +1,5 @@
+//! This module defines an abstraction for vglang rendering targets.
+
 use std::{borrow::Cow, collections::HashMap, future::Future};
 
 use crate::opcode::{data::Data, Opcode};
@@ -19,7 +21,7 @@ pub trait Surface {
     fn build(&self, source: Source<'_>) -> Self::Program;
 }
 
-/// A optimized vglang program created by [`build`](Target::build) function.
+/// A optimized vglang program created by [`build`](Surface::build) function.
 pub trait Program {
     /// On success, returns by [`Run`](Program::Run) future.
     type Output;

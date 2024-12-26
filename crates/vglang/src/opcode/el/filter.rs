@@ -42,7 +42,7 @@ pub struct Filter {
     ///
     /// If primitive_units="objectBoundingBox", then any length values within the filter definitions represent
     /// fractions or percentages of the bounding box on the referencing element (see Object bounding box units).
-    /// Note that if only one number was specified in a <number-optional-number> value this number is expanded out
+    /// Note that if only one number was specified in a `number-optional-number` value this number is expanded out
     /// before the ‘primitiveUnits’ computation takes place.
     ///
     /// If attribute primitive_units is not specified, then the effect is as if a value of userSpaceOnUse were specified.
@@ -124,9 +124,9 @@ pub struct FePrimitive {
     /// the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive
     /// provides no value for its ‘in’ attribute.
     ///
-    /// Note that a <filter-primitive-reference> is not an XML ID; instead, a <filter-primitive-reference> is only meaningful within a
-    /// given ‘filter’ element and thus have only local scope. It is legal for the same <filter-primitive-reference> to appear multiple
-    /// times within the same ‘filter’ element. When referenced, the <filter-primitive-reference> will use the closest preceding filter
+    /// Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a
+    /// given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple
+    /// times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter
     /// primitive with the given result.
     pub result: Option<Variable<String>>,
 }
@@ -414,7 +414,7 @@ pub struct FeComposite {
     /// See [`FeIn`]
     pub r#in: Option<Variable<FeIn>>,
 
-    /// The second input image to the compositing operation. This attribute can take on the same values as the [`a`](Self::a) attribute.
+    /// The second input image to the compositing operation. This attribute can take on the same values as the [`in`](Self::in) attribute.
     pub in2: Variable<FeIn>,
 
     /// See [`FeCompositeOperator`]
@@ -673,7 +673,7 @@ pub struct FeMorphology {
     /// See [`FeIn`]
     pub r#in: Option<Variable<FeIn>>,
 
-    /// See [`FeMorphologyMode`]
+    /// See [`FeMorphologyOperator`]
     pub mode: Option<Variable<FeMorphologyOperator>>,
 
     /// The radius (or radii) for the operation. If two `number`s are provided, the first number represents

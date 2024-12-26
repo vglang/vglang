@@ -671,7 +671,7 @@ pub enum ChannelSelector {
     A,
 }
 
-/// The  property only applies to graphics elements that are contained within a [`ClipPath`] element.
+/// The  property only applies to graphics elements that are contained within a [`ClipPath`](crate::opcode::el::ClipPath) element.
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum ClipRule {

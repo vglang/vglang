@@ -34,6 +34,5 @@ impl-trait-for-tuples = "0.2.3"
 # sub-crates
 vglang-derive = { path = "./crates/derive", version = "^0.1", default-features = false }
 vglang = { path = "./crates/vglang", version = "^0.1", default-features = false }
-vglang-surface = { path = "./crates/surface", version = "^0.1", default-features = false }
+vglang-spec = { path = "./crates/spec", version = "^0.1", default-features = false }
 vglang-svg = { path = "./crates/svg", version = "^0.1", default-features = false }
-vglang-sexpr = { path = "./crates/sexpr", version = "^0.1", default-features = false }

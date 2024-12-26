@@ -1,0 +1,11 @@
+[package]
+description = "Standard and official integration test suite for vglang."
+documentation = "https://docs.rs/vglang-spec"
+license = "MIT"
+name = "vglang-spec"
+edition.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+vglang = { workspace = true }
