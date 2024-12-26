@@ -103,6 +103,10 @@ where
 
 /// The ‘circle’ element defines a circle based on a center point and a radius.
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(
+    feature = "sexpr",
+    vglang_derive::shape_element(boxed, Group, If, Foreach, For)
+)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Circle {
     /// The x-axis coordinate of the center of the circle.
@@ -140,6 +144,10 @@ where
 /// The ‘ellipse’ element defines an ellipse which is axis-aligned with the current user coordinate
 /// system based on a center point and two radii.
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(
+    feature = "sexpr",
+    vglang_derive::shape_element(boxed, Group, If, Foreach, For)
+)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Ellipse {
     /// The x-axis coordinate of the center of the ellipse.
@@ -183,6 +191,10 @@ where
 
 /// The ‘line’ element defines a line segment that starts at one point and ends at another.
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(
+    feature = "sexpr",
+    vglang_derive::shape_element(boxed, Group, If, Foreach, For)
+)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Line {
     /// The x-axis coordinate of the start of the line.
@@ -216,6 +228,10 @@ pub struct Line {
 
 /// The ‘polyline’ element defines a set of connected straight line segments. Typically, ‘polyline’ elements define open shapes.
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(
+    feature = "sexpr",
+    vglang_derive::shape_element(boxed, Group, If, Foreach, For)
+)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Polyline(
     /// The points that make up the polygon. All coordinate values are in the user coordinate system.
@@ -235,6 +251,10 @@ where
 
 /// The ‘polygon’ element defines a closed shape consisting of a set of connected straight line segments.
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(
+    feature = "sexpr",
+    vglang_derive::shape_element(boxed, Group, If, Foreach, For)
+)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Polygon(
     /// The points that make up the polygon. All coordinate values are in the user coordinate system.

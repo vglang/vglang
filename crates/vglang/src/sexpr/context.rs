@@ -1,4 +1,6 @@
-use crate::opcode::Opcode;
+use crate::{opcode::Opcode, surface::Source};
+
+use super::Graphics;
 
 /// build context used by [`Graphics`](super::Graphics) trait.
 #[derive(Debug, Default)]
@@ -28,5 +30,13 @@ impl BuildContext {
     /// Push a `Pop` opcode.
     pub fn pop(&mut self) {
         self.0.push(Opcode::Pop);
+    }
+
+    /// Build a [`Graphics`] and return result ase a [`Source`].
+    pub fn create_source(grapchics: impl Graphics) -> Source<'static> {
+        let mut builder = Self::default();
+        grapchics.build(&mut builder);
+
+        builder.0.into()
     }
 }

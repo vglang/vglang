@@ -8,4 +8,8 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
-vglang = { workspace = true }
+vglang = { workspace = true, features = ["serde", "sexpr"] }
+heck = { workspace = true }
+
+[dev-dependencies]
+serde_json = { workspace = true }
