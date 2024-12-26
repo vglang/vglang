@@ -1,40 +1,22 @@
-use std::{collections::HashMap, future::Future};
+use std::{borrow::Cow, collections::HashMap, future::Future};
 
 use crate::opcode::{data::Data, Opcode};
 
-/// Rendering target must implement this trait.
-pub trait Target {
-    /// `vglang` program builder.
-    ///
-    /// See [`Builder`]
-    type Builder: Builder;
-
-    /// Create a new vglang program builder.
-    fn build(&self) -> Self::Builder;
+/// Source of a vglang program.
+#[derive(Debug, Clone)]
+pub enum Source<'a> {
+    /// IR module represented as a slice of opcodes.
+    Opcode(Cow<'a, [Opcode]>),
+    /// VGL module represented as a string slice.
+    Vgl(Cow<'a, str>),
 }
 
-/// A builder comsume input [`Opcode`]s and on success, output target specific [`Program`]
-pub trait Builder {
-    /// On successfully, returns the `Program`.
-    ///
-    /// See [`Program`]
+/// Rendering target must implement this trait.
+pub trait Surface {
+    /// Output type of [`build`](Surface::build) function.
     type Program: Program;
-
-    /// Error type returns by [`Build`](Builder::Create) future.
-    type Error;
-
-    /// Future type returns by [`create`](Builder::create) function.
-    type Create: Future<Output = Result<Self::Program, Self::Error>> + 'static;
-
-    /// Push a new `opcode` to cache buf..
-    fn push(&mut self, opcode: Opcode);
-
-    fn pop(&mut self) {
-        self.push(Opcode::Pop);
-    }
-
-    /// Build vglang program via opcodes.
-    fn create(self) -> Self::Create;
+    /// Create a new vglang program builder.
+    fn build(&self, source: Source<'_>) -> Self::Program;
 }
 
 /// A optimized vglang program created by [`build`](Target::build) function.
