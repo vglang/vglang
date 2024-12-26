@@ -1,3 +1,5 @@
+use crate::opcode::el::{Container, Else, If};
+
 use super::{ApplyTo, Graphics};
 
 /// All elements must implement this trait.
@@ -112,5 +114,51 @@ where
         self.container.build(builder);
         self.children.build(builder);
         builder.pop();
+    }
+}
+
+impl If {
+    pub fn children<C>(self, children: C) -> ContainerChildren<If, C> {
+        ContainerChildren {
+            container: self,
+            children,
+        }
+    }
+}
+
+impl Element for If {}
+
+/// A composite graphics that combine `if` and `else` blocks.
+pub struct IfElse<IfExpr, Children>(IfExpr, Children);
+
+impl<IfExpr, Children> Element for IfElse<IfExpr, Children> {}
+
+impl<IfExpr, Children> Graphics for IfElse<IfExpr, Children>
+where
+    IfExpr: Graphics,
+    Children: Graphics,
+{
+    fn build(self, builder: &mut super::BuildContext) {
+        self.0.build(builder);
+        builder.push(Container::Else(Else));
+        self.1.build(builder);
+        builder.pop();
+    }
+}
+
+/// A helper trait that conver accept a content graphics and returns [`IfElse`].
+pub trait IntoIfElse {
+    #[allow(non_snake_case)]
+    fn Else<C>(self, children: C) -> IfElse<Self, C>
+    where
+        Self: Sized;
+}
+
+impl<IfContainer> IntoIfElse for ContainerChildren<If, IfContainer> {
+    fn Else<C>(self, children: C) -> IfElse<Self, C>
+    where
+        Self: Sized,
+    {
+        IfElse(self, children)
     }
 }

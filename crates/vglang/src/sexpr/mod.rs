@@ -25,10 +25,13 @@ mod tests {
         opcode::{
             attrs::{Fill, Stroke},
             data::Color,
-            el::{Characters, For, Group, Text},
+            el::{Characters, For, Foreach, Group, If, Text},
+            variable::{Target, Variable},
         },
         sexpr::{BuildContext, Graphics},
     };
+
+    use super::IntoIfElse;
 
     #[test]
     fn test_apply_children() {
@@ -46,5 +49,19 @@ mod tests {
                 create_text(),
             )))
             .build(&mut BuildContext::default());
+    }
+
+    #[test]
+    fn test_control_flow() {
+        Foreach::from("test").children(Text::from((10, 20)));
+
+        If(Variable::from(("", Target::Register)))
+            .children(Text::from((10, 20)))
+            .Else(Text::from((20, 10)));
+
+        Group.children((
+            Text::from((10, 20)),
+            Foreach::from("hello").children(Characters::from("hello world")),
+        ));
     }
 }
