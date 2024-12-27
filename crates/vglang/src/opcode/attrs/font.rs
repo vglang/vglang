@@ -1,6 +1,9 @@
-use crate::opcode::{
-    data::{FontFamily, FontStretch, FontStyle, FontVariant, FontWeight, Length},
-    variable::Variable,
+use crate::{
+    opcode::{
+        data::{FontFamily, FontStretch, FontStyle, FontVariant, FontWeight, Length},
+        variable::Variable,
+    },
+    sexpr::MapCollect,
 };
 
 #[cfg(feature = "sexpr")]
@@ -17,7 +20,7 @@ pub struct Font {
     /// See [`FontFamily`]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(default)]
-    pub family: Option<Variable<FontFamily>>,
+    pub family: Option<Variable<Vec<FontFamily>>>,
     /// See [`FontStyle`]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(default)]
@@ -41,28 +44,13 @@ pub struct Font {
     pub stretch: Option<Variable<FontStretch>>,
 }
 
-impl From<FontFamily> for Font {
-    fn from(value: FontFamily) -> Self {
+impl<T> From<T> for Font
+where
+    T: MapCollect<FontFamily>,
+{
+    fn from(value: T) -> Self {
         Self {
-            family: Some(Variable::Constant(value)),
-            ..Default::default()
-        }
-    }
-}
-
-impl From<String> for Font {
-    fn from(value: String) -> Self {
-        Self {
-            family: Some(Variable::Constant(FontFamily::Generic(value))),
-            ..Default::default()
-        }
-    }
-}
-
-impl From<&str> for Font {
-    fn from(value: &str) -> Self {
-        Self {
-            family: Some(Variable::Constant(FontFamily::Generic(value.to_owned()))),
+            family: Some(Variable::Constant(value.map_collect())),
             ..Default::default()
         }
     }
@@ -104,13 +92,10 @@ impl From<FontStretch> for Font {
     }
 }
 
-impl<T> From<T> for Font
-where
-    Length: From<T>,
-{
-    fn from(value: T) -> Self {
+impl From<Length> for Font {
+    fn from(value: Length) -> Self {
         Self {
-            size: Some(Variable::Constant(value.into())),
+            size: Some(Variable::Constant(value)),
             ..Default::default()
         }
     }

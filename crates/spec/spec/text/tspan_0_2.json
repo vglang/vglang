@@ -37,9 +37,11 @@
     "Apply": {
       "Font": {
         "family": {
-          "Constant": {
-            "Generic": "Verdana"
-          }
+          "Constant": [
+            {
+              "Generic": "Verdana"
+            }
+          ]
         },
         "size": {
           "Constant": {

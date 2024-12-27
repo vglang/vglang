@@ -40,4 +40,7 @@ where
     test!(text, text_0_1);
     test!(text, tspan_0_1);
     test!(text, tspan_0_2);
+    test!(text, tspan_0_3);
+    test!(text, tspan_0_4);
+    test!(text, tspan_0_5);
 }

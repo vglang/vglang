@@ -52,6 +52,21 @@
     }
   },
   {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        }
+      }
+    }
+  },
+  {
     "Container": {
       "Group": null
     }
@@ -62,9 +77,9 @@
         "paint": {
           "Constant": {
             "Color": [
-              0,
-              0,
-              255
+              255,
+              164,
+              0
             ]
           }
         }
@@ -87,53 +102,26 @@
               "px": 150.0
             }
           ]
+        },
+        "rotate": {
+          "Constant": [
+            {
+              "deg": -30.0
+            },
+            {
+              "deg": 0.0
+            },
+            {
+              "deg": 30.0
+            }
+          ]
         }
       }
     }
   },
   {
     "Draw": {
-      "Characters": "You are"
-    }
-  },
-  {
-    "Apply": {
-      "Font": {
-        "weight": {
-          "Constant": "Bold"
-        }
-      }
-    }
-  },
-  {
-    "Apply": {
-      "Fill": {
-        "paint": {
-          "Constant": {
-            "Color": [
-              255,
-              0,
-              0
-            ]
-          }
-        }
-      }
-    }
-  },
-  {
-    "Container": {
-      "TextSpan": {}
-    }
-  },
-  {
-    "Draw": {
-      "Characters": "not"
-    }
-  },
-  "Pop",
-  {
-    "Draw": {
-      "Characters": "a banana."
+      "Characters": "Hello, out there"
     }
   },
   "Pop",

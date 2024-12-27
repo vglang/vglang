@@ -75,6 +75,12 @@ impl From<String> for FontFamily {
     }
 }
 
+impl From<&str> for FontFamily {
+    fn from(value: &str) -> Self {
+        Self::Generic(value.into())
+    }
+}
+
 impl Default for FontFamily {
     fn default() -> Self {
         Self::Serif
