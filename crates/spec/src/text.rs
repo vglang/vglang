@@ -52,11 +52,15 @@ pub fn tspan_0_2() -> impl Graphics {
                 Text::from((250, 150))
                     .apply(Fill::from(Color::blue))
                     .children((
-                        Characters::from("You are"),
+                        Characters::from("But you"),
                         TextSpan::default()
+                            .dx(2.em())
+                            .dy(-50)
                             .apply((Font::from(FontWeight::Bold), Fill::from(Color::red)))
-                            .children(Characters::from("not")),
-                        Characters::from("a banana."),
+                            .children(Characters::from("are")),
+                        TextSpan::default()
+                            .dy(100)
+                            .children(Characters::from("a peach!")),
                     )),
             ),
             Rect::from((1, 1, 998, 298))

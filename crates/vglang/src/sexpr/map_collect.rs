@@ -25,8 +25,8 @@ where
 {
     fn from(value: (X, Y)) -> Self {
         Self {
-            x: Variable::Constant(value.0.map_collect()),
-            y: Variable::Constant(value.1.map_collect()),
+            x: Some(Variable::Constant(value.0.map_collect())),
+            y: Some(Variable::Constant(value.1.map_collect())),
             ..Default::default()
         }
     }
@@ -39,8 +39,8 @@ where
 {
     fn from(value: (X, Y)) -> Self {
         Self {
-            x: Variable::Constant(value.0.map_collect()),
-            y: Variable::Constant(value.1.map_collect()),
+            x: Some(Variable::Constant(value.0.map_collect())),
+            y: Some(Variable::Constant(value.1.map_collect())),
             ..Default::default()
         }
     }

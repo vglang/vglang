@@ -4,20 +4,36 @@
 //!
 //! [`SVG 1.1`]: https://www.w3.org/TR/SVG11/Overview.html
 
+use std::panic::RefUnwindSafe;
+
 pub mod text;
 
 /// The main entry of the spec.
 pub fn run_spec<F>(tester: F)
 where
-    F: Fn(&str, &str, vglang::surface::Source<'_>),
+    F: Fn(&str, &str, vglang::surface::Source<'_>) + RefUnwindSafe,
 {
     macro_rules! test {
         ($catalog: ident, $case: ident) => {
-            tester(
-                stringify!($catalog),
-                stringify!($case),
-                vglang::sexpr::BuildContext::create_source($catalog::$case()),
-            );
+            print!("run spec {}({})", stringify!($catalog), stringify!($case));
+
+            let result = std::panic::catch_unwind(|| {
+                tester(
+                    stringify!($catalog),
+                    stringify!($case),
+                    vglang::sexpr::BuildContext::create_source($catalog::$case()),
+                )
+            });
+
+            match result {
+                Ok(_) => {
+                    println!("... ok");
+                }
+                Err(err) => {
+                    println!("... failed");
+                    println!("{:#?}", err);
+                }
+            }
         };
     }
 

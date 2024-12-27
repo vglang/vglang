@@ -10,7 +10,7 @@ pub enum Opcode {
     /// The drawing stack is clean up by executing the [`Opcode::Group`] or [`Opcode::Draw`] instruction.
     Apply(Attr),
     /// Draws a graphics elements group.
-    Group(Container),
+    Container(Container),
     /// Pop up a group of graphics elements, and draw them.
     Pop,
     /// Draws a shape.

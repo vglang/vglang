@@ -50,6 +50,11 @@
     }
   },
   {
+    "Container": {
+      "Group": null
+    }
+  },
+  {
     "Apply": {
       "Fill": {
         "paint": {
@@ -86,9 +91,50 @@
   },
   {
     "Draw": {
-      "Characters": "Hello, out there"
+      "Characters": "You are"
     }
   },
+  {
+    "Apply": {
+      "Font": {
+        "weight": {
+          "Constant": "Bold"
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              255,
+              0,
+              0
+            ]
+          }
+        }
+      }
+    }
+  },
+  {
+    "Container": {
+      "TextSpan": {}
+    }
+  },
+  {
+    "Draw": {
+      "Characters": "not"
+    }
+  },
+  "Pop",
+  {
+    "Draw": {
+      "Characters": "a banana."
+    }
+  },
+  "Pop",
   "Pop",
   {
     "Apply": {

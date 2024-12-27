@@ -107,16 +107,21 @@ impl DeriveFiled {
                             }
                         }
                         "Vec" => {
-                            // only parse: Vec<T> or Option<Vec<T>>.
+                            // only parse: Vec<T>, Variable<Vec<T>>, Option<Vec<T>>, Option<Variable<Vec<T>>>.
                             if self.type_stack.is_empty()
                                 || (self.type_stack.len() == 1
                                     && *self.type_stack.first().unwrap() == DeriveType::Option)
                                 || (self.type_stack.len() == 1
                                     && *self.type_stack.first().unwrap() == DeriveType::Variable)
+                                || (self.type_stack.len() == 2
+                                    && self.type_stack[0] == DeriveType::Option
+                                    && self.type_stack[1] == DeriveType::Variable)
                             {
                                 self.type_stack.push(DeriveType::Vec);
 
                                 current_type = Self::parse_generic_type(seg);
+
+                                continue;
                             } else {
                                 self.type_stack.push(DeriveType::Unknown(
                                     current_type.to_token_stream().to_string(),
@@ -124,8 +129,6 @@ impl DeriveFiled {
 
                                 break;
                             }
-
-                            continue;
                         }
                         "Variable" => {
                             // only parse Variable<T>, Vec<Variable<T>> or Option<Variable<T>>,
@@ -166,25 +169,10 @@ impl DeriveFiled {
         }
     }
 
-    fn content_type(&self) -> proc_macro2::TokenStream {
-        assert!(self.type_stack.len() > 0);
-        assert!(self.type_stack.len() < 4);
-
-        let content_type_index = match self.type_stack.len() {
-            1 => 0,
-            2 => 1,
-            3 => 2,
-            _ => panic!("s-expr derive inner error."),
-        };
-
-        match &self.type_stack[content_type_index] {
-            DeriveType::Unknown(token_stream) => {
-                return token_stream.parse().unwrap();
-            }
-            _ => {
-                panic!("s-expr derive inner error.");
-            }
-        }
+    fn fn_animated(&self) -> Option<Ident> {
+        self.type_stack
+            .contains(&DeriveType::Variable)
+            .then(|| format_ident!("{}_animated", self.ident))
     }
 
     fn derive(&mut self, apis: &mut Vec<proc_macro2::TokenStream>) {
@@ -192,121 +180,222 @@ impl DeriveFiled {
 
         let fn_name = &self.ident;
 
-        let fn_name_animated = format_ident!("{}_animated", fn_name);
+        let fn_animated = self.fn_animated();
 
-        let content_type = self.content_type();
-
-        match self.type_stack.first().unwrap() {
-            DeriveType::Vec => {
-                assert_eq!(self.type_stack.len(), 2);
-                apis.push(quote! {
-                    pub fn #fn_name<V>(mut self, v: V) -> Self
-                    where
-                        V: crate::sexpr::MapCollect<#content_type>,
-                    {
-                        self.#fn_name = v.map_collect();
-                        self
-                    }
-                });
+        let variable_reference = quote! {
+            crate::opcode::variable::Variable::Reference {
+                path: crate::opcode::variable::Path::Named(value.to_owned()),
+                target: crate::opcode::variable::Target::Register,
             }
-            DeriveType::Variable => {
-                if self.type_stack.len() == 3 {
-                    assert_eq!(self.type_stack[1], DeriveType::Vec);
+        };
 
+        match self.type_stack.len() {
+            // only type T
+            1 => match self.type_stack.first().unwrap() {
+                DeriveType::Unknown(stream) => {
+                    let ty: TokenStream = stream.parse().unwrap();
                     apis.push(quote! {
-                        pub fn #fn_name<V>(mut self, v: V) -> Self
+                        pub fn #fn_name<T>(mut self, value: T) -> Self
                         where
-                            V: crate::sexpr::MapCollect<#content_type>,
+                            #ty: From<T>,
                         {
-                            self.#fn_name = Variable::Constant(v.map_collect());
-                            self
-                        }
-                    });
-                } else {
-                    apis.push(quote! {
-                        pub fn #fn_name<V>(mut self, v: V) -> Self
-                        where
-                            #content_type: From<V>,
-                        {
-                            self.#fn_name = Variable::Constant(v.into());
+                            self.#fn_name = value.into();
                             self
                         }
                     });
                 }
-
-                apis.push(quote! {
-                    pub fn #fn_name_animated<S>(mut self, v: S) -> Self
-                    where
-                        S: ToOwned<Owned = String>
-                    {
-                        self.#fn_name = Variable::Reference {
-                            path: crate::opcode::variable::Path::Named(v.to_owned()),
-                            target: crate::opcode::variable::Target::Register,
-                        };
-                        self
+                _ => {
+                    panic!("inner error, type_stack(1)")
+                }
+            },
+            // May be Option<T>, Variable<T> or Vec<T>
+            2 => {
+                let ty: TokenStream = match &self.type_stack[1] {
+                    DeriveType::Unknown(stream) => stream.parse().unwrap(),
+                    _ => {
+                        panic!("inner error, type_stack(2),T");
                     }
-                });
+                };
+
+                match &self.type_stack[0] {
+                    DeriveType::Vec => {
+                        apis.push(quote! {
+                            pub fn #fn_name<T>(mut self, value: T) -> Self
+                            where
+                                T: crate::sexpr::MapCollect<#ty>,
+                            {
+                                self.#fn_name = value.map_collect();
+                                self
+                            }
+                        });
+                    }
+                    DeriveType::Variable => {
+                        apis.push(quote! {
+                            pub fn #fn_name<T>(mut self, value: T) -> Self
+                            where
+                                #ty: From<T>,
+                            {
+                                self.#fn_name = crate::opcode::variable::Variable::Constant(value.into());
+                                self
+                            }
+
+                            pub fn #fn_animated<T>(mut self, value: T) -> Self
+                            where
+                                T: ToOwned<Owned = String>,
+                            {
+                                self.#fn_name = #variable_reference;
+                                self
+                            }
+                        });
+                    }
+                    DeriveType::Option => {
+                        apis.push(quote! {
+                            pub fn #fn_name<T>(mut self, value: T) -> Self
+                            where
+                                #ty: From<T>,
+                            {
+                                self.#fn_name = Some(value.into());
+                                self
+                            }
+                        });
+                    }
+                    _ => panic!("inner error, type_stack(2)"),
+                }
             }
-            DeriveType::Option => {
-                if self.type_stack.len() == 3 {
-                    match self.type_stack[1] {
+            // May be Option<Vec<T>>, Variable<Vec<T>> or Option<Variable<T>>
+            3 => {
+                let ty: TokenStream = match &self.type_stack[2] {
+                    DeriveType::Unknown(stream) => stream.parse().unwrap(),
+                    _ => {
+                        panic!("inner error, type_stack(3),T");
+                    }
+                };
+
+                match &self.type_stack[0] {
+                    DeriveType::Option => match &self.type_stack[1] {
                         DeriveType::Vec => {
                             apis.push(quote! {
-                                pub fn #fn_name<V>(mut self, v: V) -> Self
+                                pub fn #fn_name<T>(mut self, value: T) -> Self
                                 where
-                                    V: crate::sexpr::MapCollect<#content_type>,
+                                    T: crate::sexpr::MapCollect<#ty>,
                                 {
-                                    self.#fn_name = Some(v.map_collect());
+                                    self.#fn_name = Some(value.map_collect());
                                     self
                                 }
                             });
                         }
                         DeriveType::Variable => {
                             apis.push(quote! {
-                                pub fn #fn_name<V>(mut self, v: V) -> Self
+                                pub fn #fn_name<T>(mut self, value: T) -> Self
                                 where
-                                    #content_type: From<V>,
+                                    #ty: From<T>,
                                 {
-                                    self.#fn_name = Some(Variable::Constant(v.into()));
+                                    self.#fn_name = Some(crate::opcode::variable::Variable::Constant(value.into()));
                                     self
                                 }
-
-                                pub fn #fn_name_animated<S>(mut self, v: S) -> Self
+                                
+                                pub fn #fn_animated<T>(mut self, value: T) -> Self
                                 where
-                                    S: ToOwned<Owned = String>
+                                    T: ToOwned<Owned = String>,
                                 {
-                                    self.#fn_name = Some(Variable::Reference {
-                                        path: crate::opcode::variable::Path::Named(v.to_owned()),
-                                        target: crate::opcode::variable::Target::Register,
-                                    });
+                                    self.#fn_name = Some(#variable_reference);
                                     self
                                 }
                             });
                         }
-                        _ => {}
-                    }
-                } else {
-                    apis.push(quote! {
-                        pub fn #fn_name<V>(mut self, v: V) -> Self
-                        where
-                            #content_type: From<V>,
-                        {
-                            self.#fn_name = Some(v.into());
-                            self
+                        _ => {
+                            panic!("inner error, type_stack(3), 1");
                         }
-                    });
+                    },
+                    // Variable<Vec<T>>>
+                    DeriveType::Variable => {
+                        match &self.type_stack[1] {
+                            DeriveType::Vec => {},
+                            _ => {
+                                panic!("inner error, type_stack(3),T");
+                            }
+                        }
+
+                        let ty: TokenStream = match &self.type_stack[2] {
+                            DeriveType::Unknown(stream) => stream.parse().unwrap(),
+                            _ => {
+                                panic!("inner error, type_stack(3),T");
+                            }
+                        };
+
+                        apis.push(quote! {
+                            pub fn #fn_name<T>(mut self, value: T) -> Self
+                            where
+                                T: crate::sexpr::MapCollect<#ty>,
+                            {
+                                self.#fn_name = crate::opcode::variable::Variable::Constant(value.map_collect());
+                                self
+                            }
+
+                            pub fn #fn_animated<T>(mut self, value: T) -> Self
+                            where
+                                T: ToOwned<Owned = String>,
+                            {
+                                self.#fn_name = #variable_reference;
+                                self
+                            }
+                        });
+                    }
+                    _ => {
+                        panic!("inner error, type_stack(3), 0");
+                    }
                 }
             }
-            DeriveType::Unknown(_) => {
+            // only Option<Variable<Vec<T>>>
+            4 => {
+                match &self.type_stack[0] {
+                    DeriveType::Option => {},
+                    _ => {
+                        panic!("inner error, type_stack(4),0");
+                    }
+                }
+
+                match &self.type_stack[1] {
+                    DeriveType::Variable => {},
+                    _ => {
+                        panic!("inner error, type_stack(4),1");
+                    }
+                }
+
+                match &self.type_stack[2] {
+                    DeriveType::Vec => {},
+                    _ => {
+                        panic!("inner error, type_stack(4),2");
+                    }
+                }
+
+                let ty: TokenStream = match &self.type_stack[3] {
+                    DeriveType::Unknown(stream) => stream.parse().unwrap(),
+                    _ => {
+                        panic!("inner error, type_stack(3),T");
+                    }
+                };
+
                 apis.push(quote! {
-                    pub fn #fn_name<V>(mut self, v: V) -> Self
+                    pub fn #fn_name<T>(mut self, value: T) -> Self
                     where
-                        #content_type: From<V>,
+                        T: crate::sexpr::MapCollect<#ty>,
                     {
-                        self.#fn_name = v.into();
+                        self.#fn_name = Some(crate::opcode::variable::Variable::Constant(value.map_collect()));
+                        self
+                    }
+
+                    pub fn #fn_animated<T>(mut self, value: T) -> Self
+                    where
+                        T: ToOwned<Owned = String>,
+                    {
+                        self.#fn_name = Some(#variable_reference);
                         self
                     }
                 });
+            }
+            _ => {
+                panic!("inner error")
             }
         }
     }

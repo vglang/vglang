@@ -50,6 +50,11 @@
     }
   },
   {
+    "Container": {
+      "Group": null
+    }
+  },
+  {
     "Apply": {
       "Fill": {
         "paint": {
@@ -86,9 +91,79 @@
   },
   {
     "Draw": {
-      "Characters": "Hello, out there"
+      "Characters": "But you"
     }
   },
+  {
+    "Apply": {
+      "Font": {
+        "weight": {
+          "Constant": "Bold"
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              255,
+              0,
+              0
+            ]
+          }
+        }
+      }
+    }
+  },
+  {
+    "Container": {
+      "TextSpan": {
+        "dx": {
+          "Constant": [
+            {
+              "em": 2.0
+            }
+          ]
+        },
+        "dy": {
+          "Constant": [
+            {
+              "px": -50.0
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Characters": "are"
+    }
+  },
+  "Pop",
+  {
+    "Container": {
+      "TextSpan": {
+        "dy": {
+          "Constant": [
+            {
+              "px": 100.0
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Characters": "a peach!"
+    }
+  },
+  "Pop",
+  "Pop",
   "Pop",
   {
     "Apply": {

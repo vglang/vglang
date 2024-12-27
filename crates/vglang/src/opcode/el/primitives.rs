@@ -77,12 +77,14 @@ pub struct Rect {
     /// A negative value is an error (see Error processing).
     ///
     /// Animatable: yes.
-    pub rx: Variable<Length>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub rx: Option<Variable<Length>>,
 
     /// For rounded rectangles, the y-axis radius of the ellipse used to round off the corners of the rectangle.
     /// A negative value is an error (see Error processing).
     ///
     /// Animatable: yes.
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub ry: Option<Variable<Length>>,
 }
 
