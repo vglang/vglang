@@ -11,7 +11,7 @@ use crate::opcode::el::*;
 #[cfg_attr(
     feature = "sexpr",
     vglang_derive::attribute(
-        boxed, Group, Text, TextSpan, Characters, Rect, Circle, Line, Polyline, Polygon
+        boxed, Group, Text, TextSpan, Characters, Rect, Circle, Line, Polyline, Polygon, Use
     )
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -47,7 +47,7 @@ where
 #[cfg_attr(
     feature = "sexpr",
     vglang_derive::attribute(
-        boxed, Group, Text, TextSpan, Characters, Rect, Circle, Line, Polyline, Polygon
+        boxed, Group, Text, TextSpan, Characters, Rect, Circle, Line, Polyline, Polygon, Use
     )
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]

@@ -22,12 +22,12 @@
       "Canvas": {
         "width": {
           "Constant": {
-            "percent": 1.0
+            "percent": 100.0
           }
         },
         "height": {
           "Constant": {
-            "percent": 1.0
+            "percent": 100.0
           }
         }
       }

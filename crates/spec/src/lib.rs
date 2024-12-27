@@ -43,4 +43,7 @@ where
     test!(text, tspan_0_3);
     test!(text, tspan_0_4);
     test!(text, tspan_0_5);
+    test!(text, rtl_text);
+    test!(text, text_decoration_01);
+    test!(text, toap_01);
 }

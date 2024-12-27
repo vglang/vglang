@@ -17,3 +17,6 @@ pub use canvas::*;
 
 mod compositing;
 pub use compositing::*;
+
+mod text;
+pub use text::*;

@@ -9,7 +9,6 @@ pub enum Container {
     Else(Else),
     For(Box<For>),
     Foreach(Box<Foreach>),
-    Use(Box<Use>),
     Group(Group),
     Text(Box<Text>),
     TextSpan(Box<TextSpan>),
@@ -24,6 +23,7 @@ pub enum Container {
     FeSpecularLighting(Box<FeSpecularLighting>),
     Mask(Box<Mask>),
     ClipPath(Box<ClipPath>),
+    TextPath(Box<TextPath>),
 }
 
 /// the graphic types that can be used as `opcode operand`.
@@ -31,6 +31,7 @@ pub enum Container {
 #[cfg_attr(feature = "sexpr", derive(vglang_derive::Data))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Shape {
+    Use(Box<Use>),
     Characters(Box<Characters>),
     Path(Box<Path>),
     GradientStop(Box<GradientStop>),

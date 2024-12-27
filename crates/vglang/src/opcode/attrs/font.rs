@@ -44,11 +44,12 @@ pub struct Font {
     pub stretch: Option<Variable<FontStretch>>,
 }
 
-impl<T> From<T> for Font
-where
-    T: MapCollect<FontFamily>,
-{
-    fn from(value: T) -> Self {
+impl Font {
+    /// Create font from [`FontFamily`]
+    pub fn from_family<T>(value: T) -> Self
+    where
+        T: MapCollect<FontFamily>,
+    {
         Self {
             family: Some(Variable::Constant(value.map_collect())),
             ..Default::default()
@@ -92,10 +93,13 @@ impl From<FontStretch> for Font {
     }
 }
 
-impl From<Length> for Font {
-    fn from(value: Length) -> Self {
+impl<T> From<T> for Font
+where
+    Length: From<T>,
+{
+    fn from(value: T) -> Self {
         Self {
-            size: Some(Variable::Constant(value)),
+            size: Some(Variable::Constant(value.into())),
             ..Default::default()
         }
     }

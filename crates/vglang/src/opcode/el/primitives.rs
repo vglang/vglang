@@ -1,6 +1,6 @@
 use crate::{
     opcode::{
-        data::{Length, Point},
+        data::{Iri, Length, Point},
         variable::Variable,
     },
     sexpr::MapCollect,
@@ -14,17 +14,17 @@ use super::*;
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(
     feature = "sexpr",
-    vglang_derive::container_element(boxed, Group, If, Foreach, For)
+    vglang_derive::shape_element(boxed, Group, If, Foreach, For)
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Use(pub String);
+pub struct Use(pub Variable<Iri>);
 
 impl<T> From<T> for Use
 where
-    String: From<T>,
+    Iri: From<T>,
 {
     fn from(value: T) -> Self {
-        Self(value.into())
+        Self(Variable::Constant(value.into()))
     }
 }
 
