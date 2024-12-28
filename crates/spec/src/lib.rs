@@ -6,6 +6,8 @@
 
 use std::panic::RefUnwindSafe;
 
+pub mod gradients;
+pub mod pattern;
 pub mod shapes;
 pub mod text;
 
@@ -51,4 +53,6 @@ where
     test!(shapes, rect_02);
     test!(shapes, ellipse_01);
     test!(shapes, line_01);
+    test!(shapes, polyline_01);
+    test!(shapes, polygon_01);
 }
