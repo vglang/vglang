@@ -6,6 +6,7 @@
 
 use std::panic::RefUnwindSafe;
 
+pub mod shapes;
 pub mod text;
 
 /// The main entry of the spec.
@@ -46,4 +47,8 @@ where
     test!(text, rtl_text);
     test!(text, text_decoration_01);
     test!(text, toap_01);
+    test!(shapes, rect_01);
+    test!(shapes, rect_02);
+    test!(shapes, ellipse_01);
+    test!(shapes, line_01);
 }

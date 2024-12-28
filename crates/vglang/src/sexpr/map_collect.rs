@@ -1,5 +1,6 @@
 use crate::opcode::{
-    data::Length,
+    attrs::Transformed,
+    data::{Length, Transform},
     el::{Text, TextSpan},
     variable::Variable,
 };
@@ -43,5 +44,14 @@ where
             y: Some(Variable::Constant(value.1.map_collect())),
             ..Default::default()
         }
+    }
+}
+
+impl<T> From<T> for Transformed
+where
+    T: MapCollect<Transform>,
+{
+    fn from(value: T) -> Self {
+        Self(value.map_collect())
     }
 }

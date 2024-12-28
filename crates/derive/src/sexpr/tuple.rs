@@ -95,6 +95,17 @@ pub fn derive_tuple_traits(max_length: usize) -> proc_macro::TokenStream {
                 }
             }
 
+            impl<#(#params),*> crate::sexpr::MapCollect<crate::opcode::data::Transform> for (#(#params),*)
+            where
+                #(crate::opcode::data::Transform: From<#params>),*
+            {
+                fn map_collect(self) -> Vec<crate::opcode::data::Transform> {
+                    let (#(#params),*) = self;
+
+                    vec![#(#params.into()),*]
+                }
+            }
+
             impl<#(#point_params),*> crate::sexpr::MapCollect<crate::opcode::data::Point> for (#(#point_params),*)
             where
                 #(#point_where_params),*

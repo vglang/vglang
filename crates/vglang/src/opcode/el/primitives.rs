@@ -156,13 +156,13 @@ pub struct Ellipse {
     /// If the attribute is not specified, the effect is as if a value of "0" were specified.
     ///
     /// Animatable: yes.
-    pub cx: Variable<Length>,
+    pub cx: Option<Variable<Length>>,
 
     /// The y-axis coordinate of the center of the ellipse.
     /// If the attribute is not specified, the effect is as if a value of "0" were specified.
     ///
     /// Animatable: yes.
-    pub cy: Variable<Length>,
+    pub cy: Option<Variable<Length>>,
 
     /// The x-axis radius of the ellipse.
     /// A negative value is an error (see Error processing). A value of zero disables rendering of the element.
@@ -183,10 +183,23 @@ where
 {
     fn from(value: (CX, CY, RX, RY)) -> Self {
         Self {
-            cx: Variable::Constant(value.0.into()),
-            cy: Variable::Constant(value.1.into()),
+            cx: Some(Variable::Constant(value.0.into())),
+            cy: Some(Variable::Constant(value.1.into())),
             rx: Variable::Constant(value.2.into()),
             ry: Variable::Constant(value.3.into()),
+        }
+    }
+}
+
+impl<RX, RY> From<(RX, RY)> for Ellipse
+where
+    Length: From<RX> + From<RY>,
+{
+    fn from(value: (RX, RY)) -> Self {
+        Self {
+            rx: Variable::Constant(value.0.into()),
+            ry: Variable::Constant(value.1.into()),
+            ..Default::default()
         }
     }
 }
@@ -226,6 +239,20 @@ pub struct Line {
     ///
     /// Animatable: yes.
     pub y2: Variable<Length>,
+}
+
+impl<X1, Y1, X2, Y2> From<(X1, Y1, X2, Y2)> for Line
+where
+    Length: From<X1> + From<X2> + From<Y1> + From<Y2>,
+{
+    fn from(value: (X1, Y1, X2, Y2)) -> Self {
+        Self {
+            x1: Variable::Constant(value.0.into()),
+            y1: Variable::Constant(value.1.into()),
+            x2: Variable::Constant(value.2.into()),
+            y2: Variable::Constant(value.3.into()),
+        }
+    }
 }
 
 /// The ‘polyline’ element defines a set of connected straight line segments. Typically, ‘polyline’ elements define open shapes.

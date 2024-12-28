@@ -20,3 +20,6 @@ pub use compositing::*;
 
 mod text;
 pub use text::*;
+
+mod transform;
+pub use transform::*;
