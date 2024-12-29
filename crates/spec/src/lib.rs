@@ -62,4 +62,5 @@ where
     test!(path, triangle_01);
     test!(path, cubic_01);
     test!(path, quad_01);
+    test!(path, arcs_01);
 }
