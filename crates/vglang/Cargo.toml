@@ -15,5 +15,6 @@ concat-idents = { workspace = true }
 [features]
 default = ["serde", "sexpr", "surface"]
 serde = ["dep:serde"]
-sexpr = ["vglang-derive/sexpr", "surface"]
+sexpr = ["vglang-derive/sexpr", "surface", "rgb"]
 surface = []
+rgb = ["vglang-derive/rgb"]

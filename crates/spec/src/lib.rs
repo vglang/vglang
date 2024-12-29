@@ -60,4 +60,6 @@ where
     test!(gradients, radgrad_01);
     test!(pattern, pattern_01);
     test!(path, triangle_01);
+    test!(path, cubic_01);
+    test!(path, quad_01);
 }

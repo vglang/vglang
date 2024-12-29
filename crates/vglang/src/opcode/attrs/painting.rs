@@ -12,7 +12,7 @@ use crate::opcode::el::*;
     feature = "sexpr",
     vglang_derive::attribute(
         boxed, Group, Text, TextSpan, Characters, Rect, Circle, Line, Polyline, Polygon, Use,
-        Ellipse
+        Ellipse, Path,
     )
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -49,7 +49,7 @@ where
     feature = "sexpr",
     vglang_derive::attribute(
         boxed, Group, Text, TextSpan, Characters, Rect, Circle, Line, Polyline, Polygon, Use,
-        Ellipse
+        Ellipse, Path
     )
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]

@@ -1,0 +1,391 @@
+[
+  {
+    "Apply": {
+      "ViewBox": {
+        "minx": {
+          "Constant": 0.0
+        },
+        "miny": {
+          "Constant": 0.0
+        },
+        "width": {
+          "Constant": 1200.0
+        },
+        "height": {
+          "Constant": 600.0
+        }
+      }
+    }
+  },
+  {
+    "Container": {
+      "Canvas": {
+        "width": {
+          "Constant": {
+            "cm": 12.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "cm": 6.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {}
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        },
+        "width": {
+          "Constant": {
+            "px": 1.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "px": 1.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "px": 1.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "px": 1198.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "px": 598.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {}
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              255,
+              0,
+              0
+            ]
+          }
+        },
+        "width": {
+          "Constant": {
+            "px": 5.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Path": {
+        "data": {
+          "Constant": [
+            {
+              "MoveTo": [
+                {
+                  "x": 200.0,
+                  "y": 300.0
+                },
+                false
+              ]
+            },
+            {
+              "QuadraticBezier": {
+                "ctrl": {
+                  "x": 400.0,
+                  "y": 50.0
+                },
+                "to": {
+                  "x": 600.0,
+                  "y": 300.0
+                },
+                "relative": false
+              }
+            },
+            {
+              "QuadraticBezierSmooth": {
+                "to": {
+                  "x": 100.0,
+                  "y": 300.0
+                },
+                "relative": false
+              }
+            }
+          ]
+        },
+        "length": {
+          "Constant": {
+            "px": 0.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      }
+    }
+  },
+  {
+    "Container": {
+      "Group": null
+    }
+  },
+  {
+    "Draw": {
+      "Circle": {
+        "cx": {
+          "Constant": {
+            "px": 200.0
+          }
+        },
+        "cy": {
+          "Constant": {
+            "px": 300.0
+          }
+        },
+        "r": {
+          "Constant": {
+            "px": 10.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Circle": {
+        "cx": {
+          "Constant": {
+            "px": 600.0
+          }
+        },
+        "cy": {
+          "Constant": {
+            "px": 300.0
+          }
+        },
+        "r": {
+          "Constant": {
+            "px": 10.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Circle": {
+        "cx": {
+          "Constant": {
+            "px": 1000.0
+          }
+        },
+        "cy": {
+          "Constant": {
+            "px": 300.0
+          }
+        },
+        "r": {
+          "Constant": {
+            "px": 10.0
+          }
+        }
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              136,
+              136,
+              136
+            ]
+          }
+        }
+      }
+    }
+  },
+  {
+    "Container": {
+      "Group": null
+    }
+  },
+  {
+    "Draw": {
+      "Circle": {
+        "cx": {
+          "Constant": {
+            "px": 400.0
+          }
+        },
+        "cy": {
+          "Constant": {
+            "px": 50.0
+          }
+        },
+        "r": {
+          "Constant": {
+            "px": 10.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Circle": {
+        "cx": {
+          "Constant": {
+            "px": 800.0
+          }
+        },
+        "cy": {
+          "Constant": {
+            "px": 550.0
+          }
+        },
+        "r": {
+          "Constant": {
+            "px": 10.0
+          }
+        }
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Fill": {}
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              136,
+              136,
+              136
+            ]
+          }
+        },
+        "width": {
+          "Constant": {
+            "px": 2.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Path": {
+        "data": {
+          "Constant": [
+            {
+              "MoveTo": [
+                {
+                  "x": 200.0,
+                  "y": 300.0
+                },
+                false
+              ]
+            },
+            {
+              "LineTo": [
+                {
+                  "x": 400.0,
+                  "y": 50.0
+                },
+                false
+              ]
+            },
+            {
+              "LineTo": [
+                {
+                  "x": 600.0,
+                  "y": 300.0
+                },
+                false
+              ]
+            },
+            {
+              "LineTo": [
+                {
+                  "x": 800.0,
+                  "y": 550.0
+                },
+                false
+              ]
+            },
+            {
+              "LineTo": [
+                {
+                  "x": 1000.0,
+                  "y": 300.0
+                },
+                false
+              ]
+            }
+          ]
+        },
+        "length": {
+          "Constant": {
+            "px": 0.0
+          }
+        }
+      }
+    }
+  },
+  "Pop"
+]
