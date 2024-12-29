@@ -7,7 +7,20 @@ use crate::opcode::el::*;
 #[cfg_attr(
     feature = "sexpr",
     vglang_derive::attribute(
-        boxed, Group, Text, TextSpan, Characters, Rect, Circle, Line, Polyline, Polygon, Path
+        boxed,
+        Group,
+        Text,
+        TextSpan,
+        Characters,
+        Rect,
+        Circle,
+        Line,
+        Polyline,
+        Polygon,
+        Path,
+        LinearGradient,
+        RadialGradient,
+        Pattern
     )
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]

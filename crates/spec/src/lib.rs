@@ -7,6 +7,7 @@
 use std::panic::RefUnwindSafe;
 
 pub mod gradients;
+pub mod path;
 pub mod pattern;
 pub mod shapes;
 pub mod text;
@@ -55,4 +56,8 @@ where
     test!(shapes, line_01);
     test!(shapes, polyline_01);
     test!(shapes, polygon_01);
+    test!(gradients, lingrad_01);
+    test!(gradients, radgrad_01);
+    test!(pattern, pattern_01);
+    test!(path, triangle_01);
 }

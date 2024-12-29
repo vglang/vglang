@@ -159,6 +159,19 @@ where
     }
 }
 
+impl<FX, FY> From<(FX, FY)> for RadialGradient
+where
+    Length: From<FX> + From<FY>,
+{
+    fn from(value: (FX, FY)) -> Self {
+        Self {
+            fx: Some(Variable::Constant(value.0.into())),
+            fy: Some(Variable::Constant(value.1.into())),
+            ..Default::default()
+        }
+    }
+}
+
 /// The ramp of colors to use on a gradient is defined by the ‘stop’ elements that are child elements
 /// to either the ‘linearGradient’ element or the ‘radialGradient’ element.
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -180,6 +193,7 @@ pub struct GradientStop {
     /// indicates what color to use at that gradient stop
     pub color: Option<Variable<Rgb>>,
 
+    /// Defines the opacity of a given gradient stop.
     pub opacity: Option<Variable<Number>>,
 }
 
