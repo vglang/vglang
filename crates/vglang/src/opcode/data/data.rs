@@ -106,4 +106,6 @@ pub enum Data {
     ListOfLetterSpacing(Box<Vec<LetterSpacing>>),
     WordSpacing(WordSpacing),
     ListOfWordSpacing(Box<Vec<WordSpacing>>),
+    Background(Box<Background>),
+    ListOfBackground(Box<Vec<Background>>),
 }

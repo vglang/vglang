@@ -1,6 +1,4 @@
-use super::{
-    ClipPathed, Fill, Font, Id, Masked, Opacity, Stroke, TextLayout, Transformed, ViewBox,
-};
+use super::*;
 
 /// the attribute types that can be used as `opcode operand`.
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
@@ -16,5 +14,8 @@ pub enum Attr {
     Opacity(Box<Opacity>),
     ClipPathed(Box<ClipPathed>),
     TextLayout(Box<TextLayout>),
-    Transformed(Box<Transformed>),
+    WithTransform(Box<WithTransform>),
+    EnableBackground(Box<EnableBackground>),
+    FePrimitive(Box<FePrimitive>),
+    WithFilter(Box<WithFilter>),
 }

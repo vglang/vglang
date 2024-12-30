@@ -23,3 +23,6 @@ pub use text::*;
 
 mod transform;
 pub use transform::*;
+
+mod filter;
+pub use filter::*;

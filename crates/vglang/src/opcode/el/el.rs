@@ -53,7 +53,7 @@ pub enum Shape {
     FeDisplacementMap(Box<FeDisplacementMap>),
     FeConvolveMatrix(Box<FeConvolveMatrix>),
     FeGaussianBlur(Box<FeGaussianBlur>),
-    FeMergeItem(Box<FeMergeItem>),
+    FeMergeNode(Box<FeMergeNode>),
     FeImage(Box<FeImage>),
     FeFlood(Box<FeFlood>),
     FeOffset(Box<FeOffset>),

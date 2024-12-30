@@ -1,6 +1,6 @@
 use vglang::{
     opcode::{
-        attrs::{Fill, Stroke, Transformed, ViewBox},
+        attrs::{Fill, Stroke, ViewBox, WithTransform},
         data::Color,
         el::{Canvas, Ellipse, Group, Line, Polygon, Polyline, Rect},
     },
@@ -31,7 +31,10 @@ pub fn rect_02() -> impl Graphics {
                 Stroke::from(Color::navy).width(10),
             )),
             Group
-                .apply(Transformed::from(((700, 210).translate(), (-30).rotate())))
+                .apply(WithTransform::from((
+                    (700, 210).translate(),
+                    (-30).rotate(),
+                )))
                 .children(
                     Rect::from((0, 0, 400, 200))
                         .rx(50)
@@ -47,10 +50,13 @@ pub fn ellipse_01() -> impl Graphics {
         .children((
             Rect::from((1, 1, 1198, 398)),
             Group
-                .apply(Transformed::from((300, 200).translate()))
+                .apply(WithTransform::from((300, 200).translate()))
                 .children(Ellipse::from((250, 100))),
             Group
-                .apply(Transformed::from(((900, 200).translate(), (-30).rotate())))
+                .apply(WithTransform::from((
+                    (900, 200).translate(),
+                    (-30).rotate(),
+                )))
                 .children(
                     Ellipse::from((250, 100))
                         .apply((Fill::default(), Stroke::from(Color::purple).width(30))),

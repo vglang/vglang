@@ -13,7 +13,7 @@ use super::*;
 /// A filter effect consists of a series of graphics operations that are applied to a given source graphic to
 /// produce a modified graphical result. The result of the filter effect is rendered to the target device
 /// instead of the original source graphic. The following illustrates the process:
-#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(
     feature = "sexpr",
     vglang_derive::container_element(boxed, Group, Canvas)
@@ -92,6 +92,21 @@ pub struct Filter {
     pub res: Option<Variable<NumberOptNumber>>,
 }
 
+impl<X, Y, W, H> From<(X, Y, W, H)> for Filter
+where
+    Length: From<X> + From<Y> + From<W> + From<H>,
+{
+    fn from(value: (X, Y, W, H)) -> Self {
+        Self {
+            x: Some(Variable::Constant(Length::from(value.0))),
+            y: Some(Variable::Constant(Length::from(value.1))),
+            width: Some(Variable::Constant(Length::from(value.2))),
+            height: Some(Variable::Constant(Length::from(value.3))),
+            ..Default::default()
+        }
+    }
+}
+
 /// All filter primitives have attributes ‘x’, ‘y’, ‘width’ and ‘height’ which identify a subregion which
 /// restricts calculation and rendering of the given filter primitive. These attributes are defined according
 /// to the same rules as other filter primitives' coordinate and length attributes and thus represent values
@@ -158,6 +173,24 @@ where
             width: Some(Variable::Constant(value.2.into())),
             height: Some(Variable::Constant(value.3.into())),
             result: Some(Variable::Constant(value.4.into())),
+        }
+    }
+}
+
+impl From<String> for FePrimitive {
+    fn from(value: String) -> Self {
+        Self {
+            result: Some(Variable::Constant(value.into())),
+            ..Default::default()
+        }
+    }
+}
+
+impl From<&str> for FePrimitive {
+    fn from(value: &str) -> Self {
+        Self {
+            result: Some(Variable::Constant(value.to_owned())),
+            ..Default::default()
         }
     }
 }
@@ -439,7 +472,7 @@ where
 /// sharpening, embossing and beveling.
 ///
 /// See [`feConvolveMatrix`](https://www.w3.org/TR/SVG11/filters.html#feConvolveMatrixElement)
-#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "sexpr", vglang_derive::shape_element(boxed, Filter))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeConvolveMatrix {
@@ -457,7 +490,7 @@ pub struct FeConvolveMatrix {
     /// high CPU overhead and usually do not produce results that justify the impact on performance.
     ///
     /// If the attribute is not specified, the effect is as if a value of 3 were specified.
-    pub order: Variable<NumberOptNumber>,
+    pub order: Option<Variable<NumberOptNumber>>,
     /// The list of `number`s that make up the kernel matrix for the convolution. Values are separated by space
     /// characters and/or a comma. The number of entries in the list must equal `orderX` times `orderY`.
     pub kernel: Variable<Vec<Number>>,
@@ -467,26 +500,26 @@ pub struct FeConvolveMatrix {
     /// an evening effect on the overall color intensity of the result. It is an error to specify a divisor of zero.
     /// The default value is the sum of all values in kernelMatrix, with the exception that if the sum is zero, then
     /// the divisor is set to 1.
-    pub divisor: Variable<Number>,
+    pub divisor: Option<Variable<Number>>,
 
     /// After applying the ‘kernelMatrix’ to the input image to yield a number and applying the ‘divisor’, the ‘bias’
     /// attribute is added to each component. One application of ‘bias’ is when it is desirable to have .5 gray value
     /// be the zero response of the filter. The bias property shifts the range of the filter. This allows representation
     /// of values that would otherwise be clamped to 0 or 1. If ‘bias’ is not specified, then the effect is as if a
     /// value of 0 were specified.
-    pub bias: Variable<Number>,
+    pub bias: Option<Variable<Number>>,
 
     /// After applying the ‘kernelMatrix’ to the input image to yield a number and applying the ‘divisor’, the ‘bias’
     /// attribute is added to each component. One application of ‘bias’ is when it is desirable to have .5 gray value
     /// be the zero response of the filter. The bias property shifts the range of the filter. This allows representation
     /// of values that would otherwise be clamped to 0 or 1. If ‘bias’ is not specified, then the effect is as if a
     /// value of 0 were specified.
-    pub target_x: Variable<i32>,
+    pub target_x: Option<Variable<i32>>,
 
     /// Determines the positioning in Y of the convolution matrix relative to a given target pixel in the input image.
     /// The topmost row of the matrix is row number zero. The value must be such that: 0 <= targetY < orderY. By default,
     /// the convolution matrix is centered in Y over each pixel of the input image (i.e., targetY = floor ( orderY / 2 )).
-    pub target_y: Variable<i32>,
+    pub target_y: Option<Variable<i32>>,
 
     /// Determines how to extend the input image as necessary with color values so that the matrix operations can be applied
     /// when the kernel is positioned at or near the edge of the input image.
@@ -510,6 +543,18 @@ pub struct FeConvolveMatrix {
     ///
     /// See [`feConvolveMatrix`](https://www.w3.org/TR/SVG11/filters.html#feConvolveMatrixElement)
     pub preserve_alpha: Variable<bool>,
+}
+
+impl<T> From<T> for FeConvolveMatrix
+where
+    FePrimitive: From<T>,
+{
+    fn from(value: T) -> Self {
+        Self {
+            primitive: value.into(),
+            ..Default::default()
+        }
+    }
 }
 
 /// See [`feConvolveMatrix`](https://www.w3.org/TR/SVG11/filters.html#feDiffuseLightingElement)
@@ -549,6 +594,18 @@ pub struct FeDiffuseLighting {
     pub kernel_unit_len: Option<Variable<NumberOptNumber>>,
 }
 
+impl<T> From<T> for FeDiffuseLighting
+where
+    FePrimitive: From<T>,
+{
+    fn from(value: T) -> Self {
+        Self {
+            primitive: value.into(),
+            ..Default::default()
+        }
+    }
+}
+
 /// This filter primitive uses the pixels values from the image from ‘in2’ to spatially displace the image from ‘in’.
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "sexpr", vglang_derive::shape_element(boxed, Filter))]
@@ -583,10 +640,22 @@ pub struct FeDisplacementMap {
     pub y_channel_selector: Option<Variable<ChannelSelector>>,
 }
 
+impl<T> From<T> for FeDisplacementMap
+where
+    FePrimitive: From<T>,
+{
+    fn from(value: T) -> Self {
+        Self {
+            primitive: value.into(),
+            ..Default::default()
+        }
+    }
+}
+
 /// This filter primitive creates a rectangle filled with the color and opacity values from properties ‘flood-color’ and ‘flood-opacity’.
 /// The rectangle is as large as the filter primitive subregion established by the ‘x’, ‘y’, ‘width’ and ‘height’ attributes on the
 /// ‘feFlood’ element.
-#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "sexpr", vglang_derive::shape_element(boxed, Filter))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeFlood {
@@ -594,8 +663,22 @@ pub struct FeFlood {
     #[cfg_attr(feature = "serde", serde(flatten))]
     pub primitive: FePrimitive,
 
-    pub color: Variable<Rgb>,
+    /// indicates what color to use to flood the current filter primitive subregion.
+    pub color: Option<Variable<Rgb>>,
+    /// defines the opacity value to use across the entire filter primitive subregion.
     pub opacity: Option<Variable<Number>>,
+}
+
+impl<T> From<T> for FeFlood
+where
+    FePrimitive: From<T>,
+{
+    fn from(value: T) -> Self {
+        Self {
+            primitive: value.into(),
+            ..Default::default()
+        }
+    }
 }
 
 /// This filter primitive performs a Gaussian blur on the input image.
@@ -623,6 +706,18 @@ pub struct FeGaussianBlur {
     pub std_deviation: Option<Variable<NumberOptNumber>>,
 }
 
+impl<T> From<T> for FeGaussianBlur
+where
+    FePrimitive: From<T>,
+{
+    fn from(value: T) -> Self {
+        Self {
+            primitive: value.into(),
+            ..Default::default()
+        }
+    }
+}
+
 /// This filter primitive composites input image layers on top of each other using the over operator with Input1
 /// (corresponding to the first ‘feMergeNode’ child element) on the bottom and the last specified input, InputN
 /// (corresponding to the last ‘feMergeNode’ child element), on top.
@@ -633,11 +728,29 @@ pub struct FeGaussianBlur {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeMerge(pub FePrimitive);
 
+impl<T> From<T> for FeMerge
+where
+    FePrimitive: From<T>,
+{
+    fn from(value: T) -> Self {
+        Self(value.into())
+    }
+}
+
 /// See [`FeMerge`]
-#[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
-#[cfg_attr(feature = "sexpr", vglang_derive::shape_element(boxed, Filter))]
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "sexpr", vglang_derive::shape_element(boxed, FeMerge))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct FeMergeItem(pub Option<Variable<FeIn>>);
+pub struct FeMergeNode(pub Variable<FeIn>);
+
+impl<T> From<T> for FeMergeNode
+where
+    FeIn: From<T>,
+{
+    fn from(value: T) -> Self {
+        Self(Variable::Constant(value.into()))
+    }
+}
 
 /// This filter primitive refers to a graphic external to this filter element, which is loaded or rendered into an RGBA
 /// raster and becomes the result of the filter primitive.
@@ -655,7 +768,21 @@ pub struct FeImage {
     pub href: Variable<FuncIRI>,
 
     /// See [`PreserveAspectRatio`].
-    pub aspect: Variable<PreserveAspectRatio>,
+    pub aspect: Option<Variable<PreserveAspectRatio>>,
+}
+
+impl<T, F> From<(T, F)> for FeImage
+where
+    FePrimitive: From<T>,
+    FuncIRI: From<F>,
+{
+    fn from(value: (T, F)) -> Self {
+        Self {
+            primitive: value.0.into(),
+            href: Variable::Constant(value.1.into()),
+            aspect: None,
+        }
+    }
 }
 
 /// This filter primitive performs "fattening" or "thinning" of artwork.
@@ -688,6 +815,18 @@ pub struct FeMorphology {
     pub radius: Option<Variable<NumberOptNumber>>,
 }
 
+impl<T> From<T> for FeMorphology
+where
+    FePrimitive: From<T>,
+{
+    fn from(value: T) -> Self {
+        Self {
+            primitive: value.into(),
+            ..Default::default()
+        }
+    }
+}
+
 /// This filter primitive offsets the input image relative to its current position in the image space by the specified vector.
 ///
 /// This is important for effects like drop shadows.
@@ -717,6 +856,27 @@ pub struct FeOffset {
     pub dy: Option<Variable<Number>>,
 }
 
+impl<T> From<T> for FeOffset
+where
+    FePrimitive: From<T>,
+{
+    fn from(value: T) -> Self {
+        Self {
+            primitive: value.into(),
+            ..Default::default()
+        }
+    }
+}
+
+impl From<FeIn> for FeOffset {
+    fn from(value: FeIn) -> Self {
+        Self {
+            r#in: Some(Variable::Constant(value)),
+            ..Default::default()
+        }
+    }
+}
+
 /// This filter primitive lights a source graphic using the alpha channel as a bump map.
 /// The resulting image is an RGBA image based on the light color. The lighting calculation follows the standard specular component of
 /// the Phong lighting model. The resulting image depends on the light color, light position and surface geometry of the input bump map.
@@ -724,7 +884,7 @@ pub struct FeOffset {
 /// the unit vector in the eye direction is (0,0,1) everywhere).
 ///
 /// See [`feSpecularLighting`](https://www.w3.org/TR/SVG11/filters.html#feSpecularLightingElement)
-#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "sexpr", vglang_derive::container_element(boxed, Filter))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeSpecularLighting {
@@ -765,6 +925,18 @@ pub struct FeSpecularLighting {
     pub kernel_unit_len: Option<Variable<NumberOptNumber>>,
 }
 
+impl<T> From<T> for FeSpecularLighting
+where
+    FePrimitive: From<T>,
+{
+    fn from(value: T) -> Self {
+        Self {
+            primitive: value.into(),
+            ..Default::default()
+        }
+    }
+}
+
 /// This filter primitive fills a target rectangle with a repeated, tiled pattern of an input image. The target rectangle is
 /// as large as the filter primitive subregion established by the ‘x’, ‘y’, ‘width’ and ‘height’ attributes on the ‘feTile’
 /// element.
@@ -780,6 +952,18 @@ pub struct FeTile {
 
     /// See [`FeIn`]
     pub r#in: Option<Variable<FeIn>>,
+}
+
+impl<T> From<T> for FeTile
+where
+    FePrimitive: From<T>,
+{
+    fn from(value: T) -> Self {
+        Self {
+            primitive: value.into(),
+            ..Default::default()
+        }
+    }
 }
 
 /// This filter primitive creates an image using the Perlin turbulence function.
@@ -822,4 +1006,16 @@ pub struct FeTurbulence {
 
     /// See [`FeStitchTiles`]
     pub r#type: Option<Variable<FeTurbulenceType>>,
+}
+
+impl<T> From<T> for FeTurbulence
+where
+    FePrimitive: From<T>,
+{
+    fn from(value: T) -> Self {
+        Self {
+            primitive: value.into(),
+            ..Default::default()
+        }
+    }
 }

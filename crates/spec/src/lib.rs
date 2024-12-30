@@ -6,6 +6,8 @@
 
 use std::panic::RefUnwindSafe;
 
+pub mod compositing;
+pub mod filter;
 pub mod gradients;
 pub mod path;
 pub mod pattern;
@@ -63,4 +65,6 @@ where
     test!(path, cubic_01);
     test!(path, quad_01);
     test!(path, arcs_01);
+    test!(compositing, mask_01);
+    test!(compositing, opacity_01);
 }

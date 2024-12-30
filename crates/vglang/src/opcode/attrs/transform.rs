@@ -13,4 +13,4 @@ use crate::opcode::el::*;
     )
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Transformed(pub Vec<Transform>);
+pub struct WithTransform(pub Vec<Transform>);

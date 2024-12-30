@@ -1,5 +1,47 @@
 use super::Number;
 
+/// Data value used by `enable-background` property.
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub enum Background {
+    /// A meaning of enable-background: accumulate (the initial/default value) depends on context:
+    ///
+    /// * If an ancestor container element has a property value of enable-background: new, then all
+    /// graphics elements within the current container element are rendered both onto the parent container
+    /// element's background image canvas and onto the target device.
+    ///
+    /// * Otherwise, there is no current background image canvas, so it is only necessary to render graphics
+    /// elements onto the target device. (No need to render to the background image canvas.)
+    Accumulate,
+    /// Indicate the subregion of the container element's user space where access to the background image is allowed to happen.
+    New {
+        x: Option<f32>,
+        y: Option<f32>,
+        width: Option<f32>,
+        height: Option<f32>,
+    },
+}
+
+impl Default for Background {
+    fn default() -> Self {
+        Self::Accumulate
+    }
+}
+
+impl<X, Y, W, H> From<(X, Y, W, H)> for Background
+where
+    Number: From<X> + From<Y> + From<W> + From<H>,
+{
+    fn from(value: (X, Y, W, H)) -> Self {
+        Self::New {
+            x: Some(Number::from(value.0).0),
+            y: Some(Number::from(value.1).0),
+            width: Some(Number::from(value.2).0),
+            height: Some(Number::from(value.3).0),
+        }
+    }
+}
+
 /// Identifies input for the given filter primitive. The value can be either one of six keywords or
 /// can be a string which matches a previous ‘result’ attribute value within the same ‘filter’ element.
 /// If no value is provided and this is the first filter primitive, then this filter primitive will use
@@ -48,6 +90,15 @@ pub enum FeIn {
 impl Default for FeIn {
     fn default() -> Self {
         Self::SourceGraphic
+    }
+}
+
+impl<T> From<T> for FeIn
+where
+    String: From<T>,
+{
+    fn from(value: T) -> Self {
+        Self::Ref(value.into())
     }
 }
 

@@ -1,5 +1,5 @@
 use crate::opcode::{
-    attrs::Transformed,
+    attrs::WithTransform,
     data::{Length, Transform},
     el::{Text, TextSpan},
     variable::Variable,
@@ -47,7 +47,7 @@ where
     }
 }
 
-impl<T> From<T> for Transformed
+impl<T> From<T> for WithTransform
 where
     T: MapCollect<Transform>,
 {

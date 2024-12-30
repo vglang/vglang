@@ -20,7 +20,9 @@ use crate::opcode::el::*;
         Path,
         LinearGradient,
         RadialGradient,
-        Pattern
+        Pattern,
+        Mask,
+        Filter
     )
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]

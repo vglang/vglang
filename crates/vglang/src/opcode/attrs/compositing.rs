@@ -23,7 +23,7 @@ where
 /// Use mask to a element.
 /// Use mask to a element.
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
-#[cfg_attr(feature = "sexpr", vglang_derive::attribute(boxed, Canvas))]
+#[cfg_attr(feature = "sexpr", vglang_derive::attribute(boxed, Canvas, Use))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Masked(pub Variable<FuncIRI>);
 
@@ -38,7 +38,10 @@ where
 
 ///Sspecifies object/group opacity
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
-#[cfg_attr(feature = "sexpr", vglang_derive::attribute(boxed, Canvas))]
+#[cfg_attr(
+    feature = "sexpr",
+    vglang_derive::attribute(boxed, Canvas, Circle, Group)
+)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Opacity(pub Variable<Number>);
 
