@@ -8,7 +8,7 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
-vglang = { workspace = true, features = ["serde", "sexpr"] }
+vglang = { workspace = true, features = ["serde", "sexpr", "literal"] }
 heck = { workspace = true }
 
 [dev-dependencies]

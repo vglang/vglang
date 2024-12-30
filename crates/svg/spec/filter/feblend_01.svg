@@ -1,0 +1,47 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<svg>
+	<defs>
+		<linearGradient>
+			<stop />
+			<stop />
+			<stop />
+			<stop />
+		</linearGradient>
+	</defs>
+	<defs>
+		<filter>
+			<feBlend />
+		</filter>
+	</defs>
+	<defs>
+		<filter>
+			<feBlend />
+		</filter>
+	</defs>
+	<defs>
+		<filter>
+			<feBlend />
+		</filter>
+	</defs>
+	<defs>
+		<filter>
+			<feBlend />
+		</filter>
+	</defs>
+	<defs>
+		<filter>
+			<feBlend />
+		</filter>
+	</defs>
+	<rect />
+	<g>
+		<rect />
+		<g>
+			<text>Normal</text>
+			<text>Multiply</text>
+			<text>Screen</text>
+			<text>Darken</text>
+			<text>Lighten</text>
+		</g>
+	</g>
+</svg>

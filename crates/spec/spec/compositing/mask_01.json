@@ -296,7 +296,7 @@
   },
   {
     "Apply": {
-      "Masked": {
+      "WithMask": {
         "Constant": {
           "Path": "Maks"
         }

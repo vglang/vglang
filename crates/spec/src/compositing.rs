@@ -1,6 +1,6 @@
 use vglang::{
     opcode::{
-        attrs::{Fill, Font, Id, Masked, Opacity, Stroke, TextLayout, ViewBox},
+        attrs::{Fill, Font, Id, Opacity, Stroke, TextLayout, ViewBox, WithMask},
         data::{Color, Coords, Rgb, TextAnchor},
         el::{Canvas, Circle, GradientStop, Group, LinearGradient, Mask, Rect, Text, Use},
     },
@@ -29,7 +29,7 @@ pub fn mask_01() -> impl Graphics {
                 TextLayout::from(TextAnchor::Middle),
             )),
             Rect::from((0, 0, 800, 300)).apply(Fill::from(Rgb::rgb(0xff, 0x80, 0x80))),
-            Use::from("Text").apply((Fill::from(Color::blue), Masked::from("Maks"))),
+            Use::from("Text").apply((Fill::from(Color::blue), WithMask::from("Maks"))),
             Use::from("Text").apply((Fill::default(), Stroke::from(Color::black).width(2))),
         ))
 }

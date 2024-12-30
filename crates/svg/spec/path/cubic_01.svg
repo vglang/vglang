@@ -1,0 +1,18 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<svg>
+	<rect />
+	<polyline />
+	<polyline />
+	<polyline />
+	<polyline />
+	<path />
+	<circle />
+	<circle />
+	<circle />
+	<circle />
+	<circle />
+	<circle />
+	<circle />
+	<text>M100,200 C100,100 250,100 250,200</text>
+	<text>S400,300 400,200</text>
+</svg>

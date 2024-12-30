@@ -1,0 +1,15 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<svg>
+	<g>
+		<text>Normal text</text>
+		<text>Text with line-through</text>
+		<text>Underlined text</text>
+		<text>
+			<tspan>One </tspan>
+			<tspan>word </tspan>
+			<tspan>has </tspan>
+			<tspan>different </tspan>
+			<tspan>underlining</tspan>
+		</text>
+	</g>
+</svg>

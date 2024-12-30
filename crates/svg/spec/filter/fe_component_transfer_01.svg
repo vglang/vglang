@@ -1,0 +1,56 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<svg>
+	<defs>
+		<linearGradient>
+			<stop />
+			<stop />
+			<stop />
+			<stop />
+		</linearGradient>
+	</defs>
+	<defs>
+		<filter>
+			<feComponentTransfer>
+				<feFuncR />
+				<feFuncG />
+				<feFuncB />
+				<feFuncA />
+			</feComponentTransfer>
+		</filter>
+	</defs>
+	<defs>
+		<filter>
+			<feComponentTransfer>
+				<feFuncR />
+				<feFuncG />
+				<feFuncB />
+			</feComponentTransfer>
+		</filter>
+	</defs>
+	<defs>
+		<filter>
+			<feComponentTransfer>
+				<feFuncR />
+				<feFuncG />
+				<feFuncB />
+			</feComponentTransfer>
+		</filter>
+	</defs>
+	<defs>
+		<filter>
+			<feComponentTransfer>
+				<feFuncR />
+				<feFuncG />
+				<feFuncB />
+			</feComponentTransfer>
+		</filter>
+	</defs>
+	<rect />
+	<g>
+		<rect />
+		<text>Identity</text>
+		<text>TableLookup</text>
+		<text>LinearFunc</text>
+		<text>GammaFunc</text>
+	</g>
+</svg>

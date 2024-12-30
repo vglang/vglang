@@ -41,10 +41,6 @@ impl EnableBackground {
 /// is 0%,0%,100%,100%, where as a special-case the percentages are relative to the dimensions of the filter region,
 /// thus making the the default filter primitive subregion equal to the filter region.
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
-#[cfg_attr(
-    feature = "sexpr",
-    vglang_derive::attribute(boxed, FeBlend, FeColorMatrix, FeComponentTransfer, FeComposite)
-)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FePrimitive {
     /// The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive.  

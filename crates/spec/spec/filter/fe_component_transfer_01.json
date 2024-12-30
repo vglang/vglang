@@ -12,7 +12,7 @@
           "Constant": 800.0
         },
         "height": {
-          "Constant": 500.0
+          "Constant": 400.0
         }
       }
     }
@@ -27,7 +27,7 @@
         },
         "height": {
           "Constant": {
-            "cm": 5.0
+            "cm": 4.0
           }
         }
       }
@@ -57,7 +57,7 @@
         },
         "x2": {
           "Constant": {
-            "px": 300.0
+            "px": 600.0
           }
         },
         "y2": {
@@ -79,7 +79,7 @@
           "Constant": [
             255,
             0,
-            255
+            0
           ]
         },
         "opacity": null
@@ -94,9 +94,9 @@
         },
         "color": {
           "Constant": [
-            136,
+            0,
             255,
-            136
+            0
           ]
         },
         "opacity": null
@@ -111,8 +111,8 @@
         },
         "color": {
           "Constant": [
-            32,
-            32,
+            0,
+            0,
             255
           ]
         },
@@ -128,7 +128,7 @@
         },
         "color": {
           "Constant": [
-            208,
+            0,
             0,
             0
           ]
@@ -140,7 +140,7 @@
   "Pop",
   {
     "Apply": {
-      "Id": "Matrix"
+      "Id": "Identity"
     }
   },
   {
@@ -175,49 +175,208 @@
     }
   },
   {
-    "Draw": {
-      "FeColorMatrix": {
+    "Container": {
+      "FeComponentTransfer": {
         "x": null,
         "y": null,
         "width": null,
         "height": null,
         "result": null,
-        "in": {
-          "Constant": "SourceGraphic"
+        "in": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "FeFuncR": "Identity"
+    }
+  },
+  {
+    "Draw": {
+      "FeFuncG": "Identity"
+    }
+  },
+  {
+    "Draw": {
+      "FeFuncB": "Identity"
+    }
+  },
+  {
+    "Draw": {
+      "FeFuncA": "Identity"
+    }
+  },
+  "Pop",
+  "Pop",
+  {
+    "Apply": {
+      "Id": "Table"
+    }
+  },
+  {
+    "Container": {
+      "Filter": {
+        "units": {
+          "Constant": "ObjectBoundingBox"
         },
-        "values": {
+        "primitive_units": null,
+        "x": {
           "Constant": {
-            "Matrix": [
-              0.33,
-              0.33,
-              0.33,
-              0.0,
-              0.0,
-              0.33,
-              0.33,
-              0.33,
-              0.0,
-              0.0,
-              0.33,
-              0.33,
-              0.33,
-              0.0,
-              0.0,
-              0.33,
-              0.33,
-              0.33,
-              0.0,
-              0.0
-            ]
+            "percent": 0.0
           }
+        },
+        "y": {
+          "Constant": {
+            "percent": 0.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "percent": 100.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "percent": 100.0
+          }
+        },
+        "res": null
+      }
+    }
+  },
+  {
+    "Container": {
+      "FeComponentTransfer": {
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "result": null,
+        "in": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "FeFuncR": {
+        "Table": [
+          0.0,
+          0.0,
+          1.0,
+          1.0
+        ]
+      }
+    }
+  },
+  {
+    "Draw": {
+      "FeFuncG": {
+        "Table": [
+          1.0,
+          1.0,
+          0.0,
+          0.0
+        ]
+      }
+    }
+  },
+  {
+    "Draw": {
+      "FeFuncB": {
+        "Table": [
+          0.0,
+          1.0,
+          1.0,
+          0.0
+        ]
+      }
+    }
+  },
+  "Pop",
+  "Pop",
+  {
+    "Apply": {
+      "Id": "Linear"
+    }
+  },
+  {
+    "Container": {
+      "Filter": {
+        "units": {
+          "Constant": "ObjectBoundingBox"
+        },
+        "primitive_units": null,
+        "x": {
+          "Constant": {
+            "percent": 0.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "percent": 0.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "percent": 100.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "percent": 100.0
+          }
+        },
+        "res": null
+      }
+    }
+  },
+  {
+    "Container": {
+      "FeComponentTransfer": {
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "result": null,
+        "in": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "FeFuncR": {
+        "Linear": {
+          "slope": 0.5,
+          "intercept": 0.25
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "FeFuncG": {
+        "Linear": {
+          "slope": 0.5,
+          "intercept": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "FeFuncB": {
+        "Linear": {
+          "slope": 0.5,
+          "intercept": 0.5
         }
       }
     }
   },
   "Pop",
+  "Pop",
   {
     "Apply": {
-      "Id": "Saturate40"
+      "Id": "Gamma"
     }
   },
   {
@@ -252,158 +411,51 @@
     }
   },
   {
-    "Draw": {
-      "FeColorMatrix": {
+    "Container": {
+      "FeComponentTransfer": {
         "x": null,
         "y": null,
         "width": null,
         "height": null,
         "result": null,
-        "in": {
-          "Constant": "SourceGraphic"
-        },
-        "values": {
-          "Constant": {
-            "Saturate": 0.4
-          }
+        "in": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "FeFuncR": {
+        "Gamma": {
+          "amplitude": 2.0,
+          "exponent": 5.0,
+          "offset": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "FeFuncG": {
+        "Gamma": {
+          "amplitude": 2.0,
+          "exponent": 3.0,
+          "offset": 0.0
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "FeFuncB": {
+        "Gamma": {
+          "amplitude": 2.0,
+          "exponent": 1.0,
+          "offset": 0.0
         }
       }
     }
   },
   "Pop",
-  {
-    "Apply": {
-      "Id": "HueRotate90"
-    }
-  },
-  {
-    "Container": {
-      "Filter": {
-        "units": {
-          "Constant": "ObjectBoundingBox"
-        },
-        "primitive_units": null,
-        "x": {
-          "Constant": {
-            "percent": 0.0
-          }
-        },
-        "y": {
-          "Constant": {
-            "percent": 0.0
-          }
-        },
-        "width": {
-          "Constant": {
-            "percent": 100.0
-          }
-        },
-        "height": {
-          "Constant": {
-            "percent": 100.0
-          }
-        },
-        "res": null
-      }
-    }
-  },
-  {
-    "Draw": {
-      "FeColorMatrix": {
-        "x": null,
-        "y": null,
-        "width": null,
-        "height": null,
-        "result": null,
-        "in": {
-          "Constant": "SourceGraphic"
-        },
-        "values": {
-          "Constant": {
-            "HueRotate": 90.0
-          }
-        }
-      }
-    }
-  },
-  "Pop",
-  {
-    "Apply": {
-      "Id": "LuminanceToAlpha"
-    }
-  },
-  {
-    "Container": {
-      "Filter": {
-        "units": {
-          "Constant": "ObjectBoundingBox"
-        },
-        "primitive_units": null,
-        "x": {
-          "Constant": {
-            "percent": 0.0
-          }
-        },
-        "y": {
-          "Constant": {
-            "percent": 0.0
-          }
-        },
-        "width": {
-          "Constant": {
-            "percent": 100.0
-          }
-        },
-        "height": {
-          "Constant": {
-            "percent": 100.0
-          }
-        },
-        "res": null
-      }
-    }
-  },
-  {
-    "Draw": {
-      "FeColorMatrix": {
-        "x": null,
-        "y": null,
-        "width": null,
-        "height": null,
-        "result": {
-          "Constant": "a"
-        },
-        "in": {
-          "Constant": "SourceGraphic"
-        },
-        "values": {
-          "Constant": "LuminanceToAlpha"
-        }
-      }
-    }
-  },
-  {
-    "Draw": {
-      "FeComposite": {
-        "x": null,
-        "y": null,
-        "width": null,
-        "height": null,
-        "result": null,
-        "in": {
-          "Constant": "SourceGraphic"
-        },
-        "in2": {
-          "Constant": {
-            "Ref": "a"
-          }
-        },
-        "operator": {
-          "Constant": "In"
-        }
-      }
-    }
-  },
   "Pop",
   {
     "Apply": {
@@ -447,7 +499,7 @@
         },
         "height": {
           "Constant": {
-            "px": 498.0
+            "px": 398.0
           }
         }
       }
@@ -508,7 +560,7 @@
         },
         "width": {
           "Constant": {
-            "px": 500.0
+            "px": 600.0
           }
         },
         "height": {
@@ -541,13 +593,13 @@
   },
   {
     "Draw": {
-      "Characters": "Unfiltered"
+      "Characters": "Identity"
     }
   },
   "Pop",
   {
     "Apply": {
-      "WithFilter": "Matrix"
+      "WithFilter": "Table"
     }
   },
   {
@@ -572,13 +624,13 @@
   },
   {
     "Draw": {
-      "Characters": "Matrix"
+      "Characters": "TableLookup"
     }
   },
   "Pop",
   {
     "Apply": {
-      "WithFilter": "Saturate40"
+      "WithFilter": "Linear"
     }
   },
   {
@@ -603,13 +655,13 @@
   },
   {
     "Draw": {
-      "Characters": "Saturate40"
+      "Characters": "LinearFunc"
     }
   },
   "Pop",
   {
     "Apply": {
-      "WithFilter": "HueRotate90"
+      "WithFilter": "Gamma"
     }
   },
   {
@@ -634,38 +686,7 @@
   },
   {
     "Draw": {
-      "Characters": "HueRotate90"
-    }
-  },
-  "Pop",
-  {
-    "Apply": {
-      "WithFilter": "LuminanceToAlpha"
-    }
-  },
-  {
-    "Container": {
-      "Text": {
-        "x": {
-          "Constant": [
-            {
-              "px": 100.0
-            }
-          ]
-        },
-        "y": {
-          "Constant": [
-            {
-              "px": 490.0
-            }
-          ]
-        }
-      }
-    }
-  },
-  {
-    "Draw": {
-      "Characters": "Luminance"
+      "Characters": "GammaFunc"
     }
   },
   "Pop",

@@ -9,9 +9,9 @@ use crate::opcode::{
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "sexpr", vglang_derive::attribute(boxed, Canvas))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct ClipPathed(pub Variable<FuncIRI>);
+pub struct WithClipPath(pub Variable<FuncIRI>);
 
-impl<T> From<T> for ClipPathed
+impl<T> From<T> for WithClipPath
 where
     FuncIRI: From<T>,
 {
@@ -25,9 +25,9 @@ where
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "sexpr", vglang_derive::attribute(boxed, Canvas, Use))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Masked(pub Variable<FuncIRI>);
+pub struct WithMask(pub Variable<FuncIRI>);
 
-impl<T> From<T> for Masked
+impl<T> From<T> for WithMask
 where
     FuncIRI: From<T>,
 {
