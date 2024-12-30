@@ -28,6 +28,17 @@ impl Default for Background {
     }
 }
 
+impl Background {
+    pub fn new() -> Self {
+        Self::New {
+            x: None,
+            y: None,
+            width: None,
+            height: None,
+        }
+    }
+}
+
 impl<X, Y, W, H> From<(X, Y, W, H)> for Background
 where
     Number: From<X> + From<Y> + From<W> + From<H>,

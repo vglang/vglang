@@ -61,7 +61,7 @@
   },
   {
     "Apply": {
-      "Transformed": [
+      "WithTransform": [
         {
           "Translate": {
             "tx": 300.0,
@@ -97,7 +97,7 @@
   "Pop",
   {
     "Apply": {
-      "Transformed": [
+      "WithTransform": [
         {
           "Translate": {
             "tx": 900.0,
@@ -121,7 +121,9 @@
   },
   {
     "Apply": {
-      "Fill": {}
+      "Fill": {
+        "opacity": null
+      }
     }
   },
   {

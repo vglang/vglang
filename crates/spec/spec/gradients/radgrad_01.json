@@ -191,7 +191,8 @@
               "Path": "MyGradient"
             }
           }
-        }
+        },
+        "opacity": null
       }
     }
   },

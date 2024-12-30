@@ -70,7 +70,8 @@
               0
             ]
           }
-        }
+        },
+        "opacity": null
       }
     }
   },
@@ -127,7 +128,7 @@
   },
   {
     "Apply": {
-      "Transformed": [
+      "WithTransform": [
         {
           "Translate": {
             "tx": 700.0,
@@ -151,7 +152,9 @@
   },
   {
     "Apply": {
-      "Fill": {}
+      "Fill": {
+        "opacity": null
+      }
     }
   },
   {

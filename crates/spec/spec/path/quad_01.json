@@ -35,7 +35,9 @@
   },
   {
     "Apply": {
-      "Fill": {}
+      "Fill": {
+        "opacity": null
+      }
     }
   },
   {
@@ -86,7 +88,9 @@
   },
   {
     "Apply": {
-      "Fill": {}
+      "Fill": {
+        "opacity": null
+      }
     }
   },
   {
@@ -166,7 +170,8 @@
               0
             ]
           }
-        }
+        },
+        "opacity": null
       }
     }
   },
@@ -250,7 +255,8 @@
               136
             ]
           }
-        }
+        },
+        "opacity": null
       }
     }
   },
@@ -304,7 +310,9 @@
   "Pop",
   {
     "Apply": {
-      "Fill": {}
+      "Fill": {
+        "opacity": null
+      }
     }
   },
   {

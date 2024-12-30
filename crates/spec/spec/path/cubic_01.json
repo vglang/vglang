@@ -35,7 +35,9 @@
   },
   {
     "Apply": {
-      "Fill": {}
+      "Fill": {
+        "opacity": null
+      }
     }
   },
   {
@@ -86,7 +88,9 @@
   },
   {
     "Apply": {
-      "Fill": {}
+      "Fill": {
+        "opacity": null
+      }
     }
   },
   {
@@ -127,7 +131,9 @@
   },
   {
     "Apply": {
-      "Fill": {}
+      "Fill": {
+        "opacity": null
+      }
     }
   },
   {
@@ -168,7 +174,9 @@
   },
   {
     "Apply": {
-      "Fill": {}
+      "Fill": {
+        "opacity": null
+      }
     }
   },
   {
@@ -209,7 +217,9 @@
   },
   {
     "Apply": {
-      "Fill": {}
+      "Fill": {
+        "opacity": null
+      }
     }
   },
   {
@@ -250,7 +260,9 @@
   },
   {
     "Apply": {
-      "Fill": {}
+      "Fill": {
+        "opacity": null
+      }
     }
   },
   {
@@ -329,7 +341,9 @@
   },
   {
     "Apply": {
-      "Fill": {}
+      "Fill": {
+        "opacity": null
+      }
     }
   },
   {
@@ -375,7 +389,9 @@
   },
   {
     "Apply": {
-      "Fill": {}
+      "Fill": {
+        "opacity": null
+      }
     }
   },
   {
@@ -421,7 +437,9 @@
   },
   {
     "Apply": {
-      "Fill": {}
+      "Fill": {
+        "opacity": null
+      }
     }
   },
   {
@@ -476,7 +494,8 @@
               136
             ]
           }
-        }
+        },
+        "opacity": null
       }
     }
   },
@@ -517,7 +536,8 @@
               136
             ]
           }
-        }
+        },
+        "opacity": null
       }
     }
   },
@@ -558,7 +578,8 @@
               136
             ]
           }
-        }
+        },
+        "opacity": null
       }
     }
   },
@@ -590,7 +611,9 @@
   },
   {
     "Apply": {
-      "Fill": {}
+      "Fill": {
+        "opacity": null
+      }
     }
   },
   {

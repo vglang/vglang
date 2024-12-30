@@ -1,5 +1,5 @@
 use crate::opcode::{
-    data::{FillRule, Length, Paint, StrokeLineCap, StrokeLineJoin},
+    data::{FillRule, Length, Number, Paint, StrokeLineCap, StrokeLineJoin},
     variable::Variable,
 };
 
@@ -29,6 +29,9 @@ pub struct Fill {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(default)]
     pub rule: Option<Variable<FillRule>>,
+
+    /// defining the opacity of the paint server
+    pub opacity: Option<Variable<Number>>,
 }
 
 impl<P> From<P> for Fill

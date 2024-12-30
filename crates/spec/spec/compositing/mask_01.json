@@ -152,7 +152,8 @@
               "Path": "Gradient"
             }
           }
-        }
+        },
+        "opacity": null
       }
     }
   },
@@ -246,7 +247,8 @@
               128
             ]
           }
-        }
+        },
+        "opacity": null
       }
     }
   },
@@ -287,7 +289,8 @@
               255
             ]
           }
-        }
+        },
+        "opacity": null
       }
     }
   },
@@ -309,7 +312,9 @@
   },
   {
     "Apply": {
-      "Fill": {}
+      "Fill": {
+        "opacity": null
+      }
     }
   },
   {

@@ -21,6 +21,13 @@ where
     }
 }
 
+impl EnableBackground {
+    /// Create a new `EnableBackground` property with `new` value.
+    pub fn new() -> Self {
+        Self(Background::new())
+    }
+}
+
 /// All filter primitives have attributes ‘x’, ‘y’, ‘width’ and ‘height’ which identify a subregion which
 /// restricts calculation and rendering of the given filter primitive. These attributes are defined according
 /// to the same rules as other filter primitives' coordinate and length attributes and thus represent values
@@ -98,7 +105,10 @@ where
 /// Define a fragment by name.
 #[allow(non_camel_case_types)]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
-#[cfg_attr(feature = "sexpr", vglang_derive::attribute(boxed, Group))]
+#[cfg_attr(
+    feature = "sexpr",
+    vglang_derive::attribute(boxed, Group, Polygon, Text)
+)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct WithFilter(pub String);
 

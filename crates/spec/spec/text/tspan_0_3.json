@@ -67,7 +67,8 @@
               0
             ]
           }
-        }
+        },
+        "opacity": null
       }
     }
   },
@@ -118,7 +119,9 @@
   "Pop",
   {
     "Apply": {
-      "Fill": {}
+      "Fill": {
+        "opacity": null
+      }
     }
   },
   {

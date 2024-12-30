@@ -67,4 +67,7 @@ where
     test!(path, arcs_01);
     test!(compositing, mask_01);
     test!(compositing, opacity_01);
+    test!(filter, enable_background_01);
+    test!(filter, feblend_01);
+    test!(filter, fecolormatrix_01);
 }
