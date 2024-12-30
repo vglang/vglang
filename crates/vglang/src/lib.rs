@@ -11,3 +11,6 @@ pub mod sexpr;
 #[cfg(feature = "surface")]
 #[cfg_attr(docsrs, doc(cfg(feature = "surface")))]
 pub mod surface;
+
+#[cfg(feature = "literal")]
+pub use vglang_derive::rgb;

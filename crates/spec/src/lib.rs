@@ -70,4 +70,5 @@ where
     test!(filter, enable_background_01);
     test!(filter, feblend_01);
     test!(filter, fecolormatrix_01);
+    test!(filter, fe_component_transfer_01);
 }

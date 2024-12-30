@@ -17,4 +17,4 @@ proc-macro2 = { workspace = true }
 
 [features]
 sexpr = []
-rgb = []
+literal = []

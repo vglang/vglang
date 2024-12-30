@@ -403,13 +403,21 @@ where
     }
 }
 
-/// transfer function for the red component of the input graphic
+/// transfer function for the alpha component of the input graphic
 ///
 /// See [`FeFunc`], [`FeComponentTransfer`]
 #[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "sexpr", vglang_derive::shape_element(boxed, Filter))]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeFuncA(pub FeFunc);
+
+/// transfer function for the red component of the input graphic
+///
+/// See [`FeFunc`], [`FeComponentTransfer`]
+#[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "sexpr", vglang_derive::shape_element(boxed, Filter))]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct FeFuncR(pub FeFunc);
 
 /// transfer function for the green component of the input graphic
 ///

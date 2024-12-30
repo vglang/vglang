@@ -47,6 +47,7 @@ pub enum Shape {
     FeBlend(Box<FeBlend>),
     FeColorMatrix(Box<FeColorMatrix>),
     FeFuncA(Box<FeFuncA>),
+    FeFuncR(Box<FeFuncR>),
     FeFuncG(Box<FeFuncG>),
     FeFuncB(Box<FeFuncB>),
     FeComposite(Box<FeComposite>),
