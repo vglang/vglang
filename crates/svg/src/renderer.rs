@@ -1,12 +1,12 @@
 use std::{collections::HashMap, future::Future, pin::Pin};
 
 use vglang::{
-    opcode::{data::Data, Opcode},
+    opcode::{data::Data, variable::Variable, Opcode},
     surface::Program,
 };
 use xml_builder::{XMLBuilder, XMLElement, XMLVersion, XML};
 
-use crate::{Error, SvgAttr, SvgElement};
+use crate::{Context, Error, SvgAttr, SvgElement};
 
 /// A program render vglang into svg image.
 pub struct SvgRenderer(Vec<Opcode>);
@@ -50,6 +50,33 @@ struct SvgRendering<'a> {
     defs: Vec<bool>,
     /// xml document.
     document: XML,
+}
+
+impl<'a> Context for SvgRendering<'a> {
+    fn valueof<'b, T>(&'b self, variable: &'b Variable<T>) -> Option<&'b T>
+    where
+        Data: From<T>,
+        for<'c> &'c T: TryFrom<&'c Data, Error = ()>,
+    {
+        match variable {
+            vglang::opcode::variable::Variable::Constant(v) => Some(v),
+            vglang::opcode::variable::Variable::Reference { path, target } => match target {
+                vglang::opcode::variable::Target::Register => match path {
+                    vglang::opcode::variable::Path::Named(name) => {
+                        if let Some(v) = self.registers.get(name) {
+                            TryFrom::try_from(v).ok()
+                        } else {
+                            None
+                        }
+                    }
+                    path => unimplemented!("Unsupport variable path {:?}", path),
+                },
+                target => {
+                    unimplemented!("Unsupport variable target {:?}", target);
+                }
+            },
+        }
+    }
 }
 
 impl<'a> SvgRendering<'a> {
@@ -162,7 +189,7 @@ impl<'a> SvgRendering<'a> {
     }
 
     fn render_element<E: SvgElement>(&mut self, element: &E) {
-        self.els.push(element.create_xml_element());
+        self.els.push(element.create_xml_element(self));
     }
 
     fn apply_attrs(&mut self, offset: usize) {

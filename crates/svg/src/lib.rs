@@ -18,3 +18,6 @@ pub use element::*;
 #[allow(unused)]
 mod attr;
 pub use attr::*;
+
+mod variable;
+pub use variable::*;

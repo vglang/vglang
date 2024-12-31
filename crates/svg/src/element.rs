@@ -1,33 +1,67 @@
 use vglang::opcode::el::*;
 use xml_builder::XMLElement;
 
+use crate::Context;
+
 /// A svg rendering element must implement this trait.
 pub trait SvgElement {
     /// Create a new [`XMLElement`] for this svg element.
-    fn create_xml_element(&self) -> XMLElement;
+    fn create_xml_element<C>(&self, ctx: &C) -> XMLElement
+    where
+        C: Context;
 }
 
 impl<T> SvgElement for Box<T>
 where
     T: SvgElement,
 {
-    fn create_xml_element(&self) -> XMLElement {
-        self.as_ref().create_xml_element()
+    fn create_xml_element<C>(&self, ctx: &C) -> XMLElement
+    where
+        C: Context,
+    {
+        self.as_ref().create_xml_element(ctx)
     }
 }
 
 macro_rules! impl_svg_element {
     ($ty: ident, $el: ident) => {
         impl SvgElement for $ty {
-            fn create_xml_element(&self) -> XMLElement {
+            fn create_xml_element<C>(&self, _ctx: &C) -> XMLElement
+            where
+                C: Context,
+            {
                 XMLElement::new(stringify!($el))
             }
         }
     };
 }
 
-impl_svg_element!(Group, g);
-impl_svg_element!(Text, text);
+impl SvgElement for Group {
+    fn create_xml_element<C>(&self, _ctx: &C) -> XMLElement
+    where
+        C: Context,
+    {
+        let el = XMLElement::new("g");
+
+        el
+    }
+}
+
+impl SvgElement for Text {
+    fn create_xml_element<C>(&self, _ctx: &C) -> XMLElement
+    where
+        C: Context,
+    {
+        let el = XMLElement::new("text");
+
+        if let Some(v) = &self.x {
+            // el.add_attribute("x", ctx.valueof(v));
+        }
+
+        el
+    }
+}
+
 impl_svg_element!(TextSpan, tspan);
 impl_svg_element!(Canvas, svg);
 impl_svg_element!(LinearGradient, linearGradient);
