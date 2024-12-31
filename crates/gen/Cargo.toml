@@ -1,0 +1,11 @@
+[package]
+description = "mlang code generator for vglang."
+documentation = "https://docs.rs/vglang-gen"
+license = "MIT"
+name = "vglang-gen"
+edition.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+mlang = { workspace = true }

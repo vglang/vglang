@@ -1,10 +1,10 @@
 [workspace]
-members = ["crates/mlang/crates/*"]
+members = ["crates/*"]
 resolver = "2"
 
 [workspace.package]
 edition = "2021"
-repository = "https://github.com/HalaOS/hala-graphics"
+repository = "https://github.com/vglang/vglang"
 version = "0.1.2"
 
 [workspace.dependencies]
