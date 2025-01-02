@@ -1,45 +1,77 @@
 //! The intermediate representation of the `mlang`.
 //!
 
+use parserc::Span;
+
 /// Defines a `identifier` of one node or one attr.
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Ident(pub String);
+pub struct Ident(pub String, pub Option<Span>);
 
 impl<T> From<T> for Ident
 where
     String: From<T>,
 {
     fn from(value: T) -> Self {
-        Self(value.into())
+        Self(value.into(), None)
+    }
+}
+
+impl Ident {
+    /// Create a new `Ident` with span.
+    pub fn from_span<T>(name: T, span: Span) -> Self
+    where
+        String: From<T>,
+    {
+        Self(name.into(), Some(span))
     }
 }
 
 /// Defines literal numeric.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct LitNum(pub usize);
+pub struct LitNum(pub usize, pub Option<Span>);
 
 impl<T> From<T> for LitNum
 where
     usize: From<T>,
 {
     fn from(value: T) -> Self {
-        Self(value.into())
+        Self(value.into(), None)
+    }
+}
+
+impl LitNum {
+    /// Create a new `Ident` with span.
+    pub fn from_span<T>(name: T, span: Span) -> Self
+    where
+        usize: From<T>,
+    {
+        Self(name.into(), Some(span))
     }
 }
 
 /// Defines literal numeric.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct LitStr(pub String);
+pub struct LitStr(pub String, pub Option<Span>);
 
 impl<T> From<T> for LitStr
 where
     String: From<T>,
 {
     fn from(value: T) -> Self {
-        Self(value.into())
+        Self(value.into(), None)
+    }
+}
+
+impl LitStr {
+    /// Create a new `Ident` with span.
+    pub fn from_span<T>(name: T, span: Span) -> Self
+    where
+        String: From<T>,
+    {
+        Self(name.into(), Some(span))
     }
 }
 
@@ -66,14 +98,24 @@ impl From<LitNum> for LitExpr {
 /// Defines token of a line of comment.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Comment(pub String);
+pub struct Comment(pub String, pub Option<Span>);
 
 impl<T> From<T> for Comment
 where
     String: From<T>,
 {
     fn from(value: T) -> Self {
-        Self(value.into())
+        Self(value.into(), None)
+    }
+}
+
+impl Comment {
+    /// Create a new `Ident` with span.
+    pub fn from_span<T>(name: T, span: Span) -> Self
+    where
+        String: From<T>,
+    {
+        Self(name.into(), Some(span))
     }
 }
 
@@ -126,20 +168,30 @@ where
     }
 }
 
-/// Defines a non-leaf node.
+/// Defines a mixin data structure.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Element {
+pub struct Mixin {
     /// custom propert list.
     pub property: Option<Vec<Property>>,
     /// The identifier name of this element.
     pub ident: Ident,
     /// the non-inherited properties
     pub fields: Vec<Field>,
-    /// allow child nodes.
-    pub allow_children: Vec<Ident>,
-    /// appliable attrs.
-    pub allow_attrs: Vec<Ident>,
+}
+
+/// Defines a non-leaf node.
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct Element {
+    /// custom propert list.
+    pub property: Option<Vec<Property>>,
+    /// The ident of the mixin data.
+    pub mixin: Option<Ident>,
+    /// The identifier name of this element.
+    pub ident: Ident,
+    /// the non-inherited properties
+    pub fields: Vec<Field>,
 }
 
 /// Defines a leaf node.
@@ -148,12 +200,12 @@ pub struct Element {
 pub struct Leaf {
     /// custom propert list.
     pub property: Option<Vec<Property>>,
+    /// The ident of the mixin data.
+    pub mixin: Option<Ident>,
     /// The identifier name of this element.
     pub ident: Ident,
     /// the non-inherited properties
     pub fields: Vec<Field>,
-    /// appliable attrs.
-    pub allow_attrs: Vec<Ident>,
 }
 
 /// Defines an attr.
@@ -162,6 +214,8 @@ pub struct Leaf {
 pub struct Attr {
     /// custom propert list.
     pub property: Option<Vec<Property>>,
+    /// The ident of the mixin data.
+    pub mixin: Option<Ident>,
     /// The identifier name of this element.
     pub ident: Ident,
     /// the non-inherited properties
@@ -211,20 +265,20 @@ pub struct Field {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Type {
-    Bool,
-    String,
-    Byte,
-    Ubyte,
-    Short,
-    Ushort,
-    Int,
-    Uint,
-    Long,
-    Ulong,
-    Float,
-    Double,
-    /// A type reference.
-    Ref(Ident),
+    Bool(Option<Span>),
+    String(Option<Span>),
+    Byte(Option<Span>),
+    Ubyte(Option<Span>),
+    Short(Option<Span>),
+    Ushort(Option<Span>),
+    Int(Option<Span>),
+    Uint(Option<Span>),
+    Long(Option<Span>),
+    Ulong(Option<Span>),
+    Float(Option<Span>),
+    Double(Option<Span>),
+    /// A data/enum reference.
+    Data(Ident),
     /// This type is  vec[T].
     ListOf(Box<Type>),
 
@@ -239,6 +293,7 @@ pub enum Opcode {
     Element(Box<Element>),
     Leaf(Box<Leaf>),
     Attr(Box<Attr>),
+    Mixin(Box<Mixin>),
     Data(Box<Data>),
     Property(Box<Property>),
     Enum(Box<Enum>),

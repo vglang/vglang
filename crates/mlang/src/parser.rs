@@ -48,7 +48,7 @@ impl ParseSource for Ident {
             start
         };
 
-        Ok(Self(source.to_str(span).to_string()))
+        Ok(Self::from_span(source.to_str(span).to_string(), span))
     }
 }
 
@@ -71,7 +71,7 @@ impl ParseSource for LitNum {
 
         let numeric = usize::from_str_radix(source.to_str(span), 10).unwrap();
 
-        Ok(Self(numeric))
+        Ok(Self::from_span(numeric, span))
     }
 }
 
@@ -80,12 +80,15 @@ impl ParseSource for Comment {
 
     fn parse(source: &mut Source<'_>) -> std::result::Result<Self, Self::Error> {
         // comment start with ///
-        _ = keyword("///").parse(source)?;
+        let start = keyword("///").parse(source)?;
 
         if let Some(line) = take_until(|c| c == '\n').parse(source)? {
-            Ok(Comment(source.to_str(line).trim().to_string()))
+            Ok(Comment::from_span(
+                source.to_str(line).trim().to_string(),
+                source.extend_to_inclusive(start, line),
+            ))
         } else {
-            Ok(Comment("".to_string()))
+            Ok(Comment::from_span("".to_string(), start))
         }
     }
 }
@@ -94,18 +97,18 @@ impl ParseSource for Type {
     type Error = ParseError;
     fn parse(source: &mut Source<'_>) -> std::result::Result<Self, Self::Error> {
         let ty = keyword("bool")
-            .map(|_| Type::Bool)
-            .or(keyword("string").map(|_| Type::String))
-            .or(keyword("byte").map(|_| Type::Byte))
-            .or(keyword("ubyte").map(|_| Type::Ubyte))
-            .or(keyword("short").map(|_| Type::Short))
-            .or(keyword("ushort").map(|_| Type::Ushort))
-            .or(keyword("int").map(|_| Type::Int))
-            .or(keyword("uint").map(|_| Type::Uint))
-            .or(keyword("long").map(|_| Type::Long))
-            .or(keyword("ulong").map(|_| Type::Ulong))
-            .or(keyword("float").map(|_| Type::Float))
-            .or(keyword("double").map(|_| Type::Double))
+            .map(move |span| Type::Bool(Some(span)))
+            .or(keyword("string").map(move |span| Type::String(Some(span))))
+            .or(keyword("byte").map(move |span| Type::Byte(Some(span))))
+            .or(keyword("ubyte").map(move |span| Type::Ubyte(Some(span))))
+            .or(keyword("short").map(move |span| Type::Short(Some(span))))
+            .or(keyword("ushort").map(move |span| Type::Ushort(Some(span))))
+            .or(keyword("int").map(move |span| Type::Int(Some(span))))
+            .or(keyword("uint").map(move |span| Type::Uint(Some(span))))
+            .or(keyword("long").map(move |span| Type::Long(Some(span))))
+            .or(keyword("ulong").map(move |span| Type::Ulong(Some(span))))
+            .or(keyword("float").map(move |span| Type::Float(Some(span))))
+            .or(keyword("double").map(move |span| Type::Double(Some(span))))
             .optional()
             .parse(source)?;
 
@@ -134,7 +137,7 @@ impl ParseSource for Type {
         }
 
         if let Some(ident) = source.parse::<Option<Ident>>()? {
-            return Ok(Type::Ref(ident));
+            return Ok(Type::Data(ident));
         } else {
             return Err(ParseError::Type(source.span().ok_or(parserc::Error::Eof)?));
         }
@@ -183,6 +186,8 @@ impl ParseSource for LitStr {
     type Error = ParseError;
 
     fn parse(source: &mut Source<'_>) -> std::result::Result<Self, Self::Error> {
+        let start = source.span().ok_or(parserc::Error::Eof)?;
+
         let quote = is_char('"')
             .map(|_| '"')
             .or(is_char('\'').map(|_| '\''))
@@ -190,12 +195,18 @@ impl ParseSource for LitStr {
 
         let span = take_until(move |c| c == quote).parse(source)?;
 
-        is_char(quote).parse(source)?;
+        let end = is_char(quote).parse(source)?;
 
         if let Some(span) = span {
-            Ok(LitStr(source.to_str(span).to_string()))
+            Ok(LitStr::from_span(
+                source.to_str(span).to_string(),
+                source.extend_to_inclusive(start, end),
+            ))
         } else {
-            Ok(LitStr("".to_string()))
+            Ok(LitStr::from_span(
+                "".to_string(),
+                source.extend_to_inclusive(start, end),
+            ))
         }
     }
 }
@@ -296,21 +307,56 @@ mod tests {
 
         let ident = Ident::parse(&mut source).unwrap();
 
-        assert_eq!(ident, Ident::from("hello"));
+        assert_eq!(
+            ident,
+            Ident::from_span(
+                "hello",
+                Span {
+                    lines: 1,
+                    cols: 1,
+                    offset: 0,
+                    len: 5
+                }
+            )
+        );
 
         assert_eq!(
             Ident::parse(&mut Source::from("hello_")),
-            Ok(Ident::from("hello_"))
+            Ok(Ident::from_span(
+                "hello_",
+                Span {
+                    lines: 1,
+                    cols: 1,
+                    offset: 0,
+                    len: 6
+                }
+            ))
         );
 
         assert_eq!(
             Ident::parse(&mut Source::from("_hello_")),
-            Ok(Ident::from("_hello_"))
+            Ok(Ident::from_span(
+                "_hello_",
+                Span {
+                    lines: 1,
+                    cols: 1,
+                    offset: 0,
+                    len: 7
+                }
+            ))
         );
 
         assert_eq!(
             Ident::parse(&mut Source::from("_hello1234_-")),
-            Ok(Ident::from("_hello1234_"))
+            Ok(Ident::from_span(
+                "_hello1234_",
+                Span {
+                    lines: 1,
+                    cols: 1,
+                    offset: 0,
+                    len: 11
+                }
+            ))
         );
 
         Ident::parse(&mut Source::from("#hello")).expect_err("start with #");
@@ -321,7 +367,15 @@ mod tests {
     fn test_numeric() {
         assert_eq!(
             LitNum::parse(&mut Source::from("1234#")).unwrap(),
-            LitNum(1234)
+            LitNum(
+                1234,
+                Some(Span {
+                    lines: 1,
+                    cols: 1,
+                    offset: 0,
+                    len: 4
+                })
+            )
         );
 
         LitNum::parse(&mut Source::from("#123")).expect_err("start with #");
@@ -332,17 +386,41 @@ mod tests {
     fn test_comment() {
         assert_eq!(
             Comment::parse(&mut Source::from("/// hello world  \n")),
-            Ok(Comment("hello world".into()))
+            Ok(Comment::from_span(
+                "hello world",
+                Span {
+                    lines: 1,
+                    cols: 1,
+                    offset: 0,
+                    len: 17
+                }
+            ))
         );
 
         assert_eq!(
             Comment::parse(&mut Source::from("/// hello world")),
-            Ok(Comment("hello world".into()))
+            Ok(Comment::from_span(
+                "hello world",
+                Span {
+                    lines: 1,
+                    cols: 1,
+                    offset: 0,
+                    len: 15
+                }
+            ))
         );
 
         assert_eq!(
             Comment::parse(&mut Source::from("/// \thello world")),
-            Ok(Comment("hello world".into()))
+            Ok(Comment::from_span(
+                "hello world",
+                Span {
+                    lines: 1,
+                    cols: 1,
+                    offset: 0,
+                    len: 16
+                }
+            ))
         );
 
         assert_eq!(
@@ -388,39 +466,170 @@ mod tests {
                 len: 1,
             }))
         );
-        assert_eq!(Type::parse(&mut Source::from("bool#")), Ok(Type::Bool));
-        assert_eq!(Type::parse(&mut Source::from("byte#")), Ok(Type::Byte));
-        assert_eq!(Type::parse(&mut Source::from("ubyte#")), Ok(Type::Ubyte));
-        assert_eq!(Type::parse(&mut Source::from("short#")), Ok(Type::Short));
-        assert_eq!(Type::parse(&mut Source::from("ushort#")), Ok(Type::Ushort));
-        assert_eq!(Type::parse(&mut Source::from("int#")), Ok(Type::Int));
-        assert_eq!(Type::parse(&mut Source::from("uint#")), Ok(Type::Uint));
-        assert_eq!(Type::parse(&mut Source::from("long#")), Ok(Type::Long));
-        assert_eq!(Type::parse(&mut Source::from("ulong#")), Ok(Type::Ulong));
-        assert_eq!(Type::parse(&mut Source::from("float#")), Ok(Type::Float));
-        assert_eq!(Type::parse(&mut Source::from("double#")), Ok(Type::Double));
+        assert_eq!(
+            Type::parse(&mut Source::from("bool#")),
+            Ok(Type::Bool(Some(Span {
+                lines: 1,
+                cols: 1,
+                offset: 0,
+                len: 4
+            })))
+        );
+        assert_eq!(
+            Type::parse(&mut Source::from("byte#")),
+            Ok(Type::Byte(Some(Span {
+                lines: 1,
+                cols: 1,
+                offset: 0,
+                len: 4
+            })))
+        );
+
+        assert_eq!(
+            Type::parse(&mut Source::from("ubyte#")),
+            Ok(Type::Ubyte(Some(Span {
+                lines: 1,
+                cols: 1,
+                offset: 0,
+                len: 5
+            })))
+        );
+        assert_eq!(
+            Type::parse(&mut Source::from("short#")),
+            Ok(Type::Short(Some(Span {
+                lines: 1,
+                cols: 1,
+                offset: 0,
+                len: 5
+            })))
+        );
+        assert_eq!(
+            Type::parse(&mut Source::from("ushort#")),
+            Ok(Type::Ushort(Some(Span {
+                lines: 1,
+                cols: 1,
+                offset: 0,
+                len: 6
+            })))
+        );
+        assert_eq!(
+            Type::parse(&mut Source::from("int#")),
+            Ok(Type::Int(Some(Span {
+                lines: 1,
+                cols: 1,
+                offset: 0,
+                len: 3
+            })))
+        );
+        assert_eq!(
+            Type::parse(&mut Source::from("uint#")),
+            Ok(Type::Uint(Some(Span {
+                lines: 1,
+                cols: 1,
+                offset: 0,
+                len: 4
+            })))
+        );
+        assert_eq!(
+            Type::parse(&mut Source::from("long#")),
+            Ok(Type::Long(Some(Span {
+                lines: 1,
+                cols: 1,
+                offset: 0,
+                len: 4
+            })))
+        );
+        assert_eq!(
+            Type::parse(&mut Source::from("ulong#")),
+            Ok(Type::Ulong(Some(Span {
+                lines: 1,
+                cols: 1,
+                offset: 0,
+                len: 5
+            })))
+        );
+        assert_eq!(
+            Type::parse(&mut Source::from("float#")),
+            Ok(Type::Float(Some(Span {
+                lines: 1,
+                cols: 1,
+                offset: 0,
+                len: 5
+            })))
+        );
+        assert_eq!(
+            Type::parse(&mut Source::from("double#")),
+            Ok(Type::Double(Some(Span {
+                lines: 1,
+                cols: 1,
+                offset: 0,
+                len: 6
+            })))
+        );
         assert_eq!(
             Type::parse(&mut Source::from("hello_world#")),
-            Ok(Type::Ref(Ident::from("hello_world")))
+            Ok(Type::Data(Ident::from_span(
+                "hello_world",
+                Span {
+                    lines: 1,
+                    cols: 1,
+                    offset: 0,
+                    len: 11
+                }
+            )))
         );
 
         assert_eq!(
             Type::parse(&mut Source::from("vec[bool]")),
-            Ok(Type::ListOf(Box::new(Type::Bool)))
+            Ok(Type::ListOf(Box::new(Type::Bool(Some(Span {
+                lines: 1,
+                cols: 5,
+                offset: 4,
+                len: 4
+            })))))
         );
         assert_eq!(
             Type::parse(&mut Source::from("vec[[float;3]]")),
             Ok(Type::ListOf(Box::new(Type::ArrayOf(
-                Box::new(Type::Float),
-                LitNum(3)
+                Box::new(Type::Float(Some(Span {
+                    lines: 1,
+                    cols: 6,
+                    offset: 5,
+                    len: 5
+                }))),
+                LitNum::from_span(
+                    3usize,
+                    Span {
+                        lines: 1,
+                        cols: 12,
+                        offset: 11,
+                        len: 1
+                    }
+                )
             ))))
         );
 
         assert_eq!(
             Type::parse(&mut Source::from("vec[  [\n_hello ;\t3]\r\n]")),
             Ok(Type::ListOf(Box::new(Type::ArrayOf(
-                Box::new(Type::Ref("_hello".into())),
-                LitNum(3)
+                Box::new(Type::Data(Ident::from_span(
+                    "_hello",
+                    Span {
+                        lines: 2,
+                        cols: 1,
+                        offset: 8,
+                        len: 6
+                    }
+                ))),
+                LitNum::from_span(
+                    3usize,
+                    Span {
+                        lines: 2,
+                        cols: 10,
+                        offset: 17,
+                        len: 1
+                    }
+                )
             ))))
         );
     }
@@ -429,7 +638,26 @@ mod tests {
     fn test_property() {
         assert_eq!(
             Property::parse(&mut Source::from("#[ hello, world\t]")),
-            Ok(Property::from(["hello", "world"]))
+            Ok(Property::from([
+                Ident::from_span(
+                    "hello",
+                    Span {
+                        lines: 1,
+                        cols: 4,
+                        offset: 3,
+                        len: 5
+                    }
+                ),
+                Ident::from_span(
+                    "world",
+                    Span {
+                        lines: 1,
+                        cols: 11,
+                        offset: 10,
+                        len: 5
+                    }
+                ),
+            ]))
         );
 
         assert_eq!(
@@ -437,10 +665,51 @@ mod tests {
                 "#[ hello('hello'), world(1,     \"hello\" )\t]"
             )),
             Ok(Property::from([
-                CallExpr::from("hello").param(LitStr::from("hello")),
-                CallExpr::from("world")
-                    .param(LitNum(1))
-                    .param(LitStr::from("hello")),
+                CallExpr::from(Ident::from_span(
+                    "hello",
+                    Span {
+                        lines: 1,
+                        cols: 4,
+                        offset: 3,
+                        len: 5
+                    }
+                ),)
+                .param(LitStr::from_span(
+                    "hello",
+                    Span {
+                        lines: 1,
+                        cols: 10,
+                        offset: 9,
+                        len: 7
+                    }
+                )),
+                CallExpr::from(Ident::from_span(
+                    "world",
+                    Span {
+                        lines: 1,
+                        cols: 20,
+                        offset: 19,
+                        len: 5
+                    }
+                ),)
+                .param(LitNum::from_span(
+                    1usize,
+                    Span {
+                        lines: 1,
+                        cols: 26,
+                        offset: 25,
+                        len: 1
+                    }
+                ))
+                .param(LitStr::from_span(
+                    "hello",
+                    Span {
+                        lines: 1,
+                        cols: 33,
+                        offset: 32,
+                        len: 7
+                    }
+                )),
             ]))
         );
 

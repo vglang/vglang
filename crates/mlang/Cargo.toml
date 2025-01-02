@@ -15,4 +15,4 @@ parserc = { workspace = true }
 
 [features]
 default = ["serde"]
-serde = ["dep:serde"]
+serde = ["dep:serde", "parserc/serde"]

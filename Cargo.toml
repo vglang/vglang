@@ -33,5 +33,5 @@ concat-idents = "1.1.5"
 impl-trait-for-tuples = "0.2.3"
 wasm-bindgen = "0.2.99"
 # sub-crates
-parserc = { path = "./crates/parserc", version = "^0.1" }
+parserc = { path = "./crates/parserc", version = "^0.1", default-features = false }
 mlang = { path = "./crates/mlang", version = "^0.1", default-features = false }

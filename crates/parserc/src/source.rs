@@ -3,7 +3,8 @@ use std::{iter::Peekable, str::CharIndices};
 use crate::{Error, Result};
 
 /// A region of source code
-#[derive(Debug, Default, Clone, Copy, PartialEq)]
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Span {
     pub lines: usize,
     pub cols: usize,
