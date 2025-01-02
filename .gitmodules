@@ -1,6 +1,0 @@
-[submodule "crates/mlang"]
-	path = crates/mlang
-	url = git@github.com:vglang/mlang.git
-[submodule "crates/parserc"]
-	path = crates/parserc
-	url = git@github.com:vglang/parserc.git
