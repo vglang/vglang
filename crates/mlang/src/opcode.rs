@@ -180,55 +180,16 @@ pub struct Mixin {
     pub fields: Vec<Field>,
 }
 
-/// Defines a non-leaf node.
+/// Defines a node.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Element {
-    /// custom propert list.
-    pub property: Option<Vec<Property>>,
+pub struct Node {
     /// The ident of the mixin data.
     pub mixin: Option<Ident>,
-    /// The identifier name of this element.
-    pub ident: Ident,
-    /// the non-inherited properties
-    pub fields: Vec<Field>,
-}
-
-/// Defines a leaf node.
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Leaf {
     /// custom propert list.
     pub property: Option<Vec<Property>>,
-    /// The ident of the mixin data.
-    pub mixin: Option<Ident>,
-    /// The identifier name of this element.
+    /// The identifier name of this node
     pub ident: Ident,
-    /// the non-inherited properties
-    pub fields: Vec<Field>,
-}
-
-/// Defines an attr.
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Attr {
-    /// custom propert list.
-    pub property: Option<Vec<Property>>,
-    /// The ident of the mixin data.
-    pub mixin: Option<Ident>,
-    /// The identifier name of this element.
-    pub ident: Ident,
-    /// the non-inherited properties
-    pub fields: Vec<Field>,
-}
-/// Defines an data.
-#[derive(Debug, Default, Clone, PartialEq, Eq, PartialOrd, Ord)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Data {
-    /// custom propert list.
-    pub property: Option<Vec<Property>>,
-    /// The identifier name of this element.
-    pub ident: Option<Ident>,
     /// the non-inherited properties
     pub fields: Vec<Field>,
 }
@@ -242,7 +203,7 @@ pub struct Enum {
     /// The identifier name of this element.
     pub ident: Ident,
     /// the non-inherited properties
-    pub fields: Vec<(Ident, Data)>,
+    pub fields: Vec<Node>,
 }
 
 /// The property of one node or attr.
@@ -290,11 +251,11 @@ pub enum Type {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Opcode {
     Comment(Box<Comment>),
-    Element(Box<Element>),
-    Leaf(Box<Leaf>),
-    Attr(Box<Attr>),
+    Element(Box<Node>),
+    Leaf(Box<Node>),
+    Attr(Box<Node>),
     Mixin(Box<Mixin>),
-    Data(Box<Data>),
-    Property(Box<Property>),
+    Data(Box<Node>),
     Enum(Box<Enum>),
+    Property(Box<Property>),
 }
