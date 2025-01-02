@@ -3,40 +3,48 @@
 use crate::{Error, Parser, Source, Span};
 
 /// A parser comsume chars until `F` returns *true*.
-pub fn take_until<'a, F>(f: F) -> impl Parser<Output = (Span, Option<Span>), Error = Error>
+pub fn take_until<'a, F>(f: F) -> impl Parser<Output = Span, Error = Error>
 where
     F: Fn(char) -> bool + 'static,
 {
     move |source: &mut Source<'_>| {
         let start = source.span();
 
-        while let Some((c, span)) = source.next() {
+        if start.is_empty() {
+            return Ok(start);
+        }
+
+        while let Ok((c, span)) = source.next() {
             if f(c) {
                 source.seek(span)?;
-                return Ok((start, Some(span)));
+                return Ok(source.extend_to(start, span));
             }
         }
 
-        return Ok((start, None));
+        return Ok(source.extend(start));
     }
 }
 
 /// Create [`Until`] parser.
-pub fn take_while<'a, F>(f: F) -> impl Parser<Output = (Span, Option<Span>), Error = Error>
+pub fn take_while<'a, F>(f: F) -> impl Parser<Output = Span, Error = Error>
 where
     F: Fn(char) -> bool + 'static,
 {
     move |source: &mut Source<'_>| {
         let start = source.span();
 
-        while let Some((c, span)) = source.next() {
+        if start.is_empty() {
+            return Ok(start);
+        }
+
+        while let Ok((c, span)) = source.next() {
             if !f(c) {
                 source.seek(span)?;
-                return Ok((start, Some(span)));
+                return Ok(source.extend_to(start, span));
             }
         }
 
-        return Ok((start, None));
+        return Ok(source.extend(start));
     }
 }
 
@@ -57,7 +65,7 @@ mod tests {
         assert_eq!(
             take_until(|c| c.is_ascii_whitespace())
                 .parse(&mut source)
-                .map(|(start, end)| source.as_str(start, end)),
+                .map(|span| source.to_str(span)),
             Ok("hello")
         );
 
@@ -68,8 +76,15 @@ mod tests {
         assert_eq!(
             take_until(|c| c.is_ascii_whitespace())
                 .parse(&mut source)
-                .map(|(start, end)| source.as_str(start, end)),
+                .map(|span| source.to_str(span)),
             Ok("world")
+        );
+
+        assert_eq!(
+            take_until(|c| c.is_ascii_whitespace())
+                .parse(&mut source)
+                .map(|span| source.to_str(span)),
+            Ok("")
         );
     }
 
@@ -80,7 +95,7 @@ mod tests {
         assert_eq!(
             take_while(|c| c.is_ascii_alphanumeric())
                 .parse(&mut source)
-                .map(|(start, end)| source.as_str(start, end)),
+                .map(|span| source.to_str(span)),
             Ok("hello")
         );
 
@@ -91,7 +106,7 @@ mod tests {
         assert_eq!(
             take_while(|c| c.is_ascii_alphanumeric())
                 .parse(&mut source)
-                .map(|(start, end)| source.as_str(start, end)),
+                .map(|span| source.to_str(span)),
             Ok("world")
         );
 
@@ -105,7 +120,7 @@ mod tests {
         assert_eq!(
             take_while(is_not("\n"))
                 .parse(&mut source)
-                .map(|(start, end)| source.as_str(start, end)),
+                .map(|span| source.to_str(span)),
             Ok("hello ")
         );
     }

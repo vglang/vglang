@@ -9,6 +9,8 @@ pub enum Error {
     Repeat(usize),
     #[error("Seek out of range.")]
     OutOfRange,
+    #[error("Reach the end of the source.")]
+    Eof,
 }
 
 /// Result type used by `parserc`

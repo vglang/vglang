@@ -1,27 +1,20 @@
-use std::str::CharIndices;
+use std::{iter::Peekable, str::CharIndices};
 
 use crate::{Error, Result};
 
 /// A region of source code
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Default, Clone, Copy, PartialEq)]
 pub struct Span {
-    pub offset: usize,
     pub lines: usize,
     pub cols: usize,
+    pub offset: usize,
+    pub len: usize,
 }
 
 impl Span {
-    /// Advance span.
-    pub fn advance(mut self, steps: i64) -> Result<Self> {
-        let offset = self.offset as i64 + steps;
-
-        if offset < 0 {
-            return Err(Error::OutOfRange);
-        }
-
-        self.offset = offset as usize;
-
-        Ok(self)
+    /// return true if the `Span` point to `None`.
+    pub fn is_empty(&self) -> bool {
+        self.len == 0
     }
 }
 
@@ -29,38 +22,77 @@ impl Span {
 pub struct Source<'a> {
     source: &'a str,
     /// char iterator.
-    iter: CharIndices<'a>,
-    /// current span,
-    span: Span,
+    iter: Peekable<CharIndices<'a>>,
+    /// current offset,
+    offset: usize,
+    /// current lines,
+    lines: usize,
+    /// current cols,
+    cols: usize,
 }
 
 impl<'a> From<&'a str> for Source<'a> {
     fn from(value: &'a str) -> Self {
         Self {
             source: value,
-            iter: value.char_indices(),
-            span: Span {
-                offset: 0,
-                lines: 1,
-                cols: 1,
-            },
+            iter: value.char_indices().peekable(),
+            offset: 0,
+            lines: 1,
+            cols: 1,
         }
     }
 }
 
 impl<'a> Source<'a> {
-    /// Returns current pos.
-    pub fn span(&self) -> Span {
-        return self.span;
+    /// Returns next char's span.
+    pub fn span(&mut self) -> Span {
+        if let Some((_, c)) = self.iter.peek() {
+            Span {
+                lines: self.lines,
+                cols: self.cols,
+                offset: self.offset,
+                len: c.len_utf8(),
+            }
+        } else {
+            Span::default()
+        }
     }
 
-    /// Returns current pos.
-    pub fn as_str(&self, start: Span, end: Option<Span>) -> &'a str {
-        if let Some(end) = end {
-            &self.source[start.offset..end.offset]
-        } else {
-            &self.source[start.offset..]
+    /// Extend span from current position to end.
+    pub fn extend(&self, span: Span) -> Span {
+        Span {
+            lines: span.lines,
+            cols: span.cols,
+            offset: span.offset,
+            len: self.source.len() - span.offset,
         }
+    }
+
+    /// Extend span from start's start to end's start.
+    pub fn extend_to(&self, start: Span, end: Span) -> Span {
+        assert!(!end.is_empty(), "invalid parameter, end is empty.");
+        Span {
+            lines: start.lines,
+            cols: start.cols,
+            offset: start.offset,
+            len: end.offset - start.offset,
+        }
+    }
+
+    /// Extend span from start's start to end's end.
+    pub fn extend_to_inclusive(&self, start: Span, end: Span) -> Span {
+        assert!(!end.is_empty(), "invalid parameter, end is empty.");
+        Span {
+            lines: start.lines,
+            cols: start.cols,
+            offset: start.offset,
+            len: end.offset + end.len - start.offset,
+        }
+    }
+
+    /// Convert `Span` to a &str.
+    pub fn to_str(&self, start: Span) -> &'a str {
+        &self.source[start.offset..(start.offset + start.len)]
     }
 
     /// Seek in the source by [`span`] which may be returned by [`span`](Self::span) fn.
@@ -69,8 +101,10 @@ impl<'a> Source<'a> {
             return Err(Error::OutOfRange);
         }
 
-        self.iter = self.source[span.offset..].char_indices();
-        self.span = span;
+        self.iter = self.source[span.offset..].char_indices().peekable();
+        self.offset = span.offset;
+        self.lines = span.lines;
+        self.cols = span.cols;
 
         Ok(())
     }
@@ -78,27 +112,34 @@ impl<'a> Source<'a> {
     /// Returns next `char` with pos in the source.
     ///
     /// Returns `None` if there is no more data to read.
-    pub fn next(&mut self) -> Option<(char, Span)> {
+    pub fn next(&mut self) -> Result<(char, Span)> {
         match self.iter.next() {
             Some((_, c)) => {
-                let span = self.span;
-                self.span.offset += c.len_utf8();
+                let len = c.len_utf8();
+                let span = Span {
+                    lines: self.lines,
+                    cols: self.cols,
+                    offset: self.offset,
+                    len,
+                };
+
+                self.offset += len;
 
                 if c == '\n' {
-                    self.span.lines += 1;
-                    self.span.cols = 1;
+                    self.lines += 1;
+                    self.cols = 1;
                 } else {
-                    self.span.cols += 1;
+                    self.cols += 1;
                 }
 
-                Some((c, span))
+                Ok((c, span))
             }
-            None => None,
+            None => Err(Error::Eof),
         }
     }
 
     /// Parse a [`ParseSource`] type from this source.
-    pub fn parse<P>(&mut self) -> Result<P>
+    pub fn parse<P>(&mut self) -> std::result::Result<P, P::Error>
     where
         P: ParseSource,
     {
@@ -108,17 +149,19 @@ impl<'a> Source<'a> {
 
 /// A type that can be parsed from `source` should implement this trait.
 pub trait ParseSource: Sized {
+    type Error: From<Error>;
     /// Create self by parse input source.
-    fn parse(source: &mut Source<'_>) -> Result<Self>;
+    fn parse(source: &mut Source<'_>) -> std::result::Result<Self, Self::Error>;
 }
 
-impl<T> ParseSource for Option<T>
+impl<T, E> ParseSource for Option<T>
 where
-    T: ParseSource,
+    E: From<Error>,
+    T: ParseSource<Error = E>,
 {
-    fn parse(source: &mut Source<'_>) -> Result<Self> {
+    type Error = E;
+    fn parse(source: &mut Source<'_>) -> std::result::Result<Self, Self::Error> {
         let span = source.span();
-
         match T::parse(source) {
             Ok(v) => Ok(Some(v)),
             Err(_) => {
