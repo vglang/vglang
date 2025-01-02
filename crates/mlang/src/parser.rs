@@ -1,6 +1,6 @@
-use parserc::{is_char, keyword, take_while, ParseSource, Parser, Source, Span};
+use parserc::{is_char, keyword, take_until, take_while, ParseSource, Parser, Source, Span};
 
-use crate::opcode::{Ident, Numeric, Type};
+use crate::opcode::{Comment, Ident, Numeric, Property, Type};
 
 #[derive(Debug, thiserror::Error, PartialEq)]
 pub enum ParseError {
@@ -20,6 +20,12 @@ pub enum ParseError {
     Array(Span),
     #[error("expect a type declare. {0:?}")]
     Type(Span),
+}
+
+fn skip_whitespaces(source: &mut Source<'_>) -> Result<Option<Span>, ParseError> {
+    let span = take_while(char::is_whitespace).parse(source)?;
+
+    Ok(span)
 }
 
 /// Implement `ParseSource` for [`Ident`]
@@ -66,6 +72,21 @@ impl ParseSource for Numeric {
         let numeric = usize::from_str_radix(source.to_str(span), 10).unwrap();
 
         Ok(Self(numeric))
+    }
+}
+
+impl ParseSource for Comment {
+    type Error = ParseError;
+
+    fn parse(source: &mut Source<'_>) -> std::result::Result<Self, Self::Error> {
+        // comment start with ///
+        _ = keyword("///").parse(source)?;
+
+        if let Some(line) = take_until(|c| c == '\n').parse(source)? {
+            Ok(Comment(source.to_str(line).trim().to_string()))
+        } else {
+            Ok(Comment("".to_string()))
+        }
     }
 }
 
@@ -122,9 +143,15 @@ impl ParseSource for Type {
 
 impl Type {
     fn parse_vec(source: &mut Source<'_>) -> Result<Type, ParseError> {
+        skip_whitespaces(source)?;
+
         is_char('[').parse(source)?;
 
+        skip_whitespaces(source)?;
+
         let component = Type::parse(source)?;
+
+        skip_whitespaces(source)?;
 
         is_char(']').parse(source)?;
 
@@ -132,15 +159,55 @@ impl Type {
     }
 
     fn parse_array(source: &mut Source<'_>) -> Result<Type, ParseError> {
+        skip_whitespaces(source)?;
+
         let component = Type::parse(source)?;
+
+        skip_whitespaces(source)?;
 
         is_char(';').parse(source)?;
 
+        skip_whitespaces(source)?;
+
         let numeric = source.parse::<Numeric>()?;
+
+        skip_whitespaces(source)?;
 
         is_char(']').parse(source)?;
 
         return Ok(Type::ArrayOf(Box::new(component), numeric));
+    }
+}
+
+impl ParseSource for Property {
+    type Error = ParseError;
+
+    fn parse(source: &mut Source<'_>) -> std::result::Result<Self, Self::Error> {
+        is_char('#').parse(source)?;
+        skip_whitespaces(source)?;
+        is_char('[').parse(source)?;
+        skip_whitespaces(source)?;
+
+        let mut idents = vec![source.parse::<Ident>()?];
+
+        skip_whitespaces(source)?;
+
+        while let Some(_) = is_char(',').optional().parse(source)? {
+            skip_whitespaces(source)?;
+
+            if let Some(ident) = source.parse::<Option<Ident>>()? {
+                idents.push(ident);
+                skip_whitespaces(source)?;
+            } else {
+                break;
+            }
+        }
+
+        skip_whitespaces(source)?;
+
+        is_char(']').parse(source)?;
+
+        Ok(Self(idents))
     }
 }
 
@@ -149,7 +216,7 @@ mod tests {
     use parserc::{ParseSource, Source, Span};
 
     use crate::{
-        opcode::{Ident, Numeric, Type},
+        opcode::{Comment, Ident, Numeric, Property, Type},
         parser::ParseError,
     };
 
@@ -189,6 +256,50 @@ mod tests {
 
         Numeric::parse(&mut Source::from("#123")).expect_err("start with #");
         Numeric::parse(&mut Source::from("h324")).expect_err("start with alphabetic");
+    }
+
+    #[test]
+    fn test_comment() {
+        assert_eq!(
+            Comment::parse(&mut Source::from("/// hello world  \n")),
+            Ok(Comment("hello world".into()))
+        );
+
+        assert_eq!(
+            Comment::parse(&mut Source::from("/// hello world")),
+            Ok(Comment("hello world".into()))
+        );
+
+        assert_eq!(
+            Comment::parse(&mut Source::from("/// \thello world")),
+            Ok(Comment("hello world".into()))
+        );
+
+        assert_eq!(
+            Comment::parse(&mut Source::from("\thello world")),
+            Err(ParseError::Parserc(parserc::Error::Keyword(
+                "///",
+                Span {
+                    lines: 1,
+                    cols: 1,
+                    offset: 0,
+                    len: 1
+                }
+            )))
+        );
+
+        assert_eq!(
+            Comment::parse(&mut Source::from("//hello world")),
+            Err(ParseError::Parserc(parserc::Error::Keyword(
+                "///",
+                Span {
+                    lines: 1,
+                    cols: 1,
+                    offset: 0,
+                    len: 1
+                }
+            )))
+        );
     }
 
     #[test]
@@ -236,11 +347,29 @@ mod tests {
         );
 
         assert_eq!(
-            Type::parse(&mut Source::from("vec[[_hello;3]]")),
+            Type::parse(&mut Source::from("vec[  [\n_hello ;\t3]\r\n]")),
             Ok(Type::ListOf(Box::new(Type::ArrayOf(
                 Box::new(Type::Ref("_hello".into())),
                 Numeric(3)
             ))))
+        );
+    }
+
+    #[test]
+    fn test_property() {
+        assert_eq!(
+            Property::parse(&mut Source::from("#[ hello, world\t]")),
+            Ok(Property::from(["hello", "world"]))
+        );
+
+        assert_eq!(
+            Property::parse(&mut Source::from("#[]")),
+            Err(ParseError::Indent(Span {
+                lines: 1,
+                cols: 3,
+                offset: 2,
+                len: 1
+            }))
         );
     }
 }

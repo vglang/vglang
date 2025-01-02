@@ -77,6 +77,8 @@ pub fn keyword(word: &'static str) -> impl Parser<Output = Span, Error = Error> 
             if v.len == word.len() {
                 return Ok(v);
             }
+
+            source.seek(v)?;
         }
 
         let span = source.span().ok_or(Error::Eof)?;

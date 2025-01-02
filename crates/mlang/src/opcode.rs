@@ -29,6 +29,35 @@ where
     }
 }
 
+/// Defines token of a line of comment.
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct Comment(pub String);
+
+impl<T> From<T> for Comment
+where
+    String: From<T>,
+{
+    fn from(value: T) -> Self {
+        Self(value.into())
+    }
+}
+
+/// Defines custom property list.
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct Property(pub Vec<Ident>);
+
+impl<I> From<I> for Property
+where
+    I: IntoIterator,
+    Ident: From<I::Item>,
+{
+    fn from(value: I) -> Self {
+        Self(value.into_iter().map(|v| v.into()).collect())
+    }
+}
+
 /// Defines a non-leaf node.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -126,10 +155,11 @@ pub enum Type {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Opcode {
-    Comment(String),
+    Comment(Box<Comment>),
     Element(Box<Element>),
     Leaf(Box<Leaf>),
     Attr(Box<Attr>),
     Data(Box<Data>),
+    Property(Box<Property>),
     Enum(Box<Enum>),
 }

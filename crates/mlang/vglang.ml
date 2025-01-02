@@ -71,11 +71,11 @@ enum Coords {
     /// and then applying the transform specified by attribute ‘gradientTransform’.
     ///
     /// When gradientUnits="objectBoundingBox" and ‘gradientTransform’ is the identity matrix, the normal of the linear
-    /// gradient is perpendicular to the gradient vec[tor in object bounding box space (i.e., the abstract coordinate
+    /// gradient is perpendicular to the gradient vector in object bounding box space (i.e., the abstract coordinate
     /// system where (0,0) is at the top/left of the object bounding box and (1,1) is at the bottom/right of the object bounding box).
-    /// When the object's bounding box is not square, the gradient normal which is initially perpendicular to the gradient vec[tor
-    /// within object bounding box space may render non-perpendicular relative to the gradient vec[tor in user space. If the gradient
-    /// vec[tor is parallel to one of the axes of the bounding box, the gradient normal will remain perpendicular. This transformation
+    /// When the object's bounding box is not square, the gradient normal which is initially perpendicular to the gradient vector
+    /// within object bounding box space may render non-perpendicular relative to the gradient vector in user space. If the gradient
+    /// vector is parallel to one of the axes of the bounding box, the gradient normal will remain perpendicular. This transformation
     /// is due to application of the non-uniform scaling transformation from bounding box space to user space.
     ObjectBoundingBox,
 }
@@ -537,7 +537,7 @@ enum TextDecoration {
 /// properly when text is rendered along a path.
 ///
 /// A value of stretch indicates that the glyph outlines will be converted into paths, and then all end
-/// points and control points will be adjusted to be along the perpendicular vec[tors from the path,
+/// points and control points will be adjusted to be along the perpendicular vectors from the path,
 /// thereby stretching and possibly warping the glyphs. With this approach, connected glyphs, such as in
 /// cursive scripts, will maintain their connections.
 ///
