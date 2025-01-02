@@ -15,17 +15,51 @@ where
     }
 }
 
-/// Defines literal signed number.
+/// Defines literal numeric.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Numeric(pub usize);
+pub struct LitNum(pub usize);
 
-impl<T> From<T> for Numeric
+impl<T> From<T> for LitNum
 where
     usize: From<T>,
 {
     fn from(value: T) -> Self {
         Self(value.into())
+    }
+}
+
+/// Defines literal numeric.
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct LitStr(pub String);
+
+impl<T> From<T> for LitStr
+where
+    String: From<T>,
+{
+    fn from(value: T) -> Self {
+        Self(value.into())
+    }
+}
+
+/// Defines literal expr.
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub enum LitExpr {
+    String(LitStr),
+    Numeric(LitNum),
+}
+
+impl From<LitStr> for LitExpr {
+    fn from(value: LitStr) -> Self {
+        Self::String(value)
+    }
+}
+
+impl From<LitNum> for LitExpr {
+    fn from(value: LitNum) -> Self {
+        Self::Numeric(value)
     }
 }
 
@@ -43,15 +77,49 @@ where
     }
 }
 
+/// A property call-expr.
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct CallExpr {
+    /// The identifier name of this element.
+    pub ident: Ident,
+    /// Optional call input parameter list.
+    pub params: Vec<LitExpr>,
+}
+
+impl CallExpr {
+    /// Add a new param.
+    pub fn param<P>(mut self, param: P) -> Self
+    where
+        LitExpr: From<P>,
+    {
+        self.params.push(param.into());
+
+        self
+    }
+}
+
+impl<I> From<I> for CallExpr
+where
+    Ident: From<I>,
+{
+    fn from(value: I) -> Self {
+        Self {
+            ident: value.into(),
+            params: vec![],
+        }
+    }
+}
+
 /// Defines custom property list.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Property(pub Vec<Ident>);
+pub struct Property(pub Vec<CallExpr>);
 
 impl<I> From<I> for Property
 where
     I: IntoIterator,
-    Ident: From<I::Item>,
+    CallExpr: From<I::Item>,
 {
     fn from(value: I) -> Self {
         Self(value.into_iter().map(|v| v.into()).collect())
@@ -62,6 +130,8 @@ where
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Element {
+    /// custom propert list.
+    pub property: Option<Vec<Property>>,
     /// The identifier name of this element.
     pub ident: Ident,
     /// the non-inherited properties
@@ -76,6 +146,8 @@ pub struct Element {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Leaf {
+    /// custom propert list.
+    pub property: Option<Vec<Property>>,
     /// The identifier name of this element.
     pub ident: Ident,
     /// the non-inherited properties
@@ -88,6 +160,8 @@ pub struct Leaf {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Attr {
+    /// custom propert list.
+    pub property: Option<Vec<Property>>,
     /// The identifier name of this element.
     pub ident: Ident,
     /// the non-inherited properties
@@ -97,6 +171,8 @@ pub struct Attr {
 #[derive(Debug, Default, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Data {
+    /// custom propert list.
+    pub property: Option<Vec<Property>>,
     /// The identifier name of this element.
     pub ident: Option<Ident>,
     /// the non-inherited properties
@@ -107,6 +183,8 @@ pub struct Data {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Enum {
+    /// custom propert list.
+    pub property: Option<Vec<Property>>,
     /// The identifier name of this element.
     pub ident: Ident,
     /// the non-inherited properties
@@ -117,6 +195,8 @@ pub struct Enum {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Field {
+    /// custom propert list.
+    pub property: Option<Vec<Property>>,
     /// filed name,
     pub ident: Option<Ident>,
     /// The type of this field.
@@ -148,7 +228,7 @@ pub enum Type {
     /// This type is  vec[T].
     ListOf(Box<Type>),
 
-    ArrayOf(Box<Type>, Numeric),
+    ArrayOf(Box<Type>, LitNum),
 }
 
 /// Defines `mlang`'s opcode.

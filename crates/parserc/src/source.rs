@@ -91,8 +91,17 @@ impl<'a> Source<'a> {
     }
 
     /// Convert `Span` to a &str.
-    pub fn to_str(&self, start: Span) -> &'a str {
-        &self.source[start.offset..(start.offset + start.len)]
+    pub fn to_str(&self, span: Span) -> &'a str {
+        &self.source[span.offset..(span.offset + span.len)]
+    }
+
+    /// Return the unread &str.
+    pub fn tail(&mut self) -> &'a str {
+        if let Some(span) = self.span() {
+            self.to_str(span)
+        } else {
+            ""
+        }
     }
 
     /// Seek in the source by [`span`] which may be returned by [`span`](Self::span) fn.

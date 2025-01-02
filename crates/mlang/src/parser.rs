@@ -1,6 +1,6 @@
 use parserc::{is_char, keyword, take_until, take_while, ParseSource, Parser, Source, Span};
 
-use crate::opcode::{Comment, Ident, Numeric, Property, Type};
+use crate::opcode::{CallExpr, Comment, Ident, LitExpr, LitNum, LitStr, Property, Type};
 
 #[derive(Debug, thiserror::Error, PartialEq)]
 pub enum ParseError {
@@ -52,7 +52,7 @@ impl ParseSource for Ident {
     }
 }
 
-impl ParseSource for Numeric {
+impl ParseSource for LitNum {
     type Error = ParseError;
 
     fn parse(source: &mut Source<'_>) -> std::result::Result<Self, Self::Error> {
@@ -169,13 +169,83 @@ impl Type {
 
         skip_whitespaces(source)?;
 
-        let numeric = source.parse::<Numeric>()?;
+        let numeric = source.parse::<LitNum>()?;
 
         skip_whitespaces(source)?;
 
         is_char(']').parse(source)?;
 
         return Ok(Type::ArrayOf(Box::new(component), numeric));
+    }
+}
+
+impl ParseSource for LitStr {
+    type Error = ParseError;
+
+    fn parse(source: &mut Source<'_>) -> std::result::Result<Self, Self::Error> {
+        let quote = is_char('"')
+            .map(|_| '"')
+            .or(is_char('\'').map(|_| '\''))
+            .parse(source)?;
+
+        let span = take_until(move |c| c == quote).parse(source)?;
+
+        is_char(quote).parse(source)?;
+
+        if let Some(span) = span {
+            Ok(LitStr(source.to_str(span).to_string()))
+        } else {
+            Ok(LitStr("".to_string()))
+        }
+    }
+}
+
+impl ParseSource for LitExpr {
+    type Error = ParseError;
+
+    fn parse(source: &mut Source<'_>) -> std::result::Result<Self, Self::Error> {
+        let numeric = |source: &mut Source<'_>| LitNum::parse(source).map(|v| LitExpr::Numeric(v));
+        let str = |source: &mut Source<'_>| LitStr::parse(source).map(|v| LitExpr::String(v));
+
+        numeric.or(str).parse(source)
+    }
+}
+
+impl ParseSource for CallExpr {
+    type Error = ParseError;
+    fn parse(source: &mut Source<'_>) -> std::result::Result<Self, Self::Error> {
+        let ident = source.parse::<Ident>()?;
+
+        let mut params = vec![];
+
+        skip_whitespaces(source)?;
+
+        if is_char('(').optional().parse(source)?.is_some() {
+            skip_whitespaces(source)?;
+
+            if let Some(param) = source.parse::<Option<LitExpr>>()? {
+                params.push(param);
+            }
+
+            skip_whitespaces(source)?;
+
+            while let Some(_) = is_char(',').optional().parse(source)? {
+                skip_whitespaces(source)?;
+
+                if let Some(ident) = source.parse::<Option<LitExpr>>()? {
+                    params.push(ident);
+                    skip_whitespaces(source)?;
+                } else {
+                    break;
+                }
+            }
+
+            skip_whitespaces(source)?;
+
+            is_char(')').parse(source)?;
+        }
+
+        Ok(CallExpr { ident, params })
     }
 }
 
@@ -188,14 +258,14 @@ impl ParseSource for Property {
         is_char('[').parse(source)?;
         skip_whitespaces(source)?;
 
-        let mut idents = vec![source.parse::<Ident>()?];
+        let mut idents = vec![source.parse::<CallExpr>()?];
 
         skip_whitespaces(source)?;
 
         while let Some(_) = is_char(',').optional().parse(source)? {
             skip_whitespaces(source)?;
 
-            if let Some(ident) = source.parse::<Option<Ident>>()? {
+            if let Some(ident) = source.parse::<Option<CallExpr>>()? {
                 idents.push(ident);
                 skip_whitespaces(source)?;
             } else {
@@ -216,7 +286,7 @@ mod tests {
     use parserc::{ParseSource, Source, Span};
 
     use crate::{
-        opcode::{Comment, Ident, Numeric, Property, Type},
+        opcode::{CallExpr, Comment, Ident, LitNum, LitStr, Property, Type},
         parser::ParseError,
     };
 
@@ -250,12 +320,12 @@ mod tests {
     #[test]
     fn test_numeric() {
         assert_eq!(
-            Numeric::parse(&mut Source::from("1234#")).unwrap(),
-            Numeric(1234)
+            LitNum::parse(&mut Source::from("1234#")).unwrap(),
+            LitNum(1234)
         );
 
-        Numeric::parse(&mut Source::from("#123")).expect_err("start with #");
-        Numeric::parse(&mut Source::from("h324")).expect_err("start with alphabetic");
+        LitNum::parse(&mut Source::from("#123")).expect_err("start with #");
+        LitNum::parse(&mut Source::from("h324")).expect_err("start with alphabetic");
     }
 
     #[test]
@@ -342,7 +412,7 @@ mod tests {
             Type::parse(&mut Source::from("vec[[float;3]]")),
             Ok(Type::ListOf(Box::new(Type::ArrayOf(
                 Box::new(Type::Float),
-                Numeric(3)
+                LitNum(3)
             ))))
         );
 
@@ -350,7 +420,7 @@ mod tests {
             Type::parse(&mut Source::from("vec[  [\n_hello ;\t3]\r\n]")),
             Ok(Type::ListOf(Box::new(Type::ArrayOf(
                 Box::new(Type::Ref("_hello".into())),
-                Numeric(3)
+                LitNum(3)
             ))))
         );
     }
@@ -360,6 +430,18 @@ mod tests {
         assert_eq!(
             Property::parse(&mut Source::from("#[ hello, world\t]")),
             Ok(Property::from(["hello", "world"]))
+        );
+
+        assert_eq!(
+            Property::parse(&mut Source::from(
+                "#[ hello('hello'), world(1,     \"hello\" )\t]"
+            )),
+            Ok(Property::from([
+                CallExpr::from("hello").param(LitStr::from("hello")),
+                CallExpr::from("world")
+                    .param(LitNum(1))
+                    .param(LitStr::from("hello")),
+            ]))
         );
 
         assert_eq!(
