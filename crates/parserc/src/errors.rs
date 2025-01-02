@@ -1,5 +1,7 @@
 use std::ops::Range;
 
+use crate::Span;
+
 /// Error type used by `parserc`
 #[derive(Debug, thiserror::Error, PartialEq)]
 pub enum Error {
@@ -11,6 +13,11 @@ pub enum Error {
     OutOfRange,
     #[error("Reach the end of the source.")]
     Eof,
+    #[error("Expect keyword({0}). {1:?}")]
+    Keyword(&'static str, Span),
+
+    #[error("Expect char({0}). {1:?}")]
+    Char(char, Span),
 }
 
 /// Result type used by `parserc`

@@ -12,9 +12,9 @@ pub struct Span {
 }
 
 impl Span {
-    /// return true if the `Span` point to `None`.
-    pub fn is_empty(&self) -> bool {
-        self.len == 0
+    /// Returns true if this span length is zero.
+    pub fn is_empty(self) -> bool {
+        self.offset == 0
     }
 }
 
@@ -45,16 +45,16 @@ impl<'a> From<&'a str> for Source<'a> {
 
 impl<'a> Source<'a> {
     /// Returns next char's span.
-    pub fn span(&mut self) -> Span {
+    pub fn span(&mut self) -> Option<Span> {
         if let Some((_, c)) = self.iter.peek() {
-            Span {
+            Some(Span {
                 lines: self.lines,
                 cols: self.cols,
                 offset: self.offset,
                 len: c.len_utf8(),
-            }
+            })
         } else {
-            Span::default()
+            None
         }
     }
 
@@ -161,14 +161,17 @@ where
 {
     type Error = E;
     fn parse(source: &mut Source<'_>) -> std::result::Result<Self, Self::Error> {
-        let span = source.span();
-        match T::parse(source) {
-            Ok(v) => Ok(Some(v)),
-            Err(_) => {
-                // rollback.
-                source.seek(span).unwrap();
-                Ok(None)
+        if let Some(span) = source.span() {
+            match T::parse(source) {
+                Ok(v) => Ok(Some(v)),
+                Err(_) => {
+                    // rollback.
+                    source.seek(span).unwrap();
+                    Ok(None)
+                }
             }
+        } else {
+            Ok(None)
         }
     }
 }

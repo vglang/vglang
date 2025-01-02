@@ -3,48 +3,98 @@
 use crate::{Error, Parser, Source, Span};
 
 /// A parser comsume chars until `F` returns *true*.
-pub fn take_until<'a, F>(f: F) -> impl Parser<Output = Span, Error = Error>
+pub fn take_until<F>(mut f: F) -> impl Parser<Output = Option<Span>, Error = Error>
 where
-    F: Fn(char) -> bool + 'static,
+    F: FnMut(char) -> bool + 'static,
 {
-    move |source: &mut Source<'_>| {
-        let start = source.span();
+    move |source: &mut Source<'_>| take_while(move |c| !f(c)).parse(source)
+}
 
-        if start.is_empty() {
-            return Ok(start);
-        }
-
-        while let Ok((c, span)) = source.next() {
-            if f(c) {
-                source.seek(span)?;
-                return Ok(source.extend_to(start, span));
-            }
-        }
-
-        return Ok(source.extend(start));
-    }
+/// A parser comsume chars until `F` returns *true*.
+pub fn take_until_enumerate<F>(mut f: F) -> impl Parser<Output = Option<Span>, Error = Error>
+where
+    F: FnMut(usize, char) -> bool + 'static,
+{
+    move |source: &mut Source<'_>| take_while_enumerate(move |index, c| !f(index, c)).parse(source)
 }
 
 /// Create [`Until`] parser.
-pub fn take_while<'a, F>(f: F) -> impl Parser<Output = Span, Error = Error>
+pub fn take_while<F>(mut f: F) -> impl Parser<Output = Option<Span>, Error = Error>
 where
-    F: Fn(char) -> bool + 'static,
+    F: FnMut(char) -> bool + 'static,
+{
+    take_while_enumerate(move |_, c| f(c))
+}
+
+/// Create [`Until`] parser.
+pub fn take_while_enumerate<F>(mut f: F) -> impl Parser<Output = Option<Span>, Error = Error>
+where
+    F: FnMut(usize, char) -> bool + 'static,
 {
     move |source: &mut Source<'_>| {
-        let start = source.span();
+        let mut index = 0;
+        if let Ok((c, start)) = source.next() {
+            if !f(index, c) {
+                source.seek(start)?;
+                return Ok(None);
+            }
 
-        if start.is_empty() {
-            return Ok(start);
+            index += 1;
+
+            let mut end = start;
+
+            while let Ok((c, span)) = source.next() {
+                end = span;
+
+                if !f(index, c) {
+                    source.seek(span)?;
+                    return Ok(Some(source.extend_to(start, span)));
+                }
+
+                index += 1;
+            }
+
+            return Ok(Some(source.extend_to_inclusive(start, end)));
         }
 
-        while let Ok((c, span)) = source.next() {
-            if !f(c) {
-                source.seek(span)?;
-                return Ok(source.extend_to(start, span));
+        return Ok(None);
+    }
+}
+
+/// Defines a keyword parser.
+pub fn keyword(word: &'static str) -> impl Parser<Output = Span, Error = Error> {
+    let mut chars = word.chars();
+
+    take_while(move |c| {
+        if let Some(next) = chars.next() {
+            next == c
+        } else {
+            false
+        }
+    })
+    .map_res(move |source, v| {
+        if let Some(v) = v {
+            if v.len == word.len() {
+                return Ok(v);
             }
         }
 
-        return Ok(source.extend(start));
+        let span = source.span().ok_or(Error::Eof)?;
+
+        return Err(Error::Keyword(word, span));
+    })
+}
+
+/// Defines a keyword parser.
+pub fn is_char(c: char) -> impl Parser<Output = Span, Error = Error> {
+    move |source: &mut Source<'_>| {
+        let (next, span) = source.next()?;
+
+        if c != next {
+            return Err(Error::Char(c, span));
+        }
+
+        Ok(span)
     }
 }
 
@@ -65,8 +115,8 @@ mod tests {
         assert_eq!(
             take_until(|c| c.is_ascii_whitespace())
                 .parse(&mut source)
-                .map(|span| source.to_str(span)),
-            Ok("hello")
+                .map(|span| span.map(|span| source.to_str(span))),
+            Ok(Some("hello"))
         );
 
         let (c, _) = source.next().unwrap();
@@ -76,15 +126,13 @@ mod tests {
         assert_eq!(
             take_until(|c| c.is_ascii_whitespace())
                 .parse(&mut source)
-                .map(|span| source.to_str(span)),
-            Ok("world")
+                .map(|span| span.map(|span| source.to_str(span))),
+            Ok(Some("world"))
         );
 
         assert_eq!(
-            take_until(|c| c.is_ascii_whitespace())
-                .parse(&mut source)
-                .map(|span| source.to_str(span)),
-            Ok("")
+            take_until(|c| c.is_ascii_whitespace()).parse(&mut source),
+            Ok(None)
         );
     }
 
@@ -95,8 +143,8 @@ mod tests {
         assert_eq!(
             take_while(|c| c.is_ascii_alphanumeric())
                 .parse(&mut source)
-                .map(|span| source.to_str(span)),
-            Ok("hello")
+                .map(|span| span.map(|span| source.to_str(span))),
+            Ok(Some("hello"))
         );
 
         let (c, _) = source.next().unwrap();
@@ -106,8 +154,8 @@ mod tests {
         assert_eq!(
             take_while(|c| c.is_ascii_alphanumeric())
                 .parse(&mut source)
-                .map(|span| source.to_str(span)),
-            Ok("world")
+                .map(|span| span.map(|span| source.to_str(span))),
+            Ok(Some("world"))
         );
 
         use crate::Parser;
@@ -120,8 +168,33 @@ mod tests {
         assert_eq!(
             take_while(is_not("\n"))
                 .parse(&mut source)
+                .map(|span| span.map(|span| source.to_str(span))),
+            Ok(Some("hello "))
+        );
+    }
+
+    #[test]
+    fn test_keyword() {
+        let mut source = Source::from("fntest");
+
+        assert_eq!(
+            keyword("fn")
+                .parse(&mut source)
                 .map(|span| source.to_str(span)),
-            Ok("hello ")
+            Ok("fn")
+        );
+
+        assert_eq!(
+            keyword("fn").parse(&mut Source::from("test")),
+            Err(Error::Keyword(
+                "fn",
+                Span {
+                    lines: 1,
+                    cols: 1,
+                    offset: 0,
+                    len: 1
+                }
+            ))
         );
     }
 }

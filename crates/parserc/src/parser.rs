@@ -32,10 +32,19 @@ pub trait Parser {
     /// Create a [`Map`] parser.
     fn map<F, Output>(self, f: F) -> Map<Self, F>
     where
-        for<'a> F: FnOnce(Self::Output) -> Output,
+        F: FnOnce(Self::Output) -> Output,
         Self: Sized,
     {
         Map(self, f)
+    }
+
+    /// Create a [`MapRes`] parser.
+    fn map_res<F, Output>(self, f: F) -> MapRes<Self, F>
+    where
+        F: FnOnce(&mut Source<'_>, Self::Output) -> Result<Output, Self::Error>,
+        Self: Sized,
+    {
+        MapRes(self, f)
     }
 
     /// Create a [`Filter`] parser.
@@ -106,15 +115,17 @@ where
 
     type Error = T::Error;
     fn parse(self, source: &mut Source) -> Result<Self::Output, Self::Error> {
-        let span = source.span();
-
-        match self.0.parse(source) {
-            Ok(v) => Ok(Some(v)),
-            Err(_) => {
-                // rollback.
-                source.seek(span).unwrap();
-                Ok(None)
+        if let Some(span) = source.span() {
+            match self.0.parse(source) {
+                Ok(v) => Ok(Some(v)),
+                Err(_) => {
+                    // rollback.
+                    source.seek(span).unwrap();
+                    Ok(None)
+                }
             }
+        } else {
+            Ok(None)
         }
     }
 }
@@ -156,6 +167,23 @@ where
     type Error = T::Error;
     fn parse(self, source: &mut Source) -> Result<Self::Output, Self::Error> {
         Ok(self.1(self.0.parse(source)?))
+    }
+}
+
+/// A wrapper parser that convert inner parse's output to another one according to the `F`.
+pub struct MapRes<T, F>(T, F);
+
+impl<T, F, Output> Parser for MapRes<T, F>
+where
+    T: Parser + 'static,
+    for<'a> F: FnOnce(&mut Source<'_>, T::Output) -> Result<Output, T::Error> + 'a,
+{
+    type Output = Output;
+
+    type Error = T::Error;
+    fn parse(self, source: &mut Source) -> Result<Self::Output, Self::Error> {
+        let v = self.0.parse(source)?;
+        self.1(source, v)
     }
 }
 

@@ -15,6 +15,20 @@ where
     }
 }
 
+/// Defines literal signed number.
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct Numeric(pub usize);
+
+impl<T> From<T> for Numeric
+where
+    usize: From<T>,
+{
+    fn from(value: T) -> Self {
+        Self(value.into())
+    }
+}
+
 /// Defines a non-leaf node.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -100,12 +114,12 @@ pub enum Type {
     Ulong,
     Float,
     Double,
-    /// Data reference by `ident`.
-    Data(Ident),
-    /// enum data reference by `ident`.
-    Enum(Ident),
-    /// This type is a listof `type`.
+    /// A type reference.
+    Ref(Ident),
+    /// This type is  vec[T].
     ListOf(Box<Type>),
+
+    ArrayOf(Box<Type>, Numeric),
 }
 
 /// Defines `mlang`'s opcode.
