@@ -1,6 +1,6 @@
-use std::{iter::Peekable, str::CharIndices};
+use std::{iter::Peekable, marker::PhantomData, str::CharIndices};
 
-use crate::{Error, Result};
+use crate::{Error, Parser, Result};
 
 /// A region of source code
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -185,3 +185,33 @@ where
         }
     }
 }
+
+/// A wrapper parser for [`ParseSource`]
+pub struct ParseSourceParser<T>(PhantomData<T>);
+
+impl<T> Clone for ParseSourceParser<T> {
+    fn clone(&self) -> Self {
+        Self(Default::default())
+    }
+}
+
+impl<T> Parser for ParseSourceParser<T>
+where
+    T: ParseSource,
+{
+    type Error = T::Error;
+    type Output = T;
+
+    fn parse(self, source: &mut Source) -> std::result::Result<Self::Output, Self::Error> {
+        source.parse()
+    }
+}
+
+/// A extension trait create a parser from [`ParseSource`]
+pub trait IntoParser: ParseSource {
+    fn into_parser() -> ParseSourceParser<Self> {
+        ParseSourceParser::<Self>(Default::default())
+    }
+}
+
+impl<T> IntoParser for T where T: ParseSource {}

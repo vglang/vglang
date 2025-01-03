@@ -244,18 +244,21 @@ impl<T> Iterator for Repeat<T>
 where
     T: Clone,
 {
-    type Item = Repeat<T>;
+    type Item = RepeatItem<T>;
 
     fn next(&mut self) -> Option<Self::Item> {
         if self.has_next() {
-            Some(self.clone())
+            Some(RepeatItem(self.clone()))
         } else {
             None
         }
     }
 }
+#[must_use = "Repeat is a lazy parser iterator, call RepeatItem::parse to do the real parsing."]
+#[derive(Clone)]
+pub struct RepeatItem<T>(Repeat<T>);
 
-impl<T> Parser for Repeat<T>
+impl<T> Parser for RepeatItem<T>
 where
     T: Parser,
 {
@@ -263,9 +266,9 @@ where
     type Output = T::Output;
 
     fn parse(self, source: &mut Source) -> Result<Self::Output, Self::Error> {
-        let output = self.parser.parse(source)?;
+        let output = self.0.parser.parse(source)?;
 
-        *self.offset.borrow_mut() += 1;
+        *self.0.offset.borrow_mut() += 1;
 
         Ok(output)
     }
