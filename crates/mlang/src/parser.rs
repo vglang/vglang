@@ -1,6 +1,14 @@
-use parserc::{is_char, keyword, take_until, take_while, ParseSource, Parser, Source, Span};
+use parserc::{
+    is_char, keyword, take_until, take_while, IntoParser, ParseSource, Parser, Source, Span,
+};
 
-use crate::opcode::{CallExpr, Comment, Ident, LitExpr, LitNum, LitStr, Property, Type};
+use crate::opcode::{
+    CallExpr, Comment, Enum, Field, Ident, LitExpr, LitNum, LitStr, Mixin, Node, Property, Type,
+};
+
+static MAX_COMMENTS: usize = 1000;
+static MAX_PROPERTIES: usize = 200;
+static MAX_FIELDS: usize = 200;
 
 #[derive(Debug, thiserror::Error, PartialEq)]
 pub enum ParseError {
@@ -20,6 +28,9 @@ pub enum ParseError {
     Array(Span),
     #[error("expect a type declare. {0:?}")]
     Type(Span),
+
+    #[error("Unexpect keyword: {0}. {1:?}")]
+    UnexpectKeyWord(String, Span),
 }
 
 fn skip_whitespaces(source: &mut Source<'_>) -> Result<Option<Span>, ParseError> {
@@ -79,6 +90,8 @@ impl ParseSource for Comment {
     type Error = ParseError;
 
     fn parse(source: &mut Source<'_>) -> std::result::Result<Self, Self::Error> {
+        // skip leading blanks.
+        skip_whitespaces(source)?;
         // comment start with ///
         let start = keyword("///").parse(source)?;
 
@@ -264,6 +277,8 @@ impl ParseSource for Property {
     type Error = ParseError;
 
     fn parse(source: &mut Source<'_>) -> std::result::Result<Self, Self::Error> {
+        // skip leading blanks.
+        skip_whitespaces(source)?;
         is_char('#').parse(source)?;
         skip_whitespaces(source)?;
         is_char('[').parse(source)?;
@@ -290,6 +305,260 @@ impl ParseSource for Property {
 
         Ok(Self(idents))
     }
+}
+
+impl ParseSource for Field {
+    type Error = ParseError;
+
+    fn parse(source: &mut Source<'_>) -> std::result::Result<Self, Self::Error> {
+        let mut comments = vec![];
+
+        // parse comments.
+        for comment in Comment::into_parser().repeat(..MAX_COMMENTS) {
+            if let Some(comment) = comment.optional().parse(source)? {
+                comments.push(comment);
+            } else {
+                break;
+            }
+        }
+
+        let mut properties = vec![];
+
+        // parse properties.
+        for property in Property::into_parser().repeat(..MAX_PROPERTIES) {
+            if let Some(property) = property.optional().parse(source)? {
+                properties.push(property);
+            } else {
+                break;
+            }
+        }
+
+        skip_whitespaces(source)?;
+
+        let ident = if let Some(ident) = source.parse::<Option<Ident>>()? {
+            skip_whitespaces(source)?;
+            is_char(':').parse(source)?;
+
+            Some(ident)
+        } else {
+            None
+        };
+
+        skip_whitespaces(source)?;
+
+        let ty = source.parse::<Type>()?;
+
+        skip_whitespaces(source)?;
+
+        is_char(',').optional().parse(source)?;
+
+        Ok(Self {
+            comments,
+            properties,
+            ident,
+            ty,
+        })
+    }
+}
+
+impl ParseSource for Mixin {
+    type Error = ParseError;
+
+    fn parse(source: &mut Source<'_>) -> std::result::Result<Self, Self::Error> {
+        let mut comments = vec![];
+
+        // parse comments.
+        for comment in Comment::into_parser().repeat(..MAX_COMMENTS) {
+            if let Some(comment) = comment.optional().parse(source)? {
+                comments.push(comment);
+            } else {
+                break;
+            }
+        }
+
+        let mut properties = vec![];
+
+        // parse properties.
+        for property in Property::into_parser().repeat(..MAX_PROPERTIES) {
+            if let Some(property) = property.optional().parse(source)? {
+                properties.push(property);
+            } else {
+                break;
+            }
+        }
+
+        skip_whitespaces(source)?;
+
+        keyword("mixin").parse(source)?;
+
+        skip_whitespaces(source)?;
+
+        let ident = source.parse::<Ident>()?;
+
+        skip_whitespaces(source)?;
+
+        keyword("{").parse(source)?;
+
+        let mut fields = vec![];
+
+        // parse fields.
+        for field in Field::into_parser().repeat(..MAX_FIELDS) {
+            if let Some(field) = field.optional().parse(source)? {
+                fields.push(field);
+            } else {
+                break;
+            }
+        }
+
+        keyword("}").parse(source)?;
+
+        Ok(Self {
+            comments,
+            properties,
+            fields,
+            ident,
+        })
+    }
+}
+
+impl ParseSource for Enum {
+    type Error = ParseError;
+
+    fn parse(source: &mut Source<'_>) -> std::result::Result<Self, Self::Error> {
+        let mut comments = vec![];
+
+        // parse comments.
+        for comment in Comment::into_parser().repeat(..MAX_COMMENTS) {
+            if let Some(comment) = comment.optional().parse(source)? {
+                comments.push(comment);
+            } else {
+                break;
+            }
+        }
+
+        let mut properties = vec![];
+
+        // parse properties.
+        for property in Property::into_parser().repeat(..MAX_PROPERTIES) {
+            if let Some(property) = property.optional().parse(source)? {
+                properties.push(property);
+            } else {
+                break;
+            }
+        }
+
+        skip_whitespaces(source)?;
+
+        keyword("enum").parse(source)?;
+
+        skip_whitespaces(source)?;
+
+        let ident = source.parse::<Ident>()?;
+
+        skip_whitespaces(source)?;
+
+        keyword("{").parse(source)?;
+
+        let mut fields = vec![];
+
+        // parse fields.
+        for field in parse_node.repeat(..MAX_FIELDS) {
+            if let Some((field, node_type)) = field.optional().parse(source)? {
+                if let Some(node_type) = node_type {
+                    return Err(ParseError::UnexpectKeyWord(
+                        source.to_str(node_type).to_string(),
+                        node_type,
+                    ));
+                }
+                fields.push(field);
+            } else {
+                break;
+            }
+        }
+
+        keyword("}").parse(source)?;
+
+        Ok(Self {
+            comments,
+            properties,
+            fields,
+            ident,
+        })
+    }
+}
+
+/// Parse element node.
+pub fn parse_node(source: &mut Source<'_>) -> Result<(Node, Option<Span>), ParseError> {
+    let mut comments = vec![];
+
+    // parse comments.
+    for comment in Comment::into_parser().repeat(..MAX_COMMENTS) {
+        if let Some(comment) = comment.optional().parse(source)? {
+            comments.push(comment);
+        } else {
+            break;
+        }
+    }
+
+    let mut properties = vec![];
+
+    // parse properties.
+    for property in Property::into_parser().repeat(..MAX_PROPERTIES) {
+        if let Some(property) = property.optional().parse(source)? {
+            properties.push(property);
+        } else {
+            break;
+        }
+    }
+
+    skip_whitespaces(source)?;
+
+    let node_type = keyword("el")
+        .or(keyword("leaf"))
+        .or(keyword("attr"))
+        .or(keyword("data"))
+        .optional()
+        .parse(source)?;
+
+    skip_whitespaces(source)?;
+
+    let ident = source.parse::<Ident>()?;
+
+    skip_whitespaces(source)?;
+
+    let mixin = if let Some(_) = keyword("mixin").optional().parse(source)? {
+        skip_whitespaces(source)?;
+        let ident = source.parse::<Ident>()?;
+        skip_whitespaces(source)?;
+        Some(ident)
+    } else {
+        None
+    };
+
+    keyword("{").parse(source)?;
+
+    let mut fields = vec![];
+
+    // parse fields.
+    for field in Field::into_parser().repeat(..MAX_FIELDS) {
+        if let Some(field) = field.optional().parse(source)? {
+            fields.push(field);
+        } else {
+            break;
+        }
+    }
+
+    keyword("}").parse(source)?;
+
+    let node = Node {
+        comments,
+        mixin,
+        ident,
+        properties,
+        fields,
+    };
+
+    Ok((node, node_type))
 }
 
 #[cfg(test)]

@@ -172,8 +172,10 @@ where
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Mixin {
+    /// comment of this node
+    pub comments: Vec<Comment>,
     /// custom propert list.
-    pub property: Option<Vec<Property>>,
+    pub properties: Vec<Property>,
     /// The identifier name of this element.
     pub ident: Ident,
     /// the non-inherited properties
@@ -184,10 +186,12 @@ pub struct Mixin {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Node {
+    /// comment of this node
+    pub comments: Vec<Comment>,
     /// The ident of the mixin data.
     pub mixin: Option<Ident>,
     /// custom propert list.
-    pub property: Option<Vec<Property>>,
+    pub properties: Vec<Property>,
     /// The identifier name of this node
     pub ident: Ident,
     /// the non-inherited properties
@@ -198,8 +202,10 @@ pub struct Node {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Enum {
+    /// comment of this node
+    pub comments: Vec<Comment>,
     /// custom propert list.
-    pub property: Option<Vec<Property>>,
+    pub properties: Vec<Property>,
     /// The identifier name of this element.
     pub ident: Ident,
     /// the non-inherited properties
@@ -210,16 +216,14 @@ pub struct Enum {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Field {
+    /// comment of this field.
+    pub comments: Vec<Comment>,
     /// custom propert list.
-    pub property: Option<Vec<Property>>,
+    pub properties: Vec<Property>,
     /// filed name,
     pub ident: Option<Ident>,
     /// The type of this field.
     pub ty: Type,
-    /// Indicate this field is optional.
-    pub optional: bool,
-    /// Indicate this field is a variable field.
-    pub variable: bool,
 }
 
 /// Defines a `type` of one field.
@@ -250,7 +254,6 @@ pub enum Type {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Opcode {
-    Comment(Box<Comment>),
     Element(Box<Node>),
     Leaf(Box<Node>),
     Attr(Box<Node>),
