@@ -260,5 +260,4 @@ pub enum Opcode {
     Mixin(Box<Mixin>),
     Data(Box<Node>),
     Enum(Box<Enum>),
-    Property(Box<Property>),
 }

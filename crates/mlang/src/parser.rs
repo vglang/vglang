@@ -3,12 +3,14 @@ use parserc::{
 };
 
 use crate::opcode::{
-    CallExpr, Comment, Enum, Field, Ident, LitExpr, LitNum, LitStr, Mixin, Node, Property, Type,
+    CallExpr, Comment, Enum, Field, Ident, LitExpr, LitNum, LitStr, Mixin, Node, Opcode, Property,
+    Type,
 };
 
 static MAX_COMMENTS: usize = 1000;
 static MAX_PROPERTIES: usize = 200;
 static MAX_FIELDS: usize = 200;
+static MAX_NODES: usize = 10000;
 
 #[derive(Debug, thiserror::Error, PartialEq)]
 pub enum ParseError {
@@ -31,6 +33,12 @@ pub enum ParseError {
 
     #[error("Unexpect keyword: {0}. {1:?}")]
     UnexpectKeyWord(String, Span),
+
+    #[error("Unexpect ident: {0}. {1:?}")]
+    UnexpectIdent(String, Span),
+
+    #[error("Expect keyword `el`,`leaf`,`data`,.etc {0:?}")]
+    ExpectKeyWord(Span),
 }
 
 fn skip_whitespaces(source: &mut Source<'_>) -> Result<Option<Span>, ParseError> {
@@ -337,9 +345,13 @@ impl ParseSource for Field {
 
         let ident = if let Some(ident) = source.parse::<Option<Ident>>()? {
             skip_whitespaces(source)?;
-            is_char(':').parse(source)?;
 
-            Some(ident)
+            if let Some(_) = is_char(':').optional().parse(source)? {
+                Some(ident)
+            } else {
+                source.seek(ident.1.unwrap())?;
+                None
+            }
         } else {
             None
         };
@@ -457,7 +469,7 @@ impl ParseSource for Enum {
 
         skip_whitespaces(source)?;
 
-        keyword("{").parse(source)?;
+        is_char('{').parse(source)?;
 
         let mut fields = vec![];
 
@@ -471,12 +483,18 @@ impl ParseSource for Enum {
                     ));
                 }
                 fields.push(field);
+
+                if is_char(',').optional().parse(source)?.is_none() {
+                    break;
+                }
             } else {
                 break;
             }
         }
 
-        keyword("}").parse(source)?;
+        skip_whitespaces(source)?;
+
+        is_char('}').parse(source)?;
 
         Ok(Self {
             comments,
@@ -535,20 +553,38 @@ pub fn parse_node(source: &mut Source<'_>) -> Result<(Node, Option<Span>), Parse
         None
     };
 
-    keyword("{").parse(source)?;
+    skip_whitespaces(source)?;
+
+    let is_tuple = is_char('{')
+        .map(|_| false)
+        .or(is_char('(').map(|_| true))
+        .optional()
+        .parse(source)?;
 
     let mut fields = vec![];
 
-    // parse fields.
-    for field in Field::into_parser().repeat(..MAX_FIELDS) {
-        if let Some(field) = field.optional().parse(source)? {
-            fields.push(field);
-        } else {
-            break;
+    if let Some(is_tuple) = is_tuple {
+        // parse fields.
+        for field in Field::into_parser().repeat(..MAX_FIELDS) {
+            if let Some(field) = field.optional().parse(source)? {
+                if is_tuple {
+                    if let Some(ident) = field.ident {
+                        return Err(ParseError::UnexpectIdent(
+                            ident.0,
+                            ident.1.unwrap_or(Span::default()),
+                        ));
+                    }
+                }
+                fields.push(field);
+            } else {
+                break;
+            }
         }
-    }
 
-    keyword("}").parse(source)?;
+        skip_whitespaces(source)?;
+
+        is_char(if is_tuple { ')' } else { '}' }).parse(source)?;
+    }
 
     let node = Node {
         comments,
@@ -561,14 +597,51 @@ pub fn parse_node(source: &mut Source<'_>) -> Result<(Node, Option<Span>), Parse
     Ok((node, node_type))
 }
 
+impl ParseSource for Opcode {
+    type Error = ParseError;
+
+    fn parse(source: &mut Source<'_>) -> std::result::Result<Self, Self::Error> {
+        if let Some((node, span)) = parse_node.optional().parse(source)? {
+            if let Some(span) = span {
+                match source.to_str(span) {
+                    "el" => return Ok(Opcode::Element(Box::new(node))),
+                    "leaf" => return Ok(Opcode::Leaf(Box::new(node))),
+                    "attr" => return Ok(Opcode::Attr(Box::new(node))),
+                    "data" => return Ok(Opcode::Data(Box::new(node))),
+                    _ => {
+                        panic!("inner error.")
+                    }
+                }
+            } else {
+                return Err(ParseError::ExpectKeyWord(node.ident.1.unwrap()));
+            }
+        }
+
+        Mixin::into_parser()
+            .map(|v| Opcode::Mixin(Box::new(v)))
+            .or(Enum::into_parser().map(|v| Opcode::Enum(Box::new(v))))
+            .parse(source)
+    }
+}
+
+/// Parse a mlang source code.
+pub fn parse(source: &mut Source<'_>) -> Result<Vec<Opcode>, ParseError> {
+    Opcode::into_parser()
+        .repeat(..MAX_NODES)
+        .map(|v| v.parse(source))
+        .collect::<Result<Vec<_>, ParseError>>()
+}
+
 #[cfg(test)]
 mod tests {
-    use parserc::{ParseSource, Source, Span};
+    use parserc::{ParseSource, Parser, Source, Span};
 
     use crate::{
-        opcode::{CallExpr, Comment, Ident, LitNum, LitStr, Property, Type},
+        opcode::{CallExpr, Comment, Enum, Ident, LitNum, LitStr, Property, Type},
         parser::ParseError,
     };
+
+    use super::parse_node;
 
     #[test]
     fn test_ident() {
@@ -698,8 +771,8 @@ mod tests {
                 "///",
                 Span {
                     lines: 1,
-                    cols: 1,
-                    offset: 0,
+                    cols: 2,
+                    offset: 1,
                     len: 1
                 }
             )))
@@ -991,5 +1064,30 @@ mod tests {
                 len: 1
             }))
         );
+    }
+
+    #[test]
+    fn test_node() {
+        let mut source = Source::from(include_str!("./tests/node.ml"));
+        for (index, parser) in parse_node.repeat(..3).enumerate() {
+            let (node, span) = parser.parse(&mut source).unwrap();
+
+            assert_eq!(node.ident.0, "TextPath");
+            assert_eq!(source.to_str(span.unwrap()), "leaf");
+
+            if index == 1 {
+                assert_eq!(node.mixin.unwrap().0, "Hello");
+                assert_eq!(node.properties.len(), 1);
+            } else {
+                assert_eq!(node.mixin, None);
+            }
+        }
+    }
+
+    #[test]
+    fn test_enum() {
+        let mut source = Source::from(include_str!("./tests/enum.ml"));
+
+        source.parse::<Enum>().unwrap();
     }
 }
