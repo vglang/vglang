@@ -1,9 +1,9 @@
-use std::ops::{Range, RangeTo};
+use std::{cell::RefCell, ops::RangeTo, rc::Rc};
 
-use crate::{Error, Source};
+use crate::Source;
 
 /// All parser combinator must implement this trait.
-pub trait Parser {
+pub trait Parser: Clone {
     /// The output returns by [`parse`](Parser::parse) fn.
     type Output;
 
@@ -66,34 +66,20 @@ pub trait Parser {
     }
 
     /// Create a [`RangeParser`] parser.
-    fn range(self, range: Range<usize>) -> RangeParser<Self>
-    where
-        Self: Sized,
-    {
-        RangeParser(self, range)
-    }
-
-    /// Create a [`RangeToParser`] parser.
-    fn range_to(self, range: RangeTo<usize>) -> RangeToParser<Self>
-    where
-        Self: Sized,
-    {
-        RangeToParser(self, range)
-    }
 
     /// Create a [`Repeat`] parser.
-    fn repeat(self, times: usize) -> Repeat<Self>
+    fn repeat(self, range: RangeTo<usize>) -> Repeat<Self>
     where
         Self: Sized,
     {
-        Repeat(self, times)
+        Repeat::new(self, range)
     }
 }
 
 impl<T, Error, O> Parser for T
 where
     Error: From<crate::Error>,
-    for<'a> T: FnOnce(&'a mut Source<'_>) -> Result<O, Error> + 'static,
+    for<'a> T: FnOnce(&'a mut Source<'_>) -> Result<O, Error> + Clone + 'static,
 {
     type Output = O;
 
@@ -105,6 +91,7 @@ where
 }
 
 /// A wrapper parser that returns `None` when inner parse returns an error.
+#[derive(Clone)]
 pub struct Optional<T>(T);
 
 impl<T> Parser for Optional<T>
@@ -131,6 +118,7 @@ where
 }
 
 /// A parser may returns `None`.
+#[derive(Clone)]
 pub struct Or<L, R>(L, R);
 
 impl<L, R, E> Parser for Or<L, R>
@@ -155,12 +143,13 @@ where
 }
 
 /// A wrapper parser that convert inner parse's output to another one according to the `F`.
+#[derive(Clone)]
 pub struct Map<T, F>(T, F);
 
 impl<T, F, Output> Parser for Map<T, F>
 where
     T: Parser + 'static,
-    for<'a> F: FnOnce(T::Output) -> Output + 'a,
+    for<'a> F: FnOnce(T::Output) -> Output + Clone + 'a,
 {
     type Output = Output;
 
@@ -171,12 +160,14 @@ where
 }
 
 /// A wrapper parser that convert inner parse's output to another one according to the `F`.
+
+#[derive(Clone)]
 pub struct MapRes<T, F>(T, F);
 
 impl<T, F, Output> Parser for MapRes<T, F>
 where
     T: Parser + 'static,
-    for<'a> F: FnOnce(&mut Source<'_>, T::Output) -> Result<Output, T::Error> + 'a,
+    for<'a> F: FnOnce(&mut Source<'_>, T::Output) -> Result<Output, T::Error> + Clone + 'a,
 {
     type Output = Output;
 
@@ -188,12 +179,13 @@ where
 }
 
 /// A wrapper parser that filter output according to the `F`.
+#[derive(Clone)]
 pub struct Filter<T, F>(T, F);
 
 impl<T, F> Parser for Filter<T, F>
 where
     T: Parser,
-    for<'a> F: FnOnce(&T::Output) -> bool + 'a,
+    for<'a> F: FnOnce(&T::Output) -> bool + Clone + 'a,
 {
     type Output = Option<T::Output>;
 
@@ -210,12 +202,13 @@ where
 }
 
 /// A wrapper parser that filter inner parser output and map it to a different type according to the `F`.
+#[derive(Clone)]
 pub struct FilterMap<T, F>(T, F);
 
 impl<T, F, Output> Parser for FilterMap<T, F>
 where
     T: Parser + 'static,
-    for<'a> F: FnOnce(T::Output) -> Option<Output> + 'a,
+    for<'a> F: FnOnce(T::Output) -> Option<Output> + Clone + 'a,
 {
     type Output = Option<Output>;
 
@@ -225,77 +218,75 @@ where
     }
 }
 
-/// A range(N..M) parser that call inner parser at least N times, and at most M times.
-pub struct RangeParser<T>(T, Range<usize>);
-
-impl<T> Parser for RangeParser<T>
-where
-    T: Parser + Clone,
-{
-    type Output = Vec<T::Output>;
-
-    type Error = T::Error;
-
-    fn parse(self, source: &mut Source) -> Result<Self::Output, Self::Error> {
-        let mut output = vec![];
-        for i in 0..self.1.end {
-            if let Some(v) = self.0.clone().optional().parse(source)? {
-                output.push(v);
-            } else {
-                if i < self.1.start {
-                    return Err(Error::Range(self.1).into());
-                }
-            }
-        }
-
-        return Ok(output);
-    }
-}
-
-/// A range_to(..M) parser that call inner parser at most M times.
-pub struct RangeToParser<T>(T, RangeTo<usize>);
-
-impl<T> Parser for RangeToParser<T>
-where
-    T: Parser + Clone,
-{
-    type Output = Vec<T::Output>;
-
-    type Error = T::Error;
-
-    fn parse(self, source: &mut Source) -> Result<Self::Output, Self::Error> {
-        let mut output = vec![];
-        for _ in 0..self.1.end {
-            if let Some(v) = self.0.clone().optional().parse(source)? {
-                output.push(v);
-            }
-        }
-
-        return Ok(output);
-    }
-}
-
 /// A wrapper parser that call inner parser N times.
-pub struct Repeat<T>(T, usize);
+#[derive(Clone)]
+pub struct Repeat<T> {
+    parser: T,
+    range: RangeTo<usize>,
+    offset: Rc<RefCell<usize>>,
+}
+
+impl<T> Repeat<T> {
+    fn new(parser: T, range: RangeTo<usize>) -> Self {
+        Self {
+            parser,
+            range,
+            offset: Rc::new(RefCell::new(0)),
+        }
+    }
+
+    fn has_next(&self) -> bool {
+        *self.offset.borrow() < self.range.end
+    }
+}
+
+impl<T> Iterator for Repeat<T>
+where
+    T: Clone,
+{
+    type Item = Repeat<T>;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.has_next() {
+            Some(self.clone())
+        } else {
+            None
+        }
+    }
+}
 
 impl<T> Parser for Repeat<T>
 where
-    T: Parser + Clone,
+    T: Parser,
 {
-    type Output = Vec<T::Output>;
-
     type Error = T::Error;
+    type Output = T::Output;
 
     fn parse(self, source: &mut Source) -> Result<Self::Output, Self::Error> {
-        let mut output = vec![];
-        for _ in 0..self.1 {
-            if let Some(v) = self.0.clone().optional().parse(source)? {
-                output.push(v);
-            } else {
-                return Err(Error::Repeat(self.1).into());
-            }
+        let output = self.parser.parse(source)?;
+
+        *self.offset.borrow_mut() += 1;
+
+        Ok(output)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::{Error, Source};
+
+    #[test]
+    fn test_repeat() {
+        use crate::{keyword, Parser};
+
+        let mut source = Source::from("fnfnfnfn");
+
+        for parser in keyword("fn").repeat(..3) {
+            parser.parse(&mut source).unwrap();
         }
 
-        return Ok(output);
+        keyword("fn").parse(&mut source).unwrap();
+
+        assert_eq!(keyword("fn").parse(&mut source), Err(Error::Eof));
     }
 }

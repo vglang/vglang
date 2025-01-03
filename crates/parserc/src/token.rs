@@ -5,7 +5,7 @@ use crate::{Error, Parser, Source, Span};
 /// A parser comsume chars until `F` returns *true*.
 pub fn take_until<F>(mut f: F) -> impl Parser<Output = Option<Span>, Error = Error>
 where
-    F: FnMut(char) -> bool + 'static,
+    F: FnMut(char) -> bool + Clone + 'static,
 {
     move |source: &mut Source<'_>| take_while(move |c| !f(c)).parse(source)
 }
@@ -13,7 +13,7 @@ where
 /// A parser comsume chars until `F` returns *true*.
 pub fn take_until_enumerate<F>(mut f: F) -> impl Parser<Output = Option<Span>, Error = Error>
 where
-    F: FnMut(usize, char) -> bool + 'static,
+    F: FnMut(usize, char) -> bool + Clone + 'static,
 {
     move |source: &mut Source<'_>| take_while_enumerate(move |index, c| !f(index, c)).parse(source)
 }
@@ -21,7 +21,7 @@ where
 /// Create [`Until`] parser.
 pub fn take_while<F>(mut f: F) -> impl Parser<Output = Option<Span>, Error = Error>
 where
-    F: FnMut(char) -> bool + 'static,
+    F: FnMut(char) -> bool + Clone + 'static,
 {
     take_while_enumerate(move |_, c| f(c))
 }
@@ -29,7 +29,7 @@ where
 /// Create [`Until`] parser.
 pub fn take_while_enumerate<F>(mut f: F) -> impl Parser<Output = Option<Span>, Error = Error>
 where
-    F: FnMut(usize, char) -> bool + 'static,
+    F: FnMut(usize, char) -> bool + Clone + 'static,
 {
     move |source: &mut Source<'_>| {
         let mut index = 0;
@@ -101,7 +101,7 @@ pub fn is_char(c: char) -> impl Parser<Output = Span, Error = Error> {
 }
 
 /// Create a fn that returns true till certain characters are met.
-pub fn is_not(characters: &'static str) -> impl Fn(char) -> bool + 'static {
+pub fn is_not(characters: &'static str) -> impl Fn(char) -> bool + Clone + 'static {
     move |c| characters.chars().find(|v| *v == c).is_none()
 }
 

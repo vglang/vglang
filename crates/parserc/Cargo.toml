@@ -1,5 +1,5 @@
 [package]
-description = "Yet another rust parser combinator library."
+description = "Rust parser combinator framework for small language compiling."
 documentation = "https://docs.rs/parserc"
 license = "MIT"
 name = "parserc"

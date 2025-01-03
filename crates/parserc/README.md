@@ -1,2 +1,3 @@
 # parserc
-Rust parser combinator library
+
+Rust parser combinator library for small language compiling.
