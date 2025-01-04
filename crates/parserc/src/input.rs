@@ -1,7 +1,8 @@
 use std::{fmt::Display, iter::Peekable, str::CharIndices};
 
 /// A `span` is a reference to a fragment of the [`Input`].
-#[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
+#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Eq, Ord, Hash)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Span {
     offset: usize,
     len: usize,
@@ -109,6 +110,11 @@ impl<'a> Input<'a> {
         let (_, span) = self.peek();
 
         span
+    }
+
+    /// Convert span into &str.
+    pub fn as_str(&self, span: Span) -> &str {
+        &self.source[span.offset..span.offset + span.len]
     }
 
     /// Seek to the start of the `span`.

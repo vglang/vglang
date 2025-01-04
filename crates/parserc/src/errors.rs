@@ -3,7 +3,7 @@ use std::fmt::Debug;
 use crate::Span;
 
 /// Diagnosis Context for parser error.
-#[derive(Debug, thiserror::Error, PartialEq)]
+#[derive(Debug, thiserror::Error, PartialEq, Eq, PartialOrd, Ord, Clone)]
 pub enum Diagnostic {
     #[error("error({0})")]
     Recoverable(Span),
@@ -73,7 +73,7 @@ pub trait ParserError: std::error::Error + PartialEq + Debug + From<Kind> {
 }
 
 /// [`Error`](ParserError) type used by builtin parser combinator.
-#[derive(Debug, thiserror::Error, PartialEq)]
+#[derive(Debug, thiserror::Error, PartialEq, Eq, PartialOrd, Ord, Clone)]
 pub enum Kind {
     #[error("expect char('{0}'), {1}")]
     Char(char, Diagnostic),
