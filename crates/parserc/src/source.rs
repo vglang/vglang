@@ -240,3 +240,13 @@ pub trait IntoParser: ParseSource {
 }
 
 impl<T> IntoParser for T where T: ParseSource {}
+
+#[cfg(test)]
+mod tests {
+    use super::Source;
+
+    #[test]
+    fn test_source_eof() {
+        let source = Source::from("hello world");
+    }
+}
