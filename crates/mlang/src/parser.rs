@@ -168,7 +168,7 @@ mod tests {
     use parserc::{FromInput, Input, Kind, Span, ToDiagnostic};
 
     use crate::{
-        opcode::{Ident, LitNum, LitStr},
+        opcode::{Ident, LitExpr, LitNum, LitStr},
         parser::MlError,
     };
 
@@ -245,6 +245,26 @@ mod tests {
         assert_eq!(
             LitNum::parse(&mut Input::from("h1234")),
             Err(MlError::LitNum(Span::new(0, 1, 1, 1).recoverable()))
+        );
+    }
+
+    #[test]
+    fn test_litexpr() {
+        let mut input = Input::from("12345'hello world'");
+        assert_eq!(
+            LitExpr::parse(&mut input),
+            Ok(LitExpr::Numeric(LitNum::from_span(
+                12345,
+                Span::new(0, 5, 1, 1)
+            )))
+        );
+
+        assert_eq!(
+            LitExpr::parse(&mut input),
+            Ok(LitExpr::String(LitStr::from_span(
+                "hello world",
+                Span::new(5, 13, 1, 6)
+            )))
         );
     }
 }
