@@ -10,10 +10,63 @@ pub enum Diagnostic {
     #[error("fatal error({0})")]
     Fatal(Span),
     #[error("eof")]
-    Incomplete,
+    Incomplete(Span),
 }
 
-/// A parser combinator raised error must implement this trait.
+/// A helper trait that convert [`Span`] to [`Diagnostic`]
+pub trait ToDiagnostic {
+    /// Convert to [`Recoverable`](Diagnostic::Recoverable)
+    fn recoverable(self) -> Diagnostic;
+
+    /// Convert to [`Fatal`](Diagnostic::Fatal)
+    fn fatal(self) -> Diagnostic;
+
+    /// Convert to [`Incomplete`](Diagnostic::Incomplete)
+    fn incomplete(self) -> Diagnostic;
+}
+
+impl ToDiagnostic for Span {
+    fn recoverable(self) -> Diagnostic {
+        Diagnostic::Recoverable(self)
+    }
+
+    fn fatal(self) -> Diagnostic {
+        Diagnostic::Fatal(self)
+    }
+
+    fn incomplete(self) -> Diagnostic {
+        Diagnostic::Incomplete(self)
+    }
+}
+
+/// The returns error types of the parser combinator must implement this trait.
+///
+/// See [`Parser`](crate::Parser).
+///
+/// # Examples
+///
+/// ```
+/// use parserc::*;
+///
+/// /// Custom parser errors.
+/// #[derive(Debug, thiserror::Error, PartialEq)]
+/// pub enum MyError {
+///     #[error(transparent)]
+///     Parserc(#[from] parserc::Kind),
+///     #[error("expect ident, {0}")]
+///     Ident(Diagnostic),
+/// }
+///
+/// impl ParserError for MyError {
+///     fn diagnostic(&self) -> &Diagnostic {
+///         match self {
+///             Self::Parserc(kind) => kind.diagnostic(),
+///             Self::Ident(diagnostic) => diagnostic,
+///         }
+///     }
+/// }
+///
+/// ```
 pub trait ParserError: std::error::Error + PartialEq + Debug + From<Kind> {
     /// get diagnosis context data from the error.
     fn diagnostic(&self) -> &Diagnostic;

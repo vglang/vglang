@@ -36,6 +36,36 @@ impl Span {
     pub fn len(&self) -> usize {
         self.len
     }
+
+    /// Extend self to `other`'s start offset.
+    pub fn extend_to(self, other: Span) -> Span {
+        assert_ne!(
+            self.offset, other.offset,
+            "extend_to: self.offset < other.offset."
+        );
+
+        Span {
+            offset: self.offset,
+            len: other.offset - self.offset,
+            lines: self.lines,
+            cols: self.cols,
+        }
+    }
+
+    /// Extend self to `other`'s end offset.
+    pub fn extend_to_inclusive(self, other: Span) -> Span {
+        assert_ne!(
+            self.offset, other.offset,
+            "extend_to: self.offset < other.offset."
+        );
+
+        Span {
+            offset: self.offset,
+            len: other.offset + other.len - self.offset,
+            lines: self.lines,
+            cols: self.cols,
+        }
+    }
 }
 
 impl Display for Span {
@@ -94,6 +124,11 @@ impl<'a> Input<'a> {
         }
     }
 
+    /// Returns a tuple where the first element is the reading offset, and second element is the total length of the source code.
+    pub fn size_hint(&mut self) -> (usize, usize) {
+        (self.offset, self.source.as_bytes().len())
+    }
+
     /// peek up next char in the reading stream.
     pub fn peek(&mut self) -> (Option<char>, Span) {
         if let Some((_, c)) = self.iter.peek() {
@@ -118,6 +153,40 @@ impl<'a> Input<'a> {
             )
         }
     }
+
+    /// Returns the next character and its corresponding [`Span`].
+    pub fn next(&mut self) -> (Option<char>, Span) {
+        if let Some((_, c)) = self.iter.next() {
+            let span = Span {
+                offset: self.offset,
+                len: c.len_utf8(),
+                lines: self.lines,
+                cols: self.cols,
+            };
+
+            // update tracking datas.
+            self.offset += c.len_utf8();
+            // is newline.
+            if c == '\n' {
+                self.lines += 1;
+                self.cols = 1;
+            } else {
+                self.cols += 1;
+            }
+
+            (Some(c), span)
+        } else {
+            (
+                None,
+                Span {
+                    offset: self.offset,
+                    len: 0,
+                    lines: self.lines,
+                    cols: self.cols,
+                },
+            )
+        }
+    }
 }
 
 #[cfg(test)]
@@ -126,6 +195,15 @@ mod tests {
     use std::panic::catch_unwind;
 
     use super::*;
+
+    #[test]
+    fn test_size_hint() {
+        assert_eq!(Input::from("hello world").size_hint(), (0, 11));
+        assert_eq!(
+            Input::from("你好").size_hint(),
+            (0, "你好".as_bytes().len())
+        );
+    }
 
     #[test]
     fn test_span() {
@@ -153,5 +231,53 @@ mod tests {
         });
 
         assert!(r.is_err());
+    }
+
+    #[test]
+    fn test_input() {
+        let mut input = Input::from("你好\nh");
+
+        assert_eq!(
+            input.next(),
+            (
+                Some('你'),
+                Span {
+                    offset: 0,
+                    len: 3,
+                    lines: 1,
+                    cols: 1
+                }
+            )
+        );
+
+        assert_eq!(input.next().0, Some('好'));
+        assert_eq!(input.next().0, Some('\n'));
+        assert_eq!(
+            input.next(),
+            (
+                Some('h'),
+                Span {
+                    offset: 7,
+                    len: 1,
+                    lines: 2,
+                    cols: 1
+                }
+            )
+        );
+
+        for _ in 0..10 {
+            assert_eq!(
+                input.next(),
+                (
+                    None,
+                    Span {
+                        offset: 8,
+                        len: 0,
+                        lines: 2,
+                        cols: 2
+                    }
+                )
+            );
+        }
     }
 }
