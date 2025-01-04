@@ -680,34 +680,20 @@ attr WithTransform(vec[Transform]);
 /// Define a fragment with name.
 attr Id(string);
 
-
 /// The ‘fill’ instruction paints the interior of the given graphical element.
-#[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
-#[cfg_attr(
-    feature = "sexpr",
-    vglang_derive::attribute(
-        boxed, Group, Text, TextSpan, Characters, Rect, Circle, Line, Polyline, Polygon, Use,
-        Ellipse, Path,
-    )
-)]
-
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-struct Fill {
+attr Fill {
     /// paints color.
     ///
     /// `Inherited: yes`
-    
-    #[serde(default)]
-    paint: optional variable Paint,
+    paint: Paint,
     /// fill painting rule, see [`FillRule`] for more information.
     ///
     /// `Inherited: yes`
-    
     #[serde(default)]
-    rule: optional variable FillRule,
+    rule: FillRule,
 
     /// defining the opacity of the paint server
-    opacity: optional variable Number,
+    opacity: float,
 }
 
 

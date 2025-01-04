@@ -119,6 +119,24 @@ impl<'a> Source<'a> {
         Ok(())
     }
 
+    /// Peek next char but does not move the cursor.
+    pub fn peek(&mut self) -> Result<(char, Span)> {
+        match self.iter.peek() {
+            Some((_, c)) => {
+                let len = c.len_utf8();
+                let span = Span {
+                    lines: self.lines,
+                    cols: self.cols,
+                    offset: self.offset,
+                    len,
+                };
+
+                Ok((*c, span))
+            }
+            None => Err(Error::Eof),
+        }
+    }
+
     /// Returns next `char` with pos in the source.
     ///
     /// Returns `None` if there is no more data to read.

@@ -324,6 +324,7 @@ impl ParseSource for Field {
         // parse comments.
         for comment in Comment::into_parser().repeat(..MAX_COMMENTS) {
             if let Some(comment) = comment.optional().parse(source)? {
+                let comment = comment.ok_or(ParseError::Parserc(parserc::Error::Eof))?;
                 comments.push(comment);
             } else {
                 break;
@@ -335,6 +336,7 @@ impl ParseSource for Field {
         // parse properties.
         for property in Property::into_parser().repeat(..MAX_PROPERTIES) {
             if let Some(property) = property.optional().parse(source)? {
+                let property = property.ok_or(ParseError::Parserc(parserc::Error::Eof))?;
                 properties.push(property);
             } else {
                 break;
@@ -362,8 +364,6 @@ impl ParseSource for Field {
 
         skip_whitespaces(source)?;
 
-        is_char(',').optional().parse(source)?;
-
         Ok(Self {
             comments,
             properties,
@@ -382,6 +382,7 @@ impl ParseSource for Mixin {
         // parse comments.
         for comment in Comment::into_parser().repeat(..MAX_COMMENTS) {
             if let Some(comment) = comment.optional().parse(source)? {
+                let comment = comment.ok_or(ParseError::Parserc(parserc::Error::Eof))?;
                 comments.push(comment);
             } else {
                 break;
@@ -393,6 +394,7 @@ impl ParseSource for Mixin {
         // parse properties.
         for property in Property::into_parser().repeat(..MAX_PROPERTIES) {
             if let Some(property) = property.optional().parse(source)? {
+                let property = property.ok_or(ParseError::Parserc(parserc::Error::Eof))?;
                 properties.push(property);
             } else {
                 break;
@@ -416,6 +418,7 @@ impl ParseSource for Mixin {
         // parse fields.
         for field in Field::into_parser().repeat(..MAX_FIELDS) {
             if let Some(field) = field.optional().parse(source)? {
+                let field = field.ok_or(ParseError::Parserc(parserc::Error::Eof))?;
                 fields.push(field);
             } else {
                 break;
@@ -442,6 +445,7 @@ impl ParseSource for Enum {
         // parse comments.
         for comment in Comment::into_parser().repeat(..MAX_COMMENTS) {
             if let Some(comment) = comment.optional().parse(source)? {
+                let comment = comment.ok_or(ParseError::Parserc(parserc::Error::Eof))?;
                 comments.push(comment);
             } else {
                 break;
@@ -453,6 +457,7 @@ impl ParseSource for Enum {
         // parse properties.
         for property in Property::into_parser().repeat(..MAX_PROPERTIES) {
             if let Some(property) = property.optional().parse(source)? {
+                let property = property.ok_or(ParseError::Parserc(parserc::Error::Eof))?;
                 properties.push(property);
             } else {
                 break;
@@ -475,7 +480,7 @@ impl ParseSource for Enum {
 
         // parse fields.
         for field in parse_node.repeat(..MAX_FIELDS) {
-            if let Some((field, node_type)) = field.optional().parse(source)? {
+            if let Some(Some((field, node_type))) = field.optional().parse(source)? {
                 if let Some(node_type) = node_type {
                     return Err(ParseError::UnexpectKeyWord(
                         source.to_str(node_type).to_string(),
@@ -512,6 +517,7 @@ pub fn parse_node(source: &mut Source<'_>) -> Result<(Node, Option<Span>), Parse
     // parse comments.
     for comment in Comment::into_parser().repeat(..MAX_COMMENTS) {
         if let Some(comment) = comment.optional().parse(source)? {
+            let comment = comment.ok_or(ParseError::Parserc(parserc::Error::Eof))?;
             comments.push(comment);
         } else {
             break;
@@ -523,6 +529,7 @@ pub fn parse_node(source: &mut Source<'_>) -> Result<(Node, Option<Span>), Parse
     // parse properties.
     for property in Property::into_parser().repeat(..MAX_PROPERTIES) {
         if let Some(property) = property.optional().parse(source)? {
+            let property = property.ok_or(ParseError::Parserc(parserc::Error::Eof))?;
             properties.push(property);
         } else {
             break;
@@ -566,24 +573,31 @@ pub fn parse_node(source: &mut Source<'_>) -> Result<(Node, Option<Span>), Parse
     if let Some(is_tuple) = is_tuple {
         // parse fields.
         for field in Field::into_parser().repeat(..MAX_FIELDS) {
-            if let Some(field) = field.optional().parse(source)? {
-                if is_tuple {
-                    if let Some(ident) = field.ident {
-                        return Err(ParseError::UnexpectIdent(
-                            ident.0,
-                            ident.1.unwrap_or(Span::default()),
-                        ));
-                    }
+            let field = field.parse(source)?;
+
+            let field = field.ok_or(ParseError::Parserc(parserc::Error::Eof))?;
+            if is_tuple {
+                if let Some(ident) = field.ident {
+                    return Err(ParseError::UnexpectIdent(
+                        ident.0,
+                        ident.1.unwrap_or(Span::default()),
+                    ));
                 }
-                fields.push(field);
-            } else {
+            }
+            fields.push(field);
+
+            is_char(',').optional().parse(source)?;
+
+            skip_whitespaces(source)?;
+
+            if is_char(if is_tuple { ')' } else { '}' })
+                .optional()
+                .parse(source)?
+                .is_some()
+            {
                 break;
             }
         }
-
-        skip_whitespaces(source)?;
-
-        is_char(if is_tuple { ')' } else { '}' }).parse(source)?;
     }
 
     let node = Node {
@@ -601,35 +615,59 @@ impl ParseSource for Opcode {
     type Error = ParseError;
 
     fn parse(source: &mut Source<'_>) -> std::result::Result<Self, Self::Error> {
-        if let Some((node, span)) = parse_node.optional().parse(source)? {
-            if let Some(span) = span {
-                match source.to_str(span) {
-                    "el" => return Ok(Opcode::Element(Box::new(node))),
-                    "leaf" => return Ok(Opcode::Leaf(Box::new(node))),
-                    "attr" => return Ok(Opcode::Attr(Box::new(node))),
-                    "data" => return Ok(Opcode::Data(Box::new(node))),
-                    _ => {
-                        panic!("inner error.")
-                    }
+        if let Some(opcode) = Mixin::into_parser()
+            .map(|v| Opcode::Mixin(Box::new(v)))
+            .or(Enum::into_parser().map(|v| Opcode::Enum(Box::new(v))))
+            .optional()
+            .parse(source)?
+        {
+            skip_whitespaces(source)?;
+            return Ok(opcode);
+        }
+
+        let (node, span) = parse_node.parse(source)?;
+
+        if let Some(span) = span {
+            // tuple or empty field.
+            if node.fields.is_empty() || node.fields.first().unwrap().ident.is_none() {
+                is_char(';').parse(source)?;
+            }
+
+            skip_whitespaces(source)?;
+
+            match source.to_str(span) {
+                "el" => return Ok(Opcode::Element(Box::new(node))),
+                "leaf" => return Ok(Opcode::Leaf(Box::new(node))),
+                "attr" => return Ok(Opcode::Attr(Box::new(node))),
+                "data" => return Ok(Opcode::Data(Box::new(node))),
+                _ => {
+                    panic!("inner error.")
                 }
-            } else {
-                return Err(ParseError::ExpectKeyWord(node.ident.1.unwrap()));
             }
         }
 
-        Mixin::into_parser()
-            .map(|v| Opcode::Mixin(Box::new(v)))
-            .or(Enum::into_parser().map(|v| Opcode::Enum(Box::new(v))))
-            .parse(source)
+        return Err(ParseError::ExpectKeyWord(node.ident.1.unwrap()));
     }
 }
 
 /// Parse a mlang source code.
-pub fn parse(source: &mut Source<'_>) -> Result<Vec<Opcode>, ParseError> {
-    Opcode::into_parser()
-        .repeat(..MAX_NODES)
-        .map(|v| v.parse(source))
-        .collect::<Result<Vec<_>, ParseError>>()
+pub fn parse<'a, S>(source: S) -> Result<Vec<Opcode>, ParseError>
+where
+    Source<'a>: From<S>,
+{
+    let mut source = source.into();
+
+    let mut opcodes = vec![];
+
+    for parser in Opcode::into_parser().repeat(..MAX_NODES) {
+        if let Some(opcode) = parser.parse(&mut source)? {
+            opcodes.push(opcode);
+        } else {
+            break;
+        }
+    }
+
+    return Ok(opcodes);
 }
 
 #[cfg(test)]
@@ -1070,7 +1108,7 @@ mod tests {
     fn test_node() {
         let mut source = Source::from(include_str!("./tests/node.ml"));
         for (index, parser) in parse_node.repeat(..3).enumerate() {
-            let (node, span) = parser.parse(&mut source).unwrap();
+            let (node, span) = parser.parse(&mut source).unwrap().unwrap();
 
             assert_eq!(node.ident.0, "TextPath");
             assert_eq!(source.to_str(span.unwrap()), "leaf");

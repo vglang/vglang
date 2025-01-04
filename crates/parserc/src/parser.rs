@@ -263,14 +263,18 @@ where
     T: Parser,
 {
     type Error = T::Error;
-    type Output = T::Output;
+    type Output = Option<T::Output>;
 
     fn parse(self, source: &mut Source) -> Result<Self::Output, Self::Error> {
+        if source.tail().is_empty() {
+            return Ok(None);
+        }
+
         let output = self.0.parser.parse(source)?;
 
         *self.0.offset.borrow_mut() += 1;
 
-        Ok(output)
+        Ok(Some(output))
     }
 }
 
@@ -285,7 +289,7 @@ mod tests {
         let mut source = Source::from("fnfnfnfn");
 
         for parser in keyword("fn").repeat(..3) {
-            parser.parse(&mut source).unwrap();
+            parser.parse(&mut source).unwrap().unwrap();
         }
 
         keyword("fn").parse(&mut source).unwrap();
