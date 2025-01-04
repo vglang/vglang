@@ -1,24 +1,35 @@
-use std::ops::Range;
+use std::fmt::Debug;
 
 use crate::Span;
 
 /// Error type used by `parserc`
 #[derive(Debug, thiserror::Error, PartialEq)]
-pub enum Error {
-    #[error("{0:?} parser failed")]
-    Range(Range<usize>),
-    #[error("Repeat({0}) parser failed")]
-    Repeat(usize),
-    #[error("Seek out of range.")]
-    OutOfRange,
-    #[error("Reach the end of the source.")]
-    Eof,
-    #[error("Expect keyword({0}). {1:?}")]
-    Keyword(&'static str, Span),
+pub enum Kind {
+    #[error("expect keyworld({0})")]
+    Keyword(&'static str),
 
-    #[error("Expect char({0}). {1:?}")]
-    Char(char, Span),
+    #[error("Expect token({0})")]
+    Token(char),
+}
+
+/// Error type used by `parserc`
+#[derive(Debug, thiserror::Error, PartialEq)]
+pub enum Error<K>
+where
+    K: From<Kind> + PartialEq + Debug,
+{
+    /// Some combinator may fix this error by performing a backtracking algorithm.
+    #[error("recoverable: {0}. {1:?}")]
+    Recoverable(K, Span),
+
+    /// Indicates an unfixable error
+    #[error("fatal: {0}. {1:?}")]
+    Fatal(K, Span),
+
+    /// When parsing is not completed at the end of the input, the parser reports this error.
+    #[error("incomplete: {0}.")]
+    Incomplete(K),
 }
 
 /// Result type used by `parserc`
-pub type Result<T> = std::result::Result<T, Error>;
+pub type Result<T, K> = std::result::Result<T, Error<K>>;

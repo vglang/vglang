@@ -1,6 +1,6 @@
-use std::{cell::RefCell, ops::RangeTo, rc::Rc};
+use std::{cell::RefCell, fmt::Debug, marker::PhantomData, ops::RangeTo, rc::Rc};
 
-use crate::Source;
+use crate::{Error, Kind, Source};
 
 /// All parser combinator must implement this trait.
 pub trait Parser: Clone {
@@ -8,10 +8,10 @@ pub trait Parser: Clone {
     type Output;
 
     /// Error type that this trait may returns.
-    type Error: From<crate::Error>;
+    type Kind: From<crate::Kind> + PartialEq + Debug;
 
     /// Consume source and parse next syntax item.
-    fn parse(self, source: &mut Source) -> Result<Self::Output, Self::Error>;
+    fn parse(self, source: &mut Source) -> Result<Self::Output, Error<Self::Kind>>;
 
     /// Create an [`Optional`] parser.
     fn optional(self) -> Optional<Self>
@@ -41,10 +41,15 @@ pub trait Parser: Clone {
     /// Create a [`MapRes`] parser.
     fn map_res<F, Output>(self, f: F) -> MapRes<Self, F>
     where
-        F: FnOnce(&mut Source<'_>, Self::Output) -> Result<Output, Self::Error>,
+        F: FnOnce(&mut Source<'_>, Self::Output) -> Result<Output, Error<Self::Kind>>,
         Self: Sized,
     {
         MapRes(self, f)
+    }
+
+    /// Create a [`MapError`] parser.
+    fn map_error<E>(self) -> MapError<Self, E> {
+        MapError(self, Default::default())
     }
 
     /// Create a [`Filter`] parser.
@@ -76,16 +81,16 @@ pub trait Parser: Clone {
     }
 }
 
-impl<T, Error, O> Parser for T
+impl<T, K, O> Parser for T
 where
-    Error: From<crate::Error>,
-    for<'a> T: FnOnce(&'a mut Source<'_>) -> Result<O, Error> + Clone + 'static,
+    K: From<crate::Kind> + PartialEq + Debug,
+    for<'a> T: FnOnce(&'a mut Source<'_>) -> Result<O, Error<K>> + Clone + 'static,
 {
     type Output = O;
 
-    type Error = Error;
+    type Kind = K;
 
-    fn parse(self, source: &mut Source) -> Result<Self::Output, Self::Error> {
+    fn parse(self, source: &mut Source) -> Result<Self::Output, Error<Self::Kind>> {
         self(source)
     }
 }
@@ -100,19 +105,18 @@ where
 {
     type Output = Option<T::Output>;
 
-    type Error = T::Error;
-    fn parse(self, source: &mut Source) -> Result<Self::Output, Self::Error> {
-        if let Some(span) = source.span() {
-            match self.0.parse(source) {
-                Ok(v) => Ok(Some(v)),
-                Err(_) => {
-                    // rollback.
-                    source.seek(span).unwrap();
-                    Ok(None)
-                }
+    type Kind = T::Kind;
+    fn parse(self, source: &mut Source) -> Result<Self::Output, Error<Self::Kind>> {
+        match self.0.parse(source) {
+            Ok(v) => Ok(Some(v)),
+            Err(Error::Recoverable(_, span)) => {
+                // rollback.
+                source.seek(span);
+                Ok(None)
             }
-        } else {
-            Ok(None)
+            Err(Error::Incomplete(_)) => Ok(None),
+
+            Err(err) => return Err(err),
         }
     }
 }
@@ -121,17 +125,17 @@ where
 #[derive(Clone)]
 pub struct Or<L, R>(L, R);
 
-impl<L, R, E> Parser for Or<L, R>
+impl<L, R, K> Parser for Or<L, R>
 where
-    L: Parser<Error = E>,
-    for<'a> R: Parser<Output = L::Output, Error = E> + 'a,
-    E: From<crate::Error>,
+    K: From<crate::Kind> + PartialEq + Debug,
+    L: Parser<Kind = K>,
+    for<'a> R: Parser<Output = L::Output, Kind = K> + 'a,
 {
     type Output = L::Output;
 
-    type Error = E;
+    type Kind = K;
 
-    fn parse(self, source: &mut Source) -> Result<Self::Output, Self::Error> {
+    fn parse(self, source: &mut Source) -> Result<Self::Output, Error<Self::Kind>> {
         let lhs = self.0.optional().parse(source)?;
 
         if let Some(v) = lhs {
@@ -153,8 +157,8 @@ where
 {
     type Output = Output;
 
-    type Error = T::Error;
-    fn parse(self, source: &mut Source) -> Result<Self::Output, Self::Error> {
+    type Kind = T::Kind;
+    fn parse(self, source: &mut Source) -> Result<Self::Output, Error<Self::Kind>> {
         Ok(self.1(self.0.parse(source)?))
     }
 }
@@ -167,14 +171,47 @@ pub struct MapRes<T, F>(T, F);
 impl<T, F, Output> Parser for MapRes<T, F>
 where
     T: Parser + 'static,
-    for<'a> F: FnOnce(&mut Source<'_>, T::Output) -> Result<Output, T::Error> + Clone + 'a,
+    for<'a> F: FnOnce(&mut Source<'_>, T::Output) -> Result<Output, Error<T::Kind>> + Clone + 'a,
 {
     type Output = Output;
 
-    type Error = T::Error;
-    fn parse(self, source: &mut Source) -> Result<Self::Output, Self::Error> {
+    type Kind = T::Kind;
+    fn parse(self, source: &mut Source) -> Result<Self::Output, Error<Self::Kind>> {
         let v = self.0.parse(source)?;
         self.1(source, v)
+    }
+}
+
+/// A wrapper parser that convert inner parse's output to another one according to the `F`.
+
+pub struct MapError<T, E>(T, PhantomData<E>);
+
+impl<T, E> Clone for MapError<T, E>
+where
+    T: Parser + 'static,
+{
+    fn clone(&self) -> Self {
+        Self(self.0.clone(), Default::default())
+    }
+}
+
+impl<T, E> Parser for MapError<T, E>
+where
+    T: Parser + 'static,
+    E: From<T::Kind> + From<Kind> + PartialEq + Debug,
+{
+    type Output = T::Output;
+
+    type Kind = E;
+    fn parse(self, source: &mut Source) -> Result<Self::Output, Error<Self::Kind>> {
+        match self.0.parse(source) {
+            Ok(v) => Ok(v),
+            Err(err) => match err {
+                Error::Fatal(k, span) => return Err(Error::Fatal(k.into(), span)),
+                Error::Recoverable(k, span) => return Err(Error::Recoverable(k.into(), span)),
+                Error::Incomplete(k) => return Err(Error::Incomplete(k.into())),
+            },
+        }
     }
 }
 
@@ -189,8 +226,8 @@ where
 {
     type Output = Option<T::Output>;
 
-    type Error = T::Error;
-    fn parse(self, source: &mut Source) -> Result<Self::Output, Self::Error> {
+    type Kind = T::Kind;
+    fn parse(self, source: &mut Source) -> Result<Self::Output, Error<Self::Kind>> {
         let v = self.0.parse(source)?;
 
         if self.1(&v) {
@@ -212,8 +249,8 @@ where
 {
     type Output = Option<Output>;
 
-    type Error = T::Error;
-    fn parse(self, source: &mut Source) -> Result<Self::Output, Self::Error> {
+    type Kind = T::Kind;
+    fn parse(self, source: &mut Source) -> Result<Self::Output, Error<Self::Kind>> {
         Ok(self.1(self.0.parse(source)?))
     }
 }
@@ -262,25 +299,21 @@ impl<T> Parser for RepeatItem<T>
 where
     T: Parser,
 {
-    type Error = T::Error;
-    type Output = Option<T::Output>;
+    type Kind = T::Kind;
+    type Output = T::Output;
 
-    fn parse(self, source: &mut Source) -> Result<Self::Output, Self::Error> {
-        if source.tail().is_empty() {
-            return Ok(None);
-        }
-
+    fn parse(self, source: &mut Source) -> Result<Self::Output, Error<Self::Kind>> {
         let output = self.0.parser.parse(source)?;
 
         *self.0.offset.borrow_mut() += 1;
 
-        Ok(Some(output))
+        Ok(output)
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::{Error, Source};
+    use crate::{Kind, Source};
 
     #[test]
     fn test_repeat() {
@@ -289,11 +322,14 @@ mod tests {
         let mut source = Source::from("fnfnfnfn");
 
         for parser in keyword("fn").repeat(..3) {
-            parser.parse(&mut source).unwrap().unwrap();
+            parser.parse(&mut source).unwrap();
         }
 
         keyword("fn").parse(&mut source).unwrap();
 
-        assert_eq!(keyword("fn").parse(&mut source), Err(Error::Eof));
+        assert_eq!(
+            keyword("fn").parse(&mut source),
+            Err(crate::Error::Incomplete(Kind::Keyword("fn")))
+        );
     }
 }

@@ -1,6 +1,6 @@
-use std::{iter::Peekable, marker::PhantomData, str::CharIndices};
+use std::{fmt::Debug, iter::Peekable, marker::PhantomData, str::CharIndices};
 
-use crate::{Error, Parser, Result};
+use crate::{Error, Kind, Parser};
 
 /// A region of source code
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -14,8 +14,13 @@ pub struct Span {
 
 impl Span {
     /// Returns true if this span length is zero.
-    pub fn is_empty(self) -> bool {
+    pub fn is_empty(&self) -> bool {
         self.offset == 0
+    }
+
+    /// Returns `true` if len == 0
+    pub fn is_eof(&self) -> bool {
+        self.len == 0
     }
 }
 
@@ -46,16 +51,21 @@ impl<'a> From<&'a str> for Source<'a> {
 
 impl<'a> Source<'a> {
     /// Returns next char's span.
-    pub fn span(&mut self) -> Option<Span> {
+    pub fn span(&mut self) -> Span {
         if let Some((_, c)) = self.iter.peek() {
-            Some(Span {
+            Span {
                 lines: self.lines,
                 cols: self.cols,
                 offset: self.offset,
                 len: c.len_utf8(),
-            })
+            }
         } else {
-            None
+            Span {
+                lines: self.lines,
+                cols: self.cols,
+                offset: self.offset,
+                len: 0,
+            }
         }
     }
 
@@ -98,29 +108,28 @@ impl<'a> Source<'a> {
 
     /// Return the unread &str.
     pub fn tail(&mut self) -> &'a str {
-        if let Some(span) = self.span() {
-            self.to_str(span)
-        } else {
-            ""
-        }
+        let span = self.span();
+
+        self.to_str(span)
     }
 
     /// Seek in the source by [`span`] which may be returned by [`span`](Self::span) fn.
-    pub fn seek(&mut self, span: Span) -> Result<()> {
-        if self.source.len() < span.offset {
-            return Err(Error::OutOfRange);
-        }
+    ///
+    /// When the input span is out of range, this fn will panic.
+    pub fn seek(&mut self, span: Span) {
+        assert!(
+            !(self.source.len() < span.offset),
+            "input span out of range."
+        );
 
         self.iter = self.source[span.offset..].char_indices().peekable();
         self.offset = span.offset;
         self.lines = span.lines;
         self.cols = span.cols;
-
-        Ok(())
     }
 
     /// Peek next char but does not move the cursor.
-    pub fn peek(&mut self) -> Result<(char, Span)> {
+    pub fn peek(&mut self) -> Option<(char, Span)> {
         match self.iter.peek() {
             Some((_, c)) => {
                 let len = c.len_utf8();
@@ -131,16 +140,16 @@ impl<'a> Source<'a> {
                     len,
                 };
 
-                Ok((*c, span))
+                Some((*c, span))
             }
-            None => Err(Error::Eof),
+            None => None,
         }
     }
 
     /// Returns next `char` with pos in the source.
     ///
     /// Returns `None` if there is no more data to read.
-    pub fn next(&mut self) -> Result<(char, Span)> {
+    pub fn next(&mut self) -> Option<(char, Span)> {
         match self.iter.next() {
             Some((_, c)) => {
                 let len = c.len_utf8();
@@ -160,14 +169,14 @@ impl<'a> Source<'a> {
                     self.cols += 1;
                 }
 
-                Ok((c, span))
+                Some((c, span))
             }
-            None => Err(Error::Eof),
+            None => None,
         }
     }
 
     /// Parse a [`ParseSource`] type from this source.
-    pub fn parse<P>(&mut self) -> std::result::Result<P, P::Error>
+    pub fn parse<P>(&mut self) -> std::result::Result<P, Error<P::Kind>>
     where
         P: ParseSource,
     {
@@ -177,29 +186,27 @@ impl<'a> Source<'a> {
 
 /// A type that can be parsed from `source` should implement this trait.
 pub trait ParseSource: Sized {
-    type Error: From<Error>;
+    type Kind: From<Kind> + PartialEq + Debug;
     /// Create self by parse input source.
-    fn parse(source: &mut Source<'_>) -> std::result::Result<Self, Self::Error>;
+    fn parse(source: &mut Source<'_>) -> std::result::Result<Self, Error<Self::Kind>>;
 }
 
-impl<T, E> ParseSource for Option<T>
+impl<T, K> ParseSource for Option<T>
 where
-    E: From<Error>,
-    T: ParseSource<Error = E>,
+    K: From<Kind> + PartialEq + Debug,
+    T: ParseSource<Kind = K>,
 {
-    type Error = E;
-    fn parse(source: &mut Source<'_>) -> std::result::Result<Self, Self::Error> {
-        if let Some(span) = source.span() {
-            match T::parse(source) {
-                Ok(v) => Ok(Some(v)),
-                Err(_) => {
-                    // rollback.
-                    source.seek(span).unwrap();
-                    Ok(None)
-                }
+    type Kind = K;
+    fn parse(source: &mut Source<'_>) -> std::result::Result<Self, Error<Self::Kind>> {
+        match T::parse(source) {
+            Ok(v) => Ok(Some(v)),
+            Err(Error::Recoverable(_, span)) => {
+                // rollback.
+                source.seek(span);
+                Ok(None)
             }
-        } else {
-            Ok(None)
+            Err(Error::Incomplete(_)) => Ok(None),
+            Err(err) => return Err(err),
         }
     }
 }
@@ -217,10 +224,10 @@ impl<T> Parser for ParseSourceParser<T>
 where
     T: ParseSource,
 {
-    type Error = T::Error;
+    type Kind = T::Kind;
     type Output = T;
 
-    fn parse(self, source: &mut Source) -> std::result::Result<Self::Output, Self::Error> {
+    fn parse(self, source: &mut Source) -> std::result::Result<Self::Output, Error<Self::Kind>> {
         source.parse()
     }
 }

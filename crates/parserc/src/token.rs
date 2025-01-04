@@ -1,9 +1,9 @@
 //! Defines token combinators.
 
-use crate::{Error, Parser, Source, Span};
+use crate::{Error, Kind, Parser, Source, Span};
 
 /// A parser comsume chars until `F` returns *true*.
-pub fn take_until<F>(mut f: F) -> impl Parser<Output = Option<Span>, Error = Error>
+pub fn take_until<F>(mut f: F) -> impl Parser<Output = Option<Span>, Kind = Kind>
 where
     F: FnMut(char) -> bool + Clone + 'static,
 {
@@ -11,7 +11,7 @@ where
 }
 
 /// A parser comsume chars until `F` returns *true*.
-pub fn take_until_enumerate<F>(mut f: F) -> impl Parser<Output = Option<Span>, Error = Error>
+pub fn take_until_enumerate<F>(mut f: F) -> impl Parser<Output = Option<Span>, Kind = Kind>
 where
     F: FnMut(usize, char) -> bool + Clone + 'static,
 {
@@ -19,7 +19,7 @@ where
 }
 
 /// Create [`Until`] parser.
-pub fn take_while<F>(mut f: F) -> impl Parser<Output = Option<Span>, Error = Error>
+pub fn take_while<F>(mut f: F) -> impl Parser<Output = Option<Span>, Kind = Kind>
 where
     F: FnMut(char) -> bool + Clone + 'static,
 {
@@ -27,15 +27,15 @@ where
 }
 
 /// Create [`Until`] parser.
-pub fn take_while_enumerate<F>(mut f: F) -> impl Parser<Output = Option<Span>, Error = Error>
+pub fn take_while_enumerate<F>(mut f: F) -> impl Parser<Output = Option<Span>, Kind = Kind>
 where
     F: FnMut(usize, char) -> bool + Clone + 'static,
 {
     move |source: &mut Source<'_>| {
         let mut index = 0;
-        if let Ok((c, start)) = source.next() {
+        if let Some((c, start)) = source.next() {
             if !f(index, c) {
-                source.seek(start)?;
+                source.seek(start);
                 return Ok(None);
             }
 
@@ -43,11 +43,11 @@ where
 
             let mut end = start;
 
-            while let Ok((c, span)) = source.next() {
+            while let Some((c, span)) = source.next() {
                 end = span;
 
                 if !f(index, c) {
-                    source.seek(span)?;
+                    source.seek(span);
                     return Ok(Some(source.extend_to(start, span)));
                 }
 
@@ -62,7 +62,7 @@ where
 }
 
 /// Defines a keyword parser.
-pub fn keyword(word: &'static str) -> impl Parser<Output = Span, Error = Error> {
+pub fn keyword(word: &'static str) -> impl Parser<Output = Span, Kind = Kind> {
     let mut chars = word.chars();
 
     take_while(move |c| {
@@ -78,26 +78,32 @@ pub fn keyword(word: &'static str) -> impl Parser<Output = Span, Error = Error> 
                 return Ok(v);
             }
 
-            source.seek(v)?;
+            source.seek(v);
         } else {
         }
 
-        let span = source.span().ok_or(Error::Eof)?;
+        let span = source.span();
 
-        return Err(Error::Keyword(word, span));
+        if span.is_eof() {
+            return Err(Error::Incomplete(Kind::Keyword(word)));
+        } else {
+            return Err(Error::Recoverable(Kind::Keyword(word), span));
+        }
     })
 }
 
 /// Defines a keyword parser.
-pub fn is_char(c: char) -> impl Parser<Output = Span, Error = Error> {
+pub fn is_char(c: char) -> impl Parser<Output = Span, Kind = Kind> {
     move |source: &mut Source<'_>| {
-        let (next, span) = source.next()?;
-
-        if c != next {
-            return Err(Error::Char(c, span));
+        if let Some((next, span)) = source.next() {
+            if next != c {
+                Err(Error::Recoverable(Kind::Token(c), span))
+            } else {
+                Ok(span)
+            }
+        } else {
+            Err(Error::Incomplete(Kind::Token(c)))
         }
-
-        Ok(span)
     }
 }
 
@@ -189,15 +195,7 @@ mod tests {
 
         assert_eq!(
             keyword("fn").parse(&mut Source::from("test")),
-            Err(Error::Keyword(
-                "fn",
-                Span {
-                    lines: 1,
-                    cols: 1,
-                    offset: 0,
-                    len: 1
-                }
-            ))
+            Err(Error::Incomplete(Kind::Keyword("fn",)))
         );
     }
 }
