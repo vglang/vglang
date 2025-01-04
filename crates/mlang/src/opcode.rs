@@ -43,10 +43,7 @@ where
 
 impl LitNum {
     /// Create a new `Ident` with span.
-    pub fn from_span<T>(name: T, span: Span) -> Self
-    where
-        usize: From<T>,
-    {
+    pub fn from_span(name: usize, span: Span) -> Self {
         Self(name.into(), Some(span))
     }
 }
@@ -244,7 +241,7 @@ pub enum Type {
     Double(Option<Span>),
     /// A data/enum reference.
     Data(Ident),
-    /// This type is  vec[T].
+    /// This type is `vec[T]`.
     ListOf(Box<Type>),
 
     ArrayOf(Box<Type>, LitNum),
