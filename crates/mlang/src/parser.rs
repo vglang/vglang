@@ -454,5 +454,46 @@ mod tests {
             Property::parse(&mut Input::from("#[  ]")),
             Ok(Property::from_span(Span::new(0, 5, 1, 1)))
         );
+        assert_eq!(
+            Property::parse(&mut Input::from("#[\t\n]")),
+            Ok(Property::from_span(Span::new(0, 5, 1, 1)))
+        );
+
+        assert_eq!(
+            Property::parse(&mut Input::from("#[")),
+            Err(MlError::Property(
+                Box::new(Kind::Char(']', Span::new(2, 0, 1, 3).incomplete()).into()),
+                Span::new(0, 2, 1, 1).fatal()
+            ))
+        );
+
+        assert_eq!(
+            Property::parse(&mut Input::from("")),
+            Err(Kind::Keyword("#[".to_string(), Span::new(0, 0, 1, 1).incomplete()).into())
+        );
+
+        assert_eq!(
+            Property::parse(&mut Input::from("#[hello('123',123),]")),
+            Ok(Property::from_span(Span::new(0, 20, 1, 1)).param(
+                CallExpr::from_span(
+                    Ident::from_span("hello", Span::new(2, 5, 1, 3)),
+                    Span::new(2, 16, 1, 3)
+                )
+                .param(LitStr::from_span("123", Span::new(8, 5, 1, 9)))
+                .param(LitNum::from_span(123, Span::new(14, 3, 1, 15)))
+            ))
+        );
+
+        assert_eq!(
+            Property::parse(&mut Input::from("#[hello('123',\n123)]")),
+            Ok(Property::from_span(Span::new(0, 20, 1, 1)).param(
+                CallExpr::from_span(
+                    Ident::from_span("hello", Span::new(2, 5, 1, 3)),
+                    Span::new(2, 17, 1, 3)
+                )
+                .param(LitStr::from_span("123", Span::new(8, 5, 1, 9)))
+                .param(LitNum::from_span(123, Span::new(15, 3, 2, 1)))
+            ))
+        );
     }
 }
