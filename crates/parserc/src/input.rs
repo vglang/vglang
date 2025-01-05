@@ -40,8 +40,8 @@ impl Span {
 
     /// Extend self to `other`'s start offset.
     pub fn extend_to(self, other: Span) -> Span {
-        assert_ne!(
-            self.offset, other.offset,
+        assert!(
+            !(self.offset > other.offset),
             "extend_to: self.offset < other.offset."
         );
 
@@ -55,8 +55,8 @@ impl Span {
 
     /// Extend self to `other`'s end offset.
     pub fn extend_to_inclusive(self, other: Span) -> Span {
-        assert_ne!(
-            self.offset, other.offset,
+        assert!(
+            !(self.offset > other.offset),
             "extend_to: self.offset < other.offset."
         );
 

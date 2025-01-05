@@ -290,6 +290,8 @@ impl Keyword for String {
 }
 
 /// The parser ensue the next token is a keyword `kw`.
+///
+/// A keyword is a seqence of chars without spaces.
 pub fn ensure_keyword<KW: Keyword>(kw: KW) -> impl Parser<Output = Span, Error = Kind> + Clone {
     assert!(kw.len() > 0, "keyword length must greate than 0");
     move |input: &mut Input<'_>| {

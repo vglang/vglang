@@ -163,7 +163,31 @@ where
 /// Defines custom property list.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Property(pub Vec<CallExpr>);
+pub struct Property {
+    /// the whole span of this `property`.
+    pub span: Option<Span>,
+    /// call-expr list.
+    pub params: Vec<CallExpr>,
+}
+
+impl Property {
+    /// Create a new `CallExpr` instance with `span`.
+    pub fn from_span(span: Span) -> Self {
+        Self {
+            span: Some(span),
+            params: vec![],
+        }
+    }
+    /// Add a new param.
+    pub fn param<P>(mut self, param: P) -> Self
+    where
+        CallExpr: From<P>,
+    {
+        self.params.push(param.into());
+
+        self
+    }
+}
 
 impl<I> From<I> for Property
 where
@@ -171,7 +195,10 @@ where
     CallExpr: From<I::Item>,
 {
     fn from(value: I) -> Self {
-        Self(value.into_iter().map(|v| v.into()).collect())
+        Self {
+            span: None,
+            params: value.into_iter().map(|v| v.into()).collect(),
+        }
     }
 }
 

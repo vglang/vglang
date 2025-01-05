@@ -1,9 +1,9 @@
 use parserc::{
-    ensure_char, ensure_keyword, take_till, take_while, Diagnostic, FromInput, IntoParser, Kind,
-    Parser, ParserError, ParserExt, ToDiagnostic,
+    ensure_char, ensure_keyword, take_till, take_while, Diagnostic, FromInput, Input, IntoParser,
+    Kind, Parser, ParserError, ParserExt, Span, ToDiagnostic,
 };
 
-use crate::opcode::{CallExpr, Ident, LitExpr, LitNum, LitStr};
+use crate::opcode::{CallExpr, Ident, LitExpr, LitNum, LitStr, Property};
 
 /// [`ParserError`] defined by `mlang` crate.
 #[derive(Debug, thiserror::Error, PartialEq, PartialOrd, Clone)]
@@ -25,6 +25,9 @@ pub enum MlError {
 
     #[error("Invalid call expression, {0}")]
     CallExpr(Box<MlError>, Diagnostic),
+
+    #[error("Invalid property expression, {0}")]
+    Property(Box<MlError>, Diagnostic),
 }
 
 impl ParserError for MlError {
@@ -36,8 +39,15 @@ impl ParserError for MlError {
             Self::LitStr(diagnostic) => diagnostic,
             Self::LitNumHexBody(diagnostic) => diagnostic,
             Self::CallExpr(_, diagnostic) => diagnostic,
+            Self::Property(_, diagnostic) => diagnostic,
         }
     }
+}
+
+fn skip_ws(input: &mut Input<'_>) -> Result<Option<Span>, MlError> {
+    let span = take_while(|c| c.is_whitespace()).parse(input)?;
+
+    Ok(span)
 }
 
 impl FromInput for Ident {
@@ -179,6 +189,8 @@ impl FromInput for CallExpr {
 
         let start = ident.1.clone().unwrap();
 
+        skip_ws(input)?;
+
         if ensure_char('(').ok().parse(input)?.is_none() {
             return Ok(CallExpr {
                 span: Some(ident.1.clone().unwrap()),
@@ -186,6 +198,8 @@ impl FromInput for CallExpr {
                 params: vec![],
             });
         }
+
+        skip_ws(input)?;
 
         let mut params = vec![];
 
@@ -195,10 +209,20 @@ impl FromInput for CallExpr {
             .parse(input)?
         {
             params.push(expr);
-            ensure_char(',')
+
+            skip_ws(input)?;
+
+            if ensure_char(',')
                 .ok()
                 .map_err(|err| MlError::CallExpr(Box::new(err.into()), start.fatal()))
-                .parse(input)?;
+                .parse(input)?
+                .is_none()
+            {
+                skip_ws(input)?;
+                break;
+            }
+
+            skip_ws(input)?;
         }
 
         let end = ensure_char(')')
@@ -215,12 +239,60 @@ impl FromInput for CallExpr {
     }
 }
 
+impl FromInput for Property {
+    type Error = MlError;
+
+    fn parse(input: &mut parserc::Input<'_>) -> Result<Self, Self::Error>
+    where
+        Self: Sized,
+    {
+        let start = ensure_keyword("#[").parse(input)?;
+
+        skip_ws(input)?;
+
+        let mut params = vec![];
+
+        while let Some(expr) = CallExpr::into_parser()
+            .ok()
+            .map_err(|err| MlError::Property(Box::new(err.into()), start.fatal()))
+            .parse(input)?
+        {
+            params.push(expr);
+
+            skip_ws(input)?;
+
+            if ensure_char(',')
+                .ok()
+                .map_err(|err| MlError::Property(Box::new(err.into()), start.fatal()))
+                .parse(input)?
+                .is_none()
+            {
+                skip_ws(input)?;
+                break;
+            }
+
+            skip_ws(input)?;
+        }
+
+        let end = ensure_char(']')
+            .map_err(|err| MlError::Property(Box::new(err.into()), start.fatal()))
+            .parse(input)?;
+
+        let span = start.extend_to_inclusive(end);
+
+        Ok(Self {
+            span: Some(span),
+            params,
+        })
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use parserc::{FromInput, Input, Kind, Span, ToDiagnostic};
 
     use crate::{
-        opcode::{CallExpr, Ident, LitExpr, LitNum, LitStr},
+        opcode::{CallExpr, Ident, LitExpr, LitNum, LitStr, Property},
         parser::MlError,
     };
 
@@ -331,30 +403,40 @@ mod tests {
         );
 
         assert_eq!(
-            CallExpr::parse(&mut Input::from("hello()")),
+            CallExpr::parse(&mut Input::from("hello( )")),
             Ok(CallExpr::from_span(
                 Ident::from_span("hello", Span::new(0, 5, 1, 1)),
-                Span::new(0, 7, 1, 1)
+                Span::new(0, 8, 1, 1)
             ))
         );
 
         assert_eq!(
-            CallExpr::parse(&mut Input::from("hello('world')")),
+            CallExpr::parse(&mut Input::from("hello( 'world' )")),
             Ok(CallExpr::from_span(
                 Ident::from_span("hello", Span::new(0, 5, 1, 1)),
-                Span::new(0, 14, 1, 1)
+                Span::new(0, 16, 1, 1)
             )
-            .param(LitStr::from_span("world", Span::new(6, 7, 1, 7))))
+            .param(LitStr::from_span("world", Span::new(7, 7, 1, 8))))
         );
 
         assert_eq!(
-            CallExpr::parse(&mut Input::from("hello('world',1234)")),
+            CallExpr::parse(&mut Input::from("hello( 'world' , 1234 \t)")),
             Ok(CallExpr::from_span(
                 Ident::from_span("hello", Span::new(0, 5, 1, 1)),
-                Span::new(0, 19, 1, 1)
+                Span::new(0, 24, 1, 1)
+            )
+            .param(LitStr::from_span("world", Span::new(7, 7, 1, 8)))
+            .param(LitNum::from_span(1234, Span::new(17, 4, 1, 18))))
+        );
+
+        assert_eq!(
+            CallExpr::parse(&mut Input::from("hello('world', 1234,)")),
+            Ok(CallExpr::from_span(
+                Ident::from_span("hello", Span::new(0, 5, 1, 1)),
+                Span::new(0, 21, 1, 1)
             )
             .param(LitStr::from_span("world", Span::new(6, 7, 1, 7)))
-            .param(LitNum::from_span(1234, Span::new(14, 4, 1, 15))))
+            .param(LitNum::from_span(1234, Span::new(15, 4, 1, 16))))
         );
 
         assert_eq!(
@@ -363,6 +445,14 @@ mod tests {
                 Box::new(Kind::Char(')', Span::new(6, 1, 1, 7).recoverable()).into()),
                 Span::new(0, 5, 1, 1).fatal()
             ))
+        );
+    }
+
+    #[test]
+    fn test_property() {
+        assert_eq!(
+            Property::parse(&mut Input::from("#[  ]")),
+            Ok(Property::from_span(Span::new(0, 5, 1, 1)))
         );
     }
 }
