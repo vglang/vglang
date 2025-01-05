@@ -195,6 +195,10 @@ impl FromInput for CallExpr {
             .parse(input)?
         {
             params.push(expr);
+            ensure_char(',')
+                .ok()
+                .map_err(|err| MlError::CallExpr(Box::new(err.into()), start.fatal()))
+                .parse(input)?;
         }
 
         let end = ensure_char(')')
@@ -332,6 +336,25 @@ mod tests {
                 Ident::from_span("hello", Span::new(0, 5, 1, 1)),
                 Span::new(0, 7, 1, 1)
             ))
+        );
+
+        assert_eq!(
+            CallExpr::parse(&mut Input::from("hello('world')")),
+            Ok(CallExpr::from_span(
+                Ident::from_span("hello", Span::new(0, 5, 1, 1)),
+                Span::new(0, 14, 1, 1)
+            )
+            .param(LitStr::from_span("world", Span::new(6, 7, 1, 7))))
+        );
+
+        assert_eq!(
+            CallExpr::parse(&mut Input::from("hello('world',1234)")),
+            Ok(CallExpr::from_span(
+                Ident::from_span("hello", Span::new(0, 5, 1, 1)),
+                Span::new(0, 19, 1, 1)
+            )
+            .param(LitStr::from_span("world", Span::new(6, 7, 1, 7)))
+            .param(LitNum::from_span(1234, Span::new(14, 4, 1, 15))))
         );
 
         assert_eq!(
