@@ -92,6 +92,24 @@ where
     }
 }
 
+/// A combinator for [`map_err`](ParserExt::map_err) function.
+#[derive(Clone)]
+pub struct MapErr<S, F>(S, F);
+
+impl<S, F, U> Parser for MapErr<S, F>
+where
+    S: Parser,
+    F: FnOnce(S::Error) -> U,
+    U: ParserError,
+{
+    type Output = S::Output;
+    type Error = U;
+
+    fn parse(self, input: &mut Input<'_>) -> Result<Self::Output, Self::Error> {
+        self.0.parse(input).map_err(self.1)
+    }
+}
+
 /// An extension trait for [`Parser`] combinators.
 pub trait ParserExt: Parser {
     /// Convert parser result from [`Recoverable`] / [`Incomplete`] errors to [`None`].
@@ -122,6 +140,17 @@ pub trait ParserExt: Parser {
         Self: Sized,
     {
         Map(self, op)
+    }
+
+    /// Maps a Result<T, E> to Result<T, F> by applying a function to a contained Err value, leaving an Ok value untouched.
+    ///
+    /// This function can be used to pass through a successful result while handling an error.
+    fn map_err<F, U>(self, op: F) -> MapErr<Self, F>
+    where
+        F: FnOnce(Self::Error) -> U,
+        Self: Sized,
+    {
+        MapErr(self, op)
     }
 }
 

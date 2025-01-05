@@ -3,7 +3,7 @@ use parserc::{
     Parser, ParserError, ParserExt, ToDiagnostic,
 };
 
-use crate::opcode::{Ident, LitExpr, LitNum, LitStr};
+use crate::opcode::{CallExpr, Ident, LitExpr, LitNum, LitStr};
 
 /// [`ParserError`] defined by `mlang` crate.
 #[derive(Debug, thiserror::Error, PartialEq, PartialOrd, Clone)]
@@ -22,6 +22,9 @@ pub enum MlError {
 
     #[error("expect literal string")]
     LitStr(Diagnostic),
+
+    #[error("Invalid call expression, {0}")]
+    CallExpr(Box<MlError>, Diagnostic),
 }
 
 impl ParserError for MlError {
@@ -32,6 +35,7 @@ impl ParserError for MlError {
             Self::LitNum(diagnostic) => diagnostic,
             Self::LitStr(diagnostic) => diagnostic,
             Self::LitNumHexBody(diagnostic) => diagnostic,
+            Self::CallExpr(_, diagnostic) => diagnostic,
         }
     }
 }
@@ -164,12 +168,55 @@ impl FromInput for LitExpr {
     }
 }
 
+impl FromInput for CallExpr {
+    type Error = MlError;
+
+    fn parse(input: &mut parserc::Input<'_>) -> Result<Self, Self::Error>
+    where
+        Self: Sized,
+    {
+        let ident = Ident::parse(input)?;
+
+        let start = ident.1.clone().unwrap();
+
+        if ensure_char('(').ok().parse(input)?.is_none() {
+            return Ok(CallExpr {
+                span: Some(ident.1.clone().unwrap()),
+                ident,
+                params: vec![],
+            });
+        }
+
+        let mut params = vec![];
+
+        while let Some(expr) = LitExpr::into_parser()
+            .ok()
+            .map_err(|err| MlError::CallExpr(Box::new(err.into()), start.fatal()))
+            .parse(input)?
+        {
+            params.push(expr);
+        }
+
+        let end = ensure_char(')')
+            .map_err(|err| MlError::CallExpr(Box::new(err.into()), start.fatal()))
+            .parse(input)?;
+
+        let span = start.extend_to_inclusive(end);
+
+        Ok(Self {
+            span: Some(span),
+            ident,
+            params,
+        })
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use parserc::{FromInput, Input, Kind, Span, ToDiagnostic};
 
     use crate::{
-        opcode::{Ident, LitExpr, LitNum, LitStr},
+        opcode::{CallExpr, Ident, LitExpr, LitNum, LitStr},
         parser::MlError,
     };
 
@@ -266,6 +313,33 @@ mod tests {
                 "hello world",
                 Span::new(5, 13, 1, 6)
             )))
+        );
+    }
+
+    #[test]
+    fn test_callexpr() {
+        assert_eq!(
+            CallExpr::parse(&mut Input::from("hello")),
+            Ok(CallExpr::from_span(
+                Ident::from_span("hello", Span::new(0, 5, 1, 1)),
+                Span::new(0, 5, 1, 1)
+            ))
+        );
+
+        assert_eq!(
+            CallExpr::parse(&mut Input::from("hello()")),
+            Ok(CallExpr::from_span(
+                Ident::from_span("hello", Span::new(0, 5, 1, 1)),
+                Span::new(0, 7, 1, 1)
+            ))
+        );
+
+        assert_eq!(
+            CallExpr::parse(&mut Input::from("hello(goo)")),
+            Err(MlError::CallExpr(
+                Box::new(Kind::Char(')', Span::new(6, 1, 1, 7).recoverable()).into()),
+                Span::new(0, 5, 1, 1).fatal()
+            ))
         );
     }
 }

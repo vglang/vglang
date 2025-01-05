@@ -120,6 +120,7 @@ impl Comment {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct CallExpr {
+    pub span: Option<Span>,
     /// The identifier name of this element.
     pub ident: Ident,
     /// Optional call input parameter list.
@@ -127,6 +128,14 @@ pub struct CallExpr {
 }
 
 impl CallExpr {
+    /// Create a new `CallExpr` instance with `span`.
+    pub fn from_span(ident: Ident, span: Span) -> Self {
+        Self {
+            span: Some(span),
+            ident,
+            params: vec![],
+        }
+    }
     /// Add a new param.
     pub fn param<P>(mut self, param: P) -> Self
     where
@@ -144,6 +153,7 @@ where
 {
     fn from(value: I) -> Self {
         Self {
+            span: None,
             ident: value.into(),
             params: vec![],
         }

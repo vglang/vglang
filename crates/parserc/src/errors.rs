@@ -13,6 +13,17 @@ pub enum Diagnostic {
     Incomplete(Span),
 }
 
+impl Diagnostic {
+    /// forced convert self into [`Diagnostic::Fatal`]
+    pub fn into_fatal(self) -> Self {
+        match self {
+            Diagnostic::Recoverable(span) => Diagnostic::Fatal(span),
+            Diagnostic::Fatal(span) => Diagnostic::Fatal(span),
+            Diagnostic::Incomplete(span) => Diagnostic::Fatal(span),
+        }
+    }
+}
+
 /// A helper trait that convert [`Span`] to [`Diagnostic`]
 pub trait ToDiagnostic {
     /// Convert to [`Recoverable`](Diagnostic::Recoverable)
