@@ -5,6 +5,7 @@ use parserc::{
 
 use crate::opcode::{Ident, LitExpr, LitNum, LitStr};
 
+/// [`ParserError`] defined by `mlang` crate.
 #[derive(Debug, thiserror::Error, PartialEq, PartialOrd, Clone)]
 pub enum MlError {
     #[error(transparent)]
