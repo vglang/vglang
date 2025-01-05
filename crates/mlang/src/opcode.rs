@@ -279,9 +279,9 @@ pub enum Type {
     /// A data/enum reference.
     Data(Ident),
     /// This type is `vec[T]`.
-    ListOf(Box<Type>),
-
-    ArrayOf(Box<Type>, LitNum),
+    ListOf(Box<Type>, Option<Span>),
+    /// Array type [T;30]
+    ArrayOf(Box<Type>, LitNum, Option<Span>),
 }
 
 /// Defines `mlang`'s opcode.
