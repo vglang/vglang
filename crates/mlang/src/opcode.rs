@@ -202,20 +202,6 @@ where
     }
 }
 
-/// Defines a mixin data structure.
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Mixin {
-    /// comment of this node
-    pub comments: Vec<Comment>,
-    /// custom propert list.
-    pub properties: Vec<Property>,
-    /// The identifier name of this element.
-    pub ident: Ident,
-    /// the non-inherited properties
-    pub fields: Vec<Field>,
-}
-
 /// Defines a node.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -284,6 +270,29 @@ pub enum Type {
     ArrayOf(Box<Type>, LitNum, Option<Span>),
 }
 
+impl Type {
+    /// Return span of the type.
+    pub fn span(&self) -> Option<&Span> {
+        match self {
+            Type::Bool(span) => span.as_ref(),
+            Type::String(span) => span.as_ref(),
+            Type::Byte(span) => span.as_ref(),
+            Type::Ubyte(span) => span.as_ref(),
+            Type::Short(span) => span.as_ref(),
+            Type::Ushort(span) => span.as_ref(),
+            Type::Int(span) => span.as_ref(),
+            Type::Uint(span) => span.as_ref(),
+            Type::Long(span) => span.as_ref(),
+            Type::Ulong(span) => span.as_ref(),
+            Type::Float(span) => span.as_ref(),
+            Type::Double(span) => span.as_ref(),
+            Type::Data(ident) => ident.1.as_ref(),
+            Type::ListOf(_, span) => span.as_ref(),
+            Type::ArrayOf(_, _, span) => span.as_ref(),
+        }
+    }
+}
+
 /// Defines `mlang`'s opcode.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -291,7 +300,7 @@ pub enum Opcode {
     Element(Box<Node>),
     Leaf(Box<Node>),
     Attr(Box<Node>),
-    Mixin(Box<Mixin>),
+    Mixin(Box<Node>),
     Data(Box<Node>),
     Enum(Box<Enum>),
 }

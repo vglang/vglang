@@ -3,7 +3,9 @@ use parserc::{
     Kind, Parser, ParserError, ParserExt, Span, ToDiagnostic,
 };
 
-use crate::opcode::{CallExpr, Comment, Field, Ident, LitExpr, LitNum, LitStr, Property, Type};
+use crate::opcode::{
+    CallExpr, Comment, Enum, Field, Ident, LitExpr, LitNum, LitStr, Node, Opcode, Property, Type,
+};
 
 /// [`ParserError`] defined by `mlang` crate.
 #[derive(Debug, thiserror::Error, PartialEq, PartialOrd, Clone)]
@@ -34,6 +36,21 @@ pub enum MlError {
 
     #[error("Invalid type, {0}")]
     Type(Box<MlError>, Diagnostic),
+
+    #[error("Parse node error, {0}")]
+    Node(Box<MlError>, Diagnostic),
+
+    #[error("expect tuple field, {0}")]
+    TupleFiled(Diagnostic),
+
+    #[error("unexpect tuple field, {0}")]
+    NotTupleFiled(Diagnostic),
+
+    #[error("Parse enum error, {0}")]
+    Enum(Box<MlError>, Diagnostic),
+
+    #[error("Unexpect key word `{0}`")]
+    UnexpectKeyWord(String, Diagnostic),
 }
 
 impl ParserError for MlError {
@@ -48,8 +65,163 @@ impl ParserError for MlError {
             Self::Property(_, diagnostic) => diagnostic,
             Self::Field(_, diagnostic) => diagnostic,
             Self::Type(_, diagnostic) => diagnostic,
+            Self::Node(_, diagnostic) => diagnostic,
+            Self::Enum(_, diagnostic) => diagnostic,
+            Self::TupleFiled(diagnostic) => diagnostic,
+            Self::NotTupleFiled(diagnostic) => diagnostic,
+            Self::UnexpectKeyWord(_, diagnostic) => diagnostic,
         }
     }
+}
+
+fn skip_ws(input: &mut Input<'_>) -> Result<Option<Span>, MlError> {
+    let span = take_while(|c| c.is_whitespace()).parse(input)?;
+
+    Ok(span)
+}
+
+enum Prefix {
+    Property(Property),
+    Comment(Comment),
+}
+
+fn parse_prefix(input: &mut Input<'_>) -> Result<(Vec<Comment>, Vec<Property>), MlError> {
+    let mut properties = vec![];
+    let mut comments = vec![];
+
+    let property_parser = Property::into_parser().map(|p| Prefix::Property(p));
+
+    let comment_parser = Comment::into_parser().map(|p| Prefix::Comment(p));
+
+    while let Some(prefix) = property_parser
+        .clone()
+        .or(comment_parser.clone())
+        .ok()
+        .parse(input)?
+    {
+        match prefix {
+            Prefix::Property(property) => properties.push(property),
+            Prefix::Comment(comment) => comments.push(comment),
+        }
+
+        skip_ws(input)?;
+    }
+
+    Ok((comments, properties))
+}
+
+fn parse_node(input: &mut Input<'_>) -> Result<(Option<Span>, Node), MlError> {
+    let (comments, properties) = parse_prefix(input)?;
+
+    skip_ws(input)?;
+
+    let mut start = input.span();
+
+    let keyword = ensure_keyword("el")
+        .or(ensure_keyword("leaf"))
+        .or(ensure_keyword("attr"))
+        .or(ensure_keyword("data"))
+        .or(ensure_keyword("mixin"))
+        .ok()
+        .parse(input)?;
+
+    if let Some(kw) = keyword {
+        start = kw;
+    }
+
+    skip_ws
+        .map_err(|err| MlError::Node(Box::new(err.into()), start.fatal()))
+        .parse(input)?;
+
+    let ident = Ident::into_parser()
+        .map_err(|err| MlError::Node(Box::new(err.into()), start.fatal()))
+        .parse(input)?;
+
+    skip_ws
+        .map_err(|err| MlError::Node(Box::new(err.into()), start.fatal()))
+        .parse(input)?;
+
+    let mixin = if let Some(mixin) = ensure_keyword("mixin")
+        .ok()
+        .map_err(|err| MlError::Node(Box::new(err.into()), start.fatal()))
+        .parse(input)?
+    {
+        skip_ws
+            .map_err(|err| MlError::Node(Box::new(err.into()), start.fatal()))
+            .parse(input)?;
+
+        let mixin = Ident::into_parser()
+            .map_err(|err| MlError::Node(Box::new(err.into()), mixin.fatal()))
+            .parse(input)?;
+
+        skip_ws
+            .map_err(|err| MlError::Node(Box::new(err.into()), start.fatal()))
+            .parse(input)?;
+
+        Some(mixin)
+    } else {
+        None
+    };
+
+    let is_tuple = ensure_char('{')
+        .map(|_| false)
+        .or(ensure_char('(').map(|_| true))
+        .map_err(|err| MlError::Node(Box::new(err.into()), start.fatal()))
+        .parse(input)?;
+
+    skip_ws
+        .map_err(|err| MlError::Node(Box::new(err.into()), start.fatal()))
+        .parse(input)?;
+
+    let mut fields = vec![];
+
+    while let Some(field) = Field::into_parser()
+        .ok()
+        .map_err(|err| MlError::Node(Box::new(err.into()), start.fatal()))
+        .parse(input)?
+    {
+        if is_tuple {
+            if let Some(ident) = field.ident {
+                return Err(MlError::TupleFiled(ident.1.unwrap().fatal()));
+            }
+        } else {
+            return Err(MlError::NotTupleFiled(field.ty.span().unwrap().fatal()));
+        }
+
+        fields.push(field);
+
+        skip_ws
+            .map_err(|err| MlError::Node(Box::new(err.into()), start.fatal()))
+            .parse(input)?;
+
+        if ensure_char(',')
+            .ok()
+            .map_err(|err| MlError::Node(Box::new(err.into()), start.fatal()))
+            .parse(input)?
+            .is_none()
+        {
+            break;
+        }
+
+        skip_ws
+            .map_err(|err| MlError::Node(Box::new(err.into()), start.fatal()))
+            .parse(input)?;
+    }
+
+    ensure_char(if is_tuple { ')' } else { '}' })
+        .map_err(|err| MlError::Node(Box::new(err.into()), start.fatal()))
+        .parse(input)?;
+
+    Ok((
+        keyword,
+        Node {
+            comments,
+            mixin,
+            properties,
+            ident,
+            fields,
+        },
+    ))
 }
 
 impl FromInput for Ident {
@@ -453,41 +625,130 @@ impl FromInput for Field {
     }
 }
 
-fn skip_ws(input: &mut Input<'_>) -> Result<Option<Span>, MlError> {
-    let span = take_while(|c| c.is_whitespace()).parse(input)?;
-
-    Ok(span)
-}
-
-enum Prefix {
-    Property(Property),
-    Comment(Comment),
-}
-
-#[allow(unused)]
-fn parse_prefix(input: &mut Input<'_>) -> Result<(Vec<Comment>, Vec<Property>), MlError> {
-    let mut properties = vec![];
-    let mut comments = vec![];
-
-    let property_parser = Property::into_parser().map(|p| Prefix::Property(p));
-
-    let comment_parser = Comment::into_parser().map(|p| Prefix::Comment(p));
-
-    while let Some(prefix) = property_parser
-        .clone()
-        .or(comment_parser.clone())
-        .ok()
-        .parse(input)?
+impl FromInput for Enum {
+    type Error = MlError;
+    fn parse(input: &mut Input<'_>) -> Result<Self, Self::Error>
+    where
+        Self: Sized,
     {
-        match prefix {
-            Prefix::Property(property) => properties.push(property),
-            Prefix::Comment(comment) => comments.push(comment),
-        }
+        let (comments, properties) = parse_prefix(input)?;
 
         skip_ws(input)?;
+
+        let keyword = ensure_keyword("enum").parse(input)?;
+
+        skip_ws
+            .map_err(|err| MlError::Enum(Box::new(err.into()), keyword.fatal()))
+            .parse(input)?;
+
+        let ident = Ident::into_parser()
+            .map_err(|err| MlError::Enum(Box::new(err.into()), keyword.fatal()))
+            .parse(input)?;
+
+        skip_ws
+            .map_err(|err| MlError::Enum(Box::new(err.into()), keyword.fatal()))
+            .parse(input)?;
+
+        ensure_char('{')
+            .map_err(|err| MlError::Enum(Box::new(err.into()), keyword.fatal()))
+            .parse(input)?;
+
+        skip_ws
+            .map_err(|err| MlError::Enum(Box::new(err.into()), keyword.fatal()))
+            .parse(input)?;
+
+        let mut fields = vec![];
+
+        while let Some((kw, field)) = parse_node
+            .ok()
+            .map_err(|err| MlError::Enum(Box::new(err.into()), keyword.fatal()))
+            .parse(input)?
+        {
+            if let Some(kw) = kw {
+                return Err(MlError::UnexpectKeyWord(
+                    input.as_str(kw).to_string(),
+                    kw.fatal(),
+                ));
+            }
+
+            fields.push(field);
+
+            skip_ws
+                .map_err(|err| MlError::Enum(Box::new(err.into()), keyword.fatal()))
+                .parse(input)?;
+
+            if ensure_char(',')
+                .ok()
+                .map_err(|err| MlError::Enum(Box::new(err.into()), keyword.fatal()))
+                .parse(input)?
+                .is_none()
+            {
+                break;
+            }
+
+            skip_ws
+                .map_err(|err| MlError::Enum(Box::new(err.into()), keyword.fatal()))
+                .parse(input)?;
+        }
+
+        ensure_char('}')
+            .map_err(|err| MlError::Enum(Box::new(err.into()), keyword.fatal()))
+            .parse(input)?;
+
+        Ok(Enum {
+            comments,
+            properties,
+            ident,
+            fields,
+        })
+    }
+}
+
+impl FromInput for Opcode {
+    type Error = MlError;
+
+    fn parse(input: &mut Input<'_>) -> Result<Self, Self::Error>
+    where
+        Self: Sized,
+    {
+        if let Some((keyword, node)) = parse_node.ok().parse(input)? {
+            match keyword.map(|kw| input.as_str(kw)) {
+                Some("el") => return Ok(Opcode::Element(Box::new(node))),
+                Some("leaf") => return Ok(Opcode::Leaf(Box::new(node))),
+                Some("attr") => return Ok(Opcode::Attr(Box::new(node))),
+                Some("mixin") => return Ok(Opcode::Mixin(Box::new(node))),
+                Some("data") => return Ok(Opcode::Data(Box::new(node))),
+                _ => {}
+            }
+        }
+
+        if let Some(opcode) = Enum::into_parser()
+            .map(|v| Opcode::Enum(Box::new(v)))
+            .ok()
+            .parse(input)?
+        {
+            return Ok(opcode);
+        }
+
+        assert_eq!(input.remaining(), 0, "unparsed length must be zero.");
+        panic!("not here,");
+    }
+}
+
+/// Parse input source code.
+pub fn parse<'a, I>(input: I) -> Result<Vec<Opcode>, MlError>
+where
+    Input<'a>: From<I>,
+{
+    let mut input = input.into();
+
+    let mut opcodes = vec![];
+
+    while let Some(opcode) = Opcode::into_parser().ok().parse(&mut input)? {
+        opcodes.push(opcode);
     }
 
-    Ok((comments, properties))
+    Ok(opcodes)
 }
 
 #[cfg(test)]
@@ -709,13 +970,13 @@ mod tests {
 
         assert_eq!(
             Comment::parse(&mut Input::from("///\t\n")),
-            Ok(Comment("\t".to_owned(), Some(Span::new(0, 4, 1, 1))))
+            Ok(Comment("".to_owned(), Some(Span::new(0, 4, 1, 1))))
         );
 
         assert_eq!(
             Comment::parse(&mut Input::from("///\thello world\n")),
             Ok(Comment(
-                "\thello world".to_owned(),
+                "hello world".to_owned(),
                 Some(Span::new(0, 15, 1, 1))
             ))
         );
@@ -837,9 +1098,9 @@ mod tests {
         assert_eq!(
             Type::parse(&mut Input::from("[ bool ; 30 ]")),
             Ok(Type::ArrayOf(
-                Box::new(Type::Bool(Some(Span::new(5, 4, 1, 6)))),
+                Box::new(Type::Bool(Some(Span::new(2, 4, 1, 3)))),
                 LitNum::from_span(30, Span::new(9, 2, 1, 10)),
-                Some(Span::new(0, 1, 1, 1))
+                Some(Span::new(0, 13, 1, 1))
             ))
         );
     }

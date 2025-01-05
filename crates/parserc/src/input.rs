@@ -135,6 +135,11 @@ impl<'a> Input<'a> {
         (self.offset, self.source.as_bytes().len())
     }
 
+    /// Returns the unparsed length.
+    pub fn remaining(&mut self) -> usize {
+        self.source.as_bytes().len() - self.offset
+    }
+
     /// peek up next char in the reading stream.
     pub fn peek(&mut self) -> (Option<char>, Span) {
         if let Some((_, c)) = self.iter.peek() {
