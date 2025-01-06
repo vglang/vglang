@@ -1,82 +1,9 @@
-use std::{fmt::Display, iter::Peekable, str::CharIndices};
+use std::{iter::Peekable, str::CharIndices};
 
-/// A `span` is a reference to a fragment of the [`Input`].
-#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Eq, Ord, Hash)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Span {
-    offset: usize,
-    len: usize,
-    lines: usize,
-    cols: usize,
-}
-
-impl Span {
-    /// Create a new `Span` instance.
-    ///
-    /// A length of `0` indicates that the span reference to the `eof`
-    pub fn new(offset: usize, len: usize, lines: usize, cols: usize) -> Self {
-        Self {
-            offset,
-            len,
-            lines,
-            cols,
-        }
-    }
-
-    /// Returns true if the `len` is `0`.
-    pub fn eof(&self) -> bool {
-        self.len == 0
-    }
-
-    /// Returns the postion`(lines,cols)` referenced by this span.
-    pub fn position(&self) -> (usize, usize) {
-        (self.lines, self.cols)
-    }
-
-    /// Return the length of this span in bytes.
-    pub fn len(&self) -> usize {
-        self.len
-    }
-
-    /// Extend self to `other`'s start offset.
-    pub fn extend_to(self, other: Span) -> Span {
-        assert!(
-            !(self.offset > other.offset),
-            "extend_to: self.offset < other.offset."
-        );
-
-        Span {
-            offset: self.offset,
-            len: other.offset - self.offset,
-            lines: self.lines,
-            cols: self.cols,
-        }
-    }
-
-    /// Extend self to `other`'s end offset.
-    pub fn extend_to_inclusive(self, other: Span) -> Span {
-        assert!(
-            !(self.offset > other.offset),
-            "extend_to: self.offset < other.offset."
-        );
-
-        Span {
-            offset: self.offset,
-            len: other.offset + other.len - self.offset,
-            lines: self.lines,
-            cols: self.cols,
-        }
-    }
-}
-
-impl Display for Span {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{},{}", self.lines, self.cols)
-    }
-}
+use crate::{Kind, Report, Source, Span};
 
 /// A seekable source code stream.
-pub struct Input<'a> {
+pub struct Input<'a, E> {
     /// raw source code.
     source: &'a str,
     /// the char stream iterator.
@@ -87,9 +14,11 @@ pub struct Input<'a> {
     lines: usize,
     /// tracking the col no. start with `1`
     cols: usize,
+    /// error stack.
+    err_stack: Vec<(E, Span)>,
 }
 
-impl<'a> From<&'a str> for Input<'a> {
+impl<'a, E> From<&'a str> for Input<'a, E> {
     fn from(value: &'a str) -> Self {
         Self {
             source: value,
@@ -97,30 +26,46 @@ impl<'a> From<&'a str> for Input<'a> {
             lines: 1,
             cols: 1,
             offset: 0,
+            err_stack: vec![],
         }
     }
 }
 
-impl<'a> Input<'a> {
+impl<'a, E> Report for Input<'a, E>
+where
+    E: From<Kind>,
+{
+    type Error = E;
+
+    fn report_err(&mut self, error: Self::Error, span: Span) {
+        self.err_stack.push((error, span));
+    }
+
+    fn pop_err(&mut self) -> Option<(Self::Error, Span)> {
+        self.err_stack.pop()
+    }
+}
+
+impl<'a, E> Source<'a> for Input<'a, E> {
     /// Return the [`Span`] of the next char.
     ///
     /// Use [`eof`](Span::eof) fn to check if the eof is reached.
     #[inline]
-    pub fn span(&mut self) -> Span {
+    fn span(&mut self) -> Span {
         let (_, span) = self.peek();
 
         span
     }
 
     /// Convert span into &str.
-    pub fn as_str(&self, span: Span) -> &str {
+    fn as_str(&self, span: Span) -> &str {
         &self.source[span.offset..span.offset + span.len]
     }
 
     /// Seek to the start of the `span`.
     ///
     /// A seek beyond the end of the stream is not allowed, will cause a panic.
-    pub fn seek(&mut self, span: Span) {
+    fn seek(&mut self, span: Span) {
         assert!(span.offset <= self.source.len(), "seek: out of range.");
         if self.offset != span.offset {
             self.offset = span.offset;
@@ -131,17 +76,17 @@ impl<'a> Input<'a> {
     }
 
     /// Returns a tuple where the first element is the reading offset, and second element is the total length of the source code.
-    pub fn size_hint(&mut self) -> (usize, usize) {
+    fn size_hint(&mut self) -> (usize, usize) {
         (self.offset, self.source.as_bytes().len())
     }
 
     /// Returns the unparsed length.
-    pub fn remaining(&mut self) -> usize {
+    fn remaining(&mut self) -> usize {
         self.source.as_bytes().len() - self.offset
     }
 
     /// peek up next char in the reading stream.
-    pub fn peek(&mut self) -> (Option<char>, Span) {
+    fn peek(&mut self) -> (Option<char>, Span) {
         if let Some((_, c)) = self.iter.peek() {
             (
                 Some(*c),
@@ -166,7 +111,7 @@ impl<'a> Input<'a> {
     }
 
     /// Returns the next character and its corresponding [`Span`].
-    pub fn next(&mut self) -> (Option<char>, Span) {
+    fn next(&mut self) -> (Option<char>, Span) {
         if let Some((_, c)) = self.iter.next() {
             let span = Span {
                 offset: self.offset,
@@ -209,23 +154,23 @@ mod tests {
 
     #[test]
     fn test_size_hint() {
-        assert_eq!(Input::from("hello world").size_hint(), (0, 11));
+        assert_eq!(Input::<Kind>::from("hello world").size_hint(), (0, 11));
         assert_eq!(
-            Input::from("你好").size_hint(),
+            Input::<Kind>::from("你好").size_hint(),
             (0, "你好".as_bytes().len())
         );
     }
 
     #[test]
     fn test_span() {
-        assert_eq!(Input::from("hello world").span().len(), 1);
-        assert!(Input::from("").span().eof());
-        assert_eq!(Input::from("你好").span().len(), '你'.len_utf8());
+        assert_eq!(Input::<Kind>::from("hello world").span().len(), 1);
+        assert!(Input::<Kind>::from("").span().eof());
+        assert_eq!(Input::<Kind>::from("你好").span().len(), '你'.len_utf8());
     }
 
     #[test]
     fn test_seek() {
-        Input::from("hello world").seek(Span {
+        Input::<Kind>::from("hello world").seek(Span {
             offset: 11,
             len: 0,
             lines: 1,
@@ -233,7 +178,7 @@ mod tests {
         });
 
         let r = catch_unwind(|| {
-            Input::from("hello world").seek(Span {
+            Input::<Kind>::from("hello world").seek(Span {
                 offset: 12,
                 len: 0,
                 lines: 1,
@@ -246,7 +191,7 @@ mod tests {
 
     #[test]
     fn test_input() {
-        let mut input = Input::from("你好\nh");
+        let mut input = Input::<Kind>::from("你好\nh");
 
         assert_eq!(
             input.next(),

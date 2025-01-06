@@ -1,29 +1,28 @@
 use std::{marker::PhantomData, str::Chars};
 
-use crate::{Input, Kind, ParserError, Span, ToDiagnostic};
+use crate::{ControlFlow, Kind, ParseContext, Result, Span};
 
 /// A parser produce output by parsing and consuming the [`Input`] char stream.
-pub trait Parser {
+pub trait Parser<'a, C>
+where
+    C: ParseContext<'a>,
+{
     /// Output data type.
     type Output;
 
-    /// Error type that this parser may return.
-    type Error: ParserError;
-
     /// Parse and generate a new output.
-    fn parse(self, input: &mut Input<'_>) -> Result<Self::Output, Self::Error>;
+    fn parse(self, input: &mut C) -> Result<Self::Output>;
 }
 
 /// Implement [`Parser`] for all [`FnMut`](&mut Input<'_>) -> Result<O, E>.
-impl<F, O, E> Parser for F
+impl<'a, C, F, O> Parser<'a, C> for F
 where
-    F: FnOnce(&mut Input<'_>) -> Result<O, E>,
-    E: ParserError,
+    C: ParseContext<'a>,
+    F: FnOnce(&mut C) -> Result<O>,
 {
     type Output = O;
-    type Error = E;
 
-    fn parse(self, input: &mut Input<'_>) -> Result<Self::Output, Self::Error> {
+    fn parse(self, input: &mut C) -> Result<Self::Output> {
         (self)(input)
     }
 }
@@ -32,19 +31,20 @@ where
 #[derive(Clone)]
 pub struct Optional<S>(S);
 
-impl<S> Parser for Optional<S>
+impl<'a, C, S> Parser<'a, C> for Optional<S>
 where
-    S: Parser,
+    S: Parser<'a, C>,
+    C: ParseContext<'a>,
 {
-    type Error = S::Error;
     type Output = Option<S::Output>;
 
-    fn parse(self, input: &mut Input<'_>) -> Result<Self::Output, Self::Error> {
+    fn parse(self, input: &mut C) -> Result<Self::Output> {
+        let start = input.span();
         match self.0.parse(input) {
-            Err(err) => match err.diagnostic() {
-                crate::Diagnostic::Fatal(_) => Err(err),
-                crate::Diagnostic::Incomplete(span) | crate::Diagnostic::Recoverable(span) => {
-                    input.seek(*span);
+            Err(err) => match err {
+                ControlFlow::Fatal => Err(err),
+                ControlFlow::Incomplete | ControlFlow::Recoverable => {
+                    input.seek(start);
                     Ok(None)
                 }
             },
@@ -57,16 +57,15 @@ where
 #[derive(Clone)]
 pub struct Or<S, O>(S, O);
 
-impl<S, O, Output, Error> Parser for Or<S, O>
+impl<'a, C, S, O, Output> Parser<'a, C> for Or<S, O>
 where
-    S: Parser<Output = Output, Error = Error> + Clone,
-    O: Parser<Output = Output, Error = Error>,
-    Error: ParserError,
+    S: Parser<'a, C, Output = Output> + Clone,
+    O: Parser<'a, C, Output = Output>,
+    C: ParseContext<'a>,
 {
     type Output = Output;
-    type Error = Error;
 
-    fn parse(self, input: &mut Input<'_>) -> Result<Self::Output, Self::Error> {
+    fn parse(self, input: &mut C) -> Result<Self::Output> {
         if let Some(output) = self.0.clone().ok().parse(input)? {
             return Ok(output);
         } else {
@@ -79,15 +78,15 @@ where
 #[derive(Clone)]
 pub struct Map<S, F>(S, F);
 
-impl<S, F, U> Parser for Map<S, F>
+impl<'a, C, S, F, U> Parser<'a, C> for Map<S, F>
 where
-    S: Parser,
+    S: Parser<'a, C>,
     F: FnOnce(S::Output) -> U,
+    C: ParseContext<'a>,
 {
     type Output = U;
-    type Error = S::Error;
 
-    fn parse(self, input: &mut Input<'_>) -> Result<Self::Output, Self::Error> {
+    fn parse(self, input: &mut C) -> Result<Self::Output> {
         self.0.parse(input).map(self.1)
     }
 }
@@ -96,22 +95,30 @@ where
 #[derive(Clone)]
 pub struct MapErr<S, F>(S, F);
 
-impl<S, F, U> Parser for MapErr<S, F>
+impl<'a, C, S, F> Parser<'a, C> for MapErr<S, F>
 where
-    S: Parser,
-    F: FnOnce(S::Error) -> U,
-    U: ParserError,
+    C: ParseContext<'a>,
+    S: Parser<'a, C>,
+    F: FnOnce(C::Error, Span) -> (C::Error, Span),
 {
     type Output = S::Output;
-    type Error = U;
 
-    fn parse(self, input: &mut Input<'_>) -> Result<Self::Output, Self::Error> {
-        self.0.parse(input).map_err(self.1)
+    fn parse(self, input: &mut C) -> Result<Self::Output> {
+        match self.0.parse(input) {
+            Err(c) => {
+                input.map_err(self.1);
+                return Err(c);
+            }
+            r => r,
+        }
     }
 }
 
 /// An extension trait for [`Parser`] combinators.
-pub trait ParserExt: Parser {
+pub trait ParserExt<'a, C>: Parser<'a, C>
+where
+    C: ParseContext<'a>,
+{
     /// Convert parser result from [`Recoverable`] / [`Incomplete`] errors to [`None`].
     ///
     /// [`Recoverable`]: crate::Diagnostic::Recoverable
@@ -147,29 +154,38 @@ pub trait ParserExt: Parser {
     /// This function can be used to pass through a successful result while handling an error.
     fn map_err<F, U>(self, op: F) -> MapErr<Self, F>
     where
-        F: FnOnce(Self::Error) -> U,
+        F: FnOnce(C::Error) -> C::Error,
         Self: Sized,
     {
         MapErr(self, op)
     }
 }
 
-impl<T> ParserExt for T where T: Parser {}
+impl<'a, C, T> ParserExt<'a, C> for T
+where
+    T: Parser<'a, C>,
+    C: ParseContext<'a>,
+{
+}
 
 /// All types that can be parsed from the [`Input`] stream must implement this trait.
 ///
 /// See [`parse`](InputExt::parse) function.
-pub trait FromInput {
-    type Error: ParserError;
-
+pub trait FromInput<'a, C>
+where
+    C: ParseContext<'a>,
+{
     /// Parse and create `Self` from [`Input`] stream.
-    fn parse(input: &mut Input<'_>) -> Result<Self, Self::Error>
+    fn parse(input: &mut C) -> Result<Self>
     where
         Self: Sized;
 }
 
 /// A helper trait that convert [`FromInput`] into a [`Parser`].
-pub trait IntoParser: FromInput {
+pub trait IntoParser<'a, C>: FromInput<'a, C>
+where
+    C: ParseContext<'a>,
+{
     /// Conver self into parser.
     fn into_parser() -> ParserFromInput<Self>
     where
@@ -179,7 +195,12 @@ pub trait IntoParser: FromInput {
     }
 }
 
-impl<T> IntoParser for T where T: FromInput {}
+impl<'a, C, T> IntoParser<'a, C> for T
+where
+    T: FromInput<'a, C>,
+    C: ParseContext<'a>,
+{
+}
 
 /// A wrapper parser for [`FromInput`] type.
 pub struct ParserFromInput<T>(PhantomData<T>);
@@ -190,49 +211,57 @@ impl<T> Clone for ParserFromInput<T> {
     }
 }
 
-impl<T> Parser for ParserFromInput<T>
+impl<'a, C, T> Parser<'a, C> for ParserFromInput<T>
 where
-    T: FromInput,
+    T: FromInput<'a, C>,
+    C: ParseContext<'a>,
 {
-    type Error = T::Error;
     type Output = T;
 
-    fn parse(self, input: &mut Input<'_>) -> Result<Self::Output, Self::Error> {
+    fn parse(self, input: &mut C) -> Result<Self::Output> {
         T::parse(input)
     }
 }
 
-impl<T> Parser for Option<T>
+impl<'a, C, T> Parser<'a, C> for Option<T>
 where
-    T: FromInput,
+    T: FromInput<'a, C>,
+    C: ParseContext<'a>,
 {
-    type Error = T::Error;
     type Output = Option<T>;
 
-    fn parse(self, input: &mut Input<'_>) -> Result<Self::Output, Self::Error> {
+    fn parse(self, input: &mut C) -> Result<Self::Output> {
         T::into_parser().ok().parse(input)
     }
 }
 
 /// An extension trait to add `parse` function to [`Input`] stream.
-pub trait InputExt {
-    fn parse<Item>(&mut self) -> Result<Item, Item::Error>
+pub trait InputExt<'a>: ParseContext<'a> {
+    fn parse<Item>(&mut self) -> Result<Item>
     where
-        Item: FromInput;
+        Item: FromInput<'a, Self>,
+        Self: Sized;
 }
 
-impl<'a> InputExt for Input<'a> {
-    fn parse<Item>(&mut self) -> Result<Item, Item::Error>
+impl<'a, T> InputExt<'a> for T
+where
+    T: ParseContext<'a>,
+{
+    fn parse<Item>(&mut self) -> Result<Item>
     where
-        Item: FromInput,
+        Item: FromInput<'a, Self>,
+        Self: Sized,
     {
         Item::parse(self)
     }
 }
 
 /// The parser ensue the next token is char `c`.
-pub fn ensure_char(c: char) -> impl Parser<Output = Span, Error = Kind> + Clone {
-    move |input: &mut Input<'_>| {
+pub fn ensure_char<'a, C>(c: char) -> impl Parser<'a, C, Output = Span> + Clone
+where
+    C: ParseContext<'a>,
+{
+    move |input: &mut C| {
         let (next, span) = input.next();
 
         if let Some(next) = next {
@@ -240,12 +269,12 @@ pub fn ensure_char(c: char) -> impl Parser<Output = Span, Error = Kind> + Clone 
                 return Ok(span);
             }
 
-            input.seek(span);
+            input.report_err(Kind::Char(c).into(), span);
 
-            return Err(Kind::Char(c, span.recoverable()));
+            return Err(ControlFlow::Recoverable);
         }
-
-        return Err(Kind::Char(c, span.incomplete()));
+        input.report_err(Kind::Char(c).into(), span);
+        return Err(ControlFlow::Incomplete);
     }
 }
 
@@ -292,9 +321,12 @@ impl Keyword for String {
 /// The parser ensue the next token is a keyword `kw`.
 ///
 /// A keyword is a seqence of chars without spaces.
-pub fn ensure_keyword<KW: Keyword>(kw: KW) -> impl Parser<Output = Span, Error = Kind> + Clone {
+pub fn ensure_keyword<'a, C, KW: Keyword>(kw: KW) -> impl Parser<'a, C, Output = Span> + Clone
+where
+    C: ParseContext<'a>,
+{
     assert!(kw.len() > 0, "keyword length must greate than 0");
-    move |input: &mut Input<'_>| {
+    move |input: &mut C| {
         let chars = kw.chars();
 
         let mut start = None;
@@ -311,13 +343,13 @@ pub fn ensure_keyword<KW: Keyword>(kw: KW) -> impl Parser<Output = Span, Error =
 
             if let Some(next) = next {
                 if next != c {
-                    return Err(Kind::Keyword(
-                        kw.into_string(),
-                        start.unwrap().recoverable(),
-                    ));
+                    input.report_err(Kind::Keyword(kw.into_string()).into(), start.unwrap());
+
+                    return Err(ControlFlow::Recoverable);
                 }
             } else {
-                return Err(Kind::Keyword(kw.into_string(), start.unwrap().incomplete()));
+                input.report_err(Kind::Keyword(kw.into_string()).into(), start.unwrap());
+                return Err(ControlFlow::Incomplete);
             }
         }
 
@@ -328,11 +360,12 @@ pub fn ensure_keyword<KW: Keyword>(kw: KW) -> impl Parser<Output = Span, Error =
 }
 
 /// Returns the longest input [`Span`] (if any) that matches the predicate.
-pub fn take_while_indices<F>(f: F) -> impl Parser<Output = Option<Span>, Error = Kind>
+pub fn take_while_indices<'a, C, F>(f: F) -> impl Parser<'a, C, Output = Option<Span>>
 where
+    C: ParseContext<'a>,
     F: Fn(usize, char) -> bool,
 {
-    move |input: &mut Input<'_>| {
+    move |input: &mut C| {
         let (c, start) = input.next();
 
         if c.is_none() {
@@ -364,24 +397,27 @@ where
 }
 
 /// Returns the longest input [`Span`] (if any) that matches the predicate.
-pub fn take_while<F>(f: F) -> impl Parser<Output = Option<Span>, Error = Kind>
+pub fn take_while<'a, C, F>(f: F) -> impl Parser<'a, C, Output = Option<Span>>
 where
+    C: ParseContext<'a>,
     F: Fn(char) -> bool,
 {
     take_while_indices(move |_, c| f(c))
 }
 
 /// Returns the longest input slice (if any) till a predicate is met.
-pub fn take_till<F>(f: F) -> impl Parser<Output = Option<Span>, Error = Kind>
+pub fn take_till<'a, C, F>(f: F) -> impl Parser<'a, C, Output = Option<Span>>
 where
+    C: ParseContext<'a>,
     F: Fn(char) -> bool,
 {
     take_while_indices(move |_, c| !f(c))
 }
 
 /// Returns the longest input slice (if any) till a predicate is met.
-pub fn take_till_indices<F>(f: F) -> impl Parser<Output = Option<Span>, Error = Kind>
+pub fn take_till_indices<'a, C, F>(f: F) -> impl Parser<'a, C, Output = Option<Span>>
 where
+    C: ParseContext<'a>,
     F: Fn(usize, char) -> bool,
 {
     take_while_indices(move |idx, c| !f(idx, c))
@@ -389,60 +425,54 @@ where
 
 #[cfg(test)]
 mod tests {
-    use crate::{ensure_char, take_while, Input, Kind, ParserExt, Span, ToDiagnostic};
+    use crate::{ensure_char, take_while, ControlFlow, Input, Kind, ParserExt, Source, Span};
 
     use super::{ensure_keyword, Parser};
 
     #[test]
     fn test_keyword() {
         assert_eq!(
-            ensure_keyword("fn").parse(&mut Input::from("fnhello")),
+            ensure_keyword("fn").parse(&mut Input::<Kind>::from("fnhello")),
             Ok(Span::new(0, 2, 1, 1))
         );
 
         assert_eq!(
-            ensure_keyword("struct").parse(&mut Input::from("structhello")),
+            ensure_keyword("struct").parse(&mut Input::<Kind>::from("structhello")),
             Ok(Span::new(0, 6, 1, 1))
         );
 
         assert_eq!(
-            ensure_keyword("fn").parse(&mut Input::from("hfnello")),
-            Err(Kind::Keyword(
-                "fn".to_string(),
-                Span::new(0, 1, 1, 1).recoverable()
-            ))
+            ensure_keyword("fn").parse(&mut Input::<Kind>::from("hfnello")),
+            Err(ControlFlow::Recoverable)
         );
 
         assert_eq!(
-            ensure_keyword("fn").parse(&mut Input::from("")),
-            Err(Kind::Keyword(
-                "fn".to_string(),
-                Span::new(0, 0, 1, 1).incomplete()
-            ))
+            ensure_keyword("fn").parse(&mut Input::<Kind>::from("")),
+            Err(ControlFlow::Incomplete)
         );
     }
 
     #[test]
     fn test_char() {
         assert_eq!(
-            ensure_char('f').parse(&mut Input::from("fnhello")),
+            ensure_char('f').parse(&mut Input::<Kind>::from("fnhello")),
             Ok(Span::new(0, 1, 1, 1))
         );
 
-        let mut input = Input::from("hfnello");
+        let mut input = Input::<Kind>::from("hfnello");
 
         assert_eq!(
             ensure_char('f').parse(&mut input),
-            Err(Kind::Char('f', Span::new(0, 1, 1, 1).recoverable()))
+            Err(ControlFlow::Recoverable)
         );
 
-        assert_eq!(input.size_hint(), (0, 7));
+        assert_eq!(input.size_hint(), (1, 7));
 
-        let mut input = Input::from("");
+        let mut input = Input::<Kind>::from("");
 
         assert_eq!(
             ensure_char('f').parse(&mut input),
-            Err(Kind::Char('f', Span::new(0, 0, 1, 1).incomplete()))
+            Err(ControlFlow::Incomplete)
         );
 
         assert_eq!(input.size_hint(), (0, 0));
@@ -451,23 +481,23 @@ mod tests {
     #[test]
     fn test_take_while() {
         assert_eq!(
-            take_while(|c| c.is_alphabetic()).parse(&mut Input::from("hello1")),
+            take_while(|c| c.is_alphabetic()).parse(&mut Input::<Kind>::from("hello1")),
             Ok(Some(Span::new(0, 5, 1, 1)))
         );
 
         assert_eq!(
-            take_while(|c| c.is_alphabetic()).parse(&mut Input::from("捏啊哈！！")),
+            take_while(|c| c.is_alphabetic()).parse(&mut Input::<Kind>::from("捏啊哈！！")),
             Ok(Some(Span::new(0, 9, 1, 1)))
         );
 
-        let mut input = Input::from("！hello");
+        let mut input = Input::<Kind>::from("！hello");
 
         assert_eq!(
             take_while(|c| c.is_alphabetic()).parse(&mut input),
             Ok(None)
         );
 
-        let mut input = Input::from("he！llo");
+        let mut input = Input::<Kind>::from("he！llo");
 
         assert_eq!(
             take_while(|c| c.is_alphabetic()).parse(&mut input),
@@ -476,7 +506,7 @@ mod tests {
 
         assert_eq!(input.size_hint(), (2, 8));
 
-        let mut input = Input::from("");
+        let mut input = Input::<Kind>::from("");
         assert_eq!(
             take_while(|c| c.is_alphabetic()).parse(&mut input),
             Ok(None)
@@ -488,21 +518,27 @@ mod tests {
     #[test]
     fn test_ok() {
         assert_eq!(
-            ensure_keyword("fn").ok().parse(&mut Input::from("fn")),
+            ensure_keyword("fn")
+                .ok()
+                .parse(&mut Input::<Kind>::from("fn")),
             Ok(Some(Span::new(0, 2, 1, 1)))
         );
 
         assert_eq!(
-            ensure_keyword("fn").ok().parse(&mut Input::from("!fn")),
+            ensure_keyword("fn")
+                .ok()
+                .parse(&mut Input::<Kind>::from("!fn")),
             Ok(None)
         );
 
         assert_eq!(
-            ensure_keyword("fn").ok().parse(&mut Input::from("")),
+            ensure_keyword("fn")
+                .ok()
+                .parse(&mut Input::<Kind>::from("")),
             Ok(None)
         );
 
-        let mut input = Input::from("ft");
+        let mut input = Input::<Kind>::from("ft");
 
         assert_eq!(ensure_keyword("fn").ok().parse(&mut input), Ok(None));
 
@@ -514,28 +550,22 @@ mod tests {
         assert_eq!(
             ensure_keyword("fn")
                 .map(|_| true)
-                .parse(&mut Input::from("fn")),
+                .parse(&mut Input::<Kind>::from("fn")),
             Ok(true)
         );
 
         assert_eq!(
             ensure_keyword("fn")
                 .map(|_| true)
-                .parse(&mut Input::from("!fn")),
-            Err(Kind::Keyword(
-                "fn".to_string(),
-                Span::new(0, 1, 1, 1).recoverable()
-            ))
+                .parse(&mut Input::<Kind>::from("!fn")),
+            Err(ControlFlow::Recoverable)
         );
 
         assert_eq!(
             ensure_keyword("fn")
                 .map(|_| true)
-                .parse(&mut Input::from("")),
-            Err(Kind::Keyword(
-                "fn".to_string(),
-                Span::new(0, 0, 1, 1).incomplete()
-            ))
+                .parse(&mut Input::<Kind>::from("")),
+            Err(ControlFlow::Incomplete)
         );
     }
 
@@ -545,7 +575,7 @@ mod tests {
             ensure_keyword("fn")
                 .map(|_| true)
                 .or(ensure_keyword("struct").map(|_| false))
-                .parse(&mut Input::from("fn")),
+                .parse(&mut Input::<Kind>::from("fn")),
             Ok(true)
         );
 
@@ -553,7 +583,7 @@ mod tests {
             ensure_keyword("fn")
                 .map(|_| true)
                 .or(ensure_keyword("struct").map(|_| false))
-                .parse(&mut Input::from("struct")),
+                .parse(&mut Input::<Kind>::from("struct")),
             Ok(false)
         );
     }
