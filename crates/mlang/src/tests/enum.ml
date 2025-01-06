@@ -1,5 +1,11 @@
 /// A direction that representation a path drawing commander.
+#[hello]
 enum PathEvent {
+    /// (absolute) Draws a cubic Bézier curve from the current point to `to` point,
+    /// using `ctrl1` as the control point at the beginning of the curve and `ctrl2` as the control point at the end of the curve.
+    CubicBezier{ ctrl1: Point, ctrl2: Point, to: Point },
+    /// (absolute) Draw a polyline. At the end of the command, the new current point is set to the final set of coordinates provided.
+    Polyline(vec[Point]),
     /// Close the current subpath by drawing a straight line from the current point to current subpath's initial point.
     Close,
     /// (absolute) Start a new sub-path at the given (x,y) coordinate.
@@ -10,13 +16,8 @@ enum PathEvent {
     LineTo(Point),
     /// (relative) Draw a line from the current point to the given (x,y) coordinate which becomes the new current point.
     LineToRelative(Point),
-    /// (absolute) Draw a polyline. At the end of the command, the new current point is set to the final set of coordinates provided.
-    Polyline(vec[Point]),
     /// (relative) Draw a polyline. At the end of the command, the new current point is set to the final set of coordinates provided.
     PolylineRelative(vec[Point]),
-    /// (absolute) Draws a cubic Bézier curve from the current point to `to` point,
-    /// using `ctrl1` as the control point at the beginning of the curve and `ctrl2` as the control point at the end of the curve.
-    CubicBezier{ ctrl1: Point, ctrl2: Point, to: Point },
     /// (relative) Draws a cubic Bézier curve from the current point to `to` point,
     /// using `ctrl1` as the control point at the beginning of the curve and `ctrl2` as the control point at the end of the curve.
     CubicBezierRelative{ ctrl1: Point, ctrl2: Point, to: Point },

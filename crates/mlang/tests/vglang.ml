@@ -3,9 +3,6 @@
 /// presentation attribute syntax:
 enum Angle { deg(float), grad(float), rad(float) }
 
-/// A color represents with read,green and blue components.
-data Rgb(ubyte,ubyte,ubyte);
-
 /// A length is a distance Length, given as a number along with a unit which may be optional.
 ///
 /// See [`length`](https://www.w3.org/TR/SVG11/types.html#DataTypeLength)
@@ -32,6 +29,10 @@ enum Length {
     percent(float),
 }
 
+
+/// A color represents with read,green and blue components.
+data Rgb(ubyte,ubyte,ubyte);
+
 data Iri(string);
 
 /// Functional notation for a reference. The syntax for this reference is the same as the [`CSS URI`].
@@ -54,7 +55,7 @@ enum Paint {
 }
 
 /// A pair of `number`s, where the second `number` is optional.
-data NumberOptNumber(float, optional float);
+data NumberOptNumber(float, #[option] float);
 
 /// Defines the coordinate system for attributes ‘x1’, ‘y1’, ‘x2’ and ‘y2’.
 ///
@@ -84,7 +85,7 @@ enum Coords {
 enum Transform {
     Translate(float,float), 
     Matrix([float;6]), 
-    Scale(float,optional float), 
+    Scale(float,#[option] float), 
     Rotate { angle: float, cx: float, cy: float },
     SkewX(float),
     SkewY(float),
@@ -226,7 +227,14 @@ enum Background {
 
     /// Indicate the subregion of the container element's user space where access to the background image is allowed to happen.
     New {
-        x: optional float, y: optional float, width: optional float, height: optional float
+        #[option]
+        x: float, 
+        #[option] 
+        y: float, 
+        #[option] 
+        width: float, 
+        #[option] 
+        height: float
     }
 }
 
@@ -644,33 +652,43 @@ enum PreserveAspectRatio {
 /// bidirectional (e.g., Hebrew or Arabic) and vertical (e.g., Asian scripts).
 attr TextLayout {
     /// See [`WritingMode`]
-    write_mode: optional WritingMode,
+    #[option]
+    write_mode: WritingMode,
     /// See [`TextDirection`]
-    direction: optional TextDirection,
+    #[option]
+    direction: TextDirection,
 
     /// See [`UnicodeBidi`]
-    unicode_bidi: optional UnicodeBidi,
+    #[option]
+    unicode_bidi: UnicodeBidi,
 
     /// See [`TextAnchor`]
-    anchor: optional variable TextAnchor,
+    #[option,variable]
+    anchor: TextAnchor,
 
     /// See [`DominantBaseline`]
-    dominant_baseline: optional variable DominantBaseline,
+    #[option,variable]
+    dominant_baseline: DominantBaseline,
 
     /// See [`AlignmentBaseline`]
-    alignment_baseline: optional variable AlignmentBaseline,
+    #[option,variable]
+    alignment_baseline: AlignmentBaseline,
 
     /// See [`BaselineShift`]
-    baseline_shift: optional variable BaselineShift,
+    #[option,variable]
+    baseline_shift: BaselineShift,
 
     /// See [`TextDecoration`]
-    decoration: optional variable TextDecoration,
+    #[option,variable]
+    decoration: TextDecoration,
 
     /// See [`LetterSpacing`]
-    letter_spacing: optional variable LetterSpacing,
+    #[option,variable]
+    letter_spacing: LetterSpacing,
 
     /// See [`WordSpacing`]
-    word_spacing: optional variable WordSpacing,
+    #[option,variable]
+    word_spacing: WordSpacing,
 }
 
 /// support for various international writing directions, such as left-to-right (e.g., Latin scripts) and
@@ -686,10 +704,10 @@ attr Fill {
     ///
     /// `Inherited: yes`
     paint: Paint,
+
     /// fill painting rule, see [`FillRule`] for more information.
     ///
     /// `Inherited: yes`
-    #[serde(default)]
     rule: FillRule,
 
     /// defining the opacity of the paint server
@@ -702,21 +720,25 @@ attr Stroke {
     /// paints color paints along the outline of the given graphical element.
     ///
     /// `Inherited: yes`
-    paint: optional variable Paint,
+    #[option,variable]
+    paint: Paint,
     /// This property specifies the width of the stroke on the current object
     ///
     /// `Inherited: yes`
-    width: optional variable Length,
+    #[option,variable]
+    width: Length,
 
     /// specifies the shape to be used at the end of open subpaths when they are stroked.
     ///
     /// `Inherited: yes`
-    linecap: optional variable StrokeLineCap,
+    #[option,variable]
+    linecap: StrokeLineCap,
 
     /// specifies the shape to be used at the corners of paths or basic shapes when they are stroked.
     ///
     /// `Inherited: yes`
-    linejoin: optional variable StrokeLineJoin,
+    #[option,variable]
+    linejoin: StrokeLineJoin,
 
     /// controls the pattern of dashes and gaps used to stroke paths. `<dasharray>` contains a list of comma and/or
     /// white space separated `<length>s` and `<percentage>s` that specify the lengths of alternating dashes and gaps.
@@ -724,29 +746,37 @@ attr Stroke {
     /// Thus, stroke-dasharray: 5,3,2 is equivalent to stroke-dasharray: 5,3,2,5,3,2.
     ///
     /// `Inherited: yes`
-    dasharray: optional variable vec[Length],
+    #[option,variable]
+    dasharray: vec[Length],
     /// specifies the distance into the dash pattern to start the dash
     ///
     /// `Inherited: yes`
-    dashoffset: optional variable Length,
+    #[option,variable]
+    dashoffset: Length,
 }
 
 
 /// Shorthand property for setting ‘font-style’, ‘font-variant’, ‘font-weight’, ‘font-size’, ‘line-height’ and ‘font-family’.
 attr Font {
     /// See [`FontFamily`]
-    family: optional variable vec[FontFamily],
+    #[option,variable]
+    family: vec[FontFamily],
     /// See [`FontStyle`]
-    style: optional variable FontStyle,
+    #[option,variable]
+    style: FontStyle,
     /// See [`FontVariant`]
-    variant: optional variable FontVariant,
+    #[option,variable]
+    variant: FontVariant,
     /// See [`FontWeight`]
-    weight: optional variable FontWeight,
+    #[option,variable]
+    weight: FontWeight,
     /// This property refers to the size of the font from baseline to baseline when multiple lines of
     /// text are set solid in a multiline layout environment.
-    size: optional variable Length,
+    #[option,variable]
+    size: Length,
     /// See [`FontStretch`]
-    stretch: optional variable FontStretch,
+    #[option,variable]
+    stretch: FontStretch,
 }
 
 
@@ -757,27 +787,35 @@ attr EnableBackground(Background);
 attr WithFilter(string);
 
 /// Use mask to a element.
-attr WithClipPath(variable FuncIRI);
+#[variable]
+attr WithClipPath(FuncIRI);
 
 /// Use mask to a element.
-attr WithMask(variable FuncIRI);
+#[variable]
+attr WithMask(FuncIRI);
 
 ///Sspecifies object/group opacity
-attr Opacity(variable float);
+#[variable]
+attr Opacity(float);
 
 /// It is often desirable to specify that a given set of graphics stretch to fit a particular container element.
 /// The ‘viewBox’ attribute provides this capability.
 attr ViewBox {
     /// ViewBox left-top x coordinate,
-    minx: variable Number,
+    #[variable]
+    minx: Number,
     /// ViewBox left-top y coordinate,
-    miny: variable Number,
+    #[variable]
+    miny: Number,
     /// ViewBox width dimension.
-    width: variable Number,
+    #[variable]
+    width: Number,
     /// ViewBox height dimension.
-    height: variable Number,
+    #[variable]
+    height: Number,
     /// clip preserve aspect ratio.
-    aspect: optional variable PreserveAspectRatio,
+    #[option, variable]
+    aspect: PreserveAspectRatio,
 }
 
 
@@ -795,16 +833,20 @@ attr ViewBox {
 /// thus making the the default filter primitive subregion equal to the filter region.
 mixin FePrimitive {
     /// The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive.  
-    x: optional variable Length,
+    #[variable]
+    x: Length,
 
     /// The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive
-    y: optional variable Length,
+    #[option, variable]
+    y: Length,
 
     /// The width of the subregion which restricts calculation and rendering of the given filter primitive.
-    width: optional variable Length,
+    #[option, variable]
+    width: Length,
 
     /// The height of the subregion which restricts calculation and rendering of the given filter primitive.
-    height: optional variable Length,
+    #[option, variable]
+    height: Length,
 
     /// Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can
     /// be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,
@@ -815,26 +857,22 @@ mixin FePrimitive {
     /// given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple
     /// times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter
     /// primitive with the given result.
-    result: optional variable String,
+    #[option, variable]
+    result: String,
 }
 
-/// A group of elements.
-tuple Element(Canvas,Mask);
-
-tuple Inherited(Fill,Stroke,Font,TextLayout);
-
 /// Create a new layer into which the backend render child elements.
-#Inherited
-el Canvas -> Element {
+el Canvas {
     /// a number (usually an integer) that represents the width of the rendering layer.
-    width: variable Length,
+    #[variable]
+    width: Length,
     /// a number (usually an integer) that represents the height of the rendering layer.
-    height: variable Length,
+    #[variable]
+    height: Length,
 }
 
 /// used as an alpha mask for compositing the current object into the background.
-#Inherited
-el Mask -> Element {
+el Mask {
     /// Defines the coordinate system for attributes ‘x’, ‘y’, ‘width’ and ‘height’.
     ///
     /// If maskUnits="userSpaceOnUse", ‘x’, ‘y’, ‘width’ and ‘height’ represent values in the current user coordinate system
@@ -845,7 +883,8 @@ el Mask -> Element {
     /// of the element to which the mask is applied. (See Object bounding box units.)
     ///
     /// If attribute ‘maskUnits’ is not specified, then the effect is as if a value of 'objectBoundingBox' were specified.
-    units: optional variableCoords,
+    #[option, variable]
+    units: Coords,
 
     /// Defines the coordinate system for the contents of the ‘mask’.
     ///
@@ -857,19 +896,22 @@ el Mask -> Element {
     /// bounding box of the element to which the mask is applied. (See Object bounding box units.)
     ///
     /// If attribute ‘maskContentUnits’ is not specified, then the effect is as if a value of 'userSpaceOnUse' were specified.
-    content_units: optional variableCoords,
+    #[option, variable]
+    content_units: Coords,
 
     /// The x-axis coordinate of one corner of the rectangle for the largest possible offscreen buffer. Note that the clipping
     /// path used to render any graphics within the mask will consist of the intersection of the current clipping path
     /// associated with the given object and the rectangle defined by ‘x’, ‘y’, ‘width’ and ‘height’.
     ///
     /// If the attribute is not specified, the effect is as if a value of '-10%' were specified.
-    x: optional variableLength,
+    #[option, variable]
+    x: Length,
 
     /// The y-axis coordinate of one corner of the rectangle for the largest possible offscreen buffer.
     ///
     /// If the attribute is not specified, the effect is as if a value of '-10%' were specified.
-    y: optional variableLength,
+    #[option, variable]
+    y: Length,
 
     /// The width of the largest possible offscreen buffer. Note that the clipping path used to render any graphics within the
     /// mask will consist of the intersection of the current clipping path associated with the given object and the rectangle
@@ -878,19 +920,20 @@ el Mask -> Element {
     /// A negative value is an error (see Error processing). A value of zero disables rendering of the element.
     ///
     /// If the attribute is not specified, the effect is as if a value of '120%' were specified.
-    width: optional variableLength,
+    #[option, variable]
+    width: Length,
 
     /// The height of the largest possible offscreen buffer.
     ///
     /// A negative value is an error (see Error processing). A value of zero disables rendering of the element.
     ///
     /// If the attribute is not specified, the effect is as if a value of '120%' were specified.
-    height: optional variableLength,
+    #[option, variable]
+    height: Length,
 }
 
 /// A clipping path is defined with a ‘clipPath’ element.
 /// A clipping path is used/referenced using the ‘clip-path’ property.
-#Inherited
 el ClipPath(
     /// Defines the coordinate system for the contents of the ‘clipPath’.
     ///
@@ -903,17 +946,14 @@ el ClipPath(
     /// box units).
     ///
     /// If attribute ‘clipPathUnits’ is not specified, then the effect is as if a value of 'userSpaceOnUse' were specified.
-    optional variable Coords,
-) -> Element;
-
-/// Filter primitives
-tuple Filters();
+    #[option, variable]
+    Coords,
+);
 
 /// A filter effect consists of a series of graphics operations that are applied to a given source graphic to
 /// produce a modified graphical result. The result of the filter effect is rendered to the target device
 /// instead of the original source graphic. The following illustrates the process:
-#(Id)
-el Filter -> Filters {
+el Filter {
     /// Defines the coordinate system for attributes ‘x’, ‘y’, ‘width’ and ‘height’.
     ///
     /// If units="userSpaceOnUse", ‘x’, ‘y’, ‘width’ and ‘height’ represent values in the current user
@@ -925,7 +965,8 @@ el Filter -> Filters {
     ///
     /// If attribute units is not specified, then the effect is if a value of 'objectBoundingBox' were
     /// specified.
-    units: optional variable Coords,
+    #[option, variable]
+    units: Coords,
 
     /// Specifies the coordinate system for the various length values within the filter primitives and for the
     /// attributes that define the filter primitive subregion.
@@ -940,7 +981,8 @@ el Filter -> Filters {
     /// before the ‘primitiveUnits’ computation takes place.
     ///
     /// If attribute primitive_units is not specified, then the effect is as if a value of userSpaceOnUse were specified.
-    primitive_units: optional variable Coords,
+    #[option, variable]
+    primitive_units: Coords,
 
     /// These attributes define a rectangular region on the canvas to which this filter applies.
     ///
@@ -960,16 +1002,20 @@ el Filter -> Filters {
     /// If ‘x’ or ‘y’ is not specified, the effect is as if a value of -10% were specified.
     ///
     /// If ‘width’ or ‘height’ is not specified, the effect is as if a value of 120% were specified.    
-    x: optional variable Length,
+    #[option, variable]
+    x: Length,
 
     /// See [`x`](Self::x)
-    y: optional variable Length,
+    #[option, variable]
+    y: Length,
 
     /// See [`x`](Self::x)
-    width: optional variable Length,
+    #[option, variable]
+    width: Length,
 
     /// See [`x`](Self::x)
-    height: optional variable Length,
+    #[option, variable]
+    height: Length,
 
     /// This attribute takes the form x-pixels [y-pixels], and indicates the width and height of the
     /// intermediate images in pixels. If not provided, then the user agent will use reasonable values
@@ -983,7 +1029,8 @@ el Filter -> Filters {
     /// element which referenced the filter.
     ///
     /// Non-integer values are truncated, i.e rounded to the closest integer value towards zero.
-    res: optional variable NumberOptNumber,
+    #[option, variable]
+    res: NumberOptNumber,
 }
 
 
@@ -993,53 +1040,58 @@ el Filter -> Filters {
 /// The following diagram illustrates the angles which ‘azimuth’ and ‘elevation’ represent in an XYZ coordinate system.
 ///
 /// ![`distance light source`](https://www.w3.org/TR/SVG11/images/filters/azimuth-elevation.png)
-#(Id)
 leaf FeDistantLight {
     /// Direction angle for the light source on the XY plane (clockwise), in degrees from the x axis.
     ///
     /// If the attribute is not specified, then the effect is as if a value of 0 were specified.
-    azimuth: optional variable Number,
+    #[option, variable]
+    azimuth: float,
 
     /// Direction angle for the light source from the XY plane towards the z axis, in degrees. Note the positive Z-axis points towards the viewer of the content.
     ///
     /// If the attribute is not specified, then the effect is as if a value of 0 were specified.
-    elevation: optional variable Number,
+    #[option, variable]
+    elevation: float,
 }
 
 /// Defines a point light source that can be used within a lighting filter primitive:
 /// [`FeDiffuseLighting`] or [`FeSpecularLighting`].
-#(Id)
 leaf FePointLight {
     /// X location for the light source in the coordinate system established by attribute ‘primitiveUnits’ on the ‘filter’ element.
     ///
     /// If the attribute is not specified, then the effect is as if a value of 0 were specified.
-    x: optional variable Number,
+    #[option, variable]
+    x: float,
 
     /// Y location for the light source in the coordinate system established by attribute ‘primitiveUnits’ on the ‘filter’ element.
     ///
     /// If the attribute is not specified, then the effect is as if a value of 0 were specified.
-    y: optional variable Number,
+    #[option, variable]
+    y: float,
 
     /// Z location for the light source in the coordinate system established by attribute ‘primitiveUnits’ on the ‘filter’ element,
     /// assuming that, in the initial coordinate system, the positive Z-axis comes out towards the person viewing the content and
     /// assuming that one unit along the Z-axis equals one unit in X and Y.
     ///
     /// If the attribute is not specified, then the effect is as if a value of 0 were specified.
-    z: optional variable Number,
+    #[option, variable]
+    z: float,
 }
 
 /// This filter composites two objects together using commonly used imaging software blending modes.
 /// It performs a pixel-wise combination of two input images.
-#Inherited
 el FeBlend mixin FePrimitive {
     /// Image blending mode
-    mode: optional variable FeBlendMode,
+    #[option, variable]
+    mode: FeBlendMode,
 
     /// The first input image to the blending operation.
-    in: optional variable FeIn,
+    #[option, variable]
+    in: FeIn,
 
     /// The second input image to the blending operation. This attribute can take on the same values as the ‘in’ attribute.
-    in2: optional variable FeIn,
+    #[option, variable]
+    in2: FeIn,
 }
 
 
@@ -1078,13 +1130,14 @@ enum FeColorMatrixValues {
 /// can avoid the costly undoing and redoing of the premultiplication for all pixels with A = 1.
 ///
 /// See [`feColorMatrix`](https://www.w3.org/TR/SVG11/filters.html#feColorMatrixElement).
-#Inherited
 leaf FeColorMatrix mixin FePrimitive {
     /// See [`FeIn`]
-    in: variable FeIn,
+    #[variable]
+    in: FeIn,
 
     /// The contents of ‘values’ depends on the value of attribute ‘type’:
-    values: variable FeColorMatrixValues,
+    #[variable]
+    values: FeColorMatrixValues,
 }
 
 
@@ -1203,8 +1256,7 @@ enum FeMorphologyOperator {
 enum FeStitchTiles {
     /// If stitchTiles="stitch", then the user agent will automatically adjust baseFrequency-x and baseFrequency-y values
     /// such that the feTurbulence node's width and height (i.e., the width and height of the current subregion) contains
-    /// an integral number of the Perlin tile width and height for the first octave. The baseFrequency will be adjusted up
-    /// or down depending on which way has the smallest relative (not absolute) change as follows: Given the frequency,
+    /// an integral number of the Perlin tile width and height for the first octave. The baseFrequency will be adjusted up    /// or down depending on which way has the smallest relative (not absolute) change as follows: Given the frequency,
     /// calculate lowFreq=floor(width*frequency)/width and hiFreq=ceil(width*frequency)/width. If frequency/lowFreq < hiFreq/frequency
     /// then use lowFreq, else use hiFreq. While generating turbulence values, generate lattice vectors as normal for Perlin Noise,
     /// except for those lattice points that lie on the right or bottom edges of the active area (the size of the resulting tile).
@@ -1234,8 +1286,7 @@ enum FeTurbulenceType {
 /// > A' = feFuncA( A )
 ///
 /// for every pixel. It allows operations like brightness adjustment, contrast adjustment, color balance or thresholding.
-#Inherited
-el FeComponentTransfer(optional variable FeIn);
+el FeComponentTransfer(#[option, variable] FeIn);
 
 /// transfer function for the alpha component of the input graphic
 ///
@@ -1245,17 +1296,11 @@ leaf FeFuncA(FeFunc);
 /// transfer function for the red component of the input graphic
 ///
 /// See [`FeFunc`], [`FeComponentTransfer`]
-#[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
-#[cfg_attr(feature = "sexpr", vglang_derive::shape_element(boxed, Filter))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 leaf FeFuncR(FeFunc);
 
 /// transfer function for the green component of the input graphic
 ///
 /// See [`FeFunc`], [`FeComponentTransfer`]
-#[derive(Debug, Default, PartialEq, PartialOrd, Clone)]
-#[cfg_attr(feature = "sexpr", vglang_derive::shape_element(boxed, Filter))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 leaf FeFuncG(FeFunc);
 
 /// transfer function for the blue component of the input graphic
@@ -1272,16 +1317,18 @@ leaf FeFuncB(FeFunc);
 /// [`feComposite`]: https://www.w3.org/TR/SVG11/filters.html#feCompositeElement
 /// [`PORTERDUFF`]: https://www.w3.org/TR/SVG11/refs.html#ref-PORTERDUFF
 /// [`SVG-COMPOSITING`]: https://www.w3.org/TR/SVG11/refs.html#ref-SVG-COMPOSITING
-@Inherited
-el FeComposite mixin FePrimitive -> Filters {
+el FeComposite mixin FePrimitive {
     /// See [`FeIn`]
-    in: optional variable FeIn,
+    #[option,variable]
+    in: FeIn,
 
     /// The second input image to the compositing operation. This attribute can take on the same values as the [`in`](Self::in) attribute.
-    in2: variable FeIn,
+    #[variable]
+    in2: FeIn,
 
     /// See [`FeCompositeOperator`]
-    operator: optional variable FeCompositeOperator,
+    #[option,variable]
+    operator: FeCompositeOperator,
 }
 
 
@@ -1291,10 +1338,10 @@ el FeComposite mixin FePrimitive -> Filters {
 /// sharpening, embossing and beveling.
 ///
 /// See [`feConvolveMatrix`](https://www.w3.org/TR/SVG11/filters.html#feConvolveMatrixElement)
-@Inherited
-el FeConvolveMatrix mixin FePrimitive -> Filters {
+el FeConvolveMatrix mixin FePrimitive {
     /// See [`FeIn`]
-    in: optional variable FeIn,
+    #[option,variable]
+    in: FeIn,
 
     /// Indicates the number of cells in each dimension for ‘kernelMatrix’. The values provided must be `integer`s greater than zero.
     /// The first number, `orderX`, indicates the number of columns in the matrix. The second number, `orderY`, indicates the number
@@ -1304,40 +1351,48 @@ el FeConvolveMatrix mixin FePrimitive -> Filters {
     /// high CPU overhead and usually do not produce results that justify the impact on performance.
     ///
     /// If the attribute is not specified, the effect is as if a value of 3 were specified.
-    order: optional variable NumberOptNumber,
+    #[option,variable]
+    order: NumberOptNumber,
+
     /// The list of `number`s that make up the kernel matrix for the convolution. Values are separated by space
     /// characters and/or a comma. The number of entries in the list must equal `orderX` times `orderY`.
-    kernel: variable vec[Number],
+    #[variable]
+    kernel: vec[Number],
 
     /// After applying the ‘kernelMatrix’ to the input image to yield a number, that number is divided by ‘divisor’
     /// to yield the final destination color value. A divisor that is the sum of all the matrix values tends to have
     /// an evening effect on the overall color intensity of the result. It is an error to specify a divisor of zero.
     /// The default value is the sum of all values in kernelMatrix, with the exception that if the sum is zero, then
     /// the divisor is set to 1.
-    divisor: optional variable Number,
+    #[option,variable]
+    divisor: Number,
 
     /// After applying the ‘kernelMatrix’ to the input image to yield a number and applying the ‘divisor’, the ‘bias’
     /// attribute is added to each component. One application of ‘bias’ is when it is desirable to have .5 gray value
     /// be the zero response of the filter. The bias property shifts the range of the filter. This allows representation
     /// of values that would otherwise be clamped to 0 or 1. If ‘bias’ is not specified, then the effect is as if a
     /// value of 0 were specified.
-    bias: optional variable Number,
+    #[option,variable]
+    bias: Number,
 
     /// After applying the ‘kernelMatrix’ to the input image to yield a number and applying the ‘divisor’, the ‘bias’
     /// attribute is added to each component. One application of ‘bias’ is when it is desirable to have .5 gray value
     /// be the zero response of the filter. The bias property shifts the range of the filter. This allows representation
     /// of values that would otherwise be clamped to 0 or 1. If ‘bias’ is not specified, then the effect is as if a
     /// value of 0 were specified.
-    target_x: optional variable i32,
+    #[option,variable]
+    target_x: i32,
 
     /// Determines the positioning in Y of the convolution matrix relative to a given target pixel in the input image.
     /// The topmost row of the matrix is row number zero. The value must be such that: 0 <= targetY < orderY. By default,
     /// the convolution matrix is centered in Y over each pixel of the input image (i.e., targetY = floor ( orderY / 2 )).
-    target_y: optional variable i32,
+    #[option,variable]
+    target_y: i32,
 
     /// Determines how to extend the input image as necessary with color values so that the matrix operations can be applied
     /// when the kernel is positioned at or near the edge of the input image.
-    edge_mode: variable FeConvolveMatrixEdgeMode,
+    #[variable]
+    edge_mode: FeConvolveMatrixEdgeMode,
 
     /// The first number is the `dx` value. The second number is the `dy` value. If the `dy` value is not specified,
     /// it defaults to the same value as `dx`. Indicates the intended distance in current filter units (i.e., units
@@ -1351,29 +1406,33 @@ el FeConvolveMatrix mixin FePrimitive -> Filters {
     /// pixel grid of the kernel.
     ///
     /// A negative or zero value is an error (see Error processing).
-    kernel_unit_len: optional variable NumberOptNumber,
+    #[option,variable]
+    kernel_unit_len: NumberOptNumber,
 
     /// A value of false indicates that the convolution will apply to all channels, including the alpha channel.
     ///
     /// See [`feConvolveMatrix`](https://www.w3.org/TR/SVG11/filters.html#feConvolveMatrixElement)
-    preserve_alpha: variable bool,
+    #[variable]
+    preserve_alpha: bool,
 }
 
 /// See [`feConvolveMatrix`](https://www.w3.org/TR/SVG11/filters.html#feDiffuseLightingElement)
-@Inherited
-el FeDiffuseLighting mixin FePrimitive -> Filters {
+el FeDiffuseLighting mixin FePrimitive {
     /// See [`FeIn`]
-    in: variable FeIn,
+    #[variable]
+    in: FeIn,
 
     /// height of surface when Ain = 1.
     ///
     /// If the attribute is not specified, then the effect is as if a value of 1 were specified.
-    surface_scale: optional variable Number,
+    #[option,variable]
+    surface_scale: Number,
 
     /// kd in Phong lighting model. In SVG, this can be any non-negative number.
     ///
     /// If the attribute is not specified, then the effect is as if a value of 1 were specified.
-    diffuse_constant: optional variable Number,
+    #[option,variable]
+    diffuse_constant: Number,
 
     /// The first number is the `dx` value. The second number is the `dy` value. If the `dy` value is not specified,
     /// it defaults to the same value as `dx`. Indicates the intended distance in current filter units (i.e., units
@@ -1387,18 +1446,20 @@ el FeDiffuseLighting mixin FePrimitive -> Filters {
     /// Introduction and in the description of attribute ‘filterRes’.
     ///
     /// A negative or zero value is an error (see Error processing).
-    kernel_unit_len: optional variable NumberOptNumber,
+    #[option,variable]
+    kernel_unit_len: NumberOptNumber,
 }
 
 
 /// This filter primitive uses the pixels values from the image from ‘in2’ to spatially displace the image from ‘in’.
-@Inherited
-el FeDisplacementMap mixin FePrimitive -> Filters {
+el FeDisplacementMap mixin FePrimitive {
     /// See [`FeIn`]
-    in: optional variable FeIn,
+    #[option,variable]
+    in: FeIn,
 
     /// See [`FeIn`]
-    in2: variable FeIn,
+    #[variable]
+    in2: FeIn,
 
     /// Displacement scale factor. The amount is expressed in the coordinate system established by attribute ‘primitiveUnits’
     /// on the ‘filter’ element.
@@ -1406,39 +1467,43 @@ el FeDisplacementMap mixin FePrimitive -> Filters {
     /// When the value of this attribute is 0, this operation has no effect on the source image.
     ///
     /// If the attribute is not specified, then the effect is as if a value of 0 were specified.
-    scale: optional variable Number,
+    #[option,variable]
+    scale: Number,
 
     /// Indicates which channel from ‘in2’ to use to displace the pixels in ‘in’ along the x-axis.
     /// If attribute ‘xChannelSelector’ is not specified, then the effect is as if a value of A were
     /// specified.
-    x_channel_selector: optional variable Channel,
+    #[option,variable]
+    x_channel_selector: Channel,
 
     /// Indicates which channel from ‘in2’ to use to displace the pixels in ‘in’ along the y-axis.
     /// If attribute ‘yChannelSelector’ is not specified, then the effect is as if a value of A were
     /// specified.
-    y_channel_selector: optional variable Channel,
+    #[option,variable]
+    y_channel_selector: Channel,
 }
 
 
 /// This filter primitive creates a rectangle filled with the color and opacity values from properties ‘flood-color’ a ‘flood-opacity’.
 /// The rectangle is as large as the filter primitive subregion established by the ‘x’, ‘y’, ‘width’ and ‘height’ attributes on the
 /// ‘feFlood’ element.
-@Inherited
-el FeFlood mixin FePrimitive -> Filters{
+el FeFlood mixin FePrimitive {
     /// indicates what color to use to flood the current filter primitive subregion.
-    color: optional variable Rgb,
+    #[option,variable]
+    color: Rgb,
     /// defines the opacity value to use across the entire filter primitive subregion.
-    opacity: optional variable Number,
+    #[option,variable]
+    opacity: Number,
 }
 
 
 /// This filter primitive performs a Gaussian blur on the input image.
 ///
 /// See [`feGaussianBlur`](https://www.w3.org/TR/SVG11/filters.html#feGaussianBlurElement)
-@Inherited
-el FeGaussianBlur mixin FePrimitive -> Filters{
+el FeGaussianBlur mixin FePrimitive {
     /// See [`FeIn`]
-    in: optional variable FeIn,
+    #[option,variable]
+    in: FeIn,
 
     /// The standard deviation for the blur operation. If two `number`s are provided, the first number represents
     /// a standard deviation value along the x-axis of the coordinate system established by attribute ‘primitiveUnits’
@@ -1448,7 +1513,8 @@ el FeGaussianBlur mixin FePrimitive -> Filters{
     /// A negative value is an error (see Error processing). A value of zero disables the effect of the given filter
     /// primitive (i.e., the result is the filter input image). If ‘stdDeviation’ is 0 in only one of X or Y, then the
     /// effect is that the blur is only applied in the direction that has a non-zero value.
-    std_deviation: optional variable NumberOptNumber,
+    #[option,variable]
+    std_deviation: NumberOptNumber,
 }
 
 /// This filter primitive composites input image layers on top of each other using the over operator with Input1
@@ -1456,37 +1522,37 @@ el FeGaussianBlur mixin FePrimitive -> Filters{
 /// (corresponding to the last ‘feMergeNode’ child element), on top.
 ///
 /// See [`feMerge`](https://www.w3.org/TR/SVG11/filters.html#feMergeElement)
-@Inherited
-el FeMerge mixin FePrimitive -> Filters;
+el FeMerge mixin FePrimitive;
 
 /// See [`FeMerge`]
-@Inherited
-el FeMergeNode(variable FeIn>);
+el FeMergeNode(#[variable] FeIn);
 
 /// This filter primitive refers to a graphic external to this filter element, which is loaded or rendered into an RGBA
 /// raster and becomes the result of the filter primitive.
 ///
 /// See [`feImage`](https://www.w3.org/TR/SVG11/filters.html#feImageElement)
-@Inherited
-el FeImage mixin FePrimitive -> Filters{
+el FeImage mixin FePrimitive {
     /// An IRI reference to the image source.
-    href: variable FuncIRI,
+    #[variable]
+    href: FuncIRI,
 
     /// See [`PreserveAspectRatio`].
-    aspect: optional variable PreserveAspectRatio,
+    #[option, variable]
+    aspect: PreserveAspectRatio,
 }
 
 /// This filter primitive performs "fattening" or "thinning" of artwork.
 /// It is particularly useful for fattening or thinning an alpha channel.
 ///
 /// See [`feMorphology`](https://www.w3.org/TR/SVG11/filters.html#feMorphologyElement)
-@Inherited
-el FeMorphology mixin FePrimitive -> Filters{
+el FeMorphology mixin FePrimitive {
     /// See [`FeIn`]
-    in: optional variable FeIn,
+    #[option, variable]
+    in: FeIn,
 
     /// See [`FeMorphologyOperator`]
-    mode: optional variable FeMorphologyOperator,
+    #[option, variable]
+    mode: FeMorphologyOperator,
 
     /// The radius (or radii) for the operation. If two `number`s are provided, the first number represents
     /// a x-radius and the second value represents a y-radius. If one number is provided, then that value
@@ -1497,7 +1563,8 @@ el FeMorphology mixin FePrimitive -> Filters{
     /// filter primitive (i.e., the result is a transparent black image).
     ///
     /// If the attribute is not specified, then the effect is as if a value of 0 were specified.
-    radius: optional variable NumberOptNumber,
+    #[option, variable]
+    radius: NumberOptNumber,
 }
 
 /// This filter primitive offsets the input image relative to its current position in the image space by the specified vector.
@@ -1505,22 +1572,24 @@ el FeMorphology mixin FePrimitive -> Filters{
 /// This is important for effects like drop shadows.
 ///
 /// See [`feOffset`](https://www.w3.org/TR/SVG11/filters.html#feOffsetElement)
-@Inherited
-el FeOffset mixin FePrimitive -> Filters{
+el FeOffset mixin FePrimitive {
     /// See [`FeIn`]
-    in: optional variable FeIn,
+    #[option, variable]
+    in: FeIn,
 
     /// The amount to offset the input graphic along the x-axis. The offset amount is expressed in the coordinate system established
     /// by attribute ‘primitiveUnits’ on the ‘filter’ element.
     ///
     /// If the attribute is not specified, then the effect is as if a value of 0 were specified.
-    dx: optional variable Number,
+    #[option, variable]
+    dx: Number,
 
     /// The amount to offset the input graphic along the y-axis. The offset amount is expressed in the coordinate system established
     /// by attribute ‘primitiveUnits’ on the ‘filter’ element.
     ///
     /// If the attribute is not specified, then the effect is as if a value of 0 were specified.
-    dy: optional variable Number,
+    #[option, variable]
+    dy: Number,
 }
 
 /// This filter primitive lights a source graphic using the alpha channel as a bump map.
@@ -1530,25 +1599,28 @@ el FeOffset mixin FePrimitive -> Filters{
 /// the unit vector in the eye direction is (0,0,1) everywhere).
 ///
 /// See [`feSpecularLighting`](https://www.w3.org/TR/SVG11/filters.html#feSpecularLightingElement)
-@Inherited
-el FeSpecularLighting mixin FePrimitive -> Filters{
+el FeSpecularLighting mixin FePrimitive {
     /// See [`FeIn`]
-    in: optional variable FeIn,
+    #[option, variable]
+    in: FeIn,
 
     /// height of surface when Ain = 1.
     ///
     /// If the attribute is not specified, then the effect is as if a value of 1 were specified.
-    surface_scale: optional variable Number,
+    #[option, variable]
+    surface_scale: Number,
 
     /// height of surface when Ain = 1.
     ///
     /// If the attribute is not specified, then the effect is as if a value of 1 were specified.
-    specular_constant: optional variable Number,
+    #[option, variable]
+    specular_constant: Number,
 
     /// Exponent for specular term, larger is more "shiny". Range 1.0 to 128.0.
     ///
     /// If the attribute is not specified, then the effect is as if a value of 1 were specified.
-    specular_exponent: optional variable Number,
+    #[option, variable]
+    specular_exponent: Number,
 
     /// The first number is the `dx` value. The second number is the `dy` value. If the `dy` value is not specified,
     /// it defaults to the same value as `dx`. Indicates the intended distance in current filter units (i.e., units
@@ -1562,7 +1634,8 @@ el FeSpecularLighting mixin FePrimitive -> Filters{
     /// and in the description of attribute ‘filterRes’.
     ///
     /// A negative or zero value is an error (see Error processing).
-    kernel_unit_len: optional variable NumberOptNumber,
+    #[option, variable]
+    kernel_unit_len: NumberOptNumber,
 }
 
 /// This filter primitive fills a target rectangle with a repeated, tiled pattern of an input image. The target rectangle is
@@ -1570,10 +1643,10 @@ el FeSpecularLighting mixin FePrimitive -> Filters{
 /// element.
 ///
 /// See [`feTitle`](https://www.w3.org/TR/SVG11/filters.html#feTitleElement)
-@Inherited
-el FeTile mixin FePrimitive -> Filters{
+el FeTile mixin FePrimitive {
     /// See [`FeIn`]
-    in: optional variable FeIn,
+    #[option, variable]
+    in: FeIn,
 }
 
 /// This filter primitive creates an image using the Perlin turbulence function.
@@ -1582,8 +1655,7 @@ el FeTile mixin FePrimitive -> Filters{
 /// primitive subregion for this filter primitive.
 ///
 /// See [`feTurbulence`](https://www.w3.org/TR/SVG11/filters.html#feTurbulenceElement)
-@Inherited
-el FeTurbulence mixin FePrimitive -> Filters{
+el FeTurbulence mixin FePrimitive {
     /// The base frequency (frequencies) parameter(s) for the noise function. If two `number`s are provided, the first number
     /// represents a base frequency in the X direction and the second value represents a base frequency in the Y direction.
     /// If one number is provided, then that value is used for both X and Y.
@@ -1591,32 +1663,38 @@ el FeTurbulence mixin FePrimitive -> Filters{
     /// A negative value for base frequency is an error (see Error processing).
     ///
     /// If the attribute is not specified, then the effect is as if a value of 0 were specifie.
-    base_frequency: optional variable NumberOptNumber,
+    #[option, variable]
+    base_frequency: NumberOptNumber,
 
     /// The numOctaves parameter for the noise function.
     ///
     /// If the attribute is not specified, then the effect is as if a value of 1 were specified.
-    num_octaves: optional variable i32,
+    #[option, variable]
+    num_octaves: i32,
 
     /// The starting number for the pseudo random number generator.
     ///
     /// If the attribute is not specified, then the effect is as if a value of 0 were specified.
     /// When the seed number is handed over to the algorithm above it must first be truncated, i.e.
     /// rounded to the closest integer value towards zero.
-    seed: optional variable Number,
+    #[option, variable]
+    seed: Number,
 
     /// See [`FeStitchTiles`]
-    stitch_tiles: optional variable FeStitchTiles,
+    #[option, variable]
+    stitch_tiles: FeStitchTiles,
 
     /// See [`FeStitchTiles`]
-    type: optional variable FeTurbulenceType,
+    #[option, variable]
+    type: FeTurbulenceType,
 }
 
 
 /// Linear gradients are defined by a ‘linearGradient’ element.
 el LinearGradient {
     /// Defines the coordinate system for attributes ‘x1’, ‘y1’, ‘x2’ and ‘y2’.
-    units: optional variable Coords,
+    #[option, variable]
+    units: Coords,
 
     /// Contains the definition of an optional additional transformation from the gradient coordinate system onto the
     /// target coordinate system (i.e., userSpaceOnUse or objectBoundingBox). This allows for things such as skewing
@@ -1627,7 +1705,8 @@ el LinearGradient {
     /// If attribute ‘gradientTransform’ is not specified, then the effect is as if an identity transform were specified.
     ///
     /// Variable: yes.
-    transform: optional variable Transform,
+    #[option, variable]
+    transform: Transform,
 
     /// ‘x1’, ‘y1’, ‘x2’ and ‘y2’ define a gradient vector for the linear gradient.
     /// This gradient vector provides starting and ending points onto which the gradient stops are mapped. The values
@@ -1636,25 +1715,31 @@ el LinearGradient {
     /// If the attribute is not specified, the effect is as if a value of '0%' were specified.
     ///
     /// Variable: yes.
-    x1: optional variable Length,
+    #[option, variable]
+    x1: Length,
 
     /// See [`x1`](LinearGradient::x1)
-    y1: optional variable Length,
+    #[option, variable]
+    y1: Length,
 
     /// See [`x1`](LinearGradient::x1)
-    x2: optional variable Length,
+    #[option, variable]
+    x2: Length,
 
     /// See [`x1`](LinearGradient::x1)
-    y2: optional variable Length,
+    #[option, variable]
+    y2: Length,
 
     /// Indicates what happens if the gradient starts or ends inside the bounds of the target rectangle.
-    spread: optional variable SpreadMethod,
+    #[option, variable]
+    spread: SpreadMethod,
 }
 
 /// Radial gradients are defined by a ‘radialGradient’ element.
 el RadialGradient {
     /// Defines the coordinate system for attributes ‘x1’, ‘y1’, ‘x2’ and ‘y2’.
-    unit: optional variable  Coords,
+    #[option, variable]
+    unit: Coords,
 
     /// Contains the definition of an optional additional transformation from the gradient coordinate system onto the
     /// target coordinate system (i.e., userSpaceOnUse or objectBoundingBox). This allows for things such as skewing
@@ -1665,7 +1750,8 @@ el RadialGradient {
     /// If attribute ‘gradientTransform’ is not specified, then the effect is as if an identity transform were specified.
     ///
     /// Variable: yes.
-    transform: optional variable  Transform,
+    #[option, variable]
+    transform: Transform,
 
     /// ‘cx’, ‘cy’ and ‘r’ define the largest (i.e., outermost) circle for the radial gradient.
     /// The gradient will be drawn such that the 100% gradient stop is mapped to the perimeter
@@ -1674,11 +1760,13 @@ el RadialGradient {
     /// If the attribute is not specified, the effect is as if a value of '50%' were specified.
     ///
     /// Variable: yes.
-    cx: optional variable  Length,
+    #[option, variable]
+    cx: Length,
 
     /// See [`cx`](RadialGradient::cx)
     /// If the attribute is not specified, the effect is as if a value of '50%' were specified.
-    cy: optional variable  Length,
+    #[option, variable]
+    cy: Length,
 
     /// See [`cx`](RadialGradient::cx)
     ///
@@ -1688,7 +1776,8 @@ el RadialGradient {
     /// If the attribute is not specified, the effect is as if a value of '50%' were specified.
     ///
     /// Variable: yes.
-    r: optional variable  Length,
+    #[option, variable]
+    r: Length,
 
     /// ‘fx’ and ‘fy’ define the focal point for the radial gradient. The gradient will be drawn such that the
     /// 0% gradient stop is mapped to (fx, fy).
@@ -1698,7 +1787,8 @@ el RadialGradient {
     /// is inherited from the referenced element.
     ///
     /// Variable: yes.
-    fx: optional variable  Length,
+    #[option, variable]
+    fx: Length,
 
     /// See [`fx`](RadialGradient::fx)
     ///
@@ -1707,10 +1797,12 @@ el RadialGradient {
     /// is inherited from the referenced element.
     ///
     /// Variable: yes.
-    fy: optional variable  Length,
+    #[option, variable]
+    fy: Length,
 
     /// Indicates what happens if the gradient starts or ends inside the bounds of the target rectangle.
-    spread: optional variable  SpreadMethod,
+    #[option, variable]
+    spread: SpreadMethod,
 }
 
 /// The ramp of colors to use on a gradient is defined by the ‘stop’ elements that are child elements
@@ -1723,13 +1815,16 @@ leaf GradientStop {
     /// outermost/largest circle.
     ///
     /// Variable: yes.
-    offset: variable Number,
+    #[variable]
+    offset: Number,
 
     /// indicates what color to use at that gradient stop
-    color: optional variable  Rgb,
+    #[option, variable]
+    color: Rgb,
 
     /// Defines the opacity of a given gradient stop.
-    opacity: optional variable  Number,
+    #[option, variable]
+    opacity: Number,
 }
 
 /// A container element for grouping together related graphics elements.
@@ -1740,7 +1835,8 @@ el Group;
 /// or any combination of the three.
 leaf Path {
     /// The definition of the outline of a shape.
-    data: variable vec[PathEvent],
+    #[variable]
+    data: vec[PathEvent],
 
     /// The author's computation of the total length of the path, in user units.
     /// This value is used to calibrate the user agent's own distance-along-a-path
@@ -1751,7 +1847,8 @@ leaf Path {
     /// operations.
     ///
     /// A negative value is an error (see Error processing).
-    length: variable Length,
+    #[variable]
+    length: Length,
 }
 
 /// A pattern is used to fill or stroke an object using a pre-defined graphic object which can be replicated ("tiled")
@@ -1776,7 +1873,8 @@ el Pattern {
     /// or ‘stroke’ property) and then applying the transform specified by attribute ‘patternTransform’.
     ///
     /// If attribute `units` is not specified, then the effect is as if a value of 'objectBoundingBox' were specified.
-    units: optional variable  Coords,
+    #[option, variable]
+    units: Coords,
     /// Defines the coordinate system for the contents of the ‘pattern’. Note that this attribute has no effect
     /// if attribute ‘viewBox’ is specified.
     ///
@@ -1792,7 +1890,8 @@ el Pattern {
     ///
     /// If attribute `content_units` is not specified, then the effect is as if a value of 'userSpaceOnUse'
     /// were specified.
-    content_units: optional variable  Coords,
+    #[option, variable]
+    content_units: Coords,
 
     /// Contains the definition of an optional additional transformation from the pattern coordinate system onto the
     /// target coordinate system (i.e., 'userSpaceOnUse' or 'objectBoundingBox'). This allows for things such as
@@ -1801,7 +1900,8 @@ el Pattern {
     /// from object bounding box units to user space.
     ///
     /// If attribute `transform` is not specified, then the effect is as if an identity transform were specified.
-    transform: optional variable Transform,
+    #[option, variable]
+    transform: Transform,
 
     /// ‘x’, ‘y’, ‘width’ and ‘height’ indicate how the pattern tiles are placed and spaced. These attributes represent
     /// coordinates and values in the coordinate space specified by the combination of attributes [`units`](Self::units) and
@@ -1810,32 +1910,36 @@ el Pattern {
     /// If the attribute is not specified, the effect is as if a value of zero were specified.
     ///
     /// Animatable: yes.
-    x: optional variable  Length,
+    #[option, variable]
+    x: Length,
 
     /// See [`x`](Self::x).
     ///
     /// If the attribute is not specified, the effect is as if a value of zero were specified.
     ///
     /// Animatable: yes.
-    y: optional variable  Length,
+    #[option, variable]
+    y: Length,
 
     /// See [`x`](Self::x).
     ///
     /// If the attribute is not specified, the effect is as if a value of zero were specified.
     ///
     /// Animatable: yes.
-    width: optional variable  Length,
+    #[option, variable]
+    width: Length,
 
     /// See [`x`](Self::x).
     ///
     /// If the attribute is not specified, the effect is as if a value of zero were specified.
     ///
     /// Animatable: yes.
-    height: optional variable  Length,
+    #[option, variable]
+    height: Length,
 }
 
 /// Use a fragment by name.
-leaf Use(variable Iri>);
+leaf Use(#[variable] Iri);
 
 
 /// The ‘rect’ element defines a rectangle which is axis-aligned with the current user coordinate system.
@@ -1857,39 +1961,43 @@ leaf Rect {
     /// If the attribute is not specified, the effect is as if a value of "0" were specified.
     ///
     /// Animatable: yes.
-    x: variable Length,
+    #[variable]
+    x: Length,
 
     /// The y-axis coordinate of the side of the rectangle which has the smaller y-axis coordinate value in the current user coordinate system.
     /// If the attribute is not specified, the effect is as if a value of "0" were specified.
     ///
     /// Animatable: yes.
-    y: variable Length,
+    #[variable]
+    y: Length,
 
     /// The width of the rectangle.
     /// A negative value is an error (see Error processing). A value of zero disables rendering of the element.
     ///
     /// Animatable: yes.
-    width: variable Length,
+    #[variable]
+    width: Length,
 
     /// The height of the rectangle.
     /// A negative value is an error (see Error processing). A value of zero disables rendering of the element.
     ///
     /// Animatable: yes.
-    height: variable Length,
+    #[variable]
+    height: Length,
 
     /// For rounded rectangles, the x-axis radius of the ellipse used to round off the corners of the rectangle.
     /// A negative value is an error (see Error processing).
     ///
     /// Animatable: yes.
-    
-    rx: optional variable  Length,
+    #[option, variable]
+    rx: Length,
 
     /// For rounded rectangles, the y-axis radius of the ellipse used to round off the corners of the rectangle.
     /// A negative value is an error (see Error processing).
     ///
     /// Animatable: yes.
-    
-    ry: optional variable  Length,
+    #[option, variable]
+    ry: Length,
 }
 
 
@@ -1899,19 +2007,22 @@ leaf Circle {
     /// If the attribute is not specified, the effect is as if a value of "0" were specified.
     ///
     /// Animatable: yes.
-    cx: variable Length,
+    #[variable]
+    cx: Length,
 
     /// The y-axis coordinate of the center of the circle.
     /// If the attribute is not specified, the effect is as if a value of "0" were specified.
     ///
     /// Animatable: yes.
-    cy: variable Length,
+    #[variable]
+    cy: Length,
 
     /// The radius of the circle.
     /// A negative value is an error (see Error processing). A value of zero disables rendering of the element.
     ///
     /// Animatable: yes.
-    r: variable Length,
+    #[variable]
+    r: Length,
 }
 
 /// The ‘ellipse’ element defines an ellipse which is axis-aligned with the current user coordinate
@@ -1921,25 +2032,29 @@ leaf Ellipse {
     /// If the attribute is not specified, the effect is as if a value of "0" were specified.
     ///
     /// Animatable: yes.
-    cx: optional variable  Length,
+    #[option, variable]
+    cx: Length,
 
     /// The y-axis coordinate of the center of the ellipse.
     /// If the attribute is not specified, the effect is as if a value of "0" were specified.
     ///
     /// Animatable: yes.
-    cy: optional variable  Length,
+    #[option, variable]
+    cy: Length,
 
     /// The x-axis radius of the ellipse.
     /// A negative value is an error (see Error processing). A value of zero disables rendering of the element.
     ///
     /// Animatable: yes.
-    rx: variable Length,
+    #[variable]
+    rx: Length,
 
     /// The y-axis radius of the ellipse.
     /// A negative value is an error (see Error processing). A value of zero disables rendering of the element.
     ///
     /// Animatable: yes.
-    ry: variable Length,
+    #[variable]
+    ry: Length,
 }
 
 /// The ‘line’ element defines a line segment that starts at one point and ends at another.
@@ -1949,28 +2064,32 @@ leaf Line {
     /// If the attribute is not specified, the effect is as if a value of "0" were specified.
     ///
     /// Animatable: yes.
-    x1: variable Length,
+    #[variable]
+    x1: Length,
 
     /// The y-axis coordinate of the start of the line.
     ///
     /// If the attribute is not specified, the effect is as if a value of "0" were specified.
     ///
     /// Animatable: yes.
-    y1: variable Length,
+    #[variable]
+    y1: Length,
 
     /// The x-axis coordinate of the end of the line.
     ///
     /// If the attribute is not specified, the effect is as if a value of "0" were specified.
     ///
     /// Animatable: yes.
-    x2: variable Length,
+    #[variable]
+    x2: Length,
 
     /// The y-axis coordinate of the end of the line.
     ///
     /// If the attribute is not specified, the effect is as if a value of "0" were specified.
     ///
     /// Animatable: yes.
-    y2: variable Length,
+    #[variable]
+    y2: Length,
 }
 
 /// The ‘polyline’ element defines a set of connected straight line segments. Typically, ‘polyline’ elements define open shapes.
@@ -1978,7 +2097,8 @@ leaf Polyline(
     /// The points that make up the polygon. All coordinate values are in the user coordinate system.
     ///
     /// Animatable: yes.
-    variable vec[Point],
+    #[variable]
+    vec[Point],
 );
 
 /// The ‘polygon’ element defines a closed shape consisting of a set of connected straight line segments.
@@ -1986,7 +2106,8 @@ leaf Polygon(
     /// The points that make up the polygon. All coordinate values are in the user coordinate system.
     ///
     /// Animatable: yes.
-    variable vec[Point],
+    #[variable]
+    vec[Point],
 );
 
 
@@ -2006,15 +2127,15 @@ mixin MixinText {
     /// For additional processing rules, refer to the description of the ‘x’ attribute on the ‘tspan’ element.
     ///
     /// If the attribute is not specified, the effect is as if a value of "0" were specified.
-    
-    x: optional variable  vec[Length],
+    #[option, variable]
+    x: vec[Length],
 
     /// The corresponding list of absolute Y coordinates for the glyphs corresponding to the characters within this element.
     /// The processing rules for the ‘y’ attribute parallel the processing rules for the ‘x’ attribute.
     ///
     /// If the attribute is not specified, the effect is as if a value of "0" were specified.
-    
-    y: optional variable  vec[Length],
+    #[option, variable]
+    y: vec[Length],
 
     /// Shifts in the current text position along the x-axis for the characters within this element or any of its descendants.
     ///
@@ -2022,8 +2143,8 @@ mixin MixinText {
     ///
     /// If the attribute is not specified on this element or any of its descendants, no supplemental shifts along
     /// the x-axis will occur.
-    
-    dx: optional variable  vec[Length],
+    #[option, variable]
+    dx: vec[Length],
 
     /// Shifts in the current text position along the y-axis for the characters within this element or any of its descendants.
     ///
@@ -2031,8 +2152,8 @@ mixin MixinText {
     ///
     /// If the attribute is not specified on this element or any of its descendants, no supplemental shifts along
     /// the y-axis will occur.
-    
-    dy: optional variable  vec[Length],
+    #[option, variable]
+    dy: vec[Length],
 
     /// The supplemental rotation about the current text position that will be applied to all of the glyphs corresponding
     /// to each character within this element.
@@ -2040,8 +2161,8 @@ mixin MixinText {
     /// Refer to the description of the ‘rotate’ attribute on the ‘tspan’ element.
     ///
     /// If the attribute is not specified on this element or any of its descendants, no supplemental rotations will occur.
-    
-    rotate: optional variable vec[Angle],
+    #[option, variable]
+    rotate: vec[Angle],
 
     /// The author's computation of the total sum of all of the advance values that correspond to character data within
     /// this element, including the advance value on the glyph (horizontal or vertical), the effect of properties ‘kerning’,
@@ -2058,8 +2179,8 @@ mixin MixinText {
     ///
     /// If the attribute is not specified, the effect is as if the author's computation exactly matched the value calculated
     /// by the user agent; thus, no advance adjustments are made.
-    
-    text_length: optional variable vec[Length],
+    #[option, variable]
+    text_length: vec[Length],
 
     /// Indicates the type of adjustments which the user agent shall make to make the rendered length of the text match the
     /// value specified on the ‘textLength’ attribute.
@@ -2073,8 +2194,8 @@ mixin MixinText {
     /// to all n characters.
     ///
     /// If the attribute is not specified, the effect is as a value of 'spacing' were specified.
-    
-    length_adjust: optional variable  TextLengthAdjust,
+    #[option, variable]
+    length_adjust: TextLengthAdjust,
 }
 
 /// The ‘text’ element defines a graphics element consisting of text.
@@ -2108,17 +2229,21 @@ leaf TextPath {
     /// If the attribute is not specified, the effect is as if a value of "0" were specified.
     ///
     /// [`distance along the path`]: https://www.w3.org/TR/SVG11/paths.html#DistanceAlongAPath
-    start_offset: optional variable  Length,
+    #[option, variable]
+    start_offset: Length,
 
     /// See [`TextPathMethod`]
-    method: optional variable  TextPathMethod,
+    #[option, variable]
+    method: TextPathMethod,
 
     /// See [`TextPathSpacing`]
-    spacing: optional variable  TextPathSpacing,
+    #[option, variable]
+    spacing: TextPathSpacing,
 
     /// An IRI reference to the ‘path’ element onto which the glyphs will be rendered.
     /// If `iri` is an invalid reference (e.g., no such element exists, or the referenced element is not a ‘path’),
     /// then the ‘textPath’ element is in error and its entire contents shall not be rendered by the user agent.
-    href: variable Iri,
+    #[variable]
+    href: Iri,
 }
 

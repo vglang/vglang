@@ -40,11 +40,14 @@ pub enum MlError {
     #[error("Parse node error, {0}")]
     Node(Box<MlError>, Diagnostic),
 
+    #[error("expect node keyword, {0}")]
+    NodeKeyWord(Diagnostic),
+
     #[error("expect tuple field, {0}")]
-    TupleFiled(Diagnostic),
+    TupleField(Diagnostic),
 
     #[error("unexpect tuple field, {0}")]
-    NotTupleFiled(Diagnostic),
+    NotTupleField(Diagnostic),
 
     #[error("Parse enum error, {0}")]
     Enum(Box<MlError>, Diagnostic),
@@ -67,9 +70,10 @@ impl ParserError for MlError {
             Self::Type(_, diagnostic) => diagnostic,
             Self::Node(_, diagnostic) => diagnostic,
             Self::Enum(_, diagnostic) => diagnostic,
-            Self::TupleFiled(diagnostic) => diagnostic,
-            Self::NotTupleFiled(diagnostic) => diagnostic,
+            Self::TupleField(diagnostic) => diagnostic,
+            Self::NotTupleField(diagnostic) => diagnostic,
             Self::UnexpectKeyWord(_, diagnostic) => diagnostic,
+            Self::NodeKeyWord(diagnostic) => diagnostic,
         }
     }
 }
@@ -88,6 +92,8 @@ enum Prefix {
 fn parse_prefix(input: &mut Input<'_>) -> Result<(Vec<Comment>, Vec<Property>), MlError> {
     let mut properties = vec![];
     let mut comments = vec![];
+
+    skip_ws(input)?;
 
     let property_parser = Property::into_parser().map(|p| Prefix::Property(p));
 
@@ -110,7 +116,16 @@ fn parse_prefix(input: &mut Input<'_>) -> Result<(Vec<Comment>, Vec<Property>), 
     Ok((comments, properties))
 }
 
-fn parse_node(input: &mut Input<'_>) -> Result<(Option<Span>, Node), MlError> {
+fn parse_node(
+    parse_enum_field: bool,
+) -> impl Parser<Output = (Option<Span>, Node), Error = MlError> + Clone {
+    move |input: &mut Input<'_>| parse_node_inner(parse_enum_field, input)
+}
+
+fn parse_node_inner(
+    parse_enum_field: bool,
+    input: &mut Input<'_>,
+) -> Result<(Option<Span>, Node), MlError> {
     let (comments, properties) = parse_prefix(input)?;
 
     skip_ws(input)?;
@@ -127,15 +142,23 @@ fn parse_node(input: &mut Input<'_>) -> Result<(Option<Span>, Node), MlError> {
 
     if let Some(kw) = keyword {
         start = kw;
+    } else {
+        if !parse_enum_field {
+            return Err(MlError::NodeKeyWord(start.recoverable()));
+        }
     }
 
     skip_ws
         .map_err(|err| MlError::Node(Box::new(err.into()), start.fatal()))
         .parse(input)?;
 
-    let ident = Ident::into_parser()
-        .map_err(|err| MlError::Node(Box::new(err.into()), start.fatal()))
-        .parse(input)?;
+    let ident = if parse_enum_field {
+        Ident::into_parser().parse(input)?
+    } else {
+        Ident::into_parser()
+            .map_err(|err| MlError::Node(Box::new(err.into()), start.fatal()))
+            .parse(input)?
+    };
 
     skip_ws
         .map_err(|err| MlError::Node(Box::new(err.into()), start.fatal()))
@@ -166,8 +189,28 @@ fn parse_node(input: &mut Input<'_>) -> Result<(Option<Span>, Node), MlError> {
     let is_tuple = ensure_char('{')
         .map(|_| false)
         .or(ensure_char('(').map(|_| true))
-        .map_err(|err| MlError::Node(Box::new(err.into()), start.fatal()))
+        .ok()
         .parse(input)?;
+
+    let is_tuple = if let Some(is_tuple) = is_tuple {
+        is_tuple
+    } else {
+        if !parse_enum_field {
+            ensure_char(';')
+                .map_err(|err| MlError::Node(Box::new(err.into()), start.fatal()))
+                .parse(input)?;
+        }
+        return Ok((
+            keyword,
+            Node {
+                comments,
+                mixin,
+                properties,
+                ident,
+                fields: vec![],
+            },
+        ));
+    };
 
     skip_ws
         .map_err(|err| MlError::Node(Box::new(err.into()), start.fatal()))
@@ -182,10 +225,12 @@ fn parse_node(input: &mut Input<'_>) -> Result<(Option<Span>, Node), MlError> {
     {
         if is_tuple {
             if let Some(ident) = field.ident {
-                return Err(MlError::TupleFiled(ident.1.unwrap().fatal()));
+                return Err(MlError::TupleField(ident.1.unwrap().fatal()));
             }
         } else {
-            return Err(MlError::NotTupleFiled(field.ty.span().unwrap().fatal()));
+            if field.ident.is_none() {
+                return Err(MlError::NotTupleField(field.ty.span().unwrap().fatal()));
+            }
         }
 
         fields.push(field);
@@ -211,6 +256,12 @@ fn parse_node(input: &mut Input<'_>) -> Result<(Option<Span>, Node), MlError> {
     ensure_char(if is_tuple { ')' } else { '}' })
         .map_err(|err| MlError::Node(Box::new(err.into()), start.fatal()))
         .parse(input)?;
+
+    if !parse_enum_field && is_tuple {
+        ensure_char(';')
+            .map_err(|err| MlError::Node(Box::new(err.into()), start.fatal()))
+            .parse(input)?;
+    }
 
     Ok((
         keyword,
@@ -588,9 +639,9 @@ impl FromInput for Field {
 
         skip_ws(input)?;
 
-        let ident = Ident::into_parser().ok().parse(input)?;
+        let ident: Option<Ident> = Ident::into_parser().ok().parse(input)?;
 
-        let ty = if let Some(ident) = ident.as_ref() {
+        let (ident, ty) = if let Some(ident) = ident {
             skip_ws(input)?;
 
             let semi_colon = ensure_char(':')
@@ -598,22 +649,22 @@ impl FromInput for Field {
                 .map_err(|err| MlError::Property(Box::new(err.into()), ident.1.unwrap().fatal()))
                 .parse(input)?;
 
-            if semi_colon.is_none() {
-                return Ok(Self {
-                    comments,
-                    properties,
-                    ident: None,
-                    ty: Type::Data(ident.clone()),
-                });
+            if semi_colon.is_some() {
+                skip_ws(input)?;
+
+                let ty = Type::into_parser()
+                    .map_err(|err| {
+                        MlError::Property(Box::new(err.into()), ident.1.unwrap().fatal())
+                    })
+                    .parse(input)?;
+
+                (Some(ident), ty)
+            } else {
+                input.seek(ident.1.unwrap());
+                (None, Type::parse(input)?)
             }
-
-            skip_ws(input)?;
-
-            Type::into_parser()
-                .map_err(|err| MlError::Property(Box::new(err.into()), ident.1.unwrap().fatal()))
-                .parse(input)?
         } else {
-            Type::parse(input)?
+            (None, Type::parse(input)?)
         };
 
         Ok(Self {
@@ -659,7 +710,7 @@ impl FromInput for Enum {
 
         let mut fields = vec![];
 
-        while let Some((kw, field)) = parse_node
+        while let Some((kw, field)) = parse_node(true)
             .ok()
             .map_err(|err| MlError::Enum(Box::new(err.into()), keyword.fatal()))
             .parse(input)?
@@ -711,7 +762,15 @@ impl FromInput for Opcode {
     where
         Self: Sized,
     {
-        if let Some((keyword, node)) = parse_node.ok().parse(input)? {
+        if let Some(opcode) = Enum::into_parser()
+            .map(|v| Opcode::Enum(Box::new(v)))
+            .ok()
+            .parse(input)?
+        {
+            return Ok(opcode);
+        }
+
+        if let Some((keyword, node)) = parse_node(false).ok().parse(input)? {
             match keyword.map(|kw| input.as_str(kw)) {
                 Some("el") => return Ok(Opcode::Element(Box::new(node))),
                 Some("leaf") => return Ok(Opcode::Leaf(Box::new(node))),
@@ -722,16 +781,8 @@ impl FromInput for Opcode {
             }
         }
 
-        if let Some(opcode) = Enum::into_parser()
-            .map(|v| Opcode::Enum(Box::new(v)))
-            .ok()
-            .parse(input)?
-        {
-            return Ok(opcode);
-        }
-
         assert_eq!(input.remaining(), 0, "unparsed length must be zero.");
-        panic!("not here,");
+        return Err(MlError::NotTupleField(input.span().incomplete()));
     }
 }
 
@@ -753,12 +804,14 @@ where
 
 #[cfg(test)]
 mod tests {
-    use parserc::{FromInput, Input, Kind, Span, ToDiagnostic};
+    use parserc::{FromInput, Input, Kind, Parser, Span, ToDiagnostic};
 
     use crate::{
-        opcode::{CallExpr, Comment, Field, Ident, LitExpr, LitNum, LitStr, Property, Type},
+        opcode::{CallExpr, Comment, Field, Ident, LitExpr, LitNum, LitStr, Node, Property, Type},
         parser::MlError,
     };
+
+    use super::parse_node;
 
     #[test]
     fn test_ident() {
@@ -1136,6 +1189,139 @@ mod tests {
                 ident: None,
                 ty: Type::Data(Ident::from_span("hello", Span::new(24, 5, 2, 9)))
             })
+        );
+    }
+
+    #[test]
+    fn test_node() {
+        assert_eq!(
+            parse_node(false).parse(&mut Input::from("el hello\n(/// hello world\nhello: bool)")),
+            Err(MlError::TupleField(Span::new(26, 5, 3, 1).fatal()))
+        );
+
+        assert_eq!(
+            parse_node(false).parse(&mut Input::from("el hello\n{/// hello world\nworld}")),
+            Err(MlError::NotTupleField(Span::new(26, 5, 3, 1).fatal()))
+        );
+
+        assert_eq!(
+            parse_node(false).parse(&mut Input::from("struct hello\n(bool,a:int)")),
+            Err(MlError::NodeKeyWord(Span::new(0, 1, 1, 1).recoverable()))
+        );
+
+        assert_eq!(
+            parse_node(false).parse(&mut Input::from("hello\n{bool,}")),
+            Err(MlError::NodeKeyWord(Span::new(0, 1, 1, 1).recoverable()))
+        );
+
+        assert_eq!(
+            parse_node(false).parse(&mut Input::from("data hello(bool)")),
+            Err(MlError::Node(
+                Box::new(Kind::Char(';', Span::new(16, 0, 1, 17).incomplete()).into()),
+                Span::new(0, 4, 1, 1).fatal()
+            ))
+        );
+
+        assert_eq!(
+            parse_node(false).parse(&mut Input::from("attr hello;")),
+            Ok((
+                Some(Span::new(0, 4, 1, 1)),
+                Node {
+                    comments: vec![],
+                    mixin: None,
+                    properties: vec![],
+                    ident: Ident::from_span("hello", Span::new(5, 5, 1, 6)),
+                    fields: vec![]
+                }
+            ))
+        );
+
+        assert_eq!(
+            parse_node(false).parse(&mut Input::from("attr hello();")),
+            Ok((
+                Some(Span::new(0, 4, 1, 1)),
+                Node {
+                    comments: vec![],
+                    mixin: None,
+                    properties: vec![],
+                    ident: Ident::from_span("hello", Span::new(5, 5, 1, 6)),
+                    fields: vec![]
+                }
+            ))
+        );
+
+        assert_eq!(
+            parse_node(false).parse(&mut Input::from("attr hello {  }")),
+            Ok((
+                Some(Span::new(0, 4, 1, 1)),
+                Node {
+                    comments: vec![],
+                    mixin: None,
+                    properties: vec![],
+                    ident: Ident::from_span("hello", Span::new(5, 5, 1, 6)),
+                    fields: vec![]
+                }
+            ))
+        );
+
+        assert_eq!(
+            parse_node(true).parse(&mut Input::from(
+                "CubicBezier{ ctrl1: Point, ctrl2: Point, to: Point }"
+            )),
+            Ok((
+                None,
+                Node {
+                    comments: vec![],
+                    mixin: None,
+                    properties: vec![],
+                    ident: Ident::from_span("CubicBezier", Span::new(0, 11, 1, 1)),
+                    fields: vec![
+                        Field {
+                            comments: vec![],
+                            properties: vec![],
+                            ident: Some(Ident::from_span("ctrl1", Span::new(13, 5, 1, 14))),
+                            ty: Type::Data(Ident::from_span("Point", Span::new(20, 5, 1, 21)))
+                        },
+                        Field {
+                            comments: vec![],
+                            properties: vec![],
+                            ident: Some(Ident::from_span("ctrl2", Span::new(27, 5, 1, 28))),
+                            ty: Type::Data(Ident::from_span("Point", Span::new(34, 5, 1, 35)))
+                        },
+                        Field {
+                            comments: vec![],
+                            properties: vec![],
+                            ident: Some(Ident::from_span("to", Span::new(41, 2, 1, 42))),
+                            ty: Type::Data(Ident::from_span("Point", Span::new(45, 5, 1, 46)))
+                        }
+                    ]
+                }
+            ))
+        );
+
+        assert_eq!(
+            parse_node(true).parse(&mut Input::from("Polyline(vec[Point])")),
+            Ok((
+                None,
+                Node {
+                    comments: vec![],
+                    mixin: None,
+                    properties: vec![],
+                    ident: Ident::from_span("Polyline", Span::new(0, 8, 1, 1)),
+                    fields: vec![Field {
+                        comments: vec![],
+                        properties: vec![],
+                        ident: None,
+                        ty: Type::ListOf(
+                            Box::new(Type::Data(Ident::from_span(
+                                "Point",
+                                Span::new(13, 5, 1, 14)
+                            ))),
+                            Some(Span::new(9, 10, 1, 10))
+                        )
+                    }]
+                }
+            ))
         );
     }
 }
