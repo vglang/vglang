@@ -150,10 +150,10 @@ enum PathEvent {
     }
 }
 
-//// The ‘fill-rule’ property indicates the algorithm which is to be used to determine what parts of the canvas are
-//// included inside the shape. For a simple, non-intersecting path, it is intuitively clear what region lies "inside";
-//// however, for a more complex path, such as a path that intersects itself or where one subpath encloses another,
-//// the interpretation of "inside" is not so obvious.
+/// The ‘fill-rule’ property indicates the algorithm which is to be used to determine what parts of the canvas are
+/// included inside the shape. For a simple, non-intersecting path, it is intuitively clear what region lies "inside";
+/// however, for a more complex path, such as a path that intersects itself or where one subpath encloses another,
+/// the interpretation of "inside" is not so obvious.
 enum FillRule { 
     /// This rule determines the "insideness" of a point on the canvas by drawing a ray from that point to infinity in
     /// any direction and then examining the places where a segment of the shape crosses the ray. Starting with a count of zero,
