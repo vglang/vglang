@@ -1,6 +1,6 @@
 use parserc::{
-    ensure_char, ensure_keyword, take_till, take_while, Diagnostic, FromInput, Input, IntoParser,
-    Kind, Parser, ParserError, ParserExt, Span, ToDiagnostic,
+    ensure_char, ensure_keyword, take_till, take_while, FromInput, Input, IntoParser, Kind, Parser,
+    ParserExt, Span,
 };
 
 use crate::opcode::{
@@ -14,13 +14,13 @@ pub enum MlError {
     Parserc(#[from] Kind),
 
     #[error("expect ident")]
-    Ident(Diagnostic),
+    Ident,
 
     #[error("expect literal numeric")]
-    LitNum(Diagnostic),
+    LitNum,
 
     #[error("hex number body is empty")]
-    LitNumHexBody(Diagnostic),
+    LitNumHexBody,
 
     #[error("expect literal string")]
     LitStr(Diagnostic),
