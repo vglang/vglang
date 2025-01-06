@@ -74,9 +74,16 @@ impl Display for Span {
         write!(f, "{},{}", self.lines, self.cols)
     }
 }
+/// Report for parsing error.
+pub enum Report {
+    /// This is the origin error report.
+    Origin(anyhow::Error, Span),
+    /// Addition error report.
+    CauseBy(anyhow::Error, Span, Box<Report>),
+}
 
 /// A seekable source code stream.
-pub struct Input<'a> {
+pub struct ParseContext<'a> {
     /// raw source code.
     source: &'a str,
     /// the char stream iterator.
@@ -87,9 +94,11 @@ pub struct Input<'a> {
     lines: usize,
     /// tracking the col no. start with `1`
     cols: usize,
+    /// error reports.
+    error_reports: Vec<Report>,
 }
 
-impl<'a> From<&'a str> for Input<'a> {
+impl<'a> From<&'a str> for ParseContext<'a> {
     fn from(value: &'a str) -> Self {
         Self {
             source: value,
@@ -97,11 +106,33 @@ impl<'a> From<&'a str> for Input<'a> {
             lines: 1,
             cols: 1,
             offset: 0,
+            error_reports: vec![],
         }
     }
 }
 
-impl<'a> Input<'a> {
+impl<'a> ParseContext<'a> {
+    /// Report a new error.
+    pub fn report_error<E>(&mut self, error: E, span: Span)
+    where
+        anyhow::Error: From<E>,
+    {
+        self.error_reports.push(Report::Origin(error.into(), span));
+    }
+
+    /// if exists, add context information for last error report, otherwise report a new error.
+    pub fn with_context<E>(&mut self, error: E, span: Span)
+    where
+        anyhow::Error: From<E>,
+    {
+        if let Some(report) = self.error_reports.pop() {
+            self.error_reports
+                .push(Report::CauseBy(error.into(), span, Box::new(report)));
+        } else {
+            self.error_reports.push(Report::Origin(error.into(), span));
+        }
+    }
+
     /// Return the [`Span`] of the next char.
     ///
     /// Use [`eof`](Span::eof) fn to check if the eof is reached.
@@ -209,23 +240,23 @@ mod tests {
 
     #[test]
     fn test_size_hint() {
-        assert_eq!(Input::from("hello world").size_hint(), (0, 11));
+        assert_eq!(ParseContext::from("hello world").size_hint(), (0, 11));
         assert_eq!(
-            Input::from("你好").size_hint(),
+            ParseContext::from("你好").size_hint(),
             (0, "你好".as_bytes().len())
         );
     }
 
     #[test]
     fn test_span() {
-        assert_eq!(Input::from("hello world").span().len(), 1);
-        assert!(Input::from("").span().eof());
-        assert_eq!(Input::from("你好").span().len(), '你'.len_utf8());
+        assert_eq!(ParseContext::from("hello world").span().len(), 1);
+        assert!(ParseContext::from("").span().eof());
+        assert_eq!(ParseContext::from("你好").span().len(), '你'.len_utf8());
     }
 
     #[test]
     fn test_seek() {
-        Input::from("hello world").seek(Span {
+        ParseContext::from("hello world").seek(Span {
             offset: 11,
             len: 0,
             lines: 1,
@@ -233,7 +264,7 @@ mod tests {
         });
 
         let r = catch_unwind(|| {
-            Input::from("hello world").seek(Span {
+            ParseContext::from("hello world").seek(Span {
                 offset: 12,
                 len: 0,
                 lines: 1,
@@ -246,7 +277,7 @@ mod tests {
 
     #[test]
     fn test_input() {
-        let mut input = Input::from("你好\nh");
+        let mut input = ParseContext::from("你好\nh");
 
         assert_eq!(
             input.next(),

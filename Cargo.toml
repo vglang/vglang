@@ -9,6 +9,7 @@ version = "0.1.2"
 
 [workspace.dependencies]
 thiserror = "^2.0"
+anyhow = "1.0.95"
 log = "^0.4"
 pretty_env_logger = "^0.5"
 serde = { version = "^1.0", features = ["derive"] }

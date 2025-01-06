@@ -6,16 +6,7 @@ use parserc::Span;
 /// Defines a `identifier` of one node or one attr.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Ident(pub String, pub Option<Span>);
-
-impl<T> From<T> for Ident
-where
-    String: From<T>,
-{
-    fn from(value: T) -> Self {
-        Self(value.into(), None)
-    }
-}
+pub struct Ident(pub String, pub Span);
 
 impl Ident {
     /// Create a new `Ident` with span.
@@ -23,44 +14,26 @@ impl Ident {
     where
         String: From<T>,
     {
-        Self(name.into(), Some(span))
+        Self(name.into(), span)
     }
 }
 
 /// Defines literal numeric.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct LitNum(pub usize, pub Option<Span>);
-
-impl<T> From<T> for LitNum
-where
-    usize: From<T>,
-{
-    fn from(value: T) -> Self {
-        Self(value.into(), None)
-    }
-}
+pub struct LitNum(pub usize, pub Span);
 
 impl LitNum {
     /// Create a new `Ident` with span.
     pub fn from_span(name: usize, span: Span) -> Self {
-        Self(name.into(), Some(span))
+        Self(name.into(), span)
     }
 }
 
 /// Defines literal numeric.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct LitStr(pub String, pub Option<Span>);
-
-impl<T> From<T> for LitStr
-where
-    String: From<T>,
-{
-    fn from(value: T) -> Self {
-        Self(value.into(), None)
-    }
-}
+pub struct LitStr(pub String, pub Span);
 
 impl LitStr {
     /// Create a new `Ident` with span.
@@ -68,7 +41,7 @@ impl LitStr {
     where
         String: From<T>,
     {
-        Self(name.into(), Some(span))
+        Self(name.into(), span)
     }
 }
 
@@ -95,16 +68,7 @@ impl From<LitNum> for LitExpr {
 /// Defines token of a line of comment.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Comment(pub String, pub Option<Span>);
-
-impl<T> From<T> for Comment
-where
-    String: From<T>,
-{
-    fn from(value: T) -> Self {
-        Self(value.into(), None)
-    }
-}
+pub struct Comment(pub String, pub Span);
 
 impl Comment {
     /// Create a new `Ident` with span.
@@ -112,7 +76,7 @@ impl Comment {
     where
         String: From<T>,
     {
-        Self(name.into(), Some(span))
+        Self(name.into(), span)
     }
 }
 
@@ -120,7 +84,7 @@ impl Comment {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct CallExpr {
-    pub span: Option<Span>,
+    pub span: Span,
     /// The identifier name of this element.
     pub ident: Ident,
     /// Optional call input parameter list.
@@ -131,7 +95,7 @@ impl CallExpr {
     /// Create a new `CallExpr` instance with `span`.
     pub fn from_span(ident: Ident, span: Span) -> Self {
         Self {
-            span: Some(span),
+            span,
             ident,
             params: vec![],
         }
@@ -147,25 +111,12 @@ impl CallExpr {
     }
 }
 
-impl<I> From<I> for CallExpr
-where
-    Ident: From<I>,
-{
-    fn from(value: I) -> Self {
-        Self {
-            span: None,
-            ident: value.into(),
-            params: vec![],
-        }
-    }
-}
-
 /// Defines custom property list.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Property {
     /// the whole span of this `property`.
-    pub span: Option<Span>,
+    pub span: Span,
     /// call-expr list.
     pub params: Vec<CallExpr>,
 }
@@ -174,7 +125,7 @@ impl Property {
     /// Create a new `CallExpr` instance with `span`.
     pub fn from_span(span: Span) -> Self {
         Self {
-            span: Some(span),
+            span,
             params: vec![],
         }
     }
@@ -186,19 +137,6 @@ impl Property {
         self.params.push(param.into());
 
         self
-    }
-}
-
-impl<I> From<I> for Property
-where
-    I: IntoIterator,
-    CallExpr: From<I::Item>,
-{
-    fn from(value: I) -> Self {
-        Self {
-            span: None,
-            params: value.into_iter().map(|v| v.into()).collect(),
-        }
     }
 }
 
@@ -250,45 +188,45 @@ pub struct Field {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Type {
-    Bool(Option<Span>),
-    String(Option<Span>),
-    Byte(Option<Span>),
-    Ubyte(Option<Span>),
-    Short(Option<Span>),
-    Ushort(Option<Span>),
-    Int(Option<Span>),
-    Uint(Option<Span>),
-    Long(Option<Span>),
-    Ulong(Option<Span>),
-    Float(Option<Span>),
-    Double(Option<Span>),
+    Bool(Span),
+    String(Span),
+    Byte(Span),
+    Ubyte(Span),
+    Short(Span),
+    Ushort(Span),
+    Int(Span),
+    Uint(Span),
+    Long(Span),
+    Ulong(Span),
+    Float(Span),
+    Double(Span),
     /// A data/enum reference.
     Data(Ident),
     /// This type is `vec[T]`.
-    ListOf(Box<Type>, Option<Span>),
+    ListOf(Box<Type>, Span),
     /// Array type [T;30]
-    ArrayOf(Box<Type>, LitNum, Option<Span>),
+    ArrayOf(Box<Type>, LitNum, Span),
 }
 
 impl Type {
     /// Return span of the type.
-    pub fn span(&self) -> Option<&Span> {
+    pub fn span(&self) -> &Span {
         match self {
-            Type::Bool(span) => span.as_ref(),
-            Type::String(span) => span.as_ref(),
-            Type::Byte(span) => span.as_ref(),
-            Type::Ubyte(span) => span.as_ref(),
-            Type::Short(span) => span.as_ref(),
-            Type::Ushort(span) => span.as_ref(),
-            Type::Int(span) => span.as_ref(),
-            Type::Uint(span) => span.as_ref(),
-            Type::Long(span) => span.as_ref(),
-            Type::Ulong(span) => span.as_ref(),
-            Type::Float(span) => span.as_ref(),
-            Type::Double(span) => span.as_ref(),
-            Type::Data(ident) => ident.1.as_ref(),
-            Type::ListOf(_, span) => span.as_ref(),
-            Type::ArrayOf(_, _, span) => span.as_ref(),
+            Type::Bool(span) => span,
+            Type::String(span) => span,
+            Type::Byte(span) => span,
+            Type::Ubyte(span) => span,
+            Type::Short(span) => span,
+            Type::Ushort(span) => span,
+            Type::Int(span) => span,
+            Type::Uint(span) => span,
+            Type::Long(span) => span,
+            Type::Ulong(span) => span,
+            Type::Float(span) => span,
+            Type::Double(span) => span,
+            Type::Data(ident) => &ident.1,
+            Type::ListOf(_, span) => span,
+            Type::ArrayOf(_, _, span) => span,
         }
     }
 }
