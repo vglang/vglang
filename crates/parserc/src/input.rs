@@ -189,7 +189,23 @@ where
 }
 
 /// Iterator returns by [`ParseContext::report`] fn.
-struct ReportIter(IntoIter<ReportRecord>);
+pub struct ReportIter(IntoIter<ReportRecord>);
+
+impl ReportIter {
+    /// print error report into console.
+    pub fn eprint(self) {
+        for (index, report) in self.enumerate() {
+            let report = report
+                .into_iter()
+                .enumerate()
+                .map(|(index, line)| format!("   {}: {} {}", index, line.0, line.span()))
+                .collect::<Vec<_>>()
+                .join("\n");
+
+            println!("parserc error({})\n{}", index, report);
+        }
+    }
+}
 
 impl Iterator for ReportIter {
     type Item = Vec<ReportLine>;
@@ -290,7 +306,7 @@ impl<'a> ParseContext<'a> {
     }
 
     /// Returns a clone of report list.
-    pub fn report(&mut self) -> impl Iterator<Item = Vec<ReportLine>> {
+    pub fn report(&mut self) -> ReportIter {
         ReportIter(self.error_reports.drain(..).collect::<Vec<_>>().into_iter())
     }
 
@@ -341,40 +357,40 @@ impl<'a> ParseContext<'a> {
             self.cols = span.cols;
             self.lines = span.lines;
             self.iter = self.source[span.offset..].char_indices().peekable();
+        }
 
-            // Clearup reporst whose span offset is greater than `seek` position.
+        // Clearup reporst whose span offset is greater than `seek` position.
 
-            let mut split_to = None;
+        let mut split_to = None;
 
-            for (index, report) in self.error_reports.iter().rev().enumerate() {
-                match report {
-                    ReportRecord::Start => {}
-                    ReportRecord::End => {}
-                    ReportRecord::Err(_, span) => {
-                        if span.offset < self.offset {
-                            break;
-                        }
-
-                        split_to = Some(index);
+        for (index, report) in self.error_reports.iter().rev().enumerate() {
+            match report {
+                ReportRecord::Start => {}
+                ReportRecord::End => {}
+                ReportRecord::Err(_, span) => {
+                    if span.offset < self.offset {
+                        break;
                     }
+
+                    split_to = Some(index);
                 }
             }
+        }
 
-            if let Some(split_to) = split_to {
-                // reverse index.
-                let split_to = self.error_reports.len() - split_to - 1;
+        if let Some(split_to) = split_to {
+            // reverse index.
+            let split_to = self.error_reports.len() - split_to - 1;
 
-                _ = self.error_reports.split_off(split_to);
+            _ = self.error_reports.split_off(split_to);
 
-                if let Some(&ReportRecord::Start) = self.error_reports.last() {
-                    self.error_reports.pop();
-                }
+            if let Some(&ReportRecord::Start) = self.error_reports.last() {
+                self.error_reports.pop();
+            }
 
-                match self.error_reports.last() {
-                    Some(ReportRecord::End) | None => {}
-                    _ => {
-                        self.error_reports.push(ReportRecord::End);
-                    }
+            match self.error_reports.last() {
+                Some(ReportRecord::End) | None => {}
+                _ => {
+                    self.error_reports.push(ReportRecord::End);
                 }
             }
         }
@@ -457,6 +473,8 @@ mod tests {
 
     use anyhow::anyhow;
 
+    use crate::{ensure_char, Parser, ParserExt};
+
     use super::*;
 
     impl Debug for ReportLine {
@@ -506,6 +524,19 @@ mod tests {
         });
 
         assert!(r.is_err());
+    }
+
+    #[test]
+    fn test_error_report2() {
+        let mut input = ParseContext::from("a");
+        ensure_char('{').ok().parse(&mut input).unwrap();
+
+        assert_eq!(input.report().count(), 0);
+
+        let mut input = ParseContext::from("");
+        ensure_char('{').ok().parse(&mut input).unwrap();
+
+        assert_eq!(input.report().count(), 0);
     }
 
     #[test]

@@ -325,8 +325,6 @@ pub fn ensure_char(c: char) -> impl Parser<Output = Span> + Clone {
                 return Ok(span);
             }
 
-            input.seek(span);
-
             input.report_error(Kind::Char(c), span);
 
             return Err(ControlFlow::Recoverable);

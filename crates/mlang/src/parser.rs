@@ -1036,19 +1036,19 @@ impl FromInput for ChildrenOf {
 }
 
 /// Parse input source code.
-pub fn parse<'a, I>(input: I) -> Result<Vec<Opcode>>
-where
-    ParseContext<'a>: From<I>,
-{
-    let mut input = input.into();
-
+pub fn parse(input: &mut ParseContext<'_>) -> Result<Vec<Opcode>> {
     let mut opcodes = vec![];
 
-    while let Some(opcode) = Opcode::into_parser().ok().parse(&mut input)? {
+    while let Some(opcode) = Opcode::into_parser().ok().parse(input)? {
         opcodes.push(opcode);
     }
 
     Ok(opcodes)
+}
+
+#[allow(unused)]
+struct SemanticAnalyzer {
+    opcodes: Vec<Opcode>,
 }
 
 #[cfg(test)]
