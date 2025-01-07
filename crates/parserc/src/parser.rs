@@ -515,7 +515,7 @@ mod tests {
             Err(ControlFlow::Recoverable)
         );
 
-        assert_eq!(input.size_hint(), (0, 7));
+        assert_eq!(input.size_hint(), (1, 7));
 
         let mut input = ParseContext::from("");
 

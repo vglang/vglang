@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use parserc::{
     ensure_char, ensure_keyword, take_till, take_while, ControlFlow, FromInput, IntoParser, Kind,
     ParseContext, Parser, ParserExt, Result, Span,
@@ -70,6 +72,9 @@ pub enum MlError {
 
     #[error("Unexpect key word `{0}`")]
     UnexpectKeyWord(String),
+
+    #[error("Unknown ident `{0}`")]
+    UnknownSymbol(String),
 }
 
 fn skip_ws(input: &mut ParseContext<'_>) -> Result<Option<Span>> {
@@ -1043,12 +1048,86 @@ pub fn parse(input: &mut ParseContext<'_>) -> Result<Vec<Opcode>> {
         opcodes.push(opcode);
     }
 
-    Ok(opcodes)
+    SemanticAnalyzer::from(opcodes).analyze(input)
 }
 
 #[allow(unused)]
 struct SemanticAnalyzer {
     opcodes: Vec<Opcode>,
+    symbols: HashMap<String, usize>,
+}
+
+impl From<Vec<Opcode>> for SemanticAnalyzer {
+    fn from(value: Vec<Opcode>) -> Self {
+        Self {
+            opcodes: value,
+            symbols: Default::default(),
+        }
+    }
+}
+
+impl SemanticAnalyzer {
+    fn analyze(mut self, input: &mut ParseContext<'_>) -> Result<Vec<Opcode>> {
+        self.build_symbol_table();
+
+        self.check_symbol(input);
+
+        Ok(self.opcodes)
+    }
+
+    fn check_symbol(&self, input: &mut ParseContext<'_>) {
+        for opcode in &self.opcodes {
+            match opcode {
+                Opcode::Element(node)
+                | Opcode::Leaf(node)
+                | Opcode::Attr(node)
+                | Opcode::Mixin(node)
+                | Opcode::Data(node) => {
+                    self.check_symbol_node(node, input);
+                }
+                Opcode::Enum(node) => self.check_symbol_enum(node, input),
+                Opcode::Group(node) => self.check_symbol_group(node, input),
+                Opcode::ApplyTo(node) => self.check_symbol_apply_to(node, input),
+                Opcode::ChildrenOf(node) => self.check_symbol_children_of(node, input),
+            }
+        }
+    }
+
+    fn check_symbol_children_of(&self, node: &ChildrenOf, input: &mut ParseContext<'_>) {}
+    fn check_symbol_apply_to(&self, node: &ApplyTo, input: &mut ParseContext<'_>) {}
+    fn check_symbol_group(&self, node: &Group, input: &mut ParseContext<'_>) {}
+    fn check_symbol_enum(&self, node: &Enum, input: &mut ParseContext<'_>) {}
+
+    fn check_symbol_node(&self, node: &Node, input: &mut ParseContext<'_>) {}
+
+    fn build_symbol_table(&mut self) {
+        for (index, opcode) in self.opcodes.iter().enumerate() {
+            match opcode {
+                Opcode::Element(node) => {
+                    self.symbols.insert(node.ident.0.clone(), index);
+                }
+                Opcode::Leaf(node) => {
+                    self.symbols.insert(node.ident.0.clone(), index);
+                }
+                Opcode::Attr(node) => {
+                    self.symbols.insert(node.ident.0.clone(), index);
+                }
+                Opcode::Mixin(node) => {
+                    self.symbols.insert(node.ident.0.clone(), index);
+                }
+                Opcode::Data(node) => {
+                    self.symbols.insert(node.ident.0.clone(), index);
+                }
+                Opcode::Enum(node) => {
+                    self.symbols.insert(node.ident.0.clone(), index);
+                }
+                Opcode::Group(group) => {
+                    self.symbols.insert(group.ident.0.clone(), index);
+                }
+                _ => {}
+            }
+        }
+    }
 }
 
 #[cfg(test)]
