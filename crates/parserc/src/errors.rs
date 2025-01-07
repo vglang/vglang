@@ -3,10 +3,10 @@ use std::fmt::Debug;
 /// [`Error`](ParserError) type used by builtin parser combinator.
 #[derive(Debug, thiserror::Error, PartialEq, Eq, PartialOrd, Ord, Clone)]
 pub enum Kind {
-    #[error("expect char('{0}')")]
+    #[error("Syntax error: expect '{0}'")]
     Char(char),
 
-    #[error("expect keyword('{0}')")]
+    #[error("Syntax error: expect keyword '{0}'")]
     Keyword(String),
 }
 

@@ -4,8 +4,8 @@ use parserc::{
 };
 
 use crate::opcode::{
-    ApplyTo, CallExpr, Comment, Enum, Field, Group, Ident, LitExpr, LitNum, LitStr, Node, Opcode,
-    Property, Type,
+    ApplyTo, CallExpr, ChildrenOf, Comment, Enum, Field, Group, Ident, LitExpr, LitNum, LitStr,
+    Node, Opcode, Property, Type,
 };
 
 /// [`ParserError`] defined by `mlang` crate.
@@ -32,11 +32,14 @@ pub enum MlError {
     #[error("Expect `:=` operator.")]
     GroupAssign,
 
-    #[error("Tuple expression syntax error.")]
+    #[error("Syntax error: expect `(...)`")]
     TupleExpr,
 
-    #[error("apply to expression syntax error.")]
+    #[error("Syntax error: expect `apply...to...`")]
     ApplyExpr,
+
+    #[error("Syntax error: expect `children...of...`")]
+    ChildrenOf,
 
     #[error("Expect `:<-` operator.")]
     ApplyAssign,
@@ -323,17 +326,7 @@ fn parse_tuple_expr(input: &mut ParseContext<'_>) -> Result<(Vec<Ident>, Span)> 
             .parse(input)?;
     }
 
-    ensure_char(')')
-        .with_context(MlError::TupleExpr, start)
-        .fatal()
-        .parse(input)?;
-
-    skip_ws
-        .with_context(MlError::TupleExpr, start)
-        .fatal()
-        .parse(input)?;
-
-    let end = ensure_char(';')
+    let end = ensure_char(')')
         .with_context(MlError::TupleExpr, start)
         .fatal()
         .parse(input)?;
@@ -896,12 +889,22 @@ impl FromInput for Group {
             .fatal()
             .parse(input)?;
 
-        let (children, span) = parse_tuple_expr
+        let (children, _) = parse_tuple_expr
             .with_context(MlError::GroupAssign, start)
             .parse(input)?;
 
+        skip_ws
+            .with_context(MlError::TupleExpr, start)
+            .fatal()
+            .parse(input)?;
+
+        let end = ensure_char(';')
+            .with_context(MlError::TupleExpr, start)
+            .fatal()
+            .parse(input)?;
+
         Ok(Self {
-            span: start.extend_to_inclusive(span),
+            span: start.extend_to_inclusive(end),
             ident,
             children,
         })
@@ -915,9 +918,19 @@ impl FromInput for ApplyTo {
     {
         let start = ensure_keyword("apply").parse(input)?;
 
+        skip_ws
+            .with_context(MlError::ApplyExpr, start)
+            .fatal()
+            .parse(input)?;
+
         let from = Ident::into_parser()
             .map(|v| vec![v])
             .or(parse_tuple_expr.map(|(v, _)| v))
+            .with_context(MlError::ApplyExpr, start)
+            .fatal()
+            .parse(input)?;
+
+        skip_ws
             .with_context(MlError::ApplyExpr, start)
             .fatal()
             .parse(input)?;
@@ -927,7 +940,12 @@ impl FromInput for ApplyTo {
             .fatal()
             .parse(input)?;
 
-        let (to, span) = Ident::into_parser()
+        skip_ws
+            .with_context(MlError::ApplyExpr, start)
+            .fatal()
+            .parse(input)?;
+
+        let (to, _) = Ident::into_parser()
             .map(|v| {
                 let span = v.1;
                 (vec![v], span)
@@ -937,8 +955,80 @@ impl FromInput for ApplyTo {
             .fatal()
             .parse(input)?;
 
+        skip_ws
+            .with_context(MlError::ApplyExpr, start)
+            .fatal()
+            .parse(input)?;
+
+        let end = ensure_char(';')
+            .with_context(MlError::ApplyExpr, start)
+            .fatal()
+            .parse(input)?;
+
         Ok(Self {
-            span: start.extend_to_inclusive(span),
+            span: start.extend_to_inclusive(end),
+            from,
+            to,
+        })
+    }
+}
+
+impl FromInput for ChildrenOf {
+    fn parse(input: &mut ParseContext<'_>) -> Result<Self>
+    where
+        Self: Sized,
+    {
+        let start = ensure_keyword("children").parse(input)?;
+
+        skip_ws
+            .with_context(MlError::ChildrenOf, start)
+            .fatal()
+            .parse(input)?;
+
+        let from = Ident::into_parser()
+            .map(|v| vec![v])
+            .or(parse_tuple_expr.map(|(v, _)| v))
+            .with_context(MlError::ChildrenOf, start)
+            .fatal()
+            .parse(input)?;
+
+        skip_ws
+            .with_context(MlError::ChildrenOf, start)
+            .fatal()
+            .parse(input)?;
+
+        ensure_keyword("of")
+            .with_context(MlError::ChildrenOf, input.span())
+            .fatal()
+            .parse(input)?;
+
+        skip_ws
+            .with_context(MlError::ChildrenOf, start)
+            .fatal()
+            .parse(input)?;
+
+        let (to, _) = Ident::into_parser()
+            .map(|v| {
+                let span = v.1;
+                (vec![v], span)
+            })
+            .or(parse_tuple_expr)
+            .with_context(MlError::ChildrenOf, start)
+            .fatal()
+            .parse(input)?;
+
+        skip_ws
+            .with_context(MlError::ChildrenOf, start)
+            .fatal()
+            .parse(input)?;
+
+        let end = ensure_char(';')
+            .with_context(MlError::ChildrenOf, start)
+            .fatal()
+            .parse(input)?;
+
+        Ok(Self {
+            span: start.extend_to_inclusive(end),
             from,
             to,
         })
@@ -967,26 +1057,84 @@ mod tests {
 
     #[test]
     fn test_group() {
-        assert_eq!(
-            Group::parse(&mut ParseContext::from("group hello := () ;")),
-            Ok(Group {
+        Group::into_parser()
+            .expect(Group {
                 span: Span::new(0, 19, 1, 1),
                 ident: Ident::from_span("hello", Span::new(6, 5, 1, 7)),
-                children: vec![]
+                children: vec![],
             })
-        );
+            .parse(&mut ParseContext::from("group hello := () ;"))
+            .unwrap();
 
-        assert_eq!(
-            Group::parse(&mut ParseContext::from("group hello := ( word, large) ;")),
-            Ok(Group {
+        Group::into_parser()
+            .expect(Group {
                 span: Span::new(0, 31, 1, 1),
                 ident: Ident::from_span("hello", Span::new(6, 5, 1, 7)),
                 children: vec![
                     Ident::from_span("word", Span::new(17, 4, 1, 18)),
-                    Ident::from_span("large", Span::new(23, 5, 1, 24))
-                ]
+                    Ident::from_span("large", Span::new(23, 5, 1, 24)),
+                ],
             })
-        );
+            .parse(&mut ParseContext::from("group hello := ( word, large) ;"))
+            .unwrap();
+    }
+
+    #[test]
+    fn test_apply_to() {
+        ApplyTo::into_parser()
+            .expect(ApplyTo {
+                span: Span::new(0, 21, 1, 1),
+                from: vec![Ident::from_span("hello", Span::new(6, 5, 1, 7))],
+                to: vec![Ident::from_span("world", Span::new(15, 5, 1, 16))],
+            })
+            .parse(&mut ParseContext::from("apply hello to world;"))
+            .unwrap();
+
+        ApplyTo::into_parser()
+            .expect(ApplyTo {
+                span: Span::new(0, 38, 1, 1),
+                from: vec![
+                    Ident::from_span("hello", Span::new(7, 5, 1, 8)),
+                    Ident::from_span("world", Span::new(13, 5, 1, 14)),
+                ],
+                to: vec![
+                    Ident::from_span("hello", Span::new(24, 5, 1, 25)),
+                    Ident::from_span("world", Span::new(30, 5, 1, 31)),
+                ],
+            })
+            .parse(&mut ParseContext::from(
+                "apply (hello,world) to (hello,world,);",
+            ))
+            .unwrap();
+    }
+
+    #[test]
+    fn test_childrenof() {
+        ChildrenOf::into_parser()
+            .expect(ChildrenOf {
+                span: Span::new(0, 24, 1, 1),
+                from: vec![Ident::from_span("hello", Span::new(9, 5, 1, 10))],
+                to: vec![Ident::from_span("world", Span::new(18, 5, 1, 19))],
+            })
+            .parse(&mut ParseContext::from("children hello of world;"))
+            .unwrap();
+
+        ChildrenOf::into_parser()
+            .expect(ChildrenOf {
+                span: Span::new(0, 41, 1, 1),
+                from: vec![
+                    Ident::from_span("hello", Span::new(10, 5, 1, 11)),
+                    Ident::from_span("world", Span::new(16, 5, 1, 17)),
+                ],
+                to: vec![
+                    Ident::from_span("hello", Span::new(27, 5, 1, 28)),
+                    Ident::from_span("world", Span::new(33, 5, 1, 34)),
+                ],
+            })
+            .parse(&mut ParseContext::from(
+                "children (hello,world) of (hello,world,);",
+            ))
+            .unwrap();
     }
 }
 

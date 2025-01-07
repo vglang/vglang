@@ -1,6 +1,6 @@
-use std::{marker::PhantomData, str::Chars};
+use std::{fmt::Debug, marker::PhantomData, str::Chars};
 
-use crate::{ControlFlow, Kind, ParseContext, Result, Span};
+use crate::{ControlFlow, Kind, ParseContext, ReportLine, Result, Span};
 
 /// A parser produce output by parsing and consuming the [`Input`] char stream.
 pub trait Parser {
@@ -121,6 +121,62 @@ where
     }
 }
 
+/// A combinator for [`expect`](ParserExt::expect) function.
+#[derive(Clone)]
+pub struct Expect<S>(S, S::Output)
+where
+    S: Parser;
+
+impl<S> Parser for Expect<S>
+where
+    S: Parser,
+    S::Output: PartialEq + Debug,
+{
+    type Output = S::Output;
+    fn parse(self, input: &mut ParseContext<'_>) -> Result<Self::Output> {
+        let output = match self.0.parse(input) {
+            Ok(output) => output,
+            Err(c) => {
+                let report = input
+                    .last_error()
+                    .expect("inner error")
+                    .into_iter()
+                    .enumerate()
+                    .map(|(index, line)| format!("\t{}: {} {}", index, line.0, line.span()))
+                    .collect::<Vec<_>>()
+                    .join("\n");
+
+                panic!("(expect): {}\n{}", c, report)
+            }
+        };
+
+        assert_eq!(output, self.1, "combinator(expect)");
+        Ok(output)
+    }
+}
+
+/// A combinator for [`expect_err`](ParserExt::expect_err) function.
+pub struct ExpectErr<S>(S)
+where
+    S: Parser;
+
+impl<S> Parser for ExpectErr<S>
+where
+    S: Parser,
+    S::Output: PartialEq + Debug,
+{
+    type Output = Vec<ReportLine>;
+    fn parse(self, input: &mut ParseContext<'_>) -> Result<Self::Output> {
+        self.0
+            .parse(input)
+            .expect_err("combinator(expect_err): unexpect success.");
+
+        Ok(input
+            .last_error()
+            .expect("combinator(expect_err): empty report"))
+    }
+}
+
 /// An extension trait for [`Parser`] combinators.
 pub trait ParserExt: Parser {
     /// Convert parser result from [`Recoverable`] / [`Incomplete`] errors to [`None`].
@@ -168,6 +224,22 @@ pub trait ParserExt: Parser {
         Self: Sized,
     {
         WithContext(self, error, span)
+    }
+
+    /// Assert the parser result equal to `expect`.
+    fn expect(self, expect: Self::Output) -> Expect<Self>
+    where
+        Self: Sized,
+    {
+        Expect(self, expect)
+    }
+
+    /// Assert the parser always failed.
+    fn expect_err(self) -> ExpectErr<Self>
+    where
+        Self: Sized,
+    {
+        ExpectErr(self)
     }
 }
 

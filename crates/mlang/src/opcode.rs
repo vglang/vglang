@@ -262,9 +262,9 @@ pub struct ChildrenOf {
     /// The span of group.
     pub span: Span,
     /// children group.
-    pub from: Group,
+    pub from: Vec<Ident>,
     /// parent group.
-    pub to: Group,
+    pub to: Vec<Ident>,
 }
 
 /// Defines `mlang`'s opcode.

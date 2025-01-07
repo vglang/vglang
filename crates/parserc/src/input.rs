@@ -87,7 +87,7 @@ impl Span {
 
 impl Display for Span {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{},{}", self.lines, self.cols)
+        write!(f, "[Ln {}, Col {}]", self.lines, self.cols)
     }
 }
 /// Report for parsing error.
@@ -152,8 +152,7 @@ where
 }
 
 /// A error type returned by [ParseContext::report_iter]
-///
-pub struct ReportLine(anyhow::Error, Span);
+pub struct ReportLine(pub(crate) anyhow::Error, pub Span);
 
 impl ReportLine {
     /// Returns the position of this error was been reported.
@@ -166,6 +165,16 @@ impl ReportLine {
         E: Display + Debug + Send + Sync + 'static,
     {
         self.0.downcast_ref()
+    }
+
+    pub fn downcast<E>(self) -> Result<(E, Span), Self>
+    where
+        E: Display + Debug + Send + Sync + 'static,
+    {
+        match self.0.downcast::<E>() {
+            Ok(err) => return Ok((err, self.1)),
+            Err(err) => return Err(ReportLine(err, self.1)),
+        }
     }
 }
 
@@ -280,9 +289,26 @@ impl<'a> ParseContext<'a> {
         self.error_reports.len()
     }
 
-    /// Reset parse context status and returns error report `iterator<Item=Vec<ReportLine>>`.
+    /// Returns a clone of report list.
     pub fn report(&mut self) -> impl Iterator<Item = Vec<ReportLine>> {
         ReportIter(self.error_reports.drain(..).collect::<Vec<_>>().into_iter())
+    }
+
+    /// Pop up the last report.
+    pub fn last_error(&mut self) -> Option<Vec<ReportLine>> {
+        if let Some(ReportRecord::End) = self.error_reports.pop() {
+            let mut lines = vec![];
+
+            while let Some(ReportRecord::Err(err, span)) = self.error_reports.pop() {
+                lines.push(ReportLine(err, span));
+            }
+
+            lines.reverse();
+
+            return Some(lines);
+        }
+
+        return None;
     }
 
     /// Return the [`Span`] of the next char.
