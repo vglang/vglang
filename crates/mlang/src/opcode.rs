@@ -231,6 +231,42 @@ impl Type {
     }
 }
 
+/// Defines a group.
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct Group {
+    /// The span of group.
+    pub span: Span,
+    /// The name of the group.
+    pub ident: Option<Ident>,
+    /// The content of the group.
+    pub children: Vec<Ident>,
+}
+
+/// Defines apply to link
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct ApplyTo {
+    /// The span of group.
+    pub span: Span,
+    /// From target.
+    pub from: Group,
+    /// To target
+    pub to: Group,
+}
+
+/// Defines childof link
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct ChildrenOf {
+    /// The span of group.
+    pub span: Span,
+    /// children group.
+    pub from: Group,
+    /// parent group.
+    pub to: Group,
+}
+
 /// Defines `mlang`'s opcode.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -241,4 +277,7 @@ pub enum Opcode {
     Mixin(Box<Node>),
     Data(Box<Node>),
     Enum(Box<Enum>),
+    Group(Box<Group>),
+    ApplyTo(Box<ApplyTo>),
+    ChildrenOf(Box<ChildrenOf>),
 }
