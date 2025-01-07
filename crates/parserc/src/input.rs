@@ -1,13 +1,29 @@
-use std::{fmt::Display, iter::Peekable, str::CharIndices};
+use std::{
+    fmt::{Debug, Display},
+    iter::Peekable,
+    str::CharIndices,
+    vec::IntoIter,
+};
 
 /// A `span` is a reference to a fragment of the [`Input`].
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Eq, Ord, Hash)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Span {
-    offset: usize,
-    len: usize,
-    lines: usize,
-    cols: usize,
+    pub offset: usize,
+    pub len: usize,
+    pub lines: usize,
+    pub cols: usize,
+}
+
+impl From<(usize, usize, usize, usize)> for Span {
+    fn from(value: (usize, usize, usize, usize)) -> Self {
+        Self {
+            offset: value.0,
+            len: value.1,
+            lines: value.2,
+            cols: value.3,
+        }
+    }
 }
 
 impl Span {
@@ -75,13 +91,118 @@ impl Display for Span {
     }
 }
 /// Report for parsing error.
-pub enum Report {
+enum ReportRecord {
+    /// Error report start tag.
+    Start,
+    /// Error report end tag.
+    End,
     /// This is the origin error report.
-    Origin(anyhow::Error, Span),
-    /// Addition error report.
-    CauseBy(anyhow::Error, Span, Box<Report>),
+    #[allow(unused)]
+    Err(anyhow::Error, Span),
 }
 
+impl Debug for ReportRecord {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            ReportRecord::Start => write!(f, "start"),
+            ReportRecord::End => write!(f, "end"),
+            ReportRecord::Err(_, span) => {
+                write!(f, "err({:?})", span)
+            }
+        }
+    }
+}
+
+impl PartialEq for ReportRecord {
+    fn eq(&self, other: &Self) -> bool {
+        match self {
+            ReportRecord::Start => {
+                if let ReportRecord::Start = other {
+                    true
+                } else {
+                    false
+                }
+            }
+            ReportRecord::End => {
+                if let ReportRecord::End = other {
+                    true
+                } else {
+                    false
+                }
+            }
+            ReportRecord::Err(_, span) => {
+                if let ReportRecord::Err(_, other_span) = other {
+                    *span == *other_span
+                } else {
+                    false
+                }
+            }
+        }
+    }
+}
+
+impl<E, S> From<(E, S)> for ReportRecord
+where
+    Span: From<S>,
+    anyhow::Error: From<E>,
+{
+    fn from(value: (E, S)) -> Self {
+        Self::Err(value.0.into(), value.1.into())
+    }
+}
+
+/// A error type returned by [ParseContext::report_iter]
+///
+pub struct ReportLine(anyhow::Error, Span);
+
+impl ReportLine {
+    /// Returns the position of this error was been reported.
+    pub fn span(&self) -> Span {
+        self.1
+    }
+
+    pub fn downcast_ref<E>(&self) -> Option<&E>
+    where
+        E: Display + Debug + Send + Sync + 'static,
+    {
+        self.0.downcast_ref()
+    }
+}
+
+impl<E, S> From<(E, S)> for ReportLine
+where
+    Span: From<S>,
+    anyhow::Error: From<E>,
+{
+    fn from(value: (E, S)) -> Self {
+        Self(value.0.into(), value.1.into())
+    }
+}
+
+/// Iterator returns by [`ParseContext::report`] fn.
+struct ReportIter(IntoIter<ReportRecord>);
+
+impl Iterator for ReportIter {
+    type Item = Vec<ReportLine>;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let mut records = vec![];
+
+        while let Some(record) = self.0.next() {
+            match record {
+                ReportRecord::Start => {}
+                ReportRecord::End => return Some(records),
+                ReportRecord::Err(error, span) => {
+                    records.push(ReportLine(error, span));
+                }
+            }
+        }
+
+        assert!(records.is_empty(), "inner error");
+
+        return None;
+    }
+}
 /// A seekable source code stream.
 pub struct ParseContext<'a> {
     /// raw source code.
@@ -95,7 +216,7 @@ pub struct ParseContext<'a> {
     /// tracking the col no. start with `1`
     cols: usize,
     /// error reports.
-    error_reports: Vec<Report>,
+    error_reports: Vec<ReportRecord>,
 }
 
 impl<'a> From<&'a str> for ParseContext<'a> {
@@ -113,24 +234,55 @@ impl<'a> From<&'a str> for ParseContext<'a> {
 
 impl<'a> ParseContext<'a> {
     /// Report a new error.
-    pub fn report_error<E>(&mut self, error: E, span: Span)
+    pub fn report_error<E, S>(&mut self, error: E, span: S)
     where
         anyhow::Error: From<E>,
+        Span: From<S>,
     {
-        self.error_reports.push(Report::Origin(error.into(), span));
+        self.error_reports.push(ReportRecord::Start);
+        self.error_reports
+            .push(ReportRecord::Err(error.into(), span.into()));
+        self.error_reports.push(ReportRecord::End);
     }
 
     /// if exists, add context information for last error report, otherwise report a new error.
-    pub fn with_context<E>(&mut self, error: E, span: Span)
+    pub fn with_context<E, S>(&mut self, error: E, span: S)
     where
         anyhow::Error: From<E>,
+        Span: From<S>,
     {
-        if let Some(report) = self.error_reports.pop() {
+        if let Some(ReportRecord::End) = self.error_reports.pop() {
+            let mut end = None;
+            for (index, report) in self.error_reports.iter().rev().enumerate() {
+                if let &ReportRecord::Start = report {
+                    end = Some(index);
+                    break;
+                }
+            }
+
+            let mut err_stack = self
+                .error_reports
+                .split_off(self.error_reports.len() - end.unwrap());
+
             self.error_reports
-                .push(Report::CauseBy(error.into(), span, Box::new(report)));
+                .push(ReportRecord::Err(error.into(), span.into()));
+
+            self.error_reports.append(&mut err_stack);
+
+            self.error_reports.push(ReportRecord::End);
         } else {
-            self.error_reports.push(Report::Origin(error.into(), span));
+            self.report_error(error, span);
         }
+    }
+
+    /// Returns the report record size.
+    pub fn report_size(&self) -> usize {
+        self.error_reports.len()
+    }
+
+    /// Reset parse context status and returns error report `iterator<Item=Vec<ReportLine>>`.
+    pub fn report(&mut self) -> impl Iterator<Item = Vec<ReportLine>> {
+        ReportIter(self.error_reports.drain(..).collect::<Vec<_>>().into_iter())
     }
 
     /// Return the [`Span`] of the next char.
@@ -151,13 +303,54 @@ impl<'a> ParseContext<'a> {
     /// Seek to the start of the `span`.
     ///
     /// A seek beyond the end of the stream is not allowed, will cause a panic.
-    pub fn seek(&mut self, span: Span) {
+    pub fn seek<S>(&mut self, span: S)
+    where
+        Span: From<S>,
+    {
+        let span: Span = span.into();
+
         assert!(span.offset <= self.source.len(), "seek: out of range.");
         if self.offset != span.offset {
             self.offset = span.offset;
             self.cols = span.cols;
             self.lines = span.lines;
             self.iter = self.source[span.offset..].char_indices().peekable();
+
+            // Clearup reporst whose span offset is greater than `seek` position.
+
+            let mut split_to = None;
+
+            for (index, report) in self.error_reports.iter().rev().enumerate() {
+                match report {
+                    ReportRecord::Start => {}
+                    ReportRecord::End => {}
+                    ReportRecord::Err(_, span) => {
+                        if span.offset < self.offset {
+                            break;
+                        }
+
+                        split_to = Some(index);
+                    }
+                }
+            }
+
+            if let Some(split_to) = split_to {
+                // reverse index.
+                let split_to = self.error_reports.len() - split_to - 1;
+
+                _ = self.error_reports.split_off(split_to);
+
+                if let Some(&ReportRecord::Start) = self.error_reports.last() {
+                    self.error_reports.pop();
+                }
+
+                match self.error_reports.last() {
+                    Some(ReportRecord::End) | None => {}
+                    _ => {
+                        self.error_reports.push(ReportRecord::End);
+                    }
+                }
+            }
         }
     }
 
@@ -236,7 +429,21 @@ mod tests {
 
     use std::panic::catch_unwind;
 
+    use anyhow::anyhow;
+
     use super::*;
+
+    impl Debug for ReportLine {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            write!(f, "report({:#?})", self.1)
+        }
+    }
+
+    impl PartialEq for ReportLine {
+        fn eq(&self, other: &Self) -> bool {
+            self.1 == other.1
+        }
+    }
 
     #[test]
     fn test_size_hint() {
@@ -273,6 +480,73 @@ mod tests {
         });
 
         assert!(r.is_err());
+    }
+
+    #[test]
+    fn test_error_report() {
+        let mut context = ParseContext::from("hello world");
+
+        context.report_error(anyhow!("one"), (3, 1, 1, 4));
+
+        context.report_error(anyhow!("two"), (5, 1, 1, 6));
+
+        context.with_context(anyhow!("three"), (4, 1, 1, 5));
+
+        assert_eq!(
+            context.error_reports,
+            &[
+                ReportRecord::Start,
+                (anyhow!("one"), (3, 1, 1, 4)).into(),
+                ReportRecord::End,
+                ReportRecord::Start,
+                (anyhow!("three"), (4, 1, 1, 5)).into(),
+                (anyhow!("two"), (5, 1, 1, 6)).into(),
+                ReportRecord::End,
+            ]
+        );
+
+        context.seek((5, 1, 1, 5));
+
+        assert_eq!(
+            context.error_reports,
+            &[
+                ReportRecord::Start,
+                (anyhow!("one"), (3, 1, 1, 4)).into(),
+                ReportRecord::End,
+                ReportRecord::Start,
+                (anyhow!("three"), (4, 1, 1, 5)).into(),
+                ReportRecord::End,
+            ]
+        );
+
+        context.seek((0, 1, 1, 1));
+
+        assert_eq!(context.error_reports, &[]);
+
+        let mut context = ParseContext::from("hello world");
+
+        context.report_error(anyhow!("one"), (3, 1, 1, 4));
+
+        context.report_error(anyhow!("two"), (5, 1, 1, 6));
+
+        context.with_context(anyhow!("three"), (4, 1, 1, 5));
+
+        assert_eq!(context.report_size(), 7);
+
+        let mut report_iter = context.report();
+
+        assert_eq!(
+            report_iter.next().unwrap(),
+            vec![(anyhow!("one"), (3, 1, 1, 4)).into()]
+        );
+
+        assert_eq!(
+            report_iter.next().unwrap(),
+            vec![
+                (anyhow!("three"), (4, 1, 1, 5)).into(),
+                (anyhow!("two"), (5, 1, 1, 6)).into()
+            ]
+        );
     }
 
     #[test]
