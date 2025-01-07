@@ -238,7 +238,7 @@ pub struct Group {
     /// The span of group.
     pub span: Span,
     /// The name of the group.
-    pub ident: Option<Ident>,
+    pub ident: Ident,
     /// The content of the group.
     pub children: Vec<Ident>,
 }
@@ -250,9 +250,9 @@ pub struct ApplyTo {
     /// The span of group.
     pub span: Span,
     /// From target.
-    pub from: Group,
+    pub from: Vec<Ident>,
     /// To target
-    pub to: Group,
+    pub to: Vec<Ident>,
 }
 
 /// Defines childof link

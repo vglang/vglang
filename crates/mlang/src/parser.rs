@@ -4,7 +4,8 @@ use parserc::{
 };
 
 use crate::opcode::{
-    CallExpr, Comment, Enum, Field, Ident, LitExpr, LitNum, LitStr, Node, Opcode, Property, Type,
+    ApplyTo, CallExpr, Comment, Enum, Field, Group, Ident, LitExpr, LitNum, LitStr, Node, Opcode,
+    Property, Type,
 };
 
 /// [`ParserError`] defined by `mlang` crate.
@@ -27,6 +28,18 @@ pub enum MlError {
 
     #[error("Invalid call expression")]
     CallExpr,
+
+    #[error("Expect `:=` operator.")]
+    GroupAssign,
+
+    #[error("Tuple expression syntax error.")]
+    TupleExpr,
+
+    #[error("apply to expression syntax error.")]
+    ApplyExpr,
+
+    #[error("Expect `:<-` operator.")]
+    ApplyAssign,
 
     #[error("Invalid property expression")]
     Property,
@@ -267,6 +280,65 @@ fn parse_node_inner(
             fields,
         },
     ))
+}
+
+fn parse_tuple_expr(input: &mut ParseContext<'_>) -> Result<(Vec<Ident>, Span)> {
+    let start = ensure_char('(')
+        .with_context(MlError::TupleExpr, input.span())
+        .parse(input)?;
+
+    skip_ws
+        .with_context(MlError::TupleExpr, start)
+        .fatal()
+        .parse(input)?;
+
+    let mut children = vec![];
+
+    while let Some(child) = Ident::into_parser()
+        .ok()
+        .with_context(MlError::TupleExpr, start)
+        .fatal()
+        .parse(input)?
+    {
+        children.push(child);
+
+        skip_ws
+            .with_context(MlError::TupleExpr, start)
+            .fatal()
+            .parse(input)?;
+
+        if ensure_char(',')
+            .ok()
+            .with_context(MlError::TupleExpr, start)
+            .fatal()
+            .parse(input)?
+            .is_none()
+        {
+            break;
+        }
+
+        skip_ws
+            .with_context(MlError::TupleExpr, start)
+            .fatal()
+            .parse(input)?;
+    }
+
+    ensure_char(')')
+        .with_context(MlError::TupleExpr, start)
+        .fatal()
+        .parse(input)?;
+
+    skip_ws
+        .with_context(MlError::TupleExpr, start)
+        .fatal()
+        .parse(input)?;
+
+    let end = ensure_char(';')
+        .with_context(MlError::TupleExpr, start)
+        .fatal()
+        .parse(input)?;
+
+    Ok((children, start.extend_to_inclusive(end)))
 }
 
 impl FromInput for Ident {
@@ -793,6 +865,86 @@ impl FromInput for Opcode {
     }
 }
 
+impl FromInput for Group {
+    fn parse(input: &mut ParseContext<'_>) -> Result<Self>
+    where
+        Self: Sized,
+    {
+        let start = ensure_keyword("group").parse(input)?;
+
+        skip_ws
+            .with_context(MlError::GroupAssign, start)
+            .fatal()
+            .parse(input)?;
+
+        let ident = Ident::into_parser()
+            .with_context(MlError::GroupAssign, start)
+            .parse(input)?;
+
+        skip_ws
+            .with_context(MlError::GroupAssign, start)
+            .fatal()
+            .parse(input)?;
+
+        ensure_keyword(":=")
+            .with_context(MlError::GroupAssign, ident.1)
+            .fatal()
+            .parse(input)?;
+
+        skip_ws
+            .with_context(MlError::GroupAssign, start)
+            .fatal()
+            .parse(input)?;
+
+        let (children, span) = parse_tuple_expr
+            .with_context(MlError::GroupAssign, start)
+            .parse(input)?;
+
+        Ok(Self {
+            span: start.extend_to_inclusive(span),
+            ident,
+            children,
+        })
+    }
+}
+
+impl FromInput for ApplyTo {
+    fn parse(input: &mut ParseContext<'_>) -> Result<Self>
+    where
+        Self: Sized,
+    {
+        let start = ensure_keyword("apply").parse(input)?;
+
+        let from = Ident::into_parser()
+            .map(|v| vec![v])
+            .or(parse_tuple_expr.map(|(v, _)| v))
+            .with_context(MlError::ApplyExpr, start)
+            .fatal()
+            .parse(input)?;
+
+        ensure_keyword("to")
+            .with_context(MlError::ApplyExpr, input.span())
+            .fatal()
+            .parse(input)?;
+
+        let (to, span) = Ident::into_parser()
+            .map(|v| {
+                let span = v.1;
+                (vec![v], span)
+            })
+            .or(parse_tuple_expr)
+            .with_context(MlError::ApplyExpr, start)
+            .fatal()
+            .parse(input)?;
+
+        Ok(Self {
+            span: start.extend_to_inclusive(span),
+            from,
+            to,
+        })
+    }
+}
+
 /// Parse input source code.
 pub fn parse<'a, I>(input: I) -> Result<Vec<Opcode>>
 where
@@ -809,16 +961,34 @@ where
     Ok(opcodes)
 }
 
-// #[cfg(test)]
-// mod tests {
-//     use parserc::{FromInput, Kind, ParseContext, Parser, Span};
+#[cfg(test)]
+mod tests {
+    use super::*;
 
-//     use crate::{
-//         opcode::{CallExpr, Comment, Field, Ident, LitExpr, LitNum, LitStr, Node, Property, Type},
-//         parser::MlError,
-//     };
+    #[test]
+    fn test_group() {
+        assert_eq!(
+            Group::parse(&mut ParseContext::from("group hello := () ;")),
+            Ok(Group {
+                span: Span::new(0, 19, 1, 1),
+                ident: Ident::from_span("hello", Span::new(6, 5, 1, 7)),
+                children: vec![]
+            })
+        );
 
-//     use super::parse_node;
+        assert_eq!(
+            Group::parse(&mut ParseContext::from("group hello := ( word, large) ;")),
+            Ok(Group {
+                span: Span::new(0, 31, 1, 1),
+                ident: Ident::from_span("hello", Span::new(6, 5, 1, 7)),
+                children: vec![
+                    Ident::from_span("word", Span::new(17, 4, 1, 18)),
+                    Ident::from_span("large", Span::new(23, 5, 1, 24))
+                ]
+            })
+        );
+    }
+}
 
 //     #[test]
 //     fn test_ident() {
