@@ -231,18 +231,6 @@ impl Type {
     }
 }
 
-/// Defines a group.
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Group {
-    /// The span of group.
-    pub span: Span,
-    /// The name of the group.
-    pub ident: Ident,
-    /// The content of the group.
-    pub children: Vec<Ident>,
-}
-
 /// Defines apply to link
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -277,7 +265,7 @@ pub enum Opcode {
     Mixin(Box<Node>),
     Data(Box<Node>),
     Enum(Box<Enum>),
-    Group(Box<Group>),
+
     ApplyTo(Box<ApplyTo>),
     ChildrenOf(Box<ChildrenOf>),
 }

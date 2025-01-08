@@ -4,8 +4,8 @@ use parserc::{
 };
 
 use crate::opcode::{
-    ApplyTo, CallExpr, ChildrenOf, Comment, Enum, Field, Group, Ident, LitExpr, LitNum, LitStr,
-    Node, Opcode, Property, Type,
+    ApplyTo, CallExpr, ChildrenOf, Comment, Enum, Field, Ident, LitExpr, LitNum, LitStr, Node,
+    Opcode, Property, Type,
 };
 
 /// Error type returns by `mlang` parser combinators.
@@ -864,59 +864,6 @@ impl FromInput for Opcode {
     }
 }
 
-impl FromInput for Group {
-    fn parse(input: &mut ParseContext<'_>) -> Result<Self>
-    where
-        Self: Sized,
-    {
-        let start = ensure_keyword("group").parse(input)?;
-
-        skip_ws
-            .with_context(MlParseError::GroupAssign, start)
-            .fatal()
-            .parse(input)?;
-
-        let ident = Ident::into_parser()
-            .with_context(MlParseError::GroupAssign, start)
-            .parse(input)?;
-
-        skip_ws
-            .with_context(MlParseError::GroupAssign, start)
-            .fatal()
-            .parse(input)?;
-
-        ensure_keyword(":=")
-            .with_context(MlParseError::GroupAssign, ident.1)
-            .fatal()
-            .parse(input)?;
-
-        skip_ws
-            .with_context(MlParseError::GroupAssign, start)
-            .fatal()
-            .parse(input)?;
-
-        let (children, _) = parse_tuple_expr
-            .with_context(MlParseError::GroupAssign, start)
-            .parse(input)?;
-
-        skip_ws
-            .with_context(MlParseError::TupleExpr, start)
-            .fatal()
-            .parse(input)?;
-
-        let end = ensure_char(';')
-            .with_context(MlParseError::TupleExpr, start)
-            .fatal()
-            .parse(input)?;
-
-        Ok(Self {
-            span: start.extend_to_inclusive(end),
-            ident,
-            children,
-        })
-    }
-}
-
 impl FromInput for ApplyTo {
     fn parse(input: &mut ParseContext<'_>) -> Result<Self>
     where
@@ -1055,30 +1002,6 @@ pub fn parse(input: &mut ParseContext<'_>) -> Result<Vec<Opcode>> {
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    #[test]
-    fn test_group() {
-        Group::into_parser()
-            .expect(Group {
-                span: Span::new(0, 19, 1, 1),
-                ident: Ident::from_span("hello", Span::new(6, 5, 1, 7)),
-                children: vec![],
-            })
-            .parse(&mut ParseContext::from("group hello := () ;"))
-            .unwrap();
-
-        Group::into_parser()
-            .expect(Group {
-                span: Span::new(0, 31, 1, 1),
-                ident: Ident::from_span("hello", Span::new(6, 5, 1, 7)),
-                children: vec![
-                    Ident::from_span("word", Span::new(17, 4, 1, 18)),
-                    Ident::from_span("large", Span::new(23, 5, 1, 24)),
-                ],
-            })
-            .parse(&mut ParseContext::from("group hello := ( word, large) ;"))
-            .unwrap();
-    }
 
     #[test]
     fn test_apply_to() {
