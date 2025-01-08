@@ -8,10 +8,12 @@ repository = "https://github.com/vglang/mlang"
 version = "0.1.2"
 
 [dependencies]
-thiserror = "^2.0"
-log = "^0.4"
-serde = { workspace = true, optional = true }
+thiserror = { workspace = true }
+log = { workspace = true }
 parserc = { workspace = true }
+
+quote= { workspace = true ,optional = true}
+serde = { workspace = true, optional = true }
 
 [dev-dependencies]
 serde_json = { workspace = true }
@@ -19,3 +21,4 @@ serde_json = { workspace = true }
 [features]
 default = ["serde"]
 serde = ["dep:serde", "parserc/serde"]
+codegen = ["quote"]
