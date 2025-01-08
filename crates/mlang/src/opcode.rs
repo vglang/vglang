@@ -265,7 +265,6 @@ pub enum Opcode {
     Mixin(Box<Node>),
     Data(Box<Node>),
     Enum(Box<Enum>),
-
     ApplyTo(Box<ApplyTo>),
     ChildrenOf(Box<ChildrenOf>),
 }

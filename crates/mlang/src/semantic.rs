@@ -24,25 +24,28 @@ pub enum MlSemanticError {
 
     #[error("The apply to nodes must be element/leaf nodes, {0} type definition is here.")]
     ApplyTo(Span),
+
+    #[error("Only data type can be used as field type, type definition is here({0}).")]
+    TypeRef(Span),
 }
 
 #[derive(Default)]
-struct SymbolTable(HashMap<String, (Ident, usize)>);
+struct SymbolTable(HashMap<String, (Span, usize)>);
 
 impl SymbolTable {
     fn insert(&mut self, input: &mut ParseContext<'_>, ident: Ident, index: usize) {
         if let Some((other, _)) = self.0.get(&ident.0) {
             input.report_error(
-                MlSemanticError::DuplicateSymbol(other.0.clone(), other.1),
+                MlSemanticError::DuplicateSymbol(ident.0.clone(), *other),
                 ident.1,
             );
             return;
         }
 
-        self.0.insert(ident.0.clone(), (ident, index));
+        self.0.insert(ident.0, (ident.1, index));
     }
 
-    fn find(&self, ident: &Ident) -> Option<&(Ident, usize)> {
+    fn find(&self, ident: &Ident) -> Option<&(Span, usize)> {
         self.0.get(&ident.0)
     }
 }
@@ -98,7 +101,7 @@ impl<'a> SemanticAnalyzer<'a> {
         }
     }
 
-    fn symbol_lookup(&self, ident: &Ident) -> Option<(&Opcode, &Ident)> {
+    fn symbol_lookup(&self, ident: &Ident) -> Option<(&Opcode, &Span)> {
         self.symbol_table
             .find(ident)
             .map(|(ident, index)| (&self.opcodes[*index], ident))
@@ -106,14 +109,11 @@ impl<'a> SemanticAnalyzer<'a> {
 
     fn check_symbol_children_of(&mut self, node: &ChildrenOf, input: &mut ParseContext<'_>) {
         for ident in &node.from {
-            if let Some((opcode, opcode_ident)) = self.symbol_lookup(ident) {
+            if let Some((opcode, def_span)) = self.symbol_lookup(ident) {
                 match opcode {
                     Opcode::Element(_) | Opcode::Leaf(_) => {}
                     _ => {
-                        input.report_error(
-                            MlSemanticError::LinkFrom(opcode_ident.1),
-                            ident.1.clone(),
-                        );
+                        input.report_error(MlSemanticError::LinkFrom(*def_span), ident.1.clone());
                     }
                 }
             } else {
@@ -125,12 +125,11 @@ impl<'a> SemanticAnalyzer<'a> {
         }
 
         for ident in &node.to {
-            if let Some((opcode, opcode_ident)) = self.symbol_lookup(ident) {
+            if let Some((opcode, def_span)) = self.symbol_lookup(ident) {
                 match opcode {
                     Opcode::Element(_) => {}
                     _ => {
-                        input
-                            .report_error(MlSemanticError::LinkTo(opcode_ident.1), ident.1.clone());
+                        input.report_error(MlSemanticError::LinkTo(*def_span), ident.1.clone());
                     }
                 }
             } else {
@@ -143,15 +142,11 @@ impl<'a> SemanticAnalyzer<'a> {
     }
     fn check_symbol_apply_to(&self, node: &ApplyTo, input: &mut ParseContext<'_>) {
         for ident in &node.from {
-            if let Some((opcode, opcode_ident)) = self.symbol_lookup(ident) {
+            if let Some((opcode, def_span)) = self.symbol_lookup(ident) {
                 match opcode {
                     Opcode::Attr(_) => {}
-
                     _ => {
-                        input.report_error(
-                            MlSemanticError::ApplyFrom(opcode_ident.1),
-                            ident.1.clone(),
-                        );
+                        input.report_error(MlSemanticError::ApplyFrom(*def_span), ident.1.clone());
                     }
                 }
             } else {
@@ -163,14 +158,11 @@ impl<'a> SemanticAnalyzer<'a> {
         }
 
         for ident in &node.to {
-            if let Some((opcode, opcode_ident)) = self.symbol_lookup(ident) {
+            if let Some((opcode, def_span)) = self.symbol_lookup(ident) {
                 match opcode {
                     Opcode::Element(_) | Opcode::Leaf(_) => {}
                     _ => {
-                        input.report_error(
-                            MlSemanticError::ApplyTo(opcode_ident.1),
-                            ident.1.clone(),
-                        );
+                        input.report_error(MlSemanticError::ApplyTo(*def_span), ident.1.clone());
                     }
                 }
             } else {
@@ -182,9 +174,41 @@ impl<'a> SemanticAnalyzer<'a> {
         }
     }
 
-    fn check_symbol_enum(&self, node: &Enum, input: &mut ParseContext<'_>) {}
+    fn check_symbol_enum(&self, node: &Enum, input: &mut ParseContext<'_>) {
+        for field in &node.fields {
+            self.check_symbol_node(field, input);
+        }
+    }
 
-    fn check_symbol_node(&self, node: &Node, input: &mut ParseContext<'_>) {}
+    fn check_symbol_node(&self, node: &Node, input: &mut ParseContext<'_>) {
+        for field in &node.fields {
+            self.check_symbol_ty(&field.ty, input);
+        }
+    }
+
+    fn check_symbol_ty(&self, ty: &Type, input: &mut ParseContext<'_>) {
+        match ty {
+            Type::ArrayOf(ty, _, _) => {
+                self.check_symbol_ty(ty, input);
+            }
+            Type::ListOf(ty, _) => {
+                self.check_symbol_ty(ty, input);
+            }
+            Type::Data(ty) => {
+                if let Some((opcode, def_span)) = self.symbol_lookup(ty) {
+                    match opcode {
+                        Opcode::Data(_) | Opcode::Enum(_) => {}
+                        _ => {
+                            input.report_error(MlSemanticError::TypeRef(*def_span), ty.1);
+                        }
+                    }
+                } else {
+                    input.report_error(MlSemanticError::UnknownSymbol(ty.0.clone()), ty.1);
+                }
+            }
+            _ => {}
+        }
+    }
 
     fn build_symbol_table(&mut self, input: &mut ParseContext<'_>) {
         for (index, opcode) in self.opcodes.iter().enumerate() {

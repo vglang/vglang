@@ -788,11 +788,11 @@ attr WithFilter(string);
 
 /// Use mask to a element.
 #[variable]
-attr WithClipPath(FuncIRI);
+attr WithClipPath(FuncIri);
 
 /// Use mask to a element.
 #[variable]
-attr WithMask(FuncIRI);
+attr WithMask(FuncIri);
 
 ///Sspecifies object/group opacity
 #[variable]
@@ -803,16 +803,16 @@ attr Opacity(float);
 attr ViewBox {
     /// ViewBox left-top x coordinate,
     #[variable]
-    minx: Number,
+    minx: float,
     /// ViewBox left-top y coordinate,
     #[variable]
-    miny: Number,
+    miny: float,
     /// ViewBox width dimension.
     #[variable]
-    width: Number,
+    width: float,
     /// ViewBox height dimension.
     #[variable]
-    height: Number,
+    height: float,
     /// clip preserve aspect ratio.
     #[option, variable]
     aspect: PreserveAspectRatio,
@@ -858,7 +858,7 @@ mixin FePrimitive {
     /// times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter
     /// primitive with the given result.
     #[option, variable]
-    result: String,
+    result: string,
 }
 
 /// Create a new layer into which the backend render child elements.
@@ -1357,7 +1357,7 @@ el FeConvolveMatrix mixin FePrimitive {
     /// The list of `number`s that make up the kernel matrix for the convolution. Values are separated by space
     /// characters and/or a comma. The number of entries in the list must equal `orderX` times `orderY`.
     #[variable]
-    kernel: vec[Number],
+    kernel: vec[float],
 
     /// After applying the ‘kernelMatrix’ to the input image to yield a number, that number is divided by ‘divisor’
     /// to yield the final destination color value. A divisor that is the sum of all the matrix values tends to have
@@ -1365,7 +1365,7 @@ el FeConvolveMatrix mixin FePrimitive {
     /// The default value is the sum of all values in kernelMatrix, with the exception that if the sum is zero, then
     /// the divisor is set to 1.
     #[option,variable]
-    divisor: Number,
+    divisor: float,
 
     /// After applying the ‘kernelMatrix’ to the input image to yield a number and applying the ‘divisor’, the ‘bias’
     /// attribute is added to each component. One application of ‘bias’ is when it is desirable to have .5 gray value
@@ -1373,7 +1373,7 @@ el FeConvolveMatrix mixin FePrimitive {
     /// of values that would otherwise be clamped to 0 or 1. If ‘bias’ is not specified, then the effect is as if a
     /// value of 0 were specified.
     #[option,variable]
-    bias: Number,
+    bias: float,
 
     /// After applying the ‘kernelMatrix’ to the input image to yield a number and applying the ‘divisor’, the ‘bias’
     /// attribute is added to each component. One application of ‘bias’ is when it is desirable to have .5 gray value
@@ -1381,13 +1381,13 @@ el FeConvolveMatrix mixin FePrimitive {
     /// of values that would otherwise be clamped to 0 or 1. If ‘bias’ is not specified, then the effect is as if a
     /// value of 0 were specified.
     #[option,variable]
-    target_x: i32,
+    target_x: int,
 
     /// Determines the positioning in Y of the convolution matrix relative to a given target pixel in the input image.
     /// The topmost row of the matrix is row number zero. The value must be such that: 0 <= targetY < orderY. By default,
     /// the convolution matrix is centered in Y over each pixel of the input image (i.e., targetY = floor ( orderY / 2 )).
     #[option,variable]
-    target_y: i32,
+    target_y: int,
 
     /// Determines how to extend the input image as necessary with color values so that the matrix operations can be applied
     /// when the kernel is positioned at or near the edge of the input image.
@@ -1426,13 +1426,13 @@ el FeDiffuseLighting mixin FePrimitive {
     ///
     /// If the attribute is not specified, then the effect is as if a value of 1 were specified.
     #[option,variable]
-    surface_scale: Number,
+    surface_scale: float,
 
     /// kd in Phong lighting model. In SVG, this can be any non-negative number.
     ///
     /// If the attribute is not specified, then the effect is as if a value of 1 were specified.
     #[option,variable]
-    diffuse_constant: Number,
+    diffuse_constant: float,
 
     /// The first number is the `dx` value. The second number is the `dy` value. If the `dy` value is not specified,
     /// it defaults to the same value as `dx`. Indicates the intended distance in current filter units (i.e., units
@@ -1468,7 +1468,7 @@ el FeDisplacementMap mixin FePrimitive {
     ///
     /// If the attribute is not specified, then the effect is as if a value of 0 were specified.
     #[option,variable]
-    scale: Number,
+    scale: float,
 
     /// Indicates which channel from ‘in2’ to use to displace the pixels in ‘in’ along the x-axis.
     /// If attribute ‘xChannelSelector’ is not specified, then the effect is as if a value of A were
@@ -1493,7 +1493,7 @@ el FeFlood mixin FePrimitive {
     color: Rgb,
     /// defines the opacity value to use across the entire filter primitive subregion.
     #[option,variable]
-    opacity: Number,
+    opacity: float,
 }
 
 
@@ -1534,7 +1534,7 @@ el FeMergeNode(#[variable] FeIn);
 el FeImage mixin FePrimitive {
     /// An IRI reference to the image source.
     #[variable]
-    href: FuncIRI,
+    href: FuncIri,
 
     /// See [`PreserveAspectRatio`].
     #[option, variable]
@@ -1582,14 +1582,14 @@ el FeOffset mixin FePrimitive {
     ///
     /// If the attribute is not specified, then the effect is as if a value of 0 were specified.
     #[option, variable]
-    dx: Number,
+    dx: float,
 
     /// The amount to offset the input graphic along the y-axis. The offset amount is expressed in the coordinate system established
     /// by attribute ‘primitiveUnits’ on the ‘filter’ element.
     ///
     /// If the attribute is not specified, then the effect is as if a value of 0 were specified.
     #[option, variable]
-    dy: Number,
+    dy: float,
 }
 
 /// This filter primitive lights a source graphic using the alpha channel as a bump map.
@@ -1608,19 +1608,19 @@ el FeSpecularLighting mixin FePrimitive {
     ///
     /// If the attribute is not specified, then the effect is as if a value of 1 were specified.
     #[option, variable]
-    surface_scale: Number,
+    surface_scale: float,
 
     /// height of surface when Ain = 1.
     ///
     /// If the attribute is not specified, then the effect is as if a value of 1 were specified.
     #[option, variable]
-    specular_constant: Number,
+    specular_constant: float,
 
     /// Exponent for specular term, larger is more "shiny". Range 1.0 to 128.0.
     ///
     /// If the attribute is not specified, then the effect is as if a value of 1 were specified.
     #[option, variable]
-    specular_exponent: Number,
+    specular_exponent: float,
 
     /// The first number is the `dx` value. The second number is the `dy` value. If the `dy` value is not specified,
     /// it defaults to the same value as `dx`. Indicates the intended distance in current filter units (i.e., units
@@ -1670,7 +1670,7 @@ el FeTurbulence mixin FePrimitive {
     ///
     /// If the attribute is not specified, then the effect is as if a value of 1 were specified.
     #[option, variable]
-    num_octaves: i32,
+    num_octaves: int,
 
     /// The starting number for the pseudo random number generator.
     ///
@@ -1678,7 +1678,7 @@ el FeTurbulence mixin FePrimitive {
     /// When the seed number is handed over to the algorithm above it must first be truncated, i.e.
     /// rounded to the closest integer value towards zero.
     #[option, variable]
-    seed: Number,
+    seed: float,
 
     /// See [`FeStitchTiles`]
     #[option, variable]
@@ -1816,7 +1816,7 @@ leaf GradientStop {
     ///
     /// Variable: yes.
     #[variable]
-    offset: Number,
+    offset: float,
 
     /// indicates what color to use at that gradient stop
     #[option, variable]
@@ -1824,7 +1824,7 @@ leaf GradientStop {
 
     /// Defines the opacity of a given gradient stop.
     #[option, variable]
-    opacity: Number,
+    opacity: float,
 }
 
 /// A container element for grouping together related graphics elements.
@@ -2209,7 +2209,7 @@ el Text mixin MixinText;
 el TextSpan mixin MixinText;
 
 /// Text content chars.
-leaf Characters(String);
+leaf Characters(string);
 
 /// In addition to text drawn in a straight line, SVG also includes the ability to place text along the
 /// shape of a ‘path’ element. To specify that a block of text is to be rendered along the shape of a ‘path’,
