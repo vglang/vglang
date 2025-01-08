@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 use parserc::{
     ensure_char, ensure_keyword, take_till, take_while, ControlFlow, FromInput, IntoParser, Kind,
     ParseContext, Parser, ParserExt, Result, Span,
@@ -10,9 +8,9 @@ use crate::opcode::{
     Node, Opcode, Property, Type,
 };
 
-/// [`ParserError`] defined by `mlang` crate.
+/// Error type returns by `mlang` parser combinators.
 #[derive(Debug, thiserror::Error, PartialEq, PartialOrd, Clone)]
-pub enum MlError {
+pub enum MlParseError {
     #[error(transparent)]
     Parserc(#[from] Kind),
 
@@ -141,13 +139,13 @@ fn parse_node_inner(
         start = kw;
     } else {
         if !parse_enum_field {
-            input.report_error(MlError::NodeKeyWord, start);
+            input.report_error(MlParseError::NodeKeyWord, start);
             return Err(ControlFlow::Recoverable);
         }
     }
 
     skip_ws
-        .with_context(MlError::Node, start)
+        .with_context(MlParseError::Node, start)
         .fatal()
         .parse(input)?;
 
@@ -155,34 +153,34 @@ fn parse_node_inner(
         Ident::into_parser().parse(input)?
     } else {
         Ident::into_parser()
-            .with_context(MlError::Node, start)
+            .with_context(MlParseError::Node, start)
             .fatal()
             .parse(input)?
     };
 
     skip_ws
-        .with_context(MlError::Node, start)
+        .with_context(MlParseError::Node, start)
         .fatal()
         .parse(input)?;
 
     let mixin = if let Some(span) = ensure_keyword("mixin")
         .ok()
-        .with_context(MlError::Node, start)
+        .with_context(MlParseError::Node, start)
         .fatal()
         .parse(input)?
     {
         skip_ws
-            .with_context(MlError::Node, span)
+            .with_context(MlParseError::Node, span)
             .fatal()
             .parse(input)?;
 
         let mixin = Ident::into_parser()
-            .with_context(MlError::Node, span)
+            .with_context(MlParseError::Node, span)
             .fatal()
             .parse(input)?;
 
         skip_ws
-            .with_context(MlError::Node, span)
+            .with_context(MlParseError::Node, span)
             .fatal()
             .parse(input)?;
 
@@ -202,7 +200,7 @@ fn parse_node_inner(
     } else {
         if !parse_enum_field {
             ensure_char(';')
-                .with_context(MlError::Node, start)
+                .with_context(MlParseError::Node, start)
                 .fatal()
                 .parse(input)?;
         }
@@ -219,7 +217,7 @@ fn parse_node_inner(
     };
 
     skip_ws
-        .with_context(MlError::Node, start)
+        .with_context(MlParseError::Node, start)
         .fatal()
         .parse(input)?;
 
@@ -227,18 +225,18 @@ fn parse_node_inner(
 
     while let Some(field) = Field::into_parser()
         .ok()
-        .with_context(MlError::Node, start)
+        .with_context(MlParseError::Node, start)
         .fatal()
         .parse(input)?
     {
         if is_tuple {
             if let Some(ident) = field.ident {
-                input.report_error(MlError::TupleField, ident.1);
+                input.report_error(MlParseError::TupleField, ident.1);
                 return Err(ControlFlow::Fatal);
             }
         } else {
             if field.ident.is_none() {
-                input.report_error(MlError::NotTupleField, ident.1);
+                input.report_error(MlParseError::NotTupleField, ident.1);
                 return Err(ControlFlow::Fatal);
             }
         }
@@ -246,13 +244,13 @@ fn parse_node_inner(
         fields.push(field);
 
         skip_ws
-            .with_context(MlError::Node, start)
+            .with_context(MlParseError::Node, start)
             .fatal()
             .parse(input)?;
 
         if ensure_char(',')
             .ok()
-            .with_context(MlError::Node, start)
+            .with_context(MlParseError::Node, start)
             .fatal()
             .parse(input)?
             .is_none()
@@ -261,19 +259,19 @@ fn parse_node_inner(
         }
 
         skip_ws
-            .with_context(MlError::Node, start)
+            .with_context(MlParseError::Node, start)
             .fatal()
             .parse(input)?;
     }
 
     ensure_char(if is_tuple { ')' } else { '}' })
-        .with_context(MlError::Node, start)
+        .with_context(MlParseError::Node, start)
         .fatal()
         .parse(input)?;
 
     if !parse_enum_field && is_tuple {
         ensure_char(';')
-            .with_context(MlError::Node, start)
+            .with_context(MlParseError::Node, start)
             .fatal()
             .parse(input)?;
     }
@@ -292,11 +290,11 @@ fn parse_node_inner(
 
 fn parse_tuple_expr(input: &mut ParseContext<'_>) -> Result<(Vec<Ident>, Span)> {
     let start = ensure_char('(')
-        .with_context(MlError::TupleExpr, input.span())
+        .with_context(MlParseError::TupleExpr, input.span())
         .parse(input)?;
 
     skip_ws
-        .with_context(MlError::TupleExpr, start)
+        .with_context(MlParseError::TupleExpr, start)
         .fatal()
         .parse(input)?;
 
@@ -304,20 +302,20 @@ fn parse_tuple_expr(input: &mut ParseContext<'_>) -> Result<(Vec<Ident>, Span)> 
 
     while let Some(child) = Ident::into_parser()
         .ok()
-        .with_context(MlError::TupleExpr, start)
+        .with_context(MlParseError::TupleExpr, start)
         .fatal()
         .parse(input)?
     {
         children.push(child);
 
         skip_ws
-            .with_context(MlError::TupleExpr, start)
+            .with_context(MlParseError::TupleExpr, start)
             .fatal()
             .parse(input)?;
 
         if ensure_char(',')
             .ok()
-            .with_context(MlError::TupleExpr, start)
+            .with_context(MlParseError::TupleExpr, start)
             .fatal()
             .parse(input)?
             .is_none()
@@ -326,13 +324,13 @@ fn parse_tuple_expr(input: &mut ParseContext<'_>) -> Result<(Vec<Ident>, Span)> 
         }
 
         skip_ws
-            .with_context(MlError::TupleExpr, start)
+            .with_context(MlParseError::TupleExpr, start)
             .fatal()
             .parse(input)?;
     }
 
     let end = ensure_char(')')
-        .with_context(MlError::TupleExpr, start)
+        .with_context(MlParseError::TupleExpr, start)
         .fatal()
         .parse(input)?;
 
@@ -348,11 +346,11 @@ impl FromInput for Ident {
 
         if let Some(c) = c {
             if c != '_' && !c.is_alphabetic() {
-                input.report_error(MlError::Ident, start);
+                input.report_error(MlParseError::Ident, start);
                 return Err(ControlFlow::Recoverable);
             }
         } else {
-            input.report_error(MlError::Ident, start);
+            input.report_error(MlParseError::Ident, start);
             return Err(ControlFlow::Incomplete);
         }
 
@@ -383,7 +381,7 @@ impl FromInput for LitNum {
             let body = take_while(|c| c.is_ascii_hexdigit())
                 .parse(input)?
                 .ok_or_else(|| {
-                    input.report_error(MlError::LitNumHexBody, start);
+                    input.report_error(MlParseError::LitNumHexBody, start);
                     ControlFlow::Fatal
                 })?;
 
@@ -402,11 +400,11 @@ impl FromInput for LitNum {
 
         if let Some(c) = c {
             if !c.is_ascii_digit() {
-                input.report_error(MlError::LitNum, start);
+                input.report_error(MlParseError::LitNum, start);
                 return Err(ControlFlow::Recoverable);
             }
         } else {
-            input.report_error(MlError::LitNum, start);
+            input.report_error(MlParseError::LitNum, start);
             return Err(ControlFlow::Incomplete);
         }
 
@@ -491,7 +489,7 @@ impl FromInput for CallExpr {
 
         while let Some(expr) = LitExpr::into_parser()
             .ok()
-            .with_context(MlError::CallExpr, start)
+            .with_context(MlParseError::CallExpr, start)
             .fatal()
             .parse(input)?
         {
@@ -501,7 +499,7 @@ impl FromInput for CallExpr {
 
             if ensure_char(',')
                 .ok()
-                .with_context(MlError::CallExpr, start)
+                .with_context(MlParseError::CallExpr, start)
                 .fatal()
                 .parse(input)?
                 .is_none()
@@ -514,7 +512,7 @@ impl FromInput for CallExpr {
         }
 
         let end = ensure_char(')')
-            .with_context(MlError::CallExpr, start)
+            .with_context(MlParseError::CallExpr, start)
             .fatal()
             .parse(input)?;
 
@@ -541,7 +539,7 @@ impl FromInput for Property {
 
         while let Some(expr) = CallExpr::into_parser()
             .ok()
-            .with_context(MlError::Property, start)
+            .with_context(MlParseError::Property, start)
             .fatal()
             .parse(input)?
         {
@@ -551,7 +549,7 @@ impl FromInput for Property {
 
             if ensure_char(',')
                 .ok()
-                .with_context(MlError::Property, start)
+                .with_context(MlParseError::Property, start)
                 .fatal()
                 .parse(input)?
                 .is_none()
@@ -564,7 +562,7 @@ impl FromInput for Property {
         }
 
         let end = ensure_char(']')
-            .with_context(MlError::Property, start)
+            .with_context(MlParseError::Property, start)
             .fatal()
             .parse(input)?;
 
@@ -625,21 +623,21 @@ impl FromInput for Type {
             skip_ws(input)?;
 
             ensure_char('[')
-                .with_context(MlError::Type, start)
+                .with_context(MlParseError::Type, start)
                 .fatal()
                 .parse(input)?;
 
             skip_ws(input)?;
 
             let component = Type::into_parser()
-                .with_context(MlError::Type, start)
+                .with_context(MlParseError::Type, start)
                 .fatal()
                 .parse(input)?;
 
             skip_ws(input)?;
 
             let end = ensure_char(']')
-                .with_context(MlError::Type, start)
+                .with_context(MlParseError::Type, start)
                 .fatal()
                 .parse(input)?;
 
@@ -653,28 +651,28 @@ impl FromInput for Type {
             skip_ws(input)?;
 
             let component = Type::into_parser()
-                .with_context(MlError::Type, start)
+                .with_context(MlParseError::Type, start)
                 .fatal()
                 .parse(input)?;
 
             skip_ws(input)?;
 
             ensure_char(';')
-                .with_context(MlError::Type, start)
+                .with_context(MlParseError::Type, start)
                 .fatal()
                 .parse(input)?;
 
             skip_ws(input)?;
 
             let len = LitNum::into_parser()
-                .with_context(MlError::Type, start)
+                .with_context(MlParseError::Type, start)
                 .fatal()
                 .parse(input)?;
 
             skip_ws(input)?;
 
             let end = ensure_char(']')
-                .with_context(MlError::Type, start)
+                .with_context(MlParseError::Type, start)
                 .fatal()
                 .parse(input)?;
 
@@ -689,7 +687,7 @@ impl FromInput for Type {
 
         // try parse as ident at last.
         Ident::into_parser()
-            .with_context(MlError::Type, start)
+            .with_context(MlParseError::Type, start)
             .parse(input)
             .map(|ident| Type::Data(ident))
     }
@@ -711,7 +709,7 @@ impl FromInput for Field {
 
             let semi_colon = ensure_char(':')
                 .ok()
-                .with_context(MlError::Field, ident.1)
+                .with_context(MlParseError::Field, ident.1)
                 .fatal()
                 .parse(input)?;
 
@@ -719,7 +717,7 @@ impl FromInput for Field {
                 skip_ws(input)?;
 
                 let ty = Type::into_parser()
-                    .with_context(MlError::Field, ident.1)
+                    .with_context(MlParseError::Field, ident.1)
                     .fatal()
                     .parse(input)?;
 
@@ -753,27 +751,27 @@ impl FromInput for Enum {
         let keyword = ensure_keyword("enum").parse(input)?;
 
         skip_ws
-            .with_context(MlError::Enum, keyword)
+            .with_context(MlParseError::Enum, keyword)
             .fatal()
             .parse(input)?;
 
         let ident = Ident::into_parser()
-            .with_context(MlError::Enum, keyword)
+            .with_context(MlParseError::Enum, keyword)
             .fatal()
             .parse(input)?;
 
         skip_ws
-            .with_context(MlError::Enum, keyword)
+            .with_context(MlParseError::Enum, keyword)
             .fatal()
             .parse(input)?;
 
         ensure_char('{')
-            .with_context(MlError::Enum, keyword)
+            .with_context(MlParseError::Enum, keyword)
             .fatal()
             .parse(input)?;
 
         skip_ws
-            .with_context(MlError::Enum, keyword)
+            .with_context(MlParseError::Enum, keyword)
             .fatal()
             .parse(input)?;
 
@@ -781,25 +779,28 @@ impl FromInput for Enum {
 
         while let Some((kw, field)) = parse_node(true)
             .ok()
-            .with_context(MlError::Enum, keyword)
+            .with_context(MlParseError::Enum, keyword)
             .fatal()
             .parse(input)?
         {
             if let Some(kw) = kw {
-                input.report_error(MlError::UnexpectKeyWord(input.as_str(kw).to_string()), kw);
+                input.report_error(
+                    MlParseError::UnexpectKeyWord(input.as_str(kw).to_string()),
+                    kw,
+                );
                 return Err(ControlFlow::Fatal);
             }
 
             fields.push(field);
 
             skip_ws
-                .with_context(MlError::Enum, keyword)
+                .with_context(MlParseError::Enum, keyword)
                 .fatal()
                 .parse(input)?;
 
             if ensure_char(',')
                 .ok()
-                .with_context(MlError::Enum, keyword)
+                .with_context(MlParseError::Enum, keyword)
                 .fatal()
                 .parse(input)?
                 .is_none()
@@ -808,13 +809,13 @@ impl FromInput for Enum {
             }
 
             skip_ws
-                .with_context(MlError::Enum, keyword)
+                .with_context(MlParseError::Enum, keyword)
                 .fatal()
                 .parse(input)?;
         }
 
         ensure_char('}')
-            .with_context(MlError::Enum, keyword)
+            .with_context(MlParseError::Enum, keyword)
             .fatal()
             .parse(input)?;
 
@@ -857,7 +858,7 @@ impl FromInput for Opcode {
 
         let span = input.span();
 
-        input.report_error(MlError::NotTupleField, span);
+        input.report_error(MlParseError::NotTupleField, span);
 
         return Err(ControlFlow::Incomplete);
     }
@@ -871,40 +872,40 @@ impl FromInput for Group {
         let start = ensure_keyword("group").parse(input)?;
 
         skip_ws
-            .with_context(MlError::GroupAssign, start)
+            .with_context(MlParseError::GroupAssign, start)
             .fatal()
             .parse(input)?;
 
         let ident = Ident::into_parser()
-            .with_context(MlError::GroupAssign, start)
+            .with_context(MlParseError::GroupAssign, start)
             .parse(input)?;
 
         skip_ws
-            .with_context(MlError::GroupAssign, start)
+            .with_context(MlParseError::GroupAssign, start)
             .fatal()
             .parse(input)?;
 
         ensure_keyword(":=")
-            .with_context(MlError::GroupAssign, ident.1)
+            .with_context(MlParseError::GroupAssign, ident.1)
             .fatal()
             .parse(input)?;
 
         skip_ws
-            .with_context(MlError::GroupAssign, start)
+            .with_context(MlParseError::GroupAssign, start)
             .fatal()
             .parse(input)?;
 
         let (children, _) = parse_tuple_expr
-            .with_context(MlError::GroupAssign, start)
+            .with_context(MlParseError::GroupAssign, start)
             .parse(input)?;
 
         skip_ws
-            .with_context(MlError::TupleExpr, start)
+            .with_context(MlParseError::TupleExpr, start)
             .fatal()
             .parse(input)?;
 
         let end = ensure_char(';')
-            .with_context(MlError::TupleExpr, start)
+            .with_context(MlParseError::TupleExpr, start)
             .fatal()
             .parse(input)?;
 
@@ -924,29 +925,29 @@ impl FromInput for ApplyTo {
         let start = ensure_keyword("apply").parse(input)?;
 
         skip_ws
-            .with_context(MlError::ApplyExpr, start)
+            .with_context(MlParseError::ApplyExpr, start)
             .fatal()
             .parse(input)?;
 
         let from = Ident::into_parser()
             .map(|v| vec![v])
             .or(parse_tuple_expr.map(|(v, _)| v))
-            .with_context(MlError::ApplyExpr, start)
+            .with_context(MlParseError::ApplyExpr, start)
             .fatal()
             .parse(input)?;
 
         skip_ws
-            .with_context(MlError::ApplyExpr, start)
+            .with_context(MlParseError::ApplyExpr, start)
             .fatal()
             .parse(input)?;
 
         ensure_keyword("to")
-            .with_context(MlError::ApplyExpr, input.span())
+            .with_context(MlParseError::ApplyExpr, input.span())
             .fatal()
             .parse(input)?;
 
         skip_ws
-            .with_context(MlError::ApplyExpr, start)
+            .with_context(MlParseError::ApplyExpr, start)
             .fatal()
             .parse(input)?;
 
@@ -956,17 +957,17 @@ impl FromInput for ApplyTo {
                 (vec![v], span)
             })
             .or(parse_tuple_expr)
-            .with_context(MlError::ApplyExpr, start)
+            .with_context(MlParseError::ApplyExpr, start)
             .fatal()
             .parse(input)?;
 
         skip_ws
-            .with_context(MlError::ApplyExpr, start)
+            .with_context(MlParseError::ApplyExpr, start)
             .fatal()
             .parse(input)?;
 
         let end = ensure_char(';')
-            .with_context(MlError::ApplyExpr, start)
+            .with_context(MlParseError::ApplyExpr, start)
             .fatal()
             .parse(input)?;
 
@@ -986,29 +987,29 @@ impl FromInput for ChildrenOf {
         let start = ensure_keyword("children").parse(input)?;
 
         skip_ws
-            .with_context(MlError::ChildrenOf, start)
+            .with_context(MlParseError::ChildrenOf, start)
             .fatal()
             .parse(input)?;
 
         let from = Ident::into_parser()
             .map(|v| vec![v])
             .or(parse_tuple_expr.map(|(v, _)| v))
-            .with_context(MlError::ChildrenOf, start)
+            .with_context(MlParseError::ChildrenOf, start)
             .fatal()
             .parse(input)?;
 
         skip_ws
-            .with_context(MlError::ChildrenOf, start)
+            .with_context(MlParseError::ChildrenOf, start)
             .fatal()
             .parse(input)?;
 
         ensure_keyword("of")
-            .with_context(MlError::ChildrenOf, input.span())
+            .with_context(MlParseError::ChildrenOf, input.span())
             .fatal()
             .parse(input)?;
 
         skip_ws
-            .with_context(MlError::ChildrenOf, start)
+            .with_context(MlParseError::ChildrenOf, start)
             .fatal()
             .parse(input)?;
 
@@ -1018,17 +1019,17 @@ impl FromInput for ChildrenOf {
                 (vec![v], span)
             })
             .or(parse_tuple_expr)
-            .with_context(MlError::ChildrenOf, start)
+            .with_context(MlParseError::ChildrenOf, start)
             .fatal()
             .parse(input)?;
 
         skip_ws
-            .with_context(MlError::ChildrenOf, start)
+            .with_context(MlParseError::ChildrenOf, start)
             .fatal()
             .parse(input)?;
 
         let end = ensure_char(';')
-            .with_context(MlError::ChildrenOf, start)
+            .with_context(MlParseError::ChildrenOf, start)
             .fatal()
             .parse(input)?;
 
@@ -1048,86 +1049,7 @@ pub fn parse(input: &mut ParseContext<'_>) -> Result<Vec<Opcode>> {
         opcodes.push(opcode);
     }
 
-    SemanticAnalyzer::from(opcodes).analyze(input)
-}
-
-#[allow(unused)]
-struct SemanticAnalyzer {
-    opcodes: Vec<Opcode>,
-    symbols: HashMap<String, usize>,
-}
-
-impl From<Vec<Opcode>> for SemanticAnalyzer {
-    fn from(value: Vec<Opcode>) -> Self {
-        Self {
-            opcodes: value,
-            symbols: Default::default(),
-        }
-    }
-}
-
-impl SemanticAnalyzer {
-    fn analyze(mut self, input: &mut ParseContext<'_>) -> Result<Vec<Opcode>> {
-        self.build_symbol_table();
-
-        self.check_symbol(input);
-
-        Ok(self.opcodes)
-    }
-
-    fn check_symbol(&self, input: &mut ParseContext<'_>) {
-        for opcode in &self.opcodes {
-            match opcode {
-                Opcode::Element(node)
-                | Opcode::Leaf(node)
-                | Opcode::Attr(node)
-                | Opcode::Mixin(node)
-                | Opcode::Data(node) => {
-                    self.check_symbol_node(node, input);
-                }
-                Opcode::Enum(node) => self.check_symbol_enum(node, input),
-                Opcode::Group(node) => self.check_symbol_group(node, input),
-                Opcode::ApplyTo(node) => self.check_symbol_apply_to(node, input),
-                Opcode::ChildrenOf(node) => self.check_symbol_children_of(node, input),
-            }
-        }
-    }
-
-    fn check_symbol_children_of(&self, node: &ChildrenOf, input: &mut ParseContext<'_>) {}
-    fn check_symbol_apply_to(&self, node: &ApplyTo, input: &mut ParseContext<'_>) {}
-    fn check_symbol_group(&self, node: &Group, input: &mut ParseContext<'_>) {}
-    fn check_symbol_enum(&self, node: &Enum, input: &mut ParseContext<'_>) {}
-
-    fn check_symbol_node(&self, node: &Node, input: &mut ParseContext<'_>) {}
-
-    fn build_symbol_table(&mut self) {
-        for (index, opcode) in self.opcodes.iter().enumerate() {
-            match opcode {
-                Opcode::Element(node) => {
-                    self.symbols.insert(node.ident.0.clone(), index);
-                }
-                Opcode::Leaf(node) => {
-                    self.symbols.insert(node.ident.0.clone(), index);
-                }
-                Opcode::Attr(node) => {
-                    self.symbols.insert(node.ident.0.clone(), index);
-                }
-                Opcode::Mixin(node) => {
-                    self.symbols.insert(node.ident.0.clone(), index);
-                }
-                Opcode::Data(node) => {
-                    self.symbols.insert(node.ident.0.clone(), index);
-                }
-                Opcode::Enum(node) => {
-                    self.symbols.insert(node.ident.0.clone(), index);
-                }
-                Opcode::Group(group) => {
-                    self.symbols.insert(group.ident.0.clone(), index);
-                }
-                _ => {}
-            }
-        }
-    }
+    Ok(opcodes)
 }
 
 #[cfg(test)]
