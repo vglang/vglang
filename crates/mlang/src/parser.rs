@@ -4,8 +4,8 @@ use parserc::{
 };
 
 use crate::opcode::{
-    ApplyTo, CallExpr, ChildrenOf, Comment, Enum, Field, Ident, LitExpr, LitNum, LitStr, Node,
-    Opcode, Property, Type,
+    ApplyTo, CallExpr, ChildrenOf, Comment, Enum, Field, Group, Ident, LitExpr, LitNum, LitStr,
+    Node, Opcode, Property, Type,
 };
 
 /// Error type returns by `mlang` parser combinators.
@@ -828,39 +828,62 @@ impl FromInput for Enum {
     }
 }
 
-impl FromInput for Opcode {
+impl FromInput for Group {
     fn parse(input: &mut ParseContext<'_>) -> Result<Self>
     where
         Self: Sized,
     {
-        if let Some(opcode) = Enum::into_parser()
-            .map(|v| Opcode::Enum(Box::new(v)))
-            .ok()
-            .parse(input)?
-        {
-            return Ok(opcode);
-        }
-
-        if let Some((keyword, node)) = parse_node(false).ok().parse(input)? {
-            match keyword.map(|kw| input.as_str(kw)) {
-                Some("el") => return Ok(Opcode::Element(Box::new(node))),
-                Some("leaf") => return Ok(Opcode::Leaf(Box::new(node))),
-                Some("attr") => return Ok(Opcode::Attr(Box::new(node))),
-                Some("mixin") => return Ok(Opcode::Mixin(Box::new(node))),
-                Some("data") => return Ok(Opcode::Data(Box::new(node))),
-                _ => {}
-            }
-        }
+        let (comments, properties) = parse_prefix(input)?;
 
         skip_ws(input)?;
 
-        assert_eq!(input.remaining(), 0, "unparsed length must be zero.");
+        let start = ensure_keyword("group").parse(input)?;
 
-        let span = input.span();
+        skip_ws
+            .with_context(MlParseError::GroupAssign, start)
+            .fatal()
+            .parse(input)?;
 
-        input.report_error(MlParseError::NotTupleField, span);
+        let ident = Ident::into_parser()
+            .with_context(MlParseError::GroupAssign, start)
+            .parse(input)?;
 
-        return Err(ControlFlow::Incomplete);
+        skip_ws
+            .with_context(MlParseError::GroupAssign, start)
+            .fatal()
+            .parse(input)?;
+
+        ensure_keyword(":=")
+            .with_context(MlParseError::GroupAssign, ident.1)
+            .fatal()
+            .parse(input)?;
+
+        skip_ws
+            .with_context(MlParseError::GroupAssign, start)
+            .fatal()
+            .parse(input)?;
+
+        let (children, _) = parse_tuple_expr
+            .with_context(MlParseError::GroupAssign, start)
+            .parse(input)?;
+
+        skip_ws
+            .with_context(MlParseError::TupleExpr, start)
+            .fatal()
+            .parse(input)?;
+
+        let end = ensure_char(';')
+            .with_context(MlParseError::TupleExpr, start)
+            .fatal()
+            .parse(input)?;
+
+        Ok(Self {
+            comments,
+            properties,
+            span: start.extend_to_inclusive(end),
+            ident,
+            children,
+        })
     }
 }
 
@@ -869,6 +892,10 @@ impl FromInput for ApplyTo {
     where
         Self: Sized,
     {
+        let (comments, properties) = parse_prefix(input)?;
+
+        skip_ws(input)?;
+
         let start = ensure_keyword("apply").parse(input)?;
 
         skip_ws
@@ -919,6 +946,8 @@ impl FromInput for ApplyTo {
             .parse(input)?;
 
         Ok(Self {
+            properties,
+            comments,
             span: start.extend_to_inclusive(end),
             from,
             to,
@@ -931,6 +960,10 @@ impl FromInput for ChildrenOf {
     where
         Self: Sized,
     {
+        let (comments, properties) = parse_prefix(input)?;
+
+        skip_ws(input)?;
+
         let start = ensure_keyword("children").parse(input)?;
 
         skip_ws
@@ -981,10 +1014,60 @@ impl FromInput for ChildrenOf {
             .parse(input)?;
 
         Ok(Self {
+            properties,
+            comments,
             span: start.extend_to_inclusive(end),
             from,
             to,
         })
+    }
+}
+
+impl FromInput for Opcode {
+    fn parse(input: &mut ParseContext<'_>) -> Result<Self>
+    where
+        Self: Sized,
+    {
+        if let Some(opcode) = Enum::into_parser()
+            .map(|v| Opcode::Enum(Box::new(v)))
+            .ok()
+            .parse(input)?
+        {
+            return Ok(opcode);
+        }
+
+        if let Some((keyword, node)) = parse_node(false).ok().parse(input)? {
+            match keyword.map(|kw| input.as_str(kw)) {
+                Some("el") => return Ok(Opcode::Element(Box::new(node))),
+                Some("leaf") => return Ok(Opcode::Leaf(Box::new(node))),
+                Some("attr") => return Ok(Opcode::Attr(Box::new(node))),
+                Some("mixin") => return Ok(Opcode::Mixin(Box::new(node))),
+                Some("data") => return Ok(Opcode::Data(Box::new(node))),
+                _ => {}
+            }
+        }
+
+        if let Some(group) = Group::into_parser().ok().parse(input)? {
+            return Ok(Opcode::Group(Box::new(group)));
+        }
+
+        if let Some(apply_to) = ApplyTo::into_parser().ok().parse(input)? {
+            return Ok(Opcode::ApplyTo(Box::new(apply_to)));
+        }
+
+        if let Some(children_of) = ChildrenOf::into_parser().ok().parse(input)? {
+            return Ok(Opcode::ChildrenOf(Box::new(children_of)));
+        }
+
+        skip_ws(input)?;
+
+        assert_eq!(input.remaining(), 0, "unparsed length must be zero.");
+
+        let span = input.span();
+
+        input.report_error(MlParseError::NotTupleField, span);
+
+        return Err(ControlFlow::Incomplete);
     }
 }
 
@@ -1004,9 +1087,50 @@ mod tests {
     use super::*;
 
     #[test]
+    fn test_group() {
+        Group::into_parser()
+            .expect(Group {
+                properties: vec![],
+                comments: vec![],
+                span: Span::new(0, 19, 1, 1),
+                ident: Ident::from_span("hello", Span::new(6, 5, 1, 7)),
+                children: vec![],
+            })
+            .parse(&mut ParseContext::from("group hello := () ;"))
+            .unwrap();
+
+        Group::into_parser()
+            .expect(Group {
+                properties: vec![],
+                comments: vec![],
+                span: Span::new(0, 31, 1, 1),
+                ident: Ident::from_span("hello", Span::new(6, 5, 1, 7)),
+                children: vec![
+                    Ident::from_span("word", Span::new(17, 4, 1, 18)),
+                    Ident::from_span("large", Span::new(23, 5, 1, 24)),
+                ],
+            })
+            .parse(&mut ParseContext::from("group hello := ( word, large) ;"))
+            .unwrap();
+    }
+
+    #[test]
+    fn test_group2() {
+        Group::into_parser()
+            .ok()
+            .expect_err()
+            .parse(&mut ParseContext::from(
+                "group Shape(Rect,Circle,Ellipse,Line,Polyline,Polygon);",
+            ))
+            .unwrap();
+    }
+
+    #[test]
     fn test_apply_to() {
         ApplyTo::into_parser()
             .expect(ApplyTo {
+                properties: vec![],
+                comments: vec![],
                 span: Span::new(0, 21, 1, 1),
                 from: vec![Ident::from_span("hello", Span::new(6, 5, 1, 7))],
                 to: vec![Ident::from_span("world", Span::new(15, 5, 1, 16))],
@@ -1016,6 +1140,8 @@ mod tests {
 
         ApplyTo::into_parser()
             .expect(ApplyTo {
+                properties: vec![],
+                comments: vec![],
                 span: Span::new(0, 38, 1, 1),
                 from: vec![
                     Ident::from_span("hello", Span::new(7, 5, 1, 8)),
@@ -1036,6 +1162,8 @@ mod tests {
     fn test_childrenof() {
         ChildrenOf::into_parser()
             .expect(ChildrenOf {
+                properties: vec![],
+                comments: vec![],
                 span: Span::new(0, 24, 1, 1),
                 from: vec![Ident::from_span("hello", Span::new(9, 5, 1, 10))],
                 to: vec![Ident::from_span("world", Span::new(18, 5, 1, 19))],
@@ -1045,6 +1173,8 @@ mod tests {
 
         ChildrenOf::into_parser()
             .expect(ChildrenOf {
+                properties: vec![],
+                comments: vec![],
                 span: Span::new(0, 41, 1, 1),
                 from: vec![
                     Ident::from_span("hello", Span::new(10, 5, 1, 11)),

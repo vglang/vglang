@@ -1078,9 +1078,71 @@ leaf FePointLight {
     z: float,
 }
 
+
+/// Defines a spot light source that can be used within a lighting filter primitive:
+/// [`FeDiffuseLighting`] or [`FeSpecularLighting`].
+leaf FeSpotLight {
+    /// X location for the light source in the coordinate system established by attribute ‘primitiveUnits’ on the ‘filter’ element.
+    ///
+    /// If the attribute is not specified, then the effect is as if a value of 0 were specified.
+    #[option, variable]
+    x: float,
+
+    /// Y location for the light source in the coordinate system established by attribute ‘primitiveUnits’ on the ‘filter’ element.
+    ///
+    /// If the attribute is not specified, then the effect is as if a value of 0 were specified.
+    #[option, variable]
+    y: float,
+
+    /// Z location for the light source in the coordinate system established by attribute ‘primitiveUnits’ on the ‘filter’ element,
+    /// assuming that, in the initial coordinate system, the positive Z-axis comes out towards the person viewing the content and
+    /// assuming that one unit along the Z-axis equals one unit in X and Y.
+    ///
+    /// If the attribute is not specified, then the effect is as if a value of 0 were specified.
+    #[option, variable]
+    z: float,
+
+    /// X location in the coordinate system established by attribute ‘primitiveUnits’ on the ‘filter’ element of the point at which
+    /// the light source is pointing.
+    ///
+    /// If the attribute is not specified, then the effect is as if a value of 0 were specified.
+    #[option, variable]
+    point_at_x: float,
+
+    /// Y location in the coordinate system established by attribute ‘primitiveUnits’ on the ‘filter’ element of the point at which
+    /// the light source is pointing.
+    ///
+    /// If the attribute is not specified, then the effect is as if a value of 0 were specified.
+    #[option, variable]
+    point_at_y: float,
+
+    /// Z location in the coordinate system established by attribute ‘primitiveUnits’ on the ‘filter’ element of the point at which
+    /// the light source is pointing, assuming that, in the initial coordinate system, the positive Z-axis comes out towards the
+    /// person viewing the content and assuming that one unit along the Z-axis equals one unit in X and Y.
+    ///
+    /// If the attribute is not specified, then the effect is as if a value of 0 were specified.
+    #[option, variable]
+    point_at_z: float,
+
+    /// Exponent value controlling the focus for the light source.
+    ///
+    /// If the attribute is not specified, then the effect is as if a value of 1 were specified.
+    #[option, variable]
+    specular_exponent: float,
+
+    /// A limiting cone which restricts the region where the light is projected. No light is projected outside the cone.
+    /// ‘limitingConeAngle’ represents the angle in degrees between the spot light axis (i.e. the axis between the light
+    /// source and the point to which it is pointing at) and the spot light cone. User agents should apply a smoothing
+    /// technique such as anti-aliasing at the boundary of the cone.
+    ///
+    /// If no value is specified, then no limiting cone will be applied.
+    #[option, variable]
+    limiting_cone_angle: float,
+}
+
 /// This filter composites two objects together using commonly used imaging software blending modes.
 /// It performs a pixel-wise combination of two input images.
-el FeBlend mixin FePrimitive {
+leaf FeBlend mixin FePrimitive {
     /// Image blending mode
     #[option, variable]
     mode: FeBlendMode,
@@ -1317,7 +1379,7 @@ leaf FeFuncB(FeFunc);
 /// [`feComposite`]: https://www.w3.org/TR/SVG11/filters.html#feCompositeElement
 /// [`PORTERDUFF`]: https://www.w3.org/TR/SVG11/refs.html#ref-PORTERDUFF
 /// [`SVG-COMPOSITING`]: https://www.w3.org/TR/SVG11/refs.html#ref-SVG-COMPOSITING
-el FeComposite mixin FePrimitive {
+leaf FeComposite mixin FePrimitive {
     /// See [`FeIn`]
     #[option,variable]
     in: FeIn,
@@ -1338,7 +1400,7 @@ el FeComposite mixin FePrimitive {
 /// sharpening, embossing and beveling.
 ///
 /// See [`feConvolveMatrix`](https://www.w3.org/TR/SVG11/filters.html#feConvolveMatrixElement)
-el FeConvolveMatrix mixin FePrimitive {
+leaf FeConvolveMatrix mixin FePrimitive {
     /// See [`FeIn`]
     #[option,variable]
     in: FeIn,
@@ -1452,7 +1514,7 @@ el FeDiffuseLighting mixin FePrimitive {
 
 
 /// This filter primitive uses the pixels values from the image from ‘in2’ to spatially displace the image from ‘in’.
-el FeDisplacementMap mixin FePrimitive {
+leaf FeDisplacementMap mixin FePrimitive {
     /// See [`FeIn`]
     #[option,variable]
     in: FeIn,
@@ -1487,7 +1549,7 @@ el FeDisplacementMap mixin FePrimitive {
 /// This filter primitive creates a rectangle filled with the color and opacity values from properties ‘flood-color’ a ‘flood-opacity’.
 /// The rectangle is as large as the filter primitive subregion established by the ‘x’, ‘y’, ‘width’ and ‘height’ attributes on the
 /// ‘feFlood’ element.
-el FeFlood mixin FePrimitive {
+leaf FeFlood mixin FePrimitive {
     /// indicates what color to use to flood the current filter primitive subregion.
     #[option,variable]
     color: Rgb,
@@ -1500,7 +1562,7 @@ el FeFlood mixin FePrimitive {
 /// This filter primitive performs a Gaussian blur on the input image.
 ///
 /// See [`feGaussianBlur`](https://www.w3.org/TR/SVG11/filters.html#feGaussianBlurElement)
-el FeGaussianBlur mixin FePrimitive {
+leaf FeGaussianBlur mixin FePrimitive {
     /// See [`FeIn`]
     #[option,variable]
     in: FeIn,
@@ -1525,13 +1587,13 @@ el FeGaussianBlur mixin FePrimitive {
 el FeMerge mixin FePrimitive;
 
 /// See [`FeMerge`]
-el FeMergeNode(#[variable] FeIn);
+leaf FeMergeNode(#[variable] FeIn);
 
 /// This filter primitive refers to a graphic external to this filter element, which is loaded or rendered into an RGBA
 /// raster and becomes the result of the filter primitive.
 ///
 /// See [`feImage`](https://www.w3.org/TR/SVG11/filters.html#feImageElement)
-el FeImage mixin FePrimitive {
+leaf FeImage mixin FePrimitive {
     /// An IRI reference to the image source.
     #[variable]
     href: FuncIri,
@@ -1545,7 +1607,7 @@ el FeImage mixin FePrimitive {
 /// It is particularly useful for fattening or thinning an alpha channel.
 ///
 /// See [`feMorphology`](https://www.w3.org/TR/SVG11/filters.html#feMorphologyElement)
-el FeMorphology mixin FePrimitive {
+leaf FeMorphology mixin FePrimitive {
     /// See [`FeIn`]
     #[option, variable]
     in: FeIn,
@@ -1572,7 +1634,7 @@ el FeMorphology mixin FePrimitive {
 /// This is important for effects like drop shadows.
 ///
 /// See [`feOffset`](https://www.w3.org/TR/SVG11/filters.html#feOffsetElement)
-el FeOffset mixin FePrimitive {
+leaf FeOffset mixin FePrimitive {
     /// See [`FeIn`]
     #[option, variable]
     in: FeIn,
@@ -1643,7 +1705,7 @@ el FeSpecularLighting mixin FePrimitive {
 /// element.
 ///
 /// See [`feTitle`](https://www.w3.org/TR/SVG11/filters.html#feTitleElement)
-el FeTile mixin FePrimitive {
+leaf FeTile mixin FePrimitive {
     /// See [`FeIn`]
     #[option, variable]
     in: FeIn,
@@ -1655,7 +1717,7 @@ el FeTile mixin FePrimitive {
 /// primitive subregion for this filter primitive.
 ///
 /// See [`feTurbulence`](https://www.w3.org/TR/SVG11/filters.html#feTurbulenceElement)
-el FeTurbulence mixin FePrimitive {
+leaf FeTurbulence mixin FePrimitive {
     /// The base frequency (frequencies) parameter(s) for the noise function. If two `number`s are provided, the first number
     /// represents a base frequency in the X direction and the second value represents a base frequency in the Y direction.
     /// If one number is provided, then that value is used for both X and Y.
@@ -2215,7 +2277,7 @@ leaf Characters(string);
 /// shape of a ‘path’ element. To specify that a block of text is to be rendered along the shape of a ‘path’,
 /// include the given text within a ‘textPath’ element which includes an href’ attribute with an IRI
 /// reference to a ‘path’ element.
-leaf TextPath {
+el TextPath {
     /// An offset from the start of the ‘path’ for the initial current text position,
     /// calculated using the user agent's [`distance along the path`] algorithm.
     ///
@@ -2247,3 +2309,121 @@ leaf TextPath {
     href: Iri,
 }
 
+group Shape := (Rect,Circle,Ellipse,Line,Polyline,Polygon);
+group Gradient := (LinearGradient,RadialGradient);
+
+children (Text,TextSpan,TextPath,Characters) of Text;
+children (TextSpan,Characters) of TextSpan;
+children (TextSpan,Characters) of TextPath;
+
+
+children (
+    Text,
+    ClipPath,
+    Filter,
+    Mask,
+    Group,
+    Canvas,
+    Shape,
+    Gradient,
+) of Group;
+
+children (
+    Text,
+    ClipPath,
+    Filter,
+    Mask,
+    Group,
+    Canvas,
+    Shape,
+    Gradient,
+) of Canvas;
+
+children (
+    FeBlend,
+    FeColorMatrix,
+    FeComponentTransfer, 
+    FeComposite,
+    FeConvolveMatrix,
+    FeDiffuseLighting,
+    FeDisplacementMap,
+    FeFlood,
+    FeGaussianBlur,
+    FeMerge,
+    FeImage,
+    FeMorphology,
+    FeOffset,
+    FeSpecularLighting,
+    FeTile,
+    FeTurbulence,
+) of Filter;
+
+children (
+    FeFuncR,
+    FeFuncG,
+    FeFuncB,
+    FeFuncA,
+) of FeComponentTransfer;
+
+children FeMergeNode of FeMerge;
+
+children (
+    FeDistantLight,
+    FePointLight,
+    FeSpotLight,
+) of FeDiffuseLighting;
+
+children (
+    FeDistantLight,
+    FePointLight,
+    FeSpotLight,
+) of FeSpecularLighting;
+
+children GradientStop of Gradient;
+
+children (
+    ClipPath,
+    Filter,
+    Mask,
+    Text,
+) of Pattern;
+
+children (Shape,Text,Use) of ClipPath;
+
+children (
+    Text,
+    ClipPath,
+    Filter,
+    Group,
+    Canvas,
+    Use,
+    Shape,
+    Gradient,
+) of Mask;
+
+
+apply (
+    Id, 
+    TextLayout,
+    Font,
+) to (Text,TextSpan);
+
+apply (
+    Id, 
+    EnableBackground,
+    WithTransform,
+    Fill,
+    Stroke,
+    WithFilter,
+    WithClipPath,
+    WithMask,
+    Opacity,
+) to (
+    Group,
+    Canvas,
+    Filter,
+    Mask,
+);
+
+apply ViewBox to Canvas;
+apply ViewBox to Pattern;

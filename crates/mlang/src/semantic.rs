@@ -94,6 +94,7 @@ impl<'a> SemanticAnalyzer<'a> {
                 | Opcode::Data(node) => {
                     self.check_symbol_node(node, input);
                 }
+                Opcode::Group(node) => self.check_symbol_group(node, input),
                 Opcode::Enum(node) => self.check_symbol_enum(node, input),
                 Opcode::ApplyTo(node) => self.check_symbol_apply_to(node, input),
                 Opcode::ChildrenOf(node) => self.check_symbol_children_of(node, input),
@@ -112,6 +113,7 @@ impl<'a> SemanticAnalyzer<'a> {
             if let Some((opcode, def_span)) = self.symbol_lookup(ident) {
                 match opcode {
                     Opcode::Element(_) | Opcode::Leaf(_) => {}
+                    Opcode::Group(_) => {}
                     _ => {
                         input.report_error(MlSemanticError::LinkFrom(*def_span), ident.1.clone());
                     }
@@ -128,10 +130,23 @@ impl<'a> SemanticAnalyzer<'a> {
             if let Some((opcode, def_span)) = self.symbol_lookup(ident) {
                 match opcode {
                     Opcode::Element(_) => {}
+                    Opcode::Group(_) => {}
                     _ => {
                         input.report_error(MlSemanticError::LinkTo(*def_span), ident.1.clone());
                     }
                 }
+            } else {
+                input.report_error(
+                    MlSemanticError::UnknownSymbol(ident.0.clone()),
+                    ident.1.clone(),
+                );
+            }
+        }
+    }
+
+    fn check_symbol_group(&self, node: &Group, input: &mut ParseContext<'_>) {
+        for ident in &node.children {
+            if let Some(_) = self.symbol_lookup(&ident) {
             } else {
                 input.report_error(
                     MlSemanticError::UnknownSymbol(ident.0.clone()),
@@ -160,7 +175,7 @@ impl<'a> SemanticAnalyzer<'a> {
         for ident in &node.to {
             if let Some((opcode, def_span)) = self.symbol_lookup(ident) {
                 match opcode {
-                    Opcode::Element(_) | Opcode::Leaf(_) => {}
+                    Opcode::Element(_) | Opcode::Leaf(_) | Opcode::Group(_) => {}
                     _ => {
                         input.report_error(MlSemanticError::ApplyTo(*def_span), ident.1.clone());
                     }
@@ -229,6 +244,9 @@ impl<'a> SemanticAnalyzer<'a> {
                     self.symbol_table.insert(input, node.ident.clone(), index);
                 }
                 Opcode::Enum(node) => {
+                    self.symbol_table.insert(input, node.ident.clone(), index);
+                }
+                Opcode::Group(node) => {
                     self.symbol_table.insert(input, node.ident.clone(), index);
                 }
 

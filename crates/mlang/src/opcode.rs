@@ -184,6 +184,54 @@ pub struct Field {
     pub ty: Type,
 }
 
+/// Defines apply to link
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct ApplyTo {
+    /// comment of this field.
+    pub comments: Vec<Comment>,
+    /// custom propert list.
+    pub properties: Vec<Property>,
+    /// The span of group.
+    pub span: Span,
+    /// From target.
+    pub from: Vec<Ident>,
+    /// To target
+    pub to: Vec<Ident>,
+}
+
+/// Defines childof link
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct ChildrenOf {
+    /// comment of this field.
+    pub comments: Vec<Comment>,
+    /// custom propert list.
+    pub properties: Vec<Property>,
+    /// The span of group.
+    pub span: Span,
+    /// children group.
+    pub from: Vec<Ident>,
+    /// parent group.
+    pub to: Vec<Ident>,
+}
+
+/// Defines a group.
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct Group {
+    /// comment of this field.
+    pub comments: Vec<Comment>,
+    /// custom propert list.
+    pub properties: Vec<Property>,
+    /// The span of group.
+    pub span: Span,
+    /// The name of the group.
+    pub ident: Ident,
+    /// The content of the group.
+    pub children: Vec<Ident>,
+}
+
 /// Defines a `type` of one field.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -231,30 +279,6 @@ impl Type {
     }
 }
 
-/// Defines apply to link
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct ApplyTo {
-    /// The span of group.
-    pub span: Span,
-    /// From target.
-    pub from: Vec<Ident>,
-    /// To target
-    pub to: Vec<Ident>,
-}
-
-/// Defines childof link
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct ChildrenOf {
-    /// The span of group.
-    pub span: Span,
-    /// children group.
-    pub from: Vec<Ident>,
-    /// parent group.
-    pub to: Vec<Ident>,
-}
-
 /// Defines `mlang`'s opcode.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -265,6 +289,7 @@ pub enum Opcode {
     Mixin(Box<Node>),
     Data(Box<Node>),
     Enum(Box<Enum>),
+    Group(Box<Group>),
     ApplyTo(Box<ApplyTo>),
     ChildrenOf(Box<ChildrenOf>),
 }
