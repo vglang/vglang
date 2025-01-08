@@ -1,11 +1,11 @@
 [package]
 description = "`mlang` is a programming language to define declarative programming language."
-documentation = "https://docs.rs/vglang"
+documentation = "https://docs.rs/mlang"
 license = "MIT"
 name = "mlang"
-edition = "2021"
-repository = "https://github.com/vglang/mlang"
-version = "0.1.2"
+edition.workspace = true
+repository.workspace = true
+version.workspace = true
 
 [dependencies]
 thiserror = { workspace = true }

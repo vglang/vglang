@@ -1,0 +1,13 @@
+[package]
+description = "Simple and fast vector graphics language (vglang)"
+documentation = "https://docs.rs/vglang"
+name = "vglang"
+edition.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+thiserror = { workspace = true }
+
+[build-dependencies]
+mlang = {workspace = true, features = ["codegen"]}

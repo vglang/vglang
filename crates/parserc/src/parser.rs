@@ -2,7 +2,7 @@ use std::{fmt::Debug, marker::PhantomData, str::Chars};
 
 use crate::{ControlFlow, Kind, ParseContext, ReportLine, Result, Span};
 
-/// A parser produce output by parsing and consuming the [`Input`] char stream.
+/// A parser produce output by parsing and consuming the source codes.
 pub trait Parser {
     /// Output data type.
     type Output;
@@ -181,8 +181,8 @@ where
 pub trait ParserExt: Parser {
     /// Convert parser result from [`Recoverable`] / [`Incomplete`] errors to [`None`].
     ///
-    /// [`Recoverable`]: crate::Diagnostic::Recoverable
-    /// [`Incomplete`]: crate::Diagnostic::Incomplete
+    /// [`Recoverable`]: crate::ControlFlow::Recoverable
+    /// [`Incomplete`]: crate::ControlFlow::Incomplete
     #[inline]
     fn ok(self) -> Optional<Self>
     where
@@ -245,11 +245,11 @@ pub trait ParserExt: Parser {
 
 impl<T> ParserExt for T where T: Parser {}
 
-/// All types that can be parsed from the [`Input`] stream must implement this trait.
+/// All types that can be parsed from source code must implement this trait.
 ///
-/// See [`parse`](InputExt::parse) function.
+/// See [`parse`](ParseExt::parse) function.
 pub trait FromInput {
-    /// Parse and create `Self` from [`Input`] stream.
+    /// Parse and construct self from `input`
     fn parse(input: &mut ParseContext<'_>) -> Result<Self>
     where
         Self: Sized;
@@ -299,14 +299,14 @@ where
     }
 }
 
-/// An extension trait to add `parse` function to [`Input`] stream.
-pub trait InputExt {
+/// An extension trait to add `parse` function to [`ParseContext`].
+pub trait ParseExt {
     fn parse<Item>(&mut self) -> Result<Item>
     where
         Item: FromInput;
 }
 
-impl<'a> InputExt for ParseContext<'a> {
+impl<'a> ParseExt for ParseContext<'a> {
     fn parse<Item>(&mut self) -> Result<Item>
     where
         Item: FromInput,

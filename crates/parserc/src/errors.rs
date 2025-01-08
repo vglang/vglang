@@ -1,6 +1,6 @@
 use std::fmt::Debug;
 
-/// [`Error`](ParserError) type used by builtin parser combinator.
+/// Error type used by builtin parser combinator.
 #[derive(Debug, thiserror::Error, PartialEq, Eq, PartialOrd, Ord, Clone)]
 pub enum Kind {
     #[error("Syntax error: expect '{0}'")]

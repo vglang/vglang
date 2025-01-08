@@ -5,7 +5,7 @@ use std::{
     vec::IntoIter,
 };
 
-/// A `span` is a reference to a fragment of the [`Input`].
+/// A `span` is a reference to a fragment of the source code.
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Eq, Ord, Hash)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Span {
@@ -151,7 +151,7 @@ where
     }
 }
 
-/// A error type returned by [ParseContext::report_iter]
+/// A error type returned by [ParseContext::report]
 pub struct ReportLine(pub(crate) anyhow::Error, pub Span);
 
 impl ReportLine {

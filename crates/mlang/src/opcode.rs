@@ -252,7 +252,7 @@ pub enum Type {
     Data(Ident),
     /// This type is `vec[T]`.
     ListOf(Box<Type>, Span),
-    /// Array type [T;30]
+    /// Array type `[T;30]`
     ArrayOf(Box<Type>, LitNum, Span),
 }
 
