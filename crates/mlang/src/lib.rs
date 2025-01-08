@@ -8,6 +8,8 @@ pub use parser::*;
 mod semantic;
 pub use semantic::*;
 
+pub use parserc;
+
 #[cfg(feature = "codegen")]
 #[cfg_attr(docsrs, doc(cfg(feature = "codegen")))]
 pub mod codegen;
