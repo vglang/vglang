@@ -21,7 +21,6 @@ heck= { workspace = true, optional = true }
 serde_json = { workspace = true }
 
 [features]
-
 default = ["serde"]
 serde = ["dep:serde", "parserc/serde"]
 codegen = ["quote","proc-macro2","heck"]

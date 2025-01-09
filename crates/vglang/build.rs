@@ -5,7 +5,12 @@ fn ml_gen() {}
 fn ml_gen() {
     use std::{fs, path::PathBuf, process::Command};
 
-    use mlang::{codegen::CodeGen, parse, parserc::ParseContext, SemanticAnalyzer};
+    use mlang::{
+        codegen::{codegen, CoreGen},
+        parse,
+        parserc::ParseContext,
+        SemanticAnalyzer,
+    };
 
     let mut input = ParseContext::from(include_str!("./vglang.ml"));
     let opcodes = match parse(&mut input) {
@@ -21,9 +26,9 @@ fn ml_gen() {
         panic!("parser vglang.ml failed: {}", err);
     }
 
-    let token_stream = CodeGen::default().gen(&opcodes);
+    let token_stream = codegen(&opcodes, CoreGen::default());
 
-    let gen_path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("src/opcode.rs");
+    let gen_path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("src/ml.rs");
 
     fs::write(&gen_path, token_stream.to_string()).unwrap();
 
