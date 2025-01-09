@@ -573,6 +573,25 @@ impl CoreGen {
                 }
             }
 
+            #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+            pub struct Number(
+                /// The wrapped [`f32`] value.
+                pub f32,
+            );
+
+            impl From<i32> for Number {
+                fn from(value: i32) -> Self {
+                    Self(value as f32)
+                }
+            }
+
+            impl From<f32> for Number {
+                fn from(value: f32) -> Self {
+                    Self(value as f32)
+                }
+            }
+
             #(#graphics_impl)*
 
             #(#apply_impl)*
@@ -697,6 +716,29 @@ struct CoreFieldGen {
 }
 
 impl CoreFieldGen {
+    fn sexpr_where_type(token_stream: &TokenStream) -> TokenStream {
+        match token_stream.to_string().as_str() {
+            "f32" => {
+                quote! {
+                    super::sexpr::Number
+                }
+            }
+            _ => token_stream.clone(),
+        }
+    }
+
+    fn sexpr_into(ty: &TokenStream, param: &TokenStream) -> TokenStream {
+        match ty.to_string().as_str() {
+            "f32" => {
+                quote! {
+                    super::sexpr::Number::from(#param).0
+                }
+            }
+            _ => quote! {
+                #param.into()
+            },
+        }
+    }
     fn gen_definition(&self, is_enum: bool) -> TokenStream {
         let comments = &self.comments;
 
@@ -745,6 +787,8 @@ impl CoreNodeGen {
 
         let (fields, is_tuple) = self.gen_fields_definition(false, mixin);
 
+        let fns = self.gen_init_fns();
+
         if self.fields.is_empty() {
             quote! {
                 #comments
@@ -759,6 +803,8 @@ impl CoreNodeGen {
                     #[derive(Debug, PartialEq, PartialOrd, Clone)]
                     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
                     pub struct #ident(#(#fields),*);
+
+                    #fns
                 }
             } else {
                 quote! {
@@ -767,6 +813,170 @@ impl CoreNodeGen {
                     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
                     pub struct #ident {
                         #(#fields),*
+                    }
+
+                    #fns
+                }
+            }
+        }
+    }
+
+    fn gen_init_fns(&self) -> TokenStream {
+        if self.fields.is_empty() {
+            return quote! {};
+        }
+
+        let is_tuple = self.fields.first().unwrap().ident.is_none();
+
+        let ident = &self.ident;
+        let count = self.fields.iter().filter(|f| !f.attrs.option).count();
+
+        if count == 0 {
+            let assign = if is_tuple {
+                (0..self.fields.len())
+                    .map(|_| quote! {None})
+                    .collect::<Vec<_>>()
+            } else {
+                self.fields
+                    .iter()
+                    .map(|field| {
+                        let ident = field.ident.as_ref().unwrap();
+                        quote! {
+                            #ident: None
+                        }
+                    })
+                    .collect()
+            };
+
+            if is_tuple {
+                return quote! {
+                    impl Default for #ident {
+                        fn default() -> Self {
+                            Self(#(#assign),*)
+                        }
+                    }
+                };
+            } else {
+                return quote! {
+                    impl Default for #ident {
+                        fn default() -> Self {
+                            Self { #(#assign),* }
+                        }
+                    }
+                };
+            }
+        }
+
+        let mut index = 0;
+
+        let mut generics = vec![];
+
+        let mut where_clause = vec![];
+
+        let mut assign = vec![];
+
+        for field in &self.fields {
+            let ident = if let Some(ident) = &field.ident {
+                quote! {#ident: }
+            } else {
+                quote! {}
+            };
+
+            if field.attrs.option {
+                assign.push(quote! {
+                    #ident None
+                });
+            } else {
+                let param_type = format!("P{}", index).parse::<TokenStream>().unwrap();
+
+                let param = if count > 1 {
+                    format!("value.{}", index).parse::<TokenStream>().unwrap()
+                } else {
+                    format!("value").parse::<TokenStream>().unwrap()
+                };
+
+                index += 1;
+
+                match &field.ty {
+                    crate::codegen::FieldType::Noraml(token_stream) => {
+                        let into_expr = CoreFieldGen::sexpr_into(token_stream, &param);
+                        let where_type = CoreFieldGen::sexpr_where_type(token_stream);
+                        where_clause.push(quote! {
+                            #where_type: From<#param_type>
+                        });
+                        if field.attrs.variable {
+                            assign.push(quote! {
+                                #ident super::variable::Variable::Constant(#into_expr)
+                            });
+                        } else {
+                            assign.push(quote! {
+                                #ident #into_expr
+                            });
+                        }
+                    }
+                    crate::codegen::FieldType::List(token_stream) => {
+                        where_clause.push(quote! {
+                            #param_type: super::sexpr::MapCollect<#token_stream>
+                        });
+                        if field.attrs.variable {
+                            assign.push(quote! {
+                                #ident super::variable::Variable::Constant(#param.map_collect())
+                            });
+                        } else {
+                            assign.push(quote! {
+                                #ident #param.map_collect()
+                            });
+                        }
+                    }
+                    crate::codegen::FieldType::Array(token_stream, num) => {
+                        where_clause.push(quote! {
+                            [#token_stream;#num]: From<#param_type>
+                        });
+                        if field.attrs.variable {
+                            assign.push(quote! {
+                                #ident super::variable::Variable::Constant(#param.into())
+                            });
+                        } else {
+                            assign.push(quote! {
+                                #ident #param.into()
+                            });
+                        }
+                    }
+                }
+
+                generics.push(param_type);
+            }
+        }
+
+        let impl_generics = quote! {#(#generics),*};
+
+        let type_generics = if generics.len() > 1 {
+            quote! {
+                (#(#generics),*)
+            }
+        } else {
+            quote! {
+                #(#generics),*
+            }
+        };
+
+        if is_tuple {
+            quote! {
+                impl<#impl_generics> From<#type_generics> for #ident where #(#where_clause),* {
+                    fn from(value: #type_generics) -> Self {
+                        Self (
+                            #(#assign),*
+                        )
+                    }
+                }
+            }
+        } else {
+            quote! {
+                impl<#impl_generics> From<#type_generics> for #ident where #(#where_clause),* {
+                    fn from(value: #type_generics) -> Self {
+                        Self {
+                            #(#assign),*
+                        }
                     }
                 }
             }

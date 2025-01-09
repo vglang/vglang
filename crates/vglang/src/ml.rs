@@ -3,21 +3,67 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct Rgb(pub u8, pub u8, pub u8);
+    impl<P0, P1, P2> From<(P0, P1, P2)> for Rgb
+    where
+        u8: From<P0>,
+        u8: From<P1>,
+        u8: From<P2>,
+    {
+        fn from(value: (P0, P1, P2)) -> Self {
+            Self(value.0.into(), value.1.into(), value.2.into())
+        }
+    }
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct Iri(pub String);
+    impl<P0> From<P0> for Iri
+    where
+        String: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(value.into())
+        }
+    }
     #[doc = "A 2d coordinate point."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct Point(pub f32, pub f32);
+    impl<P0, P1> From<(P0, P1)> for Point
+    where
+        super::sexpr::Number: From<P0>,
+        super::sexpr::Number: From<P1>,
+    {
+        fn from(value: (P0, P1)) -> Self {
+            Self(
+                super::sexpr::Number::from(value.0).0,
+                super::sexpr::Number::from(value.1).0,
+            )
+        }
+    }
     #[doc = "Percentages are specified as a number followed by a \"%\" character:"]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct Percent(pub f32);
+    impl<P0> From<P0> for Percent
+    where
+        super::sexpr::Number: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(super::sexpr::Number::from(value).0)
+        }
+    }
     #[doc = "A pair of `number`s, where the second `number` is optional."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct NumberOptNumber(pub f32, pub Option<f32>);
+    impl<P0> From<P0> for NumberOptNumber
+    where
+        super::sexpr::Number: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(super::sexpr::Number::from(value).0, None)
+        }
+    }
     #[doc = "support for various international writing directions, such as left-to-right (e.g., Latin scripts) and"]
     #[doc = "bidirectional (e.g., Hebrew or Arabic) and vertical (e.g., Asian scripts)."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -44,15 +90,47 @@ pub mod opcode {
         #[doc = "See [`WordSpacing`]"]
         pub word_spacing: Option<super::variable::Variable<WordSpacing>>,
     }
+    impl Default for TextLayout {
+        fn default() -> Self {
+            Self {
+                write_mode: None,
+                direction: None,
+                unicode_bidi: None,
+                anchor: None,
+                dominant_baseline: None,
+                alignment_baseline: None,
+                baseline_shift: None,
+                decoration: None,
+                letter_spacing: None,
+                word_spacing: None,
+            }
+        }
+    }
     #[doc = "support for various international writing directions, such as left-to-right (e.g., Latin scripts) and"]
     #[doc = "bidirectional (e.g., Hebrew or Arabic) and vertical (e.g., Asian scripts)."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct WithTransform(pub Vec<Transform>);
+    impl<P0> From<P0> for WithTransform
+    where
+        P0: super::sexpr::MapCollect<Transform>,
+    {
+        fn from(value: P0) -> Self {
+            Self(value.map_collect())
+        }
+    }
     #[doc = "Define a fragment with name."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct Id(pub String);
+    impl<P0> From<P0> for Id
+    where
+        String: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(value.into())
+        }
+    }
     #[doc = "The ‘fill’ instruction paints the interior of the given graphical element."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -67,6 +145,20 @@ pub mod opcode {
         pub rule: FillRule,
         #[doc = "defining the opacity of the paint server"]
         pub opacity: f32,
+    }
+    impl<P0, P1, P2> From<(P0, P1, P2)> for Fill
+    where
+        Paint: From<P0>,
+        FillRule: From<P1>,
+        super::sexpr::Number: From<P2>,
+    {
+        fn from(value: (P0, P1, P2)) -> Self {
+            Self {
+                paint: value.0.into(),
+                rule: value.1.into(),
+                opacity: super::sexpr::Number::from(value.2).0,
+            }
+        }
     }
     #[doc = "This property affect how an element is stroked."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -100,6 +192,18 @@ pub mod opcode {
         #[doc = "`Inherited: yes`"]
         pub dashoffset: Option<super::variable::Variable<Length>>,
     }
+    impl Default for Stroke {
+        fn default() -> Self {
+            Self {
+                paint: None,
+                width: None,
+                linecap: None,
+                linejoin: None,
+                dasharray: None,
+                dashoffset: None,
+            }
+        }
+    }
     #[doc = "Shorthand property for setting ‘font-style’, ‘font-variant’, ‘font-weight’, ‘font-size’, ‘line-height’ and ‘font-family’."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -118,26 +222,78 @@ pub mod opcode {
         #[doc = "See [`FontStretch`]"]
         pub stretch: Option<super::variable::Variable<FontStretch>>,
     }
+    impl Default for Font {
+        fn default() -> Self {
+            Self {
+                family: None,
+                style: None,
+                variant: None,
+                weight: None,
+                size: None,
+                stretch: None,
+            }
+        }
+    }
     #[doc = "enables access to the background image"]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct EnableBackground(pub Background);
+    impl<P0> From<P0> for EnableBackground
+    where
+        Background: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(value.into())
+        }
+    }
     #[doc = "Define a fragment by name."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct WithFilter(pub String);
+    impl<P0> From<P0> for WithFilter
+    where
+        String: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(value.into())
+        }
+    }
     #[doc = "Use mask to a element."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct WithClipPath(pub FuncIri);
+    impl<P0> From<P0> for WithClipPath
+    where
+        FuncIri: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(value.into())
+        }
+    }
     #[doc = "Use mask to a element."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct WithMask(pub FuncIri);
+    impl<P0> From<P0> for WithMask
+    where
+        FuncIri: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(value.into())
+        }
+    }
     #[doc = "Sspecifies object/group opacity"]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct Opacity(pub f32);
+    impl<P0> From<P0> for Opacity
+    where
+        super::sexpr::Number: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(super::sexpr::Number::from(value).0)
+        }
+    }
     #[doc = "It is often desirable to specify that a given set of graphics stretch to fit a particular container element."]
     #[doc = "The ‘viewBox’ attribute provides this capability."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -154,6 +310,23 @@ pub mod opcode {
         #[doc = "clip preserve aspect ratio."]
         pub aspect: Option<super::variable::Variable<PreserveAspectRatio>>,
     }
+    impl<P0, P1, P2, P3> From<(P0, P1, P2, P3)> for ViewBox
+    where
+        super::sexpr::Number: From<P0>,
+        super::sexpr::Number: From<P1>,
+        super::sexpr::Number: From<P2>,
+        super::sexpr::Number: From<P3>,
+    {
+        fn from(value: (P0, P1, P2, P3)) -> Self {
+            Self {
+                minx: super::variable::Variable::Constant(super::sexpr::Number::from(value.0).0),
+                miny: super::variable::Variable::Constant(super::sexpr::Number::from(value.1).0),
+                width: super::variable::Variable::Constant(super::sexpr::Number::from(value.2).0),
+                height: super::variable::Variable::Constant(super::sexpr::Number::from(value.3).0),
+                aspect: None,
+            }
+        }
+    }
     #[doc = "Create a new layer into which the backend render child elements."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -162,6 +335,18 @@ pub mod opcode {
         pub width: super::variable::Variable<Length>,
         #[doc = "a number (usually an integer) that represents the height of the rendering layer."]
         pub height: super::variable::Variable<Length>,
+    }
+    impl<P0, P1> From<(P0, P1)> for Canvas
+    where
+        Length: From<P0>,
+        Length: From<P1>,
+    {
+        fn from(value: (P0, P1)) -> Self {
+            Self {
+                width: super::variable::Variable::Constant(value.0.into()),
+                height: super::variable::Variable::Constant(value.1.into()),
+            }
+        }
     }
     #[doc = "used as an alpha mask for compositing the current object into the background."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -214,6 +399,18 @@ pub mod opcode {
         #[doc = "If the attribute is not specified, the effect is as if a value of '120%' were specified."]
         pub height: Option<super::variable::Variable<Length>>,
     }
+    impl Default for Mask {
+        fn default() -> Self {
+            Self {
+                units: None,
+                content_units: None,
+                x: None,
+                y: None,
+                width: None,
+                height: None,
+            }
+        }
+    }
     #[doc = "A clipping path is defined with a ‘clipPath’ element."]
     #[doc = "A clipping path is used/referenced using the ‘clip-path’ property."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -232,6 +429,11 @@ pub mod opcode {
         #[doc = "If attribute ‘clipPathUnits’ is not specified, then the effect is as if a value of 'userSpaceOnUse' were specified."]
         pub Option<super::variable::Variable<Coords>>,
     );
+    impl Default for ClipPath {
+        fn default() -> Self {
+            Self(None)
+        }
+    }
     #[doc = "A filter effect consists of a series of graphics operations that are applied to a given source graphic to"]
     #[doc = "produce a modified graphical result. The result of the filter effect is rendered to the target device"]
     #[doc = "instead of the original source graphic. The following illustrates the process:"]
@@ -303,6 +505,19 @@ pub mod opcode {
         #[doc = "Non-integer values are truncated, i.e rounded to the closest integer value towards zero."]
         pub res: Option<super::variable::Variable<NumberOptNumber>>,
     }
+    impl Default for Filter {
+        fn default() -> Self {
+            Self {
+                units: None,
+                primitive_units: None,
+                x: None,
+                y: None,
+                width: None,
+                height: None,
+                res: None,
+            }
+        }
+    }
     #[doc = "Defines a distant light source that can be used within a lighting filter primitive:"]
     #[doc = "[`FeDiffuseLighting`] or [`FeSpecularLighting`]."]
     #[doc = ""]
@@ -320,6 +535,14 @@ pub mod opcode {
         #[doc = ""]
         #[doc = "If the attribute is not specified, then the effect is as if a value of 0 were specified."]
         pub elevation: Option<super::variable::Variable<f32>>,
+    }
+    impl Default for FeDistantLight {
+        fn default() -> Self {
+            Self {
+                azimuth: None,
+                elevation: None,
+            }
+        }
     }
     #[doc = "Defines a point light source that can be used within a lighting filter primitive:"]
     #[doc = "[`FeDiffuseLighting`] or [`FeSpecularLighting`]."]
@@ -340,6 +563,15 @@ pub mod opcode {
         #[doc = ""]
         #[doc = "If the attribute is not specified, then the effect is as if a value of 0 were specified."]
         pub z: Option<super::variable::Variable<f32>>,
+    }
+    impl Default for FePointLight {
+        fn default() -> Self {
+            Self {
+                x: None,
+                y: None,
+                z: None,
+            }
+        }
     }
     #[doc = "Defines a spot light source that can be used within a lighting filter primitive:"]
     #[doc = "[`FeDiffuseLighting`] or [`FeSpecularLighting`]."]
@@ -388,6 +620,20 @@ pub mod opcode {
         #[doc = "If no value is specified, then no limiting cone will be applied."]
         pub limiting_cone_angle: Option<super::variable::Variable<f32>>,
     }
+    impl Default for FeSpotLight {
+        fn default() -> Self {
+            Self {
+                x: None,
+                y: None,
+                z: None,
+                point_at_x: None,
+                point_at_y: None,
+                point_at_z: None,
+                specular_exponent: None,
+                limiting_cone_angle: None,
+            }
+        }
+    }
     #[doc = "This filter composites two objects together using commonly used imaging software blending modes."]
     #[doc = "It performs a pixel-wise combination of two input images."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -399,6 +645,15 @@ pub mod opcode {
         pub r_in: Option<super::variable::Variable<FeIn>>,
         #[doc = "The second input image to the blending operation. This attribute can take on the same values as the ‘in’ attribute."]
         pub in2: Option<super::variable::Variable<FeIn>>,
+    }
+    impl Default for FeBlend {
+        fn default() -> Self {
+            Self {
+                mode: None,
+                r_in: None,
+                in2: None,
+            }
+        }
     }
     #[doc = "This filter applies a matrix transformation."]
     #[doc = ""]
@@ -421,6 +676,18 @@ pub mod opcode {
         #[doc = "The contents of ‘values’ depends on the value of attribute ‘type’:"]
         pub values: super::variable::Variable<FeColorMatrixValues>,
     }
+    impl<P0, P1> From<(P0, P1)> for FeColorMatrix
+    where
+        FeIn: From<P0>,
+        FeColorMatrixValues: From<P1>,
+    {
+        fn from(value: (P0, P1)) -> Self {
+            Self {
+                r_in: super::variable::Variable::Constant(value.0.into()),
+                values: super::variable::Variable::Constant(value.1.into()),
+            }
+        }
+    }
     #[doc = "This filter primitive performs component-wise remapping of data as follows:"]
     #[doc = ""]
     #[doc = "> R' = feFuncR( R )"]
@@ -435,30 +702,67 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct FeComponentTransfer(pub Option<super::variable::Variable<FeIn>>);
+    impl Default for FeComponentTransfer {
+        fn default() -> Self {
+            Self(None)
+        }
+    }
     #[doc = "transfer function for the alpha component of the input graphic"]
     #[doc = ""]
     #[doc = "See [`FeFunc`], [`FeComponentTransfer`]"]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct FeFuncA(pub FeFunc);
+    impl<P0> From<P0> for FeFuncA
+    where
+        FeFunc: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(value.into())
+        }
+    }
     #[doc = "transfer function for the red component of the input graphic"]
     #[doc = ""]
     #[doc = "See [`FeFunc`], [`FeComponentTransfer`]"]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct FeFuncR(pub FeFunc);
+    impl<P0> From<P0> for FeFuncR
+    where
+        FeFunc: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(value.into())
+        }
+    }
     #[doc = "transfer function for the green component of the input graphic"]
     #[doc = ""]
     #[doc = "See [`FeFunc`], [`FeComponentTransfer`]"]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct FeFuncG(pub FeFunc);
+    impl<P0> From<P0> for FeFuncG
+    where
+        FeFunc: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(value.into())
+        }
+    }
     #[doc = "transfer function for the blue component of the input graphic"]
     #[doc = ""]
     #[doc = "See [`FeFunc`], [`FeComponentTransfer`]"]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct FeFuncB(pub FeFunc);
+    impl<P0> From<P0> for FeFuncB
+    where
+        FeFunc: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(value.into())
+        }
+    }
     #[doc = "This filter performs the combination of the two input images pixel-wise in image space using one of the Porter-Duff [`PORTERDUFF`]"]
     #[doc = "compositing operations: over, in, atop, out, xor [`SVG-COMPOSITING`]. Additionally, a component-wise arithmetic operation (with"]
     #[doc = "the result clamped between [0..1]) can be applied."]
@@ -477,6 +781,18 @@ pub mod opcode {
         pub in2: super::variable::Variable<FeIn>,
         #[doc = "See [`FeCompositeOperator`]"]
         pub operator: Option<super::variable::Variable<FeCompositeOperator>>,
+    }
+    impl<P0> From<P0> for FeComposite
+    where
+        FeIn: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self {
+                r_in: None,
+                in2: super::variable::Variable::Constant(value.into()),
+                operator: None,
+            }
+        }
     }
     #[doc = "feConvolveMatrix applies a matrix convolution filter effect. A convolution combines pixels"]
     #[doc = "in the input image with neighboring pixels to produce a resulting image. A wide variety"]
@@ -544,6 +860,27 @@ pub mod opcode {
         #[doc = "See [`feConvolveMatrix`](https://www.w3.org/TR/SVG11/filters.html#feConvolveMatrixElement)"]
         pub preserve_alpha: super::variable::Variable<bool>,
     }
+    impl<P0, P1, P2> From<(P0, P1, P2)> for FeConvolveMatrix
+    where
+        P0: super::sexpr::MapCollect<f32>,
+        FeConvolveMatrixEdgeMode: From<P1>,
+        bool: From<P2>,
+    {
+        fn from(value: (P0, P1, P2)) -> Self {
+            Self {
+                r_in: None,
+                order: None,
+                kernel: super::variable::Variable::Constant(value.0.map_collect()),
+                divisor: None,
+                bias: None,
+                target_x: None,
+                target_y: None,
+                edge_mode: super::variable::Variable::Constant(value.1.into()),
+                kernel_unit_len: None,
+                preserve_alpha: super::variable::Variable::Constant(value.2.into()),
+            }
+        }
+    }
     #[doc = "See [`feConvolveMatrix`](https://www.w3.org/TR/SVG11/filters.html#feDiffuseLightingElement)"]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -572,6 +909,19 @@ pub mod opcode {
         #[doc = "A negative or zero value is an error (see Error processing)."]
         pub kernel_unit_len: Option<super::variable::Variable<NumberOptNumber>>,
     }
+    impl<P0> From<P0> for FeDiffuseLighting
+    where
+        FeIn: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self {
+                r_in: super::variable::Variable::Constant(value.into()),
+                surface_scale: None,
+                diffuse_constant: None,
+                kernel_unit_len: None,
+            }
+        }
+    }
     #[doc = "This filter primitive uses the pixels values from the image from ‘in2’ to spatially displace the image from ‘in’."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -596,6 +946,20 @@ pub mod opcode {
         #[doc = "specified."]
         pub y_channel_selector: Option<super::variable::Variable<Channel>>,
     }
+    impl<P0> From<P0> for FeDisplacementMap
+    where
+        FeIn: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self {
+                r_in: None,
+                in2: super::variable::Variable::Constant(value.into()),
+                scale: None,
+                x_channel_selector: None,
+                y_channel_selector: None,
+            }
+        }
+    }
     #[doc = "This filter primitive creates a rectangle filled with the color and opacity values from properties ‘flood-color’ a ‘flood-opacity’."]
     #[doc = "The rectangle is as large as the filter primitive subregion established by the ‘x’, ‘y’, ‘width’ and ‘height’ attributes on the"]
     #[doc = "‘feFlood’ element."]
@@ -606,6 +970,14 @@ pub mod opcode {
         pub color: Option<super::variable::Variable<Rgb>>,
         #[doc = "defines the opacity value to use across the entire filter primitive subregion."]
         pub opacity: Option<super::variable::Variable<f32>>,
+    }
+    impl Default for FeFlood {
+        fn default() -> Self {
+            Self {
+                color: None,
+                opacity: None,
+            }
+        }
     }
     #[doc = "This filter primitive performs a Gaussian blur on the input image."]
     #[doc = ""]
@@ -625,6 +997,14 @@ pub mod opcode {
         #[doc = "effect is that the blur is only applied in the direction that has a non-zero value."]
         pub std_deviation: Option<super::variable::Variable<NumberOptNumber>>,
     }
+    impl Default for FeGaussianBlur {
+        fn default() -> Self {
+            Self {
+                r_in: None,
+                std_deviation: None,
+            }
+        }
+    }
     #[doc = "This filter primitive composites input image layers on top of each other using the over operator with Input1"]
     #[doc = "(corresponding to the first ‘feMergeNode’ child element) on the bottom and the last specified input, InputN"]
     #[doc = "(corresponding to the last ‘feMergeNode’ child element), on top."]
@@ -637,6 +1017,14 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct FeMergeNode(pub super::variable::Variable<FeIn>);
+    impl<P0> From<P0> for FeMergeNode
+    where
+        FeIn: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(super::variable::Variable::Constant(value.into()))
+        }
+    }
     #[doc = "This filter primitive refers to a graphic external to this filter element, which is loaded or rendered into an RGBA"]
     #[doc = "raster and becomes the result of the filter primitive."]
     #[doc = ""]
@@ -648,6 +1036,17 @@ pub mod opcode {
         pub href: super::variable::Variable<FuncIri>,
         #[doc = "See [`PreserveAspectRatio`]."]
         pub aspect: Option<super::variable::Variable<PreserveAspectRatio>>,
+    }
+    impl<P0> From<P0> for FeImage
+    where
+        FuncIri: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self {
+                href: super::variable::Variable::Constant(value.into()),
+                aspect: None,
+            }
+        }
     }
     #[doc = "This filter primitive performs \"fattening\" or \"thinning\" of artwork."]
     #[doc = "It is particularly useful for fattening or thinning an alpha channel."]
@@ -671,6 +1070,15 @@ pub mod opcode {
         #[doc = "If the attribute is not specified, then the effect is as if a value of 0 were specified."]
         pub radius: Option<super::variable::Variable<NumberOptNumber>>,
     }
+    impl Default for FeMorphology {
+        fn default() -> Self {
+            Self {
+                r_in: None,
+                mode: None,
+                radius: None,
+            }
+        }
+    }
     #[doc = "This filter primitive offsets the input image relative to its current position in the image space by the specified vector."]
     #[doc = ""]
     #[doc = "This is important for effects like drop shadows."]
@@ -691,6 +1099,15 @@ pub mod opcode {
         #[doc = ""]
         #[doc = "If the attribute is not specified, then the effect is as if a value of 0 were specified."]
         pub dy: Option<super::variable::Variable<f32>>,
+    }
+    impl Default for FeOffset {
+        fn default() -> Self {
+            Self {
+                r_in: None,
+                dx: None,
+                dy: None,
+            }
+        }
     }
     #[doc = "This filter primitive lights a source graphic using the alpha channel as a bump map."]
     #[doc = "The resulting image is an RGBA image based on the light color. The lighting calculation follows the standard specular component of"]
@@ -730,6 +1147,17 @@ pub mod opcode {
         #[doc = "A negative or zero value is an error (see Error processing)."]
         pub kernel_unit_len: Option<super::variable::Variable<NumberOptNumber>>,
     }
+    impl Default for FeSpecularLighting {
+        fn default() -> Self {
+            Self {
+                r_in: None,
+                surface_scale: None,
+                specular_constant: None,
+                specular_exponent: None,
+                kernel_unit_len: None,
+            }
+        }
+    }
     #[doc = "This filter primitive fills a target rectangle with a repeated, tiled pattern of an input image. The target rectangle is"]
     #[doc = "as large as the filter primitive subregion established by the ‘x’, ‘y’, ‘width’ and ‘height’ attributes on the ‘feTile’"]
     #[doc = "element."]
@@ -740,6 +1168,11 @@ pub mod opcode {
     pub struct FeTile {
         #[doc = "See [`FeIn`]"]
         pub r_in: Option<super::variable::Variable<FeIn>>,
+    }
+    impl Default for FeTile {
+        fn default() -> Self {
+            Self { r_in: None }
+        }
     }
     #[doc = "This filter primitive creates an image using the Perlin turbulence function."]
     #[doc = "It allows the synthesis of artificial textures like clouds or marble. For a detailed description the of the Perlin turbulence"]
@@ -773,6 +1206,17 @@ pub mod opcode {
         #[doc = "See [`FeStitchTiles`]"]
         pub r_type: Option<super::variable::Variable<FeTurbulenceType>>,
     }
+    impl Default for FeTurbulence {
+        fn default() -> Self {
+            Self {
+                base_frequency: None,
+                num_octaves: None,
+                seed: None,
+                stitch_tiles: None,
+                r_type: None,
+            }
+        }
+    }
     #[doc = "Linear gradients are defined by a ‘linearGradient’ element."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -805,6 +1249,19 @@ pub mod opcode {
         pub y2: Option<super::variable::Variable<Length>>,
         #[doc = "Indicates what happens if the gradient starts or ends inside the bounds of the target rectangle."]
         pub spread: Option<super::variable::Variable<SpreadMethod>>,
+    }
+    impl Default for LinearGradient {
+        fn default() -> Self {
+            Self {
+                units: None,
+                transform: None,
+                x1: None,
+                y1: None,
+                x2: None,
+                y2: None,
+                spread: None,
+            }
+        }
     }
     #[doc = "Radial gradients are defined by a ‘radialGradient’ element."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -862,6 +1319,20 @@ pub mod opcode {
         #[doc = "Indicates what happens if the gradient starts or ends inside the bounds of the target rectangle."]
         pub spread: Option<super::variable::Variable<SpreadMethod>>,
     }
+    impl Default for RadialGradient {
+        fn default() -> Self {
+            Self {
+                unit: None,
+                transform: None,
+                cx: None,
+                cy: None,
+                r: None,
+                fx: None,
+                fy: None,
+                spread: None,
+            }
+        }
+    }
     #[doc = "The ramp of colors to use on a gradient is defined by the ‘stop’ elements that are child elements"]
     #[doc = "to either the ‘linearGradient’ element or the ‘radialGradient’ element."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -879,6 +1350,18 @@ pub mod opcode {
         pub color: Option<super::variable::Variable<Rgb>>,
         #[doc = "Defines the opacity of a given gradient stop."]
         pub opacity: Option<super::variable::Variable<f32>>,
+    }
+    impl<P0> From<P0> for GradientStop
+    where
+        super::sexpr::Number: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self {
+                offset: super::variable::Variable::Constant(super::sexpr::Number::from(value).0),
+                color: None,
+                opacity: None,
+            }
+        }
     }
     #[doc = "A container element for grouping together related graphics elements."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -901,6 +1384,18 @@ pub mod opcode {
         #[doc = ""]
         #[doc = "A negative value is an error (see Error processing)."]
         pub length: super::variable::Variable<Length>,
+    }
+    impl<P0, P1> From<(P0, P1)> for Path
+    where
+        P0: super::sexpr::MapCollect<PathEvent>,
+        Length: From<P1>,
+    {
+        fn from(value: (P0, P1)) -> Self {
+            Self {
+                data: super::variable::Variable::Constant(value.0.map_collect()),
+                length: super::variable::Variable::Constant(value.1.into()),
+            }
+        }
     }
     #[doc = "A pattern is used to fill or stroke an object using a pre-defined graphic object which can be replicated (\"tiled\")"]
     #[doc = "at fixed intervals in x and y to cover the areas to be painted. Patterns are defined using a ‘pattern’ element and"]
@@ -978,10 +1473,31 @@ pub mod opcode {
         #[doc = "Animatable: yes."]
         pub height: Option<super::variable::Variable<Length>>,
     }
+    impl Default for Pattern {
+        fn default() -> Self {
+            Self {
+                units: None,
+                content_units: None,
+                transform: None,
+                x: None,
+                y: None,
+                width: None,
+                height: None,
+            }
+        }
+    }
     #[doc = "Use a fragment by name."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct Use(pub super::variable::Variable<Iri>);
+    impl<P0> From<P0> for Use
+    where
+        Iri: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(super::variable::Variable::Constant(value.into()))
+        }
+    }
     #[doc = "The ‘rect’ element defines a rectangle which is axis-aligned with the current user coordinate system."]
     #[doc = "Rounded rectangles can be achieved by setting appropriate values for attributes ‘rx’ and ‘ry’."]
     #[doc = ""]
@@ -1030,6 +1546,24 @@ pub mod opcode {
         #[doc = "Animatable: yes."]
         pub ry: Option<super::variable::Variable<Length>>,
     }
+    impl<P0, P1, P2, P3> From<(P0, P1, P2, P3)> for Rect
+    where
+        Length: From<P0>,
+        Length: From<P1>,
+        Length: From<P2>,
+        Length: From<P3>,
+    {
+        fn from(value: (P0, P1, P2, P3)) -> Self {
+            Self {
+                x: super::variable::Variable::Constant(value.0.into()),
+                y: super::variable::Variable::Constant(value.1.into()),
+                width: super::variable::Variable::Constant(value.2.into()),
+                height: super::variable::Variable::Constant(value.3.into()),
+                rx: None,
+                ry: None,
+            }
+        }
+    }
     #[doc = "The ‘circle’ element defines a circle based on a center point and a radius."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -1049,6 +1583,20 @@ pub mod opcode {
         #[doc = ""]
         #[doc = "Animatable: yes."]
         pub r: super::variable::Variable<Length>,
+    }
+    impl<P0, P1, P2> From<(P0, P1, P2)> for Circle
+    where
+        Length: From<P0>,
+        Length: From<P1>,
+        Length: From<P2>,
+    {
+        fn from(value: (P0, P1, P2)) -> Self {
+            Self {
+                cx: super::variable::Variable::Constant(value.0.into()),
+                cy: super::variable::Variable::Constant(value.1.into()),
+                r: super::variable::Variable::Constant(value.2.into()),
+            }
+        }
     }
     #[doc = "The ‘ellipse’ element defines an ellipse which is axis-aligned with the current user coordinate"]
     #[doc = "system based on a center point and two radii."]
@@ -1075,6 +1623,20 @@ pub mod opcode {
         #[doc = ""]
         #[doc = "Animatable: yes."]
         pub ry: super::variable::Variable<Length>,
+    }
+    impl<P0, P1> From<(P0, P1)> for Ellipse
+    where
+        Length: From<P0>,
+        Length: From<P1>,
+    {
+        fn from(value: (P0, P1)) -> Self {
+            Self {
+                cx: None,
+                cy: None,
+                rx: super::variable::Variable::Constant(value.0.into()),
+                ry: super::variable::Variable::Constant(value.1.into()),
+            }
+        }
     }
     #[doc = "The ‘line’ element defines a line segment that starts at one point and ends at another."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -1105,6 +1667,22 @@ pub mod opcode {
         #[doc = "Animatable: yes."]
         pub y2: super::variable::Variable<Length>,
     }
+    impl<P0, P1, P2, P3> From<(P0, P1, P2, P3)> for Line
+    where
+        Length: From<P0>,
+        Length: From<P1>,
+        Length: From<P2>,
+        Length: From<P3>,
+    {
+        fn from(value: (P0, P1, P2, P3)) -> Self {
+            Self {
+                x1: super::variable::Variable::Constant(value.0.into()),
+                y1: super::variable::Variable::Constant(value.1.into()),
+                x2: super::variable::Variable::Constant(value.2.into()),
+                y2: super::variable::Variable::Constant(value.3.into()),
+            }
+        }
+    }
     #[doc = "The ‘polyline’ element defines a set of connected straight line segments. Typically, ‘polyline’ elements define open shapes."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -1114,6 +1692,14 @@ pub mod opcode {
         #[doc = "Animatable: yes."]
         pub super::variable::Variable<Vec<Point>>,
     );
+    impl<P0> From<P0> for Polyline
+    where
+        P0: super::sexpr::MapCollect<Point>,
+    {
+        fn from(value: P0) -> Self {
+            Self(super::variable::Variable::Constant(value.map_collect()))
+        }
+    }
     #[doc = "The ‘polygon’ element defines a closed shape consisting of a set of connected straight line segments."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -1123,6 +1709,14 @@ pub mod opcode {
         #[doc = "Animatable: yes."]
         pub super::variable::Variable<Vec<Point>>,
     );
+    impl<P0> From<P0> for Polygon
+    where
+        P0: super::sexpr::MapCollect<Point>,
+    {
+        fn from(value: P0) -> Self {
+            Self(super::variable::Variable::Constant(value.map_collect()))
+        }
+    }
     #[doc = "The ‘text’ element defines a graphics element consisting of text."]
     #[doc = ""]
     #[doc = "See [`text`](https://www.w3.org/TR/SVG11/text.html#TextElement)"]
@@ -1139,6 +1733,14 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct Characters(pub String);
+    impl<P0> From<P0> for Characters
+    where
+        String: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(value.into())
+        }
+    }
     #[doc = "In addition to text drawn in a straight line, SVG also includes the ability to place text along the"]
     #[doc = "shape of a ‘path’ element. To specify that a block of text is to be rendered along the shape of a ‘path’,"]
     #[doc = "include the given text within a ‘textPath’ element which includes an href’ attribute with an IRI"]
@@ -1168,6 +1770,19 @@ pub mod opcode {
         #[doc = "If `iri` is an invalid reference (e.g., no such element exists, or the referenced element is not a ‘path’),"]
         #[doc = "then the ‘textPath’ element is in error and its entire contents shall not be rendered by the user agent."]
         pub href: super::variable::Variable<Iri>,
+    }
+    impl<P0> From<P0> for TextPath
+    where
+        Iri: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self {
+                start_offset: None,
+                method: None,
+                spacing: None,
+                href: super::variable::Variable::Constant(value.into()),
+            }
+        }
     }
     #[doc = "Angles are specified in one of two ways depending upon"]
     #[doc = "whether they are used in CSS property syntax or SVG"]
@@ -3083,6 +3698,19 @@ pub mod sexpr {
     {
         fn map_collect(self) -> Vec<T> {
             vec![self.into()]
+        }
+    }
+    #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
+    #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+    pub struct Number(#[doc = r" The wrapped [`f32`] value."] pub f32);
+    impl From<i32> for Number {
+        fn from(value: i32) -> Self {
+            Self(value as f32)
+        }
+    }
+    impl From<f32> for Number {
+        fn from(value: f32) -> Self {
+            Self(value as f32)
         }
     }
     impl Graphics for super::opcode::Canvas {

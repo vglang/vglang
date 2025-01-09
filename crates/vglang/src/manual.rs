@@ -1,6 +1,6 @@
 use crate::{
     opcode::{Length, PathEvent, Point},
-    sexpr::MapCollect,
+    sexpr::{MapCollect, Number},
 };
 
 /// A trait convert self into [`Length`]
@@ -22,25 +22,6 @@ pub trait Slength {
     fn pc(self) -> Length;
 
     fn percent(self) -> Length;
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Number(
-    /// The wrapped [`f32`] value.
-    pub f32,
-);
-
-impl From<i32> for Number {
-    fn from(value: i32) -> Self {
-        Self(value as f32)
-    }
-}
-
-impl From<f32> for Number {
-    fn from(value: f32) -> Self {
-        Self(value as f32)
-    }
 }
 
 impl<T> Slength for T

@@ -132,7 +132,7 @@ fn type_to_token_stream(ty: &Type) -> FieldType {
         Type::Uint(_) => FieldType::Noraml(quote! {u32}),
         Type::Long(_) => FieldType::Noraml(quote! {i64}),
         Type::Ulong(_) => FieldType::Noraml(quote! {u64}),
-        Type::Float(_) => FieldType::Noraml(quote! {f32}),
+        Type::Float(_) => FieldType::Noraml(quote! { f32 }),
         Type::Double(_) => FieldType::Noraml(quote! {f64}),
         Type::Data(ident) => FieldType::Noraml(ident.0.parse().unwrap()),
         Type::ListOf(component, _) => FieldType::List(type_to_token_stream(component).into()),
