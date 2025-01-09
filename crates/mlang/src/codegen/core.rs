@@ -16,6 +16,8 @@ pub struct CoreGen {
     el_fileds: Vec<TokenStream>,
     leaf_fields: Vec<TokenStream>,
     data_fields: Vec<TokenStream>,
+    child_of: Vec<(TokenStream, TokenStream)>,
+    apply_to: Vec<(TokenStream, TokenStream)>,
 }
 
 impl CoreGen {
@@ -336,7 +338,7 @@ impl CoreGen {
             .collect()
     }
 
-    fn gen_sexpr_apply_impl(&self) -> Vec<TokenStream> {
+    fn gen_sexpr_apply_fn(&self) -> Vec<TokenStream> {
         self.el_fileds
             .iter()
             .map(|ident| {
@@ -360,7 +362,7 @@ impl CoreGen {
             .collect()
     }
 
-    fn gen_sexpr_children_impl(&self) -> Vec<TokenStream> {
+    fn gen_sexpr_children_fn(&self) -> Vec<TokenStream> {
         self.el_fileds
             .iter()
             .map(|ident| {
@@ -375,10 +377,34 @@ impl CoreGen {
             .collect()
     }
 
+    fn gen_sexpr_apply_to_impl(&self) -> Vec<TokenStream> {
+        self.apply_to
+            .iter()
+            .map(|(from, to)| {
+                quote! {
+                    impl ApplyTo<super::opcode::#to> for super::opcode::#from {}
+                }
+            })
+            .collect()
+    }
+
+    fn gen_sexpr_child_of_impl(&self) -> Vec<TokenStream> {
+        self.child_of
+            .iter()
+            .map(|(from, to)| {
+                quote! {
+                    impl ContentOf<super::opcode::#to> for super::opcode::#from {}
+                }
+            })
+            .collect()
+    }
+
     fn gen_sexpr_mod(&self) -> TokenStream {
         let graphics_impl = self.gen_sexpr_graphics_impl();
-        let apply_impl = self.gen_sexpr_apply_impl();
-        let children_impl = self.gen_sexpr_children_impl();
+        let apply_impl = self.gen_sexpr_apply_fn();
+        let children_impl = self.gen_sexpr_children_fn();
+        let apply_to_impl = self.gen_sexpr_apply_to_impl();
+        let child_of_impl = self.gen_sexpr_child_of_impl();
         quote! {
             use super::opcode::{Opcode};
 
@@ -533,11 +559,29 @@ impl CoreGen {
                 }
             }
 
+            /// Map item via iterator and collect them into vec.
+            pub trait MapCollect<Item> {
+                fn map_collect(self) -> Vec<Item>;
+            }
+
+            impl<F, T> MapCollect<T> for F
+            where
+                T: From<F>,
+            {
+                fn map_collect(self) -> Vec<T> {
+                    vec![self.into()]
+                }
+            }
+
             #(#graphics_impl)*
 
             #(#apply_impl)*
 
             #(#children_impl)*
+
+            #(#apply_to_impl)*
+
+            #(#child_of_impl)*
         }
     }
 }
@@ -635,6 +679,14 @@ impl CodeGen for CoreGen {
             }
         }
     }
+
+    fn push_apply_to(&mut self, from: TokenStream, to: TokenStream) {
+        self.apply_to.push((from, to));
+    }
+
+    fn push_child_of(&mut self, from: TokenStream, to: TokenStream) {
+        self.child_of.push((from, to));
+    }
 }
 
 struct CoreFieldGen {
@@ -645,7 +697,7 @@ struct CoreFieldGen {
 }
 
 impl CoreFieldGen {
-    fn gen_definition(&self) -> TokenStream {
+    fn gen_definition(&self, is_enum: bool) -> TokenStream {
         let comments = &self.comments;
 
         let mut ty = TokenStream::from(self.ty.clone());
@@ -658,15 +710,21 @@ impl CoreFieldGen {
             ty = quote! { Option<#ty> };
         }
 
+        let vis = if is_enum {
+            quote! {}
+        } else {
+            quote! { pub }
+        };
+
         if let Some(ident) = &self.ident {
             quote! {
                 #comments
-                #ident: #ty
+                #vis #ident: #ty
             }
         } else {
             quote! {
                 #comments
-                #ty
+                #vis #ty
             }
         }
     }
@@ -685,7 +743,7 @@ impl CoreNodeGen {
         let comments = &self.comments;
         let ident = &self.ident;
 
-        let (fields, is_tuple) = self.gen_fields_definition(mixin);
+        let (fields, is_tuple) = self.gen_fields_definition(false, mixin);
 
         if self.fields.is_empty() {
             quote! {
@@ -717,6 +775,7 @@ impl CoreNodeGen {
 
     fn gen_fields_definition(
         &self,
+        is_enum: bool,
         mixin: &HashMap<String, CoreNodeGen>,
     ) -> (Vec<TokenStream>, bool) {
         let mut is_tuple = None;
@@ -726,7 +785,7 @@ impl CoreNodeGen {
         if let Some(target) = &self.mixin {
             let target = mixin.get(target).expect("Mixin not found");
 
-            let (mut mixin_fields, mixin_is_tuple) = target.gen_fields_definition(mixin);
+            let (mut mixin_fields, mixin_is_tuple) = target.gen_fields_definition(is_enum, mixin);
 
             is_tuple = Some(mixin_is_tuple);
 
@@ -744,7 +803,7 @@ impl CoreNodeGen {
                 is_tuple = Some(field.ident.is_none());
             }
 
-            fields.push(field.gen_definition());
+            fields.push(field.gen_definition(is_enum));
         }
 
         (fields, is_tuple.unwrap_or(true))
@@ -783,7 +842,7 @@ impl CoreEnumGen {
         let mut token_streams = vec![];
         for field in &self.fields {
             let ident = &field.ident;
-            let (fields, is_tuple) = field.gen_fields_definition(mixin);
+            let (fields, is_tuple) = field.gen_fields_definition(true, mixin);
 
             if fields.is_empty() {
                 token_streams.push(quote! { #ident });

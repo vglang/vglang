@@ -55,14 +55,14 @@ impl SymbolTable {
 /// You can create `analyzer` from [`Vec<Opcode>`], and call [`analyze`](Self::analyze)
 /// to invoke real analyze produce.
 pub struct SemanticAnalyzer<'a> {
-    opcodes: &'a [Opcode],
+    opcodes: &'a mut [Opcode],
     symbol_table: SymbolTable,
 }
 
 #[allow(unused)]
 impl<'a> SemanticAnalyzer<'a> {
     /// Create a new `analyzer` from `opcodes`
-    pub fn new(opcodes: &'a [Opcode]) -> Self {
+    pub fn new(opcodes: &'a mut [Opcode]) -> Self {
         Self {
             opcodes,
             symbol_table: Default::default(),
@@ -85,7 +85,9 @@ impl<'a> SemanticAnalyzer<'a> {
     }
 
     fn check_symbol(&mut self, input: &mut ParseContext<'_>) {
-        for opcode in self.opcodes {
+        let mut updates = vec![];
+
+        for (index, opcode) in self.opcodes.iter().enumerate() {
             match opcode {
                 Opcode::Element(node)
                 | Opcode::Leaf(node)
@@ -94,11 +96,23 @@ impl<'a> SemanticAnalyzer<'a> {
                 | Opcode::Data(node) => {
                     self.check_symbol_node(node, input);
                 }
-                Opcode::Group(node) => self.check_symbol_group(node, input),
                 Opcode::Enum(node) => self.check_symbol_enum(node, input),
-                Opcode::ApplyTo(node) => self.check_symbol_apply_to(node, input),
-                Opcode::ChildrenOf(node) => self.check_symbol_children_of(node, input),
+                Opcode::Group(node) => self.check_symbol_group(node, input),
+                Opcode::ApplyTo(node) => {
+                    if let Some(update) = self.check_symbol_apply_to(node, input) {
+                        updates.push((index, update));
+                    }
+                }
+                Opcode::ChildrenOf(node) => {
+                    if let Some(update) = self.check_symbol_children_of(node, input) {
+                        updates.push((index, update));
+                    }
+                }
             }
+        }
+
+        for (index, update) in updates {
+            self.opcodes[index] = update;
         }
     }
 
@@ -108,12 +122,23 @@ impl<'a> SemanticAnalyzer<'a> {
             .map(|(ident, index)| (&self.opcodes[*index], ident))
     }
 
-    fn check_symbol_children_of(&mut self, node: &ChildrenOf, input: &mut ParseContext<'_>) {
+    fn check_symbol_children_of(
+        &self,
+        node: &ChildrenOf,
+        input: &mut ParseContext<'_>,
+    ) -> Option<Opcode> {
+        let mut from = vec![];
         for ident in &node.from {
             if let Some((opcode, def_span)) = self.symbol_lookup(ident) {
                 match opcode {
-                    Opcode::Element(_) | Opcode::Leaf(_) => {}
-                    Opcode::Group(_) => {}
+                    Opcode::Element(_) | Opcode::Leaf(_) => {
+                        from.push(ident.clone());
+                    }
+                    Opcode::Group(group) => {
+                        let mut children = group.children.clone();
+
+                        from.append(&mut children);
+                    }
                     _ => {
                         input.report_error(MlSemanticError::LinkFrom(*def_span), ident.1.clone());
                     }
@@ -126,11 +151,19 @@ impl<'a> SemanticAnalyzer<'a> {
             }
         }
 
+        let mut to = vec![];
+
         for ident in &node.to {
             if let Some((opcode, def_span)) = self.symbol_lookup(ident) {
                 match opcode {
-                    Opcode::Element(_) => {}
-                    Opcode::Group(_) => {}
+                    Opcode::Element(_) => {
+                        to.push(ident.clone());
+                    }
+                    Opcode::Group(group) => {
+                        let mut children = group.children.clone();
+
+                        to.append(&mut children);
+                    }
                     _ => {
                         input.report_error(MlSemanticError::LinkTo(*def_span), ident.1.clone());
                     }
@@ -142,6 +175,14 @@ impl<'a> SemanticAnalyzer<'a> {
                 );
             }
         }
+
+        Some(Opcode::ChildrenOf(Box::new(ChildrenOf {
+            comments: node.comments.clone(),
+            properties: node.properties.clone(),
+            span: node.span,
+            from,
+            to,
+        })))
     }
 
     fn check_symbol_group(&self, node: &Group, input: &mut ParseContext<'_>) {
@@ -155,11 +196,24 @@ impl<'a> SemanticAnalyzer<'a> {
             }
         }
     }
-    fn check_symbol_apply_to(&self, node: &ApplyTo, input: &mut ParseContext<'_>) {
+    fn check_symbol_apply_to(
+        &self,
+        node: &ApplyTo,
+        input: &mut ParseContext<'_>,
+    ) -> Option<Opcode> {
+        let mut from = vec![];
+
         for ident in &node.from {
             if let Some((opcode, def_span)) = self.symbol_lookup(ident) {
                 match opcode {
-                    Opcode::Attr(_) => {}
+                    Opcode::Attr(_) => {
+                        from.push(ident.clone());
+                    }
+                    Opcode::Group(group) => {
+                        let mut children = group.children.clone();
+
+                        from.append(&mut children);
+                    }
                     _ => {
                         input.report_error(MlSemanticError::ApplyFrom(*def_span), ident.1.clone());
                     }
@@ -172,10 +226,19 @@ impl<'a> SemanticAnalyzer<'a> {
             }
         }
 
+        let mut to = vec![];
+
         for ident in &node.to {
             if let Some((opcode, def_span)) = self.symbol_lookup(ident) {
                 match opcode {
-                    Opcode::Element(_) | Opcode::Leaf(_) | Opcode::Group(_) => {}
+                    Opcode::Element(_) | Opcode::Leaf(_) => {
+                        to.push(ident.clone());
+                    }
+                    Opcode::Group(group) => {
+                        let mut children = group.children.clone();
+
+                        to.append(&mut children);
+                    }
                     _ => {
                         input.report_error(MlSemanticError::ApplyTo(*def_span), ident.1.clone());
                     }
@@ -187,6 +250,14 @@ impl<'a> SemanticAnalyzer<'a> {
                 );
             }
         }
+
+        Some(Opcode::ApplyTo(Box::new(ApplyTo {
+            comments: node.comments.clone(),
+            properties: node.properties.clone(),
+            span: node.span,
+            from,
+            to,
+        })))
     }
 
     fn check_symbol_enum(&self, node: &Enum, input: &mut ParseContext<'_>) {

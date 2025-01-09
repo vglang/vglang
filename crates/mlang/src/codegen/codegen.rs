@@ -16,12 +16,16 @@ pub trait CodeGen {
 
     /// Create a `enum data` node
     fn create_enum(&mut self, comments: TokenStream, ident: TokenStream) -> Self::Enum;
+
     fn push_mixin(&mut self, el: Self::Node);
     fn push_el(&mut self, el: Self::Node);
     fn push_leaf(&mut self, el: Self::Node);
     fn push_attr(&mut self, el: Self::Node);
     fn push_data(&mut self, el: Self::Node);
     fn push_enum(&mut self, node: Self::Enum);
+    fn push_apply_to(&mut self, from: TokenStream, to: TokenStream);
+
+    fn push_child_of(&mut self, from: TokenStream, to: TokenStream);
 
     /// Generate rust codes.
     fn gen(self) -> TokenStream;
@@ -145,6 +149,10 @@ fn field_name(ident: &Ident) -> TokenStream {
     }
 }
 
+fn type_name(ident: &Ident) -> TokenStream {
+    ident.0.to_upper_camel_case().parse().unwrap()
+}
+
 fn node_codegen<G: NodeCodeGen>(node: &Node, g: &mut G) {
     for field in &node.fields {
         let ident = field.ident.as_ref().map(field_name);
@@ -162,7 +170,7 @@ fn node_codegen<G: NodeCodeGen>(node: &Node, g: &mut G) {
 fn enum_codegen<G: EnumCodeGen>(node: &Enum, g: &mut G) {
     for field in &node.fields {
         let comments = comments(&field.comments);
-        let ident = field.ident.0.to_upper_camel_case().parse().unwrap();
+        let ident = type_name(&field.ident);
 
         let mut cg = g.create_field(comments, ident);
 
@@ -177,50 +185,70 @@ pub fn codegen<G: CodeGen>(opcodes: &[Opcode], mut g: G) -> TokenStream {
     for opcode in opcodes {
         match opcode {
             Opcode::Element(node) => {
-                let ident: TokenStream = node.ident.0.parse().unwrap();
+                let ident: TokenStream = type_name(&node.ident);
                 let comments = comments(&node.comments);
                 let mut cg = g.create_node(comments, ident);
                 node_codegen(node, &mut cg);
                 g.push_el(cg);
             }
             Opcode::Leaf(node) => {
-                let ident: TokenStream = node.ident.0.parse().unwrap();
+                let ident: TokenStream = type_name(&node.ident);
                 let comments = comments(&node.comments);
                 let mut cg = g.create_node(comments, ident);
                 node_codegen(node, &mut cg);
                 g.push_leaf(cg);
             }
             Opcode::Attr(node) => {
-                let ident: TokenStream = node.ident.0.parse().unwrap();
+                let ident: TokenStream = type_name(&node.ident);
                 let comments = comments(&node.comments);
                 let mut cg = g.create_node(comments, ident);
                 node_codegen(node, &mut cg);
                 g.push_attr(cg);
             }
             Opcode::Mixin(node) => {
-                let ident: TokenStream = node.ident.0.parse().unwrap();
+                let ident: TokenStream = type_name(&node.ident);
                 let comments = comments(&node.comments);
                 let mut cg = g.create_node(comments, ident);
                 node_codegen(node, &mut cg);
                 g.push_mixin(cg);
             }
             Opcode::Data(node) => {
-                let ident: TokenStream = node.ident.0.parse().unwrap();
+                let ident: TokenStream = type_name(&node.ident);
                 let comments = comments(&node.comments);
                 let mut cg = g.create_node(comments, ident);
                 node_codegen(node, &mut cg);
                 g.push_data(cg);
             }
             Opcode::Enum(node) => {
-                let ident: TokenStream = node.ident.0.parse().unwrap();
+                let ident: TokenStream = type_name(&node.ident);
                 let comments = comments(&node.comments);
                 let mut cg = g.create_enum(comments, ident);
                 enum_codegen(node, &mut cg);
                 g.push_enum(cg);
             }
             Opcode::Group(_) => {}
-            Opcode::ApplyTo(_) => {}
-            Opcode::ChildrenOf(_) => {}
+            Opcode::ApplyTo(node) => {
+                for from in &node.from {
+                    let from = type_name(from);
+
+                    for to in &node.to {
+                        let to = type_name(to);
+
+                        g.push_apply_to(from.clone(), to);
+                    }
+                }
+            }
+            Opcode::ChildrenOf(node) => {
+                for from in &node.from {
+                    let from = type_name(from);
+
+                    for to in &node.to {
+                        let to = type_name(to);
+
+                        g.push_child_of(from.clone(), to);
+                    }
+                }
+            }
         }
     }
 
