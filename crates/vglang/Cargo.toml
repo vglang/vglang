@@ -8,6 +8,10 @@ version.workspace = true
 
 [dependencies]
 thiserror = { workspace = true }
+serde = {workspace = true,optional = true}
 
 [build-dependencies]
 mlang = {workspace = true, features = ["codegen"]}
+
+[features]
+serde = ["dep:serde"]

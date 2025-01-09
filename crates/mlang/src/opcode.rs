@@ -1,6 +1,8 @@
 //! The intermediate representation of the `mlang`.
 //!
 
+use std::ops::Deref;
+
 use parserc::Span;
 
 /// Defines a `identifier` of one node or one attr.
@@ -15,6 +17,19 @@ impl Ident {
         String: From<T>,
     {
         Self(name.into(), span)
+    }
+}
+
+impl AsRef<str> for Ident {
+    fn as_ref(&self) -> &str {
+        self.0.as_str()
+    }
+}
+
+impl Deref for Ident {
+    type Target = str;
+    fn deref(&self) -> &Self::Target {
+        &self.0
     }
 }
 
@@ -115,20 +130,12 @@ impl CallExpr {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Property {
-    /// the whole span of this `property`.
     pub span: Span,
     /// call-expr list.
     pub params: Vec<CallExpr>,
 }
 
 impl Property {
-    /// Create a new `CallExpr` instance with `span`.
-    pub fn from_span(span: Span) -> Self {
-        Self {
-            span,
-            params: vec![],
-        }
-    }
     /// Add a new param.
     pub fn param<P>(mut self, param: P) -> Self
     where
