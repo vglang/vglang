@@ -122,6 +122,7 @@ impl CoreGen {
 
         let builtin_types = vec![
             ("bool", "bool"),
+            ("string", "String"),
             ("byte", "i8"),
             ("ubyte", "u8"),
             ("short", "i16"),
@@ -420,7 +421,7 @@ impl CoreGen {
                 fn build(self, builder: &mut BuildContext);
             }
 
-            /// build context used by [`Graphics`](super::Graphics) trait.
+            /// build context used by [`Graphics`] trait.
             #[derive(Debug, Default)]
             pub struct BuildContext(Vec<Opcode>);
 
@@ -503,7 +504,7 @@ impl CoreGen {
                 }
             }
 
-            /// A wrapper [`Graphics`] returns by [`ApplyContainer::children`] or container's `children` function.
+            /// A wrapper [`Graphics`] returns by [`ApplyElement::children`] or container's `children` function.
             pub struct ApplyElementChildren<Attrs, Node, Children> {
                 pub attrs: Attrs,
                 pub node: Node,
@@ -708,6 +709,7 @@ impl CodeGen for CoreGen {
     }
 }
 
+#[derive(Clone)]
 struct CoreFieldGen {
     comments: TokenStream,
     ident: Option<TokenStream>,
@@ -773,6 +775,7 @@ impl CoreFieldGen {
 }
 
 /// The core `el/leaf/..,etc` code generator
+#[derive(Clone)]
 pub struct CoreNodeGen {
     mixin: Option<String>,
     comments: TokenStream,
@@ -787,9 +790,19 @@ impl CoreNodeGen {
 
         let (fields, is_tuple) = self.gen_fields_definition(false, mixin);
 
-        let fns = self.gen_init_fns();
+        println!(
+            "{}: \n{}",
+            self.ident,
+            fields
+                .iter()
+                .map(|token| token.to_string())
+                .collect::<Vec<_>>()
+                .join("\n")
+        );
 
-        if self.fields.is_empty() {
+        let fns = self.gen_init_fns(mixin);
+
+        if fields.is_empty() {
             quote! {
                 #comments
                 #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -821,23 +834,32 @@ impl CoreNodeGen {
         }
     }
 
-    fn gen_init_fns(&self) -> TokenStream {
-        if self.fields.is_empty() {
+    fn gen_init_fns(&self, mixin: &HashMap<String, CoreNodeGen>) -> TokenStream {
+        let ident = &self.ident;
+
+        let mut fields = self.fields.clone();
+
+        if let Some(target) = &self.mixin {
+            let target = mixin.get(target).expect("Mixin not found");
+
+            let mut mixin_fields = target.fields.clone();
+
+            fields.append(&mut mixin_fields);
+        }
+
+        if fields.is_empty() {
             return quote! {};
         }
 
-        let is_tuple = self.fields.first().unwrap().ident.is_none();
+        let is_tuple = fields.first().unwrap().ident.is_none();
 
-        let ident = &self.ident;
-        let count = self.fields.iter().filter(|f| !f.attrs.option).count();
+        let count = fields.iter().filter(|f| !f.attrs.option).count();
 
         if count == 0 {
             let assign = if is_tuple {
-                (0..self.fields.len())
-                    .map(|_| quote! {None})
-                    .collect::<Vec<_>>()
+                (0..fields.len()).map(|_| quote! {None}).collect::<Vec<_>>()
             } else {
-                self.fields
+                fields
                     .iter()
                     .map(|field| {
                         let ident = field.ident.as_ref().unwrap();
@@ -875,7 +897,7 @@ impl CoreNodeGen {
 
         let mut assign = vec![];
 
-        for field in &self.fields {
+        for field in &fields {
             let ident = if let Some(ident) = &field.ident {
                 quote! {#ident: }
             } else {
@@ -990,19 +1012,19 @@ impl CoreNodeGen {
     ) -> (Vec<TokenStream>, bool) {
         let mut is_tuple = None;
 
-        let mut fields = vec![];
+        let mut fields = self.fields.clone();
 
         if let Some(target) = &self.mixin {
             let target = mixin.get(target).expect("Mixin not found");
 
-            let (mut mixin_fields, mixin_is_tuple) = target.gen_fields_definition(is_enum, mixin);
-
-            is_tuple = Some(mixin_is_tuple);
+            let mut mixin_fields = target.fields.clone();
 
             fields.append(&mut mixin_fields);
         }
 
-        for field in &self.fields {
+        let mut token_streams = vec![];
+
+        for field in &fields {
             if let Some(is_tuple) = is_tuple {
                 if is_tuple {
                     assert!(field.ident.is_none(), "tuple field name must be none");
@@ -1013,10 +1035,10 @@ impl CoreNodeGen {
                 is_tuple = Some(field.ident.is_none());
             }
 
-            fields.push(field.gen_definition(is_enum));
+            token_streams.push(field.gen_definition(is_enum));
         }
 
-        (fields, is_tuple.unwrap_or(true))
+        (token_streams, is_tuple.unwrap_or(true))
     }
 }
 

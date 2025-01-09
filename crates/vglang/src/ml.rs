@@ -645,13 +645,39 @@ pub mod opcode {
         pub r_in: Option<super::variable::Variable<FeIn>>,
         #[doc = "The second input image to the blending operation. This attribute can take on the same values as the ‘in’ attribute."]
         pub in2: Option<super::variable::Variable<FeIn>>,
+        #[doc = "The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub x: super::variable::Variable<Length>,
+        #[doc = "The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
+        pub y: Option<super::variable::Variable<Length>>,
+        #[doc = "The width of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub width: Option<super::variable::Variable<Length>>,
+        #[doc = "The height of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub height: Option<super::variable::Variable<Length>>,
+        #[doc = "Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = "be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = "the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = "provides no value for its ‘in’ attribute."]
+        #[doc = ""]
+        #[doc = "Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = "given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = "times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = "primitive with the given result."]
+        pub result: Option<super::variable::Variable<String>>,
     }
-    impl Default for FeBlend {
-        fn default() -> Self {
+    impl<P0> From<P0> for FeBlend
+    where
+        Length: From<P0>,
+    {
+        fn from(value: P0) -> Self {
             Self {
                 mode: None,
                 r_in: None,
                 in2: None,
+                x: super::variable::Variable::Constant(value.into()),
+                y: None,
+                width: None,
+                height: None,
+                result: None,
             }
         }
     }
@@ -675,16 +701,40 @@ pub mod opcode {
         pub r_in: super::variable::Variable<FeIn>,
         #[doc = "The contents of ‘values’ depends on the value of attribute ‘type’:"]
         pub values: super::variable::Variable<FeColorMatrixValues>,
+        #[doc = "The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub x: super::variable::Variable<Length>,
+        #[doc = "The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
+        pub y: Option<super::variable::Variable<Length>>,
+        #[doc = "The width of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub width: Option<super::variable::Variable<Length>>,
+        #[doc = "The height of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub height: Option<super::variable::Variable<Length>>,
+        #[doc = "Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = "be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = "the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = "provides no value for its ‘in’ attribute."]
+        #[doc = ""]
+        #[doc = "Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = "given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = "times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = "primitive with the given result."]
+        pub result: Option<super::variable::Variable<String>>,
     }
-    impl<P0, P1> From<(P0, P1)> for FeColorMatrix
+    impl<P0, P1, P2> From<(P0, P1, P2)> for FeColorMatrix
     where
         FeIn: From<P0>,
         FeColorMatrixValues: From<P1>,
+        Length: From<P2>,
     {
-        fn from(value: (P0, P1)) -> Self {
+        fn from(value: (P0, P1, P2)) -> Self {
             Self {
                 r_in: super::variable::Variable::Constant(value.0.into()),
                 values: super::variable::Variable::Constant(value.1.into()),
+                x: super::variable::Variable::Constant(value.2.into()),
+                y: None,
+                width: None,
+                height: None,
+                result: None,
             }
         }
     }
@@ -777,20 +827,44 @@ pub mod opcode {
     pub struct FeComposite {
         #[doc = "See [`FeIn`]"]
         pub r_in: Option<super::variable::Variable<FeIn>>,
-        #[doc = "The second input image to the compositing operation. This attribute can take on the same values as the [`in`](Self::in) attribute."]
+        #[doc = "The second input image to the compositing operation. This attribute can take on the same values as the `r_in` attribute."]
         pub in2: super::variable::Variable<FeIn>,
         #[doc = "See [`FeCompositeOperator`]"]
         pub operator: Option<super::variable::Variable<FeCompositeOperator>>,
+        #[doc = "The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub x: super::variable::Variable<Length>,
+        #[doc = "The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
+        pub y: Option<super::variable::Variable<Length>>,
+        #[doc = "The width of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub width: Option<super::variable::Variable<Length>>,
+        #[doc = "The height of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub height: Option<super::variable::Variable<Length>>,
+        #[doc = "Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = "be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = "the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = "provides no value for its ‘in’ attribute."]
+        #[doc = ""]
+        #[doc = "Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = "given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = "times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = "primitive with the given result."]
+        pub result: Option<super::variable::Variable<String>>,
     }
-    impl<P0> From<P0> for FeComposite
+    impl<P0, P1> From<(P0, P1)> for FeComposite
     where
         FeIn: From<P0>,
+        Length: From<P1>,
     {
-        fn from(value: P0) -> Self {
+        fn from(value: (P0, P1)) -> Self {
             Self {
                 r_in: None,
-                in2: super::variable::Variable::Constant(value.into()),
+                in2: super::variable::Variable::Constant(value.0.into()),
                 operator: None,
+                x: super::variable::Variable::Constant(value.1.into()),
+                y: None,
+                width: None,
+                height: None,
+                result: None,
             }
         }
     }
@@ -859,14 +933,33 @@ pub mod opcode {
         #[doc = ""]
         #[doc = "See [`feConvolveMatrix`](https://www.w3.org/TR/SVG11/filters.html#feConvolveMatrixElement)"]
         pub preserve_alpha: super::variable::Variable<bool>,
+        #[doc = "The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub x: super::variable::Variable<Length>,
+        #[doc = "The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
+        pub y: Option<super::variable::Variable<Length>>,
+        #[doc = "The width of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub width: Option<super::variable::Variable<Length>>,
+        #[doc = "The height of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub height: Option<super::variable::Variable<Length>>,
+        #[doc = "Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = "be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = "the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = "provides no value for its ‘in’ attribute."]
+        #[doc = ""]
+        #[doc = "Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = "given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = "times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = "primitive with the given result."]
+        pub result: Option<super::variable::Variable<String>>,
     }
-    impl<P0, P1, P2> From<(P0, P1, P2)> for FeConvolveMatrix
+    impl<P0, P1, P2, P3> From<(P0, P1, P2, P3)> for FeConvolveMatrix
     where
         P0: super::sexpr::MapCollect<f32>,
         FeConvolveMatrixEdgeMode: From<P1>,
         bool: From<P2>,
+        Length: From<P3>,
     {
-        fn from(value: (P0, P1, P2)) -> Self {
+        fn from(value: (P0, P1, P2, P3)) -> Self {
             Self {
                 r_in: None,
                 order: None,
@@ -878,6 +971,11 @@ pub mod opcode {
                 edge_mode: super::variable::Variable::Constant(value.1.into()),
                 kernel_unit_len: None,
                 preserve_alpha: super::variable::Variable::Constant(value.2.into()),
+                x: super::variable::Variable::Constant(value.3.into()),
+                y: None,
+                width: None,
+                height: None,
+                result: None,
             }
         }
     }
@@ -908,17 +1006,41 @@ pub mod opcode {
         #[doc = ""]
         #[doc = "A negative or zero value is an error (see Error processing)."]
         pub kernel_unit_len: Option<super::variable::Variable<NumberOptNumber>>,
+        #[doc = "The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub x: super::variable::Variable<Length>,
+        #[doc = "The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
+        pub y: Option<super::variable::Variable<Length>>,
+        #[doc = "The width of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub width: Option<super::variable::Variable<Length>>,
+        #[doc = "The height of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub height: Option<super::variable::Variable<Length>>,
+        #[doc = "Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = "be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = "the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = "provides no value for its ‘in’ attribute."]
+        #[doc = ""]
+        #[doc = "Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = "given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = "times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = "primitive with the given result."]
+        pub result: Option<super::variable::Variable<String>>,
     }
-    impl<P0> From<P0> for FeDiffuseLighting
+    impl<P0, P1> From<(P0, P1)> for FeDiffuseLighting
     where
         FeIn: From<P0>,
+        Length: From<P1>,
     {
-        fn from(value: P0) -> Self {
+        fn from(value: (P0, P1)) -> Self {
             Self {
-                r_in: super::variable::Variable::Constant(value.into()),
+                r_in: super::variable::Variable::Constant(value.0.into()),
                 surface_scale: None,
                 diffuse_constant: None,
                 kernel_unit_len: None,
+                x: super::variable::Variable::Constant(value.1.into()),
+                y: None,
+                width: None,
+                height: None,
+                result: None,
             }
         }
     }
@@ -945,18 +1067,42 @@ pub mod opcode {
         #[doc = "If attribute ‘yChannelSelector’ is not specified, then the effect is as if a value of A were"]
         #[doc = "specified."]
         pub y_channel_selector: Option<super::variable::Variable<Channel>>,
+        #[doc = "The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub x: super::variable::Variable<Length>,
+        #[doc = "The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
+        pub y: Option<super::variable::Variable<Length>>,
+        #[doc = "The width of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub width: Option<super::variable::Variable<Length>>,
+        #[doc = "The height of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub height: Option<super::variable::Variable<Length>>,
+        #[doc = "Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = "be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = "the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = "provides no value for its ‘in’ attribute."]
+        #[doc = ""]
+        #[doc = "Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = "given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = "times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = "primitive with the given result."]
+        pub result: Option<super::variable::Variable<String>>,
     }
-    impl<P0> From<P0> for FeDisplacementMap
+    impl<P0, P1> From<(P0, P1)> for FeDisplacementMap
     where
         FeIn: From<P0>,
+        Length: From<P1>,
     {
-        fn from(value: P0) -> Self {
+        fn from(value: (P0, P1)) -> Self {
             Self {
                 r_in: None,
-                in2: super::variable::Variable::Constant(value.into()),
+                in2: super::variable::Variable::Constant(value.0.into()),
                 scale: None,
                 x_channel_selector: None,
                 y_channel_selector: None,
+                x: super::variable::Variable::Constant(value.1.into()),
+                y: None,
+                width: None,
+                height: None,
+                result: None,
             }
         }
     }
@@ -970,12 +1116,38 @@ pub mod opcode {
         pub color: Option<super::variable::Variable<Rgb>>,
         #[doc = "defines the opacity value to use across the entire filter primitive subregion."]
         pub opacity: Option<super::variable::Variable<f32>>,
+        #[doc = "The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub x: super::variable::Variable<Length>,
+        #[doc = "The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
+        pub y: Option<super::variable::Variable<Length>>,
+        #[doc = "The width of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub width: Option<super::variable::Variable<Length>>,
+        #[doc = "The height of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub height: Option<super::variable::Variable<Length>>,
+        #[doc = "Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = "be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = "the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = "provides no value for its ‘in’ attribute."]
+        #[doc = ""]
+        #[doc = "Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = "given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = "times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = "primitive with the given result."]
+        pub result: Option<super::variable::Variable<String>>,
     }
-    impl Default for FeFlood {
-        fn default() -> Self {
+    impl<P0> From<P0> for FeFlood
+    where
+        Length: From<P0>,
+    {
+        fn from(value: P0) -> Self {
             Self {
                 color: None,
                 opacity: None,
+                x: super::variable::Variable::Constant(value.into()),
+                y: None,
+                width: None,
+                height: None,
+                result: None,
             }
         }
     }
@@ -996,12 +1168,38 @@ pub mod opcode {
         #[doc = "primitive (i.e., the result is the filter input image). If ‘stdDeviation’ is 0 in only one of X or Y, then the"]
         #[doc = "effect is that the blur is only applied in the direction that has a non-zero value."]
         pub std_deviation: Option<super::variable::Variable<NumberOptNumber>>,
+        #[doc = "The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub x: super::variable::Variable<Length>,
+        #[doc = "The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
+        pub y: Option<super::variable::Variable<Length>>,
+        #[doc = "The width of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub width: Option<super::variable::Variable<Length>>,
+        #[doc = "The height of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub height: Option<super::variable::Variable<Length>>,
+        #[doc = "Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = "be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = "the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = "provides no value for its ‘in’ attribute."]
+        #[doc = ""]
+        #[doc = "Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = "given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = "times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = "primitive with the given result."]
+        pub result: Option<super::variable::Variable<String>>,
     }
-    impl Default for FeGaussianBlur {
-        fn default() -> Self {
+    impl<P0> From<P0> for FeGaussianBlur
+    where
+        Length: From<P0>,
+    {
+        fn from(value: P0) -> Self {
             Self {
                 r_in: None,
                 std_deviation: None,
+                x: super::variable::Variable::Constant(value.into()),
+                y: None,
+                width: None,
+                height: None,
+                result: None,
             }
         }
     }
@@ -1012,7 +1210,40 @@ pub mod opcode {
     #[doc = "See [`feMerge`](https://www.w3.org/TR/SVG11/filters.html#feMergeElement)"]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-    pub struct FeMerge;
+    pub struct FeMerge {
+        #[doc = "The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub x: super::variable::Variable<Length>,
+        #[doc = "The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
+        pub y: Option<super::variable::Variable<Length>>,
+        #[doc = "The width of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub width: Option<super::variable::Variable<Length>>,
+        #[doc = "The height of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub height: Option<super::variable::Variable<Length>>,
+        #[doc = "Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = "be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = "the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = "provides no value for its ‘in’ attribute."]
+        #[doc = ""]
+        #[doc = "Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = "given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = "times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = "primitive with the given result."]
+        pub result: Option<super::variable::Variable<String>>,
+    }
+    impl<P0> From<P0> for FeMerge
+    where
+        Length: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self {
+                x: super::variable::Variable::Constant(value.into()),
+                y: None,
+                width: None,
+                height: None,
+                result: None,
+            }
+        }
+    }
     #[doc = "See [`FeMerge`]"]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -1036,15 +1267,39 @@ pub mod opcode {
         pub href: super::variable::Variable<FuncIri>,
         #[doc = "See [`PreserveAspectRatio`]."]
         pub aspect: Option<super::variable::Variable<PreserveAspectRatio>>,
+        #[doc = "The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub x: super::variable::Variable<Length>,
+        #[doc = "The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
+        pub y: Option<super::variable::Variable<Length>>,
+        #[doc = "The width of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub width: Option<super::variable::Variable<Length>>,
+        #[doc = "The height of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub height: Option<super::variable::Variable<Length>>,
+        #[doc = "Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = "be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = "the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = "provides no value for its ‘in’ attribute."]
+        #[doc = ""]
+        #[doc = "Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = "given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = "times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = "primitive with the given result."]
+        pub result: Option<super::variable::Variable<String>>,
     }
-    impl<P0> From<P0> for FeImage
+    impl<P0, P1> From<(P0, P1)> for FeImage
     where
         FuncIri: From<P0>,
+        Length: From<P1>,
     {
-        fn from(value: P0) -> Self {
+        fn from(value: (P0, P1)) -> Self {
             Self {
-                href: super::variable::Variable::Constant(value.into()),
+                href: super::variable::Variable::Constant(value.0.into()),
                 aspect: None,
+                x: super::variable::Variable::Constant(value.1.into()),
+                y: None,
+                width: None,
+                height: None,
+                result: None,
             }
         }
     }
@@ -1069,13 +1324,39 @@ pub mod opcode {
         #[doc = ""]
         #[doc = "If the attribute is not specified, then the effect is as if a value of 0 were specified."]
         pub radius: Option<super::variable::Variable<NumberOptNumber>>,
+        #[doc = "The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub x: super::variable::Variable<Length>,
+        #[doc = "The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
+        pub y: Option<super::variable::Variable<Length>>,
+        #[doc = "The width of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub width: Option<super::variable::Variable<Length>>,
+        #[doc = "The height of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub height: Option<super::variable::Variable<Length>>,
+        #[doc = "Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = "be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = "the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = "provides no value for its ‘in’ attribute."]
+        #[doc = ""]
+        #[doc = "Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = "given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = "times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = "primitive with the given result."]
+        pub result: Option<super::variable::Variable<String>>,
     }
-    impl Default for FeMorphology {
-        fn default() -> Self {
+    impl<P0> From<P0> for FeMorphology
+    where
+        Length: From<P0>,
+    {
+        fn from(value: P0) -> Self {
             Self {
                 r_in: None,
                 mode: None,
                 radius: None,
+                x: super::variable::Variable::Constant(value.into()),
+                y: None,
+                width: None,
+                height: None,
+                result: None,
             }
         }
     }
@@ -1099,13 +1380,39 @@ pub mod opcode {
         #[doc = ""]
         #[doc = "If the attribute is not specified, then the effect is as if a value of 0 were specified."]
         pub dy: Option<super::variable::Variable<f32>>,
+        #[doc = "The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub x: super::variable::Variable<Length>,
+        #[doc = "The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
+        pub y: Option<super::variable::Variable<Length>>,
+        #[doc = "The width of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub width: Option<super::variable::Variable<Length>>,
+        #[doc = "The height of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub height: Option<super::variable::Variable<Length>>,
+        #[doc = "Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = "be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = "the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = "provides no value for its ‘in’ attribute."]
+        #[doc = ""]
+        #[doc = "Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = "given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = "times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = "primitive with the given result."]
+        pub result: Option<super::variable::Variable<String>>,
     }
-    impl Default for FeOffset {
-        fn default() -> Self {
+    impl<P0> From<P0> for FeOffset
+    where
+        Length: From<P0>,
+    {
+        fn from(value: P0) -> Self {
             Self {
                 r_in: None,
                 dx: None,
                 dy: None,
+                x: super::variable::Variable::Constant(value.into()),
+                y: None,
+                width: None,
+                height: None,
+                result: None,
             }
         }
     }
@@ -1146,15 +1453,41 @@ pub mod opcode {
         #[doc = ""]
         #[doc = "A negative or zero value is an error (see Error processing)."]
         pub kernel_unit_len: Option<super::variable::Variable<NumberOptNumber>>,
+        #[doc = "The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub x: super::variable::Variable<Length>,
+        #[doc = "The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
+        pub y: Option<super::variable::Variable<Length>>,
+        #[doc = "The width of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub width: Option<super::variable::Variable<Length>>,
+        #[doc = "The height of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub height: Option<super::variable::Variable<Length>>,
+        #[doc = "Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = "be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = "the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = "provides no value for its ‘in’ attribute."]
+        #[doc = ""]
+        #[doc = "Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = "given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = "times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = "primitive with the given result."]
+        pub result: Option<super::variable::Variable<String>>,
     }
-    impl Default for FeSpecularLighting {
-        fn default() -> Self {
+    impl<P0> From<P0> for FeSpecularLighting
+    where
+        Length: From<P0>,
+    {
+        fn from(value: P0) -> Self {
             Self {
                 r_in: None,
                 surface_scale: None,
                 specular_constant: None,
                 specular_exponent: None,
                 kernel_unit_len: None,
+                x: super::variable::Variable::Constant(value.into()),
+                y: None,
+                width: None,
+                height: None,
+                result: None,
             }
         }
     }
@@ -1168,10 +1501,38 @@ pub mod opcode {
     pub struct FeTile {
         #[doc = "See [`FeIn`]"]
         pub r_in: Option<super::variable::Variable<FeIn>>,
+        #[doc = "The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub x: super::variable::Variable<Length>,
+        #[doc = "The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
+        pub y: Option<super::variable::Variable<Length>>,
+        #[doc = "The width of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub width: Option<super::variable::Variable<Length>>,
+        #[doc = "The height of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub height: Option<super::variable::Variable<Length>>,
+        #[doc = "Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = "be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = "the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = "provides no value for its ‘in’ attribute."]
+        #[doc = ""]
+        #[doc = "Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = "given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = "times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = "primitive with the given result."]
+        pub result: Option<super::variable::Variable<String>>,
     }
-    impl Default for FeTile {
-        fn default() -> Self {
-            Self { r_in: None }
+    impl<P0> From<P0> for FeTile
+    where
+        Length: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self {
+                r_in: None,
+                x: super::variable::Variable::Constant(value.into()),
+                y: None,
+                width: None,
+                height: None,
+                result: None,
+            }
         }
     }
     #[doc = "This filter primitive creates an image using the Perlin turbulence function."]
@@ -1205,15 +1566,41 @@ pub mod opcode {
         pub stitch_tiles: Option<super::variable::Variable<FeStitchTiles>>,
         #[doc = "See [`FeStitchTiles`]"]
         pub r_type: Option<super::variable::Variable<FeTurbulenceType>>,
+        #[doc = "The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub x: super::variable::Variable<Length>,
+        #[doc = "The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
+        pub y: Option<super::variable::Variable<Length>>,
+        #[doc = "The width of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub width: Option<super::variable::Variable<Length>>,
+        #[doc = "The height of the subregion which restricts calculation and rendering of the given filter primitive."]
+        pub height: Option<super::variable::Variable<Length>>,
+        #[doc = "Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = "be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = "the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = "provides no value for its ‘in’ attribute."]
+        #[doc = ""]
+        #[doc = "Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = "given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = "times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = "primitive with the given result."]
+        pub result: Option<super::variable::Variable<String>>,
     }
-    impl Default for FeTurbulence {
-        fn default() -> Self {
+    impl<P0> From<P0> for FeTurbulence
+    where
+        Length: From<P0>,
+    {
+        fn from(value: P0) -> Self {
             Self {
                 base_frequency: None,
                 num_octaves: None,
                 seed: None,
                 stitch_tiles: None,
                 r_type: None,
+                x: super::variable::Variable::Constant(value.into()),
+                y: None,
+                width: None,
+                height: None,
+                result: None,
             }
         }
     }
@@ -1722,13 +2109,175 @@ pub mod opcode {
     #[doc = "See [`text`](https://www.w3.org/TR/SVG11/text.html#TextElement)"]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-    pub struct Text;
+    pub struct Text {
+        #[doc = "If a single `coordinate` is provided, then the value represents the new absolute X coordinate for"]
+        #[doc = "the current text position for rendering the glyphs that correspond to the first character within"]
+        #[doc = "this element or any of its descendants."]
+        #[doc = ""]
+        #[doc = "If a comma- or space-separated list of n `coordinate`s is provided, then the values represent new"]
+        #[doc = "absolute X coordinates for the current text position for rendering the glyphs corresponding to"]
+        #[doc = "each of the first n characters within this element or any of its descendants."]
+        #[doc = ""]
+        #[doc = "For additional processing rules, refer to the description of the ‘x’ attribute on the ‘tspan’ element."]
+        #[doc = ""]
+        #[doc = "If the attribute is not specified, the effect is as if a value of \"0\" were specified."]
+        pub x: Option<super::variable::Variable<Vec<Length>>>,
+        #[doc = "The corresponding list of absolute Y coordinates for the glyphs corresponding to the characters within this element."]
+        #[doc = "The processing rules for the ‘y’ attribute parallel the processing rules for the ‘x’ attribute."]
+        #[doc = ""]
+        #[doc = "If the attribute is not specified, the effect is as if a value of \"0\" were specified."]
+        pub y: Option<super::variable::Variable<Vec<Length>>>,
+        #[doc = "Shifts in the current text position along the x-axis for the characters within this element or any of its descendants."]
+        #[doc = ""]
+        #[doc = "Refer to the description of the ‘dx’ attribute on the ‘tspan’ element."]
+        #[doc = ""]
+        #[doc = "If the attribute is not specified on this element or any of its descendants, no supplemental shifts along"]
+        #[doc = "the x-axis will occur."]
+        pub dx: Option<super::variable::Variable<Vec<Length>>>,
+        #[doc = "Shifts in the current text position along the y-axis for the characters within this element or any of its descendants."]
+        #[doc = ""]
+        #[doc = "Refer to the description of the ‘dy’ attribute on the ‘tspan’ element."]
+        #[doc = ""]
+        #[doc = "If the attribute is not specified on this element or any of its descendants, no supplemental shifts along"]
+        #[doc = "the y-axis will occur."]
+        pub dy: Option<super::variable::Variable<Vec<Length>>>,
+        #[doc = "The supplemental rotation about the current text position that will be applied to all of the glyphs corresponding"]
+        #[doc = "to each character within this element."]
+        #[doc = ""]
+        #[doc = "Refer to the description of the ‘rotate’ attribute on the ‘tspan’ element."]
+        #[doc = ""]
+        #[doc = "If the attribute is not specified on this element or any of its descendants, no supplemental rotations will occur."]
+        pub rotate: Option<super::variable::Variable<Vec<Angle>>>,
+        #[doc = "The author's computation of the total sum of all of the advance values that correspond to character data within"]
+        #[doc = "this element, including the advance value on the glyph (horizontal or vertical), the effect of properties ‘kerning’,"]
+        #[doc = "‘letter-spacing’ and ‘word-spacing’ and adjustments due to attributes ‘dx’ and ‘dy’ on ‘tspan’ elements. This value"]
+        #[doc = "is used to calibrate the user agent's own calculations with that of the author."]
+        #[doc = ""]
+        #[doc = "The purpose of this attribute is to allow the author to achieve exact alignment, in visual rendering order after any"]
+        #[doc = "bidirectional reordering, for the first and last rendered glyphs that correspond to this element; thus, for the last"]
+        #[doc = "rendered character (in visual rendering order after any bidirectional reordering), any supplemental inter-character"]
+        #[doc = "spacing beyond normal glyph advances are ignored (in most cases) when the user agent determines the appropriate amount"]
+        #[doc = "to expand/compress the text string to fit within a length of ‘textLength’."]
+        #[doc = ""]
+        #[doc = "A negative value is an error (see Error processing)."]
+        #[doc = ""]
+        #[doc = "If the attribute is not specified, the effect is as if the author's computation exactly matched the value calculated"]
+        #[doc = "by the user agent; thus, no advance adjustments are made."]
+        pub text_length: Option<super::variable::Variable<Vec<Length>>>,
+        #[doc = "Indicates the type of adjustments which the user agent shall make to make the rendered length of the text match the"]
+        #[doc = "value specified on the ‘textLength’ attribute."]
+        #[doc = ""]
+        #[doc = "The user agent is required to achieve correct start and end positions for the text strings, but the locations of"]
+        #[doc = "intermediate glyphs are not predictable because user agents might employ advanced algorithms to stretch or compress"]
+        #[doc = "text strings in order to balance correct start and end positioning with optimal typography."]
+        #[doc = ""]
+        #[doc = "Note that, for a text string that contains n characters, the adjustments to the advance values often occur only for n−1"]
+        #[doc = "characters (see description of attribute ‘textLength’), whereas stretching or compressing of the glyphs will be applied"]
+        #[doc = "to all n characters."]
+        #[doc = ""]
+        #[doc = "If the attribute is not specified, the effect is as a value of 'spacing' were specified."]
+        pub length_adjust: Option<super::variable::Variable<TextLengthAdjust>>,
+    }
+    impl Default for Text {
+        fn default() -> Self {
+            Self {
+                x: None,
+                y: None,
+                dx: None,
+                dy: None,
+                rotate: None,
+                text_length: None,
+                length_adjust: None,
+            }
+        }
+    }
     #[doc = "The ‘text’ element defines a graphics element consisting of text."]
     #[doc = ""]
     #[doc = "See [`text`](https://www.w3.org/TR/SVG11/text.html#TextElement)"]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-    pub struct TextSpan;
+    pub struct TextSpan {
+        #[doc = "If a single `coordinate` is provided, then the value represents the new absolute X coordinate for"]
+        #[doc = "the current text position for rendering the glyphs that correspond to the first character within"]
+        #[doc = "this element or any of its descendants."]
+        #[doc = ""]
+        #[doc = "If a comma- or space-separated list of n `coordinate`s is provided, then the values represent new"]
+        #[doc = "absolute X coordinates for the current text position for rendering the glyphs corresponding to"]
+        #[doc = "each of the first n characters within this element or any of its descendants."]
+        #[doc = ""]
+        #[doc = "For additional processing rules, refer to the description of the ‘x’ attribute on the ‘tspan’ element."]
+        #[doc = ""]
+        #[doc = "If the attribute is not specified, the effect is as if a value of \"0\" were specified."]
+        pub x: Option<super::variable::Variable<Vec<Length>>>,
+        #[doc = "The corresponding list of absolute Y coordinates for the glyphs corresponding to the characters within this element."]
+        #[doc = "The processing rules for the ‘y’ attribute parallel the processing rules for the ‘x’ attribute."]
+        #[doc = ""]
+        #[doc = "If the attribute is not specified, the effect is as if a value of \"0\" were specified."]
+        pub y: Option<super::variable::Variable<Vec<Length>>>,
+        #[doc = "Shifts in the current text position along the x-axis for the characters within this element or any of its descendants."]
+        #[doc = ""]
+        #[doc = "Refer to the description of the ‘dx’ attribute on the ‘tspan’ element."]
+        #[doc = ""]
+        #[doc = "If the attribute is not specified on this element or any of its descendants, no supplemental shifts along"]
+        #[doc = "the x-axis will occur."]
+        pub dx: Option<super::variable::Variable<Vec<Length>>>,
+        #[doc = "Shifts in the current text position along the y-axis for the characters within this element or any of its descendants."]
+        #[doc = ""]
+        #[doc = "Refer to the description of the ‘dy’ attribute on the ‘tspan’ element."]
+        #[doc = ""]
+        #[doc = "If the attribute is not specified on this element or any of its descendants, no supplemental shifts along"]
+        #[doc = "the y-axis will occur."]
+        pub dy: Option<super::variable::Variable<Vec<Length>>>,
+        #[doc = "The supplemental rotation about the current text position that will be applied to all of the glyphs corresponding"]
+        #[doc = "to each character within this element."]
+        #[doc = ""]
+        #[doc = "Refer to the description of the ‘rotate’ attribute on the ‘tspan’ element."]
+        #[doc = ""]
+        #[doc = "If the attribute is not specified on this element or any of its descendants, no supplemental rotations will occur."]
+        pub rotate: Option<super::variable::Variable<Vec<Angle>>>,
+        #[doc = "The author's computation of the total sum of all of the advance values that correspond to character data within"]
+        #[doc = "this element, including the advance value on the glyph (horizontal or vertical), the effect of properties ‘kerning’,"]
+        #[doc = "‘letter-spacing’ and ‘word-spacing’ and adjustments due to attributes ‘dx’ and ‘dy’ on ‘tspan’ elements. This value"]
+        #[doc = "is used to calibrate the user agent's own calculations with that of the author."]
+        #[doc = ""]
+        #[doc = "The purpose of this attribute is to allow the author to achieve exact alignment, in visual rendering order after any"]
+        #[doc = "bidirectional reordering, for the first and last rendered glyphs that correspond to this element; thus, for the last"]
+        #[doc = "rendered character (in visual rendering order after any bidirectional reordering), any supplemental inter-character"]
+        #[doc = "spacing beyond normal glyph advances are ignored (in most cases) when the user agent determines the appropriate amount"]
+        #[doc = "to expand/compress the text string to fit within a length of ‘textLength’."]
+        #[doc = ""]
+        #[doc = "A negative value is an error (see Error processing)."]
+        #[doc = ""]
+        #[doc = "If the attribute is not specified, the effect is as if the author's computation exactly matched the value calculated"]
+        #[doc = "by the user agent; thus, no advance adjustments are made."]
+        pub text_length: Option<super::variable::Variable<Vec<Length>>>,
+        #[doc = "Indicates the type of adjustments which the user agent shall make to make the rendered length of the text match the"]
+        #[doc = "value specified on the ‘textLength’ attribute."]
+        #[doc = ""]
+        #[doc = "The user agent is required to achieve correct start and end positions for the text strings, but the locations of"]
+        #[doc = "intermediate glyphs are not predictable because user agents might employ advanced algorithms to stretch or compress"]
+        #[doc = "text strings in order to balance correct start and end positioning with optimal typography."]
+        #[doc = ""]
+        #[doc = "Note that, for a text string that contains n characters, the adjustments to the advance values often occur only for n−1"]
+        #[doc = "characters (see description of attribute ‘textLength’), whereas stretching or compressing of the glyphs will be applied"]
+        #[doc = "to all n characters."]
+        #[doc = ""]
+        #[doc = "If the attribute is not specified, the effect is as a value of 'spacing' were specified."]
+        pub length_adjust: Option<super::variable::Variable<TextLengthAdjust>>,
+    }
+    impl Default for TextSpan {
+        fn default() -> Self {
+            Self {
+                x: None,
+                y: None,
+                dx: None,
+                dy: None,
+                rotate: None,
+                text_length: None,
+                length_adjust: None,
+            }
+        }
+    }
     #[doc = "Text content chars."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -1855,7 +2404,7 @@ pub mod opcode {
         B,
         A,
     }
-    #[doc = "The  property only applies to graphics elements that are contained within a [`ClipPath`](crate::opcode::el::ClipPath) element."]
+    #[doc = "The  property only applies to graphics elements that are contained within a [`ClipPath`](ClipPath) element."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub enum ClipRule {
@@ -2286,7 +2835,7 @@ pub mod opcode {
     }
     #[doc = "transfer functions for the rgba channels."]
     #[doc = ""]
-    #[doc = "See [`FeComponentTransfer`](crate::opcode::el::FeComponentTransfer)"]
+    #[doc = "See [`FeComponentTransfer`](FeComponentTransfer)"]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub enum FeFunc {
@@ -2354,7 +2903,7 @@ pub mod opcode {
         Erode,
         Dilate,
     }
-    #[doc = "See [`stitch_tiles`](crate::opcode::el::FeTurbulence::stitch_tiles)"]
+    #[doc = "See [`stitch_tiles`](FeTurbulence::stitch_tiles)"]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub enum FeStitchTiles {
@@ -2374,6 +2923,8 @@ pub mod opcode {
     pub enum Data {
         Bool(bool),
         ListOfBool(Box<Vec<bool>>),
+        String(String),
+        ListOfString(Box<Vec<String>>),
         Byte(i8),
         ListOfByte(Box<Vec<i8>>),
         Ubyte(u8),
@@ -2501,6 +3052,16 @@ pub mod opcode {
     impl From<Vec<bool>> for Data {
         fn from(value: Vec<bool>) -> Self {
             Data::ListOfBool(Box::new(value))
+        }
+    }
+    impl From<String> for Data {
+        fn from(value: String) -> Self {
+            Data::String(value)
+        }
+    }
+    impl From<Vec<String>> for Data {
+        fn from(value: Vec<String>) -> Self {
+            Data::ListOfString(Box::new(value))
         }
     }
     impl From<i8> for Data {
@@ -3564,7 +4125,7 @@ pub mod sexpr {
         #[doc = r" Generate `opcode`s for specific surface."]
         fn build(self, builder: &mut BuildContext);
     }
-    #[doc = r" build context used by [`Graphics`](super::Graphics) trait."]
+    #[doc = r" build context used by [`Graphics`] trait."]
     #[derive(Debug, Default)]
     pub struct BuildContext(Vec<Opcode>);
     impl From<BuildContext> for Vec<Opcode> {
@@ -3637,7 +4198,7 @@ pub mod sexpr {
             }
         }
     }
-    #[doc = r" A wrapper [`Graphics`] returns by [`ApplyContainer::children`] or container's `children` function."]
+    #[doc = r" A wrapper [`Graphics`] returns by [`ApplyElement::children`] or container's `children` function."]
     pub struct ApplyElementChildren<Attrs, Node, Children> {
         pub attrs: Attrs,
         pub node: Node,

@@ -18,7 +18,7 @@ enum Length {
     /// Inches 
     inch(float), 
     /// Centimeters
-    cm(float),
+    cm(float), 
     /// Millimeters
     mm(float), 
     /// Points, 1pt = 1/72nd of 1in
@@ -94,7 +94,7 @@ enum Transform {
 /// Indicates which channel of rgba is selected.
 enum Channel { R,G,B,A }
 
-/// The  property only applies to graphics elements that are contained within a [`ClipPath`](crate::opcode::el::ClipPath) element.
+/// The  property only applies to graphics elements that are contained within a [`ClipPath`](ClipPath) element.
 enum ClipRule { Nonzero, EvenOdd }
 
 /// A direction that representation a path drawing commander.
@@ -1205,7 +1205,7 @@ leaf FeColorMatrix mixin FePrimitive {
 
 /// transfer functions for the rgba channels.
 ///
-/// See [`FeComponentTransfer`](crate::opcode::el::FeComponentTransfer)
+/// See [`FeComponentTransfer`](FeComponentTransfer)
 enum FeFunc {
     /// C' = C
     Identity,
@@ -1314,7 +1314,7 @@ enum FeMorphologyOperator {
 }
 
 
-/// See [`stitch_tiles`](crate::opcode::el::FeTurbulence::stitch_tiles)
+/// See [`stitch_tiles`](FeTurbulence::stitch_tiles)
 enum FeStitchTiles {
     /// If stitchTiles="stitch", then the user agent will automatically adjust baseFrequency-x and baseFrequency-y values
     /// such that the feTurbulence node's width and height (i.e., the width and height of the current subregion) contains
@@ -1384,7 +1384,7 @@ leaf FeComposite mixin FePrimitive {
     #[option,variable]
     in: FeIn,
 
-    /// The second input image to the compositing operation. This attribute can take on the same values as the [`in`](Self::in) attribute.
+    /// The second input image to the compositing operation. This attribute can take on the same values as the `r_in` attribute.
     #[variable]
     in2: FeIn,
 

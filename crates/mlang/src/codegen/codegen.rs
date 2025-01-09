@@ -165,6 +165,10 @@ fn node_codegen<G: NodeCodeGen>(node: &Node, g: &mut G) {
 
         g.push_field(comments, ident, attrs, ty);
     }
+
+    if let Some(mixin) = &node.mixin {
+        g.mixin(mixin.0.to_string());
+    }
 }
 
 fn enum_codegen<G: EnumCodeGen>(node: &Enum, g: &mut G) {

@@ -1,4 +1,7 @@
-use mlang::{parse, SemanticAnalyzer};
+use mlang::{
+    codegen::{codegen, CoreGen},
+    parse, SemanticAnalyzer,
+};
 use parserc::ParseContext;
 
 #[test]
@@ -16,4 +19,6 @@ fn test_vglang() {
         input.report().eprint();
         panic!("parser vglang.ml failed: {}", err);
     }
+
+    codegen(&mut opcodes, CoreGen::default());
 }
