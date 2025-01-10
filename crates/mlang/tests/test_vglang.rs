@@ -6,7 +6,7 @@ use parserc::ParseContext;
 
 #[test]
 fn test_vglang() {
-    let mut input = ParseContext::from(include_str!("./vglang.ml"));
+    let mut input = ParseContext::from(include_str!("../../vglang/vglang.ml"));
     let mut opcodes = match parse(&mut input) {
         Ok(opcodes) => opcodes,
         Err(err) => {

@@ -115,20 +115,20 @@ enum PathEvent {
     PolylineRelative(vec[Point]),
     /// (absolute) Draws a cubic Bézier curve from the current point to `to` point,
     /// using `ctrl1` as the control point at the beginning of the curve and `ctrl2` as the control point at the end of the curve.
-    CubicBezier{ ctrl1: Point, ctrl2: Point, to: Point },
+    CubicBezier{ ctrl1: Point, ctrl2: Point, to_point: Point },
     /// (relative) Draws a cubic Bézier curve from the current point to `to` point,
     /// using `ctrl1` as the control point at the beginning of the curve and `ctrl2` as the control point at the end of the curve.
-    CubicBezierRelative{ ctrl1: Point, ctrl2: Point, to: Point },
+    CubicBezierRelative{ ctrl1: Point, ctrl2: Point, to_point: Point },
     /// (smooth) Draws a cubic Bézier curve from the current point to `to` point,
     /// using `ctrl1` as the control point at the beginning of the curve and `ctrl2` as the control point at the end of the curve.
-    CubicBezierSmooth{ ctrl2: Point, to: Point },
+    CubicBezierSmooth{ ctrl2: Point, to_point: Point },
     /// (smooth, relative)Draws a cubic Bézier curve from the current point to `to` point,
     /// using `ctrl1` as the control point at the beginning of the curve and `ctrl2` as the control point at the end of the curve.
-    CubicBezierSmoothRelative{ ctrl2: Point, to: Point },
+    CubicBezierSmoothRelative{ ctrl2: Point, to_point: Point },
     /// (absolute) Draws a quadratic Bézier curve from the current point to `to` point using `ctrl` as the control point.
-    QuadraticBezier{ ctrl: Point, to: Point },
+    QuadraticBezier{ ctrl: Point, to_point: Point },
     /// (relative) Draws a quadratic Bézier curve from the current point to `to` point using `ctrl` as the control point.
-    QuadraticBezierRelative{ ctrl: Point, to: Point },
+    QuadraticBezierRelative{ ctrl: Point, to_point: Point },
     /// (smooth) Draws a quadratic Bézier curve from the current point to `to` point using `ctrl` as the control point.
     QuadraticBezierSmooth(Point),
     /// (smooth,relative) Draws a quadratic Bézier curve from the current point to `to` point using `ctrl` as the control point.
@@ -138,7 +138,7 @@ enum PathEvent {
     /// The center (cx, cy) of the ellipse is calculated automatically to satisfy the constraints
     /// imposed by the other parameters.
     Arc {
-        rx: float,ry:float, x_rotation: float, large_arc: bool, sweep: bool, to: Point
+        rx: float,ry:float, x_rotation: float, large_arc: bool, sweep: bool, to_point: Point
     },
 
     /// (relative) Draws an elliptical arc from the current point to `to` point.
@@ -146,7 +146,7 @@ enum PathEvent {
     /// The center (cx, cy) of the ellipse is calculated automatically to satisfy the constraints
     /// imposed by the other parameters.
     ArcRelative {
-        rx: float,ry:float, x_rotation: float, large_arc: bool, sweep: bool, to: Point
+        rx: float,ry:float, x_rotation: float, large_arc: bool, sweep: bool, to_point: Point
     }
 }
 
@@ -1898,7 +1898,7 @@ el Group;
 leaf Path {
     /// The definition of the outline of a shape.
     #[variable]
-    data: vec[PathEvent],
+    events: vec[PathEvent],
 
     /// The author's computation of the total length of the path, in user units.
     /// This value is used to calibrate the user agent's own distance-along-a-path

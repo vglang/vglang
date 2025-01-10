@@ -1760,7 +1760,7 @@ pub mod opcode {
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct Path {
         #[doc = "The definition of the outline of a shape."]
-        pub data: super::variable::Variable<Vec<PathEvent>>,
+        pub events: super::variable::Variable<Vec<PathEvent>>,
         #[doc = "The author's computation of the total length of the path, in user units."]
         #[doc = "This value is used to calibrate the user agent's own distance-along-a-path"]
         #[doc = "calculations with that of the author. The user agent will scale all"]
@@ -1779,7 +1779,7 @@ pub mod opcode {
     {
         fn from(value: (P0, P1)) -> Self {
             Self {
-                data: super::variable::Variable::Constant(value.0.map_collect()),
+                events: super::variable::Variable::Constant(value.0.map_collect()),
                 length: super::variable::Variable::Constant(value.1.into()),
             }
         }
@@ -2425,28 +2425,28 @@ pub mod opcode {
         CubicBezier {
             ctrl1: Point,
             ctrl2: Point,
-            to: Point,
+            to_point: Point,
         },
         CubicBezierRelative {
             ctrl1: Point,
             ctrl2: Point,
-            to: Point,
+            to_point: Point,
         },
         CubicBezierSmooth {
             ctrl2: Point,
-            to: Point,
+            to_point: Point,
         },
         CubicBezierSmoothRelative {
             ctrl2: Point,
-            to: Point,
+            to_point: Point,
         },
         QuadraticBezier {
             ctrl: Point,
-            to: Point,
+            to_point: Point,
         },
         QuadraticBezierRelative {
             ctrl: Point,
-            to: Point,
+            to_point: Point,
         },
         QuadraticBezierSmooth(Point),
         QuadraticBezierSmoothRelative(Point),
@@ -2456,7 +2456,7 @@ pub mod opcode {
             x_rotation: f32,
             large_arc: bool,
             sweep: bool,
-            to: Point,
+            to_point: Point,
         },
         ArcRelative {
             rx: f32,
@@ -2464,7 +2464,7 @@ pub mod opcode {
             x_rotation: f32,
             large_arc: bool,
             sweep: bool,
-            to: Point,
+            to_point: Point,
         },
     }
     #[doc = "The ‘fill-rule’ property indicates the algorithm which is to be used to determine what parts of the canvas are"]

@@ -105,7 +105,7 @@ where
     PathEvent::CubicBezier {
         ctrl1: ctrl1.into(),
         ctrl2: ctrl2.into(),
-        to: to.into(),
+        to_point: to.into(),
     }
 }
 
@@ -117,7 +117,7 @@ where
     PathEvent::CubicBezierRelative {
         ctrl1: ctrl1.into(),
         ctrl2: ctrl2.into(),
-        to: to.into(),
+        to_point: to.into(),
     }
 }
 
@@ -128,7 +128,7 @@ where
 {
     PathEvent::CubicBezierSmooth {
         ctrl2: ctrl2.into(),
-        to: to.into(),
+        to_point: to.into(),
     }
 }
 
@@ -139,7 +139,7 @@ where
 {
     PathEvent::CubicBezierSmoothRelative {
         ctrl2: ctrl2.into(),
-        to: to.into(),
+        to_point: to.into(),
     }
 }
 
@@ -150,7 +150,7 @@ where
 {
     PathEvent::QuadraticBezier {
         ctrl: ctrl.into(),
-        to: to.into(),
+        to_point: to.into(),
     }
 }
 
@@ -161,7 +161,7 @@ where
 {
     PathEvent::QuadraticBezierRelative {
         ctrl: ctrl.into(),
-        to: to.into(),
+        to_point: to.into(),
     }
 }
 
@@ -200,7 +200,7 @@ where
         x_rotation: Number::from(x_rotation).0,
         large_arc,
         sweep,
-        to: to.into(),
+        to_point: to.into(),
     }
 }
 
@@ -223,7 +223,7 @@ where
         x_rotation: Number::from(x_rotation).0,
         large_arc,
         sweep,
-        to: to.into(),
+        to_point: to.into(),
     }
 }
 

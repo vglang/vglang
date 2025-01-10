@@ -25,7 +25,7 @@ where
 
 /// A combinator for [`ok`](ParserExt::ok) function.
 #[derive(Clone)]
-pub struct Optional<S>(S);
+pub struct Optional<S>(S, bool);
 
 impl<S> Parser for Optional<S>
 where
@@ -37,7 +37,14 @@ where
         let start = input.span();
         match self.0.parse(input) {
             Err(err) => match err {
-                crate::ControlFlow::Fatal => return Err(ControlFlow::Fatal),
+                crate::ControlFlow::Fatal => {
+                    if self.1 {
+                        input.seek(start);
+                        return Ok(None);
+                    } else {
+                        return Err(ControlFlow::Fatal);
+                    }
+                }
                 _ => {
                     input.seek(start);
                     return Ok(None);
@@ -188,7 +195,19 @@ pub trait ParserExt: Parser {
     where
         Self: Sized,
     {
-        Optional(self)
+        Optional(self, false)
+    }
+
+    /// Convert parser all errors to [`None`].
+    ///
+    /// [`Recoverable`]: crate::ControlFlow::Recoverable
+    /// [`Incomplete`]: crate::ControlFlow::Incomplete
+    #[inline]
+    fn catch_fatal(self) -> Optional<Self>
+    where
+        Self: Sized,
+    {
+        Optional(self, true)
     }
 
     /// Sequentially execute two parsers, until one of them returns successfully.

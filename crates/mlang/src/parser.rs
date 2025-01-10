@@ -366,6 +366,16 @@ impl FromInput for Ident {
 
         let ident = input.as_str(span);
 
+        match ident {
+            "el" | "leaf" | "attr" | "group" | "mixin" | "data" | "enum" | "apply" | "to"
+            | "of" | "string" | "bool" | "byte" | "ubyte" | "short" | "ushort" | "int" | "uint"
+            | "long" | "ulong" | "float" | "double" | "vec" => {
+                input.report_error(MlParseError::Ident, start);
+                return Err(ControlFlow::Fatal);
+            }
+            _ => {}
+        }
+
         assert_eq!(ident.len(), span.len());
 
         Ok(Ident(ident.to_string(), span))
@@ -702,7 +712,7 @@ impl FromInput for Field {
 
         skip_ws(input)?;
 
-        let ident: Option<Ident> = Ident::into_parser().ok().parse(input)?;
+        let ident: Option<Ident> = Ident::into_parser().catch_fatal().parse(input)?;
 
         let (ident, ty) = if let Some(ident) = ident {
             skip_ws(input)?;
