@@ -1,5 +1,5 @@
 use mlang::{
-    codegen::{codegen, CoreGen},
+    codegen::{codegen, OpcodeCodeGen},
     parse, semantic_analyze,
 };
 use parserc::ParseContext;
@@ -28,5 +28,5 @@ fn test_vglang() {
         panic!("vglang.ml semantic analyze failed.");
     }
 
-    codegen(&mut opcodes, CoreGen::default());
+    codegen(&mut opcodes, OpcodeCodeGen::default());
 }

@@ -190,8 +190,9 @@ impl<'a> SemanticAnalyzer<'a> {
                         MlSemanticError::UnexpectGroup(group.ident.0.clone(), group.ident.1),
                         ident.1,
                     );
-                    return false;
                 }
+
+                return false;
             }
 
             return true;
@@ -300,13 +301,13 @@ impl<'a> SemanticAnalyzer<'a> {
 
         let mut to_expand = vec![];
 
-        for ident in &node.from {
+        for ident in &node.to {
             if !self.symbol_check(ctx, ident, false) {
                 if let Some(mut expand) = self.expand_with_group(ctx, ident) {
                     to_expand.append(&mut expand);
                 }
             } else {
-                from_expand.push(ident.clone());
+                to_expand.push(ident.clone());
             }
         }
 
@@ -334,13 +335,13 @@ impl<'a> SemanticAnalyzer<'a> {
 
         let mut to_expand = vec![];
 
-        for ident in &node.from {
+        for ident in &node.to {
             if !self.symbol_check(ctx, ident, false) {
                 if let Some(mut expand) = self.expand_with_group(ctx, ident) {
                     to_expand.append(&mut expand);
                 }
             } else {
-                from_expand.push(ident.clone());
+                to_expand.push(ident.clone());
             }
         }
 

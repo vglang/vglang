@@ -6,7 +6,7 @@ fn ml_gen() {
     use std::{fs, path::PathBuf, process::Command};
 
     use mlang::{
-        codegen::{codegen, CoreGen},
+        codegen::{codegen, OpcodeCodeGen},
         parse,
         parserc::ParseContext,
         semantic_analyze,
@@ -28,7 +28,7 @@ fn ml_gen() {
         panic!("semantic anlayze failed: vglang.ml");
     }
 
-    let token_stream = codegen(&opcodes, CoreGen::default());
+    let token_stream = codegen(&opcodes, OpcodeCodeGen::default());
 
     let gen_path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("src/ml.rs");
 
