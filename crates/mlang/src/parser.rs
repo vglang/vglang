@@ -370,7 +370,7 @@ impl FromInput for Ident {
             "el" | "leaf" | "attr" | "group" | "mixin" | "data" | "enum" | "apply" | "to"
             | "of" | "string" | "bool" | "byte" | "ubyte" | "short" | "ushort" | "int" | "uint"
             | "long" | "ulong" | "float" | "double" | "vec" => {
-                input.report_error(MlParseError::Ident, start);
+                input.report_error(MlParseError::UnexpectKeyWord(ident.to_string()), start);
                 return Err(ControlFlow::Fatal);
             }
             _ => {}
