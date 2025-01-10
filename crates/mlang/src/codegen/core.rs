@@ -2,6 +2,8 @@ use heck::ToUpperCamelCase;
 use proc_macro2::TokenStream;
 use quote::{format_ident, quote};
 
+use crate::codegen::FieldType;
+
 use super::{CodeGen, EnumCodeGen, NodeCodeGen};
 
 /// `mlang` core codes generator.
@@ -786,7 +788,7 @@ impl CoreNodeGen {
         let comments = &self.comments;
         let ident = &self.ident;
 
-        let (fields, is_tuple) = self.gen_fields_definition(false);
+        let fields = self.gen_fields_definition(false);
 
         let sexpr_init_fns = self.gen_sexpr_init_fns();
 
@@ -800,7 +802,7 @@ impl CoreNodeGen {
                 pub struct #ident;
             }
         } else {
-            if is_tuple {
+            if self.tuple {
                 quote! {
                     #comments
                     #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -829,6 +831,14 @@ impl CoreNodeGen {
     }
 
     fn gen_sexpr_build_fns(&self) -> TokenStream {
+        for (index, field) in self.fields.iter().enumerate() {
+            match &field.ty {
+                FieldType::Noraml(token_stream) => {}
+                FieldType::List(token_stream) => {}
+                FieldType::Array(token_stream, _) => {}
+            }
+        }
+
         quote! {}
     }
 
@@ -841,12 +851,10 @@ impl CoreNodeGen {
             return quote! {};
         }
 
-        let is_tuple = fields.first().unwrap().ident.is_none();
-
         let count = fields.iter().filter(|f| !f.attrs.option).count();
 
         if count == 0 {
-            let assign = if is_tuple {
+            let assign = if self.tuple {
                 (0..fields.len()).map(|_| quote! {None}).collect::<Vec<_>>()
             } else {
                 fields
@@ -860,7 +868,7 @@ impl CoreNodeGen {
                     .collect()
             };
 
-            if is_tuple {
+            if self.tuple {
                 return quote! {
                     impl Default for #ident {
                         fn default() -> Self {
@@ -972,7 +980,7 @@ impl CoreNodeGen {
             }
         };
 
-        if is_tuple {
+        if self.tuple {
             quote! {
                 impl<#impl_generics> From<#type_generics> for #ident where #(#where_clause),* {
                     fn from(value: #type_generics) -> Self {
@@ -995,28 +1003,16 @@ impl CoreNodeGen {
         }
     }
 
-    fn gen_fields_definition(&self, is_enum: bool) -> (Vec<TokenStream>, bool) {
-        let mut is_tuple = None;
-
+    fn gen_fields_definition(&self, is_enum: bool) -> Vec<TokenStream> {
         let fields = self.fields.clone();
 
         let mut token_streams = vec![];
 
         for field in &fields {
-            if let Some(is_tuple) = is_tuple {
-                if is_tuple {
-                    assert!(field.ident.is_none(), "tuple field name must be none");
-                } else {
-                    assert!(field.ident.is_some(), "missing field name.");
-                }
-            } else {
-                is_tuple = Some(field.ident.is_none());
-            }
-
             token_streams.push(field.gen_definition(is_enum));
         }
 
-        (token_streams, is_tuple.unwrap_or(true))
+        token_streams
     }
 }
 
@@ -1055,12 +1051,12 @@ impl CoreEnumGen {
         let mut token_streams = vec![];
         for field in &self.fields {
             let ident = &field.ident;
-            let (fields, is_tuple) = field.gen_fields_definition(true);
+            let fields = field.gen_fields_definition(true);
 
             if fields.is_empty() {
                 token_streams.push(quote! { #ident });
             } else {
-                if is_tuple {
+                if field.tuple {
                     token_streams.push(quote! { #ident(#(#fields),*) });
                 } else {
                     token_streams.push(quote! { #ident{ #(#fields),* } });
