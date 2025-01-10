@@ -12,7 +12,8 @@ pub trait CodeGen {
     type Enum: EnumCodeGen;
 
     /// Create a `el` node
-    fn create_node(&mut self, comments: TokenStream, ident: TokenStream) -> Self::Node;
+    fn create_node(&mut self, comments: TokenStream, ident: TokenStream, tuple: bool)
+        -> Self::Node;
 
     /// Create a `enum data` node
     fn create_enum(&mut self, comments: TokenStream, ident: TokenStream) -> Self::Enum;
@@ -62,7 +63,12 @@ pub trait EnumCodeGen {
     type Node: NodeCodeGen;
 
     /// Create a `el` node
-    fn create_field(&mut self, comments: TokenStream, ident: TokenStream) -> Self::Node;
+    fn create_field(
+        &mut self,
+        comments: TokenStream,
+        ident: TokenStream,
+        tuple: bool,
+    ) -> Self::Node;
 
     fn push_field(&mut self, el: Self::Node);
 }
@@ -152,14 +158,14 @@ fn type_name(ident: &Ident) -> TokenStream {
 }
 
 fn node_codegen<G: NodeCodeGen>(node: &Node, g: &mut G) {
-    for field in &node.fields {
-        let ident = field.ident.as_ref().map(field_name);
+    for field in node.fields.iter() {
+        let ident = field.ident().map(field_name);
 
-        let attrs = FieldAttrs::from(field.properties.as_slice());
+        let attrs = FieldAttrs::from(field.properties());
 
-        let comments = comments(&field.comments);
+        let comments = comments(field.comments());
 
-        let ty = type_to_token_stream(&field.ty);
+        let ty = type_to_token_stream(field.ty());
 
         g.push_field(comments, ident, attrs, ty);
     }
@@ -170,7 +176,7 @@ fn enum_codegen<G: EnumCodeGen>(node: &Enum, g: &mut G) {
         let comments = comments(&field.comments);
         let ident = type_name(&field.ident);
 
-        let mut cg = g.create_field(comments, ident);
+        let mut cg = g.create_field(comments, ident, field.is_tuple());
 
         node_codegen(field, &mut cg);
 
@@ -185,34 +191,34 @@ pub fn codegen<G: CodeGen>(opcodes: &[Opcode], mut g: G) -> TokenStream {
             Opcode::Element(node) => {
                 let ident: TokenStream = type_name(&node.ident);
                 let comments = comments(&node.comments);
-                let mut cg = g.create_node(comments, ident);
+                let mut cg = g.create_node(comments, ident, node.is_tuple());
                 node_codegen(node, &mut cg);
                 g.push_el(cg);
             }
             Opcode::Leaf(node) => {
                 let ident: TokenStream = type_name(&node.ident);
                 let comments = comments(&node.comments);
-                let mut cg = g.create_node(comments, ident);
+                let mut cg = g.create_node(comments, ident, node.is_tuple());
                 node_codegen(node, &mut cg);
                 g.push_leaf(cg);
             }
             Opcode::Attr(node) => {
                 let ident: TokenStream = type_name(&node.ident);
                 let comments = comments(&node.comments);
-                let mut cg = g.create_node(comments, ident);
+                let mut cg = g.create_node(comments, ident, node.is_tuple());
                 node_codegen(node, &mut cg);
                 g.push_attr(cg);
             }
             Opcode::Mixin(node) => {
                 let ident: TokenStream = type_name(&node.ident);
                 let comments = comments(&node.comments);
-                let mut cg = g.create_node(comments, ident);
+                let mut cg = g.create_node(comments, ident, node.is_tuple());
                 node_codegen(node, &mut cg);
             }
             Opcode::Data(node) => {
                 let ident: TokenStream = type_name(&node.ident);
                 let comments = comments(&node.comments);
-                let mut cg = g.create_node(comments, ident);
+                let mut cg = g.create_node(comments, ident, node.is_tuple());
                 node_codegen(node, &mut cg);
                 g.push_data(cg);
             }

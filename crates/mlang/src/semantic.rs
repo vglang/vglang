@@ -15,6 +15,11 @@ pub enum MlSemanticError {
 
     #[error("undeclared type `{0}`.")]
     UndeclaredType(String),
+
+    #[error(
+        "mixin `{0}` field, named/unnamed fields can't be merged. mixin defintion is here {1}."
+    )]
+    UnableMixin(String, Span),
 }
 
 #[derive(Default)]
@@ -213,17 +218,26 @@ impl<'a> SemanticAnalyzer<'a> {
     }
 
     fn node_check(&self, ctx: &mut ParseContext<'_>, node: &Node) -> Option<Node> {
-        for field in &node.fields {
-            self.type_check(ctx, &field.ty);
+        for field in node.fields.iter() {
+            self.type_check(ctx, &field.ty());
         }
 
         if let Some(mixin) = &node.mixin {
             if let Some(index) = self.merger.lookup(mixin) {
                 if let Opcode::Mixin(mixin) = &self.opcodes[index] {
-                    let mut expand = mixin.fields.clone();
-                    let mut fields = node.fields.clone();
+                    let expand = mixin.fields.clone();
+                    let fields = node.fields.clone();
 
-                    fields.append(&mut expand);
+                    let fields = match fields.append(expand) {
+                        Ok(fields) => fields,
+                        Err(fields) => {
+                            ctx.report_error(
+                                MlSemanticError::UnableMixin(mixin.ident.0.clone(), mixin.ident.1),
+                                node.ident.1,
+                            );
+                            fields
+                        }
+                    };
 
                     return Some(Node {
                         comments: node.comments.clone(),
@@ -246,8 +260,8 @@ impl<'a> SemanticAnalyzer<'a> {
 
     fn enum_check(&self, ctx: &mut ParseContext<'_>, node: &Enum) {
         for field_node in &node.fields {
-            for field in &field_node.fields {
-                self.type_check(ctx, &field.ty);
+            for field in field_node.fields.iter() {
+                self.type_check(ctx, field.ty());
             }
         }
     }

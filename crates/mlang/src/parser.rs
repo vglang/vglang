@@ -4,8 +4,8 @@ use parserc::{
 };
 
 use crate::opcode::{
-    ApplyTo, CallExpr, ChildrenOf, Comment, Enum, Field, Group, Ident, LitExpr, LitNum, LitStr,
-    Node, Opcode, Property, Type,
+    ApplyTo, CallExpr, ChildrenOf, Comment, Enum, Fields, Group, Ident, LitExpr, LitNum, LitStr,
+    NamedField, Node, Opcode, Property, Type, UnnamedField,
 };
 
 /// Error type returns by `mlang` parser combinators.
@@ -59,11 +59,11 @@ pub enum MlParseError {
     #[error("expect node keyword")]
     NodeKeyWord,
 
-    #[error("expect tuple field")]
-    TupleField,
+    #[error("Invalid named field syntax.")]
+    NamedField,
 
-    #[error("unexpect tuple field")]
-    NotTupleField,
+    #[error("Invalid unnamed field syntax.")]
+    UnnamedField,
 
     #[error("Parse enum error")]
     Enum,
@@ -189,89 +189,14 @@ fn parse_node_inner(
         None
     };
 
-    let is_tuple = ensure_char('{')
-        .map(|_| false)
-        .or(ensure_char('(').map(|_| true))
-        .ok()
+    let fields = Fields::into_parser()
+        .with_context(MlParseError::Node, start)
         .parse(input)?;
 
-    let is_tuple = if let Some(is_tuple) = is_tuple {
-        is_tuple
-    } else {
-        if !parse_enum_field {
-            ensure_char(';')
-                .with_context(MlParseError::Node, start)
-                .fatal()
-                .parse(input)?;
-        }
-        return Ok((
-            keyword,
-            Node {
-                comments,
-                mixin,
-                properties,
-                ident,
-                fields: vec![],
-            },
-        ));
-    };
-
-    skip_ws
-        .with_context(MlParseError::Node, start)
-        .fatal()
-        .parse(input)?;
-
-    let mut fields = vec![];
-
-    while let Some(field) = Field::into_parser()
-        .ok()
-        .with_context(MlParseError::Node, start)
-        .fatal()
-        .parse(input)?
-    {
-        if is_tuple {
-            if let Some(ident) = field.ident {
-                input.report_error(MlParseError::TupleField, ident.1);
-                return Err(ControlFlow::Fatal);
-            }
-        } else {
-            if field.ident.is_none() {
-                input.report_error(MlParseError::NotTupleField, ident.1);
-                return Err(ControlFlow::Fatal);
-            }
-        }
-
-        fields.push(field);
-
-        skip_ws
-            .with_context(MlParseError::Node, start)
-            .fatal()
-            .parse(input)?;
-
-        if ensure_char(',')
-            .ok()
-            .with_context(MlParseError::Node, start)
-            .fatal()
-            .parse(input)?
-            .is_none()
-        {
-            break;
-        }
-
-        skip_ws
-            .with_context(MlParseError::Node, start)
-            .fatal()
-            .parse(input)?;
-    }
-
-    ensure_char(if is_tuple { ')' } else { '}' })
-        .with_context(MlParseError::Node, start)
-        .fatal()
-        .parse(input)?;
-
-    if !parse_enum_field && is_tuple {
+    if !parse_enum_field && fields.is_tuple() {
         ensure_char(';')
             .with_context(MlParseError::Node, start)
+            .fatal()
             .fatal()
             .parse(input)?;
     }
@@ -703,49 +628,164 @@ impl FromInput for Type {
     }
 }
 
-impl FromInput for Field {
+impl FromInput for NamedField {
     fn parse(input: &mut ParseContext<'_>) -> Result<Self>
     where
         Self: Sized,
     {
+        let start = input.span();
+
         let (comments, properties) = parse_prefix(input)?;
 
-        skip_ws(input)?;
+        skip_ws
+            .with_context(MlParseError::NamedField, start)
+            .fatal()
+            .parse(input)?;
 
-        let ident: Option<Ident> = Ident::into_parser().catch_fatal().parse(input)?;
+        let ident = Ident::into_parser()
+            .with_context(MlParseError::NamedField, start)
+            .fatal()
+            .parse(input)?;
 
-        let (ident, ty) = if let Some(ident) = ident {
-            skip_ws(input)?;
+        skip_ws
+            .with_context(MlParseError::NamedField, start)
+            .fatal()
+            .parse(input)?;
 
-            let semi_colon = ensure_char(':')
-                .ok()
-                .with_context(MlParseError::Field, ident.1)
-                .fatal()
-                .parse(input)?;
+        ensure_char(':')
+            .with_context(MlParseError::NamedField, start)
+            .fatal()
+            .parse(input)?;
 
-            if semi_colon.is_some() {
-                skip_ws(input)?;
+        skip_ws
+            .with_context(MlParseError::NamedField, start)
+            .fatal()
+            .parse(input)?;
 
-                let ty = Type::into_parser()
-                    .with_context(MlParseError::Field, ident.1)
-                    .fatal()
-                    .parse(input)?;
+        let ty = Type::into_parser()
+            .with_context(MlParseError::NamedField, start)
+            .fatal()
+            .parse(input)?;
 
-                (Some(ident), ty)
-            } else {
-                input.seek(ident.1);
-                (None, Type::parse(input)?)
-            }
-        } else {
-            (None, Type::parse(input)?)
-        };
-
-        Ok(Self {
+        Ok(NamedField {
             comments,
             properties,
             ident,
             ty,
         })
+    }
+}
+
+impl FromInput for UnnamedField {
+    fn parse(input: &mut ParseContext<'_>) -> Result<Self>
+    where
+        Self: Sized,
+    {
+        let start = input.span();
+
+        let (comments, properties) = parse_prefix(input)?;
+
+        skip_ws
+            .with_context(MlParseError::UnnamedField, start)
+            .fatal()
+            .parse(input)?;
+
+        let ty = Type::into_parser()
+            .with_context(MlParseError::UnnamedField, start)
+            .parse(input)?;
+
+        Ok(UnnamedField {
+            comments,
+            properties,
+            ty,
+        })
+    }
+}
+
+impl FromInput for Fields {
+    fn parse(input: &mut ParseContext<'_>) -> Result<Self>
+    where
+        Self: Sized,
+    {
+        let start = ensure_char('{')
+            .map(|span| (span, false))
+            .or(ensure_char('(').map(|span| (span, true)))
+            .ok()
+            .parse(input)?;
+
+        let (start, is_tuple) = match start {
+            Some(v) => v,
+            _ => return Ok(Fields::None),
+        };
+
+        skip_ws
+            .with_context(MlParseError::Field, start)
+            .fatal()
+            .parse(input)?;
+
+        if is_tuple {
+            let mut fields = vec![];
+
+            while let Some(field) = UnnamedField::into_parser().catch_fatal().parse(input)? {
+                fields.push(field);
+
+                skip_ws
+                    .with_context(MlParseError::Field, start)
+                    .fatal()
+                    .parse(input)?;
+
+                if ensure_char(',').ok().parse(input)?.is_none() {
+                    break;
+                }
+            }
+
+            skip_ws
+                .with_context(MlParseError::Field, start)
+                .fatal()
+                .parse(input)?;
+
+            ensure_char(')')
+                .with_context(MlParseError::Field, start)
+                .fatal()
+                .parse(input)?;
+
+            if fields.is_empty() {
+                return Ok(Fields::None);
+            } else {
+                return Ok(Fields::Unnamed(fields));
+            }
+        } else {
+            let mut fields = vec![];
+
+            while let Some(field) = NamedField::into_parser().catch_fatal().parse(input)? {
+                fields.push(field);
+
+                skip_ws
+                    .with_context(MlParseError::Field, start)
+                    .fatal()
+                    .parse(input)?;
+
+                if ensure_char(',').ok().parse(input)?.is_none() {
+                    break;
+                }
+            }
+
+            skip_ws
+                .with_context(MlParseError::Field, start)
+                .fatal()
+                .parse(input)?;
+
+            ensure_char('}')
+                .with_context(MlParseError::Field, start)
+                .fatal()
+                .parse(input)?;
+
+            if fields.is_empty() {
+                return Ok(Fields::None);
+            } else {
+                return Ok(Fields::Named(fields));
+            }
+        }
     }
 }
 
@@ -1071,11 +1111,11 @@ impl FromInput for Opcode {
 
         skip_ws(input)?;
 
-        assert_eq!(input.remaining(), 0, "unparsed length must be zero.");
-
-        let span = input.span();
-
-        input.report_error(MlParseError::NotTupleField, span);
+        assert_eq!(
+            input.remaining(),
+            0,
+            "inner error: unparsed length must be zero."
+        );
 
         return Err(ControlFlow::Incomplete);
     }

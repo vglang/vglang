@@ -608,11 +608,17 @@ impl CodeGen for CoreGen {
 
     type Enum = CoreEnumGen;
 
-    fn create_node(&mut self, comments: TokenStream, ident: TokenStream) -> Self::Node {
+    fn create_node(
+        &mut self,
+        comments: TokenStream,
+        ident: TokenStream,
+        tuple: bool,
+    ) -> Self::Node {
         CoreNodeGen {
             comments,
             ident,
             fields: Default::default(),
+            tuple,
         }
     }
 
@@ -772,6 +778,7 @@ pub struct CoreNodeGen {
     comments: TokenStream,
     ident: TokenStream,
     fields: Vec<CoreFieldGen>,
+    tuple: bool,
 }
 
 impl CoreNodeGen {
@@ -1021,6 +1028,12 @@ impl NodeCodeGen for CoreNodeGen {
         attrs: super::FieldAttrs,
         ty: super::FieldType,
     ) {
+        assert_eq!(
+            self.tuple,
+            ident.is_none(),
+            "field named/unnamed constraint failed."
+        );
+
         self.fields.push(CoreFieldGen {
             comments,
             ident,
@@ -1072,11 +1085,17 @@ impl CoreEnumGen {
 impl EnumCodeGen for CoreEnumGen {
     type Node = CoreNodeGen;
 
-    fn create_field(&mut self, comments: TokenStream, ident: TokenStream) -> Self::Node {
+    fn create_field(
+        &mut self,
+        comments: TokenStream,
+        ident: TokenStream,
+        tuple: bool,
+    ) -> Self::Node {
         CoreNodeGen {
             comments,
             ident,
             fields: Default::default(),
+            tuple,
         }
     }
 
