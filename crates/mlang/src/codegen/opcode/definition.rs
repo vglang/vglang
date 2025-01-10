@@ -61,7 +61,7 @@ impl OpcodeNodeCodeGen {
             let fields = self
                 .fields
                 .iter()
-                .map(|field| field.gen_type_definition())
+                .map(|field| field.gen_enum_type_definition())
                 .collect::<Vec<_>>();
 
             if self.tuple {
@@ -81,6 +81,28 @@ impl OpcodeNodeCodeGen {
 
 impl TypeDefinition for OpcodeFieldGen {
     fn gen_type_definition(&self) -> TokenStream {
+        let ident = if let Some(ident) = &self.ident {
+            quote! { pub #ident: }
+        } else {
+            quote! { pub }
+        };
+
+        let mut ty = TokenStream::from(self.ty.clone());
+
+        if self.attrs.variable {
+            ty = quote! { super::variable::Variable<#ty> };
+        }
+
+        if self.attrs.option {
+            ty = quote! { Option<#ty> };
+        }
+
+        quote! { #ident #ty }
+    }
+}
+
+impl OpcodeFieldGen {
+    fn gen_enum_type_definition(&self) -> TokenStream {
         let ident = if let Some(ident) = &self.ident {
             quote! { #ident: }
         } else {
