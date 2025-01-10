@@ -17,7 +17,6 @@ pub trait CodeGen {
     /// Create a `enum data` node
     fn create_enum(&mut self, comments: TokenStream, ident: TokenStream) -> Self::Enum;
 
-    fn push_mixin(&mut self, el: Self::Node);
     fn push_el(&mut self, el: Self::Node);
     fn push_leaf(&mut self, el: Self::Node);
     fn push_attr(&mut self, el: Self::Node);
@@ -98,7 +97,6 @@ impl From<FieldType> for TokenStream {
 ///
 /// Generally, call [`create_el`](CodeGen::create_el) to get a new instance.
 pub trait NodeCodeGen {
-    fn mixin(&mut self, target: String);
     /// Create a new field generator.
     fn push_field(
         &mut self,
@@ -165,10 +163,6 @@ fn node_codegen<G: NodeCodeGen>(node: &Node, g: &mut G) {
 
         g.push_field(comments, ident, attrs, ty);
     }
-
-    if let Some(mixin) = &node.mixin {
-        g.mixin(mixin.0.to_string());
-    }
 }
 
 fn enum_codegen<G: EnumCodeGen>(node: &Enum, g: &mut G) {
@@ -214,7 +208,6 @@ pub fn codegen<G: CodeGen>(opcodes: &[Opcode], mut g: G) -> TokenStream {
                 let comments = comments(&node.comments);
                 let mut cg = g.create_node(comments, ident);
                 node_codegen(node, &mut cg);
-                g.push_mixin(cg);
             }
             Opcode::Data(node) => {
                 let ident: TokenStream = type_name(&node.ident);

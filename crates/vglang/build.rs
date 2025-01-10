@@ -9,7 +9,7 @@ fn ml_gen() {
         codegen::{codegen, CoreGen},
         parse,
         parserc::ParseContext,
-        SemanticAnalyzer,
+        semantic_analyze,
     };
 
     let mut input = ParseContext::from(include_str!("./vglang.ml"));
@@ -21,9 +21,11 @@ fn ml_gen() {
         }
     };
 
-    if let Err(err) = SemanticAnalyzer::new(&mut opcodes).analyze(&mut input) {
+    semantic_analyze(&mut opcodes, &mut input);
+
+    if input.report_size() > 0 {
         input.report().eprint();
-        panic!("parser vglang.ml failed: {}", err);
+        panic!("semantic anlayze failed: vglang.ml");
     }
 
     let token_stream = codegen(&opcodes, CoreGen::default());

@@ -1,6 +1,6 @@
 use mlang::{
     codegen::{codegen, CoreGen},
-    parse, SemanticAnalyzer,
+    parse, semantic_analyze,
 };
 use parserc::ParseContext;
 
@@ -15,9 +15,10 @@ fn test_vglang() {
         }
     };
 
-    if let Err(err) = SemanticAnalyzer::new(&mut opcodes).analyze(&mut input) {
+    semantic_analyze(&mut opcodes, &mut input);
+
+    if input.report_size() > 0 {
         input.report().eprint();
-        panic!("parser vglang.ml failed: {}", err);
     }
 
     codegen(&mut opcodes, CoreGen::default());

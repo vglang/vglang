@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 use heck::ToUpperCamelCase;
 use proc_macro2::TokenStream;
 use quote::{format_ident, quote};
@@ -9,7 +7,6 @@ use super::{CodeGen, EnumCodeGen, NodeCodeGen};
 /// `mlang` core codes generator.
 #[derive(Default)]
 pub struct CoreGen {
-    mixin_gens: HashMap<String, CoreNodeGen>,
     node_gens: Vec<CoreNodeGen>,
     enum_gens: Vec<CoreEnumGen>,
     attr_fileds: Vec<TokenStream>,
@@ -616,7 +613,6 @@ impl CodeGen for CoreGen {
             comments,
             ident,
             fields: Default::default(),
-            mixin: None,
         }
     }
 
@@ -626,10 +622,6 @@ impl CodeGen for CoreGen {
             ident,
             fields: Default::default(),
         }
-    }
-
-    fn push_mixin(&mut self, el: Self::Node) {
-        self.mixin_gens.insert(el.ident.to_string(), el);
     }
 
     fn push_el(&mut self, el: Self::Node) {
@@ -661,13 +653,13 @@ impl CodeGen for CoreGen {
         let node_definitions = self
             .node_gens
             .iter()
-            .map(|node| node.gen_definition(&self.mixin_gens))
+            .map(|node| node.gen_definition())
             .collect::<Vec<_>>();
 
         let enum_definitions = self
             .enum_gens
             .iter()
-            .map(|node| node.gen_definition(&self.mixin_gens))
+            .map(|node| node.gen_definition())
             .collect::<Vec<_>>();
 
         let data_definition = self.gen_data_definition();
@@ -777,18 +769,17 @@ impl CoreFieldGen {
 /// The core `el/leaf/..,etc` code generator
 #[derive(Clone)]
 pub struct CoreNodeGen {
-    mixin: Option<String>,
     comments: TokenStream,
     ident: TokenStream,
     fields: Vec<CoreFieldGen>,
 }
 
 impl CoreNodeGen {
-    fn gen_definition(&self, mixin: &HashMap<String, CoreNodeGen>) -> TokenStream {
+    fn gen_definition(&self) -> TokenStream {
         let comments = &self.comments;
         let ident = &self.ident;
 
-        let (fields, is_tuple) = self.gen_fields_definition(false, mixin);
+        let (fields, is_tuple) = self.gen_fields_definition(false);
 
         println!(
             "{}: \n{}",
@@ -800,7 +791,7 @@ impl CoreNodeGen {
                 .join("\n")
         );
 
-        let fns = self.gen_init_fns(mixin);
+        let fns = self.gen_init_fns();
 
         if fields.is_empty() {
             quote! {
@@ -834,18 +825,10 @@ impl CoreNodeGen {
         }
     }
 
-    fn gen_init_fns(&self, mixin: &HashMap<String, CoreNodeGen>) -> TokenStream {
+    fn gen_init_fns(&self) -> TokenStream {
         let ident = &self.ident;
 
-        let mut fields = self.fields.clone();
-
-        if let Some(target) = &self.mixin {
-            let target = mixin.get(target).expect("Mixin not found");
-
-            let mut mixin_fields = target.fields.clone();
-
-            fields.append(&mut mixin_fields);
-        }
+        let fields = self.fields.clone();
 
         if fields.is_empty() {
             return quote! {};
@@ -1005,22 +988,10 @@ impl CoreNodeGen {
         }
     }
 
-    fn gen_fields_definition(
-        &self,
-        is_enum: bool,
-        mixin: &HashMap<String, CoreNodeGen>,
-    ) -> (Vec<TokenStream>, bool) {
+    fn gen_fields_definition(&self, is_enum: bool) -> (Vec<TokenStream>, bool) {
         let mut is_tuple = None;
 
-        let mut fields = self.fields.clone();
-
-        if let Some(target) = &self.mixin {
-            let target = mixin.get(target).expect("Mixin not found");
-
-            let mut mixin_fields = target.fields.clone();
-
-            fields.append(&mut mixin_fields);
-        }
+        let fields = self.fields.clone();
 
         let mut token_streams = vec![];
 
@@ -1043,9 +1014,6 @@ impl CoreNodeGen {
 }
 
 impl NodeCodeGen for CoreNodeGen {
-    fn mixin(&mut self, target: String) {
-        self.mixin = Some(target)
-    }
     fn push_field(
         &mut self,
         comments: TokenStream,
@@ -1070,11 +1038,11 @@ pub struct CoreEnumGen {
 }
 
 impl CoreEnumGen {
-    fn gen_definition(&self, mixin: &HashMap<String, CoreNodeGen>) -> TokenStream {
+    fn gen_definition(&self) -> TokenStream {
         let mut token_streams = vec![];
         for field in &self.fields {
             let ident = &field.ident;
-            let (fields, is_tuple) = field.gen_fields_definition(true, mixin);
+            let (fields, is_tuple) = field.gen_fields_definition(true);
 
             if fields.is_empty() {
                 token_streams.push(quote! { #ident });
@@ -1109,7 +1077,6 @@ impl EnumCodeGen for CoreEnumGen {
             comments,
             ident,
             fields: Default::default(),
-            mixin: None,
         }
     }
 
