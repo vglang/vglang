@@ -781,19 +781,11 @@ impl CoreNodeGen {
 
         let (fields, is_tuple) = self.gen_fields_definition(false);
 
-        println!(
-            "{}: \n{}",
-            self.ident,
-            fields
-                .iter()
-                .map(|token| token.to_string())
-                .collect::<Vec<_>>()
-                .join("\n")
-        );
+        let sexpr_init_fns = self.gen_sexpr_init_fns();
 
-        let fns = self.gen_init_fns();
+        let sexpr_build_fns = self.gen_sexpr_build_fns();
 
-        if fields.is_empty() {
+        let type_definition = if fields.is_empty() {
             quote! {
                 #comments
                 #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -807,8 +799,6 @@ impl CoreNodeGen {
                     #[derive(Debug, PartialEq, PartialOrd, Clone)]
                     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
                     pub struct #ident(#(#fields),*);
-
-                    #fns
                 }
             } else {
                 quote! {
@@ -818,14 +808,24 @@ impl CoreNodeGen {
                     pub struct #ident {
                         #(#fields),*
                     }
-
-                    #fns
                 }
             }
+        };
+
+        quote! {
+            #type_definition
+
+            #sexpr_init_fns
+
+            #sexpr_build_fns
         }
     }
 
-    fn gen_init_fns(&self) -> TokenStream {
+    fn gen_sexpr_build_fns(&self) -> TokenStream {
+        quote! {}
+    }
+
+    fn gen_sexpr_init_fns(&self) -> TokenStream {
         let ident = &self.ident;
 
         let fields = self.fields.clone();
