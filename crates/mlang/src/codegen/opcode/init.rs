@@ -6,11 +6,11 @@ use crate::codegen::FieldType;
 use super::{OpcodeEnumCodeGen, OpcodeFieldGen, OpcodeNodeCodeGen};
 
 /// Sexpr trait for nodes.
-pub(super) trait Sexpr {
+pub(super) trait SexprInit {
     fn gen_sexpr_init_fns(&self) -> TokenStream;
 }
 
-impl Sexpr for OpcodeNodeCodeGen {
+impl SexprInit for OpcodeNodeCodeGen {
     fn gen_sexpr_init_fns(&self) -> TokenStream {
         if self.fields.is_empty() {
             return quote! {};
@@ -204,7 +204,7 @@ impl FieldType {
     }
 }
 
-impl Sexpr for OpcodeEnumCodeGen {
+impl SexprInit for OpcodeEnumCodeGen {
     fn gen_sexpr_init_fns(&self) -> TokenStream {
         quote! {}
     }

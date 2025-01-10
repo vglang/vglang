@@ -4,7 +4,7 @@ use quote::quote;
 use crate::codegen::{
     opcode::{
         gen_attr_definition, gen_data_definition, gen_el_definition, gen_leaf_definition,
-        gen_opcode_definition, gen_sexpr_mod, gen_variable_mod, Sexpr, TypeDefinition,
+        gen_opcode_definition, gen_sexpr_mod, gen_variable_mod, SexprInit, TypeDefinition,
     },
     CodeGen, EnumCodeGen, FieldAttrs, FieldType, NodeCodeGen,
 };
