@@ -3207,6 +3207,1128 @@ pub mod opcode {
             }
         }
     }
+    impl Default for TextLayout {
+        fn default() -> Self {
+            Self {
+                write_mode: Default::default(),
+                direction: Default::default(),
+                unicode_bidi: Default::default(),
+                anchor: Default::default(),
+                dominant_baseline: Default::default(),
+                alignment_baseline: Default::default(),
+                baseline_shift: Default::default(),
+                decoration: Default::default(),
+                letter_spacing: Default::default(),
+                word_spacing: Default::default(),
+            }
+        }
+    }
+    impl Default for Stroke {
+        fn default() -> Self {
+            Self {
+                paint: Default::default(),
+                width: Default::default(),
+                linecap: Default::default(),
+                linejoin: Default::default(),
+                dasharray: Default::default(),
+                dashoffset: Default::default(),
+            }
+        }
+    }
+    impl Default for Font {
+        fn default() -> Self {
+            Self {
+                family: Default::default(),
+                style: Default::default(),
+                variant: Default::default(),
+                weight: Default::default(),
+                size: Default::default(),
+                stretch: Default::default(),
+            }
+        }
+    }
+    impl Default for Mask {
+        fn default() -> Self {
+            Self {
+                units: Default::default(),
+                content_units: Default::default(),
+                x: Default::default(),
+                y: Default::default(),
+                width: Default::default(),
+                height: Default::default(),
+            }
+        }
+    }
+    impl Default for ClipPath {
+        fn default() -> Self {
+            Self(Default::default())
+        }
+    }
+    impl Default for Filter {
+        fn default() -> Self {
+            Self {
+                units: Default::default(),
+                primitive_units: Default::default(),
+                x: Default::default(),
+                y: Default::default(),
+                width: Default::default(),
+                height: Default::default(),
+                res: Default::default(),
+            }
+        }
+    }
+    impl Default for FeDistantLight {
+        fn default() -> Self {
+            Self {
+                azimuth: Default::default(),
+                elevation: Default::default(),
+            }
+        }
+    }
+    impl Default for FePointLight {
+        fn default() -> Self {
+            Self {
+                x: Default::default(),
+                y: Default::default(),
+                z: Default::default(),
+            }
+        }
+    }
+    impl Default for FeSpotLight {
+        fn default() -> Self {
+            Self {
+                x: Default::default(),
+                y: Default::default(),
+                z: Default::default(),
+                point_at_x: Default::default(),
+                point_at_y: Default::default(),
+                point_at_z: Default::default(),
+                specular_exponent: Default::default(),
+                limiting_cone_angle: Default::default(),
+            }
+        }
+    }
+    impl Default for FeComponentTransfer {
+        fn default() -> Self {
+            Self(Default::default())
+        }
+    }
+    impl Default for LinearGradient {
+        fn default() -> Self {
+            Self {
+                units: Default::default(),
+                transform: Default::default(),
+                x1: Default::default(),
+                y1: Default::default(),
+                x2: Default::default(),
+                y2: Default::default(),
+                spread: Default::default(),
+            }
+        }
+    }
+    impl Default for RadialGradient {
+        fn default() -> Self {
+            Self {
+                unit: Default::default(),
+                transform: Default::default(),
+                cx: Default::default(),
+                cy: Default::default(),
+                r: Default::default(),
+                fx: Default::default(),
+                fy: Default::default(),
+                spread: Default::default(),
+            }
+        }
+    }
+    impl Default for Pattern {
+        fn default() -> Self {
+            Self {
+                units: Default::default(),
+                content_units: Default::default(),
+                transform: Default::default(),
+                x: Default::default(),
+                y: Default::default(),
+                width: Default::default(),
+                height: Default::default(),
+            }
+        }
+    }
+    impl Default for Text {
+        fn default() -> Self {
+            Self {
+                x: Default::default(),
+                y: Default::default(),
+                dx: Default::default(),
+                dy: Default::default(),
+                rotate: Default::default(),
+                text_length: Default::default(),
+                length_adjust: Default::default(),
+            }
+        }
+    }
+    impl Default for TextSpan {
+        fn default() -> Self {
+            Self {
+                x: Default::default(),
+                y: Default::default(),
+                dx: Default::default(),
+                dy: Default::default(),
+                rotate: Default::default(),
+                text_length: Default::default(),
+                length_adjust: Default::default(),
+            }
+        }
+    }
+    impl TextLayout {
+        pub fn from_write_mode<T>(value: T) -> Self
+        where
+            WritingMode: From<T>,
+        {
+            Self {
+                write_mode: Some(value.into()),
+                ..Default::default()
+            }
+        }
+    }
+    impl TextLayout {
+        pub fn from_direction<T>(value: T) -> Self
+        where
+            TextDirection: From<T>,
+        {
+            Self {
+                direction: Some(value.into()),
+                ..Default::default()
+            }
+        }
+    }
+    impl TextLayout {
+        pub fn from_unicode_bidi<T>(value: T) -> Self
+        where
+            UnicodeBidi: From<T>,
+        {
+            Self {
+                unicode_bidi: Some(value.into()),
+                ..Default::default()
+            }
+        }
+    }
+    impl TextLayout {
+        pub fn from_anchor<T>(value: T) -> Self
+        where
+            TextAnchor: From<T>,
+        {
+            Self {
+                anchor: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl TextLayout {
+        pub fn from_dominant_baseline<T>(value: T) -> Self
+        where
+            DominantBaseline: From<T>,
+        {
+            Self {
+                dominant_baseline: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl TextLayout {
+        pub fn from_alignment_baseline<T>(value: T) -> Self
+        where
+            AlignmentBaseline: From<T>,
+        {
+            Self {
+                alignment_baseline: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl TextLayout {
+        pub fn from_baseline_shift<T>(value: T) -> Self
+        where
+            BaselineShift: From<T>,
+        {
+            Self {
+                baseline_shift: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl TextLayout {
+        pub fn from_decoration<T>(value: T) -> Self
+        where
+            TextDecoration: From<T>,
+        {
+            Self {
+                decoration: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl TextLayout {
+        pub fn from_letter_spacing<T>(value: T) -> Self
+        where
+            LetterSpacing: From<T>,
+        {
+            Self {
+                letter_spacing: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl TextLayout {
+        pub fn from_word_spacing<T>(value: T) -> Self
+        where
+            WordSpacing: From<T>,
+        {
+            Self {
+                word_spacing: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Stroke {
+        pub fn from_paint<T>(value: T) -> Self
+        where
+            Paint: From<T>,
+        {
+            Self {
+                paint: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Stroke {
+        pub fn from_width<T>(value: T) -> Self
+        where
+            Length: From<T>,
+        {
+            Self {
+                width: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Stroke {
+        pub fn from_linecap<T>(value: T) -> Self
+        where
+            StrokeLineCap: From<T>,
+        {
+            Self {
+                linecap: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Stroke {
+        pub fn from_linejoin<T>(value: T) -> Self
+        where
+            StrokeLineJoin: From<T>,
+        {
+            Self {
+                linejoin: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Stroke {
+        pub fn from_dasharray<T>(value: T) -> Self
+        where
+            T: super::sexpr::MapCollect<Length>,
+        {
+            Self {
+                dasharray: Some(super::variable::Variable::Constant(value.map_collect())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Stroke {
+        pub fn from_dashoffset<T>(value: T) -> Self
+        where
+            Length: From<T>,
+        {
+            Self {
+                dashoffset: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Font {
+        pub fn from_family<T>(value: T) -> Self
+        where
+            T: super::sexpr::MapCollect<FontFamily>,
+        {
+            Self {
+                family: Some(super::variable::Variable::Constant(value.map_collect())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Font {
+        pub fn from_style<T>(value: T) -> Self
+        where
+            FontStyle: From<T>,
+        {
+            Self {
+                style: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Font {
+        pub fn from_variant<T>(value: T) -> Self
+        where
+            FontVariant: From<T>,
+        {
+            Self {
+                variant: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Font {
+        pub fn from_weight<T>(value: T) -> Self
+        where
+            FontWeight: From<T>,
+        {
+            Self {
+                weight: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Font {
+        pub fn from_size<T>(value: T) -> Self
+        where
+            Length: From<T>,
+        {
+            Self {
+                size: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Font {
+        pub fn from_stretch<T>(value: T) -> Self
+        where
+            FontStretch: From<T>,
+        {
+            Self {
+                stretch: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Mask {
+        pub fn from_units<T>(value: T) -> Self
+        where
+            Coords: From<T>,
+        {
+            Self {
+                units: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Mask {
+        pub fn from_content_units<T>(value: T) -> Self
+        where
+            Coords: From<T>,
+        {
+            Self {
+                content_units: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Mask {
+        pub fn from_x<T>(value: T) -> Self
+        where
+            Length: From<T>,
+        {
+            Self {
+                x: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Mask {
+        pub fn from_y<T>(value: T) -> Self
+        where
+            Length: From<T>,
+        {
+            Self {
+                y: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Mask {
+        pub fn from_width<T>(value: T) -> Self
+        where
+            Length: From<T>,
+        {
+            Self {
+                width: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Mask {
+        pub fn from_height<T>(value: T) -> Self
+        where
+            Length: From<T>,
+        {
+            Self {
+                height: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Filter {
+        pub fn from_units<T>(value: T) -> Self
+        where
+            Coords: From<T>,
+        {
+            Self {
+                units: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Filter {
+        pub fn from_primitive_units<T>(value: T) -> Self
+        where
+            Coords: From<T>,
+        {
+            Self {
+                primitive_units: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Filter {
+        pub fn from_x<T>(value: T) -> Self
+        where
+            Length: From<T>,
+        {
+            Self {
+                x: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Filter {
+        pub fn from_y<T>(value: T) -> Self
+        where
+            Length: From<T>,
+        {
+            Self {
+                y: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Filter {
+        pub fn from_width<T>(value: T) -> Self
+        where
+            Length: From<T>,
+        {
+            Self {
+                width: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Filter {
+        pub fn from_height<T>(value: T) -> Self
+        where
+            Length: From<T>,
+        {
+            Self {
+                height: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Filter {
+        pub fn from_res<T>(value: T) -> Self
+        where
+            NumberOptNumber: From<T>,
+        {
+            Self {
+                res: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl FeDistantLight {
+        pub fn from_azimuth<T>(value: T) -> Self
+        where
+            super::sexpr::Number: From<T>,
+        {
+            Self {
+                azimuth: Some(super::variable::Variable::Constant(
+                    super::sexpr::Number::from(value).0,
+                )),
+                ..Default::default()
+            }
+        }
+    }
+    impl FeDistantLight {
+        pub fn from_elevation<T>(value: T) -> Self
+        where
+            super::sexpr::Number: From<T>,
+        {
+            Self {
+                elevation: Some(super::variable::Variable::Constant(
+                    super::sexpr::Number::from(value).0,
+                )),
+                ..Default::default()
+            }
+        }
+    }
+    impl FePointLight {
+        pub fn from_x<T>(value: T) -> Self
+        where
+            super::sexpr::Number: From<T>,
+        {
+            Self {
+                x: Some(super::variable::Variable::Constant(
+                    super::sexpr::Number::from(value).0,
+                )),
+                ..Default::default()
+            }
+        }
+    }
+    impl FePointLight {
+        pub fn from_y<T>(value: T) -> Self
+        where
+            super::sexpr::Number: From<T>,
+        {
+            Self {
+                y: Some(super::variable::Variable::Constant(
+                    super::sexpr::Number::from(value).0,
+                )),
+                ..Default::default()
+            }
+        }
+    }
+    impl FePointLight {
+        pub fn from_z<T>(value: T) -> Self
+        where
+            super::sexpr::Number: From<T>,
+        {
+            Self {
+                z: Some(super::variable::Variable::Constant(
+                    super::sexpr::Number::from(value).0,
+                )),
+                ..Default::default()
+            }
+        }
+    }
+    impl FeSpotLight {
+        pub fn from_x<T>(value: T) -> Self
+        where
+            super::sexpr::Number: From<T>,
+        {
+            Self {
+                x: Some(super::variable::Variable::Constant(
+                    super::sexpr::Number::from(value).0,
+                )),
+                ..Default::default()
+            }
+        }
+    }
+    impl FeSpotLight {
+        pub fn from_y<T>(value: T) -> Self
+        where
+            super::sexpr::Number: From<T>,
+        {
+            Self {
+                y: Some(super::variable::Variable::Constant(
+                    super::sexpr::Number::from(value).0,
+                )),
+                ..Default::default()
+            }
+        }
+    }
+    impl FeSpotLight {
+        pub fn from_z<T>(value: T) -> Self
+        where
+            super::sexpr::Number: From<T>,
+        {
+            Self {
+                z: Some(super::variable::Variable::Constant(
+                    super::sexpr::Number::from(value).0,
+                )),
+                ..Default::default()
+            }
+        }
+    }
+    impl FeSpotLight {
+        pub fn from_point_at_x<T>(value: T) -> Self
+        where
+            super::sexpr::Number: From<T>,
+        {
+            Self {
+                point_at_x: Some(super::variable::Variable::Constant(
+                    super::sexpr::Number::from(value).0,
+                )),
+                ..Default::default()
+            }
+        }
+    }
+    impl FeSpotLight {
+        pub fn from_point_at_y<T>(value: T) -> Self
+        where
+            super::sexpr::Number: From<T>,
+        {
+            Self {
+                point_at_y: Some(super::variable::Variable::Constant(
+                    super::sexpr::Number::from(value).0,
+                )),
+                ..Default::default()
+            }
+        }
+    }
+    impl FeSpotLight {
+        pub fn from_point_at_z<T>(value: T) -> Self
+        where
+            super::sexpr::Number: From<T>,
+        {
+            Self {
+                point_at_z: Some(super::variable::Variable::Constant(
+                    super::sexpr::Number::from(value).0,
+                )),
+                ..Default::default()
+            }
+        }
+    }
+    impl FeSpotLight {
+        pub fn from_specular_exponent<T>(value: T) -> Self
+        where
+            super::sexpr::Number: From<T>,
+        {
+            Self {
+                specular_exponent: Some(super::variable::Variable::Constant(
+                    super::sexpr::Number::from(value).0,
+                )),
+                ..Default::default()
+            }
+        }
+    }
+    impl FeSpotLight {
+        pub fn from_limiting_cone_angle<T>(value: T) -> Self
+        where
+            super::sexpr::Number: From<T>,
+        {
+            Self {
+                limiting_cone_angle: Some(super::variable::Variable::Constant(
+                    super::sexpr::Number::from(value).0,
+                )),
+                ..Default::default()
+            }
+        }
+    }
+    impl LinearGradient {
+        pub fn from_units<T>(value: T) -> Self
+        where
+            Coords: From<T>,
+        {
+            Self {
+                units: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl LinearGradient {
+        pub fn from_transform<T>(value: T) -> Self
+        where
+            Transform: From<T>,
+        {
+            Self {
+                transform: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl LinearGradient {
+        pub fn from_x1<T>(value: T) -> Self
+        where
+            Length: From<T>,
+        {
+            Self {
+                x1: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl LinearGradient {
+        pub fn from_y1<T>(value: T) -> Self
+        where
+            Length: From<T>,
+        {
+            Self {
+                y1: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl LinearGradient {
+        pub fn from_x2<T>(value: T) -> Self
+        where
+            Length: From<T>,
+        {
+            Self {
+                x2: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl LinearGradient {
+        pub fn from_y2<T>(value: T) -> Self
+        where
+            Length: From<T>,
+        {
+            Self {
+                y2: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl LinearGradient {
+        pub fn from_spread<T>(value: T) -> Self
+        where
+            SpreadMethod: From<T>,
+        {
+            Self {
+                spread: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl RadialGradient {
+        pub fn from_unit<T>(value: T) -> Self
+        where
+            Coords: From<T>,
+        {
+            Self {
+                unit: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl RadialGradient {
+        pub fn from_transform<T>(value: T) -> Self
+        where
+            Transform: From<T>,
+        {
+            Self {
+                transform: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl RadialGradient {
+        pub fn from_cx<T>(value: T) -> Self
+        where
+            Length: From<T>,
+        {
+            Self {
+                cx: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl RadialGradient {
+        pub fn from_cy<T>(value: T) -> Self
+        where
+            Length: From<T>,
+        {
+            Self {
+                cy: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl RadialGradient {
+        pub fn from_r<T>(value: T) -> Self
+        where
+            Length: From<T>,
+        {
+            Self {
+                r: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl RadialGradient {
+        pub fn from_fx<T>(value: T) -> Self
+        where
+            Length: From<T>,
+        {
+            Self {
+                fx: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl RadialGradient {
+        pub fn from_fy<T>(value: T) -> Self
+        where
+            Length: From<T>,
+        {
+            Self {
+                fy: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl RadialGradient {
+        pub fn from_spread<T>(value: T) -> Self
+        where
+            SpreadMethod: From<T>,
+        {
+            Self {
+                spread: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Pattern {
+        pub fn from_units<T>(value: T) -> Self
+        where
+            Coords: From<T>,
+        {
+            Self {
+                units: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Pattern {
+        pub fn from_content_units<T>(value: T) -> Self
+        where
+            Coords: From<T>,
+        {
+            Self {
+                content_units: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Pattern {
+        pub fn from_transform<T>(value: T) -> Self
+        where
+            Transform: From<T>,
+        {
+            Self {
+                transform: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Pattern {
+        pub fn from_x<T>(value: T) -> Self
+        where
+            Length: From<T>,
+        {
+            Self {
+                x: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Pattern {
+        pub fn from_y<T>(value: T) -> Self
+        where
+            Length: From<T>,
+        {
+            Self {
+                y: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Pattern {
+        pub fn from_width<T>(value: T) -> Self
+        where
+            Length: From<T>,
+        {
+            Self {
+                width: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Pattern {
+        pub fn from_height<T>(value: T) -> Self
+        where
+            Length: From<T>,
+        {
+            Self {
+                height: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Text {
+        pub fn from_x<T>(value: T) -> Self
+        where
+            T: super::sexpr::MapCollect<Length>,
+        {
+            Self {
+                x: Some(super::variable::Variable::Constant(value.map_collect())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Text {
+        pub fn from_y<T>(value: T) -> Self
+        where
+            T: super::sexpr::MapCollect<Length>,
+        {
+            Self {
+                y: Some(super::variable::Variable::Constant(value.map_collect())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Text {
+        pub fn from_dx<T>(value: T) -> Self
+        where
+            T: super::sexpr::MapCollect<Length>,
+        {
+            Self {
+                dx: Some(super::variable::Variable::Constant(value.map_collect())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Text {
+        pub fn from_dy<T>(value: T) -> Self
+        where
+            T: super::sexpr::MapCollect<Length>,
+        {
+            Self {
+                dy: Some(super::variable::Variable::Constant(value.map_collect())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Text {
+        pub fn from_rotate<T>(value: T) -> Self
+        where
+            T: super::sexpr::MapCollect<Angle>,
+        {
+            Self {
+                rotate: Some(super::variable::Variable::Constant(value.map_collect())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Text {
+        pub fn from_text_length<T>(value: T) -> Self
+        where
+            T: super::sexpr::MapCollect<Length>,
+        {
+            Self {
+                text_length: Some(super::variable::Variable::Constant(value.map_collect())),
+                ..Default::default()
+            }
+        }
+    }
+    impl Text {
+        pub fn from_length_adjust<T>(value: T) -> Self
+        where
+            TextLengthAdjust: From<T>,
+        {
+            Self {
+                length_adjust: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl TextSpan {
+        pub fn from_x<T>(value: T) -> Self
+        where
+            T: super::sexpr::MapCollect<Length>,
+        {
+            Self {
+                x: Some(super::variable::Variable::Constant(value.map_collect())),
+                ..Default::default()
+            }
+        }
+    }
+    impl TextSpan {
+        pub fn from_y<T>(value: T) -> Self
+        where
+            T: super::sexpr::MapCollect<Length>,
+        {
+            Self {
+                y: Some(super::variable::Variable::Constant(value.map_collect())),
+                ..Default::default()
+            }
+        }
+    }
+    impl TextSpan {
+        pub fn from_dx<T>(value: T) -> Self
+        where
+            T: super::sexpr::MapCollect<Length>,
+        {
+            Self {
+                dx: Some(super::variable::Variable::Constant(value.map_collect())),
+                ..Default::default()
+            }
+        }
+    }
+    impl TextSpan {
+        pub fn from_dy<T>(value: T) -> Self
+        where
+            T: super::sexpr::MapCollect<Length>,
+        {
+            Self {
+                dy: Some(super::variable::Variable::Constant(value.map_collect())),
+                ..Default::default()
+            }
+        }
+    }
+    impl TextSpan {
+        pub fn from_rotate<T>(value: T) -> Self
+        where
+            T: super::sexpr::MapCollect<Angle>,
+        {
+            Self {
+                rotate: Some(super::variable::Variable::Constant(value.map_collect())),
+                ..Default::default()
+            }
+        }
+    }
+    impl TextSpan {
+        pub fn from_text_length<T>(value: T) -> Self
+        where
+            T: super::sexpr::MapCollect<Length>,
+        {
+            Self {
+                text_length: Some(super::variable::Variable::Constant(value.map_collect())),
+                ..Default::default()
+            }
+        }
+    }
+    impl TextSpan {
+        pub fn from_length_adjust<T>(value: T) -> Self
+        where
+            TextLengthAdjust: From<T>,
+        {
+            Self {
+                length_adjust: Some(super::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
 }
 #[doc = r" This mod is automatically generated by `mlang`, please do not modify it manully."]
 pub mod variable {
