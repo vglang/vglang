@@ -16,14 +16,25 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub enum Length {
+        #[doc = " Represents the calculated font-size of the element. If used on the font-size property itself,"]
+        #[doc = " it represents the inherited font-size of the element."]
         Em(f32),
+        #[doc = " Represents the x-height of the element's font. In fonts with the x letter, this is generally"]
+        #[doc = " the height of lowercase letters in the font; 1ex ≈ 0.5em in many fonts."]
         Ex(f32),
+        #[doc = " Pixels"]
         Px(f32),
+        #[doc = " Inches"]
         Inch(f32),
+        #[doc = " Centimeters"]
         Cm(f32),
+        #[doc = " Millimeters"]
         Mm(f32),
+        #[doc = " Points, 1pt = 1/72nd of 1in"]
         Pt(f32),
+        #[doc = " Picas, \t1pc = 1/6th of 1in"]
         Pc(f32),
+        #[doc = " A percentage value"]
         Percent(f32),
     }
     #[doc = " A color represents with read,green and blue components."]
@@ -54,7 +65,9 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub enum Paint {
+        #[doc = " the explicit color to be used to paint the current object"]
         Color(Rgb),
+        #[doc = " A reference to a paint server."]
         Server(FuncIri),
     }
     #[doc = " A pair of `number`s, where the second `number` is optional."]
@@ -67,7 +80,22 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub enum Coords {
+        #[doc = " If gradientUnits=\"userSpaceOnUse\", ‘x1’, ‘y1’, ‘x2’ and ‘y2’ represent values in the coordinate system"]
+        #[doc = " that results from taking the current user coordinate system in place at the time when the gradient element"]
+        #[doc = " is referenced (i.e., the user coordinate system for the element referencing the gradient element via a ‘fill’"]
+        #[doc = " or ‘stroke’ property) and then applying the transform specified by attribute ‘gradientTransform’."]
         UserSpaceOnUse,
+        #[doc = " If gradientUnits=\"objectBoundingBox\", the user coordinate system for attributes ‘x1’, ‘y1’, ‘x2’ and ‘y2’ is"]
+        #[doc = " established using the bounding box of the element to which the gradient is applied (see Object bounding box units)"]
+        #[doc = " and then applying the transform specified by attribute ‘gradientTransform’."]
+        #[doc = " "]
+        #[doc = " When gradientUnits=\"objectBoundingBox\" and ‘gradientTransform’ is the identity matrix, the normal of the linear"]
+        #[doc = " gradient is perpendicular to the gradient vector in object bounding box space (i.e., the abstract coordinate"]
+        #[doc = " system where (0,0) is at the top/left of the object bounding box and (1,1) is at the bottom/right of the object bounding box)."]
+        #[doc = " When the object's bounding box is not square, the gradient normal which is initially perpendicular to the gradient vector"]
+        #[doc = " within object bounding box space may render non-perpendicular relative to the gradient vector in user space. If the gradient"]
+        #[doc = " vector is parallel to one of the axes of the bounding box, the gradient normal will remain perpendicular. This transformation"]
+        #[doc = " is due to application of the non-uniform scaling transformation from bounding box space to user space."]
         ObjectBoundingBox,
     }
     #[doc = " A `transform` matrix type."]
@@ -101,41 +129,52 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub enum PathEvent {
+        #[doc = " Close the current subpath by drawing a straight line from the current point to current subpath's initial point."]
         Close,
+        #[doc = " (absolute) Start a new sub-path at the given (x,y) coordinate."]
         MoveTo(Point),
+        #[doc = " (relative) Start a new sub-path at the given (x,y) coordinate."]
         MoveToRelative(Point),
+        #[doc = " (absolute) Draw a line from the current point to the given (x,y) coordinate which becomes the new current point."]
         LineTo(Point),
+        #[doc = " (relative) Draw a line from the current point to the given (x,y) coordinate which becomes the new current point."]
         LineToRelative(Point),
+        #[doc = " (absolute) Draw a polyline. At the end of the command, the new current point is set to the final set of coordinates provided."]
         Polyline(Vec<Point>),
+        #[doc = " (relative) Draw a polyline. At the end of the command, the new current point is set to the final set of coordinates provided."]
         PolylineRelative(Vec<Point>),
+        #[doc = " (absolute) Draws a cubic Bézier curve from the current point to `to` point,"]
+        #[doc = " using `ctrl1` as the control point at the beginning of the curve and `ctrl2` as the control point at the end of the curve."]
         CubicBezier {
             ctrl1: Point,
             ctrl2: Point,
             to_point: Point,
         },
+        #[doc = " (relative) Draws a cubic Bézier curve from the current point to `to` point,"]
+        #[doc = " using `ctrl1` as the control point at the beginning of the curve and `ctrl2` as the control point at the end of the curve."]
         CubicBezierRelative {
             ctrl1: Point,
             ctrl2: Point,
             to_point: Point,
         },
-        CubicBezierSmooth {
-            ctrl2: Point,
-            to_point: Point,
-        },
-        CubicBezierSmoothRelative {
-            ctrl2: Point,
-            to_point: Point,
-        },
-        QuadraticBezier {
-            ctrl: Point,
-            to_point: Point,
-        },
-        QuadraticBezierRelative {
-            ctrl: Point,
-            to_point: Point,
-        },
+        #[doc = " (smooth) Draws a cubic Bézier curve from the current point to `to` point,"]
+        #[doc = " using `ctrl1` as the control point at the beginning of the curve and `ctrl2` as the control point at the end of the curve."]
+        CubicBezierSmooth { ctrl2: Point, to_point: Point },
+        #[doc = " (smooth, relative)Draws a cubic Bézier curve from the current point to `to` point,"]
+        #[doc = " using `ctrl1` as the control point at the beginning of the curve and `ctrl2` as the control point at the end of the curve."]
+        CubicBezierSmoothRelative { ctrl2: Point, to_point: Point },
+        #[doc = " (absolute) Draws a quadratic Bézier curve from the current point to `to` point using `ctrl` as the control point."]
+        QuadraticBezier { ctrl: Point, to_point: Point },
+        #[doc = " (relative) Draws a quadratic Bézier curve from the current point to `to` point using `ctrl` as the control point."]
+        QuadraticBezierRelative { ctrl: Point, to_point: Point },
+        #[doc = " (smooth) Draws a quadratic Bézier curve from the current point to `to` point using `ctrl` as the control point."]
         QuadraticBezierSmooth(Point),
+        #[doc = " (smooth,relative) Draws a quadratic Bézier curve from the current point to `to` point using `ctrl` as the control point."]
         QuadraticBezierSmoothRelative(Point),
+        #[doc = " Draws an elliptical arc from the current point to `to` point."]
+        #[doc = " "]
+        #[doc = " The center (cx, cy) of the ellipse is calculated automatically to satisfy the constraints"]
+        #[doc = " imposed by the other parameters."]
         Arc {
             rx: f32,
             ry: f32,
@@ -144,6 +183,10 @@ pub mod opcode {
             sweep: bool,
             to_point: Point,
         },
+        #[doc = " (relative) Draws an elliptical arc from the current point to `to` point."]
+        #[doc = " "]
+        #[doc = " The center (cx, cy) of the ellipse is calculated automatically to satisfy the constraints"]
+        #[doc = " imposed by the other parameters."]
         ArcRelative {
             rx: f32,
             ry: f32,
@@ -160,7 +203,15 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub enum FillRule {
+        #[doc = " This rule determines the \"insideness\" of a point on the canvas by drawing a ray from that point to infinity in"]
+        #[doc = " any direction and then examining the places where a segment of the shape crosses the ray. Starting with a count of zero,"]
+        #[doc = " add one each time a path segment crosses the ray from left to right and subtract one each time a path segment crosses"]
+        #[doc = " the ray from right to left. After counting the crossings, if the result is zero then the point is outside the path."]
+        #[doc = " Otherwise, it is inside."]
         Nonzero,
+        #[doc = " This rule determines the \"insideness\" of a point on the canvas by drawing a ray from that point to infinity in any direction"]
+        #[doc = " and counting the number of path segments from the given shape that the ray crosses. If this number is odd, the point is inside;"]
+        #[doc = " if even, the point is outside."]
         EvenOdd,
     }
     #[doc = " Specifies the shape to be used at the end of open subpaths when they are stroked"]
@@ -261,7 +312,16 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub enum Background {
+        #[doc = " A meaning of enable-background: accumulate (the initial/default value) depends on context:"]
+        #[doc = " "]
+        #[doc = " * If an ancestor container element has a property value of enable-background: new, then all"]
+        #[doc = " graphics elements within the current container element are rendered both onto the parent container"]
+        #[doc = " element's background image canvas and onto the target device."]
+        #[doc = " "]
+        #[doc = " * Otherwise, there is no current background image canvas, so it is only necessary to render graphics"]
+        #[doc = " elements onto the target device. (No need to render to the background image canvas.)"]
         Accumulate,
+        #[doc = " Indicate the subregion of the container element's user space where access to the background image is allowed to happen."]
         New {
             x: Option<f32>,
             y: Option<f32>,
@@ -281,12 +341,35 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub enum FeIn {
+        #[doc = " This keyword represents the graphics elements that were the original input into the ‘filter’ element."]
+        #[doc = " For raster effects filter primitives, the graphics elements will be rasterized into an initially clear"]
+        #[doc = " RGBA raster in image space. Pixels left untouched by the original graphic will be left clear. The image"]
+        #[doc = " is specified to be rendered in linear RGBA pixels. The alpha channel of this image captures any"]
+        #[doc = " anti-aliasing specified by SVG. (Since the raster is linear, the alpha channel of this image will"]
+        #[doc = " represent the exact percent coverage of each pixel.)"]
         SourceGraphic,
+        #[doc = " This keyword represents the graphics elements that were the original input into the ‘filter’ element."]
+        #[doc = " SourceAlpha has all of the same rules as SourceGraphic except that only the alpha channel is used."]
+        #[doc = " The input image is an RGBA image consisting of implicitly black color values for the RGB channels,"]
+        #[doc = " but whose alpha channel is the same as SourceGraphic. If this option is used, then some implementations"]
+        #[doc = " might need to rasterize the graphics elements in order to extract the alpha channel."]
         SourceAlpha,
+        #[doc = " This keyword represents an image snapshot of the canvas under the filter region at the time that the"]
+        #[doc = " ‘filter’ element was invoked."]
         BackgroundImage,
+        #[doc = " Same as BackgroundImage except only the alpha channel is used. See SourceAlpha and Accessing the background image."]
         BackgroundAlpha,
+        #[doc = " This keyword represents the value of the ‘fill’ property on the target element for the filter effect."]
+        #[doc = " The FillPaint image has conceptually infinite extent. Frequently this image is opaque everywhere,"]
+        #[doc = " but it might not be if the \"paint\" itself has alpha, as in the case of a gradient or pattern which"]
+        #[doc = " itself includes transparent or semi-transparent parts."]
         FillPaint,
+        #[doc = " This keyword represents the value of the ‘stroke’ property on the target element for the filter effect."]
+        #[doc = " The StrokePaint image has conceptually infinite extent. Frequently this image is opaque everywhere,"]
+        #[doc = " but it might not be if the \"paint\" itself has alpha, as in the case of a gradient or pattern which"]
+        #[doc = " itself includes transparent or semi-transparent parts."]
         StrokePaint,
+        #[doc = " Reference to another filter-primitive result ."]
         Result(String),
     }
     #[doc = " Assign output to a named register. otherwise the filter output will only be referenced by next filter primitive."]
@@ -306,16 +389,24 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub enum FeBlendMode {
+        #[doc = " cr = (1 - qa) * cb + ca"]
         Normal,
+        #[doc = " cr = (1-qa)*cb + (1-qb)*ca + ca*cb"]
         Multiply,
+        #[doc = " cr = cb + ca - ca * cb"]
         Screen,
+        #[doc = " cr = Min ((1 - qa) * cb + ca, (1 - qb) * ca + cb)"]
         Darken,
+        #[doc = " cr = Max ((1 - qa) * cb + ca, (1 - qb) * ca + cb)"]
         Lighten,
     }
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub enum TextLengthAdjust {
+        #[doc = " 'spacing' indicates that only the advance values are adjusted. The glyphs themselves are not stretched or compressed."]
         Spacing,
+        #[doc = " 'spacingAndGlyphs' indicates that the advance values are adjusted and the glyphs themselves stretched or compressed"]
+        #[doc = " in one axis (i.e., a direction parallel to the inline-progression-direction)."]
         SpacingAndGlyphs,
     }
     #[doc = " The ‘writing-mode’ property specifies whether the initial inline-progression-direction for a ‘text’ element shall be"]
@@ -326,11 +417,24 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub enum WritingMode {
+        #[doc = " Sets the initial inline-progression-direction to left-to-right, as is common in most Latin-based documents."]
+        #[doc = " For most characters, the current text position is advanced from left to right after each glyph is rendered."]
+        #[doc = " (When the character data includes characters which are subject to the Unicode bidirectional algorithm, the text"]
+        #[doc = " advance rules are more complex. See Relationship with bidirectionality)."]
         LrTb,
+        #[doc = " Sets the initial inline-progression-direction to right-to-left, as is common in Arabic or Hebrew scripts."]
+        #[doc = " (See Relationship with bidirectionality.)"]
         RlTb,
+        #[doc = " Sets the initial inline-progression-direction to top-to-bottom, as is common in some Asian scripts,"]
+        #[doc = " such as Chinese and Japanese. Though hardly as frequent as horizontal, this type of vertical layout also occurs"]
+        #[doc = " in Latin based documents, particularly in table column or row labels. In most cases, the vertical baselines"]
+        #[doc = " running through the middle of each glyph are aligned."]
         TbRl,
+        #[doc = " See [`LrTb`](WritingMode::LrTb)"]
         Lr,
+        #[doc = " See [`RlTb`](WritingMode::RlTb)"]
         Rl,
+        #[doc = " See [`TbRl`](WritingMode::TbRl)"]
         Tb,
     }
     #[doc = " Within text content elements, the alignment of text with regards to the ‘text-anchor’ property is determined by"]
@@ -370,41 +474,122 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub enum TextAnchor {
+        #[doc = " The rendered characters are aligned such that the start of the resulting rendered text is at the initial current text position."]
+        #[doc = " For an element with a ‘direction’ property value of \"ltr\" (typical for most European languages), the left side of the text is"]
+        #[doc = " rendered at the initial text position. For an element with a ‘direction’ property value of \"rtl\" (typical for Arabic and Hebrew),"]
+        #[doc = " the right side of the text is rendered at the initial text position. For an element with a vertical primary text direction"]
+        #[doc = " (often typical for Asian text), the top side of the text is rendered at the initial text position."]
         Start,
+        #[doc = " The rendered characters are aligned such that the geometric middle of the resulting rendered text is at the initial"]
+        #[doc = " current text position."]
         Middle,
+        #[doc = " The rendered characters are aligned such that the end of the resulting rendered text is at the initial current text position."]
+        #[doc = " For an element with a ‘direction’ property value of \"ltr\" (typical for most European languages), the right side of the text is"]
+        #[doc = " rendered at the initial text position. For an element with a ‘direction’ property value of \"rtl\" (typical for Arabic and Hebrew),"]
+        #[doc = " the left side of the text is rendered at the initial text position. For an element with a vertical primary text direction (often"]
+        #[doc = " typical for Asian text), the bottom of the text is rendered at the initial text position."]
         End,
     }
     #[doc = " See [`baseline`](https://www.w3.org/TR/SVG11/text.html#BaselineAlignmentProperties)"]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub enum DominantBaseline {
+        #[doc = " If this property occurs on a ‘text’ element, then the computed value depends on the value of the ‘writing-mode’ property."]
+        #[doc = " If the 'writing-mode' is horizontal, then the value of the dominant-baseline component is 'alphabetic', else if the"]
+        #[doc = " 'writing-mode' is vertical, then the value of the dominant-baseline component is 'central'."]
+        #[doc = " "]
+        #[doc = " If this property occurs on a ‘tspan’, ‘tref’, ‘altGlyph’ or ‘textPath’ element, then the dominant-baseline and the"]
+        #[doc = " baseline-table components remain the same as those of the parent text content element. If the computed ‘baseline-shift’"]
+        #[doc = " value actually shifts the baseline, then the baseline-table font-size component is set to the value of the ‘font-size’"]
+        #[doc = " property on the element on which the ‘dominant-baseline’ property occurs, otherwise the baseline-table font-size remains"]
+        #[doc = " the same as that of the element. If there is no parent text content element, the scaled-baseline-table value is"]
+        #[doc = " constructed as above for ‘text’ elements."]
         Auto,
+        #[doc = " The dominant-baseline and the baseline-table components are set by determining the predominant script of the character"]
+        #[doc = " data content. The ‘writing-mode’, whether horizontal or vertical, is used to select the appropriate set of baseline-tables"]
+        #[doc = " and the dominant baseline is used to select the baseline-table that corresponds to that baseline. The baseline-table"]
+        #[doc = " font-size component is set to the value of the ‘font-size’ property on the element on which the ‘dominant-baseline’ property"]
+        #[doc = " occurs."]
         UseScript,
+        #[doc = " The dominant-baseline, the baseline-table, and the baseline-table font-size remain the same as that of the parent text"]
+        #[doc = " content element."]
         NoChange,
+        #[doc = " The dominant-baseline and the baseline-table remain the same, but the baseline-table font-size is changed to the value"]
+        #[doc = " of the ‘font-size’ property on this element. This re-scales the baseline-table for the current ‘font-size’."]
         ResetSize,
+        #[doc = " The baseline-identifier for the dominant-baseline is set to be 'ideographic', the derived baseline-table is constructed"]
+        #[doc = " using the 'ideographic' baseline-table in the nominal font, and the baseline-table font-size is changed to the value of"]
+        #[doc = " the ‘font-size’ property on this element."]
         Ideographic,
+        #[doc = " The baseline-identifier for the dominant-baseline is set to be 'alphabetic', the derived baseline-table is constructed"]
+        #[doc = " using the 'alphabetic' baseline-table in the nominal font, and the baseline-table font-size is changed to the value of"]
+        #[doc = " the ‘font-size’ property on this element."]
         Alphabetic,
+        #[doc = " The baseline-identifier for the dominant-baseline is set to be 'hanging', the derived baseline-table is constructed using"]
+        #[doc = " the 'hanging' baseline-table in the nominal font, and the baseline-table font-size is changed to the value of the"]
+        #[doc = " ‘font-size’ property on this element."]
         Hanging,
+        #[doc = " The baseline-identifier for the dominant-baseline is set to be 'mathematical', the derived baseline-table is constructed"]
+        #[doc = " using the 'mathematical' baseline-table in the nominal font, and the baseline-table font-size is changed to the value of"]
+        #[doc = " the ‘font-size’ property on this element."]
         Mathematical,
+        #[doc = " The baseline-identifier for the dominant-baseline is set to be 'central'. The derived baseline-table is constructed from"]
+        #[doc = " the defined baselines in a baseline-table in the nominal font. That font baseline-table is chosen using the following"]
+        #[doc = " priority order of baseline-table names: 'ideographic', 'alphabetic', 'hanging', 'mathematical'. The baseline-table font-size"]
+        #[doc = " is changed to the value of the ‘font-size’ property on this element."]
         Central,
+        #[doc = " The baseline-identifier for the dominant-baseline is set to be 'middle'. The derived baseline-table is constructed from"]
+        #[doc = " the defined baselines in a baseline-table in the nominal font. That font baseline -table is chosen using the following"]
+        #[doc = " priority order of baseline-table names: 'alphabetic', 'ideographic', 'hanging', 'mathematical'. The baseline-table"]
+        #[doc = " font-size is changed to the value of the ‘font-size’ property on this element."]
         Middle,
+        #[doc = " The baseline-identifier for the dominant-baseline is set to be 'text-after-edge'. The derived baseline-table is constructed"]
+        #[doc = " from the defined baselines in a baseline-table in the nominal font. The choice of which font baseline-table to use from the"]
+        #[doc = " baseline-tables in the nominal font is implementation defined. The baseline-table font-size is changed to the value of the"]
+        #[doc = " ‘font-size’ property on this element."]
+        #[doc = " "]
+        #[doc = " NOTE: using the following priority order of baseline-table names: 'alphabetic', 'ideographic', 'hanging', 'mathematical'"]
+        #[doc = " is probably a reasonable strategy for determining which font baseline-table to use."]
         TextAfterEdge,
+        #[doc = " The baseline-identifier for the dominant-baseline is set to be 'text-before-edge'. The derived baseline-table is constructed"]
+        #[doc = " from the defined baselines in a baseline-table in the nominal font. The choice of which baseline-table to use from the"]
+        #[doc = " baseline-tables in the nominal font is implementation defined. The baseline-table font-size is changed to the value of the"]
+        #[doc = " ‘font-size’ property on this element."]
+        #[doc = " "]
+        #[doc = " NOTE: Using the following priority order of baseline-table names: 'alphabetic', 'ideographic', 'hanging', 'mathematical'"]
+        #[doc = " is probably a reasonable strategy for determining which font baseline-table to use."]
         TextBeforeEdge,
     }
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub enum AlignmentBaseline {
+        #[doc = " The value is the dominant-baseline of the script to which the character belongs - i.e.,"]
+        #[doc = " use the dominant-baseline of the parent."]
         Auto,
+        #[doc = " The alignment-point of the object being aligned is aligned with the dominant-baseline of"]
+        #[doc = " the parent text content element."]
         Baseline,
+        #[doc = " The alignment-point of the object being aligned is aligned with the \"before-edge\" baseline of"]
+        #[doc = " the parent text content element."]
         BeforeEdge,
+        #[doc = " The alignment-point of the object being aligned is aligned with the \"text-before-edge\" baseline of"]
+        #[doc = " the parent text content element."]
         TextBeforeEdge,
+        #[doc = " The alignment-point of the object being aligned is aligned with the \"middle\" baseline of the parent text content element."]
         Middle,
+        #[doc = " The alignment-point of the object being aligned is aligned with the \"central\" baseline of the parent text content element."]
         Central,
+        #[doc = " The alignment-point of the object being aligned is aligned with the \"after-edge\" baseline of the parent text content element."]
         AfterEdge,
+        #[doc = " The alignment-point of the object being aligned is aligned with the \"text-after-edge\" baseline of the parent text content element."]
         TextAfterEdge,
+        #[doc = " The alignment-point of the object being aligned is aligned with the \"ideographic\" baseline of the parent text content element."]
         Ideographic,
+        #[doc = " The alignment-point of the object being aligned is aligned with the \"alphabetic\" baseline of the parent text content element."]
         Alphabetic,
+        #[doc = " The alignment-point of the object being aligned is aligned with the \"hanging\" baseline of the parent text content element."]
         Hanging,
+        #[doc = " The alignment-point of the object being aligned is aligned with the \"mathematical\" baseline of the parent text content element."]
         Mathematical,
     }
     #[doc = " The ‘baseline-shift’ property allows repositioning of the dominant-baseline relative to the dominant-baseline of"]
@@ -415,9 +600,29 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub enum BaselineShift {
+        #[doc = " There is no baseline shift; the dominant-baseline remains in its original position."]
         Baseline,
+        #[doc = " The dominant-baseline is shifted to the default position for subscripts. The offset to this position"]
+        #[doc = " is determined using the font data for the nominal font. Because in most fonts the subscript position"]
+        #[doc = " is normally given relative to the \"alphabetic\" baseline, the user agent may compute the effective"]
+        #[doc = " position for subscripts for superscripts when some other baseline is dominant. The suggested computation"]
+        #[doc = " is to subtract the difference between the position of the dominant baseline and the position of the"]
+        #[doc = " \"alphabetic\" baseline from the position of the subscript. The resulting offset is determined by multiplying"]
+        #[doc = " the effective subscript position by the dominant baseline-table font-size. If there is no applicable font"]
+        #[doc = " data the user agent may use heuristics to determine the offset."]
         Sub,
+        #[doc = " The dominant-baseline is shifted to the default position for superscripts. The offset to this position is"]
+        #[doc = " determined using the font data for the nominal font. Because in most fonts the superscript position is normally"]
+        #[doc = " given relative to the \"alphabetic\" baseline, the user agent may compute the effective position for superscripts"]
+        #[doc = " when some other baseline is dominant. The suggested computation is to subtract the difference between the"]
+        #[doc = " position of the dominant baseline and the position of the \"alphabetic\" baseline from the position of the"]
+        #[doc = " superscript. The resulting offset is determined by multiplying the effective superscript position by the dominant"]
+        #[doc = " baseline-table font-size. If there is no applicable font data the user agent may use heuristics to determine the"]
+        #[doc = " offset."]
         Super,
+        #[doc = " The computed value of the property is this percentage multiplied by the computed \"line-height\" of the ‘text’ element."]
+        #[doc = " The dominant-baseline is shifted in the shift direction (positive value) or opposite to the shift direction"]
+        #[doc = " (negative value) of the parent text content element by the computed value. A value of \"0\" is equivalent to \"baseline\"."]
         Value(Length),
     }
     #[doc = " This property describes decorations that are added to the text of an element."]
@@ -500,14 +705,50 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub enum PreserveAspectRatio {
+        #[doc = " Force uniform scaling"]
+        #[doc = " "]
+        #[doc = " Align the `<min-x>` of the element's ‘viewBox’ with the smallest X value of the viewport."]
+        #[doc = " Align the `<min-y>` of the element's ‘viewBox’ with the smallest Y value of the viewport."]
         XMinYMin(MeetOrSlice),
+        #[doc = " Force uniform scaling."]
+        #[doc = " "]
+        #[doc = " Align the midpoint X value of the element's ‘viewBox’ with the midpoint X value of the viewport."]
+        #[doc = " Align the `<min-y>` of the element's ‘viewBox’ with the smallest Y value of the viewport."]
         XMidYMin(MeetOrSlice),
+        #[doc = " Force uniform scaling."]
+        #[doc = " "]
+        #[doc = " Align the `<min-x>`+`<width>` of the element's ‘viewBox’ with the maximum X value of the viewport."]
+        #[doc = " Align the `<min-y>` of the element's ‘viewBox’ with the smallest Y value of the viewport."]
         XMaxYMin(MeetOrSlice),
+        #[doc = " Force uniform scaling."]
+        #[doc = " "]
+        #[doc = " Align the `<min-x>` of the element's ‘viewBox’ with the smallest X value of the viewport."]
+        #[doc = " Align the midpoint Y value of the element's ‘viewBox’ with the midpoint Y value of the viewport."]
         XMinYMid(MeetOrSlice),
+        #[doc = " Force uniform scaling(the default)."]
+        #[doc = " "]
+        #[doc = " Align the midpoint X value of the element's ‘viewBox’ with the midpoint X value of the viewport."]
+        #[doc = " Align the midpoint Y value of the element's ‘viewBox’ with the midpoint Y value of the viewport."]
         XMidYMid(MeetOrSlice),
+        #[doc = " Force uniform scaling."]
+        #[doc = " "]
+        #[doc = " Align the `<min-x>`+`<width>` of the element's ‘viewBox’ with the maximum X value of the viewport."]
+        #[doc = " Align the midpoint Y value of the element's ‘viewBox’ with the midpoint Y value of the viewport."]
         XMaxYMid(MeetOrSlice),
+        #[doc = " Force uniform scaling."]
+        #[doc = " "]
+        #[doc = " Align the `<min-x>` of the element's ‘viewBox’ with the smallest X value of the viewport."]
+        #[doc = " Align the `<min-y>`+`<height>` of the element's ‘viewBox’ with the maximum Y value of the viewport."]
         XMinYMax(MeetOrSlice),
+        #[doc = " Force uniform scaling."]
+        #[doc = " "]
+        #[doc = " Align the midpoint X value of the element's ‘viewBox’ with the midpoint X value of the viewport."]
+        #[doc = " Align the `<min-y>`+`<height>` of the element's ‘viewBox’ with the maximum Y value of the viewport."]
         XMidYMax(MeetOrSlice),
+        #[doc = " Force uniform scaling."]
+        #[doc = " "]
+        #[doc = " Align the `<min-x>`+`<width>` of the element's ‘viewBox’ with the maximum X value of the viewport."]
+        #[doc = " Align the `<min-y>`+`<height>` of the element's ‘viewBox’ with the maximum Y value of the viewport."]
         XMaxYMax(MeetOrSlice),
     }
     #[doc = " support for various international writing directions, such as left-to-right (e.g., Latin scripts) and"]
@@ -515,15 +756,25 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct TextLayout {
+        #[doc = " See [`WritingMode`]"]
         pub write_mode: Option<WritingMode>,
+        #[doc = " See [`TextDirection`]"]
         pub direction: Option<TextDirection>,
+        #[doc = " See [`UnicodeBidi`]"]
         pub unicode_bidi: Option<UnicodeBidi>,
+        #[doc = " See [`TextAnchor`]"]
         pub anchor: Option<variable::Variable<TextAnchor>>,
+        #[doc = " See [`DominantBaseline`]"]
         pub dominant_baseline: Option<variable::Variable<DominantBaseline>>,
+        #[doc = " See [`AlignmentBaseline`]"]
         pub alignment_baseline: Option<variable::Variable<AlignmentBaseline>>,
+        #[doc = " See [`BaselineShift`]"]
         pub baseline_shift: Option<variable::Variable<BaselineShift>>,
+        #[doc = " See [`TextDecoration`]"]
         pub decoration: Option<variable::Variable<TextDecoration>>,
+        #[doc = " See [`LetterSpacing`]"]
         pub letter_spacing: Option<variable::Variable<LetterSpacing>>,
+        #[doc = " See [`WordSpacing`]"]
         pub word_spacing: Option<variable::Variable<WordSpacing>>,
     }
     #[doc = " support for various international writing directions, such as left-to-right (e.g., Latin scripts) and"]
@@ -539,30 +790,65 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct Fill {
+        #[doc = " paints color."]
+        #[doc = " "]
+        #[doc = " `Inherited: yes`"]
         pub paint: Paint,
+        #[doc = " fill painting rule, see [`FillRule`] for more information."]
+        #[doc = " "]
+        #[doc = " `Inherited: yes`"]
         pub rule: FillRule,
+        #[doc = " defining the opacity of the paint server"]
         pub opacity: f32,
     }
     #[doc = " This property affect how an element is stroked."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct Stroke {
+        #[doc = " paints color paints along the outline of the given graphical element."]
+        #[doc = " "]
+        #[doc = " `Inherited: yes`"]
         pub paint: Option<variable::Variable<Paint>>,
+        #[doc = " This property specifies the width of the stroke on the current object"]
+        #[doc = " "]
+        #[doc = " `Inherited: yes`"]
         pub width: Option<variable::Variable<Length>>,
+        #[doc = " specifies the shape to be used at the end of open subpaths when they are stroked."]
+        #[doc = " "]
+        #[doc = " `Inherited: yes`"]
         pub linecap: Option<variable::Variable<StrokeLineCap>>,
+        #[doc = " specifies the shape to be used at the corners of paths or basic shapes when they are stroked."]
+        #[doc = " "]
+        #[doc = " `Inherited: yes`"]
         pub linejoin: Option<variable::Variable<StrokeLineJoin>>,
+        #[doc = " controls the pattern of dashes and gaps used to stroke paths. `<dasharray>` contains a list of comma and/or"]
+        #[doc = " white space separated `<length>s` and `<percentage>s` that specify the lengths of alternating dashes and gaps."]
+        #[doc = " If an odd number of values is provided, then the list of values is repeated to yield an even number of values."]
+        #[doc = " Thus, stroke-dasharray: 5,3,2 is equivalent to stroke-dasharray: 5,3,2,5,3,2."]
+        #[doc = " "]
+        #[doc = " `Inherited: yes`"]
         pub dasharray: Option<variable::Variable<Vec<Length>>>,
+        #[doc = " specifies the distance into the dash pattern to start the dash"]
+        #[doc = " "]
+        #[doc = " `Inherited: yes`"]
         pub dashoffset: Option<variable::Variable<Length>>,
     }
     #[doc = " Shorthand property for setting ‘font-style’, ‘font-variant’, ‘font-weight’, ‘font-size’, ‘line-height’ and ‘font-family’."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct Font {
+        #[doc = " See [`FontFamily`]"]
         pub family: Option<variable::Variable<Vec<FontFamily>>>,
+        #[doc = " See [`FontStyle`]"]
         pub style: Option<variable::Variable<FontStyle>>,
+        #[doc = " See [`FontVariant`]"]
         pub variant: Option<variable::Variable<FontVariant>>,
+        #[doc = " See [`FontWeight`]"]
         pub weight: Option<variable::Variable<FontWeight>>,
+        #[doc = " This property refers to the size of the font from baseline to baseline when multiple lines of"]
+        #[doc = " text are set solid in a multiline layout environment."]
         pub size: Option<variable::Variable<Length>>,
+        #[doc = " See [`FontStretch`]"]
         pub stretch: Option<variable::Variable<FontStretch>>,
     }
     #[doc = " enables access to the background image"]
@@ -590,47 +876,164 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct ViewBox {
+        #[doc = " ViewBox left-top x coordinate,"]
         pub minx: variable::Variable<f32>,
+        #[doc = " ViewBox left-top y coordinate,"]
         pub miny: variable::Variable<f32>,
+        #[doc = " ViewBox width dimension."]
         pub width: variable::Variable<f32>,
+        #[doc = " ViewBox height dimension."]
         pub height: variable::Variable<f32>,
+        #[doc = " clip preserve aspect ratio."]
         pub aspect: Option<variable::Variable<PreserveAspectRatio>>,
     }
     #[doc = " Create a new layer into which the backend render child elements."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct Canvas {
+        #[doc = " a number (usually an integer) that represents the width of the rendering layer."]
         pub width: variable::Variable<Length>,
+        #[doc = " a number (usually an integer) that represents the height of the rendering layer."]
         pub height: variable::Variable<Length>,
     }
     #[doc = " used as an alpha mask for compositing the current object into the background."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct Mask {
+        #[doc = " Defines the coordinate system for attributes ‘x’, ‘y’, ‘width’ and ‘height’."]
+        #[doc = " "]
+        #[doc = " If maskUnits=\"userSpaceOnUse\", ‘x’, ‘y’, ‘width’ and ‘height’ represent values in the current user coordinate system"]
+        #[doc = " in place at the time when the ‘mask’ element is referenced (i.e., the user coordinate system for the element"]
+        #[doc = " referencing the ‘mask’ element via the ‘mask’ property)."]
+        #[doc = " "]
+        #[doc = " If maskUnits=\"objectBoundingBox\", ‘x’, ‘y’, ‘width’ and ‘height’ represent fractions or percentages of the bounding box"]
+        #[doc = " of the element to which the mask is applied. (See Object bounding box units.)"]
+        #[doc = " "]
+        #[doc = " If attribute ‘maskUnits’ is not specified, then the effect is as if a value of 'objectBoundingBox' were specified."]
         pub units: Option<variable::Variable<Coords>>,
+        #[doc = " Defines the coordinate system for the contents of the ‘mask’."]
+        #[doc = " "]
+        #[doc = " If maskContentUnits=\"userSpaceOnUse\", the user coordinate system for the contents of the ‘mask’ element is the current user"]
+        #[doc = " coordinate system in place at the time when the ‘mask’ element is referenced (i.e., the user coordinate system for the element"]
+        #[doc = " referencing the ‘mask’ element via the ‘mask’ property)."]
+        #[doc = " "]
+        #[doc = " If maskContentUnits=\"objectBoundingBox\", the user coordinate system for the contents of the ‘mask’ is established using the"]
+        #[doc = " bounding box of the element to which the mask is applied. (See Object bounding box units.)"]
+        #[doc = " "]
+        #[doc = " If attribute ‘maskContentUnits’ is not specified, then the effect is as if a value of 'userSpaceOnUse' were specified."]
         pub content_units: Option<variable::Variable<Coords>>,
+        #[doc = " The x-axis coordinate of one corner of the rectangle for the largest possible offscreen buffer. Note that the clipping"]
+        #[doc = " path used to render any graphics within the mask will consist of the intersection of the current clipping path"]
+        #[doc = " associated with the given object and the rectangle defined by ‘x’, ‘y’, ‘width’ and ‘height’."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, the effect is as if a value of '-10%' were specified."]
         pub x: Option<variable::Variable<Length>>,
+        #[doc = " The y-axis coordinate of one corner of the rectangle for the largest possible offscreen buffer."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, the effect is as if a value of '-10%' were specified."]
         pub y: Option<variable::Variable<Length>>,
+        #[doc = " The width of the largest possible offscreen buffer. Note that the clipping path used to render any graphics within the"]
+        #[doc = " mask will consist of the intersection of the current clipping path associated with the given object and the rectangle"]
+        #[doc = " defined by ‘x’, ‘y’, ‘width’ and ‘height’."]
+        #[doc = " "]
+        #[doc = " A negative value is an error (see Error processing). A value of zero disables rendering of the element."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, the effect is as if a value of '120%' were specified."]
         pub width: Option<variable::Variable<Length>>,
+        #[doc = " The height of the largest possible offscreen buffer."]
+        #[doc = " "]
+        #[doc = " A negative value is an error (see Error processing). A value of zero disables rendering of the element."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, the effect is as if a value of '120%' were specified."]
         pub height: Option<variable::Variable<Length>>,
     }
     #[doc = " A clipping path is defined with a ‘clipPath’ element."]
     #[doc = " A clipping path is used/referenced using the ‘clip-path’ property."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-    pub struct ClipPath(pub Option<variable::Variable<Coords>>);
+    pub struct ClipPath(
+        #[doc = " Defines the coordinate system for the contents of the ‘clipPath’."]
+        #[doc = " "]
+        #[doc = " If clipPathUnits=\"userSpaceOnUse\", the contents of the ‘clipPath’ represent values in the current user coordinate"]
+        #[doc = " system in place at the time when the ‘clipPath’ element is referenced (i.e., the user coordinate system for the"]
+        #[doc = " element referencing the ‘clipPath’ element via the ‘clip-path’ property)."]
+        #[doc = " "]
+        #[doc = " If clipPathUnits=\"objectBoundingBox\", then the user coordinate system for the contents of the ‘clipPath’ element"]
+        #[doc = " is established using the bounding box of the element to which the clipping path is applied (see Object bounding"]
+        #[doc = " box units)."]
+        #[doc = " "]
+        #[doc = " If attribute ‘clipPathUnits’ is not specified, then the effect is as if a value of 'userSpaceOnUse' were specified."]
+        pub Option<variable::Variable<Coords>>,
+    );
     #[doc = " A filter effect consists of a series of graphics operations that are applied to a given source graphic to"]
     #[doc = " produce a modified graphical result. The result of the filter effect is rendered to the target device"]
     #[doc = " instead of the original source graphic. The following illustrates the process:"]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct Filter {
+        #[doc = " Defines the coordinate system for attributes ‘x’, ‘y’, ‘width’ and ‘height’."]
+        #[doc = " "]
+        #[doc = " If units=\"userSpaceOnUse\", ‘x’, ‘y’, ‘width’ and ‘height’ represent values in the current user"]
+        #[doc = " coordinate system in place at the time when the ‘filter’ is referenced (i.e., the user coordinate system"]
+        #[doc = " for the element referencing the ‘filter’ via a ‘filter’ property)."]
+        #[doc = " "]
+        #[doc = " If units=\"objectBoundingBox\", then ‘x’, ‘y’, ‘width’ and ‘height’ represent fractions or percentages"]
+        #[doc = " of the bounding box on the referencing element (see Object bounding box units)."]
+        #[doc = " "]
+        #[doc = " If attribute units is not specified, then the effect is if a value of 'objectBoundingBox' were"]
+        #[doc = " specified."]
         pub units: Option<variable::Variable<Coords>>,
+        #[doc = " Specifies the coordinate system for the various length values within the filter primitives and for the"]
+        #[doc = " attributes that define the filter primitive subregion."]
+        #[doc = " "]
+        #[doc = " If primitive_units=\"userSpaceOnUse\", any length values within the filter definitions represent values in"]
+        #[doc = " the current user coordinate system in place at the time when the ‘filter’ element is referenced (i.e.,"]
+        #[doc = " the user coordinate system for the element referencing the ‘filter’ element via a ‘filter’ property)."]
+        #[doc = " "]
+        #[doc = " If primitive_units=\"objectBoundingBox\", then any length values within the filter definitions represent"]
+        #[doc = " fractions or percentages of the bounding box on the referencing element (see Object bounding box units)."]
+        #[doc = " Note that if only one number was specified in a `number-optional-number` value this number is expanded out"]
+        #[doc = " before the ‘primitiveUnits’ computation takes place."]
+        #[doc = " "]
+        #[doc = " If attribute primitive_units is not specified, then the effect is as if a value of userSpaceOnUse were specified."]
         pub primitive_units: Option<variable::Variable<Coords>>,
+        #[doc = " These attributes define a rectangular region on the canvas to which this filter applies."]
+        #[doc = " "]
+        #[doc = " The amount of memory and processing time required to apply the filter are related to the size of this rectangle"]
+        #[doc = " and the ‘filterRes’ attribute of the filter."]
+        #[doc = " "]
+        #[doc = " The coordinate system for these attributes depends on the value for attribute ‘filterUnits’."]
+        #[doc = " "]
+        #[doc = " Negative values for ‘width’ or ‘height’ are an error (see Error processing). Zero values disable rendering of the"]
+        #[doc = " element which referenced the filter."]
+        #[doc = " "]
+        #[doc = " The bounds of this rectangle act as a hard clipping region for each filter primitive included with a given ‘filter’"]
+        #[doc = " element; thus, if the effect of a given filter primitive would extend beyond the bounds of the rectangle (this"]
+        #[doc = " sometimes happens when using a ‘feGaussianBlur’ filter primitive with a very large ‘stdDeviation’), parts of the"]
+        #[doc = " effect will get clipped."]
+        #[doc = " "]
+        #[doc = " If ‘x’ or ‘y’ is not specified, the effect is as if a value of -10% were specified."]
+        #[doc = " "]
+        #[doc = " If ‘width’ or ‘height’ is not specified, the effect is as if a value of 120% were specified."]
         pub x: Option<variable::Variable<Length>>,
+        #[doc = " See [`x`](Self::x)"]
         pub y: Option<variable::Variable<Length>>,
+        #[doc = " See [`x`](Self::x)"]
         pub width: Option<variable::Variable<Length>>,
+        #[doc = " See [`x`](Self::x)"]
         pub height: Option<variable::Variable<Length>>,
+        #[doc = " This attribute takes the form x-pixels [y-pixels], and indicates the width and height of the"]
+        #[doc = " intermediate images in pixels. If not provided, then the user agent will use reasonable values"]
+        #[doc = " to produce a high-quality result on the output device."]
+        #[doc = " "]
+        #[doc = " Care should be taken when assigning a non-default value to this attribute. Too small of a value"]
+        #[doc = " may result in unwanted pixelation in the result. Too large of a value may result in slow"]
+        #[doc = " processing and large memory usage."]
+        #[doc = " "]
+        #[doc = " Negative values are an error (see Error processing). Zero values disable rendering of the"]
+        #[doc = " element which referenced the filter."]
+        #[doc = " "]
+        #[doc = " Non-integer values are truncated, i.e rounded to the closest integer value towards zero."]
         pub res: Option<variable::Variable<NumberOptNumber>>,
     }
     #[doc = " Defines a distant light source that can be used within a lighting filter primitive:"]
@@ -642,7 +1045,13 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct FeDistantLight {
+        #[doc = " Direction angle for the light source on the XY plane (clockwise), in degrees from the x axis."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, then the effect is as if a value of 0 were specified."]
         pub azimuth: Option<variable::Variable<f32>>,
+        #[doc = " Direction angle for the light source from the XY plane towards the z axis, in degrees. Note the positive Z-axis points towards the viewer of the content."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, then the effect is as if a value of 0 were specified."]
         pub elevation: Option<variable::Variable<f32>>,
     }
     #[doc = " Defines a point light source that can be used within a lighting filter primitive:"]
@@ -650,8 +1059,19 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct FePointLight {
+        #[doc = " X location for the light source in the coordinate system established by attribute ‘primitiveUnits’ on the ‘filter’ element."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, then the effect is as if a value of 0 were specified."]
         pub x: Option<variable::Variable<f32>>,
+        #[doc = " Y location for the light source in the coordinate system established by attribute ‘primitiveUnits’ on the ‘filter’ element."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, then the effect is as if a value of 0 were specified."]
         pub y: Option<variable::Variable<f32>>,
+        #[doc = " Z location for the light source in the coordinate system established by attribute ‘primitiveUnits’ on the ‘filter’ element,"]
+        #[doc = " assuming that, in the initial coordinate system, the positive Z-axis comes out towards the person viewing the content and"]
+        #[doc = " assuming that one unit along the Z-axis equals one unit in X and Y."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, then the effect is as if a value of 0 were specified."]
         pub z: Option<variable::Variable<f32>>,
     }
     #[doc = " Defines a spot light source that can be used within a lighting filter primitive:"]
@@ -659,13 +1079,46 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct FeSpotLight {
+        #[doc = " X location for the light source in the coordinate system established by attribute ‘primitiveUnits’ on the ‘filter’ element."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, then the effect is as if a value of 0 were specified."]
         pub x: Option<variable::Variable<f32>>,
+        #[doc = " Y location for the light source in the coordinate system established by attribute ‘primitiveUnits’ on the ‘filter’ element."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, then the effect is as if a value of 0 were specified."]
         pub y: Option<variable::Variable<f32>>,
+        #[doc = " Z location for the light source in the coordinate system established by attribute ‘primitiveUnits’ on the ‘filter’ element,"]
+        #[doc = " assuming that, in the initial coordinate system, the positive Z-axis comes out towards the person viewing the content and"]
+        #[doc = " assuming that one unit along the Z-axis equals one unit in X and Y."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, then the effect is as if a value of 0 were specified."]
         pub z: Option<variable::Variable<f32>>,
+        #[doc = " X location in the coordinate system established by attribute ‘primitiveUnits’ on the ‘filter’ element of the point at which"]
+        #[doc = " the light source is pointing."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, then the effect is as if a value of 0 were specified."]
         pub point_at_x: Option<variable::Variable<f32>>,
+        #[doc = " Y location in the coordinate system established by attribute ‘primitiveUnits’ on the ‘filter’ element of the point at which"]
+        #[doc = " the light source is pointing."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, then the effect is as if a value of 0 were specified."]
         pub point_at_y: Option<variable::Variable<f32>>,
+        #[doc = " Z location in the coordinate system established by attribute ‘primitiveUnits’ on the ‘filter’ element of the point at which"]
+        #[doc = " the light source is pointing, assuming that, in the initial coordinate system, the positive Z-axis comes out towards the"]
+        #[doc = " person viewing the content and assuming that one unit along the Z-axis equals one unit in X and Y."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, then the effect is as if a value of 0 were specified."]
         pub point_at_z: Option<variable::Variable<f32>>,
+        #[doc = " Exponent value controlling the focus for the light source."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, then the effect is as if a value of 1 were specified."]
         pub specular_exponent: Option<variable::Variable<f32>>,
+        #[doc = " A limiting cone which restricts the region where the light is projected. No light is projected outside the cone."]
+        #[doc = " ‘limitingConeAngle’ represents the angle in degrees between the spot light axis (i.e. the axis between the light"]
+        #[doc = " source and the point to which it is pointing at) and the spot light cone. User agents should apply a smoothing"]
+        #[doc = " technique such as anti-aliasing at the boundary of the cone."]
+        #[doc = " "]
+        #[doc = " If no value is specified, then no limiting cone will be applied."]
         pub limiting_cone_angle: Option<variable::Variable<f32>>,
     }
     #[doc = " This filter composites two objects together using commonly used imaging software blending modes."]
@@ -673,22 +1126,48 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct FeBlend {
+        #[doc = " Image blending mode"]
         pub mode: Option<variable::Variable<FeBlendMode>>,
+        #[doc = " The first input image to the blending operation."]
         pub r#in: Option<variable::Variable<FeIn>>,
+        #[doc = " The second input image to the blending operation. This attribute can take on the same values as the ‘in’ attribute."]
         pub in2: Option<variable::Variable<FeIn>>,
+        #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
         pub x: variable::Variable<Length>,
+        #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
+        #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub width: Option<variable::Variable<Length>>,
+        #[doc = " The height of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub height: Option<variable::Variable<Length>>,
+        #[doc = " Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = " be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = " the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = " provides no value for its ‘in’ attribute."]
+        #[doc = " "]
+        #[doc = " Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = " given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = " times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = " primitive with the given result."]
         pub result: Option<variable::Variable<String>>,
     }
     #[doc = " Values of FeColorMatrix."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub enum FeColorMatrixValues {
+        #[doc = " a list of 20 matrix values."]
         Matrix([f32; 20usize]),
+        #[doc = " `Saturate` is a single real number value (0 to 1)."]
+        #[doc = " "]
+        #[doc = " See [`feColorMatrixElement`](https://www.w3.org/TR/SVG11/filters.html#feColorMatrixElement)"]
         Saturate(f32),
+        #[doc = " `HueRotate` is a single one real number value (degrees)"]
+        #[doc = " "]
+        #[doc = " See [`feColorMatrixElement`](https://www.w3.org/TR/SVG11/filters.html#feColorMatrixElement)"]
         HueRotate(f32),
+        #[doc = " `LuminanceToAlpha`  is not applicable."]
+        #[doc = " "]
+        #[doc = " See [`feColorMatrixElement`](https://www.w3.org/TR/SVG11/filters.html#feColorMatrixElement)"]
         LuminanceToAlpha,
     }
     #[doc = " This filter applies a matrix transformation."]
@@ -707,12 +1186,27 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct FeColorMatrix {
+        #[doc = " See [`FeIn`]"]
         pub r#in: variable::Variable<FeIn>,
+        #[doc = " The contents of ‘values’ depends on the value of attribute ‘type’:"]
         pub values: variable::Variable<FeColorMatrixValues>,
+        #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
         pub x: variable::Variable<Length>,
+        #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
+        #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub width: Option<variable::Variable<Length>>,
+        #[doc = " The height of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub height: Option<variable::Variable<Length>>,
+        #[doc = " Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = " be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = " the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = " provides no value for its ‘in’ attribute."]
+        #[doc = " "]
+        #[doc = " Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = " given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = " times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = " primitive with the given result."]
         pub result: Option<variable::Variable<String>>,
     }
     #[doc = " transfer functions for the rgba channels."]
@@ -721,16 +1215,61 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub enum FeFunc {
+        #[doc = " C' = C"]
         Identity,
+        #[doc = " For table, the function is defined by linear interpolation between values given in the attribute ‘tableValues’."]
+        #[doc = " The table has n+1 values (i.e., v0 to vn) specifying the start and end values for n evenly sized interpolation regions."]
+        #[doc = " Interpolations use the following formula:"]
+        #[doc = " "]
+        #[doc = " For a value C < 1 find k such that:"]
+        #[doc = " "]
+        #[doc = " > k/n <= C < (k+1)/n"]
+        #[doc = " "]
+        #[doc = " The result C' is given by:"]
+        #[doc = " "]
+        #[doc = " > C' = vk + (C - k/n)*n * (vk+1 - vk)"]
+        #[doc = " "]
+        #[doc = " If C = 1 then:"]
+        #[doc = " "]
+        #[doc = " > C' = vn."]
         Table(Vec<f32>),
+        #[doc = " For discrete, the function is defined by the step function given in the attribute ‘tableValues’,"]
+        #[doc = " which provides a list of n values (i.e., v0 to vn-1) in order to identify a step function consisting of n steps."]
+        #[doc = " The step function is defined by the following formula:"]
+        #[doc = " "]
+        #[doc = " For a value C < 1 find k such that:"]
+        #[doc = " "]
+        #[doc = " > k/n <= C < (k+1)/n"]
+        #[doc = " "]
+        #[doc = " The result C' is given by:"]
+        #[doc = " "]
+        #[doc = " > C' = vk"]
+        #[doc = " "]
+        #[doc = " If C = 1 then:"]
+        #[doc = " "]
+        #[doc = " > C' = vn-1."]
         Discrete(Vec<f32>),
+        #[doc = " For linear, the function is defined by the following linear equation:"]
+        #[doc = " "]
+        #[doc = " > C' = slope * C + intercept"]
         Linear {
+            #[doc = " the slope of the linear function."]
             slope: f32,
+            #[doc = " the intercept of the linear function."]
             intercept: f32,
         },
+        #[doc = " For gamma, the function is defined by the following exponential function:"]
+        #[doc = " "]
+        #[doc = " > C' = amplitude * pow(C, exponent) + offset"]
         Gamma {
+            #[doc = " the amplitude of the gamma function."]
+            #[doc = " If the attribute is not specified, then the effect is as if a value of 1 were specified."]
             amplitude: f32,
+            #[doc = " the exponent of the gamma function."]
+            #[doc = " If the attribute is not specified, then the effect is as if a value of 1 were specified."]
             exponent: f32,
+            #[doc = " the offset of the gamma function."]
+            #[doc = " If the attribute is not specified, then the effect is as if a value of 0 were specified."]
             offset: f32,
         },
     }
@@ -745,7 +1284,20 @@ pub mod opcode {
         Out,
         Atop,
         Xor,
-        Arithmetic { k1: f32, k2: f32, k3: f32, k4: f32 },
+        Arithmetic {
+            #[doc = " Only applicable if operator=\"arithmetic\"."]
+            #[doc = " If the attribute is not specified, the effect is as if a value of 0 were specified."]
+            k1: f32,
+            #[doc = " Only applicable if operator=\"arithmetic\"."]
+            #[doc = " If the attribute is not specified, the effect is as if a value of 0 were specified."]
+            k2: f32,
+            #[doc = " Only applicable if operator=\"arithmetic\"."]
+            #[doc = " If the attribute is not specified, the effect is as if a value of 0 were specified."]
+            k3: f32,
+            #[doc = " Only applicable if operator=\"arithmetic\"."]
+            #[doc = " If the attribute is not specified, the effect is as if a value of 0 were specified."]
+            k4: f32,
+        },
     }
     #[doc = " Determines how to extend the input image as necessary with color values so that the matrix operations"]
     #[doc = " can be applied when the kernel is positioned at or near the edge of the input image."]
@@ -768,7 +1320,16 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub enum FeStitchTiles {
+        #[doc = " If stitchTiles=\"stitch\", then the user agent will automatically adjust baseFrequency-x and baseFrequency-y values"]
+        #[doc = " such that the feTurbulence node's width and height (i.e., the width and height of the current subregion) contains"]
+        #[doc = " an integral number of the Perlin tile width and height for the first octave. The baseFrequency will be adjusted up    /// or down depending on which way has the smallest relative (not absolute) change as follows: Given the frequency,"]
+        #[doc = " calculate lowFreq=floor(width*frequency)/width and hiFreq=ceil(width*frequency)/width. If frequency/lowFreq < hiFreq/frequency"]
+        #[doc = " then use lowFreq, else use hiFreq. While generating turbulence values, generate lattice vectors as normal for Perlin Noise,"]
+        #[doc = " except for those lattice points that lie on the right or bottom edges of the active area (the size of the resulting tile)."]
+        #[doc = " In those cases, copy the lattice vector from the opposite edge of the active area."]
         Stitch,
+        #[doc = " If stitchTiles=\"noStitch\", no attempt it made to achieve smooth transitions at the border of tiles which contain a turbulence"]
+        #[doc = " function. Sometimes the result will show clear discontinuities at the tile borders."]
         NoStitch,
     }
     #[doc = " Indicates whether the filter primitive should perform a noise or turbulence function."]
@@ -829,13 +1390,29 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct FeComposite {
+        #[doc = " See [`FeIn`]"]
         pub r#in: Option<variable::Variable<FeIn>>,
+        #[doc = " The second input image to the compositing operation. This attribute can take on the same values as the `r_in` attribute."]
         pub in2: variable::Variable<FeIn>,
+        #[doc = " See [`FeCompositeOperator`]"]
         pub operator: Option<variable::Variable<FeCompositeOperator>>,
+        #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
         pub x: variable::Variable<Length>,
+        #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
+        #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub width: Option<variable::Variable<Length>>,
+        #[doc = " The height of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub height: Option<variable::Variable<Length>>,
+        #[doc = " Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = " be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = " the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = " provides no value for its ‘in’ attribute."]
+        #[doc = " "]
+        #[doc = " Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = " given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = " times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = " primitive with the given result."]
         pub result: Option<variable::Variable<String>>,
     }
     #[doc = " feConvolveMatrix applies a matrix convolution filter effect. A convolution combines pixels"]
@@ -847,49 +1424,167 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct FeConvolveMatrix {
+        #[doc = " See [`FeIn`]"]
         pub r#in: Option<variable::Variable<FeIn>>,
+        #[doc = " Indicates the number of cells in each dimension for ‘kernelMatrix’. The values provided must be `integer`s greater than zero."]
+        #[doc = " The first number, `orderX`, indicates the number of columns in the matrix. The second number, `orderY`, indicates the number"]
+        #[doc = " of rows in the matrix. If `orderY` is not provided, it defaults to `orderX`."]
+        #[doc = " "]
+        #[doc = " A typical value is order=\"3\". It is recommended that only small values (e.g., 3) be used; higher values may result in very"]
+        #[doc = " high CPU overhead and usually do not produce results that justify the impact on performance."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, the effect is as if a value of 3 were specified."]
         pub order: Option<variable::Variable<NumberOptNumber>>,
+        #[doc = " The list of `number`s that make up the kernel matrix for the convolution. Values are separated by space"]
+        #[doc = " characters and/or a comma. The number of entries in the list must equal `orderX` times `orderY`."]
         pub kernel: variable::Variable<Vec<f32>>,
+        #[doc = " After applying the ‘kernelMatrix’ to the input image to yield a number, that number is divided by ‘divisor’"]
+        #[doc = " to yield the final destination color value. A divisor that is the sum of all the matrix values tends to have"]
+        #[doc = " an evening effect on the overall color intensity of the result. It is an error to specify a divisor of zero."]
+        #[doc = " The default value is the sum of all values in kernelMatrix, with the exception that if the sum is zero, then"]
+        #[doc = " the divisor is set to 1."]
         pub divisor: Option<variable::Variable<f32>>,
+        #[doc = " After applying the ‘kernelMatrix’ to the input image to yield a number and applying the ‘divisor’, the ‘bias’"]
+        #[doc = " attribute is added to each component. One application of ‘bias’ is when it is desirable to have .5 gray value"]
+        #[doc = " be the zero response of the filter. The bias property shifts the range of the filter. This allows representation"]
+        #[doc = " of values that would otherwise be clamped to 0 or 1. If ‘bias’ is not specified, then the effect is as if a"]
+        #[doc = " value of 0 were specified."]
         pub bias: Option<variable::Variable<f32>>,
+        #[doc = " After applying the ‘kernelMatrix’ to the input image to yield a number and applying the ‘divisor’, the ‘bias’"]
+        #[doc = " attribute is added to each component. One application of ‘bias’ is when it is desirable to have .5 gray value"]
+        #[doc = " be the zero response of the filter. The bias property shifts the range of the filter. This allows representation"]
+        #[doc = " of values that would otherwise be clamped to 0 or 1. If ‘bias’ is not specified, then the effect is as if a"]
+        #[doc = " value of 0 were specified."]
         pub target_x: Option<variable::Variable<i32>>,
+        #[doc = " Determines the positioning in Y of the convolution matrix relative to a given target pixel in the input image."]
+        #[doc = " The topmost row of the matrix is row number zero. The value must be such that: 0 <= targetY < orderY. By default,"]
+        #[doc = " the convolution matrix is centered in Y over each pixel of the input image (i.e., targetY = floor ( orderY / 2 ))."]
         pub target_y: Option<variable::Variable<i32>>,
+        #[doc = " Determines how to extend the input image as necessary with color values so that the matrix operations can be applied"]
+        #[doc = " when the kernel is positioned at or near the edge of the input image."]
         pub edge_mode: variable::Variable<FeConvolveMatrixEdgeMode>,
+        #[doc = " The first number is the `dx` value. The second number is the `dy` value. If the `dy` value is not specified,"]
+        #[doc = " it defaults to the same value as `dx`. Indicates the intended distance in current filter units (i.e., units"]
+        #[doc = " as determined by the value of attribute ‘primitiveUnits’) between successive columns and rows, respectively,"]
+        #[doc = " in the ‘kernelMatrix’. By specifying value(s) for ‘kernelUnitLength’, the kernel becomes defined in a"]
+        #[doc = " scalable, abstract coordinate system. If ‘kernelUnitLength’ is not specified, the default value is one pixel"]
+        #[doc = " in the offscreen bitmap, which is a pixel-based coordinate system, and thus potentially not scalable. For"]
+        #[doc = " some level of consistency across display media and user agents, it is necessary that a value be provided for"]
+        #[doc = " at least one of ‘filterRes’ and ‘kernelUnitLength’. In some implementations, the most consistent results and"]
+        #[doc = " the fastest performance will be achieved if the pixel grid of the temporary offscreen images aligns with the"]
+        #[doc = " pixel grid of the kernel."]
+        #[doc = " "]
+        #[doc = " A negative or zero value is an error (see Error processing)."]
         pub kernel_unit_len: Option<variable::Variable<NumberOptNumber>>,
+        #[doc = " A value of false indicates that the convolution will apply to all channels, including the alpha channel."]
+        #[doc = " "]
+        #[doc = " See [`feConvolveMatrix`](https://www.w3.org/TR/SVG11/filters.html#feConvolveMatrixElement)"]
         pub preserve_alpha: variable::Variable<bool>,
+        #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
         pub x: variable::Variable<Length>,
+        #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
+        #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub width: Option<variable::Variable<Length>>,
+        #[doc = " The height of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub height: Option<variable::Variable<Length>>,
+        #[doc = " Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = " be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = " the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = " provides no value for its ‘in’ attribute."]
+        #[doc = " "]
+        #[doc = " Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = " given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = " times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = " primitive with the given result."]
         pub result: Option<variable::Variable<String>>,
     }
     #[doc = " See [`feConvolveMatrix`](https://www.w3.org/TR/SVG11/filters.html#feDiffuseLightingElement)"]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct FeDiffuseLighting {
+        #[doc = " See [`FeIn`]"]
         pub r#in: variable::Variable<FeIn>,
+        #[doc = " height of surface when Ain = 1."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, then the effect is as if a value of 1 were specified."]
         pub surface_scale: Option<variable::Variable<f32>>,
+        #[doc = " kd in Phong lighting model. In SVG, this can be any non-negative number."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, then the effect is as if a value of 1 were specified."]
         pub diffuse_constant: Option<variable::Variable<f32>>,
+        #[doc = " The first number is the `dx` value. The second number is the `dy` value. If the `dy` value is not specified,"]
+        #[doc = " it defaults to the same value as `dx`. Indicates the intended distance in current filter units (i.e., units"]
+        #[doc = " as determined by the value of attribute ‘primitiveUnits’) for dx and dy, respectively, in the surface normal"]
+        #[doc = " calculation formulas. By specifying value(s) for ‘kernelUnitLength’, the kernel becomes defined in a scalable,"]
+        #[doc = " abstract coordinate system. If ‘kernelUnitLength’ is not specified, the dx and dy values should represent"]
+        #[doc = " very small deltas relative to a given (x,y) position, which might be implemented in some cases as one pixel"]
+        #[doc = " in the intermediate image offscreen bitmap, which is a pixel-based coordinate system, and thus potentially"]
+        #[doc = " not scalable. For some level of consistency across display media and user agents, it is necessary that a value"]
+        #[doc = " be provided for at least one of ‘filterRes’ and ‘kernelUnitLength’. Discussion of intermediate images are in the"]
+        #[doc = " Introduction and in the description of attribute ‘filterRes’."]
+        #[doc = " "]
+        #[doc = " A negative or zero value is an error (see Error processing)."]
         pub kernel_unit_len: Option<variable::Variable<NumberOptNumber>>,
+        #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
         pub x: variable::Variable<Length>,
+        #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
+        #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub width: Option<variable::Variable<Length>>,
+        #[doc = " The height of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub height: Option<variable::Variable<Length>>,
+        #[doc = " Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = " be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = " the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = " provides no value for its ‘in’ attribute."]
+        #[doc = " "]
+        #[doc = " Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = " given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = " times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = " primitive with the given result."]
         pub result: Option<variable::Variable<String>>,
     }
     #[doc = " This filter primitive uses the pixels values from the image from ‘in2’ to spatially displace the image from ‘in’."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct FeDisplacementMap {
+        #[doc = " See [`FeIn`]"]
         pub r#in: Option<variable::Variable<FeIn>>,
+        #[doc = " See [`FeIn`]"]
         pub in2: variable::Variable<FeIn>,
+        #[doc = " Displacement scale factor. The amount is expressed in the coordinate system established by attribute ‘primitiveUnits’"]
+        #[doc = " on the ‘filter’ element."]
+        #[doc = " "]
+        #[doc = " When the value of this attribute is 0, this operation has no effect on the source image."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, then the effect is as if a value of 0 were specified."]
         pub scale: Option<variable::Variable<f32>>,
+        #[doc = " Indicates which channel from ‘in2’ to use to displace the pixels in ‘in’ along the x-axis."]
+        #[doc = " If attribute ‘xChannelSelector’ is not specified, then the effect is as if a value of A were"]
+        #[doc = " specified."]
         pub x_channel_selector: Option<variable::Variable<Channel>>,
+        #[doc = " Indicates which channel from ‘in2’ to use to displace the pixels in ‘in’ along the y-axis."]
+        #[doc = " If attribute ‘yChannelSelector’ is not specified, then the effect is as if a value of A were"]
+        #[doc = " specified."]
         pub y_channel_selector: Option<variable::Variable<Channel>>,
+        #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
         pub x: variable::Variable<Length>,
+        #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
+        #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub width: Option<variable::Variable<Length>>,
+        #[doc = " The height of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub height: Option<variable::Variable<Length>>,
+        #[doc = " Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = " be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = " the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = " provides no value for its ‘in’ attribute."]
+        #[doc = " "]
+        #[doc = " Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = " given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = " times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = " primitive with the given result."]
         pub result: Option<variable::Variable<String>>,
     }
     #[doc = " This filter primitive creates a rectangle filled with the color and opacity values from properties ‘flood-color’ a ‘flood-opacity’."]
@@ -898,12 +1593,27 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct FeFlood {
+        #[doc = " indicates what color to use to flood the current filter primitive subregion."]
         pub color: Option<variable::Variable<Rgb>>,
+        #[doc = " defines the opacity value to use across the entire filter primitive subregion."]
         pub opacity: Option<variable::Variable<f32>>,
+        #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
         pub x: variable::Variable<Length>,
+        #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
+        #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub width: Option<variable::Variable<Length>>,
+        #[doc = " The height of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub height: Option<variable::Variable<Length>>,
+        #[doc = " Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = " be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = " the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = " provides no value for its ‘in’ attribute."]
+        #[doc = " "]
+        #[doc = " Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = " given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = " times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = " primitive with the given result."]
         pub result: Option<variable::Variable<String>>,
     }
     #[doc = " This filter primitive performs a Gaussian blur on the input image."]
@@ -912,12 +1622,34 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct FeGaussianBlur {
+        #[doc = " See [`FeIn`]"]
         pub r#in: Option<variable::Variable<FeIn>>,
+        #[doc = " The standard deviation for the blur operation. If two `number`s are provided, the first number represents"]
+        #[doc = " a standard deviation value along the x-axis of the coordinate system established by attribute ‘primitiveUnits’"]
+        #[doc = " on the ‘filter’ element. The second value represents a standard deviation in Y. If one number is provided,"]
+        #[doc = " then that value is used for both X and Y."]
+        #[doc = " "]
+        #[doc = " A negative value is an error (see Error processing). A value of zero disables the effect of the given filter"]
+        #[doc = " primitive (i.e., the result is the filter input image). If ‘stdDeviation’ is 0 in only one of X or Y, then the"]
+        #[doc = " effect is that the blur is only applied in the direction that has a non-zero value."]
         pub std_deviation: Option<variable::Variable<NumberOptNumber>>,
+        #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
         pub x: variable::Variable<Length>,
+        #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
+        #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub width: Option<variable::Variable<Length>>,
+        #[doc = " The height of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub height: Option<variable::Variable<Length>>,
+        #[doc = " Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = " be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = " the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = " provides no value for its ‘in’ attribute."]
+        #[doc = " "]
+        #[doc = " Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = " given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = " times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = " primitive with the given result."]
         pub result: Option<variable::Variable<String>>,
     }
     #[doc = " This filter primitive composites input image layers on top of each other using the over operator with Input1"]
@@ -928,10 +1660,23 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct FeMerge {
+        #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
         pub x: variable::Variable<Length>,
+        #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
+        #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub width: Option<variable::Variable<Length>>,
+        #[doc = " The height of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub height: Option<variable::Variable<Length>>,
+        #[doc = " Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = " be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = " the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = " provides no value for its ‘in’ attribute."]
+        #[doc = " "]
+        #[doc = " Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = " given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = " times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = " primitive with the given result."]
         pub result: Option<variable::Variable<String>>,
     }
     #[doc = " See [`FeMerge`]"]
@@ -945,12 +1690,27 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct FeImage {
+        #[doc = " An IRI reference to the image source."]
         pub href: variable::Variable<FuncIri>,
+        #[doc = " See [`PreserveAspectRatio`]."]
         pub aspect: Option<variable::Variable<PreserveAspectRatio>>,
+        #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
         pub x: variable::Variable<Length>,
+        #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
+        #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub width: Option<variable::Variable<Length>>,
+        #[doc = " The height of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub height: Option<variable::Variable<Length>>,
+        #[doc = " Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = " be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = " the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = " provides no value for its ‘in’ attribute."]
+        #[doc = " "]
+        #[doc = " Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = " given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = " times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = " primitive with the given result."]
         pub result: Option<variable::Variable<String>>,
     }
     #[doc = " This filter primitive performs \"fattening\" or \"thinning\" of artwork."]
@@ -960,13 +1720,37 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct FeMorphology {
+        #[doc = " See [`FeIn`]"]
         pub r#in: Option<variable::Variable<FeIn>>,
+        #[doc = " See [`FeMorphologyOperator`]"]
         pub mode: Option<variable::Variable<FeMorphologyOperator>>,
+        #[doc = " The radius (or radii) for the operation. If two `number`s are provided, the first number represents"]
+        #[doc = " a x-radius and the second value represents a y-radius. If one number is provided, then that value"]
+        #[doc = " is used for both X and Y. The values are in the coordinate system established by attribute"]
+        #[doc = " ‘primitiveUnits’ on the ‘filter’ element."]
+        #[doc = " "]
+        #[doc = " A negative value is an error (see Error processing). A value of zero disables the effect of the given"]
+        #[doc = " filter primitive (i.e., the result is a transparent black image)."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, then the effect is as if a value of 0 were specified."]
         pub radius: Option<variable::Variable<NumberOptNumber>>,
+        #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
         pub x: variable::Variable<Length>,
+        #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
+        #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub width: Option<variable::Variable<Length>>,
+        #[doc = " The height of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub height: Option<variable::Variable<Length>>,
+        #[doc = " Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = " be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = " the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = " provides no value for its ‘in’ attribute."]
+        #[doc = " "]
+        #[doc = " Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = " given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = " times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = " primitive with the given result."]
         pub result: Option<variable::Variable<String>>,
     }
     #[doc = " This filter primitive offsets the input image relative to its current position in the image space by the specified vector."]
@@ -977,13 +1761,35 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct FeOffset {
+        #[doc = " See [`FeIn`]"]
         pub r#in: Option<variable::Variable<FeIn>>,
+        #[doc = " The amount to offset the input graphic along the x-axis. The offset amount is expressed in the coordinate system established"]
+        #[doc = " by attribute ‘primitiveUnits’ on the ‘filter’ element."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, then the effect is as if a value of 0 were specified."]
         pub dx: Option<variable::Variable<f32>>,
+        #[doc = " The amount to offset the input graphic along the y-axis. The offset amount is expressed in the coordinate system established"]
+        #[doc = " by attribute ‘primitiveUnits’ on the ‘filter’ element."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, then the effect is as if a value of 0 were specified."]
         pub dy: Option<variable::Variable<f32>>,
+        #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
         pub x: variable::Variable<Length>,
+        #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
+        #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub width: Option<variable::Variable<Length>>,
+        #[doc = " The height of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub height: Option<variable::Variable<Length>>,
+        #[doc = " Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = " be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = " the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = " provides no value for its ‘in’ attribute."]
+        #[doc = " "]
+        #[doc = " Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = " given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = " times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = " primitive with the given result."]
         pub result: Option<variable::Variable<String>>,
     }
     #[doc = " This filter primitive lights a source graphic using the alpha channel as a bump map."]
@@ -996,15 +1802,50 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct FeSpecularLighting {
+        #[doc = " See [`FeIn`]"]
         pub r#in: Option<variable::Variable<FeIn>>,
+        #[doc = " height of surface when Ain = 1."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, then the effect is as if a value of 1 were specified."]
         pub surface_scale: Option<variable::Variable<f32>>,
+        #[doc = " height of surface when Ain = 1."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, then the effect is as if a value of 1 were specified."]
         pub specular_constant: Option<variable::Variable<f32>>,
+        #[doc = " Exponent for specular term, larger is more \"shiny\". Range 1.0 to 128.0."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, then the effect is as if a value of 1 were specified."]
         pub specular_exponent: Option<variable::Variable<f32>>,
+        #[doc = " The first number is the `dx` value. The second number is the `dy` value. If the `dy` value is not specified,"]
+        #[doc = " it defaults to the same value as `dx`. Indicates the intended distance in current filter units (i.e., units"]
+        #[doc = " as determined by the value of attribute ‘primitiveUnits’) for dx and dy, respectively, in the surface normal"]
+        #[doc = " calculation formulas. By specifying value(s) for ‘kernelUnitLength’, the kernel becomes defined in a scalable,"]
+        #[doc = " abstract coordinate system. If ‘kernelUnitLength’ is not specified, the dx and dy values should represent very"]
+        #[doc = " small deltas relative to a given (x,y) position, which might be implemented in some cases as one pixel in the"]
+        #[doc = " intermediate image offscreen bitmap, which is a pixel-based coordinate system, and thus potentially not scalable."]
+        #[doc = " For some level of consistency across display media and user agents, it is necessary that a value be provided"]
+        #[doc = " for at least one of ‘filterRes’ and ‘kernelUnitLength’. Discussion of intermediate images are in the Introduction"]
+        #[doc = " and in the description of attribute ‘filterRes’."]
+        #[doc = " "]
+        #[doc = " A negative or zero value is an error (see Error processing)."]
         pub kernel_unit_len: Option<variable::Variable<NumberOptNumber>>,
+        #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
         pub x: variable::Variable<Length>,
+        #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
+        #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub width: Option<variable::Variable<Length>>,
+        #[doc = " The height of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub height: Option<variable::Variable<Length>>,
+        #[doc = " Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = " be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = " the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = " provides no value for its ‘in’ attribute."]
+        #[doc = " "]
+        #[doc = " Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = " given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = " times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = " primitive with the given result."]
         pub result: Option<variable::Variable<String>>,
     }
     #[doc = " This filter primitive fills a target rectangle with a repeated, tiled pattern of an input image. The target rectangle is"]
@@ -1015,11 +1856,25 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct FeTile {
+        #[doc = " See [`FeIn`]"]
         pub r#in: Option<variable::Variable<FeIn>>,
+        #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
         pub x: variable::Variable<Length>,
+        #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
+        #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub width: Option<variable::Variable<Length>>,
+        #[doc = " The height of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub height: Option<variable::Variable<Length>>,
+        #[doc = " Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = " be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = " the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = " provides no value for its ‘in’ attribute."]
+        #[doc = " "]
+        #[doc = " Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = " given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = " times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = " primitive with the given result."]
         pub result: Option<variable::Variable<String>>,
     }
     #[doc = " This filter primitive creates an image using the Perlin turbulence function."]
@@ -1031,40 +1886,134 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct FeTurbulence {
+        #[doc = " The base frequency (frequencies) parameter(s) for the noise function. If two `number`s are provided, the first number"]
+        #[doc = " represents a base frequency in the X direction and the second value represents a base frequency in the Y direction."]
+        #[doc = " If one number is provided, then that value is used for both X and Y."]
+        #[doc = " "]
+        #[doc = " A negative value for base frequency is an error (see Error processing)."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, then the effect is as if a value of 0 were specifie."]
         pub base_frequency: Option<variable::Variable<NumberOptNumber>>,
+        #[doc = " The numOctaves parameter for the noise function."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, then the effect is as if a value of 1 were specified."]
         pub num_octaves: Option<variable::Variable<i32>>,
+        #[doc = " The starting number for the pseudo random number generator."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, then the effect is as if a value of 0 were specified."]
+        #[doc = " When the seed number is handed over to the algorithm above it must first be truncated, i.e."]
+        #[doc = " rounded to the closest integer value towards zero."]
         pub seed: Option<variable::Variable<f32>>,
+        #[doc = " See [`FeStitchTiles`]"]
         pub stitch_tiles: Option<variable::Variable<FeStitchTiles>>,
+        #[doc = " See [`FeStitchTiles`]"]
         pub r#type: Option<variable::Variable<FeTurbulenceType>>,
+        #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
         pub x: variable::Variable<Length>,
+        #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
+        #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub width: Option<variable::Variable<Length>>,
+        #[doc = " The height of the subregion which restricts calculation and rendering of the given filter primitive."]
         pub height: Option<variable::Variable<Length>>,
+        #[doc = " Assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can"]
+        #[doc = " be referenced by an ‘in’ attribute on a subsequent filter primitive within the same ‘filter’ element. If no value is provided,"]
+        #[doc = " the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive"]
+        #[doc = " provides no value for its ‘in’ attribute."]
+        #[doc = " "]
+        #[doc = " Note that a `filter-primitive-reference` is not an XML ID; instead, a `filter-primitive-reference` is only meaningful within a"]
+        #[doc = " given ‘filter’ element and thus have only local scope. It is legal for the same `filter-primitive-reference` to appear multiple"]
+        #[doc = " times within the same ‘filter’ element. When referenced, the `filter-primitive-reference` will use the closest preceding filter"]
+        #[doc = " primitive with the given result."]
         pub result: Option<variable::Variable<String>>,
     }
     #[doc = " Linear gradients are defined by a ‘linearGradient’ element."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct LinearGradient {
+        #[doc = " Defines the coordinate system for attributes ‘x1’, ‘y1’, ‘x2’ and ‘y2’."]
         pub units: Option<variable::Variable<Coords>>,
+        #[doc = " Contains the definition of an optional additional transformation from the gradient coordinate system onto the"]
+        #[doc = " target coordinate system (i.e., userSpaceOnUse or objectBoundingBox). This allows for things such as skewing"]
+        #[doc = " the gradient. This additional transformation matrix is post-multiplied to (i.e., inserted to the right of)"]
+        #[doc = " any previously defined transformations, including the implicit transformation necessary to convert from object"]
+        #[doc = " bounding box units to user space."]
+        #[doc = " "]
+        #[doc = " If attribute ‘gradientTransform’ is not specified, then the effect is as if an identity transform were specified."]
+        #[doc = " "]
+        #[doc = " Variable: yes."]
         pub transform: Option<variable::Variable<Transform>>,
+        #[doc = " ‘x1’, ‘y1’, ‘x2’ and ‘y2’ define a gradient vector for the linear gradient."]
+        #[doc = " This gradient vector provides starting and ending points onto which the gradient stops are mapped. The values"]
+        #[doc = " of ‘x1’, ‘y1’, ‘x2’ and ‘y2’ can be either numbers or percents."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, the effect is as if a value of '0%' were specified."]
+        #[doc = " "]
+        #[doc = " Variable: yes."]
         pub x1: Option<variable::Variable<Length>>,
+        #[doc = " See [`x1`](LinearGradient::x1)"]
         pub y1: Option<variable::Variable<Length>>,
+        #[doc = " See [`x1`](LinearGradient::x1)"]
         pub x2: Option<variable::Variable<Length>>,
+        #[doc = " See [`x1`](LinearGradient::x1)"]
         pub y2: Option<variable::Variable<Length>>,
+        #[doc = " Indicates what happens if the gradient starts or ends inside the bounds of the target rectangle."]
         pub spread: Option<variable::Variable<SpreadMethod>>,
     }
     #[doc = " Radial gradients are defined by a ‘radialGradient’ element."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct RadialGradient {
+        #[doc = " Defines the coordinate system for attributes ‘x1’, ‘y1’, ‘x2’ and ‘y2’."]
         pub unit: Option<variable::Variable<Coords>>,
+        #[doc = " Contains the definition of an optional additional transformation from the gradient coordinate system onto the"]
+        #[doc = " target coordinate system (i.e., userSpaceOnUse or objectBoundingBox). This allows for things such as skewing"]
+        #[doc = " the gradient. This additional transformation matrix is post-multiplied to (i.e., inserted to the right of)"]
+        #[doc = " any previously defined transformations, including the implicit transformation necessary to convert from object"]
+        #[doc = " bounding box units to user space."]
+        #[doc = " "]
+        #[doc = " If attribute ‘gradientTransform’ is not specified, then the effect is as if an identity transform were specified."]
+        #[doc = " "]
+        #[doc = " Variable: yes."]
         pub transform: Option<variable::Variable<Transform>>,
+        #[doc = " ‘cx’, ‘cy’ and ‘r’ define the largest (i.e., outermost) circle for the radial gradient."]
+        #[doc = " The gradient will be drawn such that the 100% gradient stop is mapped to the perimeter"]
+        #[doc = " of this largest (i.e., outermost) circle."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, the effect is as if a value of '50%' were specified."]
+        #[doc = " "]
+        #[doc = " Variable: yes."]
         pub cx: Option<variable::Variable<Length>>,
+        #[doc = " See [`cx`](RadialGradient::cx)"]
+        #[doc = " If the attribute is not specified, the effect is as if a value of '50%' were specified."]
         pub cy: Option<variable::Variable<Length>>,
+        #[doc = " See [`cx`](RadialGradient::cx)"]
+        #[doc = " "]
+        #[doc = " A negative value is an error (see Error processing). A value of zero will cause the area to be painted as a single color"]
+        #[doc = " using the color and opacity of the last gradient stop."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, the effect is as if a value of '50%' were specified."]
+        #[doc = " "]
+        #[doc = " Variable: yes."]
         pub r: Option<variable::Variable<Length>>,
+        #[doc = " ‘fx’ and ‘fy’ define the focal point for the radial gradient. The gradient will be drawn such that the"]
+        #[doc = " 0% gradient stop is mapped to (fx, fy)."]
+        #[doc = " "]
+        #[doc = " If attribute ‘fx’ is not specified, ‘fx’ will coincide with the presentational value of ‘cx’ for the element whether the value"]
+        #[doc = " for 'cx' was inherited or not. If the element references an element that specifies a value for 'fx', then the value of 'fx'"]
+        #[doc = " is inherited from the referenced element."]
+        #[doc = " "]
+        #[doc = " Variable: yes."]
         pub fx: Option<variable::Variable<Length>>,
+        #[doc = " See [`fx`](RadialGradient::fx)"]
+        #[doc = " "]
+        #[doc = " If attribute ‘fy’ is not specified, ‘fy’ will coincide with the presentational value of ‘cy’ for the element whether the value"]
+        #[doc = " for 'cy' was inherited or not. If the element references an element that specifies a value for 'fy', then the value of 'fy'"]
+        #[doc = " is inherited from the referenced element."]
+        #[doc = " "]
+        #[doc = " Variable: yes."]
         pub fy: Option<variable::Variable<Length>>,
+        #[doc = " Indicates what happens if the gradient starts or ends inside the bounds of the target rectangle."]
         pub spread: Option<variable::Variable<SpreadMethod>>,
     }
     #[doc = " The ramp of colors to use on a gradient is defined by the ‘stop’ elements that are child elements"]
@@ -1072,8 +2021,17 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct GradientStop {
+        #[doc = " The ‘offset’ attribute is either a `<number>` (usually ranging from 0 to 1) or a `<percent>`"]
+        #[doc = " (usually ranging from 0% to 100%) which indicates where the gradient stop is placed."]
+        #[doc = " For linear gradients, the ‘offset’ attribute represents a location along the gradient vector."]
+        #[doc = " For radial gradients, it represents a percent distance from (fx,fy) to the edge of the"]
+        #[doc = " outermost/largest circle."]
+        #[doc = " "]
+        #[doc = " Variable: yes."]
         pub offset: variable::Variable<f32>,
+        #[doc = " indicates what color to use at that gradient stop"]
         pub color: Option<variable::Variable<Rgb>>,
+        #[doc = " Defines the opacity of a given gradient stop."]
         pub opacity: Option<variable::Variable<f32>>,
     }
     #[doc = " A container element for grouping together related graphics elements."]
@@ -1085,7 +2043,17 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct Path {
+        #[doc = " The definition of the outline of a shape."]
         pub events: variable::Variable<Vec<PathEvent>>,
+        #[doc = " The author's computation of the total length of the path, in user units."]
+        #[doc = " This value is used to calibrate the user agent's own distance-along-a-path"]
+        #[doc = " calculations with that of the author. The user agent will scale all"]
+        #[doc = " distance-along-a-path computations by the ratio of ‘pathLength’ to the user"]
+        #[doc = " agent's own computed value for total path length. ‘pathLength’ potentially"]
+        #[doc = " affects calculations for text on a path, motion animation and various stroke"]
+        #[doc = " operations."]
+        #[doc = " "]
+        #[doc = " A negative value is an error (see Error processing)."]
         pub length: variable::Variable<Length>,
     }
     #[doc = " A pattern is used to fill or stroke an object using a pre-defined graphic object which can be replicated (\"tiled\")"]
@@ -1100,12 +2068,68 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct Pattern {
+        #[doc = " Defines the coordinate system for attributes ‘x’, ‘y’, ‘width’ and ‘height’."]
+        #[doc = " "]
+        #[doc = " If patternUnits=\"objectBoundingBox\", the user coordinate system for attributes ‘x’, ‘y’, ‘width’ and ‘height’"]
+        #[doc = " is established using the bounding box of the element to which the pattern is applied (see Object bounding box units)"]
+        #[doc = " and then applying the transform specified by attribute ‘patternTransform’."]
+        #[doc = " "]
+        #[doc = " If patternUnits=\"userSpaceOnUse\", ‘x’, ‘y’, ‘width’ and ‘height’ represent values in the coordinate system"]
+        #[doc = " that results from taking the current user coordinate system in place at the time when the ‘pattern’ element"]
+        #[doc = " is referenced (i.e., the user coordinate system for the element referencing the ‘pattern’ element via a ‘fill’"]
+        #[doc = " or ‘stroke’ property) and then applying the transform specified by attribute ‘patternTransform’."]
+        #[doc = " "]
+        #[doc = " If attribute `units` is not specified, then the effect is as if a value of 'objectBoundingBox' were specified."]
         pub units: Option<variable::Variable<Coords>>,
+        #[doc = " Defines the coordinate system for the contents of the ‘pattern’. Note that this attribute has no effect"]
+        #[doc = " if attribute ‘viewBox’ is specified."]
+        #[doc = " "]
+        #[doc = " If patternContentUnits=\"userSpaceOnUse\", the user coordinate system for the contents of the ‘pattern’"]
+        #[doc = " element is the coordinate system that results from taking the current user coordinate system in place"]
+        #[doc = " at the time when the ‘pattern’ element is referenced (i.e., the user coordinate system for the element"]
+        #[doc = " referencing the ‘pattern’ element via a ‘fill’ or ‘stroke’ property) and then applying the transform"]
+        #[doc = " specified by attribute ‘patternTransform’."]
+        #[doc = " "]
+        #[doc = " If patternContentUnits=\"objectBoundingBox\", the user coordinate system for the contents of the ‘pattern’"]
+        #[doc = " element is established using the bounding box of the element to which the pattern is applied (see Object"]
+        #[doc = " bounding box units) and then applying the transform specified by attribute ‘patternTransform’."]
+        #[doc = " "]
+        #[doc = " If attribute `content_units` is not specified, then the effect is as if a value of 'userSpaceOnUse'"]
+        #[doc = " were specified."]
         pub content_units: Option<variable::Variable<Coords>>,
+        #[doc = " Contains the definition of an optional additional transformation from the pattern coordinate system onto the"]
+        #[doc = " target coordinate system (i.e., 'userSpaceOnUse' or 'objectBoundingBox'). This allows for things such as"]
+        #[doc = " skewing the pattern tiles. This additional transformation matrix is post-multiplied to (i.e., inserted to"]
+        #[doc = " the right of) any previously defined transformations, including the implicit transformation necessary to convert"]
+        #[doc = " from object bounding box units to user space."]
+        #[doc = " "]
+        #[doc = " If attribute `transform` is not specified, then the effect is as if an identity transform were specified."]
         pub transform: Option<variable::Variable<Transform>>,
+        #[doc = " ‘x’, ‘y’, ‘width’ and ‘height’ indicate how the pattern tiles are placed and spaced. These attributes represent"]
+        #[doc = " coordinates and values in the coordinate space specified by the combination of attributes [`units`](Self::units) and"]
+        #[doc = " [`content_units`](Self::content_units)."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, the effect is as if a value of zero were specified."]
+        #[doc = " "]
+        #[doc = " Animatable: yes."]
         pub x: Option<variable::Variable<Length>>,
+        #[doc = " See [`x`](Self::x)."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, the effect is as if a value of zero were specified."]
+        #[doc = " "]
+        #[doc = " Animatable: yes."]
         pub y: Option<variable::Variable<Length>>,
+        #[doc = " See [`x`](Self::x)."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, the effect is as if a value of zero were specified."]
+        #[doc = " "]
+        #[doc = " Animatable: yes."]
         pub width: Option<variable::Variable<Length>>,
+        #[doc = " See [`x`](Self::x)."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, the effect is as if a value of zero were specified."]
+        #[doc = " "]
+        #[doc = " Animatable: yes."]
         pub height: Option<variable::Variable<Length>>,
     }
     #[doc = " Use a fragment by name."]
@@ -1129,19 +2153,55 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct Rect {
+        #[doc = " The x-axis coordinate of the side of the rectangle which has the smaller x-axis coordinate value in the current user coordinate system."]
+        #[doc = " If the attribute is not specified, the effect is as if a value of \"0\" were specified."]
+        #[doc = " "]
+        #[doc = " Animatable: yes."]
         pub x: variable::Variable<Length>,
+        #[doc = " The y-axis coordinate of the side of the rectangle which has the smaller y-axis coordinate value in the current user coordinate system."]
+        #[doc = " If the attribute is not specified, the effect is as if a value of \"0\" were specified."]
+        #[doc = " "]
+        #[doc = " Animatable: yes."]
         pub y: variable::Variable<Length>,
+        #[doc = " The width of the rectangle."]
+        #[doc = " A negative value is an error (see Error processing). A value of zero disables rendering of the element."]
+        #[doc = " "]
+        #[doc = " Animatable: yes."]
         pub width: variable::Variable<Length>,
+        #[doc = " The height of the rectangle."]
+        #[doc = " A negative value is an error (see Error processing). A value of zero disables rendering of the element."]
+        #[doc = " "]
+        #[doc = " Animatable: yes."]
         pub height: variable::Variable<Length>,
+        #[doc = " For rounded rectangles, the x-axis radius of the ellipse used to round off the corners of the rectangle."]
+        #[doc = " A negative value is an error (see Error processing)."]
+        #[doc = " "]
+        #[doc = " Animatable: yes."]
         pub rx: Option<variable::Variable<Length>>,
+        #[doc = " For rounded rectangles, the y-axis radius of the ellipse used to round off the corners of the rectangle."]
+        #[doc = " A negative value is an error (see Error processing)."]
+        #[doc = " "]
+        #[doc = " Animatable: yes."]
         pub ry: Option<variable::Variable<Length>>,
     }
     #[doc = " The ‘circle’ element defines a circle based on a center point and a radius."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct Circle {
+        #[doc = " The x-axis coordinate of the center of the circle."]
+        #[doc = " If the attribute is not specified, the effect is as if a value of \"0\" were specified."]
+        #[doc = " "]
+        #[doc = " Animatable: yes."]
         pub cx: variable::Variable<Length>,
+        #[doc = " The y-axis coordinate of the center of the circle."]
+        #[doc = " If the attribute is not specified, the effect is as if a value of \"0\" were specified."]
+        #[doc = " "]
+        #[doc = " Animatable: yes."]
         pub cy: variable::Variable<Length>,
+        #[doc = " The radius of the circle."]
+        #[doc = " A negative value is an error (see Error processing). A value of zero disables rendering of the element."]
+        #[doc = " "]
+        #[doc = " Animatable: yes."]
         pub r: variable::Variable<Length>,
     }
     #[doc = " The ‘ellipse’ element defines an ellipse which is axis-aligned with the current user coordinate"]
@@ -1149,40 +2209,146 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct Ellipse {
+        #[doc = " The x-axis coordinate of the center of the ellipse."]
+        #[doc = " If the attribute is not specified, the effect is as if a value of \"0\" were specified."]
+        #[doc = " "]
+        #[doc = " Animatable: yes."]
         pub cx: Option<variable::Variable<Length>>,
+        #[doc = " The y-axis coordinate of the center of the ellipse."]
+        #[doc = " If the attribute is not specified, the effect is as if a value of \"0\" were specified."]
+        #[doc = " "]
+        #[doc = " Animatable: yes."]
         pub cy: Option<variable::Variable<Length>>,
+        #[doc = " The x-axis radius of the ellipse."]
+        #[doc = " A negative value is an error (see Error processing). A value of zero disables rendering of the element."]
+        #[doc = " "]
+        #[doc = " Animatable: yes."]
         pub rx: variable::Variable<Length>,
+        #[doc = " The y-axis radius of the ellipse."]
+        #[doc = " A negative value is an error (see Error processing). A value of zero disables rendering of the element."]
+        #[doc = " "]
+        #[doc = " Animatable: yes."]
         pub ry: variable::Variable<Length>,
     }
     #[doc = " The ‘line’ element defines a line segment that starts at one point and ends at another."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct Line {
+        #[doc = " The x-axis coordinate of the start of the line."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, the effect is as if a value of \"0\" were specified."]
+        #[doc = " "]
+        #[doc = " Animatable: yes."]
         pub x1: variable::Variable<Length>,
+        #[doc = " The y-axis coordinate of the start of the line."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, the effect is as if a value of \"0\" were specified."]
+        #[doc = " "]
+        #[doc = " Animatable: yes."]
         pub y1: variable::Variable<Length>,
+        #[doc = " The x-axis coordinate of the end of the line."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, the effect is as if a value of \"0\" were specified."]
+        #[doc = " "]
+        #[doc = " Animatable: yes."]
         pub x2: variable::Variable<Length>,
+        #[doc = " The y-axis coordinate of the end of the line."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, the effect is as if a value of \"0\" were specified."]
+        #[doc = " "]
+        #[doc = " Animatable: yes."]
         pub y2: variable::Variable<Length>,
     }
     #[doc = " The ‘polyline’ element defines a set of connected straight line segments. Typically, ‘polyline’ elements define open shapes."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-    pub struct Polyline(pub variable::Variable<Vec<Point>>);
+    pub struct Polyline(
+        #[doc = " The points that make up the polygon. All coordinate values are in the user coordinate system."]
+        #[doc = " "]
+        #[doc = " Animatable: yes."]
+        pub variable::Variable<Vec<Point>>,
+    );
     #[doc = " The ‘polygon’ element defines a closed shape consisting of a set of connected straight line segments."]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-    pub struct Polygon(pub variable::Variable<Vec<Point>>);
+    pub struct Polygon(
+        #[doc = " The points that make up the polygon. All coordinate values are in the user coordinate system."]
+        #[doc = " "]
+        #[doc = " Animatable: yes."]
+        pub variable::Variable<Vec<Point>>,
+    );
     #[doc = " The ‘text’ element defines a graphics element consisting of text."]
     #[doc = " "]
     #[doc = " See [`text`](https://www.w3.org/TR/SVG11/text.html#TextElement)"]
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct Text {
+        #[doc = " If a single `coordinate` is provided, then the value represents the new absolute X coordinate for"]
+        #[doc = " the current text position for rendering the glyphs that correspond to the first character within"]
+        #[doc = " this element or any of its descendants."]
+        #[doc = " "]
+        #[doc = " If a comma- or space-separated list of n `coordinate`s is provided, then the values represent new"]
+        #[doc = " absolute X coordinates for the current text position for rendering the glyphs corresponding to"]
+        #[doc = " each of the first n characters within this element or any of its descendants."]
+        #[doc = " "]
+        #[doc = " For additional processing rules, refer to the description of the ‘x’ attribute on the ‘tspan’ element."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, the effect is as if a value of \"0\" were specified."]
         pub x: Option<variable::Variable<Vec<Length>>>,
+        #[doc = " The corresponding list of absolute Y coordinates for the glyphs corresponding to the characters within this element."]
+        #[doc = " The processing rules for the ‘y’ attribute parallel the processing rules for the ‘x’ attribute."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, the effect is as if a value of \"0\" were specified."]
         pub y: Option<variable::Variable<Vec<Length>>>,
+        #[doc = " Shifts in the current text position along the x-axis for the characters within this element or any of its descendants."]
+        #[doc = " "]
+        #[doc = " Refer to the description of the ‘dx’ attribute on the ‘tspan’ element."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified on this element or any of its descendants, no supplemental shifts along"]
+        #[doc = " the x-axis will occur."]
         pub dx: Option<variable::Variable<Vec<Length>>>,
+        #[doc = " Shifts in the current text position along the y-axis for the characters within this element or any of its descendants."]
+        #[doc = " "]
+        #[doc = " Refer to the description of the ‘dy’ attribute on the ‘tspan’ element."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified on this element or any of its descendants, no supplemental shifts along"]
+        #[doc = " the y-axis will occur."]
         pub dy: Option<variable::Variable<Vec<Length>>>,
+        #[doc = " The supplemental rotation about the current text position that will be applied to all of the glyphs corresponding"]
+        #[doc = " to each character within this element."]
+        #[doc = " "]
+        #[doc = " Refer to the description of the ‘rotate’ attribute on the ‘tspan’ element."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified on this element or any of its descendants, no supplemental rotations will occur."]
         pub rotate: Option<variable::Variable<Vec<Angle>>>,
+        #[doc = " The author's computation of the total sum of all of the advance values that correspond to character data within"]
+        #[doc = " this element, including the advance value on the glyph (horizontal or vertical), the effect of properties ‘kerning’,"]
+        #[doc = " ‘letter-spacing’ and ‘word-spacing’ and adjustments due to attributes ‘dx’ and ‘dy’ on ‘tspan’ elements. This value"]
+        #[doc = " is used to calibrate the user agent's own calculations with that of the author."]
+        #[doc = " "]
+        #[doc = " The purpose of this attribute is to allow the author to achieve exact alignment, in visual rendering order after any"]
+        #[doc = " bidirectional reordering, for the first and last rendered glyphs that correspond to this element; thus, for the last"]
+        #[doc = " rendered character (in visual rendering order after any bidirectional reordering), any supplemental inter-character"]
+        #[doc = " spacing beyond normal glyph advances are ignored (in most cases) when the user agent determines the appropriate amount"]
+        #[doc = " to expand/compress the text string to fit within a length of ‘textLength’."]
+        #[doc = " "]
+        #[doc = " A negative value is an error (see Error processing)."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, the effect is as if the author's computation exactly matched the value calculated"]
+        #[doc = " by the user agent; thus, no advance adjustments are made."]
         pub text_length: Option<variable::Variable<Vec<Length>>>,
+        #[doc = " Indicates the type of adjustments which the user agent shall make to make the rendered length of the text match the"]
+        #[doc = " value specified on the ‘textLength’ attribute."]
+        #[doc = " "]
+        #[doc = " The user agent is required to achieve correct start and end positions for the text strings, but the locations of"]
+        #[doc = " intermediate glyphs are not predictable because user agents might employ advanced algorithms to stretch or compress"]
+        #[doc = " text strings in order to balance correct start and end positioning with optimal typography."]
+        #[doc = " "]
+        #[doc = " Note that, for a text string that contains n characters, the adjustments to the advance values often occur only for n−1"]
+        #[doc = " characters (see description of attribute ‘textLength’), whereas stretching or compressing of the glyphs will be applied"]
+        #[doc = " to all n characters."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, the effect is as a value of 'spacing' were specified."]
         pub length_adjust: Option<variable::Variable<TextLengthAdjust>>,
     }
     #[doc = " The ‘text’ element defines a graphics element consisting of text."]
@@ -1191,12 +2357,72 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct TextSpan {
+        #[doc = " If a single `coordinate` is provided, then the value represents the new absolute X coordinate for"]
+        #[doc = " the current text position for rendering the glyphs that correspond to the first character within"]
+        #[doc = " this element or any of its descendants."]
+        #[doc = " "]
+        #[doc = " If a comma- or space-separated list of n `coordinate`s is provided, then the values represent new"]
+        #[doc = " absolute X coordinates for the current text position for rendering the glyphs corresponding to"]
+        #[doc = " each of the first n characters within this element or any of its descendants."]
+        #[doc = " "]
+        #[doc = " For additional processing rules, refer to the description of the ‘x’ attribute on the ‘tspan’ element."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, the effect is as if a value of \"0\" were specified."]
         pub x: Option<variable::Variable<Vec<Length>>>,
+        #[doc = " The corresponding list of absolute Y coordinates for the glyphs corresponding to the characters within this element."]
+        #[doc = " The processing rules for the ‘y’ attribute parallel the processing rules for the ‘x’ attribute."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, the effect is as if a value of \"0\" were specified."]
         pub y: Option<variable::Variable<Vec<Length>>>,
+        #[doc = " Shifts in the current text position along the x-axis for the characters within this element or any of its descendants."]
+        #[doc = " "]
+        #[doc = " Refer to the description of the ‘dx’ attribute on the ‘tspan’ element."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified on this element or any of its descendants, no supplemental shifts along"]
+        #[doc = " the x-axis will occur."]
         pub dx: Option<variable::Variable<Vec<Length>>>,
+        #[doc = " Shifts in the current text position along the y-axis for the characters within this element or any of its descendants."]
+        #[doc = " "]
+        #[doc = " Refer to the description of the ‘dy’ attribute on the ‘tspan’ element."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified on this element or any of its descendants, no supplemental shifts along"]
+        #[doc = " the y-axis will occur."]
         pub dy: Option<variable::Variable<Vec<Length>>>,
+        #[doc = " The supplemental rotation about the current text position that will be applied to all of the glyphs corresponding"]
+        #[doc = " to each character within this element."]
+        #[doc = " "]
+        #[doc = " Refer to the description of the ‘rotate’ attribute on the ‘tspan’ element."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified on this element or any of its descendants, no supplemental rotations will occur."]
         pub rotate: Option<variable::Variable<Vec<Angle>>>,
+        #[doc = " The author's computation of the total sum of all of the advance values that correspond to character data within"]
+        #[doc = " this element, including the advance value on the glyph (horizontal or vertical), the effect of properties ‘kerning’,"]
+        #[doc = " ‘letter-spacing’ and ‘word-spacing’ and adjustments due to attributes ‘dx’ and ‘dy’ on ‘tspan’ elements. This value"]
+        #[doc = " is used to calibrate the user agent's own calculations with that of the author."]
+        #[doc = " "]
+        #[doc = " The purpose of this attribute is to allow the author to achieve exact alignment, in visual rendering order after any"]
+        #[doc = " bidirectional reordering, for the first and last rendered glyphs that correspond to this element; thus, for the last"]
+        #[doc = " rendered character (in visual rendering order after any bidirectional reordering), any supplemental inter-character"]
+        #[doc = " spacing beyond normal glyph advances are ignored (in most cases) when the user agent determines the appropriate amount"]
+        #[doc = " to expand/compress the text string to fit within a length of ‘textLength’."]
+        #[doc = " "]
+        #[doc = " A negative value is an error (see Error processing)."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, the effect is as if the author's computation exactly matched the value calculated"]
+        #[doc = " by the user agent; thus, no advance adjustments are made."]
         pub text_length: Option<variable::Variable<Vec<Length>>>,
+        #[doc = " Indicates the type of adjustments which the user agent shall make to make the rendered length of the text match the"]
+        #[doc = " value specified on the ‘textLength’ attribute."]
+        #[doc = " "]
+        #[doc = " The user agent is required to achieve correct start and end positions for the text strings, but the locations of"]
+        #[doc = " intermediate glyphs are not predictable because user agents might employ advanced algorithms to stretch or compress"]
+        #[doc = " text strings in order to balance correct start and end positioning with optimal typography."]
+        #[doc = " "]
+        #[doc = " Note that, for a text string that contains n characters, the adjustments to the advance values often occur only for n−1"]
+        #[doc = " characters (see description of attribute ‘textLength’), whereas stretching or compressing of the glyphs will be applied"]
+        #[doc = " to all n characters."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, the effect is as a value of 'spacing' were specified."]
         pub length_adjust: Option<variable::Variable<TextLengthAdjust>>,
     }
     #[doc = " Text content chars."]
@@ -1210,9 +2436,27 @@ pub mod opcode {
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct TextPath {
+        #[doc = " An offset from the start of the ‘path’ for the initial current text position,"]
+        #[doc = " calculated using the user agent's [`distance along the path`] algorithm."]
+        #[doc = " "]
+        #[doc = " If a `length` other than a percentage is given, then the ‘startOffset’ represents a"]
+        #[doc = " distance along the path measured in the current user coordinate system."]
+        #[doc = " "]
+        #[doc = " If a percentage is given, then the ‘startOffset’ represents a percentage distance along"]
+        #[doc = " the entire path. Thus, startOffset=\"0%\" indicates the start point of the ‘path’ and"]
+        #[doc = " startOffset=\"100%\" indicates the end point of the ‘path’."]
+        #[doc = " "]
+        #[doc = " If the attribute is not specified, the effect is as if a value of \"0\" were specified."]
+        #[doc = " "]
+        #[doc = " [`distance along the path`]: https://www.w3.org/TR/SVG11/paths.html#DistanceAlongAPath"]
         pub start_offset: Option<variable::Variable<Length>>,
+        #[doc = " See [`TextPathMethod`]"]
         pub method: Option<variable::Variable<TextPathMethod>>,
+        #[doc = " See [`TextPathSpacing`]"]
         pub spacing: Option<variable::Variable<TextPathSpacing>>,
+        #[doc = " An IRI reference to the ‘path’ element onto which the glyphs will be rendered."]
+        #[doc = " If `iri` is an invalid reference (e.g., no such element exists, or the referenced element is not a ‘path’),"]
+        #[doc = " then the ‘textPath’ element is in error and its entire contents shall not be rendered by the user agent."]
         pub href: variable::Variable<Iri>,
     }
     #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -2407,186 +3651,6 @@ pub mod opcode {
                     path: value.0.into(),
                     target: value.1,
                 }
-            }
-        }
-    }
-}
-#[doc = r" This mod is automatically generated by `mlang` tools, please does not modify it manually."]
-pub mod sexpr {
-    impl Default for super::opcode::TextLayout {
-        fn default() -> Self {
-            Self {
-                write_mode: None,
-                direction: None,
-                unicode_bidi: None,
-                anchor: None,
-                dominant_baseline: None,
-                alignment_baseline: None,
-                baseline_shift: None,
-                decoration: None,
-                letter_spacing: None,
-                word_spacing: None,
-            }
-        }
-    }
-    impl Default for super::opcode::Stroke {
-        fn default() -> Self {
-            Self {
-                paint: None,
-                width: None,
-                linecap: None,
-                linejoin: None,
-                dasharray: None,
-                dashoffset: None,
-            }
-        }
-    }
-    impl Default for super::opcode::Font {
-        fn default() -> Self {
-            Self {
-                family: None,
-                style: None,
-                variant: None,
-                weight: None,
-                size: None,
-                stretch: None,
-            }
-        }
-    }
-    impl Default for super::opcode::Mask {
-        fn default() -> Self {
-            Self {
-                units: None,
-                content_units: None,
-                x: None,
-                y: None,
-                width: None,
-                height: None,
-            }
-        }
-    }
-    impl Default for super::opcode::ClipPath {
-        fn default() -> Self {
-            Self(None)
-        }
-    }
-    impl Default for super::opcode::Filter {
-        fn default() -> Self {
-            Self {
-                units: None,
-                primitive_units: None,
-                x: None,
-                y: None,
-                width: None,
-                height: None,
-                res: None,
-            }
-        }
-    }
-    impl Default for super::opcode::FeDistantLight {
-        fn default() -> Self {
-            Self {
-                azimuth: None,
-                elevation: None,
-            }
-        }
-    }
-    impl Default for super::opcode::FePointLight {
-        fn default() -> Self {
-            Self {
-                x: None,
-                y: None,
-                z: None,
-            }
-        }
-    }
-    impl Default for super::opcode::FeSpotLight {
-        fn default() -> Self {
-            Self {
-                x: None,
-                y: None,
-                z: None,
-                point_at_x: None,
-                point_at_y: None,
-                point_at_z: None,
-                specular_exponent: None,
-                limiting_cone_angle: None,
-            }
-        }
-    }
-    impl Default for super::opcode::FeComponentTransfer {
-        fn default() -> Self {
-            Self(None)
-        }
-    }
-    impl Default for super::opcode::LinearGradient {
-        fn default() -> Self {
-            Self {
-                units: None,
-                transform: None,
-                x1: None,
-                y1: None,
-                x2: None,
-                y2: None,
-                spread: None,
-            }
-        }
-    }
-    impl Default for super::opcode::RadialGradient {
-        fn default() -> Self {
-            Self {
-                unit: None,
-                transform: None,
-                cx: None,
-                cy: None,
-                r: None,
-                fx: None,
-                fy: None,
-                spread: None,
-            }
-        }
-    }
-    impl Default for super::opcode::Group {
-        fn default() -> Self {
-            Self
-        }
-    }
-    impl Default for super::opcode::Pattern {
-        fn default() -> Self {
-            Self {
-                units: None,
-                content_units: None,
-                transform: None,
-                x: None,
-                y: None,
-                width: None,
-                height: None,
-            }
-        }
-    }
-    impl Default for super::opcode::Text {
-        fn default() -> Self {
-            Self {
-                x: None,
-                y: None,
-                dx: None,
-                dy: None,
-                rotate: None,
-                text_length: None,
-                length_adjust: None,
-            }
-        }
-    }
-    impl Default for super::opcode::TextSpan {
-        fn default() -> Self {
-            Self {
-                x: None,
-                y: None,
-                dx: None,
-                dy: None,
-                rotate: None,
-                text_length: None,
-                length_adjust: None,
             }
         }
     }

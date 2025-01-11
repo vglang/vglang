@@ -23,9 +23,9 @@ fn ml_gen() {
         panic!("semantic anlayze failed: vglang.ml");
     }
 
-    // let ml = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("src/ml.rs");
+    let ml = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("src/ml.rs");
 
-    // gen(&opcodes, ml);
+    gen(&opcodes, ml);
 }
 
 fn main() {

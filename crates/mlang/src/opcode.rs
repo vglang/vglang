@@ -341,6 +341,30 @@ impl<'a> Field<'a> {
             Field::Unnamed(_) => None,
         }
     }
+
+    pub fn is_option(&self) -> bool {
+        for property in self.properties() {
+            for callexpr in &property.params {
+                if callexpr.ident.0 == "option" {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    pub fn is_variable(&self) -> bool {
+        for property in self.properties() {
+            for callexpr in &property.params {
+                if callexpr.ident.0 == "variable" {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }
 
 impl<'a> Iterator for FieldIter<'a> {
