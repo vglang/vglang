@@ -2,9 +2,232 @@ use heck::ToUpperCamelCase;
 use proc_macro2::TokenStream;
 use quote::{format_ident, quote};
 
-use crate::{codegen::opcode::NodeGen, opcode::Opcode};
+use crate::opcode::{Enum, Field, Node, Opcode, Type};
 
-/// Rust codes generator for `mlang`.
+/// To generate a opcode type.
+pub trait Definition {
+    fn gen_ident(&self) -> TokenStream;
+    fn gen_keyword(&self) -> TokenStream;
+    fn gen_body(&self, fields: Vec<TokenStream>) -> TokenStream;
+    fn gen_opcode_end(&self) -> TokenStream;
+    fn gen_fields(&self, vis: &TokenStream) -> Vec<TokenStream>;
+    fn gen_comments(&self) -> Vec<TokenStream>;
+    /// Generate one opcode's definition codes.
+    fn gen_definition(&self) -> TokenStream {
+        let keyword = self.gen_keyword();
+        let ident = self.gen_ident();
+        let comments = self.gen_comments();
+
+        let body = self.gen_body(self.gen_fields(&quote! {pub}));
+
+        let opcode_end = self.gen_opcode_end();
+
+        quote! {
+            #(#comments)*
+            #[derive(Debug, PartialEq, PartialOrd, Clone)]
+            #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+            pub #keyword #ident #body #opcode_end
+        }
+    }
+}
+
+impl Definition for Node {
+    fn gen_comments(&self) -> Vec<TokenStream> {
+        self.comments
+            .iter()
+            .map(|comment| format!("/// {0}", comment.0).parse().unwrap())
+            .collect()
+    }
+    fn gen_ident(&self) -> TokenStream {
+        self.ident.to_upper_camel_case().parse().unwrap()
+    }
+
+    fn gen_keyword(&self) -> TokenStream {
+        "struct".parse().unwrap()
+    }
+
+    fn gen_body(&self, fields: Vec<TokenStream>) -> TokenStream {
+        if fields.is_empty() {
+            return quote! {};
+        }
+
+        if self.is_tuple() {
+            quote! {(#(#fields),*)}
+        } else {
+            quote! {{#(#fields),*}}
+        }
+    }
+
+    fn gen_opcode_end(&self) -> TokenStream {
+        if self.is_tuple() {
+            quote! {;}
+        } else {
+            quote! {}
+        }
+    }
+
+    fn gen_fields(&self, vis: &TokenStream) -> Vec<TokenStream> {
+        self.fields
+            .iter()
+            .map(|field| field.gen_field(&vis))
+            .collect()
+    }
+}
+
+pub trait FieldDefinition {
+    fn gen_field(&self, vis: &TokenStream) -> TokenStream;
+}
+
+pub trait FieldDefinitionExt: FieldDefinition {
+    fn gen_ident(&self) -> Option<TokenStream>;
+    fn is_option(&self) -> bool;
+    fn is_variable(&self) -> bool;
+}
+
+impl FieldDefinition for Node {
+    fn gen_field(&self, vis: &TokenStream) -> TokenStream {
+        let ident = self.gen_ident();
+
+        let body = self.gen_body(self.gen_fields(vis));
+
+        quote! {
+            #ident #body
+        }
+    }
+}
+
+impl<'a> FieldDefinition for Field<'a> {
+    fn gen_field(&self, vis: &TokenStream) -> TokenStream {
+        let ident = if let Some(ident) = self.gen_ident() {
+            format!("{}:", ident).parse().unwrap()
+        } else {
+            quote! {}
+        };
+
+        let mut ty = self.ty().gen_type();
+
+        if self.is_variable() {
+            ty = quote! { variable::Variable<#ty> };
+        }
+
+        if self.is_option() {
+            ty = quote! { Option<#ty> };
+        }
+
+        quote! {
+            #vis #ident #ty
+        }
+    }
+}
+
+impl<'a> FieldDefinitionExt for Field<'a> {
+    fn is_option(&self) -> bool {
+        for property in self.properties() {
+            for callexpr in &property.params {
+                if callexpr.ident.0 == "option" {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    fn is_variable(&self) -> bool {
+        for property in self.properties() {
+            for callexpr in &property.params {
+                if callexpr.ident.0 == "variable" {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    fn gen_ident(&self) -> Option<TokenStream> {
+        if let Some(ident) = self.ident() {
+            let ident = match ident.0.as_str() {
+                "in" => "r#in",
+                "type" => "r#type",
+                ident => ident,
+            };
+            Some(ident.parse().unwrap())
+        } else {
+            None
+        }
+    }
+}
+
+impl Definition for Enum {
+    fn gen_comments(&self) -> Vec<TokenStream> {
+        self.comments
+            .iter()
+            .map(|comment| format!("/// {0}", comment.0).parse().unwrap())
+            .collect()
+    }
+    fn gen_ident(&self) -> TokenStream {
+        self.ident.parse().unwrap()
+    }
+
+    fn gen_keyword(&self) -> TokenStream {
+        "enum".parse().unwrap()
+    }
+
+    fn gen_body(&self, fields: Vec<TokenStream>) -> TokenStream {
+        quote! {
+            { #(#fields),* }
+        }
+    }
+
+    fn gen_opcode_end(&self) -> TokenStream {
+        quote! {}
+    }
+
+    fn gen_fields(&self, _vis: &TokenStream) -> Vec<TokenStream> {
+        self.fields
+            .iter()
+            .map(|field| field.gen_field(&quote! {}))
+            .collect::<Vec<_>>()
+    }
+}
+
+pub trait TypeDefinition {
+    fn gen_type(&self) -> TokenStream;
+}
+
+impl TypeDefinition for Type {
+    fn gen_type(&self) -> TokenStream {
+        match self {
+            Type::Bool(_) => quote! {bool},
+            Type::String(_) => quote! {String},
+            Type::Byte(_) => quote! {i8},
+            Type::Ubyte(_) => quote! {u8},
+            Type::Short(_) => quote! {i16},
+            Type::Ushort(_) => quote! {u16},
+            Type::Int(_) => quote! {i32},
+            Type::Uint(_) => quote! {u32},
+            Type::Long(_) => quote! {i64},
+            Type::Ulong(_) => quote! {u64},
+            Type::Float(_) => quote! {f32},
+            Type::Double(_) => quote! {f64},
+            Type::Data(ident) => ident.0.to_upper_camel_case().parse().unwrap(),
+            Type::ListOf(component, _) => {
+                let component = component.gen_type();
+
+                quote! { Vec<#component> }
+            }
+            Type::ArrayOf(component, lit_num, _) => {
+                let component = component.gen_type();
+                let num = lit_num.0;
+
+                quote! { [#component;#num] }
+            }
+        }
+    }
+}
+
+/// A generator for `opcode` mod.
 #[derive(Default)]
 pub struct OpcodeModGen {
     /// collection of data types.
@@ -234,7 +457,7 @@ impl OpcodeModGen {
         }
     }
 
-    pub(super) fn gen_el_definition(&self) -> TokenStream {
+    fn gen_el_definition(&self) -> TokenStream {
         let mut fields = vec![];
         let mut froms = vec![];
 

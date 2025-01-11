@@ -4,13 +4,15 @@ use proc_macro2::TokenStream;
 use quote::quote;
 
 use crate::{
-    codegen::opcode::FieldGen,
+    codegen::opcode::{Definition, FieldDefinitionExt},
     opcode::{ApplyTo, ChildrenOf, Enum, Node, Opcode},
 };
 
-use super::opcode::NodeGen;
-
 pub trait SexprGen {
+    fn gen_sexpr_fns(&self, opcode_mod: &TokenStream) -> TokenStream;
+}
+
+impl SexprGen for Node {
     fn gen_sexpr_fns(&self, opcode_mod: &TokenStream) -> TokenStream {
         let mut token_streams = vec![];
 
@@ -24,13 +26,9 @@ pub trait SexprGen {
             #(#token_streams)*
         }
     }
-
-    fn gen_sexpr_default_fn(&self, opcode_mod: &TokenStream) -> TokenStream;
-    fn gen_sexpr_from_init_fn(&self, opcode_mod: &TokenStream) -> TokenStream;
-    fn gen_sexpr_from_fns(&self, opcode_mod: &TokenStream) -> TokenStream;
 }
 
-impl SexprGen for Node {
+impl Node {
     fn gen_sexpr_default_fn(&self, opcode_mod: &TokenStream) -> TokenStream {
         let no_options = self.fields.iter().fold(0usize, |non_option, field| {
             if field.is_option() {
@@ -48,7 +46,7 @@ impl SexprGen for Node {
             .fields
             .iter()
             .map(|field| {
-                if let Some(ident) = field.gen_indent() {
+                if let Some(ident) = field.gen_ident() {
                     quote! { #ident: None}
                 } else {
                     quote! { None }
@@ -60,65 +58,52 @@ impl SexprGen for Node {
 
         let ident = quote! {#opcode_mod #ident};
 
-        let body_start = self.gen_body_start();
-        let body_end = self.gen_body_end();
+        let body = self.gen_body(fields);
 
         quote! {
             impl Default for #ident {
                 fn default() -> Self {
-                    Self #body_start #(#fields),* #body_end
+                    Self #body
                 }
             }
         }
     }
 
-    fn gen_sexpr_from_fns(&self, opcode_mod: &TokenStream) -> TokenStream {
+    fn gen_sexpr_from_fns(&self, _: &TokenStream) -> TokenStream {
         quote! {}
     }
 
-    fn gen_sexpr_from_init_fn(&self, opcode_mod: &TokenStream) -> TokenStream {
+    fn gen_sexpr_from_init_fn(&self, _: &TokenStream) -> TokenStream {
+        let no_options = self.fields.iter().fold(0usize, |non_option, field| {
+            if field.is_option() {
+                non_option
+            } else {
+                non_option + 1
+            }
+        });
+
+        if no_options == 0 {
+            return quote! {};
+        }
+
         quote! {}
     }
 }
 
 impl SexprGen for Enum {
-    fn gen_sexpr_default_fn(&self, opcode_mod: &TokenStream) -> TokenStream {
-        quote! {}
-    }
-
-    fn gen_sexpr_from_fns(&self, opcode_mod: &TokenStream) -> TokenStream {
-        quote! {}
-    }
-
-    fn gen_sexpr_from_init_fn(&self, opcode_mod: &TokenStream) -> TokenStream {
+    fn gen_sexpr_fns(&self, _opcode_mod: &TokenStream) -> TokenStream {
         quote! {}
     }
 }
 
 impl SexprGen for ApplyTo {
-    fn gen_sexpr_default_fn(&self, opcode_mod: &TokenStream) -> TokenStream {
-        quote! {}
-    }
-
-    fn gen_sexpr_from_fns(&self, opcode_mod: &TokenStream) -> TokenStream {
-        quote! {}
-    }
-
-    fn gen_sexpr_from_init_fn(&self, opcode_mod: &TokenStream) -> TokenStream {
+    fn gen_sexpr_fns(&self, _: &TokenStream) -> TokenStream {
         quote! {}
     }
 }
 
 impl SexprGen for ChildrenOf {
-    fn gen_sexpr_default_fn(&self, opcode_mod: &TokenStream) -> TokenStream {
-        quote! {}
-    }
-
-    fn gen_sexpr_from_fns(&self, opcode_mod: &TokenStream) -> TokenStream {
-        quote! {}
-    }
-
-    fn gen_sexpr_from_init_fn(&self, opcode_mod: &TokenStream) -> TokenStream {
+    fn gen_sexpr_fns(&self, _: &TokenStream) -> TokenStream {
         quote! {}
     }
 }
