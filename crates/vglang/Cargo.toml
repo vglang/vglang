@@ -10,8 +10,11 @@ version.workspace = true
 thiserror = { workspace = true }
 serde = {workspace = true,optional = true}
 
+vglang-derive = { workspace = true }
+
 [build-dependencies]
 mlang = {workspace = true, features = ["codegen"]}
 
 [features]
 serde = ["dep:serde"]
+sexpr = []

@@ -1,0 +1,186 @@
+[
+  {
+    "Apply": {
+      "ViewBox": {
+        "minx": {
+          "Constant": 0.0
+        },
+        "miny": {
+          "Constant": 0.0
+        },
+        "width": {
+          "Constant": 800.0
+        },
+        "height": {
+          "Constant": 400.0
+        }
+      }
+    }
+  },
+  {
+    "Container": {
+      "Canvas": {
+        "width": {
+          "Constant": {
+            "cm": 8.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "cm": 4.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Id": "MyGradient"
+    }
+  },
+  {
+    "Container": {
+      "LinearGradient": {
+        "units": null,
+        "transform": null,
+        "x1": null,
+        "y1": null,
+        "x2": null,
+        "y2": null,
+        "spread": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "GradientStop": {
+        "offset": {
+          "Constant": 0.05
+        },
+        "color": {
+          "Constant": [
+            255,
+            102,
+            0
+          ]
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "GradientStop": {
+        "offset": {
+          "Constant": 0.95
+        },
+        "color": {
+          "Constant": [
+            255,
+            255,
+            102
+          ]
+        },
+        "opacity": null
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "px": 1.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "px": 1.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "px": 798.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "px": 398.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Server": {
+              "Path": "MyGradient"
+            }
+          }
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "px": 100.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "px": 100.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "px": 600.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "px": 200.0
+          }
+        }
+      }
+    }
+  },
+  "Pop"
+]

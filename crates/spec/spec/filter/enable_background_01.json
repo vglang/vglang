@@ -1,0 +1,1242 @@
+[
+  {
+    "Container": {
+      "Canvas": {
+        "width": {
+          "Constant": {
+            "cm": 13.5
+          }
+        },
+        "height": {
+          "Constant": {
+            "cm": 2.7
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Id": "ShiftBGAndBlur"
+    }
+  },
+  {
+    "Container": {
+      "Filter": {
+        "units": {
+          "Constant": "UserSpaceOnUse"
+        },
+        "primitive_units": null,
+        "x": {
+          "Constant": {
+            "px": 0.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "px": 0.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "px": 1200.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "px": 400.0
+          }
+        },
+        "res": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "FeOffset": {
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "result": null,
+        "in": {
+          "Constant": "BackgroundImage"
+        },
+        "dx": {
+          "Constant": 0.0
+        },
+        "dy": {
+          "Constant": 125.0
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "FeGaussianBlur": {
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "result": null,
+        "in": null,
+        "std_deviation": {
+          "Constant": [
+            8.0,
+            null
+          ]
+        }
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Id": "ShiftBGAndBlur_WithSourceGraphic"
+    }
+  },
+  {
+    "Container": {
+      "Filter": {
+        "units": {
+          "Constant": "UserSpaceOnUse"
+        },
+        "primitive_units": null,
+        "x": {
+          "Constant": {
+            "px": 0.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "px": 0.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "px": 1200.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "px": 400.0
+          }
+        },
+        "res": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "FeOffset": {
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "result": null,
+        "in": {
+          "Constant": "BackgroundImage"
+        },
+        "dx": {
+          "Constant": 0.0
+        },
+        "dy": {
+          "Constant": 125.0
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "FeGaussianBlur": {
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "result": {
+          "Constant": "blur"
+        },
+        "in": null,
+        "std_deviation": {
+          "Constant": [
+            8.0,
+            null
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Container": {
+      "FeMerge": {
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "result": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "FeMergeNode": {
+        "Constant": {
+          "Ref": "blur"
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "FeMergeNode": {
+        "Constant": "SourceGraphic"
+      }
+    }
+  },
+  "Pop",
+  "Pop",
+  {
+    "Apply": {
+      "WithTransform": [
+        {
+          "Translate": {
+            "tx": 0.0,
+            "ty": 0.0
+          }
+        }
+      ]
+    }
+  },
+  {
+    "Container": {
+      "Group": null
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              255,
+              0,
+              0
+            ]
+          }
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "px": 25.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "px": 25.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "px": 100.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "px": 100.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Opacity": {
+        "Constant": 0.5
+      }
+    }
+  },
+  {
+    "Container": {
+      "Group": null
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              128,
+              0
+            ]
+          }
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Circle": {
+        "cx": {
+          "Constant": {
+            "px": 125.0
+          }
+        },
+        "cy": {
+          "Constant": {
+            "px": 75.0
+          }
+        },
+        "r": {
+          "Constant": {
+            "px": 45.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Polygon": {
+        "Constant": [
+          {
+            "x": 160.0,
+            "y": 25.0
+          },
+          {
+            "x": 160.0,
+            "y": 125.0
+          },
+          {
+            "x": 240.0,
+            "y": 75.0
+          }
+        ]
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Fill": {
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "px": 5.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "px": 5.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "px": 260.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "px": 260.0
+          }
+        }
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "WithTransform": [
+        {
+          "Translate": {
+            "tx": 270.0,
+            "ty": 0.0
+          }
+        }
+      ]
+    }
+  },
+  {
+    "Apply": {
+      "EnableBackground": {
+        "New": {
+          "x": null,
+          "y": null,
+          "width": null,
+          "height": null
+        }
+      }
+    }
+  },
+  {
+    "Container": {
+      "Group": null
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              255,
+              0,
+              0
+            ]
+          }
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "px": 25.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "px": 25.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "px": 100.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "px": 100.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Opacity": {
+        "Constant": 0.5
+      }
+    }
+  },
+  {
+    "Container": {
+      "Group": null
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              128,
+              0
+            ]
+          }
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Circle": {
+        "cx": {
+          "Constant": {
+            "px": 125.0
+          }
+        },
+        "cy": {
+          "Constant": {
+            "px": 75.0
+          }
+        },
+        "r": {
+          "Constant": {
+            "px": 45.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Polygon": {
+        "Constant": [
+          {
+            "x": 160.0,
+            "y": 25.0
+          },
+          {
+            "x": 160.0,
+            "y": 125.0
+          },
+          {
+            "x": 240.0,
+            "y": 75.0
+          }
+        ]
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "WithFilter": "ShiftBGAndBlur"
+    }
+  },
+  {
+    "Container": {
+      "Group": null
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "px": 5.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "px": 5.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "px": 260.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "px": 260.0
+          }
+        }
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "EnableBackground": {
+        "New": {
+          "x": null,
+          "y": null,
+          "width": null,
+          "height": null
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "WithTransform": [
+        {
+          "Translate": {
+            "tx": 270.0,
+            "ty": 0.0
+          }
+        }
+      ]
+    }
+  },
+  {
+    "Container": {
+      "Group": null
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              255,
+              0,
+              0
+            ]
+          }
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "px": 25.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "px": 25.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "px": 100.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "px": 100.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "WithFilter": "ShiftBGAndBlur"
+    }
+  },
+  {
+    "Apply": {
+      "Opacity": {
+        "Constant": 0.5
+      }
+    }
+  },
+  {
+    "Container": {
+      "Group": null
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              128,
+              0
+            ]
+          }
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Circle": {
+        "cx": {
+          "Constant": {
+            "px": 125.0
+          }
+        },
+        "cy": {
+          "Constant": {
+            "px": 75.0
+          }
+        },
+        "r": {
+          "Constant": {
+            "px": 45.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Polygon": {
+        "Constant": [
+          {
+            "x": 160.0,
+            "y": 25.0
+          },
+          {
+            "x": 160.0,
+            "y": 125.0
+          },
+          {
+            "x": 240.0,
+            "y": 75.0
+          }
+        ]
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Fill": {
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "px": 5.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "px": 5.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "px": 260.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "px": 260.0
+          }
+        }
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "EnableBackground": {
+        "New": {
+          "x": null,
+          "y": null,
+          "width": null,
+          "height": null
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "WithTransform": [
+        {
+          "Translate": {
+            "tx": 270.0,
+            "ty": 0.0
+          }
+        }
+      ]
+    }
+  },
+  {
+    "Container": {
+      "Group": null
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              255,
+              0,
+              0
+            ]
+          }
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "px": 25.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "px": 25.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "px": 100.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "px": 100.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Opacity": {
+        "Constant": 0.5
+      }
+    }
+  },
+  {
+    "Container": {
+      "Group": null
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              128,
+              0
+            ]
+          }
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Circle": {
+        "cx": {
+          "Constant": {
+            "px": 125.0
+          }
+        },
+        "cy": {
+          "Constant": {
+            "px": 75.0
+          }
+        },
+        "r": {
+          "Constant": {
+            "px": 45.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "WithFilter": "ShiftBGAndBlur"
+    }
+  },
+  {
+    "Draw": {
+      "Polygon": {
+        "Constant": [
+          {
+            "x": 160.0,
+            "y": 25.0
+          },
+          {
+            "x": 160.0,
+            "y": 125.0
+          },
+          {
+            "x": 240.0,
+            "y": 75.0
+          }
+        ]
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Fill": {
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "px": 5.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "px": 5.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "px": 260.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "px": 260.0
+          }
+        }
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "EnableBackground": {
+        "New": {
+          "x": null,
+          "y": null,
+          "width": null,
+          "height": null
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "WithTransform": [
+        {
+          "Translate": {
+            "tx": 270.0,
+            "ty": 0.0
+          }
+        }
+      ]
+    }
+  },
+  {
+    "Container": {
+      "Group": null
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              255,
+              0,
+              0
+            ]
+          }
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "px": 25.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "px": 25.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "px": 100.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "px": 100.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Opacity": {
+        "Constant": 0.5
+      }
+    }
+  },
+  {
+    "Container": {
+      "Group": null
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              128,
+              0
+            ]
+          }
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Circle": {
+        "cx": {
+          "Constant": {
+            "px": 125.0
+          }
+        },
+        "cy": {
+          "Constant": {
+            "px": 75.0
+          }
+        },
+        "r": {
+          "Constant": {
+            "px": 45.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "WithFilter": "ShiftBGAndBlur_WithSourceGraphic"
+    }
+  },
+  {
+    "Draw": {
+      "Polygon": {
+        "Constant": [
+          {
+            "x": 160.0,
+            "y": 25.0
+          },
+          {
+            "x": 160.0,
+            "y": 125.0
+          },
+          {
+            "x": 240.0,
+            "y": 75.0
+          }
+        ]
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Fill": {
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "px": 5.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "px": 5.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "px": 260.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "px": 260.0
+          }
+        }
+      }
+    }
+  },
+  "Pop",
+  "Pop"
+]

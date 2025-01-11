@@ -1,0 +1,169 @@
+[
+  {
+    "Apply": {
+      "ViewBox": {
+        "minx": {
+          "Constant": 0.0
+        },
+        "miny": {
+          "Constant": 0.0
+        },
+        "width": {
+          "Constant": 1200.0
+        },
+        "height": {
+          "Constant": 400.0
+        }
+      }
+    }
+  },
+  {
+    "Container": {
+      "Canvas": {
+        "width": {
+          "Constant": {
+            "cm": 12.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "cm": 4.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "px": 1.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "px": 1.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "px": 1198.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "px": 398.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "WithTransform": [
+        {
+          "Translate": {
+            "tx": 300.0,
+            "ty": 200.0
+          }
+        }
+      ]
+    }
+  },
+  {
+    "Container": {
+      "Group": null
+    }
+  },
+  {
+    "Draw": {
+      "Ellipse": {
+        "cx": null,
+        "cy": null,
+        "rx": {
+          "Constant": {
+            "px": 250.0
+          }
+        },
+        "ry": {
+          "Constant": {
+            "px": 100.0
+          }
+        }
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "WithTransform": [
+        {
+          "Translate": {
+            "tx": 900.0,
+            "ty": 200.0
+          }
+        },
+        {
+          "Rotate": {
+            "angle": -30.0,
+            "cx": 0.0,
+            "cy": 0.0
+          }
+        }
+      ]
+    }
+  },
+  {
+    "Container": {
+      "Group": null
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              128,
+              0,
+              128
+            ]
+          }
+        },
+        "width": {
+          "Constant": {
+            "px": 30.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Ellipse": {
+        "cx": null,
+        "cy": null,
+        "rx": {
+          "Constant": {
+            "px": 250.0
+          }
+        },
+        "ry": {
+          "Constant": {
+            "px": 100.0
+          }
+        }
+      }
+    }
+  },
+  "Pop",
+  "Pop"
+]

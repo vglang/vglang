@@ -1,0 +1,630 @@
+[
+  {
+    "Apply": {
+      "ViewBox": {
+        "minx": {
+          "Constant": 0.0
+        },
+        "miny": {
+          "Constant": 0.0
+        },
+        "width": {
+          "Constant": 500.0
+        },
+        "height": {
+          "Constant": 500.0
+        }
+      }
+    }
+  },
+  {
+    "Container": {
+      "Canvas": {
+        "width": {
+          "Constant": {
+            "cm": 5.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "cm": 5.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Id": "MyGradient"
+    }
+  },
+  {
+    "Container": {
+      "LinearGradient": {
+        "units": {
+          "Constant": "UserSpaceOnUse"
+        },
+        "transform": null,
+        "x1": {
+          "Constant": {
+            "px": 100.0
+          }
+        },
+        "y1": {
+          "Constant": {
+            "px": 0.0
+          }
+        },
+        "x2": {
+          "Constant": {
+            "px": 300.0
+          }
+        },
+        "y2": {
+          "Constant": {
+            "px": 0.0
+          }
+        },
+        "spread": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "GradientStop": {
+        "offset": {
+          "Constant": 0.0
+        },
+        "color": {
+          "Constant": [
+            0,
+            0,
+            0
+          ]
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "GradientStop": {
+        "offset": {
+          "Constant": 0.33
+        },
+        "color": {
+          "Constant": [
+            255,
+            255,
+            255
+          ]
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "GradientStop": {
+        "offset": {
+          "Constant": 0.67
+        },
+        "color": {
+          "Constant": [
+            255,
+            0,
+            0
+          ]
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "GradientStop": {
+        "offset": {
+          "Constant": 1.0
+        },
+        "color": {
+          "Constant": [
+            128,
+            128,
+            128
+          ]
+        },
+        "opacity": null
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Id": "Normal"
+    }
+  },
+  {
+    "Container": {
+      "Filter": {
+        "units": null,
+        "primitive_units": null,
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "res": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "FeBlend": {
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "result": null,
+        "mode": {
+          "Constant": "Normal"
+        },
+        "in": null,
+        "in2": {
+          "Constant": "BackgroundImage"
+        }
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Id": "Multiply"
+    }
+  },
+  {
+    "Container": {
+      "Filter": {
+        "units": null,
+        "primitive_units": null,
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "res": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "FeBlend": {
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "result": null,
+        "mode": {
+          "Constant": "Multiply"
+        },
+        "in": null,
+        "in2": {
+          "Constant": "BackgroundImage"
+        }
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Id": "Screen"
+    }
+  },
+  {
+    "Container": {
+      "Filter": {
+        "units": null,
+        "primitive_units": null,
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "res": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "FeBlend": {
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "result": null,
+        "mode": {
+          "Constant": "Screen"
+        },
+        "in": null,
+        "in2": {
+          "Constant": "BackgroundImage"
+        }
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Id": "Darken"
+    }
+  },
+  {
+    "Container": {
+      "Filter": {
+        "units": null,
+        "primitive_units": null,
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "res": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "FeBlend": {
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "result": null,
+        "mode": {
+          "Constant": "Darken"
+        },
+        "in": null,
+        "in2": {
+          "Constant": "BackgroundImage"
+        }
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Id": "Lighten"
+    }
+  },
+  {
+    "Container": {
+      "Filter": {
+        "units": null,
+        "primitive_units": null,
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "res": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "FeBlend": {
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "result": null,
+        "mode": {
+          "Constant": "Lighten"
+        },
+        "in": null,
+        "in2": {
+          "Constant": "BackgroundImage"
+        }
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Fill": {
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "px": 1.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "px": 1.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "px": 498.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "px": 498.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "EnableBackground": {
+        "New": {
+          "x": null,
+          "y": null,
+          "width": null,
+          "height": null
+        }
+      }
+    }
+  },
+  {
+    "Container": {
+      "Group": null
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Server": {
+              "Path": "MyGradient"
+            }
+          }
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "px": 100.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "px": 20.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "px": 300.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "px": 460.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Font": {
+        "family": {
+          "Constant": [
+            {
+              "Generic": "Verdana"
+            }
+          ]
+        },
+        "size": {
+          "Constant": {
+            "px": 75.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              136,
+              136,
+              136
+            ]
+          }
+        },
+        "opacity": {
+          "Constant": 0.6
+        }
+      }
+    }
+  },
+  {
+    "Container": {
+      "Group": null
+    }
+  },
+  {
+    "Apply": {
+      "WithFilter": "Normal"
+    }
+  },
+  {
+    "Container": {
+      "Text": {
+        "x": {
+          "Constant": [
+            {
+              "px": 50.0
+            }
+          ]
+        },
+        "y": {
+          "Constant": [
+            {
+              "px": 90.0
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Characters": "Normal"
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "WithFilter": "Multiply"
+    }
+  },
+  {
+    "Container": {
+      "Text": {
+        "x": {
+          "Constant": [
+            {
+              "px": 50.0
+            }
+          ]
+        },
+        "y": {
+          "Constant": [
+            {
+              "px": 90.0
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Characters": "Multiply"
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "WithFilter": "Screen"
+    }
+  },
+  {
+    "Container": {
+      "Text": {
+        "x": {
+          "Constant": [
+            {
+              "px": 50.0
+            }
+          ]
+        },
+        "y": {
+          "Constant": [
+            {
+              "px": 90.0
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Characters": "Screen"
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "WithFilter": "Darken"
+    }
+  },
+  {
+    "Container": {
+      "Text": {
+        "x": {
+          "Constant": [
+            {
+              "px": 50.0
+            }
+          ]
+        },
+        "y": {
+          "Constant": [
+            {
+              "px": 90.0
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Characters": "Darken"
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "WithFilter": "Lighten"
+    }
+  },
+  {
+    "Container": {
+      "Text": {
+        "x": {
+          "Constant": [
+            {
+              "px": 50.0
+            }
+          ]
+        },
+        "y": {
+          "Constant": [
+            {
+              "px": 90.0
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Characters": "Lighten"
+    }
+  },
+  "Pop",
+  "Pop",
+  "Pop",
+  "Pop"
+]

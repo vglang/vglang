@@ -1,0 +1,674 @@
+[
+  {
+    "Apply": {
+      "ViewBox": {
+        "minx": {
+          "Constant": 0.0
+        },
+        "miny": {
+          "Constant": 0.0
+        },
+        "width": {
+          "Constant": 800.0
+        },
+        "height": {
+          "Constant": 500.0
+        }
+      }
+    }
+  },
+  {
+    "Container": {
+      "Canvas": {
+        "width": {
+          "Constant": {
+            "cm": 8.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "cm": 5.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Id": "MyGradient"
+    }
+  },
+  {
+    "Container": {
+      "LinearGradient": {
+        "units": {
+          "Constant": "UserSpaceOnUse"
+        },
+        "transform": null,
+        "x1": {
+          "Constant": {
+            "px": 100.0
+          }
+        },
+        "y1": {
+          "Constant": {
+            "px": 0.0
+          }
+        },
+        "x2": {
+          "Constant": {
+            "px": 300.0
+          }
+        },
+        "y2": {
+          "Constant": {
+            "px": 0.0
+          }
+        },
+        "spread": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "GradientStop": {
+        "offset": {
+          "Constant": 0.0
+        },
+        "color": {
+          "Constant": [
+            255,
+            0,
+            255
+          ]
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "GradientStop": {
+        "offset": {
+          "Constant": 0.33
+        },
+        "color": {
+          "Constant": [
+            136,
+            255,
+            136
+          ]
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "GradientStop": {
+        "offset": {
+          "Constant": 0.67
+        },
+        "color": {
+          "Constant": [
+            32,
+            32,
+            255
+          ]
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "GradientStop": {
+        "offset": {
+          "Constant": 1.0
+        },
+        "color": {
+          "Constant": [
+            208,
+            0,
+            0
+          ]
+        },
+        "opacity": null
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Id": "Matrix"
+    }
+  },
+  {
+    "Container": {
+      "Filter": {
+        "units": {
+          "Constant": "ObjectBoundingBox"
+        },
+        "primitive_units": null,
+        "x": {
+          "Constant": {
+            "percent": 0.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "percent": 0.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "percent": 100.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "percent": 100.0
+          }
+        },
+        "res": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "FeColorMatrix": {
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "result": null,
+        "in": {
+          "Constant": "SourceGraphic"
+        },
+        "values": {
+          "Constant": {
+            "Matrix": [
+              0.33,
+              0.33,
+              0.33,
+              0.0,
+              0.0,
+              0.33,
+              0.33,
+              0.33,
+              0.0,
+              0.0,
+              0.33,
+              0.33,
+              0.33,
+              0.0,
+              0.0,
+              0.33,
+              0.33,
+              0.33,
+              0.0,
+              0.0
+            ]
+          }
+        }
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Id": "Saturate40"
+    }
+  },
+  {
+    "Container": {
+      "Filter": {
+        "units": {
+          "Constant": "ObjectBoundingBox"
+        },
+        "primitive_units": null,
+        "x": {
+          "Constant": {
+            "percent": 0.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "percent": 0.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "percent": 100.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "percent": 100.0
+          }
+        },
+        "res": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "FeColorMatrix": {
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "result": null,
+        "in": {
+          "Constant": "SourceGraphic"
+        },
+        "values": {
+          "Constant": {
+            "Saturate": 0.4
+          }
+        }
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Id": "HueRotate90"
+    }
+  },
+  {
+    "Container": {
+      "Filter": {
+        "units": {
+          "Constant": "ObjectBoundingBox"
+        },
+        "primitive_units": null,
+        "x": {
+          "Constant": {
+            "percent": 0.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "percent": 0.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "percent": 100.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "percent": 100.0
+          }
+        },
+        "res": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "FeColorMatrix": {
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "result": null,
+        "in": {
+          "Constant": "SourceGraphic"
+        },
+        "values": {
+          "Constant": {
+            "HueRotate": 90.0
+          }
+        }
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Id": "LuminanceToAlpha"
+    }
+  },
+  {
+    "Container": {
+      "Filter": {
+        "units": {
+          "Constant": "ObjectBoundingBox"
+        },
+        "primitive_units": null,
+        "x": {
+          "Constant": {
+            "percent": 0.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "percent": 0.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "percent": 100.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "percent": 100.0
+          }
+        },
+        "res": null
+      }
+    }
+  },
+  {
+    "Draw": {
+      "FeColorMatrix": {
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "result": {
+          "Constant": "a"
+        },
+        "in": {
+          "Constant": "SourceGraphic"
+        },
+        "values": {
+          "Constant": "LuminanceToAlpha"
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "FeComposite": {
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "result": null,
+        "in": {
+          "Constant": "SourceGraphic"
+        },
+        "in2": {
+          "Constant": {
+            "Ref": "a"
+          }
+        },
+        "operator": {
+          "Constant": "In"
+        }
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Fill": {
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "px": 1.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "px": 1.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "px": 798.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "px": 498.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Font": {
+        "family": {
+          "Constant": [
+            {
+              "Generic": "Verdana"
+            }
+          ]
+        },
+        "weight": {
+          "Constant": "Bold"
+        },
+        "size": {
+          "Constant": {
+            "px": 75.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Server": {
+              "Path": "MyGradient"
+            }
+          }
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Container": {
+      "Group": null
+    }
+  },
+  {
+    "Draw": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "px": 100.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "px": 0.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "px": 500.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "px": 20.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Container": {
+      "Text": {
+        "x": {
+          "Constant": [
+            {
+              "px": 100.0
+            }
+          ]
+        },
+        "y": {
+          "Constant": [
+            {
+              "px": 90.0
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Characters": "Unfiltered"
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "WithFilter": "Matrix"
+    }
+  },
+  {
+    "Container": {
+      "Text": {
+        "x": {
+          "Constant": [
+            {
+              "px": 100.0
+            }
+          ]
+        },
+        "y": {
+          "Constant": [
+            {
+              "px": 190.0
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Characters": "Matrix"
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "WithFilter": "Saturate40"
+    }
+  },
+  {
+    "Container": {
+      "Text": {
+        "x": {
+          "Constant": [
+            {
+              "px": 100.0
+            }
+          ]
+        },
+        "y": {
+          "Constant": [
+            {
+              "px": 290.0
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Characters": "Saturate40"
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "WithFilter": "HueRotate90"
+    }
+  },
+  {
+    "Container": {
+      "Text": {
+        "x": {
+          "Constant": [
+            {
+              "px": 100.0
+            }
+          ]
+        },
+        "y": {
+          "Constant": [
+            {
+              "px": 390.0
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Characters": "HueRotate90"
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "WithFilter": "LuminanceToAlpha"
+    }
+  },
+  {
+    "Container": {
+      "Text": {
+        "x": {
+          "Constant": [
+            {
+              "px": 100.0
+            }
+          ]
+        },
+        "y": {
+          "Constant": [
+            {
+              "px": 490.0
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Draw": {
+      "Characters": "Luminance"
+    }
+  },
+  "Pop",
+  "Pop",
+  "Pop"
+]
