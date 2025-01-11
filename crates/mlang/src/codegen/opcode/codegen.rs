@@ -6,7 +6,7 @@ use crate::{codegen::opcode::NodeGen, opcode::Opcode};
 
 /// Rust codes generator for `mlang`.
 #[derive(Default)]
-pub struct CodeGen {
+pub struct OpcodeModGen {
     /// collection of data types.
     data_types: Vec<TokenStream>,
     /// collection of attr types
@@ -17,9 +17,9 @@ pub struct CodeGen {
     leaf_types: Vec<TokenStream>,
 }
 
-impl CodeGen {
+impl OpcodeModGen {
     /// Consume self and generate rust codes.
-    pub fn generate(mut self, opcodes: &[Opcode]) -> TokenStream {
+    pub fn gen(mut self, opcodes: &[Opcode]) -> TokenStream {
         let mut token_streams = vec![];
 
         for opcode in opcodes {

@@ -7,9 +7,36 @@ pub trait FieldGen {
     fn gen_definition(&self, vis: &TokenStream) -> TokenStream;
 
     fn gen_indent(&self) -> Option<TokenStream>;
+
+    fn is_option(&self) -> bool;
+    fn is_variable(&self) -> bool;
 }
 
 impl<'a> FieldGen for Field<'a> {
+    fn is_option(&self) -> bool {
+        for property in self.properties() {
+            for callexpr in &property.params {
+                if callexpr.ident.0 == "option" {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    fn is_variable(&self) -> bool {
+        for property in self.properties() {
+            for callexpr in &property.params {
+                if callexpr.ident.0 == "variable" {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     fn gen_definition(&self, vis: &TokenStream) -> TokenStream {
         let ident = if let Some(ident) = self.gen_indent() {
             format!("{}:", ident).parse().unwrap()
@@ -19,26 +46,11 @@ impl<'a> FieldGen for Field<'a> {
 
         let mut ty = self.ty().gen_definition();
 
-        let mut variable = false;
-        let mut option = true;
-
-        for property in self.properties() {
-            for callexpr in &property.params {
-                if callexpr.ident.0 == "variable" {
-                    variable = true;
-                }
-
-                if callexpr.ident.0 == "option" {
-                    option = true;
-                }
-            }
-        }
-
-        if variable {
+        if self.is_variable() {
             ty = quote! { variable::Variable<#ty> };
         }
 
-        if option {
+        if self.is_option() {
             ty = quote! { Option<#ty> };
         }
 

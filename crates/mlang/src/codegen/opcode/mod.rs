@@ -1,4 +1,4 @@
-//! target `opcode` generator.
+//! The `opcode` mod generator.
 
 mod codegen;
 pub use codegen::*;
