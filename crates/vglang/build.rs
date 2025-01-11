@@ -5,12 +5,7 @@ fn ml_gen() {}
 fn ml_gen() {
     use std::{fs, path::PathBuf, process::Command};
 
-    use mlang::{
-        codegen::{codegen, OpcodeCodeGen},
-        parse,
-        parserc::ParseContext,
-        semantic_analyze,
-    };
+    use mlang::{parse, parserc::ParseContext, semantic_analyze};
 
     let mut input = ParseContext::from(include_str!("./vglang.ml"));
     let mut opcodes = match parse(&mut input) {
@@ -28,16 +23,20 @@ fn ml_gen() {
         panic!("semantic anlayze failed: vglang.ml");
     }
 
-    let token_stream = codegen(&opcodes, OpcodeCodeGen::default());
+    let opcode_gen = mlang::codegen::opcode::CodeGen::default();
 
-    let gen_path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("src/ml.rs");
+    let opcode_token_stream = opcode_gen.generate(&opcodes);
 
-    fs::write(&gen_path, token_stream.to_string()).unwrap();
+    // let token_stream = codegen(&opcodes, OpcodeCodeGen::default());
+
+    let opcode_file = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("src/opcode.rs");
+
+    fs::write(&opcode_file, opcode_token_stream.to_string()).unwrap();
 
     Command::new("rustfmt")
-        .arg(gen_path.to_str().unwrap().to_string())
+        .arg(opcode_file.to_str().unwrap().to_string())
         .output()
-        .expect("execute fmt.");
+        .expect("execute fmt on opcode.rs");
 }
 
 fn main() {

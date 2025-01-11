@@ -1,7 +1,4 @@
-// mod manual;
-mod ml;
-
-pub use ml::{opcode, variable};
+pub mod opcode;
 
 pub mod sexpr {
     // pub use super::manual::*;
