@@ -4,9 +4,9 @@
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Angle {
-    Deg(f32),
-    Grad(f32),
-    Rad(f32),
+    Deg(Option<f32>),
+    Grad(Option<f32>),
+    Rad(Option<f32>),
 }
 #[doc = " A length is a distance Length, given as a number along with a unit which may be optional."]
 #[doc = " "]
@@ -16,62 +16,62 @@ pub enum Angle {
 pub enum Length {
     #[doc = " Represents the calculated font-size of the element. If used on the font-size property itself,"]
     #[doc = " it represents the inherited font-size of the element."]
-    Em(f32),
+    Em(Option<f32>),
     #[doc = " Represents the x-height of the element's font. In fonts with the x letter, this is generally"]
     #[doc = " the height of lowercase letters in the font; 1ex ≈ 0.5em in many fonts."]
-    Ex(f32),
+    Ex(Option<f32>),
     #[doc = " Pixels"]
-    Px(f32),
+    Px(Option<f32>),
     #[doc = " Inches"]
-    Inch(f32),
+    Inch(Option<f32>),
     #[doc = " Centimeters"]
-    Cm(f32),
+    Cm(Option<f32>),
     #[doc = " Millimeters"]
-    Mm(f32),
+    Mm(Option<f32>),
     #[doc = " Points, 1pt = 1/72nd of 1in"]
-    Pt(f32),
+    Pt(Option<f32>),
     #[doc = " Picas, \t1pc = 1/6th of 1in"]
-    Pc(f32),
+    Pc(Option<f32>),
     #[doc = " A percentage value"]
-    Percent(f32),
+    Percent(Option<f32>),
 }
 #[doc = " A color represents with read,green and blue components."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Rgb(pub u8, pub u8, pub u8);
+pub struct Rgb(pub Option<u8>, pub Option<u8>, pub Option<u8>);
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Iri(pub String);
+pub struct Iri(pub Option<String>);
 #[doc = " Functional notation for a reference. The syntax for this reference is the same as the [`CSS URI`]."]
 #[doc = " "]
 #[doc = " [`CSS URI`]: https://developer.mozilla.org/en-US/docs/Web/CSS/url_value"]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum FuncIri {
-    Iri(Iri),
-    Path(String),
+    Iri(Option<Iri>),
+    Path(Option<String>),
 }
 #[doc = " A 2d coordinate point."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Point(pub f32, pub f32);
+pub struct Point(pub Option<f32>, pub Option<f32>);
 #[doc = " Percentages are specified as a number followed by a \"%\" character:"]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Percent(pub f32);
+pub struct Percent(pub Option<f32>);
 #[doc = " ‘fill’ and ‘stroke’ take on a value of type [`Paint`], which is specified as follows:"]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Paint {
     #[doc = " the explicit color to be used to paint the current object"]
-    Color(Rgb),
+    Color(Option<Rgb>),
     #[doc = " A reference to a paint server."]
-    Server(FuncIri),
+    Server(Option<FuncIri>),
 }
 #[doc = " A pair of `number`s, where the second `number` is optional."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct NumberOptNumber(pub f32, pub f32);
+pub struct NumberOptNumber(pub Option<f32>, pub Option<f32>);
 #[doc = " Defines the coordinate system for attributes ‘x1’, ‘y1’, ‘x2’ and ‘y2’."]
 #[doc = " "]
 #[doc = " If attribute ‘gradientUnits’ is not specified, then the effect is as if a value of 'objectBoundingBox' were specified."]
@@ -100,12 +100,16 @@ pub enum Coords {
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Transform {
-    Translate(f32, f32),
-    Matrix([f32; 6usize]),
-    Scale(f32, f32),
-    Rotate { angle: f32, cx: f32, cy: f32 },
-    SkewX(f32),
-    SkewY(f32),
+    Translate(Option<f32>, Option<f32>),
+    Matrix(Option<[f32; 6usize]>),
+    Scale(Option<f32>, Option<f32>),
+    Rotate {
+        angle: Option<f32>,
+        cx: Option<f32>,
+        cy: Option<f32>,
+    },
+    SkewX(Option<f32>),
+    SkewY(Option<f32>),
 }
 #[doc = " Indicates which channel of rgba is selected."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
@@ -130,68 +134,80 @@ pub enum PathEvent {
     #[doc = " Close the current subpath by drawing a straight line from the current point to current subpath's initial point."]
     Close(),
     #[doc = " (absolute) Start a new sub-path at the given (x,y) coordinate."]
-    MoveTo(Point),
+    MoveTo(Option<Point>),
     #[doc = " (relative) Start a new sub-path at the given (x,y) coordinate."]
-    MoveToRelative(Point),
+    MoveToRelative(Option<Point>),
     #[doc = " (absolute) Draw a line from the current point to the given (x,y) coordinate which becomes the new current point."]
-    LineTo(Point),
+    LineTo(Option<Point>),
     #[doc = " (relative) Draw a line from the current point to the given (x,y) coordinate which becomes the new current point."]
-    LineToRelative(Point),
+    LineToRelative(Option<Point>),
     #[doc = " (absolute) Draw a polyline. At the end of the command, the new current point is set to the final set of coordinates provided."]
-    Polyline(Vec<Point>),
+    Polyline(Option<Vec<Point>>),
     #[doc = " (relative) Draw a polyline. At the end of the command, the new current point is set to the final set of coordinates provided."]
-    PolylineRelative(Vec<Point>),
+    PolylineRelative(Option<Vec<Point>>),
     #[doc = " (absolute) Draws a cubic Bézier curve from the current point to `to` point,"]
     #[doc = " using `ctrl1` as the control point at the beginning of the curve and `ctrl2` as the control point at the end of the curve."]
     CubicBezier {
-        ctrl1: Point,
-        ctrl2: Point,
-        to_point: Point,
+        ctrl1: Option<Point>,
+        ctrl2: Option<Point>,
+        to_point: Option<Point>,
     },
     #[doc = " (relative) Draws a cubic Bézier curve from the current point to `to` point,"]
     #[doc = " using `ctrl1` as the control point at the beginning of the curve and `ctrl2` as the control point at the end of the curve."]
     CubicBezierRelative {
-        ctrl1: Point,
-        ctrl2: Point,
-        to_point: Point,
+        ctrl1: Option<Point>,
+        ctrl2: Option<Point>,
+        to_point: Option<Point>,
     },
     #[doc = " (smooth) Draws a cubic Bézier curve from the current point to `to` point,"]
     #[doc = " using `ctrl1` as the control point at the beginning of the curve and `ctrl2` as the control point at the end of the curve."]
-    CubicBezierSmooth { ctrl2: Point, to_point: Point },
+    CubicBezierSmooth {
+        ctrl2: Option<Point>,
+        to_point: Option<Point>,
+    },
     #[doc = " (smooth, relative)Draws a cubic Bézier curve from the current point to `to` point,"]
     #[doc = " using `ctrl1` as the control point at the beginning of the curve and `ctrl2` as the control point at the end of the curve."]
-    CubicBezierSmoothRelative { ctrl2: Point, to_point: Point },
+    CubicBezierSmoothRelative {
+        ctrl2: Option<Point>,
+        to_point: Option<Point>,
+    },
     #[doc = " (absolute) Draws a quadratic Bézier curve from the current point to `to` point using `ctrl` as the control point."]
-    QuadraticBezier { ctrl: Point, to_point: Point },
+    QuadraticBezier {
+        ctrl: Option<Point>,
+        to_point: Option<Point>,
+    },
     #[doc = " (relative) Draws a quadratic Bézier curve from the current point to `to` point using `ctrl` as the control point."]
-    QuadraticBezierRelative { ctrl: Point, to_point: Point },
+    QuadraticBezierRelative {
+        ctrl: Option<Point>,
+        to_point: Option<Point>,
+    },
     #[doc = " (smooth) Draws a quadratic Bézier curve from the current point to `to` point using `ctrl` as the control point."]
-    QuadraticBezierSmooth(Point),
+    QuadraticBezierSmooth(Option<Point>),
     #[doc = " (smooth,relative) Draws a quadratic Bézier curve from the current point to `to` point using `ctrl` as the control point."]
-    QuadraticBezierSmoothRelative(Point),
+    QuadraticBezierSmoothRelative(Option<Point>),
     #[doc = " Draws an elliptical arc from the current point to `to` point."]
     #[doc = " "]
     #[doc = " The center (cx, cy) of the ellipse is calculated automatically to satisfy the constraints"]
     #[doc = " imposed by the other parameters."]
     Arc {
-        rx: f32,
-        ry: f32,
-        x_rotation: f32,
-        large_arc: bool,
-        sweep: bool,
-        to_point: Point,
+        rx: Option<f32>,
+        ry: Option<f32>,
+        x_rotation: Option<f32>,
+        large_arc: Option<bool>,
+        sweep: Option<bool>,
+        to_point: Option<Point>,
     },
     #[doc = " (relative) Draws an elliptical arc from the current point to `to` point."]
     #[doc = " "]
     #[doc = " The center (cx, cy) of the ellipse is calculated automatically to satisfy the constraints"]
     #[doc = " imposed by the other parameters."]
     ArcRelative {
-        rx: f32,
-        ry: f32,
-        x_rotation: f32,
-        large_arc: bool,
-        sweep: bool,
-        to_point: Point,
+        rx: Option<f32>,
+        ry: Option<f32>,
+        x_rotation: Option<f32>,
+        large_arc: Option<bool>,
+        sweep: Option<bool>,
+        to_point: Option<Point>,
     },
 }
 #[doc = " The ‘fill-rule’ property indicates the algorithm which is to be used to determine what parts of the canvas are"]
@@ -224,7 +240,7 @@ pub enum StrokeLineCap {
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum StrokeLineJoin {
-    Miter(f32),
+    Miter(Option<f32>),
     Round(),
     Bevel(),
 }
@@ -287,7 +303,7 @@ pub enum FontFamily {
     Cursive(),
     Fantasy(),
     Monospace(),
-    Generic(String),
+    Generic(Option<String>),
 }
 #[doc = " Same syntax and semantics as the ‘font-stretch’ descriptor within an @font-face rule."]
 #[doc = " Indication of the condensed or expanded nature of the face relative to others in the same font family."]
@@ -321,10 +337,10 @@ pub enum Background {
     Accumulate(),
     #[doc = " Indicate the subregion of the container element's user space where access to the background image is allowed to happen."]
     New {
-        x: f32,
-        y: f32,
-        width: f32,
-        height: f32,
+        x: Option<f32>,
+        y: Option<f32>,
+        width: Option<f32>,
+        height: Option<f32>,
     },
 }
 #[doc = " Identifies input for the given filter primitive. The value can be either one of six keywords or"]
@@ -368,14 +384,14 @@ pub enum FeIn {
     #[doc = " itself includes transparent or semi-transparent parts."]
     StrokePaint(),
     #[doc = " Reference to another filter-primitive result ."]
-    Result(String),
+    Result(Option<String>),
 }
 #[doc = " Assign output to a named register. otherwise the filter output will only be referenced by next filter primitive."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum FeOut {
     Position(),
-    Named(String),
+    Named(Option<String>),
 }
 #[doc = " Image blending modes"]
 #[doc = " For the compositing formulas below, the following definitions apply:"]
@@ -621,7 +637,7 @@ pub enum BaselineShift {
     #[doc = " The computed value of the property is this percentage multiplied by the computed \"line-height\" of the ‘text’ element."]
     #[doc = " The dominant-baseline is shifted in the shift direction (positive value) or opposite to the shift direction"]
     #[doc = " (negative value) of the parent text content element by the computed value. A value of \"0\" is equivalent to \"baseline\"."]
-    Value(Length),
+    Value(Option<Length>),
 }
 #[doc = " This property describes decorations that are added to the text of an element."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
@@ -675,7 +691,7 @@ pub enum TextPathSpacing {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum LetterSpacing {
     Normal(),
-    Length(Length),
+    Length(Option<Length>),
 }
 #[doc = " The word-spacing attribute specifies spacing behavior between words."]
 #[doc = " "]
@@ -684,7 +700,7 @@ pub enum LetterSpacing {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum WordSpacing {
     Normal(),
-    Length(Length),
+    Length(Option<Length>),
 }
 #[doc = " see [`svg`] document for more information."]
 #[doc = " "]
@@ -707,170 +723,170 @@ pub enum PreserveAspectRatio {
     #[doc = " "]
     #[doc = " Align the `<min-x>` of the element's ‘viewBox’ with the smallest X value of the viewport."]
     #[doc = " Align the `<min-y>` of the element's ‘viewBox’ with the smallest Y value of the viewport."]
-    XMinYMin(MeetOrSlice),
+    XMinYMin(Option<MeetOrSlice>),
     #[doc = " Force uniform scaling."]
     #[doc = " "]
     #[doc = " Align the midpoint X value of the element's ‘viewBox’ with the midpoint X value of the viewport."]
     #[doc = " Align the `<min-y>` of the element's ‘viewBox’ with the smallest Y value of the viewport."]
-    XMidYMin(MeetOrSlice),
+    XMidYMin(Option<MeetOrSlice>),
     #[doc = " Force uniform scaling."]
     #[doc = " "]
     #[doc = " Align the `<min-x>`+`<width>` of the element's ‘viewBox’ with the maximum X value of the viewport."]
     #[doc = " Align the `<min-y>` of the element's ‘viewBox’ with the smallest Y value of the viewport."]
-    XMaxYMin(MeetOrSlice),
+    XMaxYMin(Option<MeetOrSlice>),
     #[doc = " Force uniform scaling."]
     #[doc = " "]
     #[doc = " Align the `<min-x>` of the element's ‘viewBox’ with the smallest X value of the viewport."]
     #[doc = " Align the midpoint Y value of the element's ‘viewBox’ with the midpoint Y value of the viewport."]
-    XMinYMid(MeetOrSlice),
+    XMinYMid(Option<MeetOrSlice>),
     #[doc = " Force uniform scaling(the default)."]
     #[doc = " "]
     #[doc = " Align the midpoint X value of the element's ‘viewBox’ with the midpoint X value of the viewport."]
     #[doc = " Align the midpoint Y value of the element's ‘viewBox’ with the midpoint Y value of the viewport."]
-    XMidYMid(MeetOrSlice),
+    XMidYMid(Option<MeetOrSlice>),
     #[doc = " Force uniform scaling."]
     #[doc = " "]
     #[doc = " Align the `<min-x>`+`<width>` of the element's ‘viewBox’ with the maximum X value of the viewport."]
     #[doc = " Align the midpoint Y value of the element's ‘viewBox’ with the midpoint Y value of the viewport."]
-    XMaxYMid(MeetOrSlice),
+    XMaxYMid(Option<MeetOrSlice>),
     #[doc = " Force uniform scaling."]
     #[doc = " "]
     #[doc = " Align the `<min-x>` of the element's ‘viewBox’ with the smallest X value of the viewport."]
     #[doc = " Align the `<min-y>`+`<height>` of the element's ‘viewBox’ with the maximum Y value of the viewport."]
-    XMinYMax(MeetOrSlice),
+    XMinYMax(Option<MeetOrSlice>),
     #[doc = " Force uniform scaling."]
     #[doc = " "]
     #[doc = " Align the midpoint X value of the element's ‘viewBox’ with the midpoint X value of the viewport."]
     #[doc = " Align the `<min-y>`+`<height>` of the element's ‘viewBox’ with the maximum Y value of the viewport."]
-    XMidYMax(MeetOrSlice),
+    XMidYMax(Option<MeetOrSlice>),
     #[doc = " Force uniform scaling."]
     #[doc = " "]
     #[doc = " Align the `<min-x>`+`<width>` of the element's ‘viewBox’ with the maximum X value of the viewport."]
     #[doc = " Align the `<min-y>`+`<height>` of the element's ‘viewBox’ with the maximum Y value of the viewport."]
-    XMaxYMax(MeetOrSlice),
+    XMaxYMax(Option<MeetOrSlice>),
 }
 #[doc = " support for various international writing directions, such as left-to-right (e.g., Latin scripts) and"]
 #[doc = " bidirectional (e.g., Hebrew or Arabic) and vertical (e.g., Asian scripts)."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct TextLayout {
-    pub write_mode: WritingMode,
-    pub direction: TextDirection,
-    pub unicode_bidi: UnicodeBidi,
-    pub anchor: TextAnchor,
-    pub dominant_baseline: DominantBaseline,
-    pub alignment_baseline: AlignmentBaseline,
-    pub baseline_shift: BaselineShift,
-    pub decoration: TextDecoration,
-    pub letter_spacing: LetterSpacing,
-    pub word_spacing: WordSpacing,
+    pub write_mode: Option<WritingMode>,
+    pub direction: Option<TextDirection>,
+    pub unicode_bidi: Option<UnicodeBidi>,
+    pub anchor: Option<variable::Variable<TextAnchor>>,
+    pub dominant_baseline: Option<variable::Variable<DominantBaseline>>,
+    pub alignment_baseline: Option<variable::Variable<AlignmentBaseline>>,
+    pub baseline_shift: Option<variable::Variable<BaselineShift>>,
+    pub decoration: Option<variable::Variable<TextDecoration>>,
+    pub letter_spacing: Option<variable::Variable<LetterSpacing>>,
+    pub word_spacing: Option<variable::Variable<WordSpacing>>,
 }
 #[doc = " support for various international writing directions, such as left-to-right (e.g., Latin scripts) and"]
 #[doc = " bidirectional (e.g., Hebrew or Arabic) and vertical (e.g., Asian scripts)."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct WithTransform(pub Vec<Transform>);
+pub struct WithTransform(pub Option<Vec<Transform>>);
 #[doc = " Define a fragment with name."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Id(pub String);
+pub struct Id(pub Option<String>);
 #[doc = " The ‘fill’ instruction paints the interior of the given graphical element."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Fill {
-    pub paint: Paint,
-    pub rule: FillRule,
-    pub opacity: f32,
+    pub paint: Option<Paint>,
+    pub rule: Option<FillRule>,
+    pub opacity: Option<f32>,
 }
 #[doc = " This property affect how an element is stroked."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Stroke {
-    pub paint: Paint,
-    pub width: Length,
-    pub linecap: StrokeLineCap,
-    pub linejoin: StrokeLineJoin,
-    pub dasharray: Vec<Length>,
-    pub dashoffset: Length,
+    pub paint: Option<variable::Variable<Paint>>,
+    pub width: Option<variable::Variable<Length>>,
+    pub linecap: Option<variable::Variable<StrokeLineCap>>,
+    pub linejoin: Option<variable::Variable<StrokeLineJoin>>,
+    pub dasharray: Option<variable::Variable<Vec<Length>>>,
+    pub dashoffset: Option<variable::Variable<Length>>,
 }
 #[doc = " Shorthand property for setting ‘font-style’, ‘font-variant’, ‘font-weight’, ‘font-size’, ‘line-height’ and ‘font-family’."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Font {
-    pub family: Vec<FontFamily>,
-    pub style: FontStyle,
-    pub variant: FontVariant,
-    pub weight: FontWeight,
-    pub size: Length,
-    pub stretch: FontStretch,
+    pub family: Option<variable::Variable<Vec<FontFamily>>>,
+    pub style: Option<variable::Variable<FontStyle>>,
+    pub variant: Option<variable::Variable<FontVariant>>,
+    pub weight: Option<variable::Variable<FontWeight>>,
+    pub size: Option<variable::Variable<Length>>,
+    pub stretch: Option<variable::Variable<FontStretch>>,
 }
 #[doc = " enables access to the background image"]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct EnableBackground(pub Background);
+pub struct EnableBackground(pub Option<Background>);
 #[doc = " Define a fragment by name."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct WithFilter(pub String);
+pub struct WithFilter(pub Option<String>);
 #[doc = " Use mask to a element."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct WithClipPath(pub FuncIri);
+pub struct WithClipPath(pub Option<FuncIri>);
 #[doc = " Use mask to a element."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct WithMask(pub FuncIri);
+pub struct WithMask(pub Option<FuncIri>);
 #[doc = " Sspecifies object/group opacity"]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Opacity(pub f32);
+pub struct Opacity(pub Option<f32>);
 #[doc = " It is often desirable to specify that a given set of graphics stretch to fit a particular container element."]
 #[doc = " The ‘viewBox’ attribute provides this capability."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct ViewBox {
-    pub minx: f32,
-    pub miny: f32,
-    pub width: f32,
-    pub height: f32,
-    pub aspect: PreserveAspectRatio,
+    pub minx: Option<variable::Variable<f32>>,
+    pub miny: Option<variable::Variable<f32>>,
+    pub width: Option<variable::Variable<f32>>,
+    pub height: Option<variable::Variable<f32>>,
+    pub aspect: Option<variable::Variable<PreserveAspectRatio>>,
 }
 #[doc = " Create a new layer into which the backend render child elements."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Canvas {
-    pub width: Length,
-    pub height: Length,
+    pub width: Option<variable::Variable<Length>>,
+    pub height: Option<variable::Variable<Length>>,
 }
 #[doc = " used as an alpha mask for compositing the current object into the background."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Mask {
-    pub units: Coords,
-    pub content_units: Coords,
-    pub x: Length,
-    pub y: Length,
-    pub width: Length,
-    pub height: Length,
+    pub units: Option<variable::Variable<Coords>>,
+    pub content_units: Option<variable::Variable<Coords>>,
+    pub x: Option<variable::Variable<Length>>,
+    pub y: Option<variable::Variable<Length>>,
+    pub width: Option<variable::Variable<Length>>,
+    pub height: Option<variable::Variable<Length>>,
 }
 #[doc = " A clipping path is defined with a ‘clipPath’ element."]
 #[doc = " A clipping path is used/referenced using the ‘clip-path’ property."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct ClipPath(pub Coords);
+pub struct ClipPath(pub Option<variable::Variable<Coords>>);
 #[doc = " A filter effect consists of a series of graphics operations that are applied to a given source graphic to"]
 #[doc = " produce a modified graphical result. The result of the filter effect is rendered to the target device"]
 #[doc = " instead of the original source graphic. The following illustrates the process:"]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Filter {
-    pub units: Coords,
-    pub primitive_units: Coords,
-    pub x: Length,
-    pub y: Length,
-    pub width: Length,
-    pub height: Length,
-    pub res: NumberOptNumber,
+    pub units: Option<variable::Variable<Coords>>,
+    pub primitive_units: Option<variable::Variable<Coords>>,
+    pub x: Option<variable::Variable<Length>>,
+    pub y: Option<variable::Variable<Length>>,
+    pub width: Option<variable::Variable<Length>>,
+    pub height: Option<variable::Variable<Length>>,
+    pub res: Option<variable::Variable<NumberOptNumber>>,
 }
 #[doc = " Defines a distant light source that can be used within a lighting filter primitive:"]
 #[doc = " [`FeDiffuseLighting`] or [`FeSpecularLighting`]."]
@@ -881,60 +897,60 @@ pub struct Filter {
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeDistantLight {
-    pub azimuth: f32,
-    pub elevation: f32,
+    pub azimuth: Option<variable::Variable<f32>>,
+    pub elevation: Option<variable::Variable<f32>>,
 }
 #[doc = " Defines a point light source that can be used within a lighting filter primitive:"]
 #[doc = " [`FeDiffuseLighting`] or [`FeSpecularLighting`]."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FePointLight {
-    pub x: f32,
-    pub y: f32,
-    pub z: f32,
+    pub x: Option<variable::Variable<f32>>,
+    pub y: Option<variable::Variable<f32>>,
+    pub z: Option<variable::Variable<f32>>,
 }
 #[doc = " Defines a spot light source that can be used within a lighting filter primitive:"]
 #[doc = " [`FeDiffuseLighting`] or [`FeSpecularLighting`]."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeSpotLight {
-    pub x: f32,
-    pub y: f32,
-    pub z: f32,
-    pub point_at_x: f32,
-    pub point_at_y: f32,
-    pub point_at_z: f32,
-    pub specular_exponent: f32,
-    pub limiting_cone_angle: f32,
+    pub x: Option<variable::Variable<f32>>,
+    pub y: Option<variable::Variable<f32>>,
+    pub z: Option<variable::Variable<f32>>,
+    pub point_at_x: Option<variable::Variable<f32>>,
+    pub point_at_y: Option<variable::Variable<f32>>,
+    pub point_at_z: Option<variable::Variable<f32>>,
+    pub specular_exponent: Option<variable::Variable<f32>>,
+    pub limiting_cone_angle: Option<variable::Variable<f32>>,
 }
 #[doc = " This filter composites two objects together using commonly used imaging software blending modes."]
 #[doc = " It performs a pixel-wise combination of two input images."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeBlend {
-    pub mode: FeBlendMode,
-    pub r#in: FeIn,
-    pub in2: FeIn,
-    pub x: Length,
-    pub y: Length,
-    pub width: Length,
-    pub height: Length,
-    pub result: String,
+    pub mode: Option<variable::Variable<FeBlendMode>>,
+    pub r#in: Option<variable::Variable<FeIn>>,
+    pub in2: Option<variable::Variable<FeIn>>,
+    pub x: Option<variable::Variable<Length>>,
+    pub y: Option<variable::Variable<Length>>,
+    pub width: Option<variable::Variable<Length>>,
+    pub height: Option<variable::Variable<Length>>,
+    pub result: Option<variable::Variable<String>>,
 }
 #[doc = " Values of FeColorMatrix."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum FeColorMatrixValues {
     #[doc = " a list of 20 matrix values."]
-    Matrix([f32; 20usize]),
+    Matrix(Option<[f32; 20usize]>),
     #[doc = " `Saturate` is a single real number value (0 to 1)."]
     #[doc = " "]
     #[doc = " See [`feColorMatrixElement`](https://www.w3.org/TR/SVG11/filters.html#feColorMatrixElement)"]
-    Saturate(f32),
+    Saturate(Option<f32>),
     #[doc = " `HueRotate` is a single one real number value (degrees)"]
     #[doc = " "]
     #[doc = " See [`feColorMatrixElement`](https://www.w3.org/TR/SVG11/filters.html#feColorMatrixElement)"]
-    HueRotate(f32),
+    HueRotate(Option<f32>),
     #[doc = " `LuminanceToAlpha`  is not applicable."]
     #[doc = " "]
     #[doc = " See [`feColorMatrixElement`](https://www.w3.org/TR/SVG11/filters.html#feColorMatrixElement)"]
@@ -956,13 +972,13 @@ pub enum FeColorMatrixValues {
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeColorMatrix {
-    pub r#in: FeIn,
-    pub values: FeColorMatrixValues,
-    pub x: Length,
-    pub y: Length,
-    pub width: Length,
-    pub height: Length,
-    pub result: String,
+    pub r#in: Option<variable::Variable<FeIn>>,
+    pub values: Option<variable::Variable<FeColorMatrixValues>>,
+    pub x: Option<variable::Variable<Length>>,
+    pub y: Option<variable::Variable<Length>>,
+    pub width: Option<variable::Variable<Length>>,
+    pub height: Option<variable::Variable<Length>>,
+    pub result: Option<variable::Variable<String>>,
 }
 #[doc = " transfer functions for the rgba channels."]
 #[doc = " "]
@@ -987,7 +1003,7 @@ pub enum FeFunc {
     #[doc = " If C = 1 then:"]
     #[doc = " "]
     #[doc = " > C' = vn."]
-    Table(Vec<f32>),
+    Table(Option<Vec<f32>>),
     #[doc = " For discrete, the function is defined by the step function given in the attribute ‘tableValues’,"]
     #[doc = " which provides a list of n values (i.e., v0 to vn-1) in order to identify a step function consisting of n steps."]
     #[doc = " The step function is defined by the following formula:"]
@@ -1003,18 +1019,21 @@ pub enum FeFunc {
     #[doc = " If C = 1 then:"]
     #[doc = " "]
     #[doc = " > C' = vn-1."]
-    Discrete(Vec<f32>),
+    Discrete(Option<Vec<f32>>),
     #[doc = " For linear, the function is defined by the following linear equation:"]
     #[doc = " "]
     #[doc = " > C' = slope * C + intercept"]
-    Linear { slope: f32, intercept: f32 },
+    Linear {
+        slope: Option<f32>,
+        intercept: Option<f32>,
+    },
     #[doc = " For gamma, the function is defined by the following exponential function:"]
     #[doc = " "]
     #[doc = " > C' = amplitude * pow(C, exponent) + offset"]
     Gamma {
-        amplitude: f32,
-        exponent: f32,
-        offset: f32,
+        amplitude: Option<f32>,
+        exponent: Option<f32>,
+        offset: Option<f32>,
     },
 }
 #[doc = " The compositing operation that is to be performed. All of the ‘operator’ types except arithmetic match the"]
@@ -1028,7 +1047,12 @@ pub enum FeCompositeOperator {
     Out(),
     Atop(),
     Xor(),
-    Arithmetic { k1: f32, k2: f32, k3: f32, k4: f32 },
+    Arithmetic {
+        k1: Option<f32>,
+        k2: Option<f32>,
+        k3: Option<f32>,
+        k4: Option<f32>,
+    },
 }
 #[doc = " Determines how to extend the input image as necessary with color values so that the matrix operations"]
 #[doc = " can be applied when the kernel is positioned at or near the edge of the input image."]
@@ -1084,31 +1108,31 @@ pub enum FeTurbulenceType {
 #[doc = " for every pixel. It allows operations like brightness adjustment, contrast adjustment, color balance or thresholding."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct FeComponentTransfer(pub FeIn);
+pub struct FeComponentTransfer(pub Option<variable::Variable<FeIn>>);
 #[doc = " transfer function for the alpha component of the input graphic"]
 #[doc = " "]
 #[doc = " See [`FeFunc`], [`FeComponentTransfer`]"]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct FeFuncA(pub FeFunc);
+pub struct FeFuncA(pub Option<FeFunc>);
 #[doc = " transfer function for the red component of the input graphic"]
 #[doc = " "]
 #[doc = " See [`FeFunc`], [`FeComponentTransfer`]"]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct FeFuncR(pub FeFunc);
+pub struct FeFuncR(pub Option<FeFunc>);
 #[doc = " transfer function for the green component of the input graphic"]
 #[doc = " "]
 #[doc = " See [`FeFunc`], [`FeComponentTransfer`]"]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct FeFuncG(pub FeFunc);
+pub struct FeFuncG(pub Option<FeFunc>);
 #[doc = " transfer function for the blue component of the input graphic"]
 #[doc = " "]
 #[doc = " See [`FeFunc`], [`FeComponentTransfer`]"]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct FeFuncB(pub FeFunc);
+pub struct FeFuncB(pub Option<FeFunc>);
 #[doc = " This filter performs the combination of the two input images pixel-wise in image space using one of the Porter-Duff [`PORTERDUFF`]"]
 #[doc = " compositing operations: over, in, atop, out, xor [`SVG-COMPOSITING`]. Additionally, a component-wise arithmetic operation (with"]
 #[doc = " the result clamped between [0..1]) can be applied."]
@@ -1121,14 +1145,14 @@ pub struct FeFuncB(pub FeFunc);
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeComposite {
-    pub r#in: FeIn,
-    pub in2: FeIn,
-    pub operator: FeCompositeOperator,
-    pub x: Length,
-    pub y: Length,
-    pub width: Length,
-    pub height: Length,
-    pub result: String,
+    pub r#in: Option<variable::Variable<FeIn>>,
+    pub in2: Option<variable::Variable<FeIn>>,
+    pub operator: Option<variable::Variable<FeCompositeOperator>>,
+    pub x: Option<variable::Variable<Length>>,
+    pub y: Option<variable::Variable<Length>>,
+    pub width: Option<variable::Variable<Length>>,
+    pub height: Option<variable::Variable<Length>>,
+    pub result: Option<variable::Variable<String>>,
 }
 #[doc = " feConvolveMatrix applies a matrix convolution filter effect. A convolution combines pixels"]
 #[doc = " in the input image with neighboring pixels to produce a resulting image. A wide variety"]
@@ -1139,50 +1163,50 @@ pub struct FeComposite {
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeConvolveMatrix {
-    pub r#in: FeIn,
-    pub order: NumberOptNumber,
-    pub kernel: Vec<f32>,
-    pub divisor: f32,
-    pub bias: f32,
-    pub target_x: i32,
-    pub target_y: i32,
-    pub edge_mode: FeConvolveMatrixEdgeMode,
-    pub kernel_unit_len: NumberOptNumber,
-    pub preserve_alpha: bool,
-    pub x: Length,
-    pub y: Length,
-    pub width: Length,
-    pub height: Length,
-    pub result: String,
+    pub r#in: Option<variable::Variable<FeIn>>,
+    pub order: Option<variable::Variable<NumberOptNumber>>,
+    pub kernel: Option<variable::Variable<Vec<f32>>>,
+    pub divisor: Option<variable::Variable<f32>>,
+    pub bias: Option<variable::Variable<f32>>,
+    pub target_x: Option<variable::Variable<i32>>,
+    pub target_y: Option<variable::Variable<i32>>,
+    pub edge_mode: Option<variable::Variable<FeConvolveMatrixEdgeMode>>,
+    pub kernel_unit_len: Option<variable::Variable<NumberOptNumber>>,
+    pub preserve_alpha: Option<variable::Variable<bool>>,
+    pub x: Option<variable::Variable<Length>>,
+    pub y: Option<variable::Variable<Length>>,
+    pub width: Option<variable::Variable<Length>>,
+    pub height: Option<variable::Variable<Length>>,
+    pub result: Option<variable::Variable<String>>,
 }
 #[doc = " See [`feConvolveMatrix`](https://www.w3.org/TR/SVG11/filters.html#feDiffuseLightingElement)"]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeDiffuseLighting {
-    pub r#in: FeIn,
-    pub surface_scale: f32,
-    pub diffuse_constant: f32,
-    pub kernel_unit_len: NumberOptNumber,
-    pub x: Length,
-    pub y: Length,
-    pub width: Length,
-    pub height: Length,
-    pub result: String,
+    pub r#in: Option<variable::Variable<FeIn>>,
+    pub surface_scale: Option<variable::Variable<f32>>,
+    pub diffuse_constant: Option<variable::Variable<f32>>,
+    pub kernel_unit_len: Option<variable::Variable<NumberOptNumber>>,
+    pub x: Option<variable::Variable<Length>>,
+    pub y: Option<variable::Variable<Length>>,
+    pub width: Option<variable::Variable<Length>>,
+    pub height: Option<variable::Variable<Length>>,
+    pub result: Option<variable::Variable<String>>,
 }
 #[doc = " This filter primitive uses the pixels values from the image from ‘in2’ to spatially displace the image from ‘in’."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeDisplacementMap {
-    pub r#in: FeIn,
-    pub in2: FeIn,
-    pub scale: f32,
-    pub x_channel_selector: Channel,
-    pub y_channel_selector: Channel,
-    pub x: Length,
-    pub y: Length,
-    pub width: Length,
-    pub height: Length,
-    pub result: String,
+    pub r#in: Option<variable::Variable<FeIn>>,
+    pub in2: Option<variable::Variable<FeIn>>,
+    pub scale: Option<variable::Variable<f32>>,
+    pub x_channel_selector: Option<variable::Variable<Channel>>,
+    pub y_channel_selector: Option<variable::Variable<Channel>>,
+    pub x: Option<variable::Variable<Length>>,
+    pub y: Option<variable::Variable<Length>>,
+    pub width: Option<variable::Variable<Length>>,
+    pub height: Option<variable::Variable<Length>>,
+    pub result: Option<variable::Variable<String>>,
 }
 #[doc = " This filter primitive creates a rectangle filled with the color and opacity values from properties ‘flood-color’ a ‘flood-opacity’."]
 #[doc = " The rectangle is as large as the filter primitive subregion established by the ‘x’, ‘y’, ‘width’ and ‘height’ attributes on the"]
@@ -1190,13 +1214,13 @@ pub struct FeDisplacementMap {
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeFlood {
-    pub color: Rgb,
-    pub opacity: f32,
-    pub x: Length,
-    pub y: Length,
-    pub width: Length,
-    pub height: Length,
-    pub result: String,
+    pub color: Option<variable::Variable<Rgb>>,
+    pub opacity: Option<variable::Variable<f32>>,
+    pub x: Option<variable::Variable<Length>>,
+    pub y: Option<variable::Variable<Length>>,
+    pub width: Option<variable::Variable<Length>>,
+    pub height: Option<variable::Variable<Length>>,
+    pub result: Option<variable::Variable<String>>,
 }
 #[doc = " This filter primitive performs a Gaussian blur on the input image."]
 #[doc = " "]
@@ -1204,13 +1228,13 @@ pub struct FeFlood {
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeGaussianBlur {
-    pub r#in: FeIn,
-    pub std_deviation: NumberOptNumber,
-    pub x: Length,
-    pub y: Length,
-    pub width: Length,
-    pub height: Length,
-    pub result: String,
+    pub r#in: Option<variable::Variable<FeIn>>,
+    pub std_deviation: Option<variable::Variable<NumberOptNumber>>,
+    pub x: Option<variable::Variable<Length>>,
+    pub y: Option<variable::Variable<Length>>,
+    pub width: Option<variable::Variable<Length>>,
+    pub height: Option<variable::Variable<Length>>,
+    pub result: Option<variable::Variable<String>>,
 }
 #[doc = " This filter primitive composites input image layers on top of each other using the over operator with Input1"]
 #[doc = " (corresponding to the first ‘feMergeNode’ child element) on the bottom and the last specified input, InputN"]
@@ -1220,16 +1244,16 @@ pub struct FeGaussianBlur {
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeMerge {
-    pub x: Length,
-    pub y: Length,
-    pub width: Length,
-    pub height: Length,
-    pub result: String,
+    pub x: Option<variable::Variable<Length>>,
+    pub y: Option<variable::Variable<Length>>,
+    pub width: Option<variable::Variable<Length>>,
+    pub height: Option<variable::Variable<Length>>,
+    pub result: Option<variable::Variable<String>>,
 }
 #[doc = " See [`FeMerge`]"]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct FeMergeNode(pub FeIn);
+pub struct FeMergeNode(pub Option<variable::Variable<FeIn>>);
 #[doc = " This filter primitive refers to a graphic external to this filter element, which is loaded or rendered into an RGBA"]
 #[doc = " raster and becomes the result of the filter primitive."]
 #[doc = " "]
@@ -1237,13 +1261,13 @@ pub struct FeMergeNode(pub FeIn);
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeImage {
-    pub href: FuncIri,
-    pub aspect: PreserveAspectRatio,
-    pub x: Length,
-    pub y: Length,
-    pub width: Length,
-    pub height: Length,
-    pub result: String,
+    pub href: Option<variable::Variable<FuncIri>>,
+    pub aspect: Option<variable::Variable<PreserveAspectRatio>>,
+    pub x: Option<variable::Variable<Length>>,
+    pub y: Option<variable::Variable<Length>>,
+    pub width: Option<variable::Variable<Length>>,
+    pub height: Option<variable::Variable<Length>>,
+    pub result: Option<variable::Variable<String>>,
 }
 #[doc = " This filter primitive performs \"fattening\" or \"thinning\" of artwork."]
 #[doc = " It is particularly useful for fattening or thinning an alpha channel."]
@@ -1252,14 +1276,14 @@ pub struct FeImage {
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeMorphology {
-    pub r#in: FeIn,
-    pub mode: FeMorphologyOperator,
-    pub radius: NumberOptNumber,
-    pub x: Length,
-    pub y: Length,
-    pub width: Length,
-    pub height: Length,
-    pub result: String,
+    pub r#in: Option<variable::Variable<FeIn>>,
+    pub mode: Option<variable::Variable<FeMorphologyOperator>>,
+    pub radius: Option<variable::Variable<NumberOptNumber>>,
+    pub x: Option<variable::Variable<Length>>,
+    pub y: Option<variable::Variable<Length>>,
+    pub width: Option<variable::Variable<Length>>,
+    pub height: Option<variable::Variable<Length>>,
+    pub result: Option<variable::Variable<String>>,
 }
 #[doc = " This filter primitive offsets the input image relative to its current position in the image space by the specified vector."]
 #[doc = " "]
@@ -1269,14 +1293,14 @@ pub struct FeMorphology {
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeOffset {
-    pub r#in: FeIn,
-    pub dx: f32,
-    pub dy: f32,
-    pub x: Length,
-    pub y: Length,
-    pub width: Length,
-    pub height: Length,
-    pub result: String,
+    pub r#in: Option<variable::Variable<FeIn>>,
+    pub dx: Option<variable::Variable<f32>>,
+    pub dy: Option<variable::Variable<f32>>,
+    pub x: Option<variable::Variable<Length>>,
+    pub y: Option<variable::Variable<Length>>,
+    pub width: Option<variable::Variable<Length>>,
+    pub height: Option<variable::Variable<Length>>,
+    pub result: Option<variable::Variable<String>>,
 }
 #[doc = " This filter primitive lights a source graphic using the alpha channel as a bump map."]
 #[doc = " The resulting image is an RGBA image based on the light color. The lighting calculation follows the standard specular component of"]
@@ -1288,16 +1312,16 @@ pub struct FeOffset {
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeSpecularLighting {
-    pub r#in: FeIn,
-    pub surface_scale: f32,
-    pub specular_constant: f32,
-    pub specular_exponent: f32,
-    pub kernel_unit_len: NumberOptNumber,
-    pub x: Length,
-    pub y: Length,
-    pub width: Length,
-    pub height: Length,
-    pub result: String,
+    pub r#in: Option<variable::Variable<FeIn>>,
+    pub surface_scale: Option<variable::Variable<f32>>,
+    pub specular_constant: Option<variable::Variable<f32>>,
+    pub specular_exponent: Option<variable::Variable<f32>>,
+    pub kernel_unit_len: Option<variable::Variable<NumberOptNumber>>,
+    pub x: Option<variable::Variable<Length>>,
+    pub y: Option<variable::Variable<Length>>,
+    pub width: Option<variable::Variable<Length>>,
+    pub height: Option<variable::Variable<Length>>,
+    pub result: Option<variable::Variable<String>>,
 }
 #[doc = " This filter primitive fills a target rectangle with a repeated, tiled pattern of an input image. The target rectangle is"]
 #[doc = " as large as the filter primitive subregion established by the ‘x’, ‘y’, ‘width’ and ‘height’ attributes on the ‘feTile’"]
@@ -1307,12 +1331,12 @@ pub struct FeSpecularLighting {
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeTile {
-    pub r#in: FeIn,
-    pub x: Length,
-    pub y: Length,
-    pub width: Length,
-    pub height: Length,
-    pub result: String,
+    pub r#in: Option<variable::Variable<FeIn>>,
+    pub x: Option<variable::Variable<Length>>,
+    pub y: Option<variable::Variable<Length>>,
+    pub width: Option<variable::Variable<Length>>,
+    pub height: Option<variable::Variable<Length>>,
+    pub result: Option<variable::Variable<String>>,
 }
 #[doc = " This filter primitive creates an image using the Perlin turbulence function."]
 #[doc = " It allows the synthesis of artificial textures like clouds or marble. For a detailed description the of the Perlin turbulence"]
@@ -1323,50 +1347,50 @@ pub struct FeTile {
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeTurbulence {
-    pub base_frequency: NumberOptNumber,
-    pub num_octaves: i32,
-    pub seed: f32,
-    pub stitch_tiles: FeStitchTiles,
-    pub r#type: FeTurbulenceType,
-    pub x: Length,
-    pub y: Length,
-    pub width: Length,
-    pub height: Length,
-    pub result: String,
+    pub base_frequency: Option<variable::Variable<NumberOptNumber>>,
+    pub num_octaves: Option<variable::Variable<i32>>,
+    pub seed: Option<variable::Variable<f32>>,
+    pub stitch_tiles: Option<variable::Variable<FeStitchTiles>>,
+    pub r#type: Option<variable::Variable<FeTurbulenceType>>,
+    pub x: Option<variable::Variable<Length>>,
+    pub y: Option<variable::Variable<Length>>,
+    pub width: Option<variable::Variable<Length>>,
+    pub height: Option<variable::Variable<Length>>,
+    pub result: Option<variable::Variable<String>>,
 }
 #[doc = " Linear gradients are defined by a ‘linearGradient’ element."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct LinearGradient {
-    pub units: Coords,
-    pub transform: Transform,
-    pub x1: Length,
-    pub y1: Length,
-    pub x2: Length,
-    pub y2: Length,
-    pub spread: SpreadMethod,
+    pub units: Option<variable::Variable<Coords>>,
+    pub transform: Option<variable::Variable<Transform>>,
+    pub x1: Option<variable::Variable<Length>>,
+    pub y1: Option<variable::Variable<Length>>,
+    pub x2: Option<variable::Variable<Length>>,
+    pub y2: Option<variable::Variable<Length>>,
+    pub spread: Option<variable::Variable<SpreadMethod>>,
 }
 #[doc = " Radial gradients are defined by a ‘radialGradient’ element."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct RadialGradient {
-    pub unit: Coords,
-    pub transform: Transform,
-    pub cx: Length,
-    pub cy: Length,
-    pub r: Length,
-    pub fx: Length,
-    pub fy: Length,
-    pub spread: SpreadMethod,
+    pub unit: Option<variable::Variable<Coords>>,
+    pub transform: Option<variable::Variable<Transform>>,
+    pub cx: Option<variable::Variable<Length>>,
+    pub cy: Option<variable::Variable<Length>>,
+    pub r: Option<variable::Variable<Length>>,
+    pub fx: Option<variable::Variable<Length>>,
+    pub fy: Option<variable::Variable<Length>>,
+    pub spread: Option<variable::Variable<SpreadMethod>>,
 }
 #[doc = " The ramp of colors to use on a gradient is defined by the ‘stop’ elements that are child elements"]
 #[doc = " to either the ‘linearGradient’ element or the ‘radialGradient’ element."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct GradientStop {
-    pub offset: f32,
-    pub color: Rgb,
-    pub opacity: f32,
+    pub offset: Option<variable::Variable<f32>>,
+    pub color: Option<variable::Variable<Rgb>>,
+    pub opacity: Option<variable::Variable<f32>>,
 }
 #[doc = " A container element for grouping together related graphics elements."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
@@ -1377,8 +1401,8 @@ pub struct Group();
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Path {
-    pub events: Vec<PathEvent>,
-    pub length: Length,
+    pub events: Option<variable::Variable<Vec<PathEvent>>>,
+    pub length: Option<variable::Variable<Length>>,
 }
 #[doc = " A pattern is used to fill or stroke an object using a pre-defined graphic object which can be replicated (\"tiled\")"]
 #[doc = " at fixed intervals in x and y to cover the areas to be painted. Patterns are defined using a ‘pattern’ element and"]
@@ -1392,18 +1416,18 @@ pub struct Path {
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Pattern {
-    pub units: Coords,
-    pub content_units: Coords,
-    pub transform: Transform,
-    pub x: Length,
-    pub y: Length,
-    pub width: Length,
-    pub height: Length,
+    pub units: Option<variable::Variable<Coords>>,
+    pub content_units: Option<variable::Variable<Coords>>,
+    pub transform: Option<variable::Variable<Transform>>,
+    pub x: Option<variable::Variable<Length>>,
+    pub y: Option<variable::Variable<Length>>,
+    pub width: Option<variable::Variable<Length>>,
+    pub height: Option<variable::Variable<Length>>,
 }
 #[doc = " Use a fragment by name."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Use(pub Iri);
+pub struct Use(pub Option<variable::Variable<Iri>>);
 #[doc = " The ‘rect’ element defines a rectangle which is axis-aligned with the current user coordinate system."]
 #[doc = " Rounded rectangles can be achieved by setting appropriate values for attributes ‘rx’ and ‘ry’."]
 #[doc = " "]
@@ -1421,61 +1445,61 @@ pub struct Use(pub Iri);
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Rect {
-    pub x: Length,
-    pub y: Length,
-    pub width: Length,
-    pub height: Length,
-    pub rx: Length,
-    pub ry: Length,
+    pub x: Option<variable::Variable<Length>>,
+    pub y: Option<variable::Variable<Length>>,
+    pub width: Option<variable::Variable<Length>>,
+    pub height: Option<variable::Variable<Length>>,
+    pub rx: Option<variable::Variable<Length>>,
+    pub ry: Option<variable::Variable<Length>>,
 }
 #[doc = " The ‘circle’ element defines a circle based on a center point and a radius."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Circle {
-    pub cx: Length,
-    pub cy: Length,
-    pub r: Length,
+    pub cx: Option<variable::Variable<Length>>,
+    pub cy: Option<variable::Variable<Length>>,
+    pub r: Option<variable::Variable<Length>>,
 }
 #[doc = " The ‘ellipse’ element defines an ellipse which is axis-aligned with the current user coordinate"]
 #[doc = " system based on a center point and two radii."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Ellipse {
-    pub cx: Length,
-    pub cy: Length,
-    pub rx: Length,
-    pub ry: Length,
+    pub cx: Option<variable::Variable<Length>>,
+    pub cy: Option<variable::Variable<Length>>,
+    pub rx: Option<variable::Variable<Length>>,
+    pub ry: Option<variable::Variable<Length>>,
 }
 #[doc = " The ‘line’ element defines a line segment that starts at one point and ends at another."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Line {
-    pub x1: Length,
-    pub y1: Length,
-    pub x2: Length,
-    pub y2: Length,
+    pub x1: Option<variable::Variable<Length>>,
+    pub y1: Option<variable::Variable<Length>>,
+    pub x2: Option<variable::Variable<Length>>,
+    pub y2: Option<variable::Variable<Length>>,
 }
 #[doc = " The ‘polyline’ element defines a set of connected straight line segments. Typically, ‘polyline’ elements define open shapes."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Polyline(pub Vec<Point>);
+pub struct Polyline(pub Option<variable::Variable<Vec<Point>>>);
 #[doc = " The ‘polygon’ element defines a closed shape consisting of a set of connected straight line segments."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Polygon(pub Vec<Point>);
+pub struct Polygon(pub Option<variable::Variable<Vec<Point>>>);
 #[doc = " The ‘text’ element defines a graphics element consisting of text."]
 #[doc = " "]
 #[doc = " See [`text`](https://www.w3.org/TR/SVG11/text.html#TextElement)"]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Text {
-    pub x: Vec<Length>,
-    pub y: Vec<Length>,
-    pub dx: Vec<Length>,
-    pub dy: Vec<Length>,
-    pub rotate: Vec<Angle>,
-    pub text_length: Vec<Length>,
-    pub length_adjust: TextLengthAdjust,
+    pub x: Option<variable::Variable<Vec<Length>>>,
+    pub y: Option<variable::Variable<Vec<Length>>>,
+    pub dx: Option<variable::Variable<Vec<Length>>>,
+    pub dy: Option<variable::Variable<Vec<Length>>>,
+    pub rotate: Option<variable::Variable<Vec<Angle>>>,
+    pub text_length: Option<variable::Variable<Vec<Length>>>,
+    pub length_adjust: Option<variable::Variable<TextLengthAdjust>>,
 }
 #[doc = " The ‘text’ element defines a graphics element consisting of text."]
 #[doc = " "]
@@ -1483,18 +1507,18 @@ pub struct Text {
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct TextSpan {
-    pub x: Vec<Length>,
-    pub y: Vec<Length>,
-    pub dx: Vec<Length>,
-    pub dy: Vec<Length>,
-    pub rotate: Vec<Angle>,
-    pub text_length: Vec<Length>,
-    pub length_adjust: TextLengthAdjust,
+    pub x: Option<variable::Variable<Vec<Length>>>,
+    pub y: Option<variable::Variable<Vec<Length>>>,
+    pub dx: Option<variable::Variable<Vec<Length>>>,
+    pub dy: Option<variable::Variable<Vec<Length>>>,
+    pub rotate: Option<variable::Variable<Vec<Angle>>>,
+    pub text_length: Option<variable::Variable<Vec<Length>>>,
+    pub length_adjust: Option<variable::Variable<TextLengthAdjust>>,
 }
 #[doc = " Text content chars."]
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Characters(pub String);
+pub struct Characters(pub Option<String>);
 #[doc = " In addition to text drawn in a straight line, SVG also includes the ability to place text along the"]
 #[doc = " shape of a ‘path’ element. To specify that a block of text is to be rendered along the shape of a ‘path’,"]
 #[doc = " include the given text within a ‘textPath’ element which includes an href’ attribute with an IRI"]
@@ -1502,8 +1526,1203 @@ pub struct Characters(pub String);
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct TextPath {
-    pub start_offset: Length,
-    pub method: TextPathMethod,
-    pub spacing: TextPathSpacing,
-    pub href: Iri,
+    pub start_offset: Option<variable::Variable<Length>>,
+    pub method: Option<variable::Variable<TextPathMethod>>,
+    pub spacing: Option<variable::Variable<TextPathSpacing>>,
+    pub href: Option<variable::Variable<Iri>>,
+}
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub enum Data {
+    Bool(bool),
+    ListOfBool(Box<Vec<bool>>),
+    String(String),
+    ListOfString(Box<Vec<String>>),
+    Byte(i8),
+    ListOfByte(Box<Vec<i8>>),
+    Ubyte(u8),
+    ListOfUbyte(Box<Vec<u8>>),
+    Short(i16),
+    ListOfShort(Box<Vec<i16>>),
+    Ushort(u16),
+    ListOfUshort(Box<Vec<u16>>),
+    Int(i32),
+    ListOfInt(Box<Vec<i32>>),
+    Uint(u32),
+    ListOfUint(Box<Vec<u32>>),
+    Long(i64),
+    ListOfLong(Box<Vec<i64>>),
+    Ulong(u64),
+    ListOfUlong(Box<Vec<u64>>),
+    Float(f32),
+    ListOfFloat(Box<Vec<f32>>),
+    Double(f64),
+    ListOfDouble(Box<Vec<f64>>),
+    Angle(Box<Angle>),
+    ListOfAngle(Box<Vec<Angle>>),
+    Length(Box<Length>),
+    ListOfLength(Box<Vec<Length>>),
+    Rgb(Box<Rgb>),
+    ListOfRgb(Box<Vec<Rgb>>),
+    Iri(Box<Iri>),
+    ListOfIri(Box<Vec<Iri>>),
+    FuncIri(Box<FuncIri>),
+    ListOfFuncIri(Box<Vec<FuncIri>>),
+    Point(Box<Point>),
+    ListOfPoint(Box<Vec<Point>>),
+    Percent(Box<Percent>),
+    ListOfPercent(Box<Vec<Percent>>),
+    Paint(Box<Paint>),
+    ListOfPaint(Box<Vec<Paint>>),
+    NumberOptNumber(Box<NumberOptNumber>),
+    ListOfNumberOptNumber(Box<Vec<NumberOptNumber>>),
+    Coords(Box<Coords>),
+    ListOfCoords(Box<Vec<Coords>>),
+    Transform(Box<Transform>),
+    ListOfTransform(Box<Vec<Transform>>),
+    Channel(Box<Channel>),
+    ListOfChannel(Box<Vec<Channel>>),
+    ClipRule(Box<ClipRule>),
+    ListOfClipRule(Box<Vec<ClipRule>>),
+    PathEvent(Box<PathEvent>),
+    ListOfPathEvent(Box<Vec<PathEvent>>),
+    FillRule(Box<FillRule>),
+    ListOfFillRule(Box<Vec<FillRule>>),
+    StrokeLineCap(Box<StrokeLineCap>),
+    ListOfStrokeLineCap(Box<Vec<StrokeLineCap>>),
+    StrokeLineJoin(Box<StrokeLineJoin>),
+    ListOfStrokeLineJoin(Box<Vec<StrokeLineJoin>>),
+    SpreadMethod(Box<SpreadMethod>),
+    ListOfSpreadMethod(Box<Vec<SpreadMethod>>),
+    FontStyle(Box<FontStyle>),
+    ListOfFontStyle(Box<Vec<FontStyle>>),
+    FontVariant(Box<FontVariant>),
+    ListOfFontVariant(Box<Vec<FontVariant>>),
+    FontWeight(Box<FontWeight>),
+    ListOfFontWeight(Box<Vec<FontWeight>>),
+    FontFamily(Box<FontFamily>),
+    ListOfFontFamily(Box<Vec<FontFamily>>),
+    FontStretch(Box<FontStretch>),
+    ListOfFontStretch(Box<Vec<FontStretch>>),
+    Background(Box<Background>),
+    ListOfBackground(Box<Vec<Background>>),
+    FeIn(Box<FeIn>),
+    ListOfFeIn(Box<Vec<FeIn>>),
+    FeOut(Box<FeOut>),
+    ListOfFeOut(Box<Vec<FeOut>>),
+    FeBlendMode(Box<FeBlendMode>),
+    ListOfFeBlendMode(Box<Vec<FeBlendMode>>),
+    TextLengthAdjust(Box<TextLengthAdjust>),
+    ListOfTextLengthAdjust(Box<Vec<TextLengthAdjust>>),
+    WritingMode(Box<WritingMode>),
+    ListOfWritingMode(Box<Vec<WritingMode>>),
+    TextDirection(Box<TextDirection>),
+    ListOfTextDirection(Box<Vec<TextDirection>>),
+    UnicodeBidi(Box<UnicodeBidi>),
+    ListOfUnicodeBidi(Box<Vec<UnicodeBidi>>),
+    TextAnchor(Box<TextAnchor>),
+    ListOfTextAnchor(Box<Vec<TextAnchor>>),
+    DominantBaseline(Box<DominantBaseline>),
+    ListOfDominantBaseline(Box<Vec<DominantBaseline>>),
+    AlignmentBaseline(Box<AlignmentBaseline>),
+    ListOfAlignmentBaseline(Box<Vec<AlignmentBaseline>>),
+    BaselineShift(Box<BaselineShift>),
+    ListOfBaselineShift(Box<Vec<BaselineShift>>),
+    TextDecoration(Box<TextDecoration>),
+    ListOfTextDecoration(Box<Vec<TextDecoration>>),
+    TextPathMethod(Box<TextPathMethod>),
+    ListOfTextPathMethod(Box<Vec<TextPathMethod>>),
+    TextPathSpacing(Box<TextPathSpacing>),
+    ListOfTextPathSpacing(Box<Vec<TextPathSpacing>>),
+    LetterSpacing(Box<LetterSpacing>),
+    ListOfLetterSpacing(Box<Vec<LetterSpacing>>),
+    WordSpacing(Box<WordSpacing>),
+    ListOfWordSpacing(Box<Vec<WordSpacing>>),
+    MeetOrSlice(Box<MeetOrSlice>),
+    ListOfMeetOrSlice(Box<Vec<MeetOrSlice>>),
+    PreserveAspectRatio(Box<PreserveAspectRatio>),
+    ListOfPreserveAspectRatio(Box<Vec<PreserveAspectRatio>>),
+    FeColorMatrixValues(Box<FeColorMatrixValues>),
+    ListOfFeColorMatrixValues(Box<Vec<FeColorMatrixValues>>),
+    FeFunc(Box<FeFunc>),
+    ListOfFeFunc(Box<Vec<FeFunc>>),
+    FeCompositeOperator(Box<FeCompositeOperator>),
+    ListOfFeCompositeOperator(Box<Vec<FeCompositeOperator>>),
+    FeConvolveMatrixEdgeMode(Box<FeConvolveMatrixEdgeMode>),
+    ListOfFeConvolveMatrixEdgeMode(Box<Vec<FeConvolveMatrixEdgeMode>>),
+    FeMorphologyOperator(Box<FeMorphologyOperator>),
+    ListOfFeMorphologyOperator(Box<Vec<FeMorphologyOperator>>),
+    FeStitchTiles(Box<FeStitchTiles>),
+    ListOfFeStitchTiles(Box<Vec<FeStitchTiles>>),
+    FeTurbulenceType(Box<FeTurbulenceType>),
+    ListOfFeTurbulenceType(Box<Vec<FeTurbulenceType>>),
+}
+impl From<bool> for Data {
+    fn from(value: bool) -> Self {
+        Data::Bool(value)
+    }
+}
+impl From<Vec<bool>> for Data {
+    fn from(value: Vec<bool>) -> Self {
+        Data::ListOfBool(Box::new(value))
+    }
+}
+impl From<String> for Data {
+    fn from(value: String) -> Self {
+        Data::String(value)
+    }
+}
+impl From<Vec<String>> for Data {
+    fn from(value: Vec<String>) -> Self {
+        Data::ListOfString(Box::new(value))
+    }
+}
+impl From<i8> for Data {
+    fn from(value: i8) -> Self {
+        Data::Byte(value)
+    }
+}
+impl From<Vec<i8>> for Data {
+    fn from(value: Vec<i8>) -> Self {
+        Data::ListOfByte(Box::new(value))
+    }
+}
+impl From<u8> for Data {
+    fn from(value: u8) -> Self {
+        Data::Ubyte(value)
+    }
+}
+impl From<Vec<u8>> for Data {
+    fn from(value: Vec<u8>) -> Self {
+        Data::ListOfUbyte(Box::new(value))
+    }
+}
+impl From<i16> for Data {
+    fn from(value: i16) -> Self {
+        Data::Short(value)
+    }
+}
+impl From<Vec<i16>> for Data {
+    fn from(value: Vec<i16>) -> Self {
+        Data::ListOfShort(Box::new(value))
+    }
+}
+impl From<u16> for Data {
+    fn from(value: u16) -> Self {
+        Data::Ushort(value)
+    }
+}
+impl From<Vec<u16>> for Data {
+    fn from(value: Vec<u16>) -> Self {
+        Data::ListOfUshort(Box::new(value))
+    }
+}
+impl From<i32> for Data {
+    fn from(value: i32) -> Self {
+        Data::Int(value)
+    }
+}
+impl From<Vec<i32>> for Data {
+    fn from(value: Vec<i32>) -> Self {
+        Data::ListOfInt(Box::new(value))
+    }
+}
+impl From<u32> for Data {
+    fn from(value: u32) -> Self {
+        Data::Uint(value)
+    }
+}
+impl From<Vec<u32>> for Data {
+    fn from(value: Vec<u32>) -> Self {
+        Data::ListOfUint(Box::new(value))
+    }
+}
+impl From<i64> for Data {
+    fn from(value: i64) -> Self {
+        Data::Long(value)
+    }
+}
+impl From<Vec<i64>> for Data {
+    fn from(value: Vec<i64>) -> Self {
+        Data::ListOfLong(Box::new(value))
+    }
+}
+impl From<u64> for Data {
+    fn from(value: u64) -> Self {
+        Data::Ulong(value)
+    }
+}
+impl From<Vec<u64>> for Data {
+    fn from(value: Vec<u64>) -> Self {
+        Data::ListOfUlong(Box::new(value))
+    }
+}
+impl From<f32> for Data {
+    fn from(value: f32) -> Self {
+        Data::Float(value)
+    }
+}
+impl From<Vec<f32>> for Data {
+    fn from(value: Vec<f32>) -> Self {
+        Data::ListOfFloat(Box::new(value))
+    }
+}
+impl From<f64> for Data {
+    fn from(value: f64) -> Self {
+        Data::Double(value)
+    }
+}
+impl From<Vec<f64>> for Data {
+    fn from(value: Vec<f64>) -> Self {
+        Data::ListOfDouble(Box::new(value))
+    }
+}
+impl From<Angle> for Data {
+    fn from(value: Angle) -> Self {
+        Data::Angle(Box::new(value))
+    }
+}
+impl From<Vec<Angle>> for Data {
+    fn from(value: Vec<Angle>) -> Self {
+        Data::ListOfAngle(Box::new(value))
+    }
+}
+impl From<Length> for Data {
+    fn from(value: Length) -> Self {
+        Data::Length(Box::new(value))
+    }
+}
+impl From<Vec<Length>> for Data {
+    fn from(value: Vec<Length>) -> Self {
+        Data::ListOfLength(Box::new(value))
+    }
+}
+impl From<Rgb> for Data {
+    fn from(value: Rgb) -> Self {
+        Data::Rgb(Box::new(value))
+    }
+}
+impl From<Vec<Rgb>> for Data {
+    fn from(value: Vec<Rgb>) -> Self {
+        Data::ListOfRgb(Box::new(value))
+    }
+}
+impl From<Iri> for Data {
+    fn from(value: Iri) -> Self {
+        Data::Iri(Box::new(value))
+    }
+}
+impl From<Vec<Iri>> for Data {
+    fn from(value: Vec<Iri>) -> Self {
+        Data::ListOfIri(Box::new(value))
+    }
+}
+impl From<FuncIri> for Data {
+    fn from(value: FuncIri) -> Self {
+        Data::FuncIri(Box::new(value))
+    }
+}
+impl From<Vec<FuncIri>> for Data {
+    fn from(value: Vec<FuncIri>) -> Self {
+        Data::ListOfFuncIri(Box::new(value))
+    }
+}
+impl From<Point> for Data {
+    fn from(value: Point) -> Self {
+        Data::Point(Box::new(value))
+    }
+}
+impl From<Vec<Point>> for Data {
+    fn from(value: Vec<Point>) -> Self {
+        Data::ListOfPoint(Box::new(value))
+    }
+}
+impl From<Percent> for Data {
+    fn from(value: Percent) -> Self {
+        Data::Percent(Box::new(value))
+    }
+}
+impl From<Vec<Percent>> for Data {
+    fn from(value: Vec<Percent>) -> Self {
+        Data::ListOfPercent(Box::new(value))
+    }
+}
+impl From<Paint> for Data {
+    fn from(value: Paint) -> Self {
+        Data::Paint(Box::new(value))
+    }
+}
+impl From<Vec<Paint>> for Data {
+    fn from(value: Vec<Paint>) -> Self {
+        Data::ListOfPaint(Box::new(value))
+    }
+}
+impl From<NumberOptNumber> for Data {
+    fn from(value: NumberOptNumber) -> Self {
+        Data::NumberOptNumber(Box::new(value))
+    }
+}
+impl From<Vec<NumberOptNumber>> for Data {
+    fn from(value: Vec<NumberOptNumber>) -> Self {
+        Data::ListOfNumberOptNumber(Box::new(value))
+    }
+}
+impl From<Coords> for Data {
+    fn from(value: Coords) -> Self {
+        Data::Coords(Box::new(value))
+    }
+}
+impl From<Vec<Coords>> for Data {
+    fn from(value: Vec<Coords>) -> Self {
+        Data::ListOfCoords(Box::new(value))
+    }
+}
+impl From<Transform> for Data {
+    fn from(value: Transform) -> Self {
+        Data::Transform(Box::new(value))
+    }
+}
+impl From<Vec<Transform>> for Data {
+    fn from(value: Vec<Transform>) -> Self {
+        Data::ListOfTransform(Box::new(value))
+    }
+}
+impl From<Channel> for Data {
+    fn from(value: Channel) -> Self {
+        Data::Channel(Box::new(value))
+    }
+}
+impl From<Vec<Channel>> for Data {
+    fn from(value: Vec<Channel>) -> Self {
+        Data::ListOfChannel(Box::new(value))
+    }
+}
+impl From<ClipRule> for Data {
+    fn from(value: ClipRule) -> Self {
+        Data::ClipRule(Box::new(value))
+    }
+}
+impl From<Vec<ClipRule>> for Data {
+    fn from(value: Vec<ClipRule>) -> Self {
+        Data::ListOfClipRule(Box::new(value))
+    }
+}
+impl From<PathEvent> for Data {
+    fn from(value: PathEvent) -> Self {
+        Data::PathEvent(Box::new(value))
+    }
+}
+impl From<Vec<PathEvent>> for Data {
+    fn from(value: Vec<PathEvent>) -> Self {
+        Data::ListOfPathEvent(Box::new(value))
+    }
+}
+impl From<FillRule> for Data {
+    fn from(value: FillRule) -> Self {
+        Data::FillRule(Box::new(value))
+    }
+}
+impl From<Vec<FillRule>> for Data {
+    fn from(value: Vec<FillRule>) -> Self {
+        Data::ListOfFillRule(Box::new(value))
+    }
+}
+impl From<StrokeLineCap> for Data {
+    fn from(value: StrokeLineCap) -> Self {
+        Data::StrokeLineCap(Box::new(value))
+    }
+}
+impl From<Vec<StrokeLineCap>> for Data {
+    fn from(value: Vec<StrokeLineCap>) -> Self {
+        Data::ListOfStrokeLineCap(Box::new(value))
+    }
+}
+impl From<StrokeLineJoin> for Data {
+    fn from(value: StrokeLineJoin) -> Self {
+        Data::StrokeLineJoin(Box::new(value))
+    }
+}
+impl From<Vec<StrokeLineJoin>> for Data {
+    fn from(value: Vec<StrokeLineJoin>) -> Self {
+        Data::ListOfStrokeLineJoin(Box::new(value))
+    }
+}
+impl From<SpreadMethod> for Data {
+    fn from(value: SpreadMethod) -> Self {
+        Data::SpreadMethod(Box::new(value))
+    }
+}
+impl From<Vec<SpreadMethod>> for Data {
+    fn from(value: Vec<SpreadMethod>) -> Self {
+        Data::ListOfSpreadMethod(Box::new(value))
+    }
+}
+impl From<FontStyle> for Data {
+    fn from(value: FontStyle) -> Self {
+        Data::FontStyle(Box::new(value))
+    }
+}
+impl From<Vec<FontStyle>> for Data {
+    fn from(value: Vec<FontStyle>) -> Self {
+        Data::ListOfFontStyle(Box::new(value))
+    }
+}
+impl From<FontVariant> for Data {
+    fn from(value: FontVariant) -> Self {
+        Data::FontVariant(Box::new(value))
+    }
+}
+impl From<Vec<FontVariant>> for Data {
+    fn from(value: Vec<FontVariant>) -> Self {
+        Data::ListOfFontVariant(Box::new(value))
+    }
+}
+impl From<FontWeight> for Data {
+    fn from(value: FontWeight) -> Self {
+        Data::FontWeight(Box::new(value))
+    }
+}
+impl From<Vec<FontWeight>> for Data {
+    fn from(value: Vec<FontWeight>) -> Self {
+        Data::ListOfFontWeight(Box::new(value))
+    }
+}
+impl From<FontFamily> for Data {
+    fn from(value: FontFamily) -> Self {
+        Data::FontFamily(Box::new(value))
+    }
+}
+impl From<Vec<FontFamily>> for Data {
+    fn from(value: Vec<FontFamily>) -> Self {
+        Data::ListOfFontFamily(Box::new(value))
+    }
+}
+impl From<FontStretch> for Data {
+    fn from(value: FontStretch) -> Self {
+        Data::FontStretch(Box::new(value))
+    }
+}
+impl From<Vec<FontStretch>> for Data {
+    fn from(value: Vec<FontStretch>) -> Self {
+        Data::ListOfFontStretch(Box::new(value))
+    }
+}
+impl From<Background> for Data {
+    fn from(value: Background) -> Self {
+        Data::Background(Box::new(value))
+    }
+}
+impl From<Vec<Background>> for Data {
+    fn from(value: Vec<Background>) -> Self {
+        Data::ListOfBackground(Box::new(value))
+    }
+}
+impl From<FeIn> for Data {
+    fn from(value: FeIn) -> Self {
+        Data::FeIn(Box::new(value))
+    }
+}
+impl From<Vec<FeIn>> for Data {
+    fn from(value: Vec<FeIn>) -> Self {
+        Data::ListOfFeIn(Box::new(value))
+    }
+}
+impl From<FeOut> for Data {
+    fn from(value: FeOut) -> Self {
+        Data::FeOut(Box::new(value))
+    }
+}
+impl From<Vec<FeOut>> for Data {
+    fn from(value: Vec<FeOut>) -> Self {
+        Data::ListOfFeOut(Box::new(value))
+    }
+}
+impl From<FeBlendMode> for Data {
+    fn from(value: FeBlendMode) -> Self {
+        Data::FeBlendMode(Box::new(value))
+    }
+}
+impl From<Vec<FeBlendMode>> for Data {
+    fn from(value: Vec<FeBlendMode>) -> Self {
+        Data::ListOfFeBlendMode(Box::new(value))
+    }
+}
+impl From<TextLengthAdjust> for Data {
+    fn from(value: TextLengthAdjust) -> Self {
+        Data::TextLengthAdjust(Box::new(value))
+    }
+}
+impl From<Vec<TextLengthAdjust>> for Data {
+    fn from(value: Vec<TextLengthAdjust>) -> Self {
+        Data::ListOfTextLengthAdjust(Box::new(value))
+    }
+}
+impl From<WritingMode> for Data {
+    fn from(value: WritingMode) -> Self {
+        Data::WritingMode(Box::new(value))
+    }
+}
+impl From<Vec<WritingMode>> for Data {
+    fn from(value: Vec<WritingMode>) -> Self {
+        Data::ListOfWritingMode(Box::new(value))
+    }
+}
+impl From<TextDirection> for Data {
+    fn from(value: TextDirection) -> Self {
+        Data::TextDirection(Box::new(value))
+    }
+}
+impl From<Vec<TextDirection>> for Data {
+    fn from(value: Vec<TextDirection>) -> Self {
+        Data::ListOfTextDirection(Box::new(value))
+    }
+}
+impl From<UnicodeBidi> for Data {
+    fn from(value: UnicodeBidi) -> Self {
+        Data::UnicodeBidi(Box::new(value))
+    }
+}
+impl From<Vec<UnicodeBidi>> for Data {
+    fn from(value: Vec<UnicodeBidi>) -> Self {
+        Data::ListOfUnicodeBidi(Box::new(value))
+    }
+}
+impl From<TextAnchor> for Data {
+    fn from(value: TextAnchor) -> Self {
+        Data::TextAnchor(Box::new(value))
+    }
+}
+impl From<Vec<TextAnchor>> for Data {
+    fn from(value: Vec<TextAnchor>) -> Self {
+        Data::ListOfTextAnchor(Box::new(value))
+    }
+}
+impl From<DominantBaseline> for Data {
+    fn from(value: DominantBaseline) -> Self {
+        Data::DominantBaseline(Box::new(value))
+    }
+}
+impl From<Vec<DominantBaseline>> for Data {
+    fn from(value: Vec<DominantBaseline>) -> Self {
+        Data::ListOfDominantBaseline(Box::new(value))
+    }
+}
+impl From<AlignmentBaseline> for Data {
+    fn from(value: AlignmentBaseline) -> Self {
+        Data::AlignmentBaseline(Box::new(value))
+    }
+}
+impl From<Vec<AlignmentBaseline>> for Data {
+    fn from(value: Vec<AlignmentBaseline>) -> Self {
+        Data::ListOfAlignmentBaseline(Box::new(value))
+    }
+}
+impl From<BaselineShift> for Data {
+    fn from(value: BaselineShift) -> Self {
+        Data::BaselineShift(Box::new(value))
+    }
+}
+impl From<Vec<BaselineShift>> for Data {
+    fn from(value: Vec<BaselineShift>) -> Self {
+        Data::ListOfBaselineShift(Box::new(value))
+    }
+}
+impl From<TextDecoration> for Data {
+    fn from(value: TextDecoration) -> Self {
+        Data::TextDecoration(Box::new(value))
+    }
+}
+impl From<Vec<TextDecoration>> for Data {
+    fn from(value: Vec<TextDecoration>) -> Self {
+        Data::ListOfTextDecoration(Box::new(value))
+    }
+}
+impl From<TextPathMethod> for Data {
+    fn from(value: TextPathMethod) -> Self {
+        Data::TextPathMethod(Box::new(value))
+    }
+}
+impl From<Vec<TextPathMethod>> for Data {
+    fn from(value: Vec<TextPathMethod>) -> Self {
+        Data::ListOfTextPathMethod(Box::new(value))
+    }
+}
+impl From<TextPathSpacing> for Data {
+    fn from(value: TextPathSpacing) -> Self {
+        Data::TextPathSpacing(Box::new(value))
+    }
+}
+impl From<Vec<TextPathSpacing>> for Data {
+    fn from(value: Vec<TextPathSpacing>) -> Self {
+        Data::ListOfTextPathSpacing(Box::new(value))
+    }
+}
+impl From<LetterSpacing> for Data {
+    fn from(value: LetterSpacing) -> Self {
+        Data::LetterSpacing(Box::new(value))
+    }
+}
+impl From<Vec<LetterSpacing>> for Data {
+    fn from(value: Vec<LetterSpacing>) -> Self {
+        Data::ListOfLetterSpacing(Box::new(value))
+    }
+}
+impl From<WordSpacing> for Data {
+    fn from(value: WordSpacing) -> Self {
+        Data::WordSpacing(Box::new(value))
+    }
+}
+impl From<Vec<WordSpacing>> for Data {
+    fn from(value: Vec<WordSpacing>) -> Self {
+        Data::ListOfWordSpacing(Box::new(value))
+    }
+}
+impl From<MeetOrSlice> for Data {
+    fn from(value: MeetOrSlice) -> Self {
+        Data::MeetOrSlice(Box::new(value))
+    }
+}
+impl From<Vec<MeetOrSlice>> for Data {
+    fn from(value: Vec<MeetOrSlice>) -> Self {
+        Data::ListOfMeetOrSlice(Box::new(value))
+    }
+}
+impl From<PreserveAspectRatio> for Data {
+    fn from(value: PreserveAspectRatio) -> Self {
+        Data::PreserveAspectRatio(Box::new(value))
+    }
+}
+impl From<Vec<PreserveAspectRatio>> for Data {
+    fn from(value: Vec<PreserveAspectRatio>) -> Self {
+        Data::ListOfPreserveAspectRatio(Box::new(value))
+    }
+}
+impl From<FeColorMatrixValues> for Data {
+    fn from(value: FeColorMatrixValues) -> Self {
+        Data::FeColorMatrixValues(Box::new(value))
+    }
+}
+impl From<Vec<FeColorMatrixValues>> for Data {
+    fn from(value: Vec<FeColorMatrixValues>) -> Self {
+        Data::ListOfFeColorMatrixValues(Box::new(value))
+    }
+}
+impl From<FeFunc> for Data {
+    fn from(value: FeFunc) -> Self {
+        Data::FeFunc(Box::new(value))
+    }
+}
+impl From<Vec<FeFunc>> for Data {
+    fn from(value: Vec<FeFunc>) -> Self {
+        Data::ListOfFeFunc(Box::new(value))
+    }
+}
+impl From<FeCompositeOperator> for Data {
+    fn from(value: FeCompositeOperator) -> Self {
+        Data::FeCompositeOperator(Box::new(value))
+    }
+}
+impl From<Vec<FeCompositeOperator>> for Data {
+    fn from(value: Vec<FeCompositeOperator>) -> Self {
+        Data::ListOfFeCompositeOperator(Box::new(value))
+    }
+}
+impl From<FeConvolveMatrixEdgeMode> for Data {
+    fn from(value: FeConvolveMatrixEdgeMode) -> Self {
+        Data::FeConvolveMatrixEdgeMode(Box::new(value))
+    }
+}
+impl From<Vec<FeConvolveMatrixEdgeMode>> for Data {
+    fn from(value: Vec<FeConvolveMatrixEdgeMode>) -> Self {
+        Data::ListOfFeConvolveMatrixEdgeMode(Box::new(value))
+    }
+}
+impl From<FeMorphologyOperator> for Data {
+    fn from(value: FeMorphologyOperator) -> Self {
+        Data::FeMorphologyOperator(Box::new(value))
+    }
+}
+impl From<Vec<FeMorphologyOperator>> for Data {
+    fn from(value: Vec<FeMorphologyOperator>) -> Self {
+        Data::ListOfFeMorphologyOperator(Box::new(value))
+    }
+}
+impl From<FeStitchTiles> for Data {
+    fn from(value: FeStitchTiles) -> Self {
+        Data::FeStitchTiles(Box::new(value))
+    }
+}
+impl From<Vec<FeStitchTiles>> for Data {
+    fn from(value: Vec<FeStitchTiles>) -> Self {
+        Data::ListOfFeStitchTiles(Box::new(value))
+    }
+}
+impl From<FeTurbulenceType> for Data {
+    fn from(value: FeTurbulenceType) -> Self {
+        Data::FeTurbulenceType(Box::new(value))
+    }
+}
+impl From<Vec<FeTurbulenceType>> for Data {
+    fn from(value: Vec<FeTurbulenceType>) -> Self {
+        Data::ListOfFeTurbulenceType(Box::new(value))
+    }
+}
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub enum Attr {
+    TextLayout(Box<TextLayout>),
+    WithTransform(Box<WithTransform>),
+    Id(Box<Id>),
+    Fill(Box<Fill>),
+    Stroke(Box<Stroke>),
+    Font(Box<Font>),
+    EnableBackground(Box<EnableBackground>),
+    WithFilter(Box<WithFilter>),
+    WithClipPath(Box<WithClipPath>),
+    WithMask(Box<WithMask>),
+    Opacity(Box<Opacity>),
+    ViewBox(Box<ViewBox>),
+}
+impl From<TextLayout> for Attr {
+    fn from(value: TextLayout) -> Self {
+        Self::TextLayout(Box::new(value))
+    }
+}
+impl From<WithTransform> for Attr {
+    fn from(value: WithTransform) -> Self {
+        Self::WithTransform(Box::new(value))
+    }
+}
+impl From<Id> for Attr {
+    fn from(value: Id) -> Self {
+        Self::Id(Box::new(value))
+    }
+}
+impl From<Fill> for Attr {
+    fn from(value: Fill) -> Self {
+        Self::Fill(Box::new(value))
+    }
+}
+impl From<Stroke> for Attr {
+    fn from(value: Stroke) -> Self {
+        Self::Stroke(Box::new(value))
+    }
+}
+impl From<Font> for Attr {
+    fn from(value: Font) -> Self {
+        Self::Font(Box::new(value))
+    }
+}
+impl From<EnableBackground> for Attr {
+    fn from(value: EnableBackground) -> Self {
+        Self::EnableBackground(Box::new(value))
+    }
+}
+impl From<WithFilter> for Attr {
+    fn from(value: WithFilter) -> Self {
+        Self::WithFilter(Box::new(value))
+    }
+}
+impl From<WithClipPath> for Attr {
+    fn from(value: WithClipPath) -> Self {
+        Self::WithClipPath(Box::new(value))
+    }
+}
+impl From<WithMask> for Attr {
+    fn from(value: WithMask) -> Self {
+        Self::WithMask(Box::new(value))
+    }
+}
+impl From<Opacity> for Attr {
+    fn from(value: Opacity) -> Self {
+        Self::Opacity(Box::new(value))
+    }
+}
+impl From<ViewBox> for Attr {
+    fn from(value: ViewBox) -> Self {
+        Self::ViewBox(Box::new(value))
+    }
+}
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub enum Element {
+    Canvas(Box<Canvas>),
+    Mask(Box<Mask>),
+    ClipPath(Box<ClipPath>),
+    Filter(Box<Filter>),
+    FeComponentTransfer(Box<FeComponentTransfer>),
+    FeDiffuseLighting(Box<FeDiffuseLighting>),
+    FeMerge(Box<FeMerge>),
+    FeSpecularLighting(Box<FeSpecularLighting>),
+    LinearGradient(Box<LinearGradient>),
+    RadialGradient(Box<RadialGradient>),
+    Group(Box<Group>),
+    Pattern(Box<Pattern>),
+    Text(Box<Text>),
+    TextSpan(Box<TextSpan>),
+    TextPath(Box<TextPath>),
+}
+impl From<Canvas> for Element {
+    fn from(value: Canvas) -> Self {
+        Self::Canvas(Box::new(value))
+    }
+}
+impl From<Mask> for Element {
+    fn from(value: Mask) -> Self {
+        Self::Mask(Box::new(value))
+    }
+}
+impl From<ClipPath> for Element {
+    fn from(value: ClipPath) -> Self {
+        Self::ClipPath(Box::new(value))
+    }
+}
+impl From<Filter> for Element {
+    fn from(value: Filter) -> Self {
+        Self::Filter(Box::new(value))
+    }
+}
+impl From<FeComponentTransfer> for Element {
+    fn from(value: FeComponentTransfer) -> Self {
+        Self::FeComponentTransfer(Box::new(value))
+    }
+}
+impl From<FeDiffuseLighting> for Element {
+    fn from(value: FeDiffuseLighting) -> Self {
+        Self::FeDiffuseLighting(Box::new(value))
+    }
+}
+impl From<FeMerge> for Element {
+    fn from(value: FeMerge) -> Self {
+        Self::FeMerge(Box::new(value))
+    }
+}
+impl From<FeSpecularLighting> for Element {
+    fn from(value: FeSpecularLighting) -> Self {
+        Self::FeSpecularLighting(Box::new(value))
+    }
+}
+impl From<LinearGradient> for Element {
+    fn from(value: LinearGradient) -> Self {
+        Self::LinearGradient(Box::new(value))
+    }
+}
+impl From<RadialGradient> for Element {
+    fn from(value: RadialGradient) -> Self {
+        Self::RadialGradient(Box::new(value))
+    }
+}
+impl From<Group> for Element {
+    fn from(value: Group) -> Self {
+        Self::Group(Box::new(value))
+    }
+}
+impl From<Pattern> for Element {
+    fn from(value: Pattern) -> Self {
+        Self::Pattern(Box::new(value))
+    }
+}
+impl From<Text> for Element {
+    fn from(value: Text) -> Self {
+        Self::Text(Box::new(value))
+    }
+}
+impl From<TextSpan> for Element {
+    fn from(value: TextSpan) -> Self {
+        Self::TextSpan(Box::new(value))
+    }
+}
+impl From<TextPath> for Element {
+    fn from(value: TextPath) -> Self {
+        Self::TextPath(Box::new(value))
+    }
+}
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub enum Leaf {
+    FeDistantLight(Box<FeDistantLight>),
+    FePointLight(Box<FePointLight>),
+    FeSpotLight(Box<FeSpotLight>),
+    FeBlend(Box<FeBlend>),
+    FeColorMatrix(Box<FeColorMatrix>),
+    FeFuncA(Box<FeFuncA>),
+    FeFuncR(Box<FeFuncR>),
+    FeFuncG(Box<FeFuncG>),
+    FeFuncB(Box<FeFuncB>),
+    FeComposite(Box<FeComposite>),
+    FeConvolveMatrix(Box<FeConvolveMatrix>),
+    FeDisplacementMap(Box<FeDisplacementMap>),
+    FeFlood(Box<FeFlood>),
+    FeGaussianBlur(Box<FeGaussianBlur>),
+    FeMergeNode(Box<FeMergeNode>),
+    FeImage(Box<FeImage>),
+    FeMorphology(Box<FeMorphology>),
+    FeOffset(Box<FeOffset>),
+    FeTile(Box<FeTile>),
+    FeTurbulence(Box<FeTurbulence>),
+    GradientStop(Box<GradientStop>),
+    Path(Box<Path>),
+    Use(Box<Use>),
+    Rect(Box<Rect>),
+    Circle(Box<Circle>),
+    Ellipse(Box<Ellipse>),
+    Line(Box<Line>),
+    Polyline(Box<Polyline>),
+    Polygon(Box<Polygon>),
+    Characters(Box<Characters>),
+}
+impl From<FeDistantLight> for Leaf {
+    fn from(value: FeDistantLight) -> Self {
+        Self::FeDistantLight(Box::new(value))
+    }
+}
+impl From<FePointLight> for Leaf {
+    fn from(value: FePointLight) -> Self {
+        Self::FePointLight(Box::new(value))
+    }
+}
+impl From<FeSpotLight> for Leaf {
+    fn from(value: FeSpotLight) -> Self {
+        Self::FeSpotLight(Box::new(value))
+    }
+}
+impl From<FeBlend> for Leaf {
+    fn from(value: FeBlend) -> Self {
+        Self::FeBlend(Box::new(value))
+    }
+}
+impl From<FeColorMatrix> for Leaf {
+    fn from(value: FeColorMatrix) -> Self {
+        Self::FeColorMatrix(Box::new(value))
+    }
+}
+impl From<FeFuncA> for Leaf {
+    fn from(value: FeFuncA) -> Self {
+        Self::FeFuncA(Box::new(value))
+    }
+}
+impl From<FeFuncR> for Leaf {
+    fn from(value: FeFuncR) -> Self {
+        Self::FeFuncR(Box::new(value))
+    }
+}
+impl From<FeFuncG> for Leaf {
+    fn from(value: FeFuncG) -> Self {
+        Self::FeFuncG(Box::new(value))
+    }
+}
+impl From<FeFuncB> for Leaf {
+    fn from(value: FeFuncB) -> Self {
+        Self::FeFuncB(Box::new(value))
+    }
+}
+impl From<FeComposite> for Leaf {
+    fn from(value: FeComposite) -> Self {
+        Self::FeComposite(Box::new(value))
+    }
+}
+impl From<FeConvolveMatrix> for Leaf {
+    fn from(value: FeConvolveMatrix) -> Self {
+        Self::FeConvolveMatrix(Box::new(value))
+    }
+}
+impl From<FeDisplacementMap> for Leaf {
+    fn from(value: FeDisplacementMap) -> Self {
+        Self::FeDisplacementMap(Box::new(value))
+    }
+}
+impl From<FeFlood> for Leaf {
+    fn from(value: FeFlood) -> Self {
+        Self::FeFlood(Box::new(value))
+    }
+}
+impl From<FeGaussianBlur> for Leaf {
+    fn from(value: FeGaussianBlur) -> Self {
+        Self::FeGaussianBlur(Box::new(value))
+    }
+}
+impl From<FeMergeNode> for Leaf {
+    fn from(value: FeMergeNode) -> Self {
+        Self::FeMergeNode(Box::new(value))
+    }
+}
+impl From<FeImage> for Leaf {
+    fn from(value: FeImage) -> Self {
+        Self::FeImage(Box::new(value))
+    }
+}
+impl From<FeMorphology> for Leaf {
+    fn from(value: FeMorphology) -> Self {
+        Self::FeMorphology(Box::new(value))
+    }
+}
+impl From<FeOffset> for Leaf {
+    fn from(value: FeOffset) -> Self {
+        Self::FeOffset(Box::new(value))
+    }
+}
+impl From<FeTile> for Leaf {
+    fn from(value: FeTile) -> Self {
+        Self::FeTile(Box::new(value))
+    }
+}
+impl From<FeTurbulence> for Leaf {
+    fn from(value: FeTurbulence) -> Self {
+        Self::FeTurbulence(Box::new(value))
+    }
+}
+impl From<GradientStop> for Leaf {
+    fn from(value: GradientStop) -> Self {
+        Self::GradientStop(Box::new(value))
+    }
+}
+impl From<Path> for Leaf {
+    fn from(value: Path) -> Self {
+        Self::Path(Box::new(value))
+    }
+}
+impl From<Use> for Leaf {
+    fn from(value: Use) -> Self {
+        Self::Use(Box::new(value))
+    }
+}
+impl From<Rect> for Leaf {
+    fn from(value: Rect) -> Self {
+        Self::Rect(Box::new(value))
+    }
+}
+impl From<Circle> for Leaf {
+    fn from(value: Circle) -> Self {
+        Self::Circle(Box::new(value))
+    }
+}
+impl From<Ellipse> for Leaf {
+    fn from(value: Ellipse) -> Self {
+        Self::Ellipse(Box::new(value))
+    }
+}
+impl From<Line> for Leaf {
+    fn from(value: Line) -> Self {
+        Self::Line(Box::new(value))
+    }
+}
+impl From<Polyline> for Leaf {
+    fn from(value: Polyline) -> Self {
+        Self::Polyline(Box::new(value))
+    }
+}
+impl From<Polygon> for Leaf {
+    fn from(value: Polygon) -> Self {
+        Self::Polygon(Box::new(value))
+    }
+}
+impl From<Characters> for Leaf {
+    fn from(value: Characters) -> Self {
+        Self::Characters(Box::new(value))
+    }
+}
+#[derive(Debug, Clone, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub enum Opcode {
+    Apply(Attr),
+    Element(Element),
+    Pop,
+    Leaf(Leaf),
+}
+impl From<Attr> for Opcode {
+    fn from(value: Attr) -> Self {
+        Self::Apply(value)
+    }
+}
+impl From<Element> for Opcode {
+    fn from(value: Element) -> Self {
+        Self::Element(value)
+    }
+}
+impl From<Leaf> for Opcode {
+    fn from(value: Leaf) -> Self {
+        Self::Leaf(value)
+    }
+}
+mod variable {
+    #[doc = r" The path used by [`Variable`] is used to point to [`Target`]."]
+    #[derive(Debug, PartialEq, PartialOrd, Clone)]
+    #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+    pub enum Path {
+        #[doc = r" Reference by name."]
+        Named(String),
+        #[doc = r" Reference by optimized position."]
+        Index(usize),
+    }
+    impl From<String> for Path {
+        fn from(value: String) -> Self {
+            Self::Named(value)
+        }
+    }
+    impl From<&str> for Path {
+        fn from(value: &str) -> Self {
+            Self::Named(value.to_owned())
+        }
+    }
+    impl From<usize> for Path {
+        fn from(value: usize) -> Self {
+            Self::Index(value)
+        }
+    }
+    #[doc = r" The type of variable pointed to by [`Path`]."]
+    #[derive(Debug, PartialEq, PartialOrd, Clone)]
+    #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+    pub enum Target {
+        #[doc = r" Target is animation register."]
+        Register,
+        #[doc = r" Target is `item` variable returns by `foreach` iterator."]
+        ForeachItem,
+        #[doc = r" Target is `index` variable returns by `foreach` iterator."]
+        ForeachIndex,
+        #[doc = r" Target is `index` variable returns by `for range` iterator."]
+        Range,
+    }
+    #[doc = r" Variable used by property fields."]
+    #[derive(Debug, PartialEq, PartialOrd, Clone)]
+    #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+    pub enum Variable<T>
+    where
+        super::Data: From<T>,
+    {
+        #[doc = r" A literal constant value."]
+        Constant(T),
+        Reference {
+            path: Path,
+            target: Target,
+        },
+    }
+    impl<T> From<T> for Variable<T>
+    where
+        super::Data: From<T>,
+    {
+        fn from(value: T) -> Self {
+            Self::Constant(value)
+        }
+    }
+    impl<T> Default for Variable<T>
+    where
+        T: Default,
+        super::Data: From<T>,
+    {
+        fn default() -> Self {
+            Self::Constant(T::default())
+        }
+    }
+    impl<P, T> From<(P, Target)> for Variable<T>
+    where
+        super::Data: From<T>,
+        Path: From<P>,
+    {
+        fn from(value: (P, Target)) -> Self {
+            Self::Reference {
+                path: value.0.into(),
+                target: value.1,
+            }
+        }
+    }
 }

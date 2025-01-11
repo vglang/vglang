@@ -3,7 +3,7 @@ use quote::quote;
 
 use crate::{codegen::opcode::TypeGen, opcode::Field};
 
-pub(super) trait FieldGen {
+pub trait FieldGen {
     fn gen_definition(&self, vis: &TokenStream) -> TokenStream;
 
     fn gen_indent(&self) -> Option<TokenStream>;
@@ -17,7 +17,30 @@ impl<'a> FieldGen for Field<'a> {
             quote! {}
         };
 
-        let ty = self.ty().gen_definition();
+        let mut ty = self.ty().gen_definition();
+
+        let mut variable = false;
+        let mut option = true;
+
+        for property in self.properties() {
+            for callexpr in &property.params {
+                if callexpr.ident.0 == "variable" {
+                    variable = true;
+                }
+
+                if callexpr.ident.0 == "option" {
+                    option = true;
+                }
+            }
+        }
+
+        if variable {
+            ty = quote! { variable::Variable<#ty> };
+        }
+
+        if option {
+            ty = quote! { Option<#ty> };
+        }
 
         quote! {
             #vis #ident #ty

@@ -4,7 +4,7 @@ use quote::quote;
 
 use crate::opcode::{Comment, Type};
 
-pub(super) trait TypeGen {
+pub trait TypeGen {
     fn gen_definition(&self) -> TokenStream;
 }
 

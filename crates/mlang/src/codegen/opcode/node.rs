@@ -7,7 +7,7 @@ use crate::opcode::{Enum, Node};
 use super::{CommentGen, FieldGen};
 
 /// A rust enum/struct code generator for `mlang`.
-pub(super) trait NodeGen {
+pub trait NodeGen {
     /// Generate field token streams.
     fn gen_fields_definition(&self, vis: TokenStream) -> Vec<TokenStream>;
 
