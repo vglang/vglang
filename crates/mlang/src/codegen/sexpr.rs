@@ -1,9 +1,11 @@
+use std::collections::HashMap;
+
 use proc_macro2::TokenStream;
 use quote::quote;
 
 use crate::{
     codegen::ext::{EnumGen, FieldGen, IdentGen, NodeGen, TypeGen},
-    opcode::{ApplyTo, ChildrenOf, Enum, Node, Opcode},
+    opcode::{ApplyTo, ChildrenOf, Enum, Node, Opcode, Type},
 };
 
 pub trait SexprGen {
@@ -261,6 +263,8 @@ pub struct SexprModGen {
     apply_to_pairs: Vec<(TokenStream, TokenStream)>,
     /// child of pair list.
     child_of_pairs: Vec<(TokenStream, TokenStream)>,
+    /// collection of list types.
+    map_collect_types: HashMap<String, Type>,
 }
 
 impl SexprModGen {
@@ -277,6 +281,7 @@ impl SexprModGen {
             leaf_types: Default::default(),
             apply_to_pairs: Default::default(),
             child_of_pairs: Default::default(),
+            map_collect_types: Default::default(),
         }
     }
     /// Generate sexpr mod
@@ -288,22 +293,30 @@ impl SexprModGen {
                 Opcode::Element(node) => {
                     token_streams.push(node.gen_sexpr_fns(&self.opcode_mod));
                     self.el_types.push(node.gen_ident());
+                    self.collect_map_collect_types(node);
                 }
                 Opcode::Leaf(node) => {
                     token_streams.push(node.gen_sexpr_fns(&self.opcode_mod));
                     self.leaf_types.push(node.gen_ident());
+                    self.collect_map_collect_types(node);
                 }
                 Opcode::Attr(node) => {
                     token_streams.push(node.gen_sexpr_fns(&self.opcode_mod));
                     self.attr_types.push(node.gen_ident());
+                    self.collect_map_collect_types(node);
                 }
                 Opcode::Data(node) => {
                     token_streams.push(node.gen_sexpr_fns(&self.opcode_mod));
                     self.data_types.push(node.gen_ident());
+                    self.collect_map_collect_types(node);
                 }
                 Opcode::Enum(node) => {
                     token_streams.push(node.gen_sexpr_fns(&self.opcode_mod));
                     self.data_types.push(node.gen_ident());
+
+                    for field in &node.fields {
+                        self.collect_map_collect_types(field);
+                    }
                 }
 
                 Opcode::ApplyTo(node) => {
@@ -334,18 +347,34 @@ impl SexprModGen {
 
         token_streams.push(self.gen_common_codes());
 
+        token_streams.append(&mut self.gen_sexpr_graphics_impl());
+        token_streams.append(&mut self.gen_sexpr_apply_fn());
+        token_streams.append(&mut self.gen_sexpr_children_fn());
+        token_streams.append(&mut self.gen_sexpr_apply_to_impl());
+        token_streams.append(&mut self.gen_sexpr_child_of_impl());
+
+        println!("{:?}", self.map_collect_types);
+
         quote! {
             #(#token_streams)*
         }
     }
 
-    fn gen_common_codes(&self) -> TokenStream {
-        let graphics_impl = self.gen_sexpr_graphics_impl();
-        let apply_impl = self.gen_sexpr_apply_fn();
-        let children_impl = self.gen_sexpr_children_fn();
-        let apply_to_impl = self.gen_sexpr_apply_to_impl();
-        let child_of_impl = self.gen_sexpr_child_of_impl();
+    fn collect_map_collect_types(&mut self, node: &Node) {
+        for field in node.fields.iter() {
+            match field.ty() {
+                Type::ListOf(component, _) => {
+                    self.map_collect_types.insert(
+                        component.gen_type_definition(&quote! {}).to_string(),
+                        *component.clone(),
+                    );
+                }
+                _ => {}
+            }
+        }
+    }
 
+    fn gen_common_codes(&self) -> TokenStream {
         quote! {
             use super::opcode::{Opcode};
 
@@ -533,12 +562,6 @@ impl SexprModGen {
                     Self(value as f32)
                 }
             }
-
-            #(#graphics_impl)*
-            #(#apply_impl)*
-            #(#children_impl)*
-            #(#apply_to_impl)*
-            #(#child_of_impl)*
         }
     }
 

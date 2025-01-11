@@ -16,5 +16,6 @@ vglang-derive = { workspace = true }
 mlang = {workspace = true, features = ["codegen"]}
 
 [features]
+default = ["serde","sexpr"]
 serde = ["dep:serde"]
 sexpr = []

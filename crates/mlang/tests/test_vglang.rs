@@ -1,4 +1,6 @@
-use mlang::{parse, semantic_analyze};
+use std::path::PathBuf;
+
+use mlang::{codegen::gen, parse, semantic_analyze};
 use parserc::ParseContext;
 
 #[test]
@@ -24,4 +26,8 @@ fn test_vglang() {
         input.report().eprint();
         panic!("vglang.ml semantic analyze failed.");
     }
+
+    let ml = PathBuf::from(env!("CARGO_TARGET_TMPDIR")).join("ml.rs");
+
+    gen(&opcodes, ml);
 }
