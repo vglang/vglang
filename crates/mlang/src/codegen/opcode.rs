@@ -133,7 +133,7 @@ impl OpcodeModGen {
     }
     fn gen_variable_definition(&self) -> TokenStream {
         quote! {
-            mod variable {
+            pub mod variable {
                 /// The path used by [`Variable`] is used to point to [`Target`].
                 #[derive(Debug, PartialEq, PartialOrd, Clone)]
                 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]

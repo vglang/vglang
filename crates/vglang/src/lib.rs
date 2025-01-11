@@ -1,2 +1,9 @@
 mod ml;
-pub use ml::*;
+pub use ml::opcode;
+
+mod manual;
+
+pub mod sexpr {
+    pub use super::manual::*;
+    pub use super::ml::sexpr::*;
+}
