@@ -47,7 +47,7 @@ impl Node {
 
         let mut generic_index = 0usize;
 
-        let mut impl_generics = vec![];
+        let mut generics = vec![];
         let mut where_clauses = vec![];
 
         let sexpr_mod = quote! {};
@@ -56,42 +56,37 @@ impl Node {
 
         for field in self.fields.iter() {
             if !field.is_option() {
-                let param = format!("P{}", generic_index).parse().unwrap();
+                let param_type = format!("P{}", generic_index).parse().unwrap();
+                let param = format!("p{}", generic_index).parse().unwrap();
 
-                let from_expr = if non_options > 1 {
-                    field.ty().gen_from_expr(
-                        &sexpr_mod,
-                        &format!("value.{}", generic_index).parse().unwrap(),
-                    )
-                } else {
-                    field.ty().gen_from_expr(&sexpr_mod, &quote! { value })
-                };
+                let from_expr = field.ty().gen_from_expr(&sexpr_mod, &param);
 
                 fields.push(field.gen_init_expr(opcode_mod, from_expr));
 
-                where_clauses.push(
-                    field
-                        .ty()
-                        .gen_from_where_clause(opcode_mod, &sexpr_mod, &param),
-                );
-                impl_generics.push(param);
+                where_clauses.push(field.ty().gen_from_where_clause(
+                    opcode_mod,
+                    &sexpr_mod,
+                    &param_type,
+                ));
+                generics.push((param_type, param));
                 generic_index += 1;
             } else {
                 fields.push(field.gen_init_none());
             }
         }
 
-        let type_generics = if non_options > 1 {
-            quote! { (#(#impl_generics),*) }
-        } else {
-            quote! { #(#impl_generics),* }
-        };
-
         let body = self.gen_body_expr(fields);
 
+        let impl_generics = generics.iter().map(|(ty, _)| ty).collect::<Vec<_>>();
+
+        let params = generics
+            .iter()
+            .map(|(ty, param)| quote! { #param: #ty})
+            .collect::<Vec<_>>();
+
         quote! {
-            impl<#(#impl_generics),*> From<#type_generics> for #ident where #(#where_clauses),* {
-                fn from(value: #type_generics) -> Self {
+            impl #ident {
+                pub fn new<#(#impl_generics),*>(#(#params),*) -> Self where #(#where_clauses),* {
                     Self # body
                 }
             }
@@ -238,18 +233,61 @@ impl SexprGen for Enum {
 
 impl SexprGen for ApplyTo {
     fn gen_sexpr_fns(&self, _: &TokenStream) -> TokenStream {
-        quote! {}
+        let mut apply_to_pairs = vec![];
+        for from in &self.from {
+            let from = from.type_ident();
+
+            for to in &self.to {
+                apply_to_pairs.push((from.clone(), to.type_ident()));
+            }
+        }
+
+        let fns = apply_to_pairs
+            .iter()
+            .map(|(from, to)| {
+                quote! {
+                    impl ApplyTo<super::opcode::#to> for super::opcode::#from {}
+                }
+            })
+            .collect::<Vec<_>>();
+
+        quote! {
+            #(#fns)*
+        }
     }
 }
 
 impl SexprGen for ChildrenOf {
     fn gen_sexpr_fns(&self, _: &TokenStream) -> TokenStream {
-        quote! {}
+        let mut child_of_pairs = vec![];
+        for from in &self.from {
+            let from = from.type_ident();
+
+            for to in &self.to {
+                child_of_pairs.push((from.clone(), to.type_ident()));
+            }
+        }
+
+        let fns = child_of_pairs
+            .iter()
+            .map(|(from, to)| {
+                quote! {
+                    impl ContentOf<super::opcode::#to> for super::opcode::#from {}
+                }
+            })
+            .collect::<Vec<_>>();
+
+        quote! {
+            #(#fns)*
+        }
     }
 }
 
 /// A generator that create `sexpr` mod for `mlang`.
 pub struct SexprModGen {
+    /// Sexpr support tuple max length.
+    tuple_max_len: usize,
+    /// opcode mod path prefix.
     opcode_mod: TokenStream,
     /// collection of data types.
     data_types: Vec<TokenStream>,
@@ -259,28 +297,24 @@ pub struct SexprModGen {
     el_types: Vec<TokenStream>,
     /// collection of leaf node types.
     leaf_types: Vec<TokenStream>,
-    /// apply to pair list.
-    apply_to_pairs: Vec<(TokenStream, TokenStream)>,
-    /// child of pair list.
-    child_of_pairs: Vec<(TokenStream, TokenStream)>,
     /// collection of list types.
     map_collect_types: HashMap<String, Type>,
 }
 
 impl SexprModGen {
     /// Create new sexpr mode generator
-    pub fn new<S>(opcode_mod: S) -> Self
+    pub fn new<S>(opcode_mod: S, tuple_max_len: usize) -> Self
     where
         String: From<S>,
     {
+        assert!(tuple_max_len > 1, "tuple length must greater than 1");
         Self {
+            tuple_max_len,
             opcode_mod: String::from(opcode_mod).parse().unwrap(),
             data_types: Default::default(),
             attr_types: Default::default(),
             el_types: Default::default(),
             leaf_types: Default::default(),
-            apply_to_pairs: Default::default(),
-            child_of_pairs: Default::default(),
             map_collect_types: Default::default(),
         }
     }
@@ -321,25 +355,9 @@ impl SexprModGen {
 
                 Opcode::ApplyTo(node) => {
                     token_streams.push(node.gen_sexpr_fns(&self.opcode_mod));
-
-                    for from in &node.from {
-                        let from = from.type_ident();
-
-                        for to in &node.to {
-                            self.apply_to_pairs.push((from.clone(), to.type_ident()));
-                        }
-                    }
                 }
                 Opcode::ChildrenOf(node) => {
                     token_streams.push(node.gen_sexpr_fns(&self.opcode_mod));
-
-                    for from in &node.from {
-                        let from = from.type_ident();
-
-                        for to in &node.to {
-                            self.child_of_pairs.push((from.clone(), to.type_ident()));
-                        }
-                    }
                 }
                 _ => {}
             }
@@ -350,10 +368,9 @@ impl SexprModGen {
         token_streams.append(&mut self.gen_sexpr_graphics_impl());
         token_streams.append(&mut self.gen_sexpr_apply_fn());
         token_streams.append(&mut self.gen_sexpr_children_fn());
-        token_streams.append(&mut self.gen_sexpr_apply_to_impl());
-        token_streams.append(&mut self.gen_sexpr_child_of_impl());
-
-        println!("{:?}", self.map_collect_types);
+        token_streams.append(&mut self.gen_map_collect_impls());
+        token_streams.append(&mut &mut self.gen_tuple_apply_to_impls());
+        token_streams.append(&mut &mut self.gen_tuple_graphic_impls());
 
         quote! {
             #(#token_streams)*
@@ -372,6 +389,128 @@ impl SexprModGen {
                 _ => {}
             }
         }
+    }
+
+    fn gen_tuple_apply_to_impls(&self) -> Vec<TokenStream> {
+        let mut impls = vec![];
+
+        for len in 2..self.tuple_max_len {
+            let mut param_types = vec![];
+            let mut where_clauses = vec![];
+
+            for i in 0..len {
+                let param_type: TokenStream = format!("P{}", i).parse().unwrap();
+
+                where_clauses.push(quote! {
+                    #param_type: ApplyTo<Target>
+                });
+
+                param_types.push(param_type);
+            }
+
+            impls.push(quote! {
+                impl<Target, #(#param_types),*> ApplyTo<Target> for (#(#param_types),*)
+                where
+                #(#where_clauses),*
+                {}
+            });
+        }
+
+        impls
+    }
+
+    fn gen_tuple_graphic_impls(&self) -> Vec<TokenStream> {
+        let mut impls = vec![];
+
+        for len in 2..self.tuple_max_len {
+            let mut param_types = vec![];
+            let mut where_clauses = vec![];
+            let mut fields = vec![];
+
+            for i in 0..len {
+                let param_type: TokenStream = format!("P{}", i).parse().unwrap();
+
+                where_clauses.push(quote! {
+                    #param_type: Graphics
+                });
+
+                let param: TokenStream = format!("self.{}", i).parse().unwrap();
+
+                fields.push(quote! {#param.build(builder)});
+
+                param_types.push(param_type);
+            }
+
+            impls.push(quote! {
+                impl<#(#param_types),*> Graphics for (#(#param_types),*)
+                where #(#where_clauses),*
+                {
+                    fn build(self,builder: &mut BuildContext) {
+                        #(#fields);*
+                    }
+                }
+            });
+        }
+
+        impls
+    }
+
+    fn gen_map_collect_impls(&self) -> Vec<TokenStream> {
+        let sexpr_mod = quote! {};
+        let mut impls = vec![];
+        for (_, ty) in &self.map_collect_types {
+            let ty_ident = ty.gen_type_definition(&self.opcode_mod);
+
+            for len in 1..self.tuple_max_len {
+                let mut param_types = vec![];
+                let mut where_clauses = vec![];
+                let mut fields = vec![];
+
+                for i in 0..len {
+                    let param_type: TokenStream = format!("P{}", i).parse().unwrap();
+
+                    where_clauses.push(ty.gen_from_where_clause(
+                        &self.opcode_mod,
+                        &sexpr_mod,
+                        &param_type,
+                    ));
+
+                    let param = if len == 1 {
+                        quote! {self}
+                    } else {
+                        format!("self.{}", i).parse().unwrap()
+                    };
+
+                    fields.push(ty.gen_from_expr(&sexpr_mod, &param));
+
+                    param_types.push(param_type);
+                }
+
+                if len == 1 {
+                    impls.push(quote! {
+                        impl<#(#param_types),*> MapCollect<#ty_ident> for #(#param_types),*
+                        where #(#where_clauses),*
+                        {
+                            fn map_collect(self) -> Vec<#ty_ident> {
+                                vec![#(#fields),*]
+                            }
+                        }
+                    });
+                } else {
+                    impls.push(quote! {
+                        impl<#(#param_types),*> MapCollect<#ty_ident> for (#(#param_types),*)
+                        where #(#where_clauses),*
+                        {
+                            fn map_collect(self) -> Vec<#ty_ident> {
+                                vec![#(#fields),*]
+                            }
+                        }
+                    });
+                }
+            }
+        }
+
+        impls
     }
 
     fn gen_common_codes(&self) -> TokenStream {
@@ -535,15 +674,6 @@ impl SexprModGen {
                 fn map_collect(self) -> Vec<Item>;
             }
 
-            impl<F, T> MapCollect<T> for F
-            where
-                T: From<F>,
-            {
-                fn map_collect(self) -> Vec<T> {
-                    vec![self.into()]
-                }
-            }
-
             #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
             #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
             pub struct Number(
@@ -582,6 +712,15 @@ impl SexprModGen {
                     impl Graphics for super::opcode::#ident {
                         fn build(self, builder: &mut BuildContext) {
                             builder.push(super::opcode::Leaf::from(self));
+                        }
+                    }
+                }
+            }))
+            .chain(self.attr_types.iter().map(|ident| {
+                quote! {
+                    impl Graphics for super::opcode::#ident {
+                        fn build(self, builder: &mut BuildContext) {
+                            builder.push(super::opcode::Attr::from(self));
                         }
                     }
                 }
@@ -632,28 +771,6 @@ impl SexprModGen {
                             ElementChildren { node: self, children }
                         }
                     }
-                }
-            })
-            .collect()
-    }
-
-    fn gen_sexpr_apply_to_impl(&self) -> Vec<TokenStream> {
-        self.apply_to_pairs
-            .iter()
-            .map(|(from, to)| {
-                quote! {
-                    impl ApplyTo<super::opcode::#to> for super::opcode::#from {}
-                }
-            })
-            .collect()
-    }
-
-    fn gen_sexpr_child_of_impl(&self) -> Vec<TokenStream> {
-        self.child_of_pairs
-            .iter()
-            .map(|(from, to)| {
-                quote! {
-                    impl ContentOf<super::opcode::#to> for super::opcode::#from {}
                 }
             })
             .collect()
