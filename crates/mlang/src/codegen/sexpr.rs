@@ -9,15 +9,16 @@ use crate::{
 };
 
 pub trait SexprGen {
-    fn gen_sexpr_fns(&self, opcode_mod: &TokenStream) -> TokenStream;
+    fn gen_sexpr_source_codes(&self, opcode_mod: &TokenStream) -> TokenStream;
 }
 
 impl SexprGen for Node {
-    fn gen_sexpr_fns(&self, opcode_mod: &TokenStream) -> TokenStream {
+    fn gen_sexpr_source_codes(&self, opcode_mod: &TokenStream) -> TokenStream {
         let mut fns = vec![];
 
         fns.push(self.gen_sexpr_default_fn(opcode_mod));
         fns.push(self.gen_sexpr_init_fn(opcode_mod));
+        fns.push(self.gen_sexpr_init_fn2(opcode_mod));
         fns.push(self.gen_sexpr_from_one_init_fn(opcode_mod));
         fns.push(self.gen_sexpr_chain_build_fn(opcode_mod));
 
@@ -56,6 +57,75 @@ impl Node {
 
         for field in self.fields.iter() {
             if !field.is_option() {
+                let param_type = format!("P{}", generic_index).parse().unwrap();
+                let param = if let Some(ident) = field.gen_ident() {
+                    ident
+                } else {
+                    format!("p{}", generic_index).parse().unwrap()
+                };
+
+                let from_expr = field.ty().gen_from_expr(&sexpr_mod, &param);
+
+                fields.push(field.gen_init_expr(opcode_mod, from_expr));
+
+                where_clauses.push(field.ty().gen_from_where_clause(
+                    opcode_mod,
+                    &sexpr_mod,
+                    &param_type,
+                ));
+                generics.push((param_type, param));
+                generic_index += 1;
+            } else {
+                fields.push(field.gen_init_none());
+            }
+        }
+
+        let body = self.gen_body_expr(fields);
+
+        let impl_generics = generics.iter().map(|(ty, _)| ty).collect::<Vec<_>>();
+
+        let params = generics
+            .iter()
+            .map(|(ty, param)| quote! { #param: #ty})
+            .collect::<Vec<_>>();
+
+        quote! {
+            impl #ident {
+                pub fn new<#(#impl_generics),*>(#(#params),*) -> Self where #(#where_clauses),* {
+                    Self # body
+                }
+            }
+        }
+    }
+
+    fn gen_sexpr_init_fn2(&self, opcode_mod: &TokenStream) -> TokenStream {
+        let non_options = self.fields.iter().fold(0usize, |non_options, field| {
+            if field.is_option() {
+                non_options
+            } else {
+                non_options + 1
+            }
+        });
+
+        if non_options > 0 {
+            return quote! {};
+        }
+
+        let ident = self.gen_ident();
+
+        let ident = quote! {#opcode_mod #ident};
+
+        let mut generic_index = 0usize;
+
+        let mut generics = vec![];
+        let mut where_clauses = vec![];
+
+        let sexpr_mod = quote! {};
+
+        let mut fields = vec![];
+
+        for field in self.fields.iter() {
+            if field.is_init_field() {
                 let param_type = format!("P{}", generic_index).parse().unwrap();
                 let param = if let Some(ident) = field.gen_ident() {
                     ident
@@ -230,13 +300,25 @@ impl Node {
 }
 
 impl SexprGen for Enum {
-    fn gen_sexpr_fns(&self, _: &TokenStream) -> TokenStream {
+    fn gen_sexpr_source_codes(&self, opcode_mod: &TokenStream) -> TokenStream {
+        let mut token_streams = vec![];
+
+        token_streams.append(&mut self.gen_sexpr_ext_traits(opcode_mod));
+
         quote! {}
     }
 }
 
+impl Enum {
+    fn gen_sexpr_ext_traits(&self, _opcode_mod: &TokenStream) -> Vec<TokenStream> {
+        let traits = vec![];
+
+        traits
+    }
+}
+
 impl SexprGen for ApplyTo {
-    fn gen_sexpr_fns(&self, _: &TokenStream) -> TokenStream {
+    fn gen_sexpr_source_codes(&self, _: &TokenStream) -> TokenStream {
         let mut apply_to_pairs = vec![];
         for from in &self.from {
             let from = from.type_ident();
@@ -262,7 +344,7 @@ impl SexprGen for ApplyTo {
 }
 
 impl SexprGen for ChildrenOf {
-    fn gen_sexpr_fns(&self, _: &TokenStream) -> TokenStream {
+    fn gen_sexpr_source_codes(&self, _: &TokenStream) -> TokenStream {
         let mut child_of_pairs = vec![];
         for from in &self.from {
             let from = from.type_ident();
@@ -329,27 +411,27 @@ impl SexprModGen {
         for opcode in opcodes {
             match opcode {
                 Opcode::Element(node) => {
-                    token_streams.push(node.gen_sexpr_fns(&self.opcode_mod));
+                    token_streams.push(node.gen_sexpr_source_codes(&self.opcode_mod));
                     self.el_types.push(node.gen_ident());
                     self.collect_map_collect_types(node);
                 }
                 Opcode::Leaf(node) => {
-                    token_streams.push(node.gen_sexpr_fns(&self.opcode_mod));
+                    token_streams.push(node.gen_sexpr_source_codes(&self.opcode_mod));
                     self.leaf_types.push(node.gen_ident());
                     self.collect_map_collect_types(node);
                 }
                 Opcode::Attr(node) => {
-                    token_streams.push(node.gen_sexpr_fns(&self.opcode_mod));
+                    token_streams.push(node.gen_sexpr_source_codes(&self.opcode_mod));
                     self.attr_types.push(node.gen_ident());
                     self.collect_map_collect_types(node);
                 }
                 Opcode::Data(node) => {
-                    token_streams.push(node.gen_sexpr_fns(&self.opcode_mod));
+                    token_streams.push(node.gen_sexpr_source_codes(&self.opcode_mod));
                     self.data_types.push(node.gen_ident());
                     self.collect_map_collect_types(node);
                 }
                 Opcode::Enum(node) => {
-                    token_streams.push(node.gen_sexpr_fns(&self.opcode_mod));
+                    token_streams.push(node.gen_sexpr_source_codes(&self.opcode_mod));
                     self.data_types.push(node.gen_ident());
 
                     for field in &node.fields {
@@ -358,10 +440,10 @@ impl SexprModGen {
                 }
 
                 Opcode::ApplyTo(node) => {
-                    token_streams.push(node.gen_sexpr_fns(&self.opcode_mod));
+                    token_streams.push(node.gen_sexpr_source_codes(&self.opcode_mod));
                 }
                 Opcode::ChildrenOf(node) => {
-                    token_streams.push(node.gen_sexpr_fns(&self.opcode_mod));
+                    token_streams.push(node.gen_sexpr_source_codes(&self.opcode_mod));
                 }
                 _ => {}
             }

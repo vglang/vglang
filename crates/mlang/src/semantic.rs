@@ -4,7 +4,7 @@ use parserc::{ParseContext, Span};
 
 use crate::opcode::{ApplyTo, ChildrenOf, Enum, Group, Ident, Node, Opcode, Type};
 
-/// Errors return by [`SemanticAnalyzer`]
+/// Errors return by semantic analyzer.
 #[derive(Debug, thiserror::Error, PartialEq, PartialOrd)]
 pub enum MlSemanticError {
     #[error("duplicate ident {0}, previous definition is here {1}.")]

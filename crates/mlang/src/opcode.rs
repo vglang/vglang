@@ -365,6 +365,18 @@ impl<'a> Field<'a> {
 
         return false;
     }
+
+    pub fn is_init_field(&self) -> bool {
+        for property in self.properties() {
+            for callexpr in &property.params {
+                if callexpr.ident.0 == "init" {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }
 
 impl<'a> Iterator for FieldIter<'a> {

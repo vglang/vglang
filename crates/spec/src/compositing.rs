@@ -8,17 +8,17 @@ pub fn mask_01() -> impl Graphics {
     Canvas::new(8.cm(), 3.cm())
         .apply(ViewBox::new(0, 0, 800, 300))
         .children((
-            LinearGradient::from((0, 0, 800, 0))
+            LinearGradient::new(0, 0, 800, 0)
                 .units(Coords::UserSpaceOnUse)
-                .apply(Id::from("Gradient"))
+                .apply(Id::new("Gradient"))
                 .children((
-                    GradientStop::from(0).color(Color::white).opacity(0),
-                    GradientStop::from(1).color(Color::white).opacity(1),
+                    GradientStop::new(0).color(Color::White).opacity(0),
+                    GradientStop::new(1).color(Color::White).opacity(1),
                 )),
             Mask::from((0, 0, 800, 300))
                 .units(Coords::UserSpaceOnUse)
-                .apply(Id::from("Mask"))
-                .children(Rect::from((0, 0, 800, 300)).apply(Fill::from("Gradient"))),
+                .apply(Id::new("Mask"))
+                .children(Rect::new(0, 0, 800, 300).apply(Fill::new("Gradient"))),
             Text::from((400, 200)).apply((
                 Id::from("Text"),
                 Font::from_family("Verdana").size(100),
