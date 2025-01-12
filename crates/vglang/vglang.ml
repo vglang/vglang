@@ -853,6 +853,7 @@ attr Fill {
     /// paints color.
     ///
     /// `Inherited: yes`
+    #[option,init]
     paint: Paint,
 
     /// fill painting rule, see [`FillRule`] for more information.
@@ -985,7 +986,7 @@ attr ViewBox {
 /// thus making the the default filter primitive subregion equal to the filter region.
 mixin FePrimitive {
     /// The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive.  
-    #[variable]
+    #[option, variable]
     x: Length,
 
     /// The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive
@@ -1154,19 +1155,19 @@ el Filter {
     /// If ‘x’ or ‘y’ is not specified, the effect is as if a value of -10% were specified.
     ///
     /// If ‘width’ or ‘height’ is not specified, the effect is as if a value of 120% were specified.    
-    #[option, variable]
+    #[option, variable,init]
     x: Length,
 
     /// See [`x`](Self::x)
-    #[option, variable]
+    #[option, variable,init]
     y: Length,
 
     /// See [`x`](Self::x)
-    #[option, variable]
+    #[option, variable,init]
     width: Length,
 
     /// See [`x`](Self::x)
-    #[option, variable]
+    #[option, variable,init]
     height: Length,
 
     /// This attribute takes the form x-pixels [y-pixels], and indicates the width and height of the
@@ -1795,14 +1796,14 @@ leaf FeOffset mixin FePrimitive {
     /// by attribute ‘primitiveUnits’ on the ‘filter’ element.
     ///
     /// If the attribute is not specified, then the effect is as if a value of 0 were specified.
-    #[option, variable]
+    #[option, variable,init]
     dx: float,
 
     /// The amount to offset the input graphic along the y-axis. The offset amount is expressed in the coordinate system established
     /// by attribute ‘primitiveUnits’ on the ‘filter’ element.
     ///
     /// If the attribute is not specified, then the effect is as if a value of 0 were specified.
-    #[option, variable]
+    #[option, variable,init]
     dy: float,
 }
 
@@ -2341,14 +2342,14 @@ mixin MixinText {
     /// For additional processing rules, refer to the description of the ‘x’ attribute on the ‘tspan’ element.
     ///
     /// If the attribute is not specified, the effect is as if a value of "0" were specified.
-    #[option, variable]
+    #[option, variable,init]
     x: vec[Length],
 
     /// The corresponding list of absolute Y coordinates for the glyphs corresponding to the characters within this element.
     /// The processing rules for the ‘y’ attribute parallel the processing rules for the ‘x’ attribute.
     ///
     /// If the attribute is not specified, the effect is as if a value of "0" were specified.
-    #[option, variable]
+    #[option, variable,init]
     y: vec[Length],
 
     /// Shifts in the current text position along the x-axis for the characters within this element or any of its descendants.
@@ -2574,6 +2575,7 @@ apply (
     Filter,
     Mask,
     Shape,
+    Use,
 );
 
 apply Id to (

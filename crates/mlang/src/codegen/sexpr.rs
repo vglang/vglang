@@ -58,10 +58,14 @@ impl Node {
         for field in self.fields.iter() {
             if !field.is_option() {
                 let param_type = format!("P{}", generic_index).parse().unwrap();
-                let param = if let Some(ident) = field.gen_ident() {
-                    ident
+                let param = if non_options == 1 {
+                    quote! {value }
                 } else {
-                    format!("p{}", generic_index).parse().unwrap()
+                    if let Some(ident) = field.gen_ident() {
+                        ident
+                    } else {
+                        format!("p{}", generic_index).parse().unwrap()
+                    }
                 };
 
                 let from_expr = field.ty().gen_from_expr(&sexpr_mod, &param);
@@ -84,15 +88,25 @@ impl Node {
 
         let impl_generics = generics.iter().map(|(ty, _)| ty).collect::<Vec<_>>();
 
-        let params = generics
-            .iter()
-            .map(|(ty, param)| quote! { #param: #ty})
-            .collect::<Vec<_>>();
+        if non_options == 1 {
+            quote! {
+                impl<#(#impl_generics),*> From<#(#impl_generics),*> for #ident where #(#where_clauses),* {
+                    fn from(value: #(#impl_generics),*) -> Self  {
+                        Self # body
+                    }
+                }
+            }
+        } else {
+            let params = generics
+                .iter()
+                .map(|(ty, param)| quote! { #param: #ty})
+                .collect::<Vec<_>>();
 
-        quote! {
-            impl #ident {
-                pub fn new<#(#impl_generics),*>(#(#params),*) -> Self where #(#where_clauses),* {
-                    Self # body
+            quote! {
+                impl #ident {
+                    pub fn new<#(#impl_generics),*>(#(#params),*) -> Self where #(#where_clauses),* {
+                        Self # body
+                    }
                 }
             }
         }
@@ -303,17 +317,78 @@ impl SexprGen for Enum {
     fn gen_sexpr_source_codes(&self, opcode_mod: &TokenStream) -> TokenStream {
         let mut token_streams = vec![];
 
-        token_streams.append(&mut self.gen_sexpr_ext_traits(opcode_mod));
+        token_streams.push(self.gen_sexpr_init_fns(opcode_mod));
 
-        quote! {}
+        quote! {
+            #(#token_streams)*
+        }
     }
 }
 
 impl Enum {
-    fn gen_sexpr_ext_traits(&self, _opcode_mod: &TokenStream) -> Vec<TokenStream> {
-        let traits = vec![];
+    fn gen_sexpr_init_fns(&self, opcode_mod: &TokenStream) -> TokenStream {
+        let mut fns = vec![];
 
-        traits
+        let sexpr_mod = quote! {};
+
+        for node in &self.fields {
+            if node.fields.is_empty() {
+                continue;
+            }
+
+            let mut generics = vec![];
+            let mut where_clauses = vec![];
+
+            let mut fields = vec![];
+
+            for (index, field) in node.fields.iter().enumerate() {
+                let param_type = format!("P{}", index).parse().unwrap();
+                let param = if let Some(ident) = field.gen_ident() {
+                    ident
+                } else {
+                    format!("p{}", index).parse().unwrap()
+                };
+
+                let from_expr = field.ty().gen_from_expr(&sexpr_mod, &param);
+
+                fields.push(field.gen_init_expr(opcode_mod, from_expr));
+
+                where_clauses.push(field.ty().gen_from_where_clause(
+                    opcode_mod,
+                    &sexpr_mod,
+                    &param_type,
+                ));
+
+                generics.push((param_type, param));
+            }
+
+            let ident = node.ident.field_ident();
+
+            let params = generics
+                .iter()
+                .map(|(ty, param)| quote! { #param: #ty})
+                .collect::<Vec<_>>();
+
+            let impl_generics = generics.iter().map(|(ty, _)| ty).collect::<Vec<_>>();
+
+            let body = node.gen_body_expr(fields);
+
+            let field_ident = node.gen_ident();
+
+            fns.push(quote! {
+                pub fn #ident<#(#impl_generics),*> (#(#params),*) -> Self where #(#where_clauses),* {
+                    Self::#field_ident #body
+                }
+            });
+        }
+
+        let ident = self.gen_ident();
+
+        quote! {
+            impl #opcode_mod #ident {
+                #(#fns)*
+            }
+        }
     }
 }
 
@@ -455,8 +530,8 @@ impl SexprModGen {
         token_streams.append(&mut self.gen_sexpr_apply_fn());
         token_streams.append(&mut self.gen_sexpr_children_fn());
         token_streams.append(&mut self.gen_map_collect_impls());
-        token_streams.append(&mut &mut self.gen_tuple_apply_to_impls());
-        token_streams.append(&mut &mut self.gen_tuple_graphic_impls());
+        token_streams.append(&mut self.gen_tuple_apply_to_impls());
+        token_streams.append(&mut self.gen_tuple_graphic_impls());
 
         quote! {
             #(#token_streams)*
@@ -496,6 +571,34 @@ impl SexprModGen {
 
             impls.push(quote! {
                 impl<Target, #(#param_types),*> ApplyTo<Target> for (#(#param_types),*)
+                where
+                #(#where_clauses),*
+                {}
+            });
+        }
+
+        impls
+    }
+
+    fn gen_tuple_content_of_impls(&self) -> Vec<TokenStream> {
+        let mut impls = vec![];
+
+        for len in 2..self.tuple_max_len {
+            let mut param_types = vec![];
+            let mut where_clauses = vec![];
+
+            for i in 0..len {
+                let param_type: TokenStream = format!("P{}", i).parse().unwrap();
+
+                where_clauses.push(quote! {
+                    #param_type: ContentOf<Target>
+                });
+
+                param_types.push(param_type);
+            }
+
+            impls.push(quote! {
+                impl<Target, #(#param_types),*> ContentOf<Target> for (#(#param_types),*)
                 where
                 #(#where_clauses),*
                 {}
@@ -717,6 +820,16 @@ impl SexprModGen {
                     self.children.build(builder);
                     builder.pop();
                 }
+            }
+
+            impl<Attrs, Node, Children,Target> ContentOf<ApplyElementChildren<Attrs, Node, Children>> for Target
+            where
+                Attrs: ApplyTo<Node> + Graphics,
+                Node: Graphics,
+                Children: Graphics,
+                Target: ContentOf<Node>
+            {
+
             }
 
             /// A wrapper [`Graphics`] returns by calling container's children function.

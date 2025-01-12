@@ -945,7 +945,7 @@ pub mod opcode {
         #[doc = " paints color."]
         #[doc = " "]
         #[doc = " `Inherited: yes`"]
-        pub paint: Paint,
+        pub paint: Option<Paint>,
         #[doc = " fill painting rule, see [`FillRule`] for more information."]
         #[doc = " "]
         #[doc = " `Inherited: yes`"]
@@ -1285,7 +1285,7 @@ pub mod opcode {
         #[doc = " The second input image to the blending operation. This attribute can take on the same values as the ‘in’ attribute."]
         pub in2: Option<variable::Variable<FeIn>>,
         #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
-        pub x: variable::Variable<Length>,
+        pub x: Option<variable::Variable<Length>>,
         #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
         #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
@@ -1343,7 +1343,7 @@ pub mod opcode {
         #[doc = " The contents of ‘values’ depends on the value of attribute ‘type’:"]
         pub values: variable::Variable<FeColorMatrixValues>,
         #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
-        pub x: variable::Variable<Length>,
+        pub x: Option<variable::Variable<Length>>,
         #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
         #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
@@ -1549,7 +1549,7 @@ pub mod opcode {
         #[doc = " See [`FeCompositeOperator`]"]
         pub operator: Option<variable::Variable<FeCompositeOperator>>,
         #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
-        pub x: variable::Variable<Length>,
+        pub x: Option<variable::Variable<Length>>,
         #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
         #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
@@ -1633,7 +1633,7 @@ pub mod opcode {
         #[doc = " See [`feConvolveMatrix`](https://www.w3.org/TR/SVG11/filters.html#feConvolveMatrixElement)"]
         pub preserve_alpha: variable::Variable<bool>,
         #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
-        pub x: variable::Variable<Length>,
+        pub x: Option<variable::Variable<Length>>,
         #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
         #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
@@ -1679,7 +1679,7 @@ pub mod opcode {
         #[doc = " A negative or zero value is an error (see Error processing)."]
         pub kernel_unit_len: Option<variable::Variable<NumberOptNumber>>,
         #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
-        pub x: variable::Variable<Length>,
+        pub x: Option<variable::Variable<Length>>,
         #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
         #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
@@ -1721,7 +1721,7 @@ pub mod opcode {
         #[doc = " specified."]
         pub y_channel_selector: Option<variable::Variable<Channel>>,
         #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
-        pub x: variable::Variable<Length>,
+        pub x: Option<variable::Variable<Length>>,
         #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
         #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
@@ -1750,7 +1750,7 @@ pub mod opcode {
         #[doc = " defines the opacity value to use across the entire filter primitive subregion."]
         pub opacity: Option<variable::Variable<f32>>,
         #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
-        pub x: variable::Variable<Length>,
+        pub x: Option<variable::Variable<Length>>,
         #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
         #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
@@ -1786,7 +1786,7 @@ pub mod opcode {
         #[doc = " effect is that the blur is only applied in the direction that has a non-zero value."]
         pub std_deviation: Option<variable::Variable<NumberOptNumber>>,
         #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
-        pub x: variable::Variable<Length>,
+        pub x: Option<variable::Variable<Length>>,
         #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
         #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
@@ -1813,7 +1813,7 @@ pub mod opcode {
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     pub struct FeMerge {
         #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
-        pub x: variable::Variable<Length>,
+        pub x: Option<variable::Variable<Length>>,
         #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
         #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
@@ -1847,7 +1847,7 @@ pub mod opcode {
         #[doc = " See [`PreserveAspectRatio`]."]
         pub aspect: Option<variable::Variable<PreserveAspectRatio>>,
         #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
-        pub x: variable::Variable<Length>,
+        pub x: Option<variable::Variable<Length>>,
         #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
         #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
@@ -1887,7 +1887,7 @@ pub mod opcode {
         #[doc = " If the attribute is not specified, then the effect is as if a value of 0 were specified."]
         pub radius: Option<variable::Variable<NumberOptNumber>>,
         #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
-        pub x: variable::Variable<Length>,
+        pub x: Option<variable::Variable<Length>>,
         #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
         #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
@@ -1926,7 +1926,7 @@ pub mod opcode {
         #[doc = " If the attribute is not specified, then the effect is as if a value of 0 were specified."]
         pub dy: Option<variable::Variable<f32>>,
         #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
-        pub x: variable::Variable<Length>,
+        pub x: Option<variable::Variable<Length>>,
         #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
         #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
@@ -1982,7 +1982,7 @@ pub mod opcode {
         #[doc = " A negative or zero value is an error (see Error processing)."]
         pub kernel_unit_len: Option<variable::Variable<NumberOptNumber>>,
         #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
-        pub x: variable::Variable<Length>,
+        pub x: Option<variable::Variable<Length>>,
         #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
         #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
@@ -2011,7 +2011,7 @@ pub mod opcode {
         #[doc = " See [`FeIn`]"]
         pub r#in: Option<variable::Variable<FeIn>>,
         #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
-        pub x: variable::Variable<Length>,
+        pub x: Option<variable::Variable<Length>>,
         #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
         #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
@@ -2061,7 +2061,7 @@ pub mod opcode {
         #[doc = " See [`FeStitchTiles`]"]
         pub r#type: Option<variable::Variable<FeTurbulenceType>>,
         #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]
-        pub x: variable::Variable<Length>,
+        pub x: Option<variable::Variable<Length>>,
         #[doc = " The minimum y coordinate for the subregion which restricts calculation and rendering of the given filter primitive"]
         pub y: Option<variable::Variable<Length>>,
         #[doc = " The width of the subregion which restricts calculation and rendering of the given filter primitive."]
@@ -3822,6 +3822,83 @@ pub mod opcode {
 #[doc = r" This mod is automatically generated by `mlang` tools, please does not modify it manually."]
 #[cfg(feature = "sexpr")]
 pub mod sexpr {
+    impl super::opcode::Angle {
+        pub fn deg<P0>(p0: P0) -> Self
+        where
+            Number: From<P0>,
+        {
+            Self::Deg(Number::from(p0).0)
+        }
+        pub fn grad<P0>(p0: P0) -> Self
+        where
+            Number: From<P0>,
+        {
+            Self::Grad(Number::from(p0).0)
+        }
+        pub fn rad<P0>(p0: P0) -> Self
+        where
+            Number: From<P0>,
+        {
+            Self::Rad(Number::from(p0).0)
+        }
+    }
+    impl super::opcode::Length {
+        pub fn em<P0>(p0: P0) -> Self
+        where
+            Number: From<P0>,
+        {
+            Self::Em(Number::from(p0).0)
+        }
+        pub fn ex<P0>(p0: P0) -> Self
+        where
+            Number: From<P0>,
+        {
+            Self::Ex(Number::from(p0).0)
+        }
+        pub fn px<P0>(p0: P0) -> Self
+        where
+            Number: From<P0>,
+        {
+            Self::Px(Number::from(p0).0)
+        }
+        pub fn inch<P0>(p0: P0) -> Self
+        where
+            Number: From<P0>,
+        {
+            Self::Inch(Number::from(p0).0)
+        }
+        pub fn cm<P0>(p0: P0) -> Self
+        where
+            Number: From<P0>,
+        {
+            Self::Cm(Number::from(p0).0)
+        }
+        pub fn mm<P0>(p0: P0) -> Self
+        where
+            Number: From<P0>,
+        {
+            Self::Mm(Number::from(p0).0)
+        }
+        pub fn pt<P0>(p0: P0) -> Self
+        where
+            Number: From<P0>,
+        {
+            Self::Pt(Number::from(p0).0)
+        }
+        pub fn pc<P0>(p0: P0) -> Self
+        where
+            Number: From<P0>,
+        {
+            Self::Pc(Number::from(p0).0)
+        }
+        pub fn percent<P0>(p0: P0) -> Self
+        where
+            Number: From<P0>,
+        {
+            Self::Percent(Number::from(p0).0)
+        }
+    }
+    impl super::opcode::Color {}
     impl super::opcode::Rgb {
         pub fn new<P0, P1, P2>(p0: P0, p1: P1, p2: P2) -> Self
         where
@@ -3832,12 +3909,26 @@ pub mod sexpr {
             Self(p0.into(), p1.into(), p2.into())
         }
     }
-    impl super::opcode::Iri {
-        pub fn new<P0>(p0: P0) -> Self
+    impl<P0> From<P0> for super::opcode::Iri
+    where
+        String: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(value.into())
+        }
+    }
+    impl super::opcode::FuncIri {
+        pub fn iri<P0>(p0: P0) -> Self
+        where
+            super::opcode::Iri: From<P0>,
+        {
+            Self::Iri(p0.into())
+        }
+        pub fn path<P0>(p0: P0) -> Self
         where
             String: From<P0>,
         {
-            Self(p0.into())
+            Self::Path(p0.into())
         }
     }
     impl super::opcode::Point {
@@ -3849,20 +3940,394 @@ pub mod sexpr {
             Self(Number::from(p0).0, Number::from(p1).0)
         }
     }
-    impl super::opcode::Percent {
-        pub fn new<P0>(p0: P0) -> Self
-        where
-            Number: From<P0>,
-        {
-            Self(Number::from(p0).0)
+    impl<P0> From<P0> for super::opcode::Percent
+    where
+        Number: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(Number::from(value).0)
         }
     }
-    impl super::opcode::NumberOptNumber {
-        pub fn new<P0>(p0: P0) -> Self
+    impl super::opcode::Paint {
+        pub fn color<P0>(p0: P0) -> Self
+        where
+            super::opcode::Rgb: From<P0>,
+        {
+            Self::Color(p0.into())
+        }
+        pub fn server<P0>(p0: P0) -> Self
+        where
+            super::opcode::FuncIri: From<P0>,
+        {
+            Self::Server(p0.into())
+        }
+    }
+    impl<P0> From<P0> for super::opcode::NumberOptNumber
+    where
+        Number: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(Number::from(value).0, None)
+        }
+    }
+    impl super::opcode::Coords {}
+    impl super::opcode::Transform {
+        pub fn translate<P0, P1>(p0: P0, p1: P1) -> Self
+        where
+            Number: From<P0>,
+            Number: From<P1>,
+        {
+            Self::Translate(Number::from(p0).0, Number::from(p1).0)
+        }
+        pub fn matrix<P0>(p0: P0) -> Self
+        where
+            [f32; 6usize]: From<P0>,
+        {
+            Self::Matrix(p0.into())
+        }
+        pub fn scale<P0, P1>(p0: P0, p1: P1) -> Self
+        where
+            Number: From<P0>,
+            Number: From<P1>,
+        {
+            Self::Scale(Number::from(p0).0, Some(Number::from(p1).0))
+        }
+        pub fn rotate<P0, P1, P2>(angle: P0, cx: P1, cy: P2) -> Self
+        where
+            Number: From<P0>,
+            Number: From<P1>,
+            Number: From<P2>,
+        {
+            Self::Rotate {
+                angle: Number::from(angle).0,
+                cx: Number::from(cx).0,
+                cy: Number::from(cy).0,
+            }
+        }
+        pub fn skew_x<P0>(p0: P0) -> Self
         where
             Number: From<P0>,
         {
-            Self(Number::from(p0).0, None)
+            Self::SkewX(Number::from(p0).0)
+        }
+        pub fn skew_y<P0>(p0: P0) -> Self
+        where
+            Number: From<P0>,
+        {
+            Self::SkewY(Number::from(p0).0)
+        }
+    }
+    impl super::opcode::Channel {}
+    impl super::opcode::ClipRule {}
+    impl super::opcode::PathEvent {
+        pub fn move_to<P0>(p0: P0) -> Self
+        where
+            super::opcode::Point: From<P0>,
+        {
+            Self::MoveTo(p0.into())
+        }
+        pub fn move_to_relative<P0>(p0: P0) -> Self
+        where
+            super::opcode::Point: From<P0>,
+        {
+            Self::MoveToRelative(p0.into())
+        }
+        pub fn line_to<P0>(p0: P0) -> Self
+        where
+            super::opcode::Point: From<P0>,
+        {
+            Self::LineTo(p0.into())
+        }
+        pub fn line_to_relative<P0>(p0: P0) -> Self
+        where
+            super::opcode::Point: From<P0>,
+        {
+            Self::LineToRelative(p0.into())
+        }
+        pub fn polyline<P0>(p0: P0) -> Self
+        where
+            P0: MapCollect<super::opcode::Point>,
+        {
+            Self::Polyline(p0.map_collect())
+        }
+        pub fn polyline_relative<P0>(p0: P0) -> Self
+        where
+            P0: MapCollect<super::opcode::Point>,
+        {
+            Self::PolylineRelative(p0.map_collect())
+        }
+        pub fn cubic_bezier<P0, P1, P2>(ctrl1: P0, ctrl2: P1, to_point: P2) -> Self
+        where
+            super::opcode::Point: From<P0>,
+            super::opcode::Point: From<P1>,
+            super::opcode::Point: From<P2>,
+        {
+            Self::CubicBezier {
+                ctrl1: ctrl1.into(),
+                ctrl2: ctrl2.into(),
+                to_point: to_point.into(),
+            }
+        }
+        pub fn cubic_bezier_relative<P0, P1, P2>(ctrl1: P0, ctrl2: P1, to_point: P2) -> Self
+        where
+            super::opcode::Point: From<P0>,
+            super::opcode::Point: From<P1>,
+            super::opcode::Point: From<P2>,
+        {
+            Self::CubicBezierRelative {
+                ctrl1: ctrl1.into(),
+                ctrl2: ctrl2.into(),
+                to_point: to_point.into(),
+            }
+        }
+        pub fn cubic_bezier_smooth<P0, P1>(ctrl2: P0, to_point: P1) -> Self
+        where
+            super::opcode::Point: From<P0>,
+            super::opcode::Point: From<P1>,
+        {
+            Self::CubicBezierSmooth {
+                ctrl2: ctrl2.into(),
+                to_point: to_point.into(),
+            }
+        }
+        pub fn cubic_bezier_smooth_relative<P0, P1>(ctrl2: P0, to_point: P1) -> Self
+        where
+            super::opcode::Point: From<P0>,
+            super::opcode::Point: From<P1>,
+        {
+            Self::CubicBezierSmoothRelative {
+                ctrl2: ctrl2.into(),
+                to_point: to_point.into(),
+            }
+        }
+        pub fn quadratic_bezier<P0, P1>(ctrl: P0, to_point: P1) -> Self
+        where
+            super::opcode::Point: From<P0>,
+            super::opcode::Point: From<P1>,
+        {
+            Self::QuadraticBezier {
+                ctrl: ctrl.into(),
+                to_point: to_point.into(),
+            }
+        }
+        pub fn quadratic_bezier_relative<P0, P1>(ctrl: P0, to_point: P1) -> Self
+        where
+            super::opcode::Point: From<P0>,
+            super::opcode::Point: From<P1>,
+        {
+            Self::QuadraticBezierRelative {
+                ctrl: ctrl.into(),
+                to_point: to_point.into(),
+            }
+        }
+        pub fn quadratic_bezier_smooth<P0>(p0: P0) -> Self
+        where
+            super::opcode::Point: From<P0>,
+        {
+            Self::QuadraticBezierSmooth(p0.into())
+        }
+        pub fn quadratic_bezier_smooth_relative<P0>(p0: P0) -> Self
+        where
+            super::opcode::Point: From<P0>,
+        {
+            Self::QuadraticBezierSmoothRelative(p0.into())
+        }
+        pub fn arc<P0, P1, P2, P3, P4, P5>(
+            rx: P0,
+            ry: P1,
+            x_rotation: P2,
+            large_arc: P3,
+            sweep: P4,
+            to_point: P5,
+        ) -> Self
+        where
+            Number: From<P0>,
+            Number: From<P1>,
+            Number: From<P2>,
+            bool: From<P3>,
+            bool: From<P4>,
+            super::opcode::Point: From<P5>,
+        {
+            Self::Arc {
+                rx: Number::from(rx).0,
+                ry: Number::from(ry).0,
+                x_rotation: Number::from(x_rotation).0,
+                large_arc: large_arc.into(),
+                sweep: sweep.into(),
+                to_point: to_point.into(),
+            }
+        }
+        pub fn arc_relative<P0, P1, P2, P3, P4, P5>(
+            rx: P0,
+            ry: P1,
+            x_rotation: P2,
+            large_arc: P3,
+            sweep: P4,
+            to_point: P5,
+        ) -> Self
+        where
+            Number: From<P0>,
+            Number: From<P1>,
+            Number: From<P2>,
+            bool: From<P3>,
+            bool: From<P4>,
+            super::opcode::Point: From<P5>,
+        {
+            Self::ArcRelative {
+                rx: Number::from(rx).0,
+                ry: Number::from(ry).0,
+                x_rotation: Number::from(x_rotation).0,
+                large_arc: large_arc.into(),
+                sweep: sweep.into(),
+                to_point: to_point.into(),
+            }
+        }
+    }
+    impl super::opcode::FillRule {}
+    impl super::opcode::StrokeLineCap {}
+    impl super::opcode::StrokeLineJoin {
+        pub fn miter<P0>(p0: P0) -> Self
+        where
+            Number: From<P0>,
+        {
+            Self::Miter(Number::from(p0).0)
+        }
+    }
+    impl super::opcode::SpreadMethod {}
+    impl super::opcode::FontStyle {}
+    impl super::opcode::FontVariant {}
+    impl super::opcode::FontWeight {}
+    impl super::opcode::FontFamily {
+        pub fn generic<P0>(p0: P0) -> Self
+        where
+            String: From<P0>,
+        {
+            Self::Generic(p0.into())
+        }
+    }
+    impl super::opcode::FontStretch {}
+    impl super::opcode::Background {
+        pub fn new<P0, P1, P2, P3>(x: P0, y: P1, width: P2, height: P3) -> Self
+        where
+            Number: From<P0>,
+            Number: From<P1>,
+            Number: From<P2>,
+            Number: From<P3>,
+        {
+            Self::New {
+                x: Some(Number::from(x).0),
+                y: Some(Number::from(y).0),
+                width: Some(Number::from(width).0),
+                height: Some(Number::from(height).0),
+            }
+        }
+    }
+    impl super::opcode::FeIn {
+        pub fn result<P0>(p0: P0) -> Self
+        where
+            String: From<P0>,
+        {
+            Self::Result(p0.into())
+        }
+    }
+    impl super::opcode::FeOut {
+        pub fn named<P0>(p0: P0) -> Self
+        where
+            String: From<P0>,
+        {
+            Self::Named(p0.into())
+        }
+    }
+    impl super::opcode::FeBlendMode {}
+    impl super::opcode::TextLengthAdjust {}
+    impl super::opcode::WritingMode {}
+    impl super::opcode::TextDirection {}
+    impl super::opcode::UnicodeBidi {}
+    impl super::opcode::TextAnchor {}
+    impl super::opcode::DominantBaseline {}
+    impl super::opcode::AlignmentBaseline {}
+    impl super::opcode::BaselineShift {
+        pub fn value<P0>(p0: P0) -> Self
+        where
+            super::opcode::Length: From<P0>,
+        {
+            Self::Value(p0.into())
+        }
+    }
+    impl super::opcode::TextDecoration {}
+    impl super::opcode::TextPathMethod {}
+    impl super::opcode::TextPathSpacing {}
+    impl super::opcode::LetterSpacing {
+        pub fn length<P0>(p0: P0) -> Self
+        where
+            super::opcode::Length: From<P0>,
+        {
+            Self::Length(p0.into())
+        }
+    }
+    impl super::opcode::WordSpacing {
+        pub fn length<P0>(p0: P0) -> Self
+        where
+            super::opcode::Length: From<P0>,
+        {
+            Self::Length(p0.into())
+        }
+    }
+    impl super::opcode::MeetOrSlice {}
+    impl super::opcode::PreserveAspectRatio {
+        pub fn x_min_y_min<P0>(p0: P0) -> Self
+        where
+            super::opcode::MeetOrSlice: From<P0>,
+        {
+            Self::XMinYMin(p0.into())
+        }
+        pub fn x_mid_y_min<P0>(p0: P0) -> Self
+        where
+            super::opcode::MeetOrSlice: From<P0>,
+        {
+            Self::XMidYMin(p0.into())
+        }
+        pub fn x_max_y_min<P0>(p0: P0) -> Self
+        where
+            super::opcode::MeetOrSlice: From<P0>,
+        {
+            Self::XMaxYMin(p0.into())
+        }
+        pub fn x_min_y_mid<P0>(p0: P0) -> Self
+        where
+            super::opcode::MeetOrSlice: From<P0>,
+        {
+            Self::XMinYMid(p0.into())
+        }
+        pub fn x_mid_y_mid<P0>(p0: P0) -> Self
+        where
+            super::opcode::MeetOrSlice: From<P0>,
+        {
+            Self::XMidYMid(p0.into())
+        }
+        pub fn x_max_y_mid<P0>(p0: P0) -> Self
+        where
+            super::opcode::MeetOrSlice: From<P0>,
+        {
+            Self::XMaxYMid(p0.into())
+        }
+        pub fn x_min_y_max<P0>(p0: P0) -> Self
+        where
+            super::opcode::MeetOrSlice: From<P0>,
+        {
+            Self::XMinYMax(p0.into())
+        }
+        pub fn x_mid_y_max<P0>(p0: P0) -> Self
+        where
+            super::opcode::MeetOrSlice: From<P0>,
+        {
+            Self::XMidYMax(p0.into())
+        }
+        pub fn x_max_y_max<P0>(p0: P0) -> Self
+        where
+            super::opcode::MeetOrSlice: From<P0>,
+        {
+            Self::XMaxYMax(p0.into())
         }
     }
     impl Default for super::opcode::TextLayout {
@@ -4099,20 +4564,29 @@ pub mod sexpr {
             self
         }
     }
-    impl super::opcode::WithTransform {
-        pub fn new<P0>(p0: P0) -> Self
-        where
-            P0: MapCollect<super::opcode::Transform>,
-        {
-            Self(p0.map_collect())
+    impl<P0> From<P0> for super::opcode::WithTransform
+    where
+        P0: MapCollect<super::opcode::Transform>,
+    {
+        fn from(value: P0) -> Self {
+            Self(value.map_collect())
         }
     }
-    impl super::opcode::Id {
-        pub fn new<P0>(p0: P0) -> Self
-        where
-            String: From<P0>,
-        {
-            Self(p0.into())
+    impl<P0> From<P0> for super::opcode::Id
+    where
+        String: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(value.into())
+        }
+    }
+    impl Default for super::opcode::Fill {
+        fn default() -> Self {
+            Self {
+                paint: None,
+                rule: None,
+                opacity: None,
+            }
         }
     }
     impl super::opcode::Fill {
@@ -4121,9 +4595,42 @@ pub mod sexpr {
             super::opcode::Paint: From<P0>,
         {
             Self {
-                paint: paint.into(),
+                paint: Some(paint.into()),
                 rule: None,
                 opacity: None,
+            }
+        }
+    }
+    impl super::opcode::Fill {
+        pub fn from_paint<T>(value: T) -> Self
+        where
+            super::opcode::Paint: From<T>,
+        {
+            Self {
+                paint: Some(value.into()),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::Fill {
+        pub fn from_rule<T>(value: T) -> Self
+        where
+            super::opcode::FillRule: From<T>,
+        {
+            Self {
+                rule: Some(value.into()),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::Fill {
+        pub fn from_opacity<T>(value: T) -> Self
+        where
+            Number: From<T>,
+        {
+            Self {
+                opacity: Some(Number::from(value).0),
+                ..Default::default()
             }
         }
     }
@@ -4132,7 +4639,7 @@ pub mod sexpr {
         where
             super::opcode::Paint: From<T>,
         {
-            self.paint = value.into();
+            self.paint = Some(value.into());
             self
         }
     }
@@ -4450,44 +4957,44 @@ pub mod sexpr {
             self
         }
     }
-    impl super::opcode::EnableBackground {
-        pub fn new<P0>(p0: P0) -> Self
-        where
-            super::opcode::Background: From<P0>,
-        {
-            Self(p0.into())
+    impl<P0> From<P0> for super::opcode::EnableBackground
+    where
+        super::opcode::Background: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(value.into())
         }
     }
-    impl super::opcode::WithFilter {
-        pub fn new<P0>(p0: P0) -> Self
-        where
-            String: From<P0>,
-        {
-            Self(p0.into())
+    impl<P0> From<P0> for super::opcode::WithFilter
+    where
+        String: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(value.into())
         }
     }
-    impl super::opcode::WithClipPath {
-        pub fn new<P0>(p0: P0) -> Self
-        where
-            super::opcode::FuncIri: From<P0>,
-        {
-            Self(p0.into())
+    impl<P0> From<P0> for super::opcode::WithClipPath
+    where
+        super::opcode::FuncIri: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(value.into())
         }
     }
-    impl super::opcode::WithMask {
-        pub fn new<P0>(p0: P0) -> Self
-        where
-            super::opcode::FuncIri: From<P0>,
-        {
-            Self(p0.into())
+    impl<P0> From<P0> for super::opcode::WithMask
+    where
+        super::opcode::FuncIri: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(value.into())
         }
     }
-    impl super::opcode::Opacity {
-        pub fn new<P0>(p0: P0) -> Self
-        where
-            Number: From<P0>,
-        {
-            Self(Number::from(p0).0)
+    impl<P0> From<P0> for super::opcode::Opacity
+    where
+        Number: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(Number::from(value).0)
         }
     }
     impl super::opcode::ViewBox {
@@ -4750,14 +5257,20 @@ pub mod sexpr {
         }
     }
     impl super::opcode::Filter {
-        pub fn new() -> Self where {
+        pub fn new<P0, P1, P2, P3>(x: P0, y: P1, width: P2, height: P3) -> Self
+        where
+            super::opcode::Length: From<P0>,
+            super::opcode::Length: From<P1>,
+            super::opcode::Length: From<P2>,
+            super::opcode::Length: From<P3>,
+        {
             Self {
                 units: None,
                 primitive_units: None,
-                x: None,
-                y: None,
-                width: None,
-                height: None,
+                x: Some(super::opcode::variable::Variable::Constant(x.into())),
+                y: Some(super::opcode::variable::Variable::Constant(y.into())),
+                width: Some(super::opcode::variable::Variable::Constant(width.into())),
+                height: Some(super::opcode::variable::Variable::Constant(height.into())),
                 res: None,
             }
         }
@@ -5276,20 +5789,119 @@ pub mod sexpr {
             self
         }
     }
-    impl super::opcode::FeBlend {
-        pub fn new<P0>(x: P0) -> Self
-        where
-            super::opcode::Length: From<P0>,
-        {
+    impl Default for super::opcode::FeBlend {
+        fn default() -> Self {
             Self {
                 mode: None,
                 r#in: None,
                 in2: None,
-                x: super::opcode::variable::Variable::Constant(x.into()),
+                x: None,
                 y: None,
                 width: None,
                 height: None,
                 result: None,
+            }
+        }
+    }
+    impl super::opcode::FeBlend {
+        pub fn new() -> Self where {
+            Self {
+                mode: None,
+                r#in: None,
+                in2: None,
+                x: None,
+                y: None,
+                width: None,
+                height: None,
+                result: None,
+            }
+        }
+    }
+    impl super::opcode::FeBlend {
+        pub fn from_mode<T>(value: T) -> Self
+        where
+            super::opcode::FeBlendMode: From<T>,
+        {
+            Self {
+                mode: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeBlend {
+        pub fn from_in<T>(value: T) -> Self
+        where
+            super::opcode::FeIn: From<T>,
+        {
+            Self {
+                r#in: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeBlend {
+        pub fn from_in2<T>(value: T) -> Self
+        where
+            super::opcode::FeIn: From<T>,
+        {
+            Self {
+                in2: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeBlend {
+        pub fn from_x<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                x: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeBlend {
+        pub fn from_y<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                y: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeBlend {
+        pub fn from_width<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                width: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeBlend {
+        pub fn from_height<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                height: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeBlend {
+        pub fn from_result<T>(value: T) -> Self
+        where
+            String: From<T>,
+        {
+            Self {
+                result: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
             }
         }
     }
@@ -5325,7 +5937,7 @@ pub mod sexpr {
         where
             super::opcode::Length: From<T>,
         {
-            self.x = super::opcode::variable::Variable::Constant(value.into());
+            self.x = Some(super::opcode::variable::Variable::Constant(value.into()));
             self
         }
     }
@@ -5365,17 +5977,36 @@ pub mod sexpr {
             self
         }
     }
+    impl super::opcode::FeColorMatrixValues {
+        pub fn matrix<P0>(p0: P0) -> Self
+        where
+            [f32; 20usize]: From<P0>,
+        {
+            Self::Matrix(p0.into())
+        }
+        pub fn saturate<P0>(p0: P0) -> Self
+        where
+            Number: From<P0>,
+        {
+            Self::Saturate(Number::from(p0).0)
+        }
+        pub fn hue_rotate<P0>(p0: P0) -> Self
+        where
+            Number: From<P0>,
+        {
+            Self::HueRotate(Number::from(p0).0)
+        }
+    }
     impl super::opcode::FeColorMatrix {
-        pub fn new<P0, P1, P2>(r#in: P0, values: P1, x: P2) -> Self
+        pub fn new<P0, P1>(r#in: P0, values: P1) -> Self
         where
             super::opcode::FeIn: From<P0>,
             super::opcode::FeColorMatrixValues: From<P1>,
-            super::opcode::Length: From<P2>,
         {
             Self {
                 r#in: super::opcode::variable::Variable::Constant(r#in.into()),
                 values: super::opcode::variable::Variable::Constant(values.into()),
-                x: super::opcode::variable::Variable::Constant(x.into()),
+                x: None,
                 y: None,
                 width: None,
                 height: None,
@@ -5406,7 +6037,7 @@ pub mod sexpr {
         where
             super::opcode::Length: From<T>,
         {
-            self.x = super::opcode::variable::Variable::Constant(value.into());
+            self.x = Some(super::opcode::variable::Variable::Constant(value.into()));
             self
         }
     }
@@ -5446,6 +6077,62 @@ pub mod sexpr {
             self
         }
     }
+    impl super::opcode::FeFunc {
+        pub fn table<P0>(p0: P0) -> Self
+        where
+            P0: MapCollect<f32>,
+        {
+            Self::Table(p0.map_collect())
+        }
+        pub fn discrete<P0>(p0: P0) -> Self
+        where
+            P0: MapCollect<f32>,
+        {
+            Self::Discrete(p0.map_collect())
+        }
+        pub fn linear<P0, P1>(slope: P0, intercept: P1) -> Self
+        where
+            Number: From<P0>,
+            Number: From<P1>,
+        {
+            Self::Linear {
+                slope: Number::from(slope).0,
+                intercept: Number::from(intercept).0,
+            }
+        }
+        pub fn gamma<P0, P1, P2>(amplitude: P0, exponent: P1, offset: P2) -> Self
+        where
+            Number: From<P0>,
+            Number: From<P1>,
+            Number: From<P2>,
+        {
+            Self::Gamma {
+                amplitude: Number::from(amplitude).0,
+                exponent: Number::from(exponent).0,
+                offset: Number::from(offset).0,
+            }
+        }
+    }
+    impl super::opcode::FeCompositeOperator {
+        pub fn arithmetic<P0, P1, P2, P3>(k1: P0, k2: P1, k3: P2, k4: P3) -> Self
+        where
+            Number: From<P0>,
+            Number: From<P1>,
+            Number: From<P2>,
+            Number: From<P3>,
+        {
+            Self::Arithmetic {
+                k1: Number::from(k1).0,
+                k2: Number::from(k2).0,
+                k3: Number::from(k3).0,
+                k4: Number::from(k4).0,
+            }
+        }
+    }
+    impl super::opcode::FeConvolveMatrixEdgeMode {}
+    impl super::opcode::FeMorphologyOperator {}
+    impl super::opcode::FeStitchTiles {}
+    impl super::opcode::FeTurbulenceType {}
     impl Default for super::opcode::FeComponentTransfer {
         fn default() -> Self {
             Self(None)
@@ -5456,49 +6143,48 @@ pub mod sexpr {
             Self(None)
         }
     }
-    impl super::opcode::FeFuncA {
-        pub fn new<P0>(p0: P0) -> Self
-        where
-            super::opcode::FeFunc: From<P0>,
-        {
-            Self(p0.into())
+    impl<P0> From<P0> for super::opcode::FeFuncA
+    where
+        super::opcode::FeFunc: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(value.into())
         }
     }
-    impl super::opcode::FeFuncR {
-        pub fn new<P0>(p0: P0) -> Self
-        where
-            super::opcode::FeFunc: From<P0>,
-        {
-            Self(p0.into())
+    impl<P0> From<P0> for super::opcode::FeFuncR
+    where
+        super::opcode::FeFunc: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(value.into())
         }
     }
-    impl super::opcode::FeFuncG {
-        pub fn new<P0>(p0: P0) -> Self
-        where
-            super::opcode::FeFunc: From<P0>,
-        {
-            Self(p0.into())
+    impl<P0> From<P0> for super::opcode::FeFuncG
+    where
+        super::opcode::FeFunc: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(value.into())
         }
     }
-    impl super::opcode::FeFuncB {
-        pub fn new<P0>(p0: P0) -> Self
-        where
-            super::opcode::FeFunc: From<P0>,
-        {
-            Self(p0.into())
+    impl<P0> From<P0> for super::opcode::FeFuncB
+    where
+        super::opcode::FeFunc: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(value.into())
         }
     }
-    impl super::opcode::FeComposite {
-        pub fn new<P0, P1>(in2: P0, x: P1) -> Self
-        where
-            super::opcode::FeIn: From<P0>,
-            super::opcode::Length: From<P1>,
-        {
+    impl<P0> From<P0> for super::opcode::FeComposite
+    where
+        super::opcode::FeIn: From<P0>,
+    {
+        fn from(value: P0) -> Self {
             Self {
                 r#in: None,
-                in2: super::opcode::variable::Variable::Constant(in2.into()),
+                in2: super::opcode::variable::Variable::Constant(value.into()),
                 operator: None,
-                x: super::opcode::variable::Variable::Constant(x.into()),
+                x: None,
                 y: None,
                 width: None,
                 height: None,
@@ -5538,7 +6224,7 @@ pub mod sexpr {
         where
             super::opcode::Length: From<T>,
         {
-            self.x = super::opcode::variable::Variable::Constant(value.into());
+            self.x = Some(super::opcode::variable::Variable::Constant(value.into()));
             self
         }
     }
@@ -5579,12 +6265,11 @@ pub mod sexpr {
         }
     }
     impl super::opcode::FeConvolveMatrix {
-        pub fn new<P0, P1, P2, P3>(kernel: P0, edge_mode: P1, preserve_alpha: P2, x: P3) -> Self
+        pub fn new<P0, P1, P2>(kernel: P0, edge_mode: P1, preserve_alpha: P2) -> Self
         where
             P0: MapCollect<f32>,
             super::opcode::FeConvolveMatrixEdgeMode: From<P1>,
             bool: From<P2>,
-            super::opcode::Length: From<P3>,
         {
             Self {
                 r#in: None,
@@ -5597,7 +6282,7 @@ pub mod sexpr {
                 edge_mode: super::opcode::variable::Variable::Constant(edge_mode.into()),
                 kernel_unit_len: None,
                 preserve_alpha: super::opcode::variable::Variable::Constant(preserve_alpha.into()),
-                x: super::opcode::variable::Variable::Constant(x.into()),
+                x: None,
                 y: None,
                 width: None,
                 height: None,
@@ -5704,7 +6389,7 @@ pub mod sexpr {
         where
             super::opcode::Length: From<T>,
         {
-            self.x = super::opcode::variable::Variable::Constant(value.into());
+            self.x = Some(super::opcode::variable::Variable::Constant(value.into()));
             self
         }
     }
@@ -5744,18 +6429,17 @@ pub mod sexpr {
             self
         }
     }
-    impl super::opcode::FeDiffuseLighting {
-        pub fn new<P0, P1>(r#in: P0, x: P1) -> Self
-        where
-            super::opcode::FeIn: From<P0>,
-            super::opcode::Length: From<P1>,
-        {
+    impl<P0> From<P0> for super::opcode::FeDiffuseLighting
+    where
+        super::opcode::FeIn: From<P0>,
+    {
+        fn from(value: P0) -> Self {
             Self {
-                r#in: super::opcode::variable::Variable::Constant(r#in.into()),
+                r#in: super::opcode::variable::Variable::Constant(value.into()),
                 surface_scale: None,
                 diffuse_constant: None,
                 kernel_unit_len: None,
-                x: super::opcode::variable::Variable::Constant(x.into()),
+                x: None,
                 y: None,
                 width: None,
                 height: None,
@@ -5808,7 +6492,7 @@ pub mod sexpr {
         where
             super::opcode::Length: From<T>,
         {
-            self.x = super::opcode::variable::Variable::Constant(value.into());
+            self.x = Some(super::opcode::variable::Variable::Constant(value.into()));
             self
         }
     }
@@ -5848,19 +6532,18 @@ pub mod sexpr {
             self
         }
     }
-    impl super::opcode::FeDisplacementMap {
-        pub fn new<P0, P1>(in2: P0, x: P1) -> Self
-        where
-            super::opcode::FeIn: From<P0>,
-            super::opcode::Length: From<P1>,
-        {
+    impl<P0> From<P0> for super::opcode::FeDisplacementMap
+    where
+        super::opcode::FeIn: From<P0>,
+    {
+        fn from(value: P0) -> Self {
             Self {
                 r#in: None,
-                in2: super::opcode::variable::Variable::Constant(in2.into()),
+                in2: super::opcode::variable::Variable::Constant(value.into()),
                 scale: None,
                 x_channel_selector: None,
                 y_channel_selector: None,
-                x: super::opcode::variable::Variable::Constant(x.into()),
+                x: None,
                 y: None,
                 width: None,
                 height: None,
@@ -5922,7 +6605,7 @@ pub mod sexpr {
         where
             super::opcode::Length: From<T>,
         {
-            self.x = super::opcode::variable::Variable::Constant(value.into());
+            self.x = Some(super::opcode::variable::Variable::Constant(value.into()));
             self
         }
     }
@@ -5962,19 +6645,108 @@ pub mod sexpr {
             self
         }
     }
-    impl super::opcode::FeFlood {
-        pub fn new<P0>(x: P0) -> Self
-        where
-            super::opcode::Length: From<P0>,
-        {
+    impl Default for super::opcode::FeFlood {
+        fn default() -> Self {
             Self {
                 color: None,
                 opacity: None,
-                x: super::opcode::variable::Variable::Constant(x.into()),
+                x: None,
                 y: None,
                 width: None,
                 height: None,
                 result: None,
+            }
+        }
+    }
+    impl super::opcode::FeFlood {
+        pub fn new() -> Self where {
+            Self {
+                color: None,
+                opacity: None,
+                x: None,
+                y: None,
+                width: None,
+                height: None,
+                result: None,
+            }
+        }
+    }
+    impl super::opcode::FeFlood {
+        pub fn from_color<T>(value: T) -> Self
+        where
+            super::opcode::Rgb: From<T>,
+        {
+            Self {
+                color: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeFlood {
+        pub fn from_opacity<T>(value: T) -> Self
+        where
+            Number: From<T>,
+        {
+            Self {
+                opacity: Some(super::opcode::variable::Variable::Constant(
+                    Number::from(value).0,
+                )),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeFlood {
+        pub fn from_x<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                x: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeFlood {
+        pub fn from_y<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                y: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeFlood {
+        pub fn from_width<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                width: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeFlood {
+        pub fn from_height<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                height: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeFlood {
+        pub fn from_result<T>(value: T) -> Self
+        where
+            String: From<T>,
+        {
+            Self {
+                result: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
             }
         }
     }
@@ -6003,7 +6775,7 @@ pub mod sexpr {
         where
             super::opcode::Length: From<T>,
         {
-            self.x = super::opcode::variable::Variable::Constant(value.into());
+            self.x = Some(super::opcode::variable::Variable::Constant(value.into()));
             self
         }
     }
@@ -6043,19 +6815,106 @@ pub mod sexpr {
             self
         }
     }
-    impl super::opcode::FeGaussianBlur {
-        pub fn new<P0>(x: P0) -> Self
-        where
-            super::opcode::Length: From<P0>,
-        {
+    impl Default for super::opcode::FeGaussianBlur {
+        fn default() -> Self {
             Self {
                 r#in: None,
                 std_deviation: None,
-                x: super::opcode::variable::Variable::Constant(x.into()),
+                x: None,
                 y: None,
                 width: None,
                 height: None,
                 result: None,
+            }
+        }
+    }
+    impl super::opcode::FeGaussianBlur {
+        pub fn new() -> Self where {
+            Self {
+                r#in: None,
+                std_deviation: None,
+                x: None,
+                y: None,
+                width: None,
+                height: None,
+                result: None,
+            }
+        }
+    }
+    impl super::opcode::FeGaussianBlur {
+        pub fn from_in<T>(value: T) -> Self
+        where
+            super::opcode::FeIn: From<T>,
+        {
+            Self {
+                r#in: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeGaussianBlur {
+        pub fn from_std_deviation<T>(value: T) -> Self
+        where
+            super::opcode::NumberOptNumber: From<T>,
+        {
+            Self {
+                std_deviation: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeGaussianBlur {
+        pub fn from_x<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                x: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeGaussianBlur {
+        pub fn from_y<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                y: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeGaussianBlur {
+        pub fn from_width<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                width: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeGaussianBlur {
+        pub fn from_height<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                height: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeGaussianBlur {
+        pub fn from_result<T>(value: T) -> Self
+        where
+            String: From<T>,
+        {
+            Self {
+                result: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
             }
         }
     }
@@ -6082,7 +6941,7 @@ pub mod sexpr {
         where
             super::opcode::Length: From<T>,
         {
-            self.x = super::opcode::variable::Variable::Constant(value.into());
+            self.x = Some(super::opcode::variable::Variable::Constant(value.into()));
             self
         }
     }
@@ -6122,13 +6981,10 @@ pub mod sexpr {
             self
         }
     }
-    impl super::opcode::FeMerge {
-        pub fn new<P0>(x: P0) -> Self
-        where
-            super::opcode::Length: From<P0>,
-        {
+    impl Default for super::opcode::FeMerge {
+        fn default() -> Self {
             Self {
-                x: super::opcode::variable::Variable::Constant(x.into()),
+                x: None,
                 y: None,
                 width: None,
                 height: None,
@@ -6137,11 +6993,77 @@ pub mod sexpr {
         }
     }
     impl super::opcode::FeMerge {
+        pub fn new() -> Self where {
+            Self {
+                x: None,
+                y: None,
+                width: None,
+                height: None,
+                result: None,
+            }
+        }
+    }
+    impl super::opcode::FeMerge {
+        pub fn from_x<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                x: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeMerge {
+        pub fn from_y<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                y: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeMerge {
+        pub fn from_width<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                width: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeMerge {
+        pub fn from_height<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                height: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeMerge {
+        pub fn from_result<T>(value: T) -> Self
+        where
+            String: From<T>,
+        {
+            Self {
+                result: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeMerge {
         pub fn x<T>(mut self, value: T) -> Self
         where
             super::opcode::Length: From<T>,
         {
-            self.x = super::opcode::variable::Variable::Constant(value.into());
+            self.x = Some(super::opcode::variable::Variable::Constant(value.into()));
             self
         }
     }
@@ -6181,24 +7103,23 @@ pub mod sexpr {
             self
         }
     }
-    impl super::opcode::FeMergeNode {
-        pub fn new<P0>(p0: P0) -> Self
-        where
-            super::opcode::FeIn: From<P0>,
-        {
-            Self(super::opcode::variable::Variable::Constant(p0.into()))
+    impl<P0> From<P0> for super::opcode::FeMergeNode
+    where
+        super::opcode::FeIn: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(super::opcode::variable::Variable::Constant(value.into()))
         }
     }
-    impl super::opcode::FeImage {
-        pub fn new<P0, P1>(href: P0, x: P1) -> Self
-        where
-            super::opcode::FuncIri: From<P0>,
-            super::opcode::Length: From<P1>,
-        {
+    impl<P0> From<P0> for super::opcode::FeImage
+    where
+        super::opcode::FuncIri: From<P0>,
+    {
+        fn from(value: P0) -> Self {
             Self {
-                href: super::opcode::variable::Variable::Constant(href.into()),
+                href: super::opcode::variable::Variable::Constant(value.into()),
                 aspect: None,
-                x: super::opcode::variable::Variable::Constant(x.into()),
+                x: None,
                 y: None,
                 width: None,
                 height: None,
@@ -6229,7 +7150,7 @@ pub mod sexpr {
         where
             super::opcode::Length: From<T>,
         {
-            self.x = super::opcode::variable::Variable::Constant(value.into());
+            self.x = Some(super::opcode::variable::Variable::Constant(value.into()));
             self
         }
     }
@@ -6269,20 +7190,119 @@ pub mod sexpr {
             self
         }
     }
-    impl super::opcode::FeMorphology {
-        pub fn new<P0>(x: P0) -> Self
-        where
-            super::opcode::Length: From<P0>,
-        {
+    impl Default for super::opcode::FeMorphology {
+        fn default() -> Self {
             Self {
                 r#in: None,
                 mode: None,
                 radius: None,
-                x: super::opcode::variable::Variable::Constant(x.into()),
+                x: None,
                 y: None,
                 width: None,
                 height: None,
                 result: None,
+            }
+        }
+    }
+    impl super::opcode::FeMorphology {
+        pub fn new() -> Self where {
+            Self {
+                r#in: None,
+                mode: None,
+                radius: None,
+                x: None,
+                y: None,
+                width: None,
+                height: None,
+                result: None,
+            }
+        }
+    }
+    impl super::opcode::FeMorphology {
+        pub fn from_in<T>(value: T) -> Self
+        where
+            super::opcode::FeIn: From<T>,
+        {
+            Self {
+                r#in: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeMorphology {
+        pub fn from_mode<T>(value: T) -> Self
+        where
+            super::opcode::FeMorphologyOperator: From<T>,
+        {
+            Self {
+                mode: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeMorphology {
+        pub fn from_radius<T>(value: T) -> Self
+        where
+            super::opcode::NumberOptNumber: From<T>,
+        {
+            Self {
+                radius: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeMorphology {
+        pub fn from_x<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                x: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeMorphology {
+        pub fn from_y<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                y: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeMorphology {
+        pub fn from_width<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                width: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeMorphology {
+        pub fn from_height<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                height: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeMorphology {
+        pub fn from_result<T>(value: T) -> Self
+        where
+            String: From<T>,
+        {
+            Self {
+                result: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
             }
         }
     }
@@ -6318,7 +7338,7 @@ pub mod sexpr {
         where
             super::opcode::Length: From<T>,
         {
-            self.x = super::opcode::variable::Variable::Constant(value.into());
+            self.x = Some(super::opcode::variable::Variable::Constant(value.into()));
             self
         }
     }
@@ -6358,20 +7378,131 @@ pub mod sexpr {
             self
         }
     }
-    impl super::opcode::FeOffset {
-        pub fn new<P0>(x: P0) -> Self
-        where
-            super::opcode::Length: From<P0>,
-        {
+    impl Default for super::opcode::FeOffset {
+        fn default() -> Self {
             Self {
                 r#in: None,
                 dx: None,
                 dy: None,
-                x: super::opcode::variable::Variable::Constant(x.into()),
+                x: None,
                 y: None,
                 width: None,
                 height: None,
                 result: None,
+            }
+        }
+    }
+    impl super::opcode::FeOffset {
+        pub fn new<P0, P1>(dx: P0, dy: P1) -> Self
+        where
+            Number: From<P0>,
+            Number: From<P1>,
+        {
+            Self {
+                r#in: None,
+                dx: Some(super::opcode::variable::Variable::Constant(
+                    Number::from(dx).0,
+                )),
+                dy: Some(super::opcode::variable::Variable::Constant(
+                    Number::from(dy).0,
+                )),
+                x: None,
+                y: None,
+                width: None,
+                height: None,
+                result: None,
+            }
+        }
+    }
+    impl super::opcode::FeOffset {
+        pub fn from_in<T>(value: T) -> Self
+        where
+            super::opcode::FeIn: From<T>,
+        {
+            Self {
+                r#in: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeOffset {
+        pub fn from_dx<T>(value: T) -> Self
+        where
+            Number: From<T>,
+        {
+            Self {
+                dx: Some(super::opcode::variable::Variable::Constant(
+                    Number::from(value).0,
+                )),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeOffset {
+        pub fn from_dy<T>(value: T) -> Self
+        where
+            Number: From<T>,
+        {
+            Self {
+                dy: Some(super::opcode::variable::Variable::Constant(
+                    Number::from(value).0,
+                )),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeOffset {
+        pub fn from_x<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                x: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeOffset {
+        pub fn from_y<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                y: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeOffset {
+        pub fn from_width<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                width: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeOffset {
+        pub fn from_height<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                height: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeOffset {
+        pub fn from_result<T>(value: T) -> Self
+        where
+            String: From<T>,
+        {
+            Self {
+                result: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
             }
         }
     }
@@ -6411,7 +7542,7 @@ pub mod sexpr {
         where
             super::opcode::Length: From<T>,
         {
-            self.x = super::opcode::variable::Variable::Constant(value.into());
+            self.x = Some(super::opcode::variable::Variable::Constant(value.into()));
             self
         }
     }
@@ -6451,22 +7582,151 @@ pub mod sexpr {
             self
         }
     }
-    impl super::opcode::FeSpecularLighting {
-        pub fn new<P0>(x: P0) -> Self
-        where
-            super::opcode::Length: From<P0>,
-        {
+    impl Default for super::opcode::FeSpecularLighting {
+        fn default() -> Self {
             Self {
                 r#in: None,
                 surface_scale: None,
                 specular_constant: None,
                 specular_exponent: None,
                 kernel_unit_len: None,
-                x: super::opcode::variable::Variable::Constant(x.into()),
+                x: None,
                 y: None,
                 width: None,
                 height: None,
                 result: None,
+            }
+        }
+    }
+    impl super::opcode::FeSpecularLighting {
+        pub fn new() -> Self where {
+            Self {
+                r#in: None,
+                surface_scale: None,
+                specular_constant: None,
+                specular_exponent: None,
+                kernel_unit_len: None,
+                x: None,
+                y: None,
+                width: None,
+                height: None,
+                result: None,
+            }
+        }
+    }
+    impl super::opcode::FeSpecularLighting {
+        pub fn from_in<T>(value: T) -> Self
+        where
+            super::opcode::FeIn: From<T>,
+        {
+            Self {
+                r#in: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeSpecularLighting {
+        pub fn from_surface_scale<T>(value: T) -> Self
+        where
+            Number: From<T>,
+        {
+            Self {
+                surface_scale: Some(super::opcode::variable::Variable::Constant(
+                    Number::from(value).0,
+                )),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeSpecularLighting {
+        pub fn from_specular_constant<T>(value: T) -> Self
+        where
+            Number: From<T>,
+        {
+            Self {
+                specular_constant: Some(super::opcode::variable::Variable::Constant(
+                    Number::from(value).0,
+                )),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeSpecularLighting {
+        pub fn from_specular_exponent<T>(value: T) -> Self
+        where
+            Number: From<T>,
+        {
+            Self {
+                specular_exponent: Some(super::opcode::variable::Variable::Constant(
+                    Number::from(value).0,
+                )),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeSpecularLighting {
+        pub fn from_kernel_unit_len<T>(value: T) -> Self
+        where
+            super::opcode::NumberOptNumber: From<T>,
+        {
+            Self {
+                kernel_unit_len: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeSpecularLighting {
+        pub fn from_x<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                x: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeSpecularLighting {
+        pub fn from_y<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                y: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeSpecularLighting {
+        pub fn from_width<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                width: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeSpecularLighting {
+        pub fn from_height<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                height: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeSpecularLighting {
+        pub fn from_result<T>(value: T) -> Self
+        where
+            String: From<T>,
+        {
+            Self {
+                result: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
             }
         }
     }
@@ -6526,7 +7786,7 @@ pub mod sexpr {
         where
             super::opcode::Length: From<T>,
         {
-            self.x = super::opcode::variable::Variable::Constant(value.into());
+            self.x = Some(super::opcode::variable::Variable::Constant(value.into()));
             self
         }
     }
@@ -6566,18 +7826,93 @@ pub mod sexpr {
             self
         }
     }
-    impl super::opcode::FeTile {
-        pub fn new<P0>(x: P0) -> Self
-        where
-            super::opcode::Length: From<P0>,
-        {
+    impl Default for super::opcode::FeTile {
+        fn default() -> Self {
             Self {
                 r#in: None,
-                x: super::opcode::variable::Variable::Constant(x.into()),
+                x: None,
                 y: None,
                 width: None,
                 height: None,
                 result: None,
+            }
+        }
+    }
+    impl super::opcode::FeTile {
+        pub fn new() -> Self where {
+            Self {
+                r#in: None,
+                x: None,
+                y: None,
+                width: None,
+                height: None,
+                result: None,
+            }
+        }
+    }
+    impl super::opcode::FeTile {
+        pub fn from_in<T>(value: T) -> Self
+        where
+            super::opcode::FeIn: From<T>,
+        {
+            Self {
+                r#in: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeTile {
+        pub fn from_x<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                x: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeTile {
+        pub fn from_y<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                y: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeTile {
+        pub fn from_width<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                width: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeTile {
+        pub fn from_height<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                height: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeTile {
+        pub fn from_result<T>(value: T) -> Self
+        where
+            String: From<T>,
+        {
+            Self {
+                result: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
             }
         }
     }
@@ -6595,7 +7930,7 @@ pub mod sexpr {
         where
             super::opcode::Length: From<T>,
         {
-            self.x = super::opcode::variable::Variable::Constant(value.into());
+            self.x = Some(super::opcode::variable::Variable::Constant(value.into()));
             self
         }
     }
@@ -6635,22 +7970,147 @@ pub mod sexpr {
             self
         }
     }
-    impl super::opcode::FeTurbulence {
-        pub fn new<P0>(x: P0) -> Self
-        where
-            super::opcode::Length: From<P0>,
-        {
+    impl Default for super::opcode::FeTurbulence {
+        fn default() -> Self {
             Self {
                 base_frequency: None,
                 num_octaves: None,
                 seed: None,
                 stitch_tiles: None,
                 r#type: None,
-                x: super::opcode::variable::Variable::Constant(x.into()),
+                x: None,
                 y: None,
                 width: None,
                 height: None,
                 result: None,
+            }
+        }
+    }
+    impl super::opcode::FeTurbulence {
+        pub fn new() -> Self where {
+            Self {
+                base_frequency: None,
+                num_octaves: None,
+                seed: None,
+                stitch_tiles: None,
+                r#type: None,
+                x: None,
+                y: None,
+                width: None,
+                height: None,
+                result: None,
+            }
+        }
+    }
+    impl super::opcode::FeTurbulence {
+        pub fn from_base_frequency<T>(value: T) -> Self
+        where
+            super::opcode::NumberOptNumber: From<T>,
+        {
+            Self {
+                base_frequency: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeTurbulence {
+        pub fn from_num_octaves<T>(value: T) -> Self
+        where
+            i32: From<T>,
+        {
+            Self {
+                num_octaves: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeTurbulence {
+        pub fn from_seed<T>(value: T) -> Self
+        where
+            Number: From<T>,
+        {
+            Self {
+                seed: Some(super::opcode::variable::Variable::Constant(
+                    Number::from(value).0,
+                )),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeTurbulence {
+        pub fn from_stitch_tiles<T>(value: T) -> Self
+        where
+            super::opcode::FeStitchTiles: From<T>,
+        {
+            Self {
+                stitch_tiles: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeTurbulence {
+        pub fn from_type<T>(value: T) -> Self
+        where
+            super::opcode::FeTurbulenceType: From<T>,
+        {
+            Self {
+                r#type: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeTurbulence {
+        pub fn from_x<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                x: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeTurbulence {
+        pub fn from_y<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                y: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeTurbulence {
+        pub fn from_width<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                width: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeTurbulence {
+        pub fn from_height<T>(value: T) -> Self
+        where
+            super::opcode::Length: From<T>,
+        {
+            Self {
+                height: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
+            }
+        }
+    }
+    impl super::opcode::FeTurbulence {
+        pub fn from_result<T>(value: T) -> Self
+        where
+            String: From<T>,
+        {
+            Self {
+                result: Some(super::opcode::variable::Variable::Constant(value.into())),
+                ..Default::default()
             }
         }
     }
@@ -6706,7 +8166,7 @@ pub mod sexpr {
         where
             super::opcode::Length: From<T>,
         {
-            self.x = super::opcode::variable::Variable::Constant(value.into());
+            self.x = Some(super::opcode::variable::Variable::Constant(value.into()));
             self
         }
     }
@@ -7106,13 +8566,13 @@ pub mod sexpr {
             self
         }
     }
-    impl super::opcode::GradientStop {
-        pub fn new<P0>(offset: P0) -> Self
-        where
-            Number: From<P0>,
-        {
+    impl<P0> From<P0> for super::opcode::GradientStop
+    where
+        Number: From<P0>,
+    {
+        fn from(value: P0) -> Self {
             Self {
-                offset: super::opcode::variable::Variable::Constant(Number::from(offset).0),
+                offset: super::opcode::variable::Variable::Constant(Number::from(value).0),
                 color: None,
                 opacity: None,
             }
@@ -7353,12 +8813,12 @@ pub mod sexpr {
             self
         }
     }
-    impl super::opcode::Use {
-        pub fn new<P0>(p0: P0) -> Self
-        where
-            super::opcode::Iri: From<P0>,
-        {
-            Self(super::opcode::variable::Variable::Constant(p0.into()))
+    impl<P0> From<P0> for super::opcode::Use
+    where
+        super::opcode::Iri: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(super::opcode::variable::Variable::Constant(value.into()))
         }
     }
     impl super::opcode::Rect {
@@ -7576,23 +9036,23 @@ pub mod sexpr {
             self
         }
     }
-    impl super::opcode::Polyline {
-        pub fn new<P0>(p0: P0) -> Self
-        where
-            P0: MapCollect<super::opcode::Point>,
-        {
+    impl<P0> From<P0> for super::opcode::Polyline
+    where
+        P0: MapCollect<super::opcode::Point>,
+    {
+        fn from(value: P0) -> Self {
             Self(super::opcode::variable::Variable::Constant(
-                p0.map_collect(),
+                value.map_collect(),
             ))
         }
     }
-    impl super::opcode::Polygon {
-        pub fn new<P0>(p0: P0) -> Self
-        where
-            P0: MapCollect<super::opcode::Point>,
-        {
+    impl<P0> From<P0> for super::opcode::Polygon
+    where
+        P0: MapCollect<super::opcode::Point>,
+    {
+        fn from(value: P0) -> Self {
             Self(super::opcode::variable::Variable::Constant(
-                p0.map_collect(),
+                value.map_collect(),
             ))
         }
     }
@@ -7610,10 +9070,14 @@ pub mod sexpr {
         }
     }
     impl super::opcode::Text {
-        pub fn new() -> Self where {
+        pub fn new<P0, P1>(x: P0, y: P1) -> Self
+        where
+            P0: MapCollect<super::opcode::Length>,
+            P1: MapCollect<super::opcode::Length>,
+        {
             Self {
-                x: None,
-                y: None,
+                x: Some(super::opcode::variable::Variable::Constant(x.map_collect())),
+                y: Some(super::opcode::variable::Variable::Constant(y.map_collect())),
                 dx: None,
                 dy: None,
                 rotate: None,
@@ -7800,10 +9264,14 @@ pub mod sexpr {
         }
     }
     impl super::opcode::TextSpan {
-        pub fn new() -> Self where {
+        pub fn new<P0, P1>(x: P0, y: P1) -> Self
+        where
+            P0: MapCollect<super::opcode::Length>,
+            P1: MapCollect<super::opcode::Length>,
+        {
             Self {
-                x: None,
-                y: None,
+                x: Some(super::opcode::variable::Variable::Constant(x.map_collect())),
+                y: Some(super::opcode::variable::Variable::Constant(y.map_collect())),
                 dx: None,
                 dy: None,
                 rotate: None,
@@ -7976,24 +9444,24 @@ pub mod sexpr {
             self
         }
     }
-    impl super::opcode::Characters {
-        pub fn new<P0>(p0: P0) -> Self
-        where
-            String: From<P0>,
-        {
-            Self(p0.into())
+    impl<P0> From<P0> for super::opcode::Characters
+    where
+        String: From<P0>,
+    {
+        fn from(value: P0) -> Self {
+            Self(value.into())
         }
     }
-    impl super::opcode::TextPath {
-        pub fn new<P0>(href: P0) -> Self
-        where
-            super::opcode::Iri: From<P0>,
-        {
+    impl<P0> From<P0> for super::opcode::TextPath
+    where
+        super::opcode::Iri: From<P0>,
+    {
+        fn from(value: P0) -> Self {
             Self {
                 start_offset: None,
                 method: None,
                 spacing: None,
-                href: super::opcode::variable::Variable::Constant(href.into()),
+                href: super::opcode::variable::Variable::Constant(value.into()),
             }
         }
     }
@@ -8138,6 +9606,7 @@ pub mod sexpr {
     impl ApplyTo<super::opcode::Line> for super::opcode::EnableBackground {}
     impl ApplyTo<super::opcode::Polyline> for super::opcode::EnableBackground {}
     impl ApplyTo<super::opcode::Polygon> for super::opcode::EnableBackground {}
+    impl ApplyTo<super::opcode::Use> for super::opcode::EnableBackground {}
     impl ApplyTo<super::opcode::Group> for super::opcode::WithTransform {}
     impl ApplyTo<super::opcode::Canvas> for super::opcode::WithTransform {}
     impl ApplyTo<super::opcode::Filter> for super::opcode::WithTransform {}
@@ -8148,6 +9617,7 @@ pub mod sexpr {
     impl ApplyTo<super::opcode::Line> for super::opcode::WithTransform {}
     impl ApplyTo<super::opcode::Polyline> for super::opcode::WithTransform {}
     impl ApplyTo<super::opcode::Polygon> for super::opcode::WithTransform {}
+    impl ApplyTo<super::opcode::Use> for super::opcode::WithTransform {}
     impl ApplyTo<super::opcode::Group> for super::opcode::Fill {}
     impl ApplyTo<super::opcode::Canvas> for super::opcode::Fill {}
     impl ApplyTo<super::opcode::Filter> for super::opcode::Fill {}
@@ -8158,6 +9628,7 @@ pub mod sexpr {
     impl ApplyTo<super::opcode::Line> for super::opcode::Fill {}
     impl ApplyTo<super::opcode::Polyline> for super::opcode::Fill {}
     impl ApplyTo<super::opcode::Polygon> for super::opcode::Fill {}
+    impl ApplyTo<super::opcode::Use> for super::opcode::Fill {}
     impl ApplyTo<super::opcode::Group> for super::opcode::Stroke {}
     impl ApplyTo<super::opcode::Canvas> for super::opcode::Stroke {}
     impl ApplyTo<super::opcode::Filter> for super::opcode::Stroke {}
@@ -8168,6 +9639,7 @@ pub mod sexpr {
     impl ApplyTo<super::opcode::Line> for super::opcode::Stroke {}
     impl ApplyTo<super::opcode::Polyline> for super::opcode::Stroke {}
     impl ApplyTo<super::opcode::Polygon> for super::opcode::Stroke {}
+    impl ApplyTo<super::opcode::Use> for super::opcode::Stroke {}
     impl ApplyTo<super::opcode::Group> for super::opcode::WithFilter {}
     impl ApplyTo<super::opcode::Canvas> for super::opcode::WithFilter {}
     impl ApplyTo<super::opcode::Filter> for super::opcode::WithFilter {}
@@ -8178,6 +9650,7 @@ pub mod sexpr {
     impl ApplyTo<super::opcode::Line> for super::opcode::WithFilter {}
     impl ApplyTo<super::opcode::Polyline> for super::opcode::WithFilter {}
     impl ApplyTo<super::opcode::Polygon> for super::opcode::WithFilter {}
+    impl ApplyTo<super::opcode::Use> for super::opcode::WithFilter {}
     impl ApplyTo<super::opcode::Group> for super::opcode::WithClipPath {}
     impl ApplyTo<super::opcode::Canvas> for super::opcode::WithClipPath {}
     impl ApplyTo<super::opcode::Filter> for super::opcode::WithClipPath {}
@@ -8188,6 +9661,7 @@ pub mod sexpr {
     impl ApplyTo<super::opcode::Line> for super::opcode::WithClipPath {}
     impl ApplyTo<super::opcode::Polyline> for super::opcode::WithClipPath {}
     impl ApplyTo<super::opcode::Polygon> for super::opcode::WithClipPath {}
+    impl ApplyTo<super::opcode::Use> for super::opcode::WithClipPath {}
     impl ApplyTo<super::opcode::Group> for super::opcode::WithMask {}
     impl ApplyTo<super::opcode::Canvas> for super::opcode::WithMask {}
     impl ApplyTo<super::opcode::Filter> for super::opcode::WithMask {}
@@ -8198,6 +9672,7 @@ pub mod sexpr {
     impl ApplyTo<super::opcode::Line> for super::opcode::WithMask {}
     impl ApplyTo<super::opcode::Polyline> for super::opcode::WithMask {}
     impl ApplyTo<super::opcode::Polygon> for super::opcode::WithMask {}
+    impl ApplyTo<super::opcode::Use> for super::opcode::WithMask {}
     impl ApplyTo<super::opcode::Group> for super::opcode::Opacity {}
     impl ApplyTo<super::opcode::Canvas> for super::opcode::Opacity {}
     impl ApplyTo<super::opcode::Filter> for super::opcode::Opacity {}
@@ -8208,6 +9683,7 @@ pub mod sexpr {
     impl ApplyTo<super::opcode::Line> for super::opcode::Opacity {}
     impl ApplyTo<super::opcode::Polyline> for super::opcode::Opacity {}
     impl ApplyTo<super::opcode::Polygon> for super::opcode::Opacity {}
+    impl ApplyTo<super::opcode::Use> for super::opcode::Opacity {}
     impl ApplyTo<super::opcode::LinearGradient> for super::opcode::Id {}
     impl ApplyTo<super::opcode::Group> for super::opcode::Id {}
     impl ApplyTo<super::opcode::Canvas> for super::opcode::Id {}
@@ -8318,6 +9794,15 @@ pub mod sexpr {
             self.children.build(builder);
             builder.pop();
         }
+    }
+    impl<Attrs, Node, Children, Target> ContentOf<ApplyElementChildren<Attrs, Node, Children>>
+        for Target
+    where
+        Attrs: ApplyTo<Node> + Graphics,
+        Node: Graphics,
+        Children: Graphics,
+        Target: ContentOf<Node>,
+    {
     }
     #[doc = r" A wrapper [`Graphics`] returns by calling container's children function."]
     pub struct ElementChildren<Node, Children> {
@@ -9177,6 +10662,6420 @@ pub mod sexpr {
                 node: self,
                 children,
             }
+        }
+    }
+    impl<P0> MapCollect<super::opcode::Transform> for P0
+    where
+        super::opcode::Transform: From<P0>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![self.into()]
+        }
+    }
+    impl<P0, P1> MapCollect<super::opcode::Transform> for (P0, P1)
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![self.0.into(), self.1.into()]
+        }
+    }
+    impl<P0, P1, P2> MapCollect<super::opcode::Transform> for (P0, P1, P2)
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![self.0.into(), self.1.into(), self.2.into()]
+        }
+    }
+    impl<P0, P1, P2, P3> MapCollect<super::opcode::Transform> for (P0, P1, P2, P3)
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
+        }
+    }
+    impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::Transform> for (P0, P1, P2, P3, P4)
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::Transform> for (P0, P1, P2, P3, P4, P5)
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::Transform>
+        for (P0, P1, P2, P3, P4, P5, P6)
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::Transform>
+        for (P0, P1, P2, P3, P4, P5, P6, P7)
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::Transform>
+        for (P0, P1, P2, P3, P4, P5, P6, P7, P8)
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::Transform>
+        for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::Transform>
+        for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::Transform>
+        for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11)
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::Transform>
+        for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12)
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+        super::opcode::Transform: From<P12>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13>
+        MapCollect<super::opcode::Transform>
+        for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13)
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+        super::opcode::Transform: From<P12>,
+        super::opcode::Transform: From<P13>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
+        MapCollect<super::opcode::Transform>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+        )
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+        super::opcode::Transform: From<P12>,
+        super::opcode::Transform: From<P13>,
+        super::opcode::Transform: From<P14>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15>
+        MapCollect<super::opcode::Transform>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+        )
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+        super::opcode::Transform: From<P12>,
+        super::opcode::Transform: From<P13>,
+        super::opcode::Transform: From<P14>,
+        super::opcode::Transform: From<P15>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15, P16>
+        MapCollect<super::opcode::Transform>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+        )
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+        super::opcode::Transform: From<P12>,
+        super::opcode::Transform: From<P13>,
+        super::opcode::Transform: From<P14>,
+        super::opcode::Transform: From<P15>,
+        super::opcode::Transform: From<P16>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15, P16, P17>
+        MapCollect<super::opcode::Transform>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+        )
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+        super::opcode::Transform: From<P12>,
+        super::opcode::Transform: From<P13>,
+        super::opcode::Transform: From<P14>,
+        super::opcode::Transform: From<P15>,
+        super::opcode::Transform: From<P16>,
+        super::opcode::Transform: From<P17>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15, P16, P17, P18>
+        MapCollect<super::opcode::Transform>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+        )
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+        super::opcode::Transform: From<P12>,
+        super::opcode::Transform: From<P13>,
+        super::opcode::Transform: From<P14>,
+        super::opcode::Transform: From<P15>,
+        super::opcode::Transform: From<P16>,
+        super::opcode::Transform: From<P17>,
+        super::opcode::Transform: From<P18>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+        > MapCollect<super::opcode::Transform>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+        )
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+        super::opcode::Transform: From<P12>,
+        super::opcode::Transform: From<P13>,
+        super::opcode::Transform: From<P14>,
+        super::opcode::Transform: From<P15>,
+        super::opcode::Transform: From<P16>,
+        super::opcode::Transform: From<P17>,
+        super::opcode::Transform: From<P18>,
+        super::opcode::Transform: From<P19>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+        > MapCollect<super::opcode::Transform>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+        )
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+        super::opcode::Transform: From<P12>,
+        super::opcode::Transform: From<P13>,
+        super::opcode::Transform: From<P14>,
+        super::opcode::Transform: From<P15>,
+        super::opcode::Transform: From<P16>,
+        super::opcode::Transform: From<P17>,
+        super::opcode::Transform: From<P18>,
+        super::opcode::Transform: From<P19>,
+        super::opcode::Transform: From<P20>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+        > MapCollect<super::opcode::Transform>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+        )
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+        super::opcode::Transform: From<P12>,
+        super::opcode::Transform: From<P13>,
+        super::opcode::Transform: From<P14>,
+        super::opcode::Transform: From<P15>,
+        super::opcode::Transform: From<P16>,
+        super::opcode::Transform: From<P17>,
+        super::opcode::Transform: From<P18>,
+        super::opcode::Transform: From<P19>,
+        super::opcode::Transform: From<P20>,
+        super::opcode::Transform: From<P21>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+        > MapCollect<super::opcode::Transform>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+        )
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+        super::opcode::Transform: From<P12>,
+        super::opcode::Transform: From<P13>,
+        super::opcode::Transform: From<P14>,
+        super::opcode::Transform: From<P15>,
+        super::opcode::Transform: From<P16>,
+        super::opcode::Transform: From<P17>,
+        super::opcode::Transform: From<P18>,
+        super::opcode::Transform: From<P19>,
+        super::opcode::Transform: From<P20>,
+        super::opcode::Transform: From<P21>,
+        super::opcode::Transform: From<P22>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+        > MapCollect<super::opcode::Transform>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+        )
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+        super::opcode::Transform: From<P12>,
+        super::opcode::Transform: From<P13>,
+        super::opcode::Transform: From<P14>,
+        super::opcode::Transform: From<P15>,
+        super::opcode::Transform: From<P16>,
+        super::opcode::Transform: From<P17>,
+        super::opcode::Transform: From<P18>,
+        super::opcode::Transform: From<P19>,
+        super::opcode::Transform: From<P20>,
+        super::opcode::Transform: From<P21>,
+        super::opcode::Transform: From<P22>,
+        super::opcode::Transform: From<P23>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+        > MapCollect<super::opcode::Transform>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+        )
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+        super::opcode::Transform: From<P12>,
+        super::opcode::Transform: From<P13>,
+        super::opcode::Transform: From<P14>,
+        super::opcode::Transform: From<P15>,
+        super::opcode::Transform: From<P16>,
+        super::opcode::Transform: From<P17>,
+        super::opcode::Transform: From<P18>,
+        super::opcode::Transform: From<P19>,
+        super::opcode::Transform: From<P20>,
+        super::opcode::Transform: From<P21>,
+        super::opcode::Transform: From<P22>,
+        super::opcode::Transform: From<P23>,
+        super::opcode::Transform: From<P24>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+        > MapCollect<super::opcode::Transform>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+        )
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+        super::opcode::Transform: From<P12>,
+        super::opcode::Transform: From<P13>,
+        super::opcode::Transform: From<P14>,
+        super::opcode::Transform: From<P15>,
+        super::opcode::Transform: From<P16>,
+        super::opcode::Transform: From<P17>,
+        super::opcode::Transform: From<P18>,
+        super::opcode::Transform: From<P19>,
+        super::opcode::Transform: From<P20>,
+        super::opcode::Transform: From<P21>,
+        super::opcode::Transform: From<P22>,
+        super::opcode::Transform: From<P23>,
+        super::opcode::Transform: From<P24>,
+        super::opcode::Transform: From<P25>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+        > MapCollect<super::opcode::Transform>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+        )
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+        super::opcode::Transform: From<P12>,
+        super::opcode::Transform: From<P13>,
+        super::opcode::Transform: From<P14>,
+        super::opcode::Transform: From<P15>,
+        super::opcode::Transform: From<P16>,
+        super::opcode::Transform: From<P17>,
+        super::opcode::Transform: From<P18>,
+        super::opcode::Transform: From<P19>,
+        super::opcode::Transform: From<P20>,
+        super::opcode::Transform: From<P21>,
+        super::opcode::Transform: From<P22>,
+        super::opcode::Transform: From<P23>,
+        super::opcode::Transform: From<P24>,
+        super::opcode::Transform: From<P25>,
+        super::opcode::Transform: From<P26>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+                self.26.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+        > MapCollect<super::opcode::Transform>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+        )
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+        super::opcode::Transform: From<P12>,
+        super::opcode::Transform: From<P13>,
+        super::opcode::Transform: From<P14>,
+        super::opcode::Transform: From<P15>,
+        super::opcode::Transform: From<P16>,
+        super::opcode::Transform: From<P17>,
+        super::opcode::Transform: From<P18>,
+        super::opcode::Transform: From<P19>,
+        super::opcode::Transform: From<P20>,
+        super::opcode::Transform: From<P21>,
+        super::opcode::Transform: From<P22>,
+        super::opcode::Transform: From<P23>,
+        super::opcode::Transform: From<P24>,
+        super::opcode::Transform: From<P25>,
+        super::opcode::Transform: From<P26>,
+        super::opcode::Transform: From<P27>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+                self.26.into(),
+                self.27.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+        > MapCollect<super::opcode::Transform>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+        )
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+        super::opcode::Transform: From<P12>,
+        super::opcode::Transform: From<P13>,
+        super::opcode::Transform: From<P14>,
+        super::opcode::Transform: From<P15>,
+        super::opcode::Transform: From<P16>,
+        super::opcode::Transform: From<P17>,
+        super::opcode::Transform: From<P18>,
+        super::opcode::Transform: From<P19>,
+        super::opcode::Transform: From<P20>,
+        super::opcode::Transform: From<P21>,
+        super::opcode::Transform: From<P22>,
+        super::opcode::Transform: From<P23>,
+        super::opcode::Transform: From<P24>,
+        super::opcode::Transform: From<P25>,
+        super::opcode::Transform: From<P26>,
+        super::opcode::Transform: From<P27>,
+        super::opcode::Transform: From<P28>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+                self.26.into(),
+                self.27.into(),
+                self.28.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+        > MapCollect<super::opcode::Transform>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+        )
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+        super::opcode::Transform: From<P12>,
+        super::opcode::Transform: From<P13>,
+        super::opcode::Transform: From<P14>,
+        super::opcode::Transform: From<P15>,
+        super::opcode::Transform: From<P16>,
+        super::opcode::Transform: From<P17>,
+        super::opcode::Transform: From<P18>,
+        super::opcode::Transform: From<P19>,
+        super::opcode::Transform: From<P20>,
+        super::opcode::Transform: From<P21>,
+        super::opcode::Transform: From<P22>,
+        super::opcode::Transform: From<P23>,
+        super::opcode::Transform: From<P24>,
+        super::opcode::Transform: From<P25>,
+        super::opcode::Transform: From<P26>,
+        super::opcode::Transform: From<P27>,
+        super::opcode::Transform: From<P28>,
+        super::opcode::Transform: From<P29>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+                self.26.into(),
+                self.27.into(),
+                self.28.into(),
+                self.29.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+        > MapCollect<super::opcode::Transform>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+        )
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+        super::opcode::Transform: From<P12>,
+        super::opcode::Transform: From<P13>,
+        super::opcode::Transform: From<P14>,
+        super::opcode::Transform: From<P15>,
+        super::opcode::Transform: From<P16>,
+        super::opcode::Transform: From<P17>,
+        super::opcode::Transform: From<P18>,
+        super::opcode::Transform: From<P19>,
+        super::opcode::Transform: From<P20>,
+        super::opcode::Transform: From<P21>,
+        super::opcode::Transform: From<P22>,
+        super::opcode::Transform: From<P23>,
+        super::opcode::Transform: From<P24>,
+        super::opcode::Transform: From<P25>,
+        super::opcode::Transform: From<P26>,
+        super::opcode::Transform: From<P27>,
+        super::opcode::Transform: From<P28>,
+        super::opcode::Transform: From<P29>,
+        super::opcode::Transform: From<P30>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+                self.26.into(),
+                self.27.into(),
+                self.28.into(),
+                self.29.into(),
+                self.30.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+        > MapCollect<super::opcode::Transform>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+        )
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+        super::opcode::Transform: From<P12>,
+        super::opcode::Transform: From<P13>,
+        super::opcode::Transform: From<P14>,
+        super::opcode::Transform: From<P15>,
+        super::opcode::Transform: From<P16>,
+        super::opcode::Transform: From<P17>,
+        super::opcode::Transform: From<P18>,
+        super::opcode::Transform: From<P19>,
+        super::opcode::Transform: From<P20>,
+        super::opcode::Transform: From<P21>,
+        super::opcode::Transform: From<P22>,
+        super::opcode::Transform: From<P23>,
+        super::opcode::Transform: From<P24>,
+        super::opcode::Transform: From<P25>,
+        super::opcode::Transform: From<P26>,
+        super::opcode::Transform: From<P27>,
+        super::opcode::Transform: From<P28>,
+        super::opcode::Transform: From<P29>,
+        super::opcode::Transform: From<P30>,
+        super::opcode::Transform: From<P31>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+                self.26.into(),
+                self.27.into(),
+                self.28.into(),
+                self.29.into(),
+                self.30.into(),
+                self.31.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+        > MapCollect<super::opcode::Transform>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+        )
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+        super::opcode::Transform: From<P12>,
+        super::opcode::Transform: From<P13>,
+        super::opcode::Transform: From<P14>,
+        super::opcode::Transform: From<P15>,
+        super::opcode::Transform: From<P16>,
+        super::opcode::Transform: From<P17>,
+        super::opcode::Transform: From<P18>,
+        super::opcode::Transform: From<P19>,
+        super::opcode::Transform: From<P20>,
+        super::opcode::Transform: From<P21>,
+        super::opcode::Transform: From<P22>,
+        super::opcode::Transform: From<P23>,
+        super::opcode::Transform: From<P24>,
+        super::opcode::Transform: From<P25>,
+        super::opcode::Transform: From<P26>,
+        super::opcode::Transform: From<P27>,
+        super::opcode::Transform: From<P28>,
+        super::opcode::Transform: From<P29>,
+        super::opcode::Transform: From<P30>,
+        super::opcode::Transform: From<P31>,
+        super::opcode::Transform: From<P32>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+                self.26.into(),
+                self.27.into(),
+                self.28.into(),
+                self.29.into(),
+                self.30.into(),
+                self.31.into(),
+                self.32.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+            P33,
+        > MapCollect<super::opcode::Transform>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+            P33,
+        )
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+        super::opcode::Transform: From<P12>,
+        super::opcode::Transform: From<P13>,
+        super::opcode::Transform: From<P14>,
+        super::opcode::Transform: From<P15>,
+        super::opcode::Transform: From<P16>,
+        super::opcode::Transform: From<P17>,
+        super::opcode::Transform: From<P18>,
+        super::opcode::Transform: From<P19>,
+        super::opcode::Transform: From<P20>,
+        super::opcode::Transform: From<P21>,
+        super::opcode::Transform: From<P22>,
+        super::opcode::Transform: From<P23>,
+        super::opcode::Transform: From<P24>,
+        super::opcode::Transform: From<P25>,
+        super::opcode::Transform: From<P26>,
+        super::opcode::Transform: From<P27>,
+        super::opcode::Transform: From<P28>,
+        super::opcode::Transform: From<P29>,
+        super::opcode::Transform: From<P30>,
+        super::opcode::Transform: From<P31>,
+        super::opcode::Transform: From<P32>,
+        super::opcode::Transform: From<P33>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+                self.26.into(),
+                self.27.into(),
+                self.28.into(),
+                self.29.into(),
+                self.30.into(),
+                self.31.into(),
+                self.32.into(),
+                self.33.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+            P33,
+            P34,
+        > MapCollect<super::opcode::Transform>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+            P33,
+            P34,
+        )
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+        super::opcode::Transform: From<P12>,
+        super::opcode::Transform: From<P13>,
+        super::opcode::Transform: From<P14>,
+        super::opcode::Transform: From<P15>,
+        super::opcode::Transform: From<P16>,
+        super::opcode::Transform: From<P17>,
+        super::opcode::Transform: From<P18>,
+        super::opcode::Transform: From<P19>,
+        super::opcode::Transform: From<P20>,
+        super::opcode::Transform: From<P21>,
+        super::opcode::Transform: From<P22>,
+        super::opcode::Transform: From<P23>,
+        super::opcode::Transform: From<P24>,
+        super::opcode::Transform: From<P25>,
+        super::opcode::Transform: From<P26>,
+        super::opcode::Transform: From<P27>,
+        super::opcode::Transform: From<P28>,
+        super::opcode::Transform: From<P29>,
+        super::opcode::Transform: From<P30>,
+        super::opcode::Transform: From<P31>,
+        super::opcode::Transform: From<P32>,
+        super::opcode::Transform: From<P33>,
+        super::opcode::Transform: From<P34>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+                self.26.into(),
+                self.27.into(),
+                self.28.into(),
+                self.29.into(),
+                self.30.into(),
+                self.31.into(),
+                self.32.into(),
+                self.33.into(),
+                self.34.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+            P33,
+            P34,
+            P35,
+        > MapCollect<super::opcode::Transform>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+            P33,
+            P34,
+            P35,
+        )
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+        super::opcode::Transform: From<P12>,
+        super::opcode::Transform: From<P13>,
+        super::opcode::Transform: From<P14>,
+        super::opcode::Transform: From<P15>,
+        super::opcode::Transform: From<P16>,
+        super::opcode::Transform: From<P17>,
+        super::opcode::Transform: From<P18>,
+        super::opcode::Transform: From<P19>,
+        super::opcode::Transform: From<P20>,
+        super::opcode::Transform: From<P21>,
+        super::opcode::Transform: From<P22>,
+        super::opcode::Transform: From<P23>,
+        super::opcode::Transform: From<P24>,
+        super::opcode::Transform: From<P25>,
+        super::opcode::Transform: From<P26>,
+        super::opcode::Transform: From<P27>,
+        super::opcode::Transform: From<P28>,
+        super::opcode::Transform: From<P29>,
+        super::opcode::Transform: From<P30>,
+        super::opcode::Transform: From<P31>,
+        super::opcode::Transform: From<P32>,
+        super::opcode::Transform: From<P33>,
+        super::opcode::Transform: From<P34>,
+        super::opcode::Transform: From<P35>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+                self.26.into(),
+                self.27.into(),
+                self.28.into(),
+                self.29.into(),
+                self.30.into(),
+                self.31.into(),
+                self.32.into(),
+                self.33.into(),
+                self.34.into(),
+                self.35.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+            P33,
+            P34,
+            P35,
+            P36,
+        > MapCollect<super::opcode::Transform>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+            P33,
+            P34,
+            P35,
+            P36,
+        )
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+        super::opcode::Transform: From<P12>,
+        super::opcode::Transform: From<P13>,
+        super::opcode::Transform: From<P14>,
+        super::opcode::Transform: From<P15>,
+        super::opcode::Transform: From<P16>,
+        super::opcode::Transform: From<P17>,
+        super::opcode::Transform: From<P18>,
+        super::opcode::Transform: From<P19>,
+        super::opcode::Transform: From<P20>,
+        super::opcode::Transform: From<P21>,
+        super::opcode::Transform: From<P22>,
+        super::opcode::Transform: From<P23>,
+        super::opcode::Transform: From<P24>,
+        super::opcode::Transform: From<P25>,
+        super::opcode::Transform: From<P26>,
+        super::opcode::Transform: From<P27>,
+        super::opcode::Transform: From<P28>,
+        super::opcode::Transform: From<P29>,
+        super::opcode::Transform: From<P30>,
+        super::opcode::Transform: From<P31>,
+        super::opcode::Transform: From<P32>,
+        super::opcode::Transform: From<P33>,
+        super::opcode::Transform: From<P34>,
+        super::opcode::Transform: From<P35>,
+        super::opcode::Transform: From<P36>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+                self.26.into(),
+                self.27.into(),
+                self.28.into(),
+                self.29.into(),
+                self.30.into(),
+                self.31.into(),
+                self.32.into(),
+                self.33.into(),
+                self.34.into(),
+                self.35.into(),
+                self.36.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+            P33,
+            P34,
+            P35,
+            P36,
+            P37,
+        > MapCollect<super::opcode::Transform>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+            P33,
+            P34,
+            P35,
+            P36,
+            P37,
+        )
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+        super::opcode::Transform: From<P12>,
+        super::opcode::Transform: From<P13>,
+        super::opcode::Transform: From<P14>,
+        super::opcode::Transform: From<P15>,
+        super::opcode::Transform: From<P16>,
+        super::opcode::Transform: From<P17>,
+        super::opcode::Transform: From<P18>,
+        super::opcode::Transform: From<P19>,
+        super::opcode::Transform: From<P20>,
+        super::opcode::Transform: From<P21>,
+        super::opcode::Transform: From<P22>,
+        super::opcode::Transform: From<P23>,
+        super::opcode::Transform: From<P24>,
+        super::opcode::Transform: From<P25>,
+        super::opcode::Transform: From<P26>,
+        super::opcode::Transform: From<P27>,
+        super::opcode::Transform: From<P28>,
+        super::opcode::Transform: From<P29>,
+        super::opcode::Transform: From<P30>,
+        super::opcode::Transform: From<P31>,
+        super::opcode::Transform: From<P32>,
+        super::opcode::Transform: From<P33>,
+        super::opcode::Transform: From<P34>,
+        super::opcode::Transform: From<P35>,
+        super::opcode::Transform: From<P36>,
+        super::opcode::Transform: From<P37>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+                self.26.into(),
+                self.27.into(),
+                self.28.into(),
+                self.29.into(),
+                self.30.into(),
+                self.31.into(),
+                self.32.into(),
+                self.33.into(),
+                self.34.into(),
+                self.35.into(),
+                self.36.into(),
+                self.37.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+            P33,
+            P34,
+            P35,
+            P36,
+            P37,
+            P38,
+        > MapCollect<super::opcode::Transform>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+            P33,
+            P34,
+            P35,
+            P36,
+            P37,
+            P38,
+        )
+    where
+        super::opcode::Transform: From<P0>,
+        super::opcode::Transform: From<P1>,
+        super::opcode::Transform: From<P2>,
+        super::opcode::Transform: From<P3>,
+        super::opcode::Transform: From<P4>,
+        super::opcode::Transform: From<P5>,
+        super::opcode::Transform: From<P6>,
+        super::opcode::Transform: From<P7>,
+        super::opcode::Transform: From<P8>,
+        super::opcode::Transform: From<P9>,
+        super::opcode::Transform: From<P10>,
+        super::opcode::Transform: From<P11>,
+        super::opcode::Transform: From<P12>,
+        super::opcode::Transform: From<P13>,
+        super::opcode::Transform: From<P14>,
+        super::opcode::Transform: From<P15>,
+        super::opcode::Transform: From<P16>,
+        super::opcode::Transform: From<P17>,
+        super::opcode::Transform: From<P18>,
+        super::opcode::Transform: From<P19>,
+        super::opcode::Transform: From<P20>,
+        super::opcode::Transform: From<P21>,
+        super::opcode::Transform: From<P22>,
+        super::opcode::Transform: From<P23>,
+        super::opcode::Transform: From<P24>,
+        super::opcode::Transform: From<P25>,
+        super::opcode::Transform: From<P26>,
+        super::opcode::Transform: From<P27>,
+        super::opcode::Transform: From<P28>,
+        super::opcode::Transform: From<P29>,
+        super::opcode::Transform: From<P30>,
+        super::opcode::Transform: From<P31>,
+        super::opcode::Transform: From<P32>,
+        super::opcode::Transform: From<P33>,
+        super::opcode::Transform: From<P34>,
+        super::opcode::Transform: From<P35>,
+        super::opcode::Transform: From<P36>,
+        super::opcode::Transform: From<P37>,
+        super::opcode::Transform: From<P38>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::Transform> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+                self.26.into(),
+                self.27.into(),
+                self.28.into(),
+                self.29.into(),
+                self.30.into(),
+                self.31.into(),
+                self.32.into(),
+                self.33.into(),
+                self.34.into(),
+                self.35.into(),
+                self.36.into(),
+                self.37.into(),
+                self.38.into(),
+            ]
+        }
+    }
+    impl<P0> MapCollect<super::opcode::PathEvent> for P0
+    where
+        super::opcode::PathEvent: From<P0>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![self.into()]
+        }
+    }
+    impl<P0, P1> MapCollect<super::opcode::PathEvent> for (P0, P1)
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![self.0.into(), self.1.into()]
+        }
+    }
+    impl<P0, P1, P2> MapCollect<super::opcode::PathEvent> for (P0, P1, P2)
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![self.0.into(), self.1.into(), self.2.into()]
+        }
+    }
+    impl<P0, P1, P2, P3> MapCollect<super::opcode::PathEvent> for (P0, P1, P2, P3)
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
+        }
+    }
+    impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::PathEvent> for (P0, P1, P2, P3, P4)
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::PathEvent> for (P0, P1, P2, P3, P4, P5)
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::PathEvent>
+        for (P0, P1, P2, P3, P4, P5, P6)
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::PathEvent>
+        for (P0, P1, P2, P3, P4, P5, P6, P7)
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::PathEvent>
+        for (P0, P1, P2, P3, P4, P5, P6, P7, P8)
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::PathEvent>
+        for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::PathEvent>
+        for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::PathEvent>
+        for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11)
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::PathEvent>
+        for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12)
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+        super::opcode::PathEvent: From<P12>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13>
+        MapCollect<super::opcode::PathEvent>
+        for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13)
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+        super::opcode::PathEvent: From<P12>,
+        super::opcode::PathEvent: From<P13>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
+        MapCollect<super::opcode::PathEvent>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+        )
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+        super::opcode::PathEvent: From<P12>,
+        super::opcode::PathEvent: From<P13>,
+        super::opcode::PathEvent: From<P14>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15>
+        MapCollect<super::opcode::PathEvent>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+        )
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+        super::opcode::PathEvent: From<P12>,
+        super::opcode::PathEvent: From<P13>,
+        super::opcode::PathEvent: From<P14>,
+        super::opcode::PathEvent: From<P15>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15, P16>
+        MapCollect<super::opcode::PathEvent>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+        )
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+        super::opcode::PathEvent: From<P12>,
+        super::opcode::PathEvent: From<P13>,
+        super::opcode::PathEvent: From<P14>,
+        super::opcode::PathEvent: From<P15>,
+        super::opcode::PathEvent: From<P16>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15, P16, P17>
+        MapCollect<super::opcode::PathEvent>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+        )
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+        super::opcode::PathEvent: From<P12>,
+        super::opcode::PathEvent: From<P13>,
+        super::opcode::PathEvent: From<P14>,
+        super::opcode::PathEvent: From<P15>,
+        super::opcode::PathEvent: From<P16>,
+        super::opcode::PathEvent: From<P17>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+            ]
+        }
+    }
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15, P16, P17, P18>
+        MapCollect<super::opcode::PathEvent>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+        )
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+        super::opcode::PathEvent: From<P12>,
+        super::opcode::PathEvent: From<P13>,
+        super::opcode::PathEvent: From<P14>,
+        super::opcode::PathEvent: From<P15>,
+        super::opcode::PathEvent: From<P16>,
+        super::opcode::PathEvent: From<P17>,
+        super::opcode::PathEvent: From<P18>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+        > MapCollect<super::opcode::PathEvent>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+        )
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+        super::opcode::PathEvent: From<P12>,
+        super::opcode::PathEvent: From<P13>,
+        super::opcode::PathEvent: From<P14>,
+        super::opcode::PathEvent: From<P15>,
+        super::opcode::PathEvent: From<P16>,
+        super::opcode::PathEvent: From<P17>,
+        super::opcode::PathEvent: From<P18>,
+        super::opcode::PathEvent: From<P19>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+        > MapCollect<super::opcode::PathEvent>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+        )
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+        super::opcode::PathEvent: From<P12>,
+        super::opcode::PathEvent: From<P13>,
+        super::opcode::PathEvent: From<P14>,
+        super::opcode::PathEvent: From<P15>,
+        super::opcode::PathEvent: From<P16>,
+        super::opcode::PathEvent: From<P17>,
+        super::opcode::PathEvent: From<P18>,
+        super::opcode::PathEvent: From<P19>,
+        super::opcode::PathEvent: From<P20>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+        > MapCollect<super::opcode::PathEvent>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+        )
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+        super::opcode::PathEvent: From<P12>,
+        super::opcode::PathEvent: From<P13>,
+        super::opcode::PathEvent: From<P14>,
+        super::opcode::PathEvent: From<P15>,
+        super::opcode::PathEvent: From<P16>,
+        super::opcode::PathEvent: From<P17>,
+        super::opcode::PathEvent: From<P18>,
+        super::opcode::PathEvent: From<P19>,
+        super::opcode::PathEvent: From<P20>,
+        super::opcode::PathEvent: From<P21>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+        > MapCollect<super::opcode::PathEvent>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+        )
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+        super::opcode::PathEvent: From<P12>,
+        super::opcode::PathEvent: From<P13>,
+        super::opcode::PathEvent: From<P14>,
+        super::opcode::PathEvent: From<P15>,
+        super::opcode::PathEvent: From<P16>,
+        super::opcode::PathEvent: From<P17>,
+        super::opcode::PathEvent: From<P18>,
+        super::opcode::PathEvent: From<P19>,
+        super::opcode::PathEvent: From<P20>,
+        super::opcode::PathEvent: From<P21>,
+        super::opcode::PathEvent: From<P22>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+        > MapCollect<super::opcode::PathEvent>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+        )
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+        super::opcode::PathEvent: From<P12>,
+        super::opcode::PathEvent: From<P13>,
+        super::opcode::PathEvent: From<P14>,
+        super::opcode::PathEvent: From<P15>,
+        super::opcode::PathEvent: From<P16>,
+        super::opcode::PathEvent: From<P17>,
+        super::opcode::PathEvent: From<P18>,
+        super::opcode::PathEvent: From<P19>,
+        super::opcode::PathEvent: From<P20>,
+        super::opcode::PathEvent: From<P21>,
+        super::opcode::PathEvent: From<P22>,
+        super::opcode::PathEvent: From<P23>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+        > MapCollect<super::opcode::PathEvent>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+        )
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+        super::opcode::PathEvent: From<P12>,
+        super::opcode::PathEvent: From<P13>,
+        super::opcode::PathEvent: From<P14>,
+        super::opcode::PathEvent: From<P15>,
+        super::opcode::PathEvent: From<P16>,
+        super::opcode::PathEvent: From<P17>,
+        super::opcode::PathEvent: From<P18>,
+        super::opcode::PathEvent: From<P19>,
+        super::opcode::PathEvent: From<P20>,
+        super::opcode::PathEvent: From<P21>,
+        super::opcode::PathEvent: From<P22>,
+        super::opcode::PathEvent: From<P23>,
+        super::opcode::PathEvent: From<P24>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+        > MapCollect<super::opcode::PathEvent>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+        )
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+        super::opcode::PathEvent: From<P12>,
+        super::opcode::PathEvent: From<P13>,
+        super::opcode::PathEvent: From<P14>,
+        super::opcode::PathEvent: From<P15>,
+        super::opcode::PathEvent: From<P16>,
+        super::opcode::PathEvent: From<P17>,
+        super::opcode::PathEvent: From<P18>,
+        super::opcode::PathEvent: From<P19>,
+        super::opcode::PathEvent: From<P20>,
+        super::opcode::PathEvent: From<P21>,
+        super::opcode::PathEvent: From<P22>,
+        super::opcode::PathEvent: From<P23>,
+        super::opcode::PathEvent: From<P24>,
+        super::opcode::PathEvent: From<P25>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+        > MapCollect<super::opcode::PathEvent>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+        )
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+        super::opcode::PathEvent: From<P12>,
+        super::opcode::PathEvent: From<P13>,
+        super::opcode::PathEvent: From<P14>,
+        super::opcode::PathEvent: From<P15>,
+        super::opcode::PathEvent: From<P16>,
+        super::opcode::PathEvent: From<P17>,
+        super::opcode::PathEvent: From<P18>,
+        super::opcode::PathEvent: From<P19>,
+        super::opcode::PathEvent: From<P20>,
+        super::opcode::PathEvent: From<P21>,
+        super::opcode::PathEvent: From<P22>,
+        super::opcode::PathEvent: From<P23>,
+        super::opcode::PathEvent: From<P24>,
+        super::opcode::PathEvent: From<P25>,
+        super::opcode::PathEvent: From<P26>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+                self.26.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+        > MapCollect<super::opcode::PathEvent>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+        )
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+        super::opcode::PathEvent: From<P12>,
+        super::opcode::PathEvent: From<P13>,
+        super::opcode::PathEvent: From<P14>,
+        super::opcode::PathEvent: From<P15>,
+        super::opcode::PathEvent: From<P16>,
+        super::opcode::PathEvent: From<P17>,
+        super::opcode::PathEvent: From<P18>,
+        super::opcode::PathEvent: From<P19>,
+        super::opcode::PathEvent: From<P20>,
+        super::opcode::PathEvent: From<P21>,
+        super::opcode::PathEvent: From<P22>,
+        super::opcode::PathEvent: From<P23>,
+        super::opcode::PathEvent: From<P24>,
+        super::opcode::PathEvent: From<P25>,
+        super::opcode::PathEvent: From<P26>,
+        super::opcode::PathEvent: From<P27>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+                self.26.into(),
+                self.27.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+        > MapCollect<super::opcode::PathEvent>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+        )
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+        super::opcode::PathEvent: From<P12>,
+        super::opcode::PathEvent: From<P13>,
+        super::opcode::PathEvent: From<P14>,
+        super::opcode::PathEvent: From<P15>,
+        super::opcode::PathEvent: From<P16>,
+        super::opcode::PathEvent: From<P17>,
+        super::opcode::PathEvent: From<P18>,
+        super::opcode::PathEvent: From<P19>,
+        super::opcode::PathEvent: From<P20>,
+        super::opcode::PathEvent: From<P21>,
+        super::opcode::PathEvent: From<P22>,
+        super::opcode::PathEvent: From<P23>,
+        super::opcode::PathEvent: From<P24>,
+        super::opcode::PathEvent: From<P25>,
+        super::opcode::PathEvent: From<P26>,
+        super::opcode::PathEvent: From<P27>,
+        super::opcode::PathEvent: From<P28>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+                self.26.into(),
+                self.27.into(),
+                self.28.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+        > MapCollect<super::opcode::PathEvent>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+        )
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+        super::opcode::PathEvent: From<P12>,
+        super::opcode::PathEvent: From<P13>,
+        super::opcode::PathEvent: From<P14>,
+        super::opcode::PathEvent: From<P15>,
+        super::opcode::PathEvent: From<P16>,
+        super::opcode::PathEvent: From<P17>,
+        super::opcode::PathEvent: From<P18>,
+        super::opcode::PathEvent: From<P19>,
+        super::opcode::PathEvent: From<P20>,
+        super::opcode::PathEvent: From<P21>,
+        super::opcode::PathEvent: From<P22>,
+        super::opcode::PathEvent: From<P23>,
+        super::opcode::PathEvent: From<P24>,
+        super::opcode::PathEvent: From<P25>,
+        super::opcode::PathEvent: From<P26>,
+        super::opcode::PathEvent: From<P27>,
+        super::opcode::PathEvent: From<P28>,
+        super::opcode::PathEvent: From<P29>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+                self.26.into(),
+                self.27.into(),
+                self.28.into(),
+                self.29.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+        > MapCollect<super::opcode::PathEvent>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+        )
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+        super::opcode::PathEvent: From<P12>,
+        super::opcode::PathEvent: From<P13>,
+        super::opcode::PathEvent: From<P14>,
+        super::opcode::PathEvent: From<P15>,
+        super::opcode::PathEvent: From<P16>,
+        super::opcode::PathEvent: From<P17>,
+        super::opcode::PathEvent: From<P18>,
+        super::opcode::PathEvent: From<P19>,
+        super::opcode::PathEvent: From<P20>,
+        super::opcode::PathEvent: From<P21>,
+        super::opcode::PathEvent: From<P22>,
+        super::opcode::PathEvent: From<P23>,
+        super::opcode::PathEvent: From<P24>,
+        super::opcode::PathEvent: From<P25>,
+        super::opcode::PathEvent: From<P26>,
+        super::opcode::PathEvent: From<P27>,
+        super::opcode::PathEvent: From<P28>,
+        super::opcode::PathEvent: From<P29>,
+        super::opcode::PathEvent: From<P30>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+                self.26.into(),
+                self.27.into(),
+                self.28.into(),
+                self.29.into(),
+                self.30.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+        > MapCollect<super::opcode::PathEvent>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+        )
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+        super::opcode::PathEvent: From<P12>,
+        super::opcode::PathEvent: From<P13>,
+        super::opcode::PathEvent: From<P14>,
+        super::opcode::PathEvent: From<P15>,
+        super::opcode::PathEvent: From<P16>,
+        super::opcode::PathEvent: From<P17>,
+        super::opcode::PathEvent: From<P18>,
+        super::opcode::PathEvent: From<P19>,
+        super::opcode::PathEvent: From<P20>,
+        super::opcode::PathEvent: From<P21>,
+        super::opcode::PathEvent: From<P22>,
+        super::opcode::PathEvent: From<P23>,
+        super::opcode::PathEvent: From<P24>,
+        super::opcode::PathEvent: From<P25>,
+        super::opcode::PathEvent: From<P26>,
+        super::opcode::PathEvent: From<P27>,
+        super::opcode::PathEvent: From<P28>,
+        super::opcode::PathEvent: From<P29>,
+        super::opcode::PathEvent: From<P30>,
+        super::opcode::PathEvent: From<P31>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+                self.26.into(),
+                self.27.into(),
+                self.28.into(),
+                self.29.into(),
+                self.30.into(),
+                self.31.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+        > MapCollect<super::opcode::PathEvent>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+        )
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+        super::opcode::PathEvent: From<P12>,
+        super::opcode::PathEvent: From<P13>,
+        super::opcode::PathEvent: From<P14>,
+        super::opcode::PathEvent: From<P15>,
+        super::opcode::PathEvent: From<P16>,
+        super::opcode::PathEvent: From<P17>,
+        super::opcode::PathEvent: From<P18>,
+        super::opcode::PathEvent: From<P19>,
+        super::opcode::PathEvent: From<P20>,
+        super::opcode::PathEvent: From<P21>,
+        super::opcode::PathEvent: From<P22>,
+        super::opcode::PathEvent: From<P23>,
+        super::opcode::PathEvent: From<P24>,
+        super::opcode::PathEvent: From<P25>,
+        super::opcode::PathEvent: From<P26>,
+        super::opcode::PathEvent: From<P27>,
+        super::opcode::PathEvent: From<P28>,
+        super::opcode::PathEvent: From<P29>,
+        super::opcode::PathEvent: From<P30>,
+        super::opcode::PathEvent: From<P31>,
+        super::opcode::PathEvent: From<P32>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+                self.26.into(),
+                self.27.into(),
+                self.28.into(),
+                self.29.into(),
+                self.30.into(),
+                self.31.into(),
+                self.32.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+            P33,
+        > MapCollect<super::opcode::PathEvent>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+            P33,
+        )
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+        super::opcode::PathEvent: From<P12>,
+        super::opcode::PathEvent: From<P13>,
+        super::opcode::PathEvent: From<P14>,
+        super::opcode::PathEvent: From<P15>,
+        super::opcode::PathEvent: From<P16>,
+        super::opcode::PathEvent: From<P17>,
+        super::opcode::PathEvent: From<P18>,
+        super::opcode::PathEvent: From<P19>,
+        super::opcode::PathEvent: From<P20>,
+        super::opcode::PathEvent: From<P21>,
+        super::opcode::PathEvent: From<P22>,
+        super::opcode::PathEvent: From<P23>,
+        super::opcode::PathEvent: From<P24>,
+        super::opcode::PathEvent: From<P25>,
+        super::opcode::PathEvent: From<P26>,
+        super::opcode::PathEvent: From<P27>,
+        super::opcode::PathEvent: From<P28>,
+        super::opcode::PathEvent: From<P29>,
+        super::opcode::PathEvent: From<P30>,
+        super::opcode::PathEvent: From<P31>,
+        super::opcode::PathEvent: From<P32>,
+        super::opcode::PathEvent: From<P33>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+                self.26.into(),
+                self.27.into(),
+                self.28.into(),
+                self.29.into(),
+                self.30.into(),
+                self.31.into(),
+                self.32.into(),
+                self.33.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+            P33,
+            P34,
+        > MapCollect<super::opcode::PathEvent>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+            P33,
+            P34,
+        )
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+        super::opcode::PathEvent: From<P12>,
+        super::opcode::PathEvent: From<P13>,
+        super::opcode::PathEvent: From<P14>,
+        super::opcode::PathEvent: From<P15>,
+        super::opcode::PathEvent: From<P16>,
+        super::opcode::PathEvent: From<P17>,
+        super::opcode::PathEvent: From<P18>,
+        super::opcode::PathEvent: From<P19>,
+        super::opcode::PathEvent: From<P20>,
+        super::opcode::PathEvent: From<P21>,
+        super::opcode::PathEvent: From<P22>,
+        super::opcode::PathEvent: From<P23>,
+        super::opcode::PathEvent: From<P24>,
+        super::opcode::PathEvent: From<P25>,
+        super::opcode::PathEvent: From<P26>,
+        super::opcode::PathEvent: From<P27>,
+        super::opcode::PathEvent: From<P28>,
+        super::opcode::PathEvent: From<P29>,
+        super::opcode::PathEvent: From<P30>,
+        super::opcode::PathEvent: From<P31>,
+        super::opcode::PathEvent: From<P32>,
+        super::opcode::PathEvent: From<P33>,
+        super::opcode::PathEvent: From<P34>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+                self.26.into(),
+                self.27.into(),
+                self.28.into(),
+                self.29.into(),
+                self.30.into(),
+                self.31.into(),
+                self.32.into(),
+                self.33.into(),
+                self.34.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+            P33,
+            P34,
+            P35,
+        > MapCollect<super::opcode::PathEvent>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+            P33,
+            P34,
+            P35,
+        )
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+        super::opcode::PathEvent: From<P12>,
+        super::opcode::PathEvent: From<P13>,
+        super::opcode::PathEvent: From<P14>,
+        super::opcode::PathEvent: From<P15>,
+        super::opcode::PathEvent: From<P16>,
+        super::opcode::PathEvent: From<P17>,
+        super::opcode::PathEvent: From<P18>,
+        super::opcode::PathEvent: From<P19>,
+        super::opcode::PathEvent: From<P20>,
+        super::opcode::PathEvent: From<P21>,
+        super::opcode::PathEvent: From<P22>,
+        super::opcode::PathEvent: From<P23>,
+        super::opcode::PathEvent: From<P24>,
+        super::opcode::PathEvent: From<P25>,
+        super::opcode::PathEvent: From<P26>,
+        super::opcode::PathEvent: From<P27>,
+        super::opcode::PathEvent: From<P28>,
+        super::opcode::PathEvent: From<P29>,
+        super::opcode::PathEvent: From<P30>,
+        super::opcode::PathEvent: From<P31>,
+        super::opcode::PathEvent: From<P32>,
+        super::opcode::PathEvent: From<P33>,
+        super::opcode::PathEvent: From<P34>,
+        super::opcode::PathEvent: From<P35>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+                self.26.into(),
+                self.27.into(),
+                self.28.into(),
+                self.29.into(),
+                self.30.into(),
+                self.31.into(),
+                self.32.into(),
+                self.33.into(),
+                self.34.into(),
+                self.35.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+            P33,
+            P34,
+            P35,
+            P36,
+        > MapCollect<super::opcode::PathEvent>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+            P33,
+            P34,
+            P35,
+            P36,
+        )
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+        super::opcode::PathEvent: From<P12>,
+        super::opcode::PathEvent: From<P13>,
+        super::opcode::PathEvent: From<P14>,
+        super::opcode::PathEvent: From<P15>,
+        super::opcode::PathEvent: From<P16>,
+        super::opcode::PathEvent: From<P17>,
+        super::opcode::PathEvent: From<P18>,
+        super::opcode::PathEvent: From<P19>,
+        super::opcode::PathEvent: From<P20>,
+        super::opcode::PathEvent: From<P21>,
+        super::opcode::PathEvent: From<P22>,
+        super::opcode::PathEvent: From<P23>,
+        super::opcode::PathEvent: From<P24>,
+        super::opcode::PathEvent: From<P25>,
+        super::opcode::PathEvent: From<P26>,
+        super::opcode::PathEvent: From<P27>,
+        super::opcode::PathEvent: From<P28>,
+        super::opcode::PathEvent: From<P29>,
+        super::opcode::PathEvent: From<P30>,
+        super::opcode::PathEvent: From<P31>,
+        super::opcode::PathEvent: From<P32>,
+        super::opcode::PathEvent: From<P33>,
+        super::opcode::PathEvent: From<P34>,
+        super::opcode::PathEvent: From<P35>,
+        super::opcode::PathEvent: From<P36>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+                self.26.into(),
+                self.27.into(),
+                self.28.into(),
+                self.29.into(),
+                self.30.into(),
+                self.31.into(),
+                self.32.into(),
+                self.33.into(),
+                self.34.into(),
+                self.35.into(),
+                self.36.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+            P33,
+            P34,
+            P35,
+            P36,
+            P37,
+        > MapCollect<super::opcode::PathEvent>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+            P33,
+            P34,
+            P35,
+            P36,
+            P37,
+        )
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+        super::opcode::PathEvent: From<P12>,
+        super::opcode::PathEvent: From<P13>,
+        super::opcode::PathEvent: From<P14>,
+        super::opcode::PathEvent: From<P15>,
+        super::opcode::PathEvent: From<P16>,
+        super::opcode::PathEvent: From<P17>,
+        super::opcode::PathEvent: From<P18>,
+        super::opcode::PathEvent: From<P19>,
+        super::opcode::PathEvent: From<P20>,
+        super::opcode::PathEvent: From<P21>,
+        super::opcode::PathEvent: From<P22>,
+        super::opcode::PathEvent: From<P23>,
+        super::opcode::PathEvent: From<P24>,
+        super::opcode::PathEvent: From<P25>,
+        super::opcode::PathEvent: From<P26>,
+        super::opcode::PathEvent: From<P27>,
+        super::opcode::PathEvent: From<P28>,
+        super::opcode::PathEvent: From<P29>,
+        super::opcode::PathEvent: From<P30>,
+        super::opcode::PathEvent: From<P31>,
+        super::opcode::PathEvent: From<P32>,
+        super::opcode::PathEvent: From<P33>,
+        super::opcode::PathEvent: From<P34>,
+        super::opcode::PathEvent: From<P35>,
+        super::opcode::PathEvent: From<P36>,
+        super::opcode::PathEvent: From<P37>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+                self.26.into(),
+                self.27.into(),
+                self.28.into(),
+                self.29.into(),
+                self.30.into(),
+                self.31.into(),
+                self.32.into(),
+                self.33.into(),
+                self.34.into(),
+                self.35.into(),
+                self.36.into(),
+                self.37.into(),
+            ]
+        }
+    }
+    impl<
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+            P33,
+            P34,
+            P35,
+            P36,
+            P37,
+            P38,
+        > MapCollect<super::opcode::PathEvent>
+        for (
+            P0,
+            P1,
+            P2,
+            P3,
+            P4,
+            P5,
+            P6,
+            P7,
+            P8,
+            P9,
+            P10,
+            P11,
+            P12,
+            P13,
+            P14,
+            P15,
+            P16,
+            P17,
+            P18,
+            P19,
+            P20,
+            P21,
+            P22,
+            P23,
+            P24,
+            P25,
+            P26,
+            P27,
+            P28,
+            P29,
+            P30,
+            P31,
+            P32,
+            P33,
+            P34,
+            P35,
+            P36,
+            P37,
+            P38,
+        )
+    where
+        super::opcode::PathEvent: From<P0>,
+        super::opcode::PathEvent: From<P1>,
+        super::opcode::PathEvent: From<P2>,
+        super::opcode::PathEvent: From<P3>,
+        super::opcode::PathEvent: From<P4>,
+        super::opcode::PathEvent: From<P5>,
+        super::opcode::PathEvent: From<P6>,
+        super::opcode::PathEvent: From<P7>,
+        super::opcode::PathEvent: From<P8>,
+        super::opcode::PathEvent: From<P9>,
+        super::opcode::PathEvent: From<P10>,
+        super::opcode::PathEvent: From<P11>,
+        super::opcode::PathEvent: From<P12>,
+        super::opcode::PathEvent: From<P13>,
+        super::opcode::PathEvent: From<P14>,
+        super::opcode::PathEvent: From<P15>,
+        super::opcode::PathEvent: From<P16>,
+        super::opcode::PathEvent: From<P17>,
+        super::opcode::PathEvent: From<P18>,
+        super::opcode::PathEvent: From<P19>,
+        super::opcode::PathEvent: From<P20>,
+        super::opcode::PathEvent: From<P21>,
+        super::opcode::PathEvent: From<P22>,
+        super::opcode::PathEvent: From<P23>,
+        super::opcode::PathEvent: From<P24>,
+        super::opcode::PathEvent: From<P25>,
+        super::opcode::PathEvent: From<P26>,
+        super::opcode::PathEvent: From<P27>,
+        super::opcode::PathEvent: From<P28>,
+        super::opcode::PathEvent: From<P29>,
+        super::opcode::PathEvent: From<P30>,
+        super::opcode::PathEvent: From<P31>,
+        super::opcode::PathEvent: From<P32>,
+        super::opcode::PathEvent: From<P33>,
+        super::opcode::PathEvent: From<P34>,
+        super::opcode::PathEvent: From<P35>,
+        super::opcode::PathEvent: From<P36>,
+        super::opcode::PathEvent: From<P37>,
+        super::opcode::PathEvent: From<P38>,
+    {
+        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+            vec![
+                self.0.into(),
+                self.1.into(),
+                self.2.into(),
+                self.3.into(),
+                self.4.into(),
+                self.5.into(),
+                self.6.into(),
+                self.7.into(),
+                self.8.into(),
+                self.9.into(),
+                self.10.into(),
+                self.11.into(),
+                self.12.into(),
+                self.13.into(),
+                self.14.into(),
+                self.15.into(),
+                self.16.into(),
+                self.17.into(),
+                self.18.into(),
+                self.19.into(),
+                self.20.into(),
+                self.21.into(),
+                self.22.into(),
+                self.23.into(),
+                self.24.into(),
+                self.25.into(),
+                self.26.into(),
+                self.27.into(),
+                self.28.into(),
+                self.29.into(),
+                self.30.into(),
+                self.31.into(),
+                self.32.into(),
+                self.33.into(),
+                self.34.into(),
+                self.35.into(),
+                self.36.into(),
+                self.37.into(),
+                self.38.into(),
+            ]
         }
     }
     impl<P0> MapCollect<super::opcode::Point> for P0
@@ -12385,53 +20284,53 @@ pub mod sexpr {
             ]
         }
     }
-    impl<P0> MapCollect<super::opcode::Angle> for P0
+    impl<P0> MapCollect<super::opcode::Length> for P0
     where
-        super::opcode::Angle: From<P0>,
+        super::opcode::Length: From<P0>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![self.into()]
         }
     }
-    impl<P0, P1> MapCollect<super::opcode::Angle> for (P0, P1)
+    impl<P0, P1> MapCollect<super::opcode::Length> for (P0, P1)
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![self.0.into(), self.1.into()]
         }
     }
-    impl<P0, P1, P2> MapCollect<super::opcode::Angle> for (P0, P1, P2)
+    impl<P0, P1, P2> MapCollect<super::opcode::Length> for (P0, P1, P2)
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![self.0.into(), self.1.into(), self.2.into()]
         }
     }
-    impl<P0, P1, P2, P3> MapCollect<super::opcode::Angle> for (P0, P1, P2, P3)
+    impl<P0, P1, P2, P3> MapCollect<super::opcode::Length> for (P0, P1, P2, P3)
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
         }
     }
-    impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::Angle> for (P0, P1, P2, P3, P4)
+    impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::Length> for (P0, P1, P2, P3, P4)
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -12441,16 +20340,16 @@ pub mod sexpr {
             ]
         }
     }
-    impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::Angle> for (P0, P1, P2, P3, P4, P5)
+    impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::Length> for (P0, P1, P2, P3, P4, P5)
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -12461,17 +20360,17 @@ pub mod sexpr {
             ]
         }
     }
-    impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::Angle> for (P0, P1, P2, P3, P4, P5, P6)
+    impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::Length> for (P0, P1, P2, P3, P4, P5, P6)
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -12483,19 +20382,19 @@ pub mod sexpr {
             ]
         }
     }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::Angle>
+    impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::Length>
         for (P0, P1, P2, P3, P4, P5, P6, P7)
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -12508,20 +20407,20 @@ pub mod sexpr {
             ]
         }
     }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::Angle>
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::Length>
         for (P0, P1, P2, P3, P4, P5, P6, P7, P8)
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -12535,21 +20434,21 @@ pub mod sexpr {
             ]
         }
     }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::Angle>
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::Length>
         for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -12564,22 +20463,22 @@ pub mod sexpr {
             ]
         }
     }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::Angle>
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::Length>
         for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -12595,23 +20494,23 @@ pub mod sexpr {
             ]
         }
     }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::Angle>
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::Length>
         for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11)
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -12628,24 +20527,24 @@ pub mod sexpr {
             ]
         }
     }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::Angle>
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::Length>
         for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12)
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
-        super::opcode::Angle: From<P12>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
+        super::opcode::Length: From<P12>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -12664,25 +20563,25 @@ pub mod sexpr {
         }
     }
     impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13>
-        MapCollect<super::opcode::Angle>
+        MapCollect<super::opcode::Length>
         for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13)
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
-        super::opcode::Angle: From<P12>,
-        super::opcode::Angle: From<P13>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
+        super::opcode::Length: From<P12>,
+        super::opcode::Length: From<P13>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -12702,7 +20601,7 @@ pub mod sexpr {
         }
     }
     impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
-        MapCollect<super::opcode::Angle>
+        MapCollect<super::opcode::Length>
         for (
             P0,
             P1,
@@ -12721,23 +20620,23 @@ pub mod sexpr {
             P14,
         )
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
-        super::opcode::Angle: From<P12>,
-        super::opcode::Angle: From<P13>,
-        super::opcode::Angle: From<P14>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
+        super::opcode::Length: From<P12>,
+        super::opcode::Length: From<P13>,
+        super::opcode::Length: From<P14>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -12758,7 +20657,7 @@ pub mod sexpr {
         }
     }
     impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15>
-        MapCollect<super::opcode::Angle>
+        MapCollect<super::opcode::Length>
         for (
             P0,
             P1,
@@ -12778,24 +20677,24 @@ pub mod sexpr {
             P15,
         )
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
-        super::opcode::Angle: From<P12>,
-        super::opcode::Angle: From<P13>,
-        super::opcode::Angle: From<P14>,
-        super::opcode::Angle: From<P15>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
+        super::opcode::Length: From<P12>,
+        super::opcode::Length: From<P13>,
+        super::opcode::Length: From<P14>,
+        super::opcode::Length: From<P15>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -12817,7 +20716,7 @@ pub mod sexpr {
         }
     }
     impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15, P16>
-        MapCollect<super::opcode::Angle>
+        MapCollect<super::opcode::Length>
         for (
             P0,
             P1,
@@ -12838,25 +20737,25 @@ pub mod sexpr {
             P16,
         )
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
-        super::opcode::Angle: From<P12>,
-        super::opcode::Angle: From<P13>,
-        super::opcode::Angle: From<P14>,
-        super::opcode::Angle: From<P15>,
-        super::opcode::Angle: From<P16>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
+        super::opcode::Length: From<P12>,
+        super::opcode::Length: From<P13>,
+        super::opcode::Length: From<P14>,
+        super::opcode::Length: From<P15>,
+        super::opcode::Length: From<P16>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -12879,7 +20778,7 @@ pub mod sexpr {
         }
     }
     impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15, P16, P17>
-        MapCollect<super::opcode::Angle>
+        MapCollect<super::opcode::Length>
         for (
             P0,
             P1,
@@ -12901,26 +20800,26 @@ pub mod sexpr {
             P17,
         )
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
-        super::opcode::Angle: From<P12>,
-        super::opcode::Angle: From<P13>,
-        super::opcode::Angle: From<P14>,
-        super::opcode::Angle: From<P15>,
-        super::opcode::Angle: From<P16>,
-        super::opcode::Angle: From<P17>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
+        super::opcode::Length: From<P12>,
+        super::opcode::Length: From<P13>,
+        super::opcode::Length: From<P14>,
+        super::opcode::Length: From<P15>,
+        super::opcode::Length: From<P16>,
+        super::opcode::Length: From<P17>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -12944,7 +20843,7 @@ pub mod sexpr {
         }
     }
     impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15, P16, P17, P18>
-        MapCollect<super::opcode::Angle>
+        MapCollect<super::opcode::Length>
         for (
             P0,
             P1,
@@ -12967,27 +20866,27 @@ pub mod sexpr {
             P18,
         )
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
-        super::opcode::Angle: From<P12>,
-        super::opcode::Angle: From<P13>,
-        super::opcode::Angle: From<P14>,
-        super::opcode::Angle: From<P15>,
-        super::opcode::Angle: From<P16>,
-        super::opcode::Angle: From<P17>,
-        super::opcode::Angle: From<P18>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
+        super::opcode::Length: From<P12>,
+        super::opcode::Length: From<P13>,
+        super::opcode::Length: From<P14>,
+        super::opcode::Length: From<P15>,
+        super::opcode::Length: From<P16>,
+        super::opcode::Length: From<P17>,
+        super::opcode::Length: From<P18>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -13032,7 +20931,7 @@ pub mod sexpr {
             P17,
             P18,
             P19,
-        > MapCollect<super::opcode::Angle>
+        > MapCollect<super::opcode::Length>
         for (
             P0,
             P1,
@@ -13056,28 +20955,28 @@ pub mod sexpr {
             P19,
         )
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
-        super::opcode::Angle: From<P12>,
-        super::opcode::Angle: From<P13>,
-        super::opcode::Angle: From<P14>,
-        super::opcode::Angle: From<P15>,
-        super::opcode::Angle: From<P16>,
-        super::opcode::Angle: From<P17>,
-        super::opcode::Angle: From<P18>,
-        super::opcode::Angle: From<P19>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
+        super::opcode::Length: From<P12>,
+        super::opcode::Length: From<P13>,
+        super::opcode::Length: From<P14>,
+        super::opcode::Length: From<P15>,
+        super::opcode::Length: From<P16>,
+        super::opcode::Length: From<P17>,
+        super::opcode::Length: From<P18>,
+        super::opcode::Length: From<P19>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -13124,7 +21023,7 @@ pub mod sexpr {
             P18,
             P19,
             P20,
-        > MapCollect<super::opcode::Angle>
+        > MapCollect<super::opcode::Length>
         for (
             P0,
             P1,
@@ -13149,29 +21048,29 @@ pub mod sexpr {
             P20,
         )
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
-        super::opcode::Angle: From<P12>,
-        super::opcode::Angle: From<P13>,
-        super::opcode::Angle: From<P14>,
-        super::opcode::Angle: From<P15>,
-        super::opcode::Angle: From<P16>,
-        super::opcode::Angle: From<P17>,
-        super::opcode::Angle: From<P18>,
-        super::opcode::Angle: From<P19>,
-        super::opcode::Angle: From<P20>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
+        super::opcode::Length: From<P12>,
+        super::opcode::Length: From<P13>,
+        super::opcode::Length: From<P14>,
+        super::opcode::Length: From<P15>,
+        super::opcode::Length: From<P16>,
+        super::opcode::Length: From<P17>,
+        super::opcode::Length: From<P18>,
+        super::opcode::Length: From<P19>,
+        super::opcode::Length: From<P20>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -13220,7 +21119,7 @@ pub mod sexpr {
             P19,
             P20,
             P21,
-        > MapCollect<super::opcode::Angle>
+        > MapCollect<super::opcode::Length>
         for (
             P0,
             P1,
@@ -13246,30 +21145,30 @@ pub mod sexpr {
             P21,
         )
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
-        super::opcode::Angle: From<P12>,
-        super::opcode::Angle: From<P13>,
-        super::opcode::Angle: From<P14>,
-        super::opcode::Angle: From<P15>,
-        super::opcode::Angle: From<P16>,
-        super::opcode::Angle: From<P17>,
-        super::opcode::Angle: From<P18>,
-        super::opcode::Angle: From<P19>,
-        super::opcode::Angle: From<P20>,
-        super::opcode::Angle: From<P21>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
+        super::opcode::Length: From<P12>,
+        super::opcode::Length: From<P13>,
+        super::opcode::Length: From<P14>,
+        super::opcode::Length: From<P15>,
+        super::opcode::Length: From<P16>,
+        super::opcode::Length: From<P17>,
+        super::opcode::Length: From<P18>,
+        super::opcode::Length: From<P19>,
+        super::opcode::Length: From<P20>,
+        super::opcode::Length: From<P21>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -13320,7 +21219,7 @@ pub mod sexpr {
             P20,
             P21,
             P22,
-        > MapCollect<super::opcode::Angle>
+        > MapCollect<super::opcode::Length>
         for (
             P0,
             P1,
@@ -13347,31 +21246,31 @@ pub mod sexpr {
             P22,
         )
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
-        super::opcode::Angle: From<P12>,
-        super::opcode::Angle: From<P13>,
-        super::opcode::Angle: From<P14>,
-        super::opcode::Angle: From<P15>,
-        super::opcode::Angle: From<P16>,
-        super::opcode::Angle: From<P17>,
-        super::opcode::Angle: From<P18>,
-        super::opcode::Angle: From<P19>,
-        super::opcode::Angle: From<P20>,
-        super::opcode::Angle: From<P21>,
-        super::opcode::Angle: From<P22>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
+        super::opcode::Length: From<P12>,
+        super::opcode::Length: From<P13>,
+        super::opcode::Length: From<P14>,
+        super::opcode::Length: From<P15>,
+        super::opcode::Length: From<P16>,
+        super::opcode::Length: From<P17>,
+        super::opcode::Length: From<P18>,
+        super::opcode::Length: From<P19>,
+        super::opcode::Length: From<P20>,
+        super::opcode::Length: From<P21>,
+        super::opcode::Length: From<P22>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -13424,7 +21323,7 @@ pub mod sexpr {
             P21,
             P22,
             P23,
-        > MapCollect<super::opcode::Angle>
+        > MapCollect<super::opcode::Length>
         for (
             P0,
             P1,
@@ -13452,32 +21351,32 @@ pub mod sexpr {
             P23,
         )
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
-        super::opcode::Angle: From<P12>,
-        super::opcode::Angle: From<P13>,
-        super::opcode::Angle: From<P14>,
-        super::opcode::Angle: From<P15>,
-        super::opcode::Angle: From<P16>,
-        super::opcode::Angle: From<P17>,
-        super::opcode::Angle: From<P18>,
-        super::opcode::Angle: From<P19>,
-        super::opcode::Angle: From<P20>,
-        super::opcode::Angle: From<P21>,
-        super::opcode::Angle: From<P22>,
-        super::opcode::Angle: From<P23>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
+        super::opcode::Length: From<P12>,
+        super::opcode::Length: From<P13>,
+        super::opcode::Length: From<P14>,
+        super::opcode::Length: From<P15>,
+        super::opcode::Length: From<P16>,
+        super::opcode::Length: From<P17>,
+        super::opcode::Length: From<P18>,
+        super::opcode::Length: From<P19>,
+        super::opcode::Length: From<P20>,
+        super::opcode::Length: From<P21>,
+        super::opcode::Length: From<P22>,
+        super::opcode::Length: From<P23>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -13532,7 +21431,7 @@ pub mod sexpr {
             P22,
             P23,
             P24,
-        > MapCollect<super::opcode::Angle>
+        > MapCollect<super::opcode::Length>
         for (
             P0,
             P1,
@@ -13561,33 +21460,33 @@ pub mod sexpr {
             P24,
         )
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
-        super::opcode::Angle: From<P12>,
-        super::opcode::Angle: From<P13>,
-        super::opcode::Angle: From<P14>,
-        super::opcode::Angle: From<P15>,
-        super::opcode::Angle: From<P16>,
-        super::opcode::Angle: From<P17>,
-        super::opcode::Angle: From<P18>,
-        super::opcode::Angle: From<P19>,
-        super::opcode::Angle: From<P20>,
-        super::opcode::Angle: From<P21>,
-        super::opcode::Angle: From<P22>,
-        super::opcode::Angle: From<P23>,
-        super::opcode::Angle: From<P24>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
+        super::opcode::Length: From<P12>,
+        super::opcode::Length: From<P13>,
+        super::opcode::Length: From<P14>,
+        super::opcode::Length: From<P15>,
+        super::opcode::Length: From<P16>,
+        super::opcode::Length: From<P17>,
+        super::opcode::Length: From<P18>,
+        super::opcode::Length: From<P19>,
+        super::opcode::Length: From<P20>,
+        super::opcode::Length: From<P21>,
+        super::opcode::Length: From<P22>,
+        super::opcode::Length: From<P23>,
+        super::opcode::Length: From<P24>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -13644,7 +21543,7 @@ pub mod sexpr {
             P23,
             P24,
             P25,
-        > MapCollect<super::opcode::Angle>
+        > MapCollect<super::opcode::Length>
         for (
             P0,
             P1,
@@ -13674,34 +21573,34 @@ pub mod sexpr {
             P25,
         )
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
-        super::opcode::Angle: From<P12>,
-        super::opcode::Angle: From<P13>,
-        super::opcode::Angle: From<P14>,
-        super::opcode::Angle: From<P15>,
-        super::opcode::Angle: From<P16>,
-        super::opcode::Angle: From<P17>,
-        super::opcode::Angle: From<P18>,
-        super::opcode::Angle: From<P19>,
-        super::opcode::Angle: From<P20>,
-        super::opcode::Angle: From<P21>,
-        super::opcode::Angle: From<P22>,
-        super::opcode::Angle: From<P23>,
-        super::opcode::Angle: From<P24>,
-        super::opcode::Angle: From<P25>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
+        super::opcode::Length: From<P12>,
+        super::opcode::Length: From<P13>,
+        super::opcode::Length: From<P14>,
+        super::opcode::Length: From<P15>,
+        super::opcode::Length: From<P16>,
+        super::opcode::Length: From<P17>,
+        super::opcode::Length: From<P18>,
+        super::opcode::Length: From<P19>,
+        super::opcode::Length: From<P20>,
+        super::opcode::Length: From<P21>,
+        super::opcode::Length: From<P22>,
+        super::opcode::Length: From<P23>,
+        super::opcode::Length: From<P24>,
+        super::opcode::Length: From<P25>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -13760,7 +21659,7 @@ pub mod sexpr {
             P24,
             P25,
             P26,
-        > MapCollect<super::opcode::Angle>
+        > MapCollect<super::opcode::Length>
         for (
             P0,
             P1,
@@ -13791,35 +21690,35 @@ pub mod sexpr {
             P26,
         )
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
-        super::opcode::Angle: From<P12>,
-        super::opcode::Angle: From<P13>,
-        super::opcode::Angle: From<P14>,
-        super::opcode::Angle: From<P15>,
-        super::opcode::Angle: From<P16>,
-        super::opcode::Angle: From<P17>,
-        super::opcode::Angle: From<P18>,
-        super::opcode::Angle: From<P19>,
-        super::opcode::Angle: From<P20>,
-        super::opcode::Angle: From<P21>,
-        super::opcode::Angle: From<P22>,
-        super::opcode::Angle: From<P23>,
-        super::opcode::Angle: From<P24>,
-        super::opcode::Angle: From<P25>,
-        super::opcode::Angle: From<P26>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
+        super::opcode::Length: From<P12>,
+        super::opcode::Length: From<P13>,
+        super::opcode::Length: From<P14>,
+        super::opcode::Length: From<P15>,
+        super::opcode::Length: From<P16>,
+        super::opcode::Length: From<P17>,
+        super::opcode::Length: From<P18>,
+        super::opcode::Length: From<P19>,
+        super::opcode::Length: From<P20>,
+        super::opcode::Length: From<P21>,
+        super::opcode::Length: From<P22>,
+        super::opcode::Length: From<P23>,
+        super::opcode::Length: From<P24>,
+        super::opcode::Length: From<P25>,
+        super::opcode::Length: From<P26>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -13880,7 +21779,7 @@ pub mod sexpr {
             P25,
             P26,
             P27,
-        > MapCollect<super::opcode::Angle>
+        > MapCollect<super::opcode::Length>
         for (
             P0,
             P1,
@@ -13912,36 +21811,36 @@ pub mod sexpr {
             P27,
         )
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
-        super::opcode::Angle: From<P12>,
-        super::opcode::Angle: From<P13>,
-        super::opcode::Angle: From<P14>,
-        super::opcode::Angle: From<P15>,
-        super::opcode::Angle: From<P16>,
-        super::opcode::Angle: From<P17>,
-        super::opcode::Angle: From<P18>,
-        super::opcode::Angle: From<P19>,
-        super::opcode::Angle: From<P20>,
-        super::opcode::Angle: From<P21>,
-        super::opcode::Angle: From<P22>,
-        super::opcode::Angle: From<P23>,
-        super::opcode::Angle: From<P24>,
-        super::opcode::Angle: From<P25>,
-        super::opcode::Angle: From<P26>,
-        super::opcode::Angle: From<P27>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
+        super::opcode::Length: From<P12>,
+        super::opcode::Length: From<P13>,
+        super::opcode::Length: From<P14>,
+        super::opcode::Length: From<P15>,
+        super::opcode::Length: From<P16>,
+        super::opcode::Length: From<P17>,
+        super::opcode::Length: From<P18>,
+        super::opcode::Length: From<P19>,
+        super::opcode::Length: From<P20>,
+        super::opcode::Length: From<P21>,
+        super::opcode::Length: From<P22>,
+        super::opcode::Length: From<P23>,
+        super::opcode::Length: From<P24>,
+        super::opcode::Length: From<P25>,
+        super::opcode::Length: From<P26>,
+        super::opcode::Length: From<P27>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -14004,7 +21903,7 @@ pub mod sexpr {
             P26,
             P27,
             P28,
-        > MapCollect<super::opcode::Angle>
+        > MapCollect<super::opcode::Length>
         for (
             P0,
             P1,
@@ -14037,37 +21936,37 @@ pub mod sexpr {
             P28,
         )
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
-        super::opcode::Angle: From<P12>,
-        super::opcode::Angle: From<P13>,
-        super::opcode::Angle: From<P14>,
-        super::opcode::Angle: From<P15>,
-        super::opcode::Angle: From<P16>,
-        super::opcode::Angle: From<P17>,
-        super::opcode::Angle: From<P18>,
-        super::opcode::Angle: From<P19>,
-        super::opcode::Angle: From<P20>,
-        super::opcode::Angle: From<P21>,
-        super::opcode::Angle: From<P22>,
-        super::opcode::Angle: From<P23>,
-        super::opcode::Angle: From<P24>,
-        super::opcode::Angle: From<P25>,
-        super::opcode::Angle: From<P26>,
-        super::opcode::Angle: From<P27>,
-        super::opcode::Angle: From<P28>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
+        super::opcode::Length: From<P12>,
+        super::opcode::Length: From<P13>,
+        super::opcode::Length: From<P14>,
+        super::opcode::Length: From<P15>,
+        super::opcode::Length: From<P16>,
+        super::opcode::Length: From<P17>,
+        super::opcode::Length: From<P18>,
+        super::opcode::Length: From<P19>,
+        super::opcode::Length: From<P20>,
+        super::opcode::Length: From<P21>,
+        super::opcode::Length: From<P22>,
+        super::opcode::Length: From<P23>,
+        super::opcode::Length: From<P24>,
+        super::opcode::Length: From<P25>,
+        super::opcode::Length: From<P26>,
+        super::opcode::Length: From<P27>,
+        super::opcode::Length: From<P28>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -14132,7 +22031,7 @@ pub mod sexpr {
             P27,
             P28,
             P29,
-        > MapCollect<super::opcode::Angle>
+        > MapCollect<super::opcode::Length>
         for (
             P0,
             P1,
@@ -14166,38 +22065,38 @@ pub mod sexpr {
             P29,
         )
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
-        super::opcode::Angle: From<P12>,
-        super::opcode::Angle: From<P13>,
-        super::opcode::Angle: From<P14>,
-        super::opcode::Angle: From<P15>,
-        super::opcode::Angle: From<P16>,
-        super::opcode::Angle: From<P17>,
-        super::opcode::Angle: From<P18>,
-        super::opcode::Angle: From<P19>,
-        super::opcode::Angle: From<P20>,
-        super::opcode::Angle: From<P21>,
-        super::opcode::Angle: From<P22>,
-        super::opcode::Angle: From<P23>,
-        super::opcode::Angle: From<P24>,
-        super::opcode::Angle: From<P25>,
-        super::opcode::Angle: From<P26>,
-        super::opcode::Angle: From<P27>,
-        super::opcode::Angle: From<P28>,
-        super::opcode::Angle: From<P29>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
+        super::opcode::Length: From<P12>,
+        super::opcode::Length: From<P13>,
+        super::opcode::Length: From<P14>,
+        super::opcode::Length: From<P15>,
+        super::opcode::Length: From<P16>,
+        super::opcode::Length: From<P17>,
+        super::opcode::Length: From<P18>,
+        super::opcode::Length: From<P19>,
+        super::opcode::Length: From<P20>,
+        super::opcode::Length: From<P21>,
+        super::opcode::Length: From<P22>,
+        super::opcode::Length: From<P23>,
+        super::opcode::Length: From<P24>,
+        super::opcode::Length: From<P25>,
+        super::opcode::Length: From<P26>,
+        super::opcode::Length: From<P27>,
+        super::opcode::Length: From<P28>,
+        super::opcode::Length: From<P29>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -14264,7 +22163,7 @@ pub mod sexpr {
             P28,
             P29,
             P30,
-        > MapCollect<super::opcode::Angle>
+        > MapCollect<super::opcode::Length>
         for (
             P0,
             P1,
@@ -14299,39 +22198,39 @@ pub mod sexpr {
             P30,
         )
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
-        super::opcode::Angle: From<P12>,
-        super::opcode::Angle: From<P13>,
-        super::opcode::Angle: From<P14>,
-        super::opcode::Angle: From<P15>,
-        super::opcode::Angle: From<P16>,
-        super::opcode::Angle: From<P17>,
-        super::opcode::Angle: From<P18>,
-        super::opcode::Angle: From<P19>,
-        super::opcode::Angle: From<P20>,
-        super::opcode::Angle: From<P21>,
-        super::opcode::Angle: From<P22>,
-        super::opcode::Angle: From<P23>,
-        super::opcode::Angle: From<P24>,
-        super::opcode::Angle: From<P25>,
-        super::opcode::Angle: From<P26>,
-        super::opcode::Angle: From<P27>,
-        super::opcode::Angle: From<P28>,
-        super::opcode::Angle: From<P29>,
-        super::opcode::Angle: From<P30>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
+        super::opcode::Length: From<P12>,
+        super::opcode::Length: From<P13>,
+        super::opcode::Length: From<P14>,
+        super::opcode::Length: From<P15>,
+        super::opcode::Length: From<P16>,
+        super::opcode::Length: From<P17>,
+        super::opcode::Length: From<P18>,
+        super::opcode::Length: From<P19>,
+        super::opcode::Length: From<P20>,
+        super::opcode::Length: From<P21>,
+        super::opcode::Length: From<P22>,
+        super::opcode::Length: From<P23>,
+        super::opcode::Length: From<P24>,
+        super::opcode::Length: From<P25>,
+        super::opcode::Length: From<P26>,
+        super::opcode::Length: From<P27>,
+        super::opcode::Length: From<P28>,
+        super::opcode::Length: From<P29>,
+        super::opcode::Length: From<P30>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -14400,7 +22299,7 @@ pub mod sexpr {
             P29,
             P30,
             P31,
-        > MapCollect<super::opcode::Angle>
+        > MapCollect<super::opcode::Length>
         for (
             P0,
             P1,
@@ -14436,40 +22335,40 @@ pub mod sexpr {
             P31,
         )
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
-        super::opcode::Angle: From<P12>,
-        super::opcode::Angle: From<P13>,
-        super::opcode::Angle: From<P14>,
-        super::opcode::Angle: From<P15>,
-        super::opcode::Angle: From<P16>,
-        super::opcode::Angle: From<P17>,
-        super::opcode::Angle: From<P18>,
-        super::opcode::Angle: From<P19>,
-        super::opcode::Angle: From<P20>,
-        super::opcode::Angle: From<P21>,
-        super::opcode::Angle: From<P22>,
-        super::opcode::Angle: From<P23>,
-        super::opcode::Angle: From<P24>,
-        super::opcode::Angle: From<P25>,
-        super::opcode::Angle: From<P26>,
-        super::opcode::Angle: From<P27>,
-        super::opcode::Angle: From<P28>,
-        super::opcode::Angle: From<P29>,
-        super::opcode::Angle: From<P30>,
-        super::opcode::Angle: From<P31>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
+        super::opcode::Length: From<P12>,
+        super::opcode::Length: From<P13>,
+        super::opcode::Length: From<P14>,
+        super::opcode::Length: From<P15>,
+        super::opcode::Length: From<P16>,
+        super::opcode::Length: From<P17>,
+        super::opcode::Length: From<P18>,
+        super::opcode::Length: From<P19>,
+        super::opcode::Length: From<P20>,
+        super::opcode::Length: From<P21>,
+        super::opcode::Length: From<P22>,
+        super::opcode::Length: From<P23>,
+        super::opcode::Length: From<P24>,
+        super::opcode::Length: From<P25>,
+        super::opcode::Length: From<P26>,
+        super::opcode::Length: From<P27>,
+        super::opcode::Length: From<P28>,
+        super::opcode::Length: From<P29>,
+        super::opcode::Length: From<P30>,
+        super::opcode::Length: From<P31>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -14540,7 +22439,7 @@ pub mod sexpr {
             P30,
             P31,
             P32,
-        > MapCollect<super::opcode::Angle>
+        > MapCollect<super::opcode::Length>
         for (
             P0,
             P1,
@@ -14577,41 +22476,41 @@ pub mod sexpr {
             P32,
         )
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
-        super::opcode::Angle: From<P12>,
-        super::opcode::Angle: From<P13>,
-        super::opcode::Angle: From<P14>,
-        super::opcode::Angle: From<P15>,
-        super::opcode::Angle: From<P16>,
-        super::opcode::Angle: From<P17>,
-        super::opcode::Angle: From<P18>,
-        super::opcode::Angle: From<P19>,
-        super::opcode::Angle: From<P20>,
-        super::opcode::Angle: From<P21>,
-        super::opcode::Angle: From<P22>,
-        super::opcode::Angle: From<P23>,
-        super::opcode::Angle: From<P24>,
-        super::opcode::Angle: From<P25>,
-        super::opcode::Angle: From<P26>,
-        super::opcode::Angle: From<P27>,
-        super::opcode::Angle: From<P28>,
-        super::opcode::Angle: From<P29>,
-        super::opcode::Angle: From<P30>,
-        super::opcode::Angle: From<P31>,
-        super::opcode::Angle: From<P32>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
+        super::opcode::Length: From<P12>,
+        super::opcode::Length: From<P13>,
+        super::opcode::Length: From<P14>,
+        super::opcode::Length: From<P15>,
+        super::opcode::Length: From<P16>,
+        super::opcode::Length: From<P17>,
+        super::opcode::Length: From<P18>,
+        super::opcode::Length: From<P19>,
+        super::opcode::Length: From<P20>,
+        super::opcode::Length: From<P21>,
+        super::opcode::Length: From<P22>,
+        super::opcode::Length: From<P23>,
+        super::opcode::Length: From<P24>,
+        super::opcode::Length: From<P25>,
+        super::opcode::Length: From<P26>,
+        super::opcode::Length: From<P27>,
+        super::opcode::Length: From<P28>,
+        super::opcode::Length: From<P29>,
+        super::opcode::Length: From<P30>,
+        super::opcode::Length: From<P31>,
+        super::opcode::Length: From<P32>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -14684,7 +22583,7 @@ pub mod sexpr {
             P31,
             P32,
             P33,
-        > MapCollect<super::opcode::Angle>
+        > MapCollect<super::opcode::Length>
         for (
             P0,
             P1,
@@ -14722,42 +22621,42 @@ pub mod sexpr {
             P33,
         )
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
-        super::opcode::Angle: From<P12>,
-        super::opcode::Angle: From<P13>,
-        super::opcode::Angle: From<P14>,
-        super::opcode::Angle: From<P15>,
-        super::opcode::Angle: From<P16>,
-        super::opcode::Angle: From<P17>,
-        super::opcode::Angle: From<P18>,
-        super::opcode::Angle: From<P19>,
-        super::opcode::Angle: From<P20>,
-        super::opcode::Angle: From<P21>,
-        super::opcode::Angle: From<P22>,
-        super::opcode::Angle: From<P23>,
-        super::opcode::Angle: From<P24>,
-        super::opcode::Angle: From<P25>,
-        super::opcode::Angle: From<P26>,
-        super::opcode::Angle: From<P27>,
-        super::opcode::Angle: From<P28>,
-        super::opcode::Angle: From<P29>,
-        super::opcode::Angle: From<P30>,
-        super::opcode::Angle: From<P31>,
-        super::opcode::Angle: From<P32>,
-        super::opcode::Angle: From<P33>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
+        super::opcode::Length: From<P12>,
+        super::opcode::Length: From<P13>,
+        super::opcode::Length: From<P14>,
+        super::opcode::Length: From<P15>,
+        super::opcode::Length: From<P16>,
+        super::opcode::Length: From<P17>,
+        super::opcode::Length: From<P18>,
+        super::opcode::Length: From<P19>,
+        super::opcode::Length: From<P20>,
+        super::opcode::Length: From<P21>,
+        super::opcode::Length: From<P22>,
+        super::opcode::Length: From<P23>,
+        super::opcode::Length: From<P24>,
+        super::opcode::Length: From<P25>,
+        super::opcode::Length: From<P26>,
+        super::opcode::Length: From<P27>,
+        super::opcode::Length: From<P28>,
+        super::opcode::Length: From<P29>,
+        super::opcode::Length: From<P30>,
+        super::opcode::Length: From<P31>,
+        super::opcode::Length: From<P32>,
+        super::opcode::Length: From<P33>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -14832,7 +22731,7 @@ pub mod sexpr {
             P32,
             P33,
             P34,
-        > MapCollect<super::opcode::Angle>
+        > MapCollect<super::opcode::Length>
         for (
             P0,
             P1,
@@ -14871,43 +22770,43 @@ pub mod sexpr {
             P34,
         )
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
-        super::opcode::Angle: From<P12>,
-        super::opcode::Angle: From<P13>,
-        super::opcode::Angle: From<P14>,
-        super::opcode::Angle: From<P15>,
-        super::opcode::Angle: From<P16>,
-        super::opcode::Angle: From<P17>,
-        super::opcode::Angle: From<P18>,
-        super::opcode::Angle: From<P19>,
-        super::opcode::Angle: From<P20>,
-        super::opcode::Angle: From<P21>,
-        super::opcode::Angle: From<P22>,
-        super::opcode::Angle: From<P23>,
-        super::opcode::Angle: From<P24>,
-        super::opcode::Angle: From<P25>,
-        super::opcode::Angle: From<P26>,
-        super::opcode::Angle: From<P27>,
-        super::opcode::Angle: From<P28>,
-        super::opcode::Angle: From<P29>,
-        super::opcode::Angle: From<P30>,
-        super::opcode::Angle: From<P31>,
-        super::opcode::Angle: From<P32>,
-        super::opcode::Angle: From<P33>,
-        super::opcode::Angle: From<P34>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
+        super::opcode::Length: From<P12>,
+        super::opcode::Length: From<P13>,
+        super::opcode::Length: From<P14>,
+        super::opcode::Length: From<P15>,
+        super::opcode::Length: From<P16>,
+        super::opcode::Length: From<P17>,
+        super::opcode::Length: From<P18>,
+        super::opcode::Length: From<P19>,
+        super::opcode::Length: From<P20>,
+        super::opcode::Length: From<P21>,
+        super::opcode::Length: From<P22>,
+        super::opcode::Length: From<P23>,
+        super::opcode::Length: From<P24>,
+        super::opcode::Length: From<P25>,
+        super::opcode::Length: From<P26>,
+        super::opcode::Length: From<P27>,
+        super::opcode::Length: From<P28>,
+        super::opcode::Length: From<P29>,
+        super::opcode::Length: From<P30>,
+        super::opcode::Length: From<P31>,
+        super::opcode::Length: From<P32>,
+        super::opcode::Length: From<P33>,
+        super::opcode::Length: From<P34>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -14984,7 +22883,7 @@ pub mod sexpr {
             P33,
             P34,
             P35,
-        > MapCollect<super::opcode::Angle>
+        > MapCollect<super::opcode::Length>
         for (
             P0,
             P1,
@@ -15024,44 +22923,44 @@ pub mod sexpr {
             P35,
         )
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
-        super::opcode::Angle: From<P12>,
-        super::opcode::Angle: From<P13>,
-        super::opcode::Angle: From<P14>,
-        super::opcode::Angle: From<P15>,
-        super::opcode::Angle: From<P16>,
-        super::opcode::Angle: From<P17>,
-        super::opcode::Angle: From<P18>,
-        super::opcode::Angle: From<P19>,
-        super::opcode::Angle: From<P20>,
-        super::opcode::Angle: From<P21>,
-        super::opcode::Angle: From<P22>,
-        super::opcode::Angle: From<P23>,
-        super::opcode::Angle: From<P24>,
-        super::opcode::Angle: From<P25>,
-        super::opcode::Angle: From<P26>,
-        super::opcode::Angle: From<P27>,
-        super::opcode::Angle: From<P28>,
-        super::opcode::Angle: From<P29>,
-        super::opcode::Angle: From<P30>,
-        super::opcode::Angle: From<P31>,
-        super::opcode::Angle: From<P32>,
-        super::opcode::Angle: From<P33>,
-        super::opcode::Angle: From<P34>,
-        super::opcode::Angle: From<P35>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
+        super::opcode::Length: From<P12>,
+        super::opcode::Length: From<P13>,
+        super::opcode::Length: From<P14>,
+        super::opcode::Length: From<P15>,
+        super::opcode::Length: From<P16>,
+        super::opcode::Length: From<P17>,
+        super::opcode::Length: From<P18>,
+        super::opcode::Length: From<P19>,
+        super::opcode::Length: From<P20>,
+        super::opcode::Length: From<P21>,
+        super::opcode::Length: From<P22>,
+        super::opcode::Length: From<P23>,
+        super::opcode::Length: From<P24>,
+        super::opcode::Length: From<P25>,
+        super::opcode::Length: From<P26>,
+        super::opcode::Length: From<P27>,
+        super::opcode::Length: From<P28>,
+        super::opcode::Length: From<P29>,
+        super::opcode::Length: From<P30>,
+        super::opcode::Length: From<P31>,
+        super::opcode::Length: From<P32>,
+        super::opcode::Length: From<P33>,
+        super::opcode::Length: From<P34>,
+        super::opcode::Length: From<P35>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -15140,7 +23039,7 @@ pub mod sexpr {
             P34,
             P35,
             P36,
-        > MapCollect<super::opcode::Angle>
+        > MapCollect<super::opcode::Length>
         for (
             P0,
             P1,
@@ -15181,45 +23080,45 @@ pub mod sexpr {
             P36,
         )
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
-        super::opcode::Angle: From<P12>,
-        super::opcode::Angle: From<P13>,
-        super::opcode::Angle: From<P14>,
-        super::opcode::Angle: From<P15>,
-        super::opcode::Angle: From<P16>,
-        super::opcode::Angle: From<P17>,
-        super::opcode::Angle: From<P18>,
-        super::opcode::Angle: From<P19>,
-        super::opcode::Angle: From<P20>,
-        super::opcode::Angle: From<P21>,
-        super::opcode::Angle: From<P22>,
-        super::opcode::Angle: From<P23>,
-        super::opcode::Angle: From<P24>,
-        super::opcode::Angle: From<P25>,
-        super::opcode::Angle: From<P26>,
-        super::opcode::Angle: From<P27>,
-        super::opcode::Angle: From<P28>,
-        super::opcode::Angle: From<P29>,
-        super::opcode::Angle: From<P30>,
-        super::opcode::Angle: From<P31>,
-        super::opcode::Angle: From<P32>,
-        super::opcode::Angle: From<P33>,
-        super::opcode::Angle: From<P34>,
-        super::opcode::Angle: From<P35>,
-        super::opcode::Angle: From<P36>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
+        super::opcode::Length: From<P12>,
+        super::opcode::Length: From<P13>,
+        super::opcode::Length: From<P14>,
+        super::opcode::Length: From<P15>,
+        super::opcode::Length: From<P16>,
+        super::opcode::Length: From<P17>,
+        super::opcode::Length: From<P18>,
+        super::opcode::Length: From<P19>,
+        super::opcode::Length: From<P20>,
+        super::opcode::Length: From<P21>,
+        super::opcode::Length: From<P22>,
+        super::opcode::Length: From<P23>,
+        super::opcode::Length: From<P24>,
+        super::opcode::Length: From<P25>,
+        super::opcode::Length: From<P26>,
+        super::opcode::Length: From<P27>,
+        super::opcode::Length: From<P28>,
+        super::opcode::Length: From<P29>,
+        super::opcode::Length: From<P30>,
+        super::opcode::Length: From<P31>,
+        super::opcode::Length: From<P32>,
+        super::opcode::Length: From<P33>,
+        super::opcode::Length: From<P34>,
+        super::opcode::Length: From<P35>,
+        super::opcode::Length: From<P36>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -15300,7 +23199,7 @@ pub mod sexpr {
             P35,
             P36,
             P37,
-        > MapCollect<super::opcode::Angle>
+        > MapCollect<super::opcode::Length>
         for (
             P0,
             P1,
@@ -15342,46 +23241,46 @@ pub mod sexpr {
             P37,
         )
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
-        super::opcode::Angle: From<P12>,
-        super::opcode::Angle: From<P13>,
-        super::opcode::Angle: From<P14>,
-        super::opcode::Angle: From<P15>,
-        super::opcode::Angle: From<P16>,
-        super::opcode::Angle: From<P17>,
-        super::opcode::Angle: From<P18>,
-        super::opcode::Angle: From<P19>,
-        super::opcode::Angle: From<P20>,
-        super::opcode::Angle: From<P21>,
-        super::opcode::Angle: From<P22>,
-        super::opcode::Angle: From<P23>,
-        super::opcode::Angle: From<P24>,
-        super::opcode::Angle: From<P25>,
-        super::opcode::Angle: From<P26>,
-        super::opcode::Angle: From<P27>,
-        super::opcode::Angle: From<P28>,
-        super::opcode::Angle: From<P29>,
-        super::opcode::Angle: From<P30>,
-        super::opcode::Angle: From<P31>,
-        super::opcode::Angle: From<P32>,
-        super::opcode::Angle: From<P33>,
-        super::opcode::Angle: From<P34>,
-        super::opcode::Angle: From<P35>,
-        super::opcode::Angle: From<P36>,
-        super::opcode::Angle: From<P37>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
+        super::opcode::Length: From<P12>,
+        super::opcode::Length: From<P13>,
+        super::opcode::Length: From<P14>,
+        super::opcode::Length: From<P15>,
+        super::opcode::Length: From<P16>,
+        super::opcode::Length: From<P17>,
+        super::opcode::Length: From<P18>,
+        super::opcode::Length: From<P19>,
+        super::opcode::Length: From<P20>,
+        super::opcode::Length: From<P21>,
+        super::opcode::Length: From<P22>,
+        super::opcode::Length: From<P23>,
+        super::opcode::Length: From<P24>,
+        super::opcode::Length: From<P25>,
+        super::opcode::Length: From<P26>,
+        super::opcode::Length: From<P27>,
+        super::opcode::Length: From<P28>,
+        super::opcode::Length: From<P29>,
+        super::opcode::Length: From<P30>,
+        super::opcode::Length: From<P31>,
+        super::opcode::Length: From<P32>,
+        super::opcode::Length: From<P33>,
+        super::opcode::Length: From<P34>,
+        super::opcode::Length: From<P35>,
+        super::opcode::Length: From<P36>,
+        super::opcode::Length: From<P37>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -15464,7 +23363,7 @@ pub mod sexpr {
             P36,
             P37,
             P38,
-        > MapCollect<super::opcode::Angle>
+        > MapCollect<super::opcode::Length>
         for (
             P0,
             P1,
@@ -15507,47 +23406,47 @@ pub mod sexpr {
             P38,
         )
     where
-        super::opcode::Angle: From<P0>,
-        super::opcode::Angle: From<P1>,
-        super::opcode::Angle: From<P2>,
-        super::opcode::Angle: From<P3>,
-        super::opcode::Angle: From<P4>,
-        super::opcode::Angle: From<P5>,
-        super::opcode::Angle: From<P6>,
-        super::opcode::Angle: From<P7>,
-        super::opcode::Angle: From<P8>,
-        super::opcode::Angle: From<P9>,
-        super::opcode::Angle: From<P10>,
-        super::opcode::Angle: From<P11>,
-        super::opcode::Angle: From<P12>,
-        super::opcode::Angle: From<P13>,
-        super::opcode::Angle: From<P14>,
-        super::opcode::Angle: From<P15>,
-        super::opcode::Angle: From<P16>,
-        super::opcode::Angle: From<P17>,
-        super::opcode::Angle: From<P18>,
-        super::opcode::Angle: From<P19>,
-        super::opcode::Angle: From<P20>,
-        super::opcode::Angle: From<P21>,
-        super::opcode::Angle: From<P22>,
-        super::opcode::Angle: From<P23>,
-        super::opcode::Angle: From<P24>,
-        super::opcode::Angle: From<P25>,
-        super::opcode::Angle: From<P26>,
-        super::opcode::Angle: From<P27>,
-        super::opcode::Angle: From<P28>,
-        super::opcode::Angle: From<P29>,
-        super::opcode::Angle: From<P30>,
-        super::opcode::Angle: From<P31>,
-        super::opcode::Angle: From<P32>,
-        super::opcode::Angle: From<P33>,
-        super::opcode::Angle: From<P34>,
-        super::opcode::Angle: From<P35>,
-        super::opcode::Angle: From<P36>,
-        super::opcode::Angle: From<P37>,
-        super::opcode::Angle: From<P38>,
+        super::opcode::Length: From<P0>,
+        super::opcode::Length: From<P1>,
+        super::opcode::Length: From<P2>,
+        super::opcode::Length: From<P3>,
+        super::opcode::Length: From<P4>,
+        super::opcode::Length: From<P5>,
+        super::opcode::Length: From<P6>,
+        super::opcode::Length: From<P7>,
+        super::opcode::Length: From<P8>,
+        super::opcode::Length: From<P9>,
+        super::opcode::Length: From<P10>,
+        super::opcode::Length: From<P11>,
+        super::opcode::Length: From<P12>,
+        super::opcode::Length: From<P13>,
+        super::opcode::Length: From<P14>,
+        super::opcode::Length: From<P15>,
+        super::opcode::Length: From<P16>,
+        super::opcode::Length: From<P17>,
+        super::opcode::Length: From<P18>,
+        super::opcode::Length: From<P19>,
+        super::opcode::Length: From<P20>,
+        super::opcode::Length: From<P21>,
+        super::opcode::Length: From<P22>,
+        super::opcode::Length: From<P23>,
+        super::opcode::Length: From<P24>,
+        super::opcode::Length: From<P25>,
+        super::opcode::Length: From<P26>,
+        super::opcode::Length: From<P27>,
+        super::opcode::Length: From<P28>,
+        super::opcode::Length: From<P29>,
+        super::opcode::Length: From<P30>,
+        super::opcode::Length: From<P31>,
+        super::opcode::Length: From<P32>,
+        super::opcode::Length: From<P33>,
+        super::opcode::Length: From<P34>,
+        super::opcode::Length: From<P35>,
+        super::opcode::Length: From<P36>,
+        super::opcode::Length: From<P37>,
+        super::opcode::Length: From<P38>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Angle> {
+        fn map_collect(self) -> Vec<super::opcode::Length> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -18799,53 +26698,53 @@ pub mod sexpr {
             ]
         }
     }
-    impl<P0> MapCollect<super::opcode::Transform> for P0
+    impl<P0> MapCollect<super::opcode::Angle> for P0
     where
-        super::opcode::Transform: From<P0>,
+        super::opcode::Angle: From<P0>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![self.into()]
         }
     }
-    impl<P0, P1> MapCollect<super::opcode::Transform> for (P0, P1)
+    impl<P0, P1> MapCollect<super::opcode::Angle> for (P0, P1)
     where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![self.0.into(), self.1.into()]
         }
     }
-    impl<P0, P1, P2> MapCollect<super::opcode::Transform> for (P0, P1, P2)
+    impl<P0, P1, P2> MapCollect<super::opcode::Angle> for (P0, P1, P2)
     where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![self.0.into(), self.1.into(), self.2.into()]
         }
     }
-    impl<P0, P1, P2, P3> MapCollect<super::opcode::Transform> for (P0, P1, P2, P3)
+    impl<P0, P1, P2, P3> MapCollect<super::opcode::Angle> for (P0, P1, P2, P3)
     where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
         }
     }
-    impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::Transform> for (P0, P1, P2, P3, P4)
+    impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::Angle> for (P0, P1, P2, P3, P4)
     where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -18855,16 +26754,16 @@ pub mod sexpr {
             ]
         }
     }
-    impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::Transform> for (P0, P1, P2, P3, P4, P5)
+    impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::Angle> for (P0, P1, P2, P3, P4, P5)
     where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -18875,18 +26774,17 @@ pub mod sexpr {
             ]
         }
     }
-    impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::Transform>
-        for (P0, P1, P2, P3, P4, P5, P6)
+    impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::Angle> for (P0, P1, P2, P3, P4, P5, P6)
     where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -18898,19 +26796,19 @@ pub mod sexpr {
             ]
         }
     }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::Transform>
+    impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::Angle>
         for (P0, P1, P2, P3, P4, P5, P6, P7)
     where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -18923,20 +26821,20 @@ pub mod sexpr {
             ]
         }
     }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::Transform>
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::Angle>
         for (P0, P1, P2, P3, P4, P5, P6, P7, P8)
     where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -18950,21 +26848,21 @@ pub mod sexpr {
             ]
         }
     }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::Transform>
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::Angle>
         for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)
     where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -18979,22 +26877,22 @@ pub mod sexpr {
             ]
         }
     }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::Transform>
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::Angle>
         for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
     where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -19010,23 +26908,23 @@ pub mod sexpr {
             ]
         }
     }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::Transform>
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::Angle>
         for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11)
     where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -19043,24 +26941,24 @@ pub mod sexpr {
             ]
         }
     }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::Transform>
+    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::Angle>
         for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12)
     where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
-        super::opcode::Transform: From<P12>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
+        super::opcode::Angle: From<P12>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -19079,25 +26977,25 @@ pub mod sexpr {
         }
     }
     impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13>
-        MapCollect<super::opcode::Transform>
+        MapCollect<super::opcode::Angle>
         for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13)
     where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
-        super::opcode::Transform: From<P12>,
-        super::opcode::Transform: From<P13>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
+        super::opcode::Angle: From<P12>,
+        super::opcode::Angle: From<P13>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -19117,7 +27015,7 @@ pub mod sexpr {
         }
     }
     impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
-        MapCollect<super::opcode::Transform>
+        MapCollect<super::opcode::Angle>
         for (
             P0,
             P1,
@@ -19136,23 +27034,23 @@ pub mod sexpr {
             P14,
         )
     where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
-        super::opcode::Transform: From<P12>,
-        super::opcode::Transform: From<P13>,
-        super::opcode::Transform: From<P14>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
+        super::opcode::Angle: From<P12>,
+        super::opcode::Angle: From<P13>,
+        super::opcode::Angle: From<P14>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -19173,7 +27071,7 @@ pub mod sexpr {
         }
     }
     impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15>
-        MapCollect<super::opcode::Transform>
+        MapCollect<super::opcode::Angle>
         for (
             P0,
             P1,
@@ -19193,24 +27091,24 @@ pub mod sexpr {
             P15,
         )
     where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
-        super::opcode::Transform: From<P12>,
-        super::opcode::Transform: From<P13>,
-        super::opcode::Transform: From<P14>,
-        super::opcode::Transform: From<P15>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
+        super::opcode::Angle: From<P12>,
+        super::opcode::Angle: From<P13>,
+        super::opcode::Angle: From<P14>,
+        super::opcode::Angle: From<P15>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -19232,7 +27130,7 @@ pub mod sexpr {
         }
     }
     impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15, P16>
-        MapCollect<super::opcode::Transform>
+        MapCollect<super::opcode::Angle>
         for (
             P0,
             P1,
@@ -19253,25 +27151,25 @@ pub mod sexpr {
             P16,
         )
     where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
-        super::opcode::Transform: From<P12>,
-        super::opcode::Transform: From<P13>,
-        super::opcode::Transform: From<P14>,
-        super::opcode::Transform: From<P15>,
-        super::opcode::Transform: From<P16>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
+        super::opcode::Angle: From<P12>,
+        super::opcode::Angle: From<P13>,
+        super::opcode::Angle: From<P14>,
+        super::opcode::Angle: From<P15>,
+        super::opcode::Angle: From<P16>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -19294,7 +27192,7 @@ pub mod sexpr {
         }
     }
     impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15, P16, P17>
-        MapCollect<super::opcode::Transform>
+        MapCollect<super::opcode::Angle>
         for (
             P0,
             P1,
@@ -19316,26 +27214,26 @@ pub mod sexpr {
             P17,
         )
     where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
-        super::opcode::Transform: From<P12>,
-        super::opcode::Transform: From<P13>,
-        super::opcode::Transform: From<P14>,
-        super::opcode::Transform: From<P15>,
-        super::opcode::Transform: From<P16>,
-        super::opcode::Transform: From<P17>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
+        super::opcode::Angle: From<P12>,
+        super::opcode::Angle: From<P13>,
+        super::opcode::Angle: From<P14>,
+        super::opcode::Angle: From<P15>,
+        super::opcode::Angle: From<P16>,
+        super::opcode::Angle: From<P17>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -19359,7 +27257,7 @@ pub mod sexpr {
         }
     }
     impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15, P16, P17, P18>
-        MapCollect<super::opcode::Transform>
+        MapCollect<super::opcode::Angle>
         for (
             P0,
             P1,
@@ -19382,27 +27280,27 @@ pub mod sexpr {
             P18,
         )
     where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
-        super::opcode::Transform: From<P12>,
-        super::opcode::Transform: From<P13>,
-        super::opcode::Transform: From<P14>,
-        super::opcode::Transform: From<P15>,
-        super::opcode::Transform: From<P16>,
-        super::opcode::Transform: From<P17>,
-        super::opcode::Transform: From<P18>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
+        super::opcode::Angle: From<P12>,
+        super::opcode::Angle: From<P13>,
+        super::opcode::Angle: From<P14>,
+        super::opcode::Angle: From<P15>,
+        super::opcode::Angle: From<P16>,
+        super::opcode::Angle: From<P17>,
+        super::opcode::Angle: From<P18>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -19447,7 +27345,7 @@ pub mod sexpr {
             P17,
             P18,
             P19,
-        > MapCollect<super::opcode::Transform>
+        > MapCollect<super::opcode::Angle>
         for (
             P0,
             P1,
@@ -19471,28 +27369,28 @@ pub mod sexpr {
             P19,
         )
     where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
-        super::opcode::Transform: From<P12>,
-        super::opcode::Transform: From<P13>,
-        super::opcode::Transform: From<P14>,
-        super::opcode::Transform: From<P15>,
-        super::opcode::Transform: From<P16>,
-        super::opcode::Transform: From<P17>,
-        super::opcode::Transform: From<P18>,
-        super::opcode::Transform: From<P19>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
+        super::opcode::Angle: From<P12>,
+        super::opcode::Angle: From<P13>,
+        super::opcode::Angle: From<P14>,
+        super::opcode::Angle: From<P15>,
+        super::opcode::Angle: From<P16>,
+        super::opcode::Angle: From<P17>,
+        super::opcode::Angle: From<P18>,
+        super::opcode::Angle: From<P19>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -19539,7 +27437,7 @@ pub mod sexpr {
             P18,
             P19,
             P20,
-        > MapCollect<super::opcode::Transform>
+        > MapCollect<super::opcode::Angle>
         for (
             P0,
             P1,
@@ -19564,3235 +27462,29 @@ pub mod sexpr {
             P20,
         )
     where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
-        super::opcode::Transform: From<P12>,
-        super::opcode::Transform: From<P13>,
-        super::opcode::Transform: From<P14>,
-        super::opcode::Transform: From<P15>,
-        super::opcode::Transform: From<P16>,
-        super::opcode::Transform: From<P17>,
-        super::opcode::Transform: From<P18>,
-        super::opcode::Transform: From<P19>,
-        super::opcode::Transform: From<P20>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
+        super::opcode::Angle: From<P12>,
+        super::opcode::Angle: From<P13>,
+        super::opcode::Angle: From<P14>,
+        super::opcode::Angle: From<P15>,
+        super::opcode::Angle: From<P16>,
+        super::opcode::Angle: From<P17>,
+        super::opcode::Angle: From<P18>,
+        super::opcode::Angle: From<P19>,
+        super::opcode::Angle: From<P20>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-        > MapCollect<super::opcode::Transform>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-        )
-    where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
-        super::opcode::Transform: From<P12>,
-        super::opcode::Transform: From<P13>,
-        super::opcode::Transform: From<P14>,
-        super::opcode::Transform: From<P15>,
-        super::opcode::Transform: From<P16>,
-        super::opcode::Transform: From<P17>,
-        super::opcode::Transform: From<P18>,
-        super::opcode::Transform: From<P19>,
-        super::opcode::Transform: From<P20>,
-        super::opcode::Transform: From<P21>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-        > MapCollect<super::opcode::Transform>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-        )
-    where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
-        super::opcode::Transform: From<P12>,
-        super::opcode::Transform: From<P13>,
-        super::opcode::Transform: From<P14>,
-        super::opcode::Transform: From<P15>,
-        super::opcode::Transform: From<P16>,
-        super::opcode::Transform: From<P17>,
-        super::opcode::Transform: From<P18>,
-        super::opcode::Transform: From<P19>,
-        super::opcode::Transform: From<P20>,
-        super::opcode::Transform: From<P21>,
-        super::opcode::Transform: From<P22>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-        > MapCollect<super::opcode::Transform>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-        )
-    where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
-        super::opcode::Transform: From<P12>,
-        super::opcode::Transform: From<P13>,
-        super::opcode::Transform: From<P14>,
-        super::opcode::Transform: From<P15>,
-        super::opcode::Transform: From<P16>,
-        super::opcode::Transform: From<P17>,
-        super::opcode::Transform: From<P18>,
-        super::opcode::Transform: From<P19>,
-        super::opcode::Transform: From<P20>,
-        super::opcode::Transform: From<P21>,
-        super::opcode::Transform: From<P22>,
-        super::opcode::Transform: From<P23>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-        > MapCollect<super::opcode::Transform>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-        )
-    where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
-        super::opcode::Transform: From<P12>,
-        super::opcode::Transform: From<P13>,
-        super::opcode::Transform: From<P14>,
-        super::opcode::Transform: From<P15>,
-        super::opcode::Transform: From<P16>,
-        super::opcode::Transform: From<P17>,
-        super::opcode::Transform: From<P18>,
-        super::opcode::Transform: From<P19>,
-        super::opcode::Transform: From<P20>,
-        super::opcode::Transform: From<P21>,
-        super::opcode::Transform: From<P22>,
-        super::opcode::Transform: From<P23>,
-        super::opcode::Transform: From<P24>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-        > MapCollect<super::opcode::Transform>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-        )
-    where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
-        super::opcode::Transform: From<P12>,
-        super::opcode::Transform: From<P13>,
-        super::opcode::Transform: From<P14>,
-        super::opcode::Transform: From<P15>,
-        super::opcode::Transform: From<P16>,
-        super::opcode::Transform: From<P17>,
-        super::opcode::Transform: From<P18>,
-        super::opcode::Transform: From<P19>,
-        super::opcode::Transform: From<P20>,
-        super::opcode::Transform: From<P21>,
-        super::opcode::Transform: From<P22>,
-        super::opcode::Transform: From<P23>,
-        super::opcode::Transform: From<P24>,
-        super::opcode::Transform: From<P25>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-        > MapCollect<super::opcode::Transform>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-        )
-    where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
-        super::opcode::Transform: From<P12>,
-        super::opcode::Transform: From<P13>,
-        super::opcode::Transform: From<P14>,
-        super::opcode::Transform: From<P15>,
-        super::opcode::Transform: From<P16>,
-        super::opcode::Transform: From<P17>,
-        super::opcode::Transform: From<P18>,
-        super::opcode::Transform: From<P19>,
-        super::opcode::Transform: From<P20>,
-        super::opcode::Transform: From<P21>,
-        super::opcode::Transform: From<P22>,
-        super::opcode::Transform: From<P23>,
-        super::opcode::Transform: From<P24>,
-        super::opcode::Transform: From<P25>,
-        super::opcode::Transform: From<P26>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-                self.26.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-        > MapCollect<super::opcode::Transform>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-        )
-    where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
-        super::opcode::Transform: From<P12>,
-        super::opcode::Transform: From<P13>,
-        super::opcode::Transform: From<P14>,
-        super::opcode::Transform: From<P15>,
-        super::opcode::Transform: From<P16>,
-        super::opcode::Transform: From<P17>,
-        super::opcode::Transform: From<P18>,
-        super::opcode::Transform: From<P19>,
-        super::opcode::Transform: From<P20>,
-        super::opcode::Transform: From<P21>,
-        super::opcode::Transform: From<P22>,
-        super::opcode::Transform: From<P23>,
-        super::opcode::Transform: From<P24>,
-        super::opcode::Transform: From<P25>,
-        super::opcode::Transform: From<P26>,
-        super::opcode::Transform: From<P27>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-                self.26.into(),
-                self.27.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-        > MapCollect<super::opcode::Transform>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-        )
-    where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
-        super::opcode::Transform: From<P12>,
-        super::opcode::Transform: From<P13>,
-        super::opcode::Transform: From<P14>,
-        super::opcode::Transform: From<P15>,
-        super::opcode::Transform: From<P16>,
-        super::opcode::Transform: From<P17>,
-        super::opcode::Transform: From<P18>,
-        super::opcode::Transform: From<P19>,
-        super::opcode::Transform: From<P20>,
-        super::opcode::Transform: From<P21>,
-        super::opcode::Transform: From<P22>,
-        super::opcode::Transform: From<P23>,
-        super::opcode::Transform: From<P24>,
-        super::opcode::Transform: From<P25>,
-        super::opcode::Transform: From<P26>,
-        super::opcode::Transform: From<P27>,
-        super::opcode::Transform: From<P28>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-                self.26.into(),
-                self.27.into(),
-                self.28.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-        > MapCollect<super::opcode::Transform>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-        )
-    where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
-        super::opcode::Transform: From<P12>,
-        super::opcode::Transform: From<P13>,
-        super::opcode::Transform: From<P14>,
-        super::opcode::Transform: From<P15>,
-        super::opcode::Transform: From<P16>,
-        super::opcode::Transform: From<P17>,
-        super::opcode::Transform: From<P18>,
-        super::opcode::Transform: From<P19>,
-        super::opcode::Transform: From<P20>,
-        super::opcode::Transform: From<P21>,
-        super::opcode::Transform: From<P22>,
-        super::opcode::Transform: From<P23>,
-        super::opcode::Transform: From<P24>,
-        super::opcode::Transform: From<P25>,
-        super::opcode::Transform: From<P26>,
-        super::opcode::Transform: From<P27>,
-        super::opcode::Transform: From<P28>,
-        super::opcode::Transform: From<P29>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-                self.26.into(),
-                self.27.into(),
-                self.28.into(),
-                self.29.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-        > MapCollect<super::opcode::Transform>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-        )
-    where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
-        super::opcode::Transform: From<P12>,
-        super::opcode::Transform: From<P13>,
-        super::opcode::Transform: From<P14>,
-        super::opcode::Transform: From<P15>,
-        super::opcode::Transform: From<P16>,
-        super::opcode::Transform: From<P17>,
-        super::opcode::Transform: From<P18>,
-        super::opcode::Transform: From<P19>,
-        super::opcode::Transform: From<P20>,
-        super::opcode::Transform: From<P21>,
-        super::opcode::Transform: From<P22>,
-        super::opcode::Transform: From<P23>,
-        super::opcode::Transform: From<P24>,
-        super::opcode::Transform: From<P25>,
-        super::opcode::Transform: From<P26>,
-        super::opcode::Transform: From<P27>,
-        super::opcode::Transform: From<P28>,
-        super::opcode::Transform: From<P29>,
-        super::opcode::Transform: From<P30>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-                self.26.into(),
-                self.27.into(),
-                self.28.into(),
-                self.29.into(),
-                self.30.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-        > MapCollect<super::opcode::Transform>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-        )
-    where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
-        super::opcode::Transform: From<P12>,
-        super::opcode::Transform: From<P13>,
-        super::opcode::Transform: From<P14>,
-        super::opcode::Transform: From<P15>,
-        super::opcode::Transform: From<P16>,
-        super::opcode::Transform: From<P17>,
-        super::opcode::Transform: From<P18>,
-        super::opcode::Transform: From<P19>,
-        super::opcode::Transform: From<P20>,
-        super::opcode::Transform: From<P21>,
-        super::opcode::Transform: From<P22>,
-        super::opcode::Transform: From<P23>,
-        super::opcode::Transform: From<P24>,
-        super::opcode::Transform: From<P25>,
-        super::opcode::Transform: From<P26>,
-        super::opcode::Transform: From<P27>,
-        super::opcode::Transform: From<P28>,
-        super::opcode::Transform: From<P29>,
-        super::opcode::Transform: From<P30>,
-        super::opcode::Transform: From<P31>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-                self.26.into(),
-                self.27.into(),
-                self.28.into(),
-                self.29.into(),
-                self.30.into(),
-                self.31.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-        > MapCollect<super::opcode::Transform>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-        )
-    where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
-        super::opcode::Transform: From<P12>,
-        super::opcode::Transform: From<P13>,
-        super::opcode::Transform: From<P14>,
-        super::opcode::Transform: From<P15>,
-        super::opcode::Transform: From<P16>,
-        super::opcode::Transform: From<P17>,
-        super::opcode::Transform: From<P18>,
-        super::opcode::Transform: From<P19>,
-        super::opcode::Transform: From<P20>,
-        super::opcode::Transform: From<P21>,
-        super::opcode::Transform: From<P22>,
-        super::opcode::Transform: From<P23>,
-        super::opcode::Transform: From<P24>,
-        super::opcode::Transform: From<P25>,
-        super::opcode::Transform: From<P26>,
-        super::opcode::Transform: From<P27>,
-        super::opcode::Transform: From<P28>,
-        super::opcode::Transform: From<P29>,
-        super::opcode::Transform: From<P30>,
-        super::opcode::Transform: From<P31>,
-        super::opcode::Transform: From<P32>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-                self.26.into(),
-                self.27.into(),
-                self.28.into(),
-                self.29.into(),
-                self.30.into(),
-                self.31.into(),
-                self.32.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-            P33,
-        > MapCollect<super::opcode::Transform>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-            P33,
-        )
-    where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
-        super::opcode::Transform: From<P12>,
-        super::opcode::Transform: From<P13>,
-        super::opcode::Transform: From<P14>,
-        super::opcode::Transform: From<P15>,
-        super::opcode::Transform: From<P16>,
-        super::opcode::Transform: From<P17>,
-        super::opcode::Transform: From<P18>,
-        super::opcode::Transform: From<P19>,
-        super::opcode::Transform: From<P20>,
-        super::opcode::Transform: From<P21>,
-        super::opcode::Transform: From<P22>,
-        super::opcode::Transform: From<P23>,
-        super::opcode::Transform: From<P24>,
-        super::opcode::Transform: From<P25>,
-        super::opcode::Transform: From<P26>,
-        super::opcode::Transform: From<P27>,
-        super::opcode::Transform: From<P28>,
-        super::opcode::Transform: From<P29>,
-        super::opcode::Transform: From<P30>,
-        super::opcode::Transform: From<P31>,
-        super::opcode::Transform: From<P32>,
-        super::opcode::Transform: From<P33>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-                self.26.into(),
-                self.27.into(),
-                self.28.into(),
-                self.29.into(),
-                self.30.into(),
-                self.31.into(),
-                self.32.into(),
-                self.33.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-            P33,
-            P34,
-        > MapCollect<super::opcode::Transform>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-            P33,
-            P34,
-        )
-    where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
-        super::opcode::Transform: From<P12>,
-        super::opcode::Transform: From<P13>,
-        super::opcode::Transform: From<P14>,
-        super::opcode::Transform: From<P15>,
-        super::opcode::Transform: From<P16>,
-        super::opcode::Transform: From<P17>,
-        super::opcode::Transform: From<P18>,
-        super::opcode::Transform: From<P19>,
-        super::opcode::Transform: From<P20>,
-        super::opcode::Transform: From<P21>,
-        super::opcode::Transform: From<P22>,
-        super::opcode::Transform: From<P23>,
-        super::opcode::Transform: From<P24>,
-        super::opcode::Transform: From<P25>,
-        super::opcode::Transform: From<P26>,
-        super::opcode::Transform: From<P27>,
-        super::opcode::Transform: From<P28>,
-        super::opcode::Transform: From<P29>,
-        super::opcode::Transform: From<P30>,
-        super::opcode::Transform: From<P31>,
-        super::opcode::Transform: From<P32>,
-        super::opcode::Transform: From<P33>,
-        super::opcode::Transform: From<P34>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-                self.26.into(),
-                self.27.into(),
-                self.28.into(),
-                self.29.into(),
-                self.30.into(),
-                self.31.into(),
-                self.32.into(),
-                self.33.into(),
-                self.34.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-            P33,
-            P34,
-            P35,
-        > MapCollect<super::opcode::Transform>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-            P33,
-            P34,
-            P35,
-        )
-    where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
-        super::opcode::Transform: From<P12>,
-        super::opcode::Transform: From<P13>,
-        super::opcode::Transform: From<P14>,
-        super::opcode::Transform: From<P15>,
-        super::opcode::Transform: From<P16>,
-        super::opcode::Transform: From<P17>,
-        super::opcode::Transform: From<P18>,
-        super::opcode::Transform: From<P19>,
-        super::opcode::Transform: From<P20>,
-        super::opcode::Transform: From<P21>,
-        super::opcode::Transform: From<P22>,
-        super::opcode::Transform: From<P23>,
-        super::opcode::Transform: From<P24>,
-        super::opcode::Transform: From<P25>,
-        super::opcode::Transform: From<P26>,
-        super::opcode::Transform: From<P27>,
-        super::opcode::Transform: From<P28>,
-        super::opcode::Transform: From<P29>,
-        super::opcode::Transform: From<P30>,
-        super::opcode::Transform: From<P31>,
-        super::opcode::Transform: From<P32>,
-        super::opcode::Transform: From<P33>,
-        super::opcode::Transform: From<P34>,
-        super::opcode::Transform: From<P35>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-                self.26.into(),
-                self.27.into(),
-                self.28.into(),
-                self.29.into(),
-                self.30.into(),
-                self.31.into(),
-                self.32.into(),
-                self.33.into(),
-                self.34.into(),
-                self.35.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-            P33,
-            P34,
-            P35,
-            P36,
-        > MapCollect<super::opcode::Transform>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-            P33,
-            P34,
-            P35,
-            P36,
-        )
-    where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
-        super::opcode::Transform: From<P12>,
-        super::opcode::Transform: From<P13>,
-        super::opcode::Transform: From<P14>,
-        super::opcode::Transform: From<P15>,
-        super::opcode::Transform: From<P16>,
-        super::opcode::Transform: From<P17>,
-        super::opcode::Transform: From<P18>,
-        super::opcode::Transform: From<P19>,
-        super::opcode::Transform: From<P20>,
-        super::opcode::Transform: From<P21>,
-        super::opcode::Transform: From<P22>,
-        super::opcode::Transform: From<P23>,
-        super::opcode::Transform: From<P24>,
-        super::opcode::Transform: From<P25>,
-        super::opcode::Transform: From<P26>,
-        super::opcode::Transform: From<P27>,
-        super::opcode::Transform: From<P28>,
-        super::opcode::Transform: From<P29>,
-        super::opcode::Transform: From<P30>,
-        super::opcode::Transform: From<P31>,
-        super::opcode::Transform: From<P32>,
-        super::opcode::Transform: From<P33>,
-        super::opcode::Transform: From<P34>,
-        super::opcode::Transform: From<P35>,
-        super::opcode::Transform: From<P36>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-                self.26.into(),
-                self.27.into(),
-                self.28.into(),
-                self.29.into(),
-                self.30.into(),
-                self.31.into(),
-                self.32.into(),
-                self.33.into(),
-                self.34.into(),
-                self.35.into(),
-                self.36.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-            P33,
-            P34,
-            P35,
-            P36,
-            P37,
-        > MapCollect<super::opcode::Transform>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-            P33,
-            P34,
-            P35,
-            P36,
-            P37,
-        )
-    where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
-        super::opcode::Transform: From<P12>,
-        super::opcode::Transform: From<P13>,
-        super::opcode::Transform: From<P14>,
-        super::opcode::Transform: From<P15>,
-        super::opcode::Transform: From<P16>,
-        super::opcode::Transform: From<P17>,
-        super::opcode::Transform: From<P18>,
-        super::opcode::Transform: From<P19>,
-        super::opcode::Transform: From<P20>,
-        super::opcode::Transform: From<P21>,
-        super::opcode::Transform: From<P22>,
-        super::opcode::Transform: From<P23>,
-        super::opcode::Transform: From<P24>,
-        super::opcode::Transform: From<P25>,
-        super::opcode::Transform: From<P26>,
-        super::opcode::Transform: From<P27>,
-        super::opcode::Transform: From<P28>,
-        super::opcode::Transform: From<P29>,
-        super::opcode::Transform: From<P30>,
-        super::opcode::Transform: From<P31>,
-        super::opcode::Transform: From<P32>,
-        super::opcode::Transform: From<P33>,
-        super::opcode::Transform: From<P34>,
-        super::opcode::Transform: From<P35>,
-        super::opcode::Transform: From<P36>,
-        super::opcode::Transform: From<P37>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-                self.26.into(),
-                self.27.into(),
-                self.28.into(),
-                self.29.into(),
-                self.30.into(),
-                self.31.into(),
-                self.32.into(),
-                self.33.into(),
-                self.34.into(),
-                self.35.into(),
-                self.36.into(),
-                self.37.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-            P33,
-            P34,
-            P35,
-            P36,
-            P37,
-            P38,
-        > MapCollect<super::opcode::Transform>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-            P33,
-            P34,
-            P35,
-            P36,
-            P37,
-            P38,
-        )
-    where
-        super::opcode::Transform: From<P0>,
-        super::opcode::Transform: From<P1>,
-        super::opcode::Transform: From<P2>,
-        super::opcode::Transform: From<P3>,
-        super::opcode::Transform: From<P4>,
-        super::opcode::Transform: From<P5>,
-        super::opcode::Transform: From<P6>,
-        super::opcode::Transform: From<P7>,
-        super::opcode::Transform: From<P8>,
-        super::opcode::Transform: From<P9>,
-        super::opcode::Transform: From<P10>,
-        super::opcode::Transform: From<P11>,
-        super::opcode::Transform: From<P12>,
-        super::opcode::Transform: From<P13>,
-        super::opcode::Transform: From<P14>,
-        super::opcode::Transform: From<P15>,
-        super::opcode::Transform: From<P16>,
-        super::opcode::Transform: From<P17>,
-        super::opcode::Transform: From<P18>,
-        super::opcode::Transform: From<P19>,
-        super::opcode::Transform: From<P20>,
-        super::opcode::Transform: From<P21>,
-        super::opcode::Transform: From<P22>,
-        super::opcode::Transform: From<P23>,
-        super::opcode::Transform: From<P24>,
-        super::opcode::Transform: From<P25>,
-        super::opcode::Transform: From<P26>,
-        super::opcode::Transform: From<P27>,
-        super::opcode::Transform: From<P28>,
-        super::opcode::Transform: From<P29>,
-        super::opcode::Transform: From<P30>,
-        super::opcode::Transform: From<P31>,
-        super::opcode::Transform: From<P32>,
-        super::opcode::Transform: From<P33>,
-        super::opcode::Transform: From<P34>,
-        super::opcode::Transform: From<P35>,
-        super::opcode::Transform: From<P36>,
-        super::opcode::Transform: From<P37>,
-        super::opcode::Transform: From<P38>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Transform> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-                self.26.into(),
-                self.27.into(),
-                self.28.into(),
-                self.29.into(),
-                self.30.into(),
-                self.31.into(),
-                self.32.into(),
-                self.33.into(),
-                self.34.into(),
-                self.35.into(),
-                self.36.into(),
-                self.37.into(),
-                self.38.into(),
-            ]
-        }
-    }
-    impl<P0> MapCollect<super::opcode::Length> for P0
-    where
-        super::opcode::Length: From<P0>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
-            vec![self.into()]
-        }
-    }
-    impl<P0, P1> MapCollect<super::opcode::Length> for (P0, P1)
-    where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
-            vec![self.0.into(), self.1.into()]
-        }
-    }
-    impl<P0, P1, P2> MapCollect<super::opcode::Length> for (P0, P1, P2)
-    where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
-            vec![self.0.into(), self.1.into(), self.2.into()]
-        }
-    }
-    impl<P0, P1, P2, P3> MapCollect<super::opcode::Length> for (P0, P1, P2, P3)
-    where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
-            vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
-        }
-    }
-    impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::Length> for (P0, P1, P2, P3, P4)
-    where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::Length> for (P0, P1, P2, P3, P4, P5)
-    where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::Length> for (P0, P1, P2, P3, P4, P5, P6)
-    where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::Length>
-        for (P0, P1, P2, P3, P4, P5, P6, P7)
-    where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::Length>
-        for (P0, P1, P2, P3, P4, P5, P6, P7, P8)
-    where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::Length>
-        for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)
-    where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::Length>
-        for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
-    where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::Length>
-        for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11)
-    where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::Length>
-        for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12)
-    where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-        super::opcode::Length: From<P12>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13>
-        MapCollect<super::opcode::Length>
-        for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13)
-    where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-        super::opcode::Length: From<P12>,
-        super::opcode::Length: From<P13>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
-        MapCollect<super::opcode::Length>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-        )
-    where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-        super::opcode::Length: From<P12>,
-        super::opcode::Length: From<P13>,
-        super::opcode::Length: From<P14>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15>
-        MapCollect<super::opcode::Length>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-        )
-    where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-        super::opcode::Length: From<P12>,
-        super::opcode::Length: From<P13>,
-        super::opcode::Length: From<P14>,
-        super::opcode::Length: From<P15>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15, P16>
-        MapCollect<super::opcode::Length>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-        )
-    where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-        super::opcode::Length: From<P12>,
-        super::opcode::Length: From<P13>,
-        super::opcode::Length: From<P14>,
-        super::opcode::Length: From<P15>,
-        super::opcode::Length: From<P16>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15, P16, P17>
-        MapCollect<super::opcode::Length>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-        )
-    where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-        super::opcode::Length: From<P12>,
-        super::opcode::Length: From<P13>,
-        super::opcode::Length: From<P14>,
-        super::opcode::Length: From<P15>,
-        super::opcode::Length: From<P16>,
-        super::opcode::Length: From<P17>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15, P16, P17, P18>
-        MapCollect<super::opcode::Length>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-        )
-    where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-        super::opcode::Length: From<P12>,
-        super::opcode::Length: From<P13>,
-        super::opcode::Length: From<P14>,
-        super::opcode::Length: From<P15>,
-        super::opcode::Length: From<P16>,
-        super::opcode::Length: From<P17>,
-        super::opcode::Length: From<P18>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-        > MapCollect<super::opcode::Length>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-        )
-    where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-        super::opcode::Length: From<P12>,
-        super::opcode::Length: From<P13>,
-        super::opcode::Length: From<P14>,
-        super::opcode::Length: From<P15>,
-        super::opcode::Length: From<P16>,
-        super::opcode::Length: From<P17>,
-        super::opcode::Length: From<P18>,
-        super::opcode::Length: From<P19>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-        > MapCollect<super::opcode::Length>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-        )
-    where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-        super::opcode::Length: From<P12>,
-        super::opcode::Length: From<P13>,
-        super::opcode::Length: From<P14>,
-        super::opcode::Length: From<P15>,
-        super::opcode::Length: From<P16>,
-        super::opcode::Length: From<P17>,
-        super::opcode::Length: From<P18>,
-        super::opcode::Length: From<P19>,
-        super::opcode::Length: From<P20>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -22841,7 +27533,7 @@ pub mod sexpr {
             P19,
             P20,
             P21,
-        > MapCollect<super::opcode::Length>
+        > MapCollect<super::opcode::Angle>
         for (
             P0,
             P1,
@@ -22867,30 +27559,30 @@ pub mod sexpr {
             P21,
         )
     where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-        super::opcode::Length: From<P12>,
-        super::opcode::Length: From<P13>,
-        super::opcode::Length: From<P14>,
-        super::opcode::Length: From<P15>,
-        super::opcode::Length: From<P16>,
-        super::opcode::Length: From<P17>,
-        super::opcode::Length: From<P18>,
-        super::opcode::Length: From<P19>,
-        super::opcode::Length: From<P20>,
-        super::opcode::Length: From<P21>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
+        super::opcode::Angle: From<P12>,
+        super::opcode::Angle: From<P13>,
+        super::opcode::Angle: From<P14>,
+        super::opcode::Angle: From<P15>,
+        super::opcode::Angle: From<P16>,
+        super::opcode::Angle: From<P17>,
+        super::opcode::Angle: From<P18>,
+        super::opcode::Angle: From<P19>,
+        super::opcode::Angle: From<P20>,
+        super::opcode::Angle: From<P21>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -22941,7 +27633,7 @@ pub mod sexpr {
             P20,
             P21,
             P22,
-        > MapCollect<super::opcode::Length>
+        > MapCollect<super::opcode::Angle>
         for (
             P0,
             P1,
@@ -22968,31 +27660,31 @@ pub mod sexpr {
             P22,
         )
     where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-        super::opcode::Length: From<P12>,
-        super::opcode::Length: From<P13>,
-        super::opcode::Length: From<P14>,
-        super::opcode::Length: From<P15>,
-        super::opcode::Length: From<P16>,
-        super::opcode::Length: From<P17>,
-        super::opcode::Length: From<P18>,
-        super::opcode::Length: From<P19>,
-        super::opcode::Length: From<P20>,
-        super::opcode::Length: From<P21>,
-        super::opcode::Length: From<P22>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
+        super::opcode::Angle: From<P12>,
+        super::opcode::Angle: From<P13>,
+        super::opcode::Angle: From<P14>,
+        super::opcode::Angle: From<P15>,
+        super::opcode::Angle: From<P16>,
+        super::opcode::Angle: From<P17>,
+        super::opcode::Angle: From<P18>,
+        super::opcode::Angle: From<P19>,
+        super::opcode::Angle: From<P20>,
+        super::opcode::Angle: From<P21>,
+        super::opcode::Angle: From<P22>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -23045,7 +27737,7 @@ pub mod sexpr {
             P21,
             P22,
             P23,
-        > MapCollect<super::opcode::Length>
+        > MapCollect<super::opcode::Angle>
         for (
             P0,
             P1,
@@ -23073,32 +27765,32 @@ pub mod sexpr {
             P23,
         )
     where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-        super::opcode::Length: From<P12>,
-        super::opcode::Length: From<P13>,
-        super::opcode::Length: From<P14>,
-        super::opcode::Length: From<P15>,
-        super::opcode::Length: From<P16>,
-        super::opcode::Length: From<P17>,
-        super::opcode::Length: From<P18>,
-        super::opcode::Length: From<P19>,
-        super::opcode::Length: From<P20>,
-        super::opcode::Length: From<P21>,
-        super::opcode::Length: From<P22>,
-        super::opcode::Length: From<P23>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
+        super::opcode::Angle: From<P12>,
+        super::opcode::Angle: From<P13>,
+        super::opcode::Angle: From<P14>,
+        super::opcode::Angle: From<P15>,
+        super::opcode::Angle: From<P16>,
+        super::opcode::Angle: From<P17>,
+        super::opcode::Angle: From<P18>,
+        super::opcode::Angle: From<P19>,
+        super::opcode::Angle: From<P20>,
+        super::opcode::Angle: From<P21>,
+        super::opcode::Angle: From<P22>,
+        super::opcode::Angle: From<P23>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -23153,7 +27845,7 @@ pub mod sexpr {
             P22,
             P23,
             P24,
-        > MapCollect<super::opcode::Length>
+        > MapCollect<super::opcode::Angle>
         for (
             P0,
             P1,
@@ -23182,33 +27874,33 @@ pub mod sexpr {
             P24,
         )
     where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-        super::opcode::Length: From<P12>,
-        super::opcode::Length: From<P13>,
-        super::opcode::Length: From<P14>,
-        super::opcode::Length: From<P15>,
-        super::opcode::Length: From<P16>,
-        super::opcode::Length: From<P17>,
-        super::opcode::Length: From<P18>,
-        super::opcode::Length: From<P19>,
-        super::opcode::Length: From<P20>,
-        super::opcode::Length: From<P21>,
-        super::opcode::Length: From<P22>,
-        super::opcode::Length: From<P23>,
-        super::opcode::Length: From<P24>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
+        super::opcode::Angle: From<P12>,
+        super::opcode::Angle: From<P13>,
+        super::opcode::Angle: From<P14>,
+        super::opcode::Angle: From<P15>,
+        super::opcode::Angle: From<P16>,
+        super::opcode::Angle: From<P17>,
+        super::opcode::Angle: From<P18>,
+        super::opcode::Angle: From<P19>,
+        super::opcode::Angle: From<P20>,
+        super::opcode::Angle: From<P21>,
+        super::opcode::Angle: From<P22>,
+        super::opcode::Angle: From<P23>,
+        super::opcode::Angle: From<P24>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -23265,7 +27957,7 @@ pub mod sexpr {
             P23,
             P24,
             P25,
-        > MapCollect<super::opcode::Length>
+        > MapCollect<super::opcode::Angle>
         for (
             P0,
             P1,
@@ -23295,34 +27987,34 @@ pub mod sexpr {
             P25,
         )
     where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-        super::opcode::Length: From<P12>,
-        super::opcode::Length: From<P13>,
-        super::opcode::Length: From<P14>,
-        super::opcode::Length: From<P15>,
-        super::opcode::Length: From<P16>,
-        super::opcode::Length: From<P17>,
-        super::opcode::Length: From<P18>,
-        super::opcode::Length: From<P19>,
-        super::opcode::Length: From<P20>,
-        super::opcode::Length: From<P21>,
-        super::opcode::Length: From<P22>,
-        super::opcode::Length: From<P23>,
-        super::opcode::Length: From<P24>,
-        super::opcode::Length: From<P25>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
+        super::opcode::Angle: From<P12>,
+        super::opcode::Angle: From<P13>,
+        super::opcode::Angle: From<P14>,
+        super::opcode::Angle: From<P15>,
+        super::opcode::Angle: From<P16>,
+        super::opcode::Angle: From<P17>,
+        super::opcode::Angle: From<P18>,
+        super::opcode::Angle: From<P19>,
+        super::opcode::Angle: From<P20>,
+        super::opcode::Angle: From<P21>,
+        super::opcode::Angle: From<P22>,
+        super::opcode::Angle: From<P23>,
+        super::opcode::Angle: From<P24>,
+        super::opcode::Angle: From<P25>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -23381,7 +28073,7 @@ pub mod sexpr {
             P24,
             P25,
             P26,
-        > MapCollect<super::opcode::Length>
+        > MapCollect<super::opcode::Angle>
         for (
             P0,
             P1,
@@ -23412,35 +28104,35 @@ pub mod sexpr {
             P26,
         )
     where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-        super::opcode::Length: From<P12>,
-        super::opcode::Length: From<P13>,
-        super::opcode::Length: From<P14>,
-        super::opcode::Length: From<P15>,
-        super::opcode::Length: From<P16>,
-        super::opcode::Length: From<P17>,
-        super::opcode::Length: From<P18>,
-        super::opcode::Length: From<P19>,
-        super::opcode::Length: From<P20>,
-        super::opcode::Length: From<P21>,
-        super::opcode::Length: From<P22>,
-        super::opcode::Length: From<P23>,
-        super::opcode::Length: From<P24>,
-        super::opcode::Length: From<P25>,
-        super::opcode::Length: From<P26>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
+        super::opcode::Angle: From<P12>,
+        super::opcode::Angle: From<P13>,
+        super::opcode::Angle: From<P14>,
+        super::opcode::Angle: From<P15>,
+        super::opcode::Angle: From<P16>,
+        super::opcode::Angle: From<P17>,
+        super::opcode::Angle: From<P18>,
+        super::opcode::Angle: From<P19>,
+        super::opcode::Angle: From<P20>,
+        super::opcode::Angle: From<P21>,
+        super::opcode::Angle: From<P22>,
+        super::opcode::Angle: From<P23>,
+        super::opcode::Angle: From<P24>,
+        super::opcode::Angle: From<P25>,
+        super::opcode::Angle: From<P26>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -23501,7 +28193,7 @@ pub mod sexpr {
             P25,
             P26,
             P27,
-        > MapCollect<super::opcode::Length>
+        > MapCollect<super::opcode::Angle>
         for (
             P0,
             P1,
@@ -23533,36 +28225,36 @@ pub mod sexpr {
             P27,
         )
     where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-        super::opcode::Length: From<P12>,
-        super::opcode::Length: From<P13>,
-        super::opcode::Length: From<P14>,
-        super::opcode::Length: From<P15>,
-        super::opcode::Length: From<P16>,
-        super::opcode::Length: From<P17>,
-        super::opcode::Length: From<P18>,
-        super::opcode::Length: From<P19>,
-        super::opcode::Length: From<P20>,
-        super::opcode::Length: From<P21>,
-        super::opcode::Length: From<P22>,
-        super::opcode::Length: From<P23>,
-        super::opcode::Length: From<P24>,
-        super::opcode::Length: From<P25>,
-        super::opcode::Length: From<P26>,
-        super::opcode::Length: From<P27>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
+        super::opcode::Angle: From<P12>,
+        super::opcode::Angle: From<P13>,
+        super::opcode::Angle: From<P14>,
+        super::opcode::Angle: From<P15>,
+        super::opcode::Angle: From<P16>,
+        super::opcode::Angle: From<P17>,
+        super::opcode::Angle: From<P18>,
+        super::opcode::Angle: From<P19>,
+        super::opcode::Angle: From<P20>,
+        super::opcode::Angle: From<P21>,
+        super::opcode::Angle: From<P22>,
+        super::opcode::Angle: From<P23>,
+        super::opcode::Angle: From<P24>,
+        super::opcode::Angle: From<P25>,
+        super::opcode::Angle: From<P26>,
+        super::opcode::Angle: From<P27>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -23625,7 +28317,7 @@ pub mod sexpr {
             P26,
             P27,
             P28,
-        > MapCollect<super::opcode::Length>
+        > MapCollect<super::opcode::Angle>
         for (
             P0,
             P1,
@@ -23658,37 +28350,37 @@ pub mod sexpr {
             P28,
         )
     where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-        super::opcode::Length: From<P12>,
-        super::opcode::Length: From<P13>,
-        super::opcode::Length: From<P14>,
-        super::opcode::Length: From<P15>,
-        super::opcode::Length: From<P16>,
-        super::opcode::Length: From<P17>,
-        super::opcode::Length: From<P18>,
-        super::opcode::Length: From<P19>,
-        super::opcode::Length: From<P20>,
-        super::opcode::Length: From<P21>,
-        super::opcode::Length: From<P22>,
-        super::opcode::Length: From<P23>,
-        super::opcode::Length: From<P24>,
-        super::opcode::Length: From<P25>,
-        super::opcode::Length: From<P26>,
-        super::opcode::Length: From<P27>,
-        super::opcode::Length: From<P28>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
+        super::opcode::Angle: From<P12>,
+        super::opcode::Angle: From<P13>,
+        super::opcode::Angle: From<P14>,
+        super::opcode::Angle: From<P15>,
+        super::opcode::Angle: From<P16>,
+        super::opcode::Angle: From<P17>,
+        super::opcode::Angle: From<P18>,
+        super::opcode::Angle: From<P19>,
+        super::opcode::Angle: From<P20>,
+        super::opcode::Angle: From<P21>,
+        super::opcode::Angle: From<P22>,
+        super::opcode::Angle: From<P23>,
+        super::opcode::Angle: From<P24>,
+        super::opcode::Angle: From<P25>,
+        super::opcode::Angle: From<P26>,
+        super::opcode::Angle: From<P27>,
+        super::opcode::Angle: From<P28>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -23753,7 +28445,7 @@ pub mod sexpr {
             P27,
             P28,
             P29,
-        > MapCollect<super::opcode::Length>
+        > MapCollect<super::opcode::Angle>
         for (
             P0,
             P1,
@@ -23787,38 +28479,38 @@ pub mod sexpr {
             P29,
         )
     where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-        super::opcode::Length: From<P12>,
-        super::opcode::Length: From<P13>,
-        super::opcode::Length: From<P14>,
-        super::opcode::Length: From<P15>,
-        super::opcode::Length: From<P16>,
-        super::opcode::Length: From<P17>,
-        super::opcode::Length: From<P18>,
-        super::opcode::Length: From<P19>,
-        super::opcode::Length: From<P20>,
-        super::opcode::Length: From<P21>,
-        super::opcode::Length: From<P22>,
-        super::opcode::Length: From<P23>,
-        super::opcode::Length: From<P24>,
-        super::opcode::Length: From<P25>,
-        super::opcode::Length: From<P26>,
-        super::opcode::Length: From<P27>,
-        super::opcode::Length: From<P28>,
-        super::opcode::Length: From<P29>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
+        super::opcode::Angle: From<P12>,
+        super::opcode::Angle: From<P13>,
+        super::opcode::Angle: From<P14>,
+        super::opcode::Angle: From<P15>,
+        super::opcode::Angle: From<P16>,
+        super::opcode::Angle: From<P17>,
+        super::opcode::Angle: From<P18>,
+        super::opcode::Angle: From<P19>,
+        super::opcode::Angle: From<P20>,
+        super::opcode::Angle: From<P21>,
+        super::opcode::Angle: From<P22>,
+        super::opcode::Angle: From<P23>,
+        super::opcode::Angle: From<P24>,
+        super::opcode::Angle: From<P25>,
+        super::opcode::Angle: From<P26>,
+        super::opcode::Angle: From<P27>,
+        super::opcode::Angle: From<P28>,
+        super::opcode::Angle: From<P29>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -23885,7 +28577,7 @@ pub mod sexpr {
             P28,
             P29,
             P30,
-        > MapCollect<super::opcode::Length>
+        > MapCollect<super::opcode::Angle>
         for (
             P0,
             P1,
@@ -23920,39 +28612,39 @@ pub mod sexpr {
             P30,
         )
     where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-        super::opcode::Length: From<P12>,
-        super::opcode::Length: From<P13>,
-        super::opcode::Length: From<P14>,
-        super::opcode::Length: From<P15>,
-        super::opcode::Length: From<P16>,
-        super::opcode::Length: From<P17>,
-        super::opcode::Length: From<P18>,
-        super::opcode::Length: From<P19>,
-        super::opcode::Length: From<P20>,
-        super::opcode::Length: From<P21>,
-        super::opcode::Length: From<P22>,
-        super::opcode::Length: From<P23>,
-        super::opcode::Length: From<P24>,
-        super::opcode::Length: From<P25>,
-        super::opcode::Length: From<P26>,
-        super::opcode::Length: From<P27>,
-        super::opcode::Length: From<P28>,
-        super::opcode::Length: From<P29>,
-        super::opcode::Length: From<P30>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
+        super::opcode::Angle: From<P12>,
+        super::opcode::Angle: From<P13>,
+        super::opcode::Angle: From<P14>,
+        super::opcode::Angle: From<P15>,
+        super::opcode::Angle: From<P16>,
+        super::opcode::Angle: From<P17>,
+        super::opcode::Angle: From<P18>,
+        super::opcode::Angle: From<P19>,
+        super::opcode::Angle: From<P20>,
+        super::opcode::Angle: From<P21>,
+        super::opcode::Angle: From<P22>,
+        super::opcode::Angle: From<P23>,
+        super::opcode::Angle: From<P24>,
+        super::opcode::Angle: From<P25>,
+        super::opcode::Angle: From<P26>,
+        super::opcode::Angle: From<P27>,
+        super::opcode::Angle: From<P28>,
+        super::opcode::Angle: From<P29>,
+        super::opcode::Angle: From<P30>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -24021,7 +28713,7 @@ pub mod sexpr {
             P29,
             P30,
             P31,
-        > MapCollect<super::opcode::Length>
+        > MapCollect<super::opcode::Angle>
         for (
             P0,
             P1,
@@ -24057,40 +28749,40 @@ pub mod sexpr {
             P31,
         )
     where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-        super::opcode::Length: From<P12>,
-        super::opcode::Length: From<P13>,
-        super::opcode::Length: From<P14>,
-        super::opcode::Length: From<P15>,
-        super::opcode::Length: From<P16>,
-        super::opcode::Length: From<P17>,
-        super::opcode::Length: From<P18>,
-        super::opcode::Length: From<P19>,
-        super::opcode::Length: From<P20>,
-        super::opcode::Length: From<P21>,
-        super::opcode::Length: From<P22>,
-        super::opcode::Length: From<P23>,
-        super::opcode::Length: From<P24>,
-        super::opcode::Length: From<P25>,
-        super::opcode::Length: From<P26>,
-        super::opcode::Length: From<P27>,
-        super::opcode::Length: From<P28>,
-        super::opcode::Length: From<P29>,
-        super::opcode::Length: From<P30>,
-        super::opcode::Length: From<P31>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
+        super::opcode::Angle: From<P12>,
+        super::opcode::Angle: From<P13>,
+        super::opcode::Angle: From<P14>,
+        super::opcode::Angle: From<P15>,
+        super::opcode::Angle: From<P16>,
+        super::opcode::Angle: From<P17>,
+        super::opcode::Angle: From<P18>,
+        super::opcode::Angle: From<P19>,
+        super::opcode::Angle: From<P20>,
+        super::opcode::Angle: From<P21>,
+        super::opcode::Angle: From<P22>,
+        super::opcode::Angle: From<P23>,
+        super::opcode::Angle: From<P24>,
+        super::opcode::Angle: From<P25>,
+        super::opcode::Angle: From<P26>,
+        super::opcode::Angle: From<P27>,
+        super::opcode::Angle: From<P28>,
+        super::opcode::Angle: From<P29>,
+        super::opcode::Angle: From<P30>,
+        super::opcode::Angle: From<P31>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -24161,7 +28853,7 @@ pub mod sexpr {
             P30,
             P31,
             P32,
-        > MapCollect<super::opcode::Length>
+        > MapCollect<super::opcode::Angle>
         for (
             P0,
             P1,
@@ -24198,41 +28890,41 @@ pub mod sexpr {
             P32,
         )
     where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-        super::opcode::Length: From<P12>,
-        super::opcode::Length: From<P13>,
-        super::opcode::Length: From<P14>,
-        super::opcode::Length: From<P15>,
-        super::opcode::Length: From<P16>,
-        super::opcode::Length: From<P17>,
-        super::opcode::Length: From<P18>,
-        super::opcode::Length: From<P19>,
-        super::opcode::Length: From<P20>,
-        super::opcode::Length: From<P21>,
-        super::opcode::Length: From<P22>,
-        super::opcode::Length: From<P23>,
-        super::opcode::Length: From<P24>,
-        super::opcode::Length: From<P25>,
-        super::opcode::Length: From<P26>,
-        super::opcode::Length: From<P27>,
-        super::opcode::Length: From<P28>,
-        super::opcode::Length: From<P29>,
-        super::opcode::Length: From<P30>,
-        super::opcode::Length: From<P31>,
-        super::opcode::Length: From<P32>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
+        super::opcode::Angle: From<P12>,
+        super::opcode::Angle: From<P13>,
+        super::opcode::Angle: From<P14>,
+        super::opcode::Angle: From<P15>,
+        super::opcode::Angle: From<P16>,
+        super::opcode::Angle: From<P17>,
+        super::opcode::Angle: From<P18>,
+        super::opcode::Angle: From<P19>,
+        super::opcode::Angle: From<P20>,
+        super::opcode::Angle: From<P21>,
+        super::opcode::Angle: From<P22>,
+        super::opcode::Angle: From<P23>,
+        super::opcode::Angle: From<P24>,
+        super::opcode::Angle: From<P25>,
+        super::opcode::Angle: From<P26>,
+        super::opcode::Angle: From<P27>,
+        super::opcode::Angle: From<P28>,
+        super::opcode::Angle: From<P29>,
+        super::opcode::Angle: From<P30>,
+        super::opcode::Angle: From<P31>,
+        super::opcode::Angle: From<P32>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -24305,7 +28997,7 @@ pub mod sexpr {
             P31,
             P32,
             P33,
-        > MapCollect<super::opcode::Length>
+        > MapCollect<super::opcode::Angle>
         for (
             P0,
             P1,
@@ -24343,42 +29035,42 @@ pub mod sexpr {
             P33,
         )
     where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-        super::opcode::Length: From<P12>,
-        super::opcode::Length: From<P13>,
-        super::opcode::Length: From<P14>,
-        super::opcode::Length: From<P15>,
-        super::opcode::Length: From<P16>,
-        super::opcode::Length: From<P17>,
-        super::opcode::Length: From<P18>,
-        super::opcode::Length: From<P19>,
-        super::opcode::Length: From<P20>,
-        super::opcode::Length: From<P21>,
-        super::opcode::Length: From<P22>,
-        super::opcode::Length: From<P23>,
-        super::opcode::Length: From<P24>,
-        super::opcode::Length: From<P25>,
-        super::opcode::Length: From<P26>,
-        super::opcode::Length: From<P27>,
-        super::opcode::Length: From<P28>,
-        super::opcode::Length: From<P29>,
-        super::opcode::Length: From<P30>,
-        super::opcode::Length: From<P31>,
-        super::opcode::Length: From<P32>,
-        super::opcode::Length: From<P33>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
+        super::opcode::Angle: From<P12>,
+        super::opcode::Angle: From<P13>,
+        super::opcode::Angle: From<P14>,
+        super::opcode::Angle: From<P15>,
+        super::opcode::Angle: From<P16>,
+        super::opcode::Angle: From<P17>,
+        super::opcode::Angle: From<P18>,
+        super::opcode::Angle: From<P19>,
+        super::opcode::Angle: From<P20>,
+        super::opcode::Angle: From<P21>,
+        super::opcode::Angle: From<P22>,
+        super::opcode::Angle: From<P23>,
+        super::opcode::Angle: From<P24>,
+        super::opcode::Angle: From<P25>,
+        super::opcode::Angle: From<P26>,
+        super::opcode::Angle: From<P27>,
+        super::opcode::Angle: From<P28>,
+        super::opcode::Angle: From<P29>,
+        super::opcode::Angle: From<P30>,
+        super::opcode::Angle: From<P31>,
+        super::opcode::Angle: From<P32>,
+        super::opcode::Angle: From<P33>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -24453,7 +29145,7 @@ pub mod sexpr {
             P32,
             P33,
             P34,
-        > MapCollect<super::opcode::Length>
+        > MapCollect<super::opcode::Angle>
         for (
             P0,
             P1,
@@ -24492,43 +29184,43 @@ pub mod sexpr {
             P34,
         )
     where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-        super::opcode::Length: From<P12>,
-        super::opcode::Length: From<P13>,
-        super::opcode::Length: From<P14>,
-        super::opcode::Length: From<P15>,
-        super::opcode::Length: From<P16>,
-        super::opcode::Length: From<P17>,
-        super::opcode::Length: From<P18>,
-        super::opcode::Length: From<P19>,
-        super::opcode::Length: From<P20>,
-        super::opcode::Length: From<P21>,
-        super::opcode::Length: From<P22>,
-        super::opcode::Length: From<P23>,
-        super::opcode::Length: From<P24>,
-        super::opcode::Length: From<P25>,
-        super::opcode::Length: From<P26>,
-        super::opcode::Length: From<P27>,
-        super::opcode::Length: From<P28>,
-        super::opcode::Length: From<P29>,
-        super::opcode::Length: From<P30>,
-        super::opcode::Length: From<P31>,
-        super::opcode::Length: From<P32>,
-        super::opcode::Length: From<P33>,
-        super::opcode::Length: From<P34>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
+        super::opcode::Angle: From<P12>,
+        super::opcode::Angle: From<P13>,
+        super::opcode::Angle: From<P14>,
+        super::opcode::Angle: From<P15>,
+        super::opcode::Angle: From<P16>,
+        super::opcode::Angle: From<P17>,
+        super::opcode::Angle: From<P18>,
+        super::opcode::Angle: From<P19>,
+        super::opcode::Angle: From<P20>,
+        super::opcode::Angle: From<P21>,
+        super::opcode::Angle: From<P22>,
+        super::opcode::Angle: From<P23>,
+        super::opcode::Angle: From<P24>,
+        super::opcode::Angle: From<P25>,
+        super::opcode::Angle: From<P26>,
+        super::opcode::Angle: From<P27>,
+        super::opcode::Angle: From<P28>,
+        super::opcode::Angle: From<P29>,
+        super::opcode::Angle: From<P30>,
+        super::opcode::Angle: From<P31>,
+        super::opcode::Angle: From<P32>,
+        super::opcode::Angle: From<P33>,
+        super::opcode::Angle: From<P34>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -24605,7 +29297,7 @@ pub mod sexpr {
             P33,
             P34,
             P35,
-        > MapCollect<super::opcode::Length>
+        > MapCollect<super::opcode::Angle>
         for (
             P0,
             P1,
@@ -24645,44 +29337,44 @@ pub mod sexpr {
             P35,
         )
     where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-        super::opcode::Length: From<P12>,
-        super::opcode::Length: From<P13>,
-        super::opcode::Length: From<P14>,
-        super::opcode::Length: From<P15>,
-        super::opcode::Length: From<P16>,
-        super::opcode::Length: From<P17>,
-        super::opcode::Length: From<P18>,
-        super::opcode::Length: From<P19>,
-        super::opcode::Length: From<P20>,
-        super::opcode::Length: From<P21>,
-        super::opcode::Length: From<P22>,
-        super::opcode::Length: From<P23>,
-        super::opcode::Length: From<P24>,
-        super::opcode::Length: From<P25>,
-        super::opcode::Length: From<P26>,
-        super::opcode::Length: From<P27>,
-        super::opcode::Length: From<P28>,
-        super::opcode::Length: From<P29>,
-        super::opcode::Length: From<P30>,
-        super::opcode::Length: From<P31>,
-        super::opcode::Length: From<P32>,
-        super::opcode::Length: From<P33>,
-        super::opcode::Length: From<P34>,
-        super::opcode::Length: From<P35>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
+        super::opcode::Angle: From<P12>,
+        super::opcode::Angle: From<P13>,
+        super::opcode::Angle: From<P14>,
+        super::opcode::Angle: From<P15>,
+        super::opcode::Angle: From<P16>,
+        super::opcode::Angle: From<P17>,
+        super::opcode::Angle: From<P18>,
+        super::opcode::Angle: From<P19>,
+        super::opcode::Angle: From<P20>,
+        super::opcode::Angle: From<P21>,
+        super::opcode::Angle: From<P22>,
+        super::opcode::Angle: From<P23>,
+        super::opcode::Angle: From<P24>,
+        super::opcode::Angle: From<P25>,
+        super::opcode::Angle: From<P26>,
+        super::opcode::Angle: From<P27>,
+        super::opcode::Angle: From<P28>,
+        super::opcode::Angle: From<P29>,
+        super::opcode::Angle: From<P30>,
+        super::opcode::Angle: From<P31>,
+        super::opcode::Angle: From<P32>,
+        super::opcode::Angle: From<P33>,
+        super::opcode::Angle: From<P34>,
+        super::opcode::Angle: From<P35>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -24761,7 +29453,7 @@ pub mod sexpr {
             P34,
             P35,
             P36,
-        > MapCollect<super::opcode::Length>
+        > MapCollect<super::opcode::Angle>
         for (
             P0,
             P1,
@@ -24802,45 +29494,45 @@ pub mod sexpr {
             P36,
         )
     where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-        super::opcode::Length: From<P12>,
-        super::opcode::Length: From<P13>,
-        super::opcode::Length: From<P14>,
-        super::opcode::Length: From<P15>,
-        super::opcode::Length: From<P16>,
-        super::opcode::Length: From<P17>,
-        super::opcode::Length: From<P18>,
-        super::opcode::Length: From<P19>,
-        super::opcode::Length: From<P20>,
-        super::opcode::Length: From<P21>,
-        super::opcode::Length: From<P22>,
-        super::opcode::Length: From<P23>,
-        super::opcode::Length: From<P24>,
-        super::opcode::Length: From<P25>,
-        super::opcode::Length: From<P26>,
-        super::opcode::Length: From<P27>,
-        super::opcode::Length: From<P28>,
-        super::opcode::Length: From<P29>,
-        super::opcode::Length: From<P30>,
-        super::opcode::Length: From<P31>,
-        super::opcode::Length: From<P32>,
-        super::opcode::Length: From<P33>,
-        super::opcode::Length: From<P34>,
-        super::opcode::Length: From<P35>,
-        super::opcode::Length: From<P36>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
+        super::opcode::Angle: From<P12>,
+        super::opcode::Angle: From<P13>,
+        super::opcode::Angle: From<P14>,
+        super::opcode::Angle: From<P15>,
+        super::opcode::Angle: From<P16>,
+        super::opcode::Angle: From<P17>,
+        super::opcode::Angle: From<P18>,
+        super::opcode::Angle: From<P19>,
+        super::opcode::Angle: From<P20>,
+        super::opcode::Angle: From<P21>,
+        super::opcode::Angle: From<P22>,
+        super::opcode::Angle: From<P23>,
+        super::opcode::Angle: From<P24>,
+        super::opcode::Angle: From<P25>,
+        super::opcode::Angle: From<P26>,
+        super::opcode::Angle: From<P27>,
+        super::opcode::Angle: From<P28>,
+        super::opcode::Angle: From<P29>,
+        super::opcode::Angle: From<P30>,
+        super::opcode::Angle: From<P31>,
+        super::opcode::Angle: From<P32>,
+        super::opcode::Angle: From<P33>,
+        super::opcode::Angle: From<P34>,
+        super::opcode::Angle: From<P35>,
+        super::opcode::Angle: From<P36>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -24921,7 +29613,7 @@ pub mod sexpr {
             P35,
             P36,
             P37,
-        > MapCollect<super::opcode::Length>
+        > MapCollect<super::opcode::Angle>
         for (
             P0,
             P1,
@@ -24963,46 +29655,46 @@ pub mod sexpr {
             P37,
         )
     where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-        super::opcode::Length: From<P12>,
-        super::opcode::Length: From<P13>,
-        super::opcode::Length: From<P14>,
-        super::opcode::Length: From<P15>,
-        super::opcode::Length: From<P16>,
-        super::opcode::Length: From<P17>,
-        super::opcode::Length: From<P18>,
-        super::opcode::Length: From<P19>,
-        super::opcode::Length: From<P20>,
-        super::opcode::Length: From<P21>,
-        super::opcode::Length: From<P22>,
-        super::opcode::Length: From<P23>,
-        super::opcode::Length: From<P24>,
-        super::opcode::Length: From<P25>,
-        super::opcode::Length: From<P26>,
-        super::opcode::Length: From<P27>,
-        super::opcode::Length: From<P28>,
-        super::opcode::Length: From<P29>,
-        super::opcode::Length: From<P30>,
-        super::opcode::Length: From<P31>,
-        super::opcode::Length: From<P32>,
-        super::opcode::Length: From<P33>,
-        super::opcode::Length: From<P34>,
-        super::opcode::Length: From<P35>,
-        super::opcode::Length: From<P36>,
-        super::opcode::Length: From<P37>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
+        super::opcode::Angle: From<P12>,
+        super::opcode::Angle: From<P13>,
+        super::opcode::Angle: From<P14>,
+        super::opcode::Angle: From<P15>,
+        super::opcode::Angle: From<P16>,
+        super::opcode::Angle: From<P17>,
+        super::opcode::Angle: From<P18>,
+        super::opcode::Angle: From<P19>,
+        super::opcode::Angle: From<P20>,
+        super::opcode::Angle: From<P21>,
+        super::opcode::Angle: From<P22>,
+        super::opcode::Angle: From<P23>,
+        super::opcode::Angle: From<P24>,
+        super::opcode::Angle: From<P25>,
+        super::opcode::Angle: From<P26>,
+        super::opcode::Angle: From<P27>,
+        super::opcode::Angle: From<P28>,
+        super::opcode::Angle: From<P29>,
+        super::opcode::Angle: From<P30>,
+        super::opcode::Angle: From<P31>,
+        super::opcode::Angle: From<P32>,
+        super::opcode::Angle: From<P33>,
+        super::opcode::Angle: From<P34>,
+        super::opcode::Angle: From<P35>,
+        super::opcode::Angle: From<P36>,
+        super::opcode::Angle: From<P37>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -25085,7 +29777,7 @@ pub mod sexpr {
             P36,
             P37,
             P38,
-        > MapCollect<super::opcode::Length>
+        > MapCollect<super::opcode::Angle>
         for (
             P0,
             P1,
@@ -25128,47 +29820,47 @@ pub mod sexpr {
             P38,
         )
     where
-        super::opcode::Length: From<P0>,
-        super::opcode::Length: From<P1>,
-        super::opcode::Length: From<P2>,
-        super::opcode::Length: From<P3>,
-        super::opcode::Length: From<P4>,
-        super::opcode::Length: From<P5>,
-        super::opcode::Length: From<P6>,
-        super::opcode::Length: From<P7>,
-        super::opcode::Length: From<P8>,
-        super::opcode::Length: From<P9>,
-        super::opcode::Length: From<P10>,
-        super::opcode::Length: From<P11>,
-        super::opcode::Length: From<P12>,
-        super::opcode::Length: From<P13>,
-        super::opcode::Length: From<P14>,
-        super::opcode::Length: From<P15>,
-        super::opcode::Length: From<P16>,
-        super::opcode::Length: From<P17>,
-        super::opcode::Length: From<P18>,
-        super::opcode::Length: From<P19>,
-        super::opcode::Length: From<P20>,
-        super::opcode::Length: From<P21>,
-        super::opcode::Length: From<P22>,
-        super::opcode::Length: From<P23>,
-        super::opcode::Length: From<P24>,
-        super::opcode::Length: From<P25>,
-        super::opcode::Length: From<P26>,
-        super::opcode::Length: From<P27>,
-        super::opcode::Length: From<P28>,
-        super::opcode::Length: From<P29>,
-        super::opcode::Length: From<P30>,
-        super::opcode::Length: From<P31>,
-        super::opcode::Length: From<P32>,
-        super::opcode::Length: From<P33>,
-        super::opcode::Length: From<P34>,
-        super::opcode::Length: From<P35>,
-        super::opcode::Length: From<P36>,
-        super::opcode::Length: From<P37>,
-        super::opcode::Length: From<P38>,
+        super::opcode::Angle: From<P0>,
+        super::opcode::Angle: From<P1>,
+        super::opcode::Angle: From<P2>,
+        super::opcode::Angle: From<P3>,
+        super::opcode::Angle: From<P4>,
+        super::opcode::Angle: From<P5>,
+        super::opcode::Angle: From<P6>,
+        super::opcode::Angle: From<P7>,
+        super::opcode::Angle: From<P8>,
+        super::opcode::Angle: From<P9>,
+        super::opcode::Angle: From<P10>,
+        super::opcode::Angle: From<P11>,
+        super::opcode::Angle: From<P12>,
+        super::opcode::Angle: From<P13>,
+        super::opcode::Angle: From<P14>,
+        super::opcode::Angle: From<P15>,
+        super::opcode::Angle: From<P16>,
+        super::opcode::Angle: From<P17>,
+        super::opcode::Angle: From<P18>,
+        super::opcode::Angle: From<P19>,
+        super::opcode::Angle: From<P20>,
+        super::opcode::Angle: From<P21>,
+        super::opcode::Angle: From<P22>,
+        super::opcode::Angle: From<P23>,
+        super::opcode::Angle: From<P24>,
+        super::opcode::Angle: From<P25>,
+        super::opcode::Angle: From<P26>,
+        super::opcode::Angle: From<P27>,
+        super::opcode::Angle: From<P28>,
+        super::opcode::Angle: From<P29>,
+        super::opcode::Angle: From<P30>,
+        super::opcode::Angle: From<P31>,
+        super::opcode::Angle: From<P32>,
+        super::opcode::Angle: From<P33>,
+        super::opcode::Angle: From<P34>,
+        super::opcode::Angle: From<P35>,
+        super::opcode::Angle: From<P36>,
+        super::opcode::Angle: From<P37>,
+        super::opcode::Angle: From<P38>,
     {
-        fn map_collect(self) -> Vec<super::opcode::Length> {
+        fn map_collect(self) -> Vec<super::opcode::Angle> {
             vec![
                 self.0.into(),
                 self.1.into(),
@@ -28418,3213 +33110,6 @@ pub mod sexpr {
                 Number::from(self.36).0,
                 Number::from(self.37).0,
                 Number::from(self.38).0,
-            ]
-        }
-    }
-    impl<P0> MapCollect<super::opcode::PathEvent> for P0
-    where
-        super::opcode::PathEvent: From<P0>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![self.into()]
-        }
-    }
-    impl<P0, P1> MapCollect<super::opcode::PathEvent> for (P0, P1)
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![self.0.into(), self.1.into()]
-        }
-    }
-    impl<P0, P1, P2> MapCollect<super::opcode::PathEvent> for (P0, P1, P2)
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![self.0.into(), self.1.into(), self.2.into()]
-        }
-    }
-    impl<P0, P1, P2, P3> MapCollect<super::opcode::PathEvent> for (P0, P1, P2, P3)
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
-        }
-    }
-    impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::PathEvent> for (P0, P1, P2, P3, P4)
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::PathEvent> for (P0, P1, P2, P3, P4, P5)
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::PathEvent>
-        for (P0, P1, P2, P3, P4, P5, P6)
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::PathEvent>
-        for (P0, P1, P2, P3, P4, P5, P6, P7)
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::PathEvent>
-        for (P0, P1, P2, P3, P4, P5, P6, P7, P8)
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::PathEvent>
-        for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::PathEvent>
-        for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::PathEvent>
-        for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11)
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::PathEvent>
-        for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12)
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-        super::opcode::PathEvent: From<P12>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13>
-        MapCollect<super::opcode::PathEvent>
-        for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13)
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-        super::opcode::PathEvent: From<P12>,
-        super::opcode::PathEvent: From<P13>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
-        MapCollect<super::opcode::PathEvent>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-        )
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-        super::opcode::PathEvent: From<P12>,
-        super::opcode::PathEvent: From<P13>,
-        super::opcode::PathEvent: From<P14>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15>
-        MapCollect<super::opcode::PathEvent>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-        )
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-        super::opcode::PathEvent: From<P12>,
-        super::opcode::PathEvent: From<P13>,
-        super::opcode::PathEvent: From<P14>,
-        super::opcode::PathEvent: From<P15>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15, P16>
-        MapCollect<super::opcode::PathEvent>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-        )
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-        super::opcode::PathEvent: From<P12>,
-        super::opcode::PathEvent: From<P13>,
-        super::opcode::PathEvent: From<P14>,
-        super::opcode::PathEvent: From<P15>,
-        super::opcode::PathEvent: From<P16>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15, P16, P17>
-        MapCollect<super::opcode::PathEvent>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-        )
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-        super::opcode::PathEvent: From<P12>,
-        super::opcode::PathEvent: From<P13>,
-        super::opcode::PathEvent: From<P14>,
-        super::opcode::PathEvent: From<P15>,
-        super::opcode::PathEvent: From<P16>,
-        super::opcode::PathEvent: From<P17>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-            ]
-        }
-    }
-    impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15, P16, P17, P18>
-        MapCollect<super::opcode::PathEvent>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-        )
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-        super::opcode::PathEvent: From<P12>,
-        super::opcode::PathEvent: From<P13>,
-        super::opcode::PathEvent: From<P14>,
-        super::opcode::PathEvent: From<P15>,
-        super::opcode::PathEvent: From<P16>,
-        super::opcode::PathEvent: From<P17>,
-        super::opcode::PathEvent: From<P18>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-        > MapCollect<super::opcode::PathEvent>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-        )
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-        super::opcode::PathEvent: From<P12>,
-        super::opcode::PathEvent: From<P13>,
-        super::opcode::PathEvent: From<P14>,
-        super::opcode::PathEvent: From<P15>,
-        super::opcode::PathEvent: From<P16>,
-        super::opcode::PathEvent: From<P17>,
-        super::opcode::PathEvent: From<P18>,
-        super::opcode::PathEvent: From<P19>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-        > MapCollect<super::opcode::PathEvent>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-        )
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-        super::opcode::PathEvent: From<P12>,
-        super::opcode::PathEvent: From<P13>,
-        super::opcode::PathEvent: From<P14>,
-        super::opcode::PathEvent: From<P15>,
-        super::opcode::PathEvent: From<P16>,
-        super::opcode::PathEvent: From<P17>,
-        super::opcode::PathEvent: From<P18>,
-        super::opcode::PathEvent: From<P19>,
-        super::opcode::PathEvent: From<P20>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-        > MapCollect<super::opcode::PathEvent>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-        )
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-        super::opcode::PathEvent: From<P12>,
-        super::opcode::PathEvent: From<P13>,
-        super::opcode::PathEvent: From<P14>,
-        super::opcode::PathEvent: From<P15>,
-        super::opcode::PathEvent: From<P16>,
-        super::opcode::PathEvent: From<P17>,
-        super::opcode::PathEvent: From<P18>,
-        super::opcode::PathEvent: From<P19>,
-        super::opcode::PathEvent: From<P20>,
-        super::opcode::PathEvent: From<P21>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-        > MapCollect<super::opcode::PathEvent>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-        )
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-        super::opcode::PathEvent: From<P12>,
-        super::opcode::PathEvent: From<P13>,
-        super::opcode::PathEvent: From<P14>,
-        super::opcode::PathEvent: From<P15>,
-        super::opcode::PathEvent: From<P16>,
-        super::opcode::PathEvent: From<P17>,
-        super::opcode::PathEvent: From<P18>,
-        super::opcode::PathEvent: From<P19>,
-        super::opcode::PathEvent: From<P20>,
-        super::opcode::PathEvent: From<P21>,
-        super::opcode::PathEvent: From<P22>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-        > MapCollect<super::opcode::PathEvent>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-        )
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-        super::opcode::PathEvent: From<P12>,
-        super::opcode::PathEvent: From<P13>,
-        super::opcode::PathEvent: From<P14>,
-        super::opcode::PathEvent: From<P15>,
-        super::opcode::PathEvent: From<P16>,
-        super::opcode::PathEvent: From<P17>,
-        super::opcode::PathEvent: From<P18>,
-        super::opcode::PathEvent: From<P19>,
-        super::opcode::PathEvent: From<P20>,
-        super::opcode::PathEvent: From<P21>,
-        super::opcode::PathEvent: From<P22>,
-        super::opcode::PathEvent: From<P23>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-        > MapCollect<super::opcode::PathEvent>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-        )
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-        super::opcode::PathEvent: From<P12>,
-        super::opcode::PathEvent: From<P13>,
-        super::opcode::PathEvent: From<P14>,
-        super::opcode::PathEvent: From<P15>,
-        super::opcode::PathEvent: From<P16>,
-        super::opcode::PathEvent: From<P17>,
-        super::opcode::PathEvent: From<P18>,
-        super::opcode::PathEvent: From<P19>,
-        super::opcode::PathEvent: From<P20>,
-        super::opcode::PathEvent: From<P21>,
-        super::opcode::PathEvent: From<P22>,
-        super::opcode::PathEvent: From<P23>,
-        super::opcode::PathEvent: From<P24>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-        > MapCollect<super::opcode::PathEvent>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-        )
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-        super::opcode::PathEvent: From<P12>,
-        super::opcode::PathEvent: From<P13>,
-        super::opcode::PathEvent: From<P14>,
-        super::opcode::PathEvent: From<P15>,
-        super::opcode::PathEvent: From<P16>,
-        super::opcode::PathEvent: From<P17>,
-        super::opcode::PathEvent: From<P18>,
-        super::opcode::PathEvent: From<P19>,
-        super::opcode::PathEvent: From<P20>,
-        super::opcode::PathEvent: From<P21>,
-        super::opcode::PathEvent: From<P22>,
-        super::opcode::PathEvent: From<P23>,
-        super::opcode::PathEvent: From<P24>,
-        super::opcode::PathEvent: From<P25>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-        > MapCollect<super::opcode::PathEvent>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-        )
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-        super::opcode::PathEvent: From<P12>,
-        super::opcode::PathEvent: From<P13>,
-        super::opcode::PathEvent: From<P14>,
-        super::opcode::PathEvent: From<P15>,
-        super::opcode::PathEvent: From<P16>,
-        super::opcode::PathEvent: From<P17>,
-        super::opcode::PathEvent: From<P18>,
-        super::opcode::PathEvent: From<P19>,
-        super::opcode::PathEvent: From<P20>,
-        super::opcode::PathEvent: From<P21>,
-        super::opcode::PathEvent: From<P22>,
-        super::opcode::PathEvent: From<P23>,
-        super::opcode::PathEvent: From<P24>,
-        super::opcode::PathEvent: From<P25>,
-        super::opcode::PathEvent: From<P26>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-                self.26.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-        > MapCollect<super::opcode::PathEvent>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-        )
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-        super::opcode::PathEvent: From<P12>,
-        super::opcode::PathEvent: From<P13>,
-        super::opcode::PathEvent: From<P14>,
-        super::opcode::PathEvent: From<P15>,
-        super::opcode::PathEvent: From<P16>,
-        super::opcode::PathEvent: From<P17>,
-        super::opcode::PathEvent: From<P18>,
-        super::opcode::PathEvent: From<P19>,
-        super::opcode::PathEvent: From<P20>,
-        super::opcode::PathEvent: From<P21>,
-        super::opcode::PathEvent: From<P22>,
-        super::opcode::PathEvent: From<P23>,
-        super::opcode::PathEvent: From<P24>,
-        super::opcode::PathEvent: From<P25>,
-        super::opcode::PathEvent: From<P26>,
-        super::opcode::PathEvent: From<P27>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-                self.26.into(),
-                self.27.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-        > MapCollect<super::opcode::PathEvent>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-        )
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-        super::opcode::PathEvent: From<P12>,
-        super::opcode::PathEvent: From<P13>,
-        super::opcode::PathEvent: From<P14>,
-        super::opcode::PathEvent: From<P15>,
-        super::opcode::PathEvent: From<P16>,
-        super::opcode::PathEvent: From<P17>,
-        super::opcode::PathEvent: From<P18>,
-        super::opcode::PathEvent: From<P19>,
-        super::opcode::PathEvent: From<P20>,
-        super::opcode::PathEvent: From<P21>,
-        super::opcode::PathEvent: From<P22>,
-        super::opcode::PathEvent: From<P23>,
-        super::opcode::PathEvent: From<P24>,
-        super::opcode::PathEvent: From<P25>,
-        super::opcode::PathEvent: From<P26>,
-        super::opcode::PathEvent: From<P27>,
-        super::opcode::PathEvent: From<P28>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-                self.26.into(),
-                self.27.into(),
-                self.28.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-        > MapCollect<super::opcode::PathEvent>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-        )
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-        super::opcode::PathEvent: From<P12>,
-        super::opcode::PathEvent: From<P13>,
-        super::opcode::PathEvent: From<P14>,
-        super::opcode::PathEvent: From<P15>,
-        super::opcode::PathEvent: From<P16>,
-        super::opcode::PathEvent: From<P17>,
-        super::opcode::PathEvent: From<P18>,
-        super::opcode::PathEvent: From<P19>,
-        super::opcode::PathEvent: From<P20>,
-        super::opcode::PathEvent: From<P21>,
-        super::opcode::PathEvent: From<P22>,
-        super::opcode::PathEvent: From<P23>,
-        super::opcode::PathEvent: From<P24>,
-        super::opcode::PathEvent: From<P25>,
-        super::opcode::PathEvent: From<P26>,
-        super::opcode::PathEvent: From<P27>,
-        super::opcode::PathEvent: From<P28>,
-        super::opcode::PathEvent: From<P29>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-                self.26.into(),
-                self.27.into(),
-                self.28.into(),
-                self.29.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-        > MapCollect<super::opcode::PathEvent>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-        )
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-        super::opcode::PathEvent: From<P12>,
-        super::opcode::PathEvent: From<P13>,
-        super::opcode::PathEvent: From<P14>,
-        super::opcode::PathEvent: From<P15>,
-        super::opcode::PathEvent: From<P16>,
-        super::opcode::PathEvent: From<P17>,
-        super::opcode::PathEvent: From<P18>,
-        super::opcode::PathEvent: From<P19>,
-        super::opcode::PathEvent: From<P20>,
-        super::opcode::PathEvent: From<P21>,
-        super::opcode::PathEvent: From<P22>,
-        super::opcode::PathEvent: From<P23>,
-        super::opcode::PathEvent: From<P24>,
-        super::opcode::PathEvent: From<P25>,
-        super::opcode::PathEvent: From<P26>,
-        super::opcode::PathEvent: From<P27>,
-        super::opcode::PathEvent: From<P28>,
-        super::opcode::PathEvent: From<P29>,
-        super::opcode::PathEvent: From<P30>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-                self.26.into(),
-                self.27.into(),
-                self.28.into(),
-                self.29.into(),
-                self.30.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-        > MapCollect<super::opcode::PathEvent>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-        )
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-        super::opcode::PathEvent: From<P12>,
-        super::opcode::PathEvent: From<P13>,
-        super::opcode::PathEvent: From<P14>,
-        super::opcode::PathEvent: From<P15>,
-        super::opcode::PathEvent: From<P16>,
-        super::opcode::PathEvent: From<P17>,
-        super::opcode::PathEvent: From<P18>,
-        super::opcode::PathEvent: From<P19>,
-        super::opcode::PathEvent: From<P20>,
-        super::opcode::PathEvent: From<P21>,
-        super::opcode::PathEvent: From<P22>,
-        super::opcode::PathEvent: From<P23>,
-        super::opcode::PathEvent: From<P24>,
-        super::opcode::PathEvent: From<P25>,
-        super::opcode::PathEvent: From<P26>,
-        super::opcode::PathEvent: From<P27>,
-        super::opcode::PathEvent: From<P28>,
-        super::opcode::PathEvent: From<P29>,
-        super::opcode::PathEvent: From<P30>,
-        super::opcode::PathEvent: From<P31>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-                self.26.into(),
-                self.27.into(),
-                self.28.into(),
-                self.29.into(),
-                self.30.into(),
-                self.31.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-        > MapCollect<super::opcode::PathEvent>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-        )
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-        super::opcode::PathEvent: From<P12>,
-        super::opcode::PathEvent: From<P13>,
-        super::opcode::PathEvent: From<P14>,
-        super::opcode::PathEvent: From<P15>,
-        super::opcode::PathEvent: From<P16>,
-        super::opcode::PathEvent: From<P17>,
-        super::opcode::PathEvent: From<P18>,
-        super::opcode::PathEvent: From<P19>,
-        super::opcode::PathEvent: From<P20>,
-        super::opcode::PathEvent: From<P21>,
-        super::opcode::PathEvent: From<P22>,
-        super::opcode::PathEvent: From<P23>,
-        super::opcode::PathEvent: From<P24>,
-        super::opcode::PathEvent: From<P25>,
-        super::opcode::PathEvent: From<P26>,
-        super::opcode::PathEvent: From<P27>,
-        super::opcode::PathEvent: From<P28>,
-        super::opcode::PathEvent: From<P29>,
-        super::opcode::PathEvent: From<P30>,
-        super::opcode::PathEvent: From<P31>,
-        super::opcode::PathEvent: From<P32>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-                self.26.into(),
-                self.27.into(),
-                self.28.into(),
-                self.29.into(),
-                self.30.into(),
-                self.31.into(),
-                self.32.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-            P33,
-        > MapCollect<super::opcode::PathEvent>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-            P33,
-        )
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-        super::opcode::PathEvent: From<P12>,
-        super::opcode::PathEvent: From<P13>,
-        super::opcode::PathEvent: From<P14>,
-        super::opcode::PathEvent: From<P15>,
-        super::opcode::PathEvent: From<P16>,
-        super::opcode::PathEvent: From<P17>,
-        super::opcode::PathEvent: From<P18>,
-        super::opcode::PathEvent: From<P19>,
-        super::opcode::PathEvent: From<P20>,
-        super::opcode::PathEvent: From<P21>,
-        super::opcode::PathEvent: From<P22>,
-        super::opcode::PathEvent: From<P23>,
-        super::opcode::PathEvent: From<P24>,
-        super::opcode::PathEvent: From<P25>,
-        super::opcode::PathEvent: From<P26>,
-        super::opcode::PathEvent: From<P27>,
-        super::opcode::PathEvent: From<P28>,
-        super::opcode::PathEvent: From<P29>,
-        super::opcode::PathEvent: From<P30>,
-        super::opcode::PathEvent: From<P31>,
-        super::opcode::PathEvent: From<P32>,
-        super::opcode::PathEvent: From<P33>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-                self.26.into(),
-                self.27.into(),
-                self.28.into(),
-                self.29.into(),
-                self.30.into(),
-                self.31.into(),
-                self.32.into(),
-                self.33.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-            P33,
-            P34,
-        > MapCollect<super::opcode::PathEvent>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-            P33,
-            P34,
-        )
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-        super::opcode::PathEvent: From<P12>,
-        super::opcode::PathEvent: From<P13>,
-        super::opcode::PathEvent: From<P14>,
-        super::opcode::PathEvent: From<P15>,
-        super::opcode::PathEvent: From<P16>,
-        super::opcode::PathEvent: From<P17>,
-        super::opcode::PathEvent: From<P18>,
-        super::opcode::PathEvent: From<P19>,
-        super::opcode::PathEvent: From<P20>,
-        super::opcode::PathEvent: From<P21>,
-        super::opcode::PathEvent: From<P22>,
-        super::opcode::PathEvent: From<P23>,
-        super::opcode::PathEvent: From<P24>,
-        super::opcode::PathEvent: From<P25>,
-        super::opcode::PathEvent: From<P26>,
-        super::opcode::PathEvent: From<P27>,
-        super::opcode::PathEvent: From<P28>,
-        super::opcode::PathEvent: From<P29>,
-        super::opcode::PathEvent: From<P30>,
-        super::opcode::PathEvent: From<P31>,
-        super::opcode::PathEvent: From<P32>,
-        super::opcode::PathEvent: From<P33>,
-        super::opcode::PathEvent: From<P34>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-                self.26.into(),
-                self.27.into(),
-                self.28.into(),
-                self.29.into(),
-                self.30.into(),
-                self.31.into(),
-                self.32.into(),
-                self.33.into(),
-                self.34.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-            P33,
-            P34,
-            P35,
-        > MapCollect<super::opcode::PathEvent>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-            P33,
-            P34,
-            P35,
-        )
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-        super::opcode::PathEvent: From<P12>,
-        super::opcode::PathEvent: From<P13>,
-        super::opcode::PathEvent: From<P14>,
-        super::opcode::PathEvent: From<P15>,
-        super::opcode::PathEvent: From<P16>,
-        super::opcode::PathEvent: From<P17>,
-        super::opcode::PathEvent: From<P18>,
-        super::opcode::PathEvent: From<P19>,
-        super::opcode::PathEvent: From<P20>,
-        super::opcode::PathEvent: From<P21>,
-        super::opcode::PathEvent: From<P22>,
-        super::opcode::PathEvent: From<P23>,
-        super::opcode::PathEvent: From<P24>,
-        super::opcode::PathEvent: From<P25>,
-        super::opcode::PathEvent: From<P26>,
-        super::opcode::PathEvent: From<P27>,
-        super::opcode::PathEvent: From<P28>,
-        super::opcode::PathEvent: From<P29>,
-        super::opcode::PathEvent: From<P30>,
-        super::opcode::PathEvent: From<P31>,
-        super::opcode::PathEvent: From<P32>,
-        super::opcode::PathEvent: From<P33>,
-        super::opcode::PathEvent: From<P34>,
-        super::opcode::PathEvent: From<P35>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-                self.26.into(),
-                self.27.into(),
-                self.28.into(),
-                self.29.into(),
-                self.30.into(),
-                self.31.into(),
-                self.32.into(),
-                self.33.into(),
-                self.34.into(),
-                self.35.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-            P33,
-            P34,
-            P35,
-            P36,
-        > MapCollect<super::opcode::PathEvent>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-            P33,
-            P34,
-            P35,
-            P36,
-        )
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-        super::opcode::PathEvent: From<P12>,
-        super::opcode::PathEvent: From<P13>,
-        super::opcode::PathEvent: From<P14>,
-        super::opcode::PathEvent: From<P15>,
-        super::opcode::PathEvent: From<P16>,
-        super::opcode::PathEvent: From<P17>,
-        super::opcode::PathEvent: From<P18>,
-        super::opcode::PathEvent: From<P19>,
-        super::opcode::PathEvent: From<P20>,
-        super::opcode::PathEvent: From<P21>,
-        super::opcode::PathEvent: From<P22>,
-        super::opcode::PathEvent: From<P23>,
-        super::opcode::PathEvent: From<P24>,
-        super::opcode::PathEvent: From<P25>,
-        super::opcode::PathEvent: From<P26>,
-        super::opcode::PathEvent: From<P27>,
-        super::opcode::PathEvent: From<P28>,
-        super::opcode::PathEvent: From<P29>,
-        super::opcode::PathEvent: From<P30>,
-        super::opcode::PathEvent: From<P31>,
-        super::opcode::PathEvent: From<P32>,
-        super::opcode::PathEvent: From<P33>,
-        super::opcode::PathEvent: From<P34>,
-        super::opcode::PathEvent: From<P35>,
-        super::opcode::PathEvent: From<P36>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-                self.26.into(),
-                self.27.into(),
-                self.28.into(),
-                self.29.into(),
-                self.30.into(),
-                self.31.into(),
-                self.32.into(),
-                self.33.into(),
-                self.34.into(),
-                self.35.into(),
-                self.36.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-            P33,
-            P34,
-            P35,
-            P36,
-            P37,
-        > MapCollect<super::opcode::PathEvent>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-            P33,
-            P34,
-            P35,
-            P36,
-            P37,
-        )
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-        super::opcode::PathEvent: From<P12>,
-        super::opcode::PathEvent: From<P13>,
-        super::opcode::PathEvent: From<P14>,
-        super::opcode::PathEvent: From<P15>,
-        super::opcode::PathEvent: From<P16>,
-        super::opcode::PathEvent: From<P17>,
-        super::opcode::PathEvent: From<P18>,
-        super::opcode::PathEvent: From<P19>,
-        super::opcode::PathEvent: From<P20>,
-        super::opcode::PathEvent: From<P21>,
-        super::opcode::PathEvent: From<P22>,
-        super::opcode::PathEvent: From<P23>,
-        super::opcode::PathEvent: From<P24>,
-        super::opcode::PathEvent: From<P25>,
-        super::opcode::PathEvent: From<P26>,
-        super::opcode::PathEvent: From<P27>,
-        super::opcode::PathEvent: From<P28>,
-        super::opcode::PathEvent: From<P29>,
-        super::opcode::PathEvent: From<P30>,
-        super::opcode::PathEvent: From<P31>,
-        super::opcode::PathEvent: From<P32>,
-        super::opcode::PathEvent: From<P33>,
-        super::opcode::PathEvent: From<P34>,
-        super::opcode::PathEvent: From<P35>,
-        super::opcode::PathEvent: From<P36>,
-        super::opcode::PathEvent: From<P37>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-                self.26.into(),
-                self.27.into(),
-                self.28.into(),
-                self.29.into(),
-                self.30.into(),
-                self.31.into(),
-                self.32.into(),
-                self.33.into(),
-                self.34.into(),
-                self.35.into(),
-                self.36.into(),
-                self.37.into(),
-            ]
-        }
-    }
-    impl<
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-            P33,
-            P34,
-            P35,
-            P36,
-            P37,
-            P38,
-        > MapCollect<super::opcode::PathEvent>
-        for (
-            P0,
-            P1,
-            P2,
-            P3,
-            P4,
-            P5,
-            P6,
-            P7,
-            P8,
-            P9,
-            P10,
-            P11,
-            P12,
-            P13,
-            P14,
-            P15,
-            P16,
-            P17,
-            P18,
-            P19,
-            P20,
-            P21,
-            P22,
-            P23,
-            P24,
-            P25,
-            P26,
-            P27,
-            P28,
-            P29,
-            P30,
-            P31,
-            P32,
-            P33,
-            P34,
-            P35,
-            P36,
-            P37,
-            P38,
-        )
-    where
-        super::opcode::PathEvent: From<P0>,
-        super::opcode::PathEvent: From<P1>,
-        super::opcode::PathEvent: From<P2>,
-        super::opcode::PathEvent: From<P3>,
-        super::opcode::PathEvent: From<P4>,
-        super::opcode::PathEvent: From<P5>,
-        super::opcode::PathEvent: From<P6>,
-        super::opcode::PathEvent: From<P7>,
-        super::opcode::PathEvent: From<P8>,
-        super::opcode::PathEvent: From<P9>,
-        super::opcode::PathEvent: From<P10>,
-        super::opcode::PathEvent: From<P11>,
-        super::opcode::PathEvent: From<P12>,
-        super::opcode::PathEvent: From<P13>,
-        super::opcode::PathEvent: From<P14>,
-        super::opcode::PathEvent: From<P15>,
-        super::opcode::PathEvent: From<P16>,
-        super::opcode::PathEvent: From<P17>,
-        super::opcode::PathEvent: From<P18>,
-        super::opcode::PathEvent: From<P19>,
-        super::opcode::PathEvent: From<P20>,
-        super::opcode::PathEvent: From<P21>,
-        super::opcode::PathEvent: From<P22>,
-        super::opcode::PathEvent: From<P23>,
-        super::opcode::PathEvent: From<P24>,
-        super::opcode::PathEvent: From<P25>,
-        super::opcode::PathEvent: From<P26>,
-        super::opcode::PathEvent: From<P27>,
-        super::opcode::PathEvent: From<P28>,
-        super::opcode::PathEvent: From<P29>,
-        super::opcode::PathEvent: From<P30>,
-        super::opcode::PathEvent: From<P31>,
-        super::opcode::PathEvent: From<P32>,
-        super::opcode::PathEvent: From<P33>,
-        super::opcode::PathEvent: From<P34>,
-        super::opcode::PathEvent: From<P35>,
-        super::opcode::PathEvent: From<P36>,
-        super::opcode::PathEvent: From<P37>,
-        super::opcode::PathEvent: From<P38>,
-    {
-        fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-            vec![
-                self.0.into(),
-                self.1.into(),
-                self.2.into(),
-                self.3.into(),
-                self.4.into(),
-                self.5.into(),
-                self.6.into(),
-                self.7.into(),
-                self.8.into(),
-                self.9.into(),
-                self.10.into(),
-                self.11.into(),
-                self.12.into(),
-                self.13.into(),
-                self.14.into(),
-                self.15.into(),
-                self.16.into(),
-                self.17.into(),
-                self.18.into(),
-                self.19.into(),
-                self.20.into(),
-                self.21.into(),
-                self.22.into(),
-                self.23.into(),
-                self.24.into(),
-                self.25.into(),
-                self.26.into(),
-                self.27.into(),
-                self.28.into(),
-                self.29.into(),
-                self.30.into(),
-                self.31.into(),
-                self.32.into(),
-                self.33.into(),
-                self.34.into(),
-                self.35.into(),
-                self.36.into(),
-                self.37.into(),
-                self.38.into(),
             ]
         }
     }
