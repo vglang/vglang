@@ -57,7 +57,11 @@ impl Node {
         for field in self.fields.iter() {
             if !field.is_option() {
                 let param_type = format!("P{}", generic_index).parse().unwrap();
-                let param = format!("p{}", generic_index).parse().unwrap();
+                let param = if let Some(ident) = field.gen_ident() {
+                    ident
+                } else {
+                    format!("p{}", generic_index).parse().unwrap()
+                };
 
                 let from_expr = field.ty().gen_from_expr(&sexpr_mod, &param);
 

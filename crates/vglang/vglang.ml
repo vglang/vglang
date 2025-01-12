@@ -1929,19 +1929,19 @@ el LinearGradient {
     /// If the attribute is not specified, the effect is as if a value of '0%' were specified.
     ///
     /// Variable: yes.
-    #[option, variable]
+    #[option, variable, init]
     x1: Length,
 
     /// See [`x1`](LinearGradient::x1)
-    #[option, variable]
+    #[option, variable, init]
     y1: Length,
 
     /// See [`x1`](LinearGradient::x1)
-    #[option, variable]
+    #[option, variable, init]
     x2: Length,
 
     /// See [`x1`](LinearGradient::x1)
-    #[option, variable]
+    #[option, variable, init]
     y2: Length,
 
     /// Indicates what happens if the gradient starts or ends inside the bounds of the target rectangle.

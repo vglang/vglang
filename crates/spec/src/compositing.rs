@@ -5,8 +5,8 @@ use vglang::{
 
 /// Example from [`mask01`](https://www.w3.org/TR/SVG11/images/masking/mask01.svg)
 pub fn mask_01() -> impl Graphics {
-    Canvas::from((8.cm(), 3.cm()))
-        .apply(ViewBox::from((0, 0, 800, 300)))
+    Canvas::new(8.cm(), 3.cm())
+        .apply(ViewBox::new(0, 0, 800, 300))
         .children((
             LinearGradient::from((0, 0, 800, 0))
                 .units(Coords::UserSpaceOnUse)
