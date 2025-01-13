@@ -27,7 +27,6 @@ fn my_text(font_size: length) {
     }
 }
 
-
 #[viewbox($a,0,800,300)]
 canvas(8cm,3cm) {
     #[fill(#ff8080)]

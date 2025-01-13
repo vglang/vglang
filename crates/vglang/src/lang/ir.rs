@@ -9,6 +9,14 @@ use crate::opcode::{variable::Variable, Color, Coords, Length, Rgb};
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 pub struct Ident(pub String, pub Span);
 
+/// A named register reference.
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
+pub struct NamedRegister(pub Ident, pub Span);
+
+/// Literal integer: integer ::= [+-]? [0-9]+
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
+pub struct LitBool(pub Variable<bool>, pub Span);
+
 /// Literal integer: integer ::= [+-]? [0-9]+
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 pub struct LitInt(pub Variable<i64>, pub Span);
@@ -39,6 +47,7 @@ pub struct LitLength(pub Variable<Length>, pub Span);
 /// Literal expr variant.
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 pub enum LitExpr {
+    Bool(LitBool),
     Int(LitInt),
     Number(LitNum),
     Color(LitColor),

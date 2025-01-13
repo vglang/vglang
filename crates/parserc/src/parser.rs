@@ -8,7 +8,7 @@ pub trait Parser {
     type Output;
 
     /// Parse and generate a new output.
-    fn parse(self, input: &mut ParseContext<'_>) -> Result<Self::Output>;
+    fn parse(self, ctx: &mut ParseContext<'_>) -> Result<Self::Output>;
 }
 
 /// Implement [`Parser`] for all [`FnMut`](&mut Input<'_>) -> Result<O, E>.
@@ -18,8 +18,8 @@ where
 {
     type Output = O;
 
-    fn parse(self, input: &mut ParseContext<'_>) -> Result<Self::Output> {
-        (self)(input)
+    fn parse(self, ctx: &mut ParseContext<'_>) -> Result<Self::Output> {
+        (self)(ctx)
     }
 }
 
@@ -33,20 +33,20 @@ where
 {
     type Output = Option<S::Output>;
 
-    fn parse(self, input: &mut ParseContext<'_>) -> Result<Self::Output> {
-        let start = input.span();
-        match self.0.parse(input) {
+    fn parse(self, ctx: &mut ParseContext<'_>) -> Result<Self::Output> {
+        let start = ctx.span();
+        match self.0.parse(ctx) {
             Err(err) => match err {
                 crate::ControlFlow::Fatal => {
                     if self.1 {
-                        input.seek(start);
+                        ctx.seek(start);
                         return Ok(None);
                     } else {
                         return Err(ControlFlow::Fatal);
                     }
                 }
                 _ => {
-                    input.seek(start);
+                    ctx.seek(start);
                     return Ok(None);
                 }
             },
@@ -66,11 +66,11 @@ where
 {
     type Output = Output;
 
-    fn parse(self, input: &mut ParseContext<'_>) -> Result<Self::Output> {
-        if let Some(output) = self.0.clone().ok().parse(input)? {
+    fn parse(self, ctx: &mut ParseContext<'_>) -> Result<Self::Output> {
+        if let Some(output) = self.0.clone().ok().parse(ctx)? {
             return Ok(output);
         } else {
-            self.1.parse(input)
+            self.1.parse(ctx)
         }
     }
 }
@@ -86,8 +86,8 @@ where
 {
     type Output = U;
 
-    fn parse(self, input: &mut ParseContext<'_>) -> Result<Self::Output> {
-        self.0.parse(input).map(self.1)
+    fn parse(self, ctx: &mut ParseContext<'_>) -> Result<Self::Output> {
+        self.0.parse(ctx).map(self.1)
     }
 }
 
@@ -101,8 +101,8 @@ where
 {
     type Output = S::Output;
 
-    fn parse(self, input: &mut ParseContext<'_>) -> Result<Self::Output> {
-        self.0.parse(input).map_err(|_| ControlFlow::Fatal)
+    fn parse(self, ctx: &mut ParseContext<'_>) -> Result<Self::Output> {
+        self.0.parse(ctx).map_err(|_| ControlFlow::Fatal)
     }
 }
 
@@ -117,10 +117,10 @@ where
 {
     type Output = S::Output;
 
-    fn parse(self, input: &mut ParseContext<'_>) -> Result<Self::Output> {
-        match self.0.parse(input) {
+    fn parse(self, ctx: &mut ParseContext<'_>) -> Result<Self::Output> {
+        match self.0.parse(ctx) {
             Err(c) => {
-                input.with_context(self.1, self.2);
+                ctx.with_context(self.1, self.2);
                 return Err(c);
             }
             r => return r,
@@ -140,11 +140,11 @@ where
     S::Output: PartialEq + Debug,
 {
     type Output = S::Output;
-    fn parse(self, input: &mut ParseContext<'_>) -> Result<Self::Output> {
-        let output = match self.0.parse(input) {
+    fn parse(self, ctx: &mut ParseContext<'_>) -> Result<Self::Output> {
+        let output = match self.0.parse(ctx) {
             Ok(output) => output,
             Err(c) => {
-                let report = input
+                let report = ctx
                     .last_error()
                     .expect("inner error")
                     .into_iter()
@@ -173,12 +173,12 @@ where
     S::Output: PartialEq + Debug,
 {
     type Output = Vec<ReportLine>;
-    fn parse(self, input: &mut ParseContext<'_>) -> Result<Self::Output> {
+    fn parse(self, ctx: &mut ParseContext<'_>) -> Result<Self::Output> {
         self.0
-            .parse(input)
+            .parse(ctx)
             .expect_err("combinator(expect_err): unexpect success.");
 
-        Ok(input
+        Ok(ctx
             .last_error()
             .expect("combinator(expect_err): empty report"))
     }
@@ -268,8 +268,8 @@ impl<T> ParserExt for T where T: Parser {}
 ///
 /// See [`parse`](ParseExt::parse) function.
 pub trait FromInput {
-    /// Parse and construct self from `input`
-    fn parse(input: &mut ParseContext<'_>) -> Result<Self>
+    /// Parse and construct self from `ctx`
+    fn parse(ctx: &mut ParseContext<'_>) -> Result<Self>
     where
         Self: Sized;
 }
@@ -302,8 +302,8 @@ where
 {
     type Output = T;
 
-    fn parse(self, input: &mut ParseContext<'_>) -> Result<Self::Output> {
-        T::parse(input)
+    fn parse(self, ctx: &mut ParseContext<'_>) -> Result<Self::Output> {
+        T::parse(ctx)
     }
 }
 
@@ -313,8 +313,8 @@ where
 {
     type Output = Option<T>;
 
-    fn parse(self, input: &mut ParseContext<'_>) -> Result<Self::Output> {
-        T::into_parser().ok().parse(input)
+    fn parse(self, ctx: &mut ParseContext<'_>) -> Result<Self::Output> {
+        T::into_parser().ok().parse(ctx)
     }
 }
 
@@ -336,20 +336,20 @@ impl<'a> ParseExt for ParseContext<'a> {
 
 /// The parser ensue the next token is char `c`.
 pub fn ensure_char(c: char) -> impl Parser<Output = Span> + Clone {
-    move |input: &mut ParseContext<'_>| {
-        let (next, span) = input.next();
+    move |ctx: &mut ParseContext<'_>| {
+        let (next, span) = ctx.next();
 
         if let Some(next) = next {
             if c == next {
                 return Ok(span);
             }
 
-            input.report_error(Kind::Char(c), span);
+            ctx.report_error(Kind::Char(c), span);
 
             return Err(ControlFlow::Recoverable);
         }
 
-        input.report_error(Kind::Char(c), span);
+        ctx.report_error(Kind::Char(c), span);
         return Err(ControlFlow::Incomplete);
     }
 }
@@ -399,14 +399,14 @@ impl Keyword for String {
 /// A keyword is a seqence of chars without spaces.
 pub fn ensure_keyword<KW: Keyword>(kw: KW) -> impl Parser<Output = Span> + Clone {
     assert!(kw.len() > 0, "keyword length must greate than 0");
-    move |input: &mut ParseContext<'_>| {
+    move |ctx: &mut ParseContext<'_>| {
         let chars = kw.chars();
 
         let mut start = None;
         let mut end = None;
 
         for c in chars {
-            let (next, span) = input.next();
+            let (next, span) = ctx.next();
 
             if start.is_none() {
                 start = Some(span);
@@ -416,11 +416,11 @@ pub fn ensure_keyword<KW: Keyword>(kw: KW) -> impl Parser<Output = Span> + Clone
 
             if let Some(next) = next {
                 if next != c {
-                    input.report_error(Kind::Keyword(kw.into_string()), span);
+                    ctx.report_error(Kind::Keyword(kw.into_string()), span);
                     return Err(ControlFlow::Recoverable);
                 }
             } else {
-                input.report_error(Kind::Keyword(kw.into_string()), span);
+                ctx.report_error(Kind::Keyword(kw.into_string()), span);
                 return Err(ControlFlow::Incomplete);
             }
         }
@@ -431,13 +431,13 @@ pub fn ensure_keyword<KW: Keyword>(kw: KW) -> impl Parser<Output = Span> + Clone
     }
 }
 
-/// Returns the longest input [`Span`] (if any) that matches the predicate.
+/// Returns the longest ctx [`Span`] (if any) that matches the predicate.
 pub fn take_while_indices<F>(f: F) -> impl Parser<Output = Option<Span>>
 where
     F: Fn(usize, char) -> bool,
 {
-    move |input: &mut ParseContext<'_>| {
-        let (c, start) = input.next();
+    move |ctx: &mut ParseContext<'_>| {
+        let (c, start) = ctx.next();
 
         if c.is_none() {
             return Ok(None);
@@ -446,17 +446,17 @@ where
         let mut indx = 0;
 
         if !f(indx, c.unwrap()) {
-            input.seek(start);
+            ctx.seek(start);
             return Ok(None);
         }
 
         let mut end = start;
 
-        while let (Some(c), span) = input.next() {
+        while let (Some(c), span) = ctx.next() {
             indx += 1;
 
             if !f(indx, c) {
-                input.seek(span);
+                ctx.seek(span);
                 break;
             }
 
@@ -467,7 +467,7 @@ where
     }
 }
 
-/// Returns the longest input [`Span`] (if any) that matches the predicate.
+/// Returns the longest ctx [`Span`] (if any) that matches the predicate.
 pub fn take_while<F>(f: F) -> impl Parser<Output = Option<Span>>
 where
     F: Fn(char) -> bool,
@@ -475,7 +475,7 @@ where
     take_while_indices(move |_, c| f(c))
 }
 
-/// Returns the longest input slice (if any) till a predicate is met.
+/// Returns the longest ctx slice (if any) till a predicate is met.
 pub fn take_till<F>(f: F) -> impl Parser<Output = Option<Span>>
 where
     F: Fn(char) -> bool,
@@ -483,7 +483,7 @@ where
     take_while_indices(move |_, c| !f(c))
 }
 
-/// Returns the longest input slice (if any) till a predicate is met.
+/// Returns the longest ctx slice (if any) till a predicate is met.
 pub fn take_till_indices<F>(f: F) -> impl Parser<Output = Option<Span>>
 where
     F: Fn(usize, char) -> bool,
@@ -527,23 +527,23 @@ mod tests {
             Ok(Span::new(0, 1, 1, 1))
         );
 
-        let mut input = ParseContext::from("hfnello");
+        let mut ctx = ParseContext::from("hfnello");
 
         assert_eq!(
-            ensure_char('f').parse(&mut input),
+            ensure_char('f').parse(&mut ctx),
             Err(ControlFlow::Recoverable)
         );
 
-        assert_eq!(input.size_hint(), (1, 7));
+        assert_eq!(ctx.size_hint(), (1, 7));
 
-        let mut input = ParseContext::from("");
+        let mut ctx = ParseContext::from("");
 
         assert_eq!(
-            ensure_char('f').parse(&mut input),
+            ensure_char('f').parse(&mut ctx),
             Err(ControlFlow::Incomplete)
         );
 
-        assert_eq!(input.size_hint(), (0, 0));
+        assert_eq!(ctx.size_hint(), (0, 0));
     }
 
     #[test]
@@ -558,29 +558,29 @@ mod tests {
             Ok(Some(Span::new(0, 9, 1, 1)))
         );
 
-        let mut input = ParseContext::from("！hello");
+        let mut ctx = ParseContext::from("！hello");
 
         assert_eq!(
-            take_while(|c| c.is_alphabetic()).parse(&mut input),
+            take_while(|c| c.is_alphabetic()).parse(&mut ctx),
             Ok(None)
         );
 
-        let mut input = ParseContext::from("he！llo");
+        let mut ctx = ParseContext::from("he！llo");
 
         assert_eq!(
-            take_while(|c| c.is_alphabetic()).parse(&mut input),
+            take_while(|c| c.is_alphabetic()).parse(&mut ctx),
             Ok(Some(Span::new(0, 2, 1, 1)))
         );
 
-        assert_eq!(input.size_hint(), (2, 8));
+        assert_eq!(ctx.size_hint(), (2, 8));
 
-        let mut input = ParseContext::from("");
+        let mut ctx = ParseContext::from("");
         assert_eq!(
-            take_while(|c| c.is_alphabetic()).parse(&mut input),
+            take_while(|c| c.is_alphabetic()).parse(&mut ctx),
             Ok(None)
         );
 
-        assert_eq!(input.size_hint(), (0, 0));
+        assert_eq!(ctx.size_hint(), (0, 0));
     }
 
     #[test]
@@ -604,11 +604,11 @@ mod tests {
             Ok(None)
         );
 
-        let mut input = ParseContext::from("ft");
+        let mut ctx = ParseContext::from("ft");
 
-        assert_eq!(ensure_keyword("fn").ok().parse(&mut input), Ok(None));
+        assert_eq!(ensure_keyword("fn").ok().parse(&mut ctx), Ok(None));
 
-        assert_eq!(input.size_hint(), (0, 2));
+        assert_eq!(ctx.size_hint(), (0, 2));
     }
 
     #[test]
