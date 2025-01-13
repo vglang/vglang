@@ -4,6 +4,9 @@
 
 mod ml;
 pub use ml::opcode;
+
+mod manual;
+
 pub use vglang_derive::rgb;
 
 #[cfg(feature = "lang")]

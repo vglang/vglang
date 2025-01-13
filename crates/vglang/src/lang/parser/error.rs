@@ -15,4 +15,8 @@ pub enum ParseError {
     /// The error of parsing recognized color.
     #[error("Syntax of ident is error, expect `alphabetic [alphanumeric]*`.")]
     Ident,
+
+    /// The error of parsing named register.
+    #[error("Syntax of ident is error, expect $`alphabetic [alphanumeric]*`.")]
+    NamedRegister,
 }

@@ -3,61 +3,48 @@ description = "Simple and fast vector graphics language (vglang)"
 documentation = "https://docs.rs/vglang"
 name = "vglang"
 
-
 [package.edition]
 workspace = true
-
 
 [package.repository]
 workspace = true
 
-
 [package.version]
 workspace = true
-
 
 [dependencies.thiserror]
 workspace = true
 
-
 [dependencies.vglang-derive]
 workspace = true
 
-
 [dependencies.log]
-workspace = true
 optional = true
-
+workspace = true
 
 [dependencies.serde]
-workspace = true
 optional = true
-
+workspace = true
 
 [dependencies.parserc]
-workspace = true
 optional = true
-
+workspace = true
 
 [dev-dependencies.pretty_env_logger]
 workspace = true
 
-
 [dev-dependencies.divan]
 workspace = true
 
-
 [build-dependencies.mlang]
+features = ["codegen"]
 workspace = true
-features = [ "codegen" ]
-
 
 [features]
-default = [ "serde", "lang" ]
-serde = [ "dep:serde" ]
-lang = [ "parserc", "log" ]
-
+default = ["serde", "lang"]
+lang = ["parserc", "log"]
+serde = ["dep:serde"]
 
 [[bench]]
-name = "color"
 harness = false
+name = "color"
