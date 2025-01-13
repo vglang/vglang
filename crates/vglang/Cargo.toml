@@ -7,15 +7,22 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
-thiserror = { workspace = true }
-serde = {workspace = true,optional = true}
 
+thiserror = { workspace = true }
 vglang-derive = { workspace = true }
 
+log = { workspace = true , optional = true}
+serde = { workspace = true, optional = true}
+parserc = { workspace = true,optional = true}
+
+[dev-dependencies]
+pretty_env_logger= { workspace = true }
+
 [build-dependencies]
-mlang = {workspace = true, features = ["codegen"]}
+mlang = { workspace = true, features = ["codegen"]}
+
 
 [features]
-default = ["serde","sexpr"]
+default = ["serde","lang"]
 serde = ["dep:serde"]
-sexpr = []
+lang = ["parserc","log"]

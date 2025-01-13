@@ -1,0 +1,30 @@
+/// Define a new graphic function.
+fn my_gradient() {
+    linear(0,0,800,0) [units(UserSpaceOnUse)]{
+        stop(0)[color(Color::White),opacity(0)];
+        stop(1)[color(Color::White),opacity(1)];
+    }
+}
+
+fn my_mask() {
+    mask(0,0,800,0) [units(UserSpaceOnUse)]{
+        rect(0,0,800,300)[fill(my_gradient())];
+    }
+}
+
+fn my_text(font_size: length) {
+    text(400,200) [
+        font_family("Verdana"),
+        font_size(font_size),
+        text_anchor(Middle),
+    ] {
+        "Masked text";
+    }
+}
+
+
+canvas(8cm,3cm) [viewbox($a,0,800,300)] {
+    rect(0,0,800,300)[fill(#ff8080)];
+    my_text(100)[fill(color.blue),mask(Mask)];
+    my_text(100px)[fill(none),stroke(color.black),stroke_width(2)];
+}
