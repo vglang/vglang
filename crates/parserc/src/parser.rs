@@ -267,7 +267,7 @@ impl<T> ParserExt for T where T: Parser {}
 /// All types that can be parsed from source code must implement this trait.
 ///
 /// See [`parse`](ParseExt::parse) function.
-pub trait FromInput {
+pub trait FromSrc {
     /// Parse and construct self from `ctx`
     fn parse(ctx: &mut ParseContext<'_>) -> Result<Self>
     where
@@ -275,7 +275,7 @@ pub trait FromInput {
 }
 
 /// A helper trait that convert [`FromInput`] into a [`Parser`].
-pub trait IntoParser: FromInput {
+pub trait IntoParser: FromSrc {
     /// Conver self into parser.
     fn into_parser() -> ParserFromInput<Self>
     where
@@ -285,7 +285,7 @@ pub trait IntoParser: FromInput {
     }
 }
 
-impl<T> IntoParser for T where T: FromInput {}
+impl<T> IntoParser for T where T: FromSrc {}
 
 /// A wrapper parser for [`FromInput`] type.
 pub struct ParserFromInput<T>(PhantomData<T>);
@@ -298,7 +298,7 @@ impl<T> Clone for ParserFromInput<T> {
 
 impl<T> Parser for ParserFromInput<T>
 where
-    T: FromInput,
+    T: FromSrc,
 {
     type Output = T;
 
@@ -309,7 +309,7 @@ where
 
 impl<T> Parser for Option<T>
 where
-    T: FromInput,
+    T: FromSrc,
 {
     type Output = Option<T>;
 
@@ -322,13 +322,13 @@ where
 pub trait ParseExt {
     fn parse<Item>(&mut self) -> Result<Item>
     where
-        Item: FromInput;
+        Item: FromSrc;
 }
 
 impl<'a> ParseExt for ParseContext<'a> {
     fn parse<Item>(&mut self) -> Result<Item>
     where
-        Item: FromInput,
+        Item: FromSrc,
     {
         Item::parse(self)
     }
@@ -350,6 +350,29 @@ pub fn ensure_char(c: char) -> impl Parser<Output = Span> + Clone {
         }
 
         ctx.report_error(Kind::Char(c), span);
+        return Err(ControlFlow::Incomplete);
+    }
+}
+
+/// The parser ensue the next token is char `c`.
+pub fn ensure_char_if<F>(tag: &'static str, f: F) -> impl Parser<Output = Span> + Clone
+where
+    F: FnOnce(char) -> bool + Clone,
+{
+    move |ctx: &mut ParseContext<'_>| {
+        let (next, span) = ctx.next();
+
+        if let Some(next) = next {
+            if f(next) {
+                return Ok(span);
+            }
+
+            ctx.report_error(Kind::CharIf(tag.to_string()), span);
+
+            return Err(ControlFlow::Recoverable);
+        }
+
+        ctx.report_error(Kind::CharIf(tag.to_string()), span);
         return Err(ControlFlow::Incomplete);
     }
 }
@@ -560,10 +583,7 @@ mod tests {
 
         let mut ctx = ParseContext::from("！hello");
 
-        assert_eq!(
-            take_while(|c| c.is_alphabetic()).parse(&mut ctx),
-            Ok(None)
-        );
+        assert_eq!(take_while(|c| c.is_alphabetic()).parse(&mut ctx), Ok(None));
 
         let mut ctx = ParseContext::from("he！llo");
 
@@ -575,10 +595,7 @@ mod tests {
         assert_eq!(ctx.size_hint(), (2, 8));
 
         let mut ctx = ParseContext::from("");
-        assert_eq!(
-            take_while(|c| c.is_alphabetic()).parse(&mut ctx),
-            Ok(None)
-        );
+        assert_eq!(take_while(|c| c.is_alphabetic()).parse(&mut ctx), Ok(None));
 
         assert_eq!(ctx.size_hint(), (0, 0));
     }

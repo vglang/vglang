@@ -6,6 +6,9 @@ pub enum Kind {
     #[error("Syntax error: expect '{0}'")]
     Char(char),
 
+    #[error("Syntax error: expect '{0}'")]
+    CharIf(String),
+
     #[error("Syntax error: expect keyword '{0}'")]
     Keyword(String),
 }

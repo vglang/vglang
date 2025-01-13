@@ -1,5 +1,5 @@
 use parserc::{
-    ensure_keyword, take_till, take_while, ControlFlow, FromInput, ParseContext, Parser, ParserExt,
+    ensure_keyword, take_till, take_while, ControlFlow, FromSrc, ParseContext, Parser, ParserExt,
     Result, Span,
 };
 
@@ -38,7 +38,7 @@ fn skip_comments(ctx: &mut ParseContext<'_>) -> Result<()> {
     Ok(())
 }
 
-impl FromInput for Ident {
+impl FromSrc for Ident {
     fn parse(ctx: &mut ParseContext<'_>) -> Result<Self>
     where
         Self: Sized,

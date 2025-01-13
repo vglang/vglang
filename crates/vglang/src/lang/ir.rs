@@ -31,9 +31,9 @@ pub struct LitSign(pub bool, pub Span);
 /// The number part of a literal number.
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 pub enum LitRadix {
-    Decimal(u64, Span),
-    Hex(u64, Span),
-    Binary(u64, Span),
+    Decimal(usize, Span),
+    Hex(usize, Span),
+    Binary(usize, Span),
 }
 
 /// Literal integer: integer ::= [+-]? [0-9]+
@@ -48,10 +48,15 @@ pub struct LitInt {
 /// Literal num: integer ([Ee] integer)? | [+-]? [0-9]* "." [0-9]+ ([Ee] integer)?
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 pub struct LitNum {
+    /// The span of literal number.
     pub span: Span,
+    /// optional sign part.
     pub sign: Option<LitSign>,
-    pub intger: u64,
-    pub fractional: Option<u64>,
+    /// the integer part.
+    pub trunc: usize,
+    /// the fractionl part.
+    pub fract: usize,
+    /// optional exponent part.
     pub exp: Option<LitExp>,
 }
 

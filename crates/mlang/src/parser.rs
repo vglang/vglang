@@ -1,5 +1,5 @@
 use parserc::{
-    ensure_char, ensure_keyword, take_till, take_while, ControlFlow, FromInput, IntoParser, Kind,
+    ensure_char, ensure_keyword, take_till, take_while, ControlFlow, FromSrc, IntoParser, Kind,
     ParseContext, Parser, ParserExt, Result, Span,
 };
 
@@ -262,7 +262,7 @@ fn parse_tuple_expr(input: &mut ParseContext<'_>) -> Result<(Vec<Ident>, Span)> 
     Ok((children, start.extend_to_inclusive(end)))
 }
 
-impl FromInput for Ident {
+impl FromSrc for Ident {
     fn parse(input: &mut parserc::ParseContext<'_>) -> Result<Self>
     where
         Self: Sized,
@@ -307,7 +307,7 @@ impl FromInput for Ident {
     }
 }
 
-impl FromInput for LitNum {
+impl FromSrc for LitNum {
     fn parse(input: &mut parserc::ParseContext<'_>) -> Result<Self>
     where
         Self: Sized,
@@ -363,7 +363,7 @@ impl FromInput for LitNum {
     }
 }
 
-impl FromInput for LitStr {
+impl FromSrc for LitStr {
     fn parse(input: &mut parserc::ParseContext<'_>) -> Result<Self>
     where
         Self: Sized,
@@ -387,7 +387,7 @@ impl FromInput for LitStr {
     }
 }
 
-impl FromInput for LitExpr {
+impl FromSrc for LitExpr {
     fn parse(input: &mut parserc::ParseContext<'_>) -> Result<Self>
     where
         Self: Sized,
@@ -399,7 +399,7 @@ impl FromInput for LitExpr {
     }
 }
 
-impl FromInput for CallExpr {
+impl FromSrc for CallExpr {
     fn parse(input: &mut parserc::ParseContext<'_>) -> Result<Self>
     where
         Self: Sized,
@@ -461,7 +461,7 @@ impl FromInput for CallExpr {
     }
 }
 
-impl FromInput for Property {
+impl FromSrc for Property {
     fn parse(input: &mut parserc::ParseContext<'_>) -> Result<Self>
     where
         Self: Sized,
@@ -507,7 +507,7 @@ impl FromInput for Property {
     }
 }
 
-impl FromInput for Comment {
+impl FromSrc for Comment {
     fn parse(input: &mut ParseContext<'_>) -> Result<Self>
     where
         Self: Sized,
@@ -529,7 +529,7 @@ impl FromInput for Comment {
     }
 }
 
-impl FromInput for Type {
+impl FromSrc for Type {
     fn parse(input: &mut ParseContext<'_>) -> Result<Self>
     where
         Self: Sized,
@@ -628,7 +628,7 @@ impl FromInput for Type {
     }
 }
 
-impl FromInput for NamedField {
+impl FromSrc for NamedField {
     fn parse(input: &mut ParseContext<'_>) -> Result<Self>
     where
         Self: Sized,
@@ -676,7 +676,7 @@ impl FromInput for NamedField {
     }
 }
 
-impl FromInput for UnnamedField {
+impl FromSrc for UnnamedField {
     fn parse(input: &mut ParseContext<'_>) -> Result<Self>
     where
         Self: Sized,
@@ -702,7 +702,7 @@ impl FromInput for UnnamedField {
     }
 }
 
-impl FromInput for Fields {
+impl FromSrc for Fields {
     fn parse(input: &mut ParseContext<'_>) -> Result<Self>
     where
         Self: Sized,
@@ -789,7 +789,7 @@ impl FromInput for Fields {
     }
 }
 
-impl FromInput for Enum {
+impl FromSrc for Enum {
     fn parse(input: &mut ParseContext<'_>) -> Result<Self>
     where
         Self: Sized,
@@ -878,7 +878,7 @@ impl FromInput for Enum {
     }
 }
 
-impl FromInput for Group {
+impl FromSrc for Group {
     fn parse(input: &mut ParseContext<'_>) -> Result<Self>
     where
         Self: Sized,
@@ -937,7 +937,7 @@ impl FromInput for Group {
     }
 }
 
-impl FromInput for ApplyTo {
+impl FromSrc for ApplyTo {
     fn parse(input: &mut ParseContext<'_>) -> Result<Self>
     where
         Self: Sized,
@@ -1005,7 +1005,7 @@ impl FromInput for ApplyTo {
     }
 }
 
-impl FromInput for ChildrenOf {
+impl FromSrc for ChildrenOf {
     fn parse(input: &mut ParseContext<'_>) -> Result<Self>
     where
         Self: Sized,
@@ -1073,7 +1073,7 @@ impl FromInput for ChildrenOf {
     }
 }
 
-impl FromInput for Opcode {
+impl FromSrc for Opcode {
     fn parse(input: &mut ParseContext<'_>) -> Result<Self>
     where
         Self: Sized,
