@@ -19,4 +19,8 @@ pub enum ParseError {
     /// The error of parsing named register.
     #[error("Syntax of ident is error, expect $`alphabetic [alphanumeric]*`.")]
     NamedRegister,
+
+    /// The error of parsing literal string.
+    #[error("Syntax of literal string is error, must end with `{0}`")]
+    LitStr(String),
 }

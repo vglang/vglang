@@ -8,13 +8,8 @@ use crate::{
         ir::{Ident, LitColor},
         parser::{skip_ws, ParseError},
     },
-    opcode::{
-        variable::{Target, Variable},
-        Color, Rgb,
-    },
+    opcode::{Color, Rgb},
 };
-
-use super::parse_named_register;
 
 /// Parse color from hex format.
 pub fn parse_hex_color(ctx: &mut ParseContext<'_>) -> Result<LitColor> {
@@ -47,7 +42,7 @@ pub fn parse_hex_color(ctx: &mut ParseContext<'_>) -> Result<LitColor> {
             let g: u8 = u8::from_str_radix(&format!("{}{}", g, g), 16).unwrap();
             let b: u8 = u8::from_str_radix(&format!("{}{}", b, b), 16).unwrap();
 
-            return Ok(LitColor::Rgb(Variable::Constant(Rgb(r, g, b)), span));
+            return Ok(LitColor::Rgb(Rgb(r, g, b), span));
         }
         6 => {
             let body = ctx.as_str(body);
@@ -56,7 +51,7 @@ pub fn parse_hex_color(ctx: &mut ParseContext<'_>) -> Result<LitColor> {
             let g: u8 = u8::from_str_radix(&body[2..4], 16).unwrap();
             let b: u8 = u8::from_str_radix(&body[4..6], 16).unwrap();
 
-            return Ok(LitColor::Rgb(Variable::Constant(Rgb(r, g, b)), span));
+            return Ok(LitColor::Rgb(Rgb(r, g, b), span));
         }
         _ => {
             ctx.report_error(ParseError::HexColor, start);
@@ -238,32 +233,21 @@ pub fn parse_recognized_color(ctx: &mut ParseContext<'_>) -> Result<LitColor> {
     };
 
     Ok(LitColor::Recognized(
-        Variable::Constant(color),
+        color,
         start.extend_to_inclusive(ident.1),
     ))
 }
 
-/// Parse color or named register.
-pub fn parser_color_or_named_register(ctx: &mut ParseContext<'_>) -> Result<LitColor> {
-    parse_hex_color
-        .or(parse_recognized_color)
-        .or(parse_named_register.map(|(path, span)| {
-            LitColor::Rgb(
-                Variable::Reference {
-                    path,
-                    target: Target::Register,
-                },
-                span,
-            )
-        }))
-        .parse(ctx)
+/// Parse color
+pub fn parser_color(ctx: &mut ParseContext<'_>) -> Result<LitColor> {
+    parse_hex_color.or(parse_recognized_color).parse(ctx)
 }
 
 #[cfg(test)]
 mod tests {
     use parserc::ParseContext;
 
-    use super::{parse_hex_color, parse_recognized_color, parser_color_or_named_register};
+    use super::*;
 
     #[test]
     fn test_hex_color() {
@@ -292,15 +276,9 @@ mod tests {
     }
 
     #[test]
-    fn test_color_or_named_register() {
-        parser_color_or_named_register(&mut ParseContext::from("color.yellowgreen"))
-            .expect("recognized color");
+    fn test_parser_color() {
+        parser_color(&mut ParseContext::from("color.yellowgreen")).expect("recognized color");
 
-        parser_color_or_named_register(&mut ParseContext::from("#fff")).expect("recognized color");
-
-        parser_color_or_named_register(&mut ParseContext::from("$name")).expect("recognized color");
-
-        parser_color_or_named_register(&mut ParseContext::from("$1name"))
-            .expect_err("syntax error.");
+        parser_color(&mut ParseContext::from("#fff")).expect("recognized color");
     }
 }

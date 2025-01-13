@@ -1,5 +1,6 @@
 use parserc::{
-    ensure_keyword, take_till, take_while, ControlFlow, FromInput, ParseContext, Parser, ParserExt, Result, Span
+    ensure_keyword, take_till, take_while, ControlFlow, FromInput, ParseContext, Parser, ParserExt,
+    Result, Span,
 };
 
 use crate::{lang::ir::Ident, opcode::Opcode};
@@ -39,8 +40,9 @@ fn skip_comments(ctx: &mut ParseContext<'_>) -> Result<()> {
 
 impl FromInput for Ident {
     fn parse(ctx: &mut ParseContext<'_>) -> Result<Self>
-        where
-            Self: Sized {
+    where
+        Self: Sized,
+    {
         let (c, start) = ctx.next();
 
         if let Some(c) = c {
@@ -64,8 +66,6 @@ impl FromInput for Ident {
         assert!(span.len() > 0);
 
         let ident = ctx.as_str(span);
-
-      
 
         assert_eq!(ident.len(), span.len());
 

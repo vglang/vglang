@@ -3,7 +3,10 @@
 
 use parserc::Span;
 
-use crate::opcode::{variable::Variable, Color, Coords, Length, Rgb};
+use crate::opcode::{
+    variable::{Path, Target},
+    Color, Coords, Length, Rgb,
+};
 
 /// Ident token.
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -15,34 +18,61 @@ pub struct NamedRegister(pub Ident, pub Span);
 
 /// Literal integer: integer ::= [+-]? [0-9]+
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
-pub struct LitBool(pub Variable<bool>, pub Span);
+pub struct LitBool(pub bool, pub Span);
+
+/// Exponent part of a literal number.
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
+pub struct LitExp(pub i64, pub Span);
+
+/// The sign part of a literal number.
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
+pub struct LitSign(pub bool, pub Span);
+
+/// The number part of a literal number.
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
+pub enum LitRadix {
+    Decimal(u64, Span),
+    Hex(u64, Span),
+    Binary(u64, Span),
+}
 
 /// Literal integer: integer ::= [+-]? [0-9]+
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
-pub struct LitInt(pub Variable<i64>, pub Span);
+pub struct LitInt {
+    pub span: Span,
+    pub sign: Option<LitSign>,
+    pub radix: LitRadix,
+    pub exp: Option<LitExp>,
+}
 
 /// Literal num: integer ([Ee] integer)? | [+-]? [0-9]* "." [0-9]+ ([Ee] integer)?
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
-pub struct LitNum(pub Variable<f64>, pub Span);
+pub struct LitNum {
+    pub span: Span,
+    pub sign: Option<LitSign>,
+    pub intger: u64,
+    pub fractional: Option<u64>,
+    pub exp: Option<LitExp>,
+}
 
 /// Literal string: "hello", or 'hello'
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
-pub struct LitStr(pub Variable<String>, pub Span);
+pub struct LitStr(pub String, pub Span);
 
 /// Literal color data.
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 pub enum LitColor {
-    Recognized(Variable<Color>, Span),
-    Rgb(Variable<Rgb>, Span),
+    Recognized(Color, Span),
+    Rgb(Rgb, Span),
 }
 
 /// Literal coordinate unit: UserSpaceOnUse or ObjectBoundingBox.
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
-pub struct LitCoords(pub Variable<Coords>, pub Span);
+pub struct LitCoords(pub Coords, pub Span);
 
 /// literal length value: 10cm, 2em
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
-pub struct LitLength(pub Variable<Length>, pub Span);
+pub struct LitLength(pub Length, pub Span);
 
 /// Literal expr variant.
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -54,6 +84,7 @@ pub enum LitExpr {
     Str(LitStr),
     Coords(LitCoords),
     Length(LitLength),
+    Variable(Path, Target),
 }
 
 /// A custom attribute for function call.
