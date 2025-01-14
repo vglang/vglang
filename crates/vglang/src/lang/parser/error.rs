@@ -56,4 +56,10 @@ pub enum ParseError {
     /// The error of parsing literal string.
     #[error("Syntax of literal int is error")]
     LitInt,
+    /// The error of parsing literal string.
+    #[error("Syntax of coords is error, expect `coords.object` or `coords.userspace`")]
+    LitCoords,
+    /// The error of parsing literal string.
+    #[error("Syntax of coords is error, expect `coords.object` or `coords.userspace`")]
+    LitLength,
 }
