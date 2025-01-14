@@ -47,8 +47,13 @@ pub enum ParseError {
 
     #[error("Invalid digit for a base {0} literal")]
     InvalidDigit(u8),
-
     /// The error of parsing literal string.
     #[error("Syntax of number's exponent part is error, be like `e10` or `E-10`")]
     LitExp,
+    /// The error of parsing literal string.
+    #[error("Syntax of literal number is error")]
+    LitNum,
+    /// The error of parsing literal string.
+    #[error("Syntax of literal int is error")]
+    LitInt,
 }

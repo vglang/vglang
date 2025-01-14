@@ -264,6 +264,41 @@ pub trait ParserExt: Parser {
 
 impl<T> ParserExt for T where T: Parser {}
 
+pub trait ParseOkOr<T>: Parser<Output = Option<T>> {
+    fn ok_or<E>(self, error: E, span: Span) -> OkOr<Self, E>
+    where
+        anyhow::Error: From<E>,
+        Self: Sized,
+    {
+        OkOr(self, error, span)
+    }
+}
+/// A combinator for [`ok_or`](ParseOkOr::ok_or) function.
+pub struct OkOr<P, E>(P, E, Span);
+
+impl<S, E, T> Parser for OkOr<S, E>
+where
+    S: Parser<Output = Option<T>>,
+    anyhow::Error: From<E>,
+{
+    type Output = T;
+
+    fn parse(self, ctx: &mut ParseContext<'_>) -> Result<Self::Output> {
+        match self.0.parse(ctx) {
+            Ok(Some(v)) => return Ok(v),
+            Ok(_) => {
+                ctx.with_context(self.1, self.2);
+                return Err(ControlFlow::Fatal);
+            }
+            Err(c) => {
+                return Err(c);
+            }
+        }
+    }
+}
+
+impl<T, P> ParseOkOr<T> for P where P: Parser<Output = Option<T>> {}
+
 /// All types that can be parsed from source code must implement this trait.
 ///
 /// See [`parse`](ParseExt::parse) function.

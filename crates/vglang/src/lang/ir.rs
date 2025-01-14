@@ -20,45 +20,13 @@ pub struct NamedRegister(pub Ident, pub Span);
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 pub struct LitBool(pub bool, pub Span);
 
-/// Exponent part of a literal number.
-#[derive(Debug, PartialEq, PartialOrd, Clone)]
-pub struct LitExp(pub i64, pub Span);
-
-/// The sign part of a literal number.
-#[derive(Debug, PartialEq, PartialOrd, Clone)]
-pub struct LitSign(pub bool, pub Span);
-
-/// The number part of a literal number.
-#[derive(Debug, PartialEq, PartialOrd, Clone)]
-pub enum LitRadix {
-    Decimal(usize, Span),
-    Hex(usize, Span),
-    Binary(usize, Span),
-}
-
 /// Literal integer: integer ::= [+-]? [0-9]+
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
-pub struct LitInt {
-    pub span: Span,
-    pub sign: Option<LitSign>,
-    pub radix: LitRadix,
-    pub exp: Option<LitExp>,
-}
+pub struct LitInt(pub Span, pub i32);
 
 /// Literal num: integer ([Ee] integer)? | [+-]? [0-9]* "." [0-9]+ ([Ee] integer)?
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
-pub struct LitNum {
-    /// The span of literal number.
-    pub span: Span,
-    /// optional sign part.
-    pub sign: Option<LitSign>,
-    /// the integer part.
-    pub trunc: usize,
-    /// the fractionl part.
-    pub fract: usize,
-    /// optional exponent part.
-    pub exp: Option<LitExp>,
-}
+pub struct LitNum(pub Span, pub f32);
 
 /// Literal string: "hello", or 'hello'
 #[derive(Debug, PartialEq, PartialOrd, Clone)]

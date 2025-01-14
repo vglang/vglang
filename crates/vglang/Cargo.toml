@@ -48,3 +48,7 @@ serde = ["dep:serde"]
 [[bench]]
 harness = false
 name = "color"
+
+[[bench]]
+harness = false
+name = "num"

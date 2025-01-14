@@ -259,6 +259,7 @@ impl<'a> From<&'a str> for ParseContext<'a> {
 
 impl<'a> ParseContext<'a> {
     /// Report a new error.
+    #[inline]
     pub fn report_error<E, S>(&mut self, error: E, span: S)
     where
         anyhow::Error: From<E>,
@@ -271,6 +272,7 @@ impl<'a> ParseContext<'a> {
     }
 
     /// if exists, add context information for last error report, otherwise report a new error.
+    #[inline]
     pub fn with_context<E, S>(&mut self, error: E, span: S)
     where
         anyhow::Error: From<E>,
@@ -301,16 +303,19 @@ impl<'a> ParseContext<'a> {
     }
 
     /// Returns the report record size.
+    #[inline]
     pub fn report_size(&self) -> usize {
         self.error_reports.len()
     }
 
     /// Returns a clone of report list.
+    #[inline]
     pub fn report(&mut self) -> ReportIter {
         ReportIter(self.error_reports.drain(..).collect::<Vec<_>>().into_iter())
     }
 
     /// Pop up the last report.
+    #[inline]
     pub fn last_error(&mut self) -> Option<Vec<ReportLine>> {
         if let Some(ReportRecord::End) = self.error_reports.pop() {
             let mut lines = vec![];
@@ -338,6 +343,7 @@ impl<'a> ParseContext<'a> {
     }
 
     /// Convert span into &str.
+    #[inline]
     pub fn as_str(&self, span: Span) -> &str {
         &self.source[span.offset..span.offset + span.len]
     }
@@ -345,6 +351,7 @@ impl<'a> ParseContext<'a> {
     /// Seek to the start of the `span`.
     ///
     /// A seek beyond the end of the stream is not allowed, will cause a panic.
+    #[inline]
     pub fn seek<S>(&mut self, span: S)
     where
         Span: From<S>,
@@ -397,16 +404,19 @@ impl<'a> ParseContext<'a> {
     }
 
     /// Returns a tuple where the first element is the reading offset, and second element is the total length of the source code.
+    #[inline]
     pub fn size_hint(&mut self) -> (usize, usize) {
         (self.offset, self.source.as_bytes().len())
     }
 
     /// Returns the unparsed length.
+    #[inline]
     pub fn remaining(&mut self) -> usize {
         self.source.as_bytes().len() - self.offset
     }
 
     /// peek up next char in the reading stream.
+    #[inline]
     pub fn peek(&mut self) -> (Option<char>, Span) {
         if let Some((_, c)) = self.iter.peek() {
             (
@@ -432,6 +442,7 @@ impl<'a> ParseContext<'a> {
     }
 
     /// Returns the next character and its corresponding [`Span`].
+    #[inline]
     pub fn next(&mut self) -> (Option<char>, Span) {
         if let Some((_, c)) = self.iter.next() {
             let span = Span {
