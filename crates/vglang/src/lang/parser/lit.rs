@@ -1,11 +1,11 @@
 use parserc::{ensure_char, ensure_keyword, take_till, FromSrc, Parser, ParserExt};
 
 use crate::{
-    lang::ir::{LitBool, LitCoords, LitExpr, LitLength, LitStr},
-    opcode::{Coords, Length},
+    lang::ir::{LitBool, LitCoords, LitStr},
+    opcode::Coords,
 };
 
-use super::{parse_int_or_num_ext, skip_ws, ParseError};
+use super::{skip_ws, ParseError};
 
 impl FromSrc for LitBool {
     fn parse(ctx: &mut parserc::ParseContext<'_>) -> parserc::Result<Self>
@@ -84,51 +84,51 @@ impl FromSrc for LitCoords {
     }
 }
 
-impl FromSrc for LitLength {
-    fn parse(ctx: &mut parserc::ParseContext<'_>) -> parserc::Result<Self>
-    where
-        Self: Sized,
-    {
-        let value = parse_int_or_num_ext(true)
-            .with_context(ParseError::LitLength, ctx.span())
-            .parse(ctx)?;
+// impl FromSrc for LitLength {
+//     fn parse(ctx: &mut parserc::ParseContext<'_>) -> parserc::Result<Self>
+//     where
+//         Self: Sized,
+//     {
+//         let value = parse_int_or_num_ext(true)
+//             .with_context(ParseError::LitLength, ctx.span())
+//             .parse(ctx)?;
 
-        let (value, start) = match value {
-            LitExpr::Number(v) => (v.1, v.0),
-            LitExpr::Int(v) => (v.1 as f32, v.0),
-            _ => {
-                panic!("not here.")
-            }
-        };
+//         let (value, start) = match value {
+//             LitExpr::Number(v) => (v.1, v.0),
+//             LitExpr::Int(v) => (v.1 as f32, v.0),
+//             _ => {
+//                 panic!("not here.")
+//             }
+//         };
 
-        let length = ensure_keyword("em")
-            .map(|span| LitLength(Length::Em(value), start.extend_to_inclusive(span)))
-            .or(ensure_keyword("ex")
-                .map(|span| LitLength(Length::Ex(value), start.extend_to_inclusive(span))))
-            .or(ensure_keyword("px")
-                .map(|span| LitLength(Length::Px(value), start.extend_to_inclusive(span))))
-            .or(ensure_keyword("in")
-                .map(|span| LitLength(Length::Inch(value), start.extend_to_inclusive(span))))
-            .or(ensure_keyword("cm")
-                .map(|span| LitLength(Length::Cm(value), start.extend_to_inclusive(span))))
-            .or(ensure_keyword("mm")
-                .map(|span| LitLength(Length::Mm(value), start.extend_to_inclusive(span))))
-            .or(ensure_keyword("pt")
-                .map(|span| LitLength(Length::Pt(value), start.extend_to_inclusive(span))))
-            .or(ensure_keyword("pc")
-                .map(|span| LitLength(Length::Pc(value), start.extend_to_inclusive(span))))
-            .or(ensure_keyword("%")
-                .map(|span| LitLength(Length::Percent(value), start.extend_to_inclusive(span))))
-            .ok()
-            .parse(ctx)?;
+//         let length = ensure_keyword("em")
+//             .map(|span| LitLength(Length::Em(value), start.extend_to_inclusive(span)))
+//             .or(ensure_keyword("ex")
+//                 .map(|span| LitLength(Length::Ex(value), start.extend_to_inclusive(span))))
+//             .or(ensure_keyword("px")
+//                 .map(|span| LitLength(Length::Px(value), start.extend_to_inclusive(span))))
+//             .or(ensure_keyword("in")
+//                 .map(|span| LitLength(Length::Inch(value), start.extend_to_inclusive(span))))
+//             .or(ensure_keyword("cm")
+//                 .map(|span| LitLength(Length::Cm(value), start.extend_to_inclusive(span))))
+//             .or(ensure_keyword("mm")
+//                 .map(|span| LitLength(Length::Mm(value), start.extend_to_inclusive(span))))
+//             .or(ensure_keyword("pt")
+//                 .map(|span| LitLength(Length::Pt(value), start.extend_to_inclusive(span))))
+//             .or(ensure_keyword("pc")
+//                 .map(|span| LitLength(Length::Pc(value), start.extend_to_inclusive(span))))
+//             .or(ensure_keyword("%")
+//                 .map(|span| LitLength(Length::Percent(value), start.extend_to_inclusive(span))))
+//             .ok()
+//             .parse(ctx)?;
 
-        if let Some(length) = length {
-            Ok(length)
-        } else {
-            Ok(LitLength(Length::Px(value), start))
-        }
-    }
-}
+//         if let Some(length) = length {
+//             Ok(length)
+//         } else {
+//             Ok(LitLength(Length::Px(value), start))
+//         }
+//     }
+// }
 
 #[cfg(test)]
 mod tests {
@@ -193,46 +193,46 @@ mod tests {
         );
     }
 
-    #[test]
-    fn test_length() {
-        assert_eq!(
-            LitLength::parse(&mut ParseContext::from("2cm")),
-            Ok(LitLength(Length::Cm(2.0), Span::new(0, 3, 1, 1)))
-        );
+    // #[test]
+    // fn test_length() {
+    //     assert_eq!(
+    //         LitLength::parse(&mut ParseContext::from("2cm")),
+    //         Ok(LitLength(Length::Cm(2.0), Span::new(0, 3, 1, 1)))
+    //     );
 
-        assert_eq!(
-            LitLength::parse(&mut ParseContext::from("2.01cm")),
-            Ok(LitLength(Length::Cm(2.01), Span::new(0, 6, 1, 1)))
-        );
+    //     assert_eq!(
+    //         LitLength::parse(&mut ParseContext::from("2.01cm")),
+    //         Ok(LitLength(Length::Cm(2.01), Span::new(0, 6, 1, 1)))
+    //     );
 
-        assert_eq!(
-            LitLength::parse(&mut ParseContext::from("2.01e10")),
-            Ok(LitLength(Length::Cm(2.01), Span::new(0, 6, 1, 1)))
-        );
+    //     assert_eq!(
+    //         LitLength::parse(&mut ParseContext::from("2.01e10")),
+    //         Ok(LitLength(Length::Cm(2.01), Span::new(0, 6, 1, 1)))
+    //     );
 
-        assert_eq!(
-            LitLength::parse(&mut ParseContext::from("2 cm")),
-            Ok(LitLength(Length::Px(2.0), Span::new(0, 1, 1, 1)))
-        );
+    //     assert_eq!(
+    //         LitLength::parse(&mut ParseContext::from("2 cm")),
+    //         Ok(LitLength(Length::Px(2.0), Span::new(0, 1, 1, 1)))
+    //     );
 
-        let tests = [
-            ("ex", LitLength(Length::Ex(2.0), Span::new(0, 3, 1, 1))),
-            ("px", LitLength(Length::Px(2.0), Span::new(0, 3, 1, 1))),
-            ("in", LitLength(Length::Inch(2.0), Span::new(0, 3, 1, 1))),
-            ("cm", LitLength(Length::Cm(2.0), Span::new(0, 3, 1, 1))),
-            ("mm", LitLength(Length::Mm(2.0), Span::new(0, 3, 1, 1))),
-            ("pt", LitLength(Length::Pt(2.0), Span::new(0, 3, 1, 1))),
-            ("pc", LitLength(Length::Pc(2.0), Span::new(0, 3, 1, 1))),
-            ("%", LitLength(Length::Percent(2.0), Span::new(0, 2, 1, 1))),
-        ];
+    //     let tests = [
+    //         ("ex", LitLength(Length::Ex(2.0), Span::new(0, 3, 1, 1))),
+    //         ("px", LitLength(Length::Px(2.0), Span::new(0, 3, 1, 1))),
+    //         ("in", LitLength(Length::Inch(2.0), Span::new(0, 3, 1, 1))),
+    //         ("cm", LitLength(Length::Cm(2.0), Span::new(0, 3, 1, 1))),
+    //         ("mm", LitLength(Length::Mm(2.0), Span::new(0, 3, 1, 1))),
+    //         ("pt", LitLength(Length::Pt(2.0), Span::new(0, 3, 1, 1))),
+    //         ("pc", LitLength(Length::Pc(2.0), Span::new(0, 3, 1, 1))),
+    //         ("%", LitLength(Length::Percent(2.0), Span::new(0, 2, 1, 1))),
+    //     ];
 
-        for (unit, expect) in tests {
-            assert_eq!(
-                LitLength::parse(&mut ParseContext::from(format!("2{}", unit).as_str())),
-                Ok(expect),
-                "test {}",
-                unit
-            );
-        }
-    }
+    //     for (unit, expect) in tests {
+    //         assert_eq!(
+    //             LitLength::parse(&mut ParseContext::from(format!("2{}", unit).as_str())),
+    //             Ok(expect),
+    //             "test {}",
+    //             unit
+    //         );
+    //     }
+    // }
 }

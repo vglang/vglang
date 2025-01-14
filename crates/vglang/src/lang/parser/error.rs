@@ -23,30 +23,6 @@ pub enum ParseError {
     /// The error of parsing literal string.
     #[error("Syntax of literal string is error, must end with `{0}`")]
     LitStr(String),
-
-    /// The error of parsing literal string.
-    #[error("Syntax of literal decimal is error, expect `[0-9]+`")]
-    LitDecimal,
-
-    /// The error of parsing literal string.
-    #[error("decimal is overflow: {0}")]
-    LitDecimalOverflow(String),
-
-    /// The error of parsing literal string.
-    #[error("Syntax of literal hexadecimal is error, expect `[0-9,a-f,A-F]+`")]
-    LitHex,
-    /// The error of parsing literal string.
-    #[error("hexadecimal is overflow: {0}")]
-    LitHexOverflow(String),
-    /// The error of parsing literal string.
-    #[error("Syntax of literal binary is error, expect `[0,1]+`")]
-    LitBinary,
-    /// The error of parsing literal string.
-    #[error("binary is overflow: {0}")]
-    LitBinaryOverflow(String),
-
-    #[error("Invalid digit for a base {0} literal")]
-    InvalidDigit(u8),
     /// The error of parsing literal string.
     #[error("Syntax of number's exponent part is error, be like `e10` or `E-10`")]
     LitExp,
@@ -54,8 +30,14 @@ pub enum ParseError {
     #[error("Syntax of literal number is error")]
     LitNum,
     /// The error of parsing literal string.
+    #[error("literal number is overflow")]
+    LitNumOverflow,
+    /// The error of parsing literal string.
     #[error("Syntax of literal int is error")]
     LitInt,
+    /// The error of parsing literal string.
+    #[error("literal int is overflow, the range is -2147483648 to 2147483647.")]
+    LitIntOverflow,
     /// The error of parsing literal string.
     #[error("Syntax of coords is error, expect `coords.object` or `coords.userspace`")]
     LitCoords,

@@ -1,185 +1,267 @@
 use parserc::{
-    ensure_char, ensure_keyword, take_while, ControlFlow, ParseContext, ParseOkOr, Parser,
-    ParserExt, Result, Span,
+    ensure_char, ensure_keyword, take_while, ControlFlow, ParseContext, Parser, ParserExt, Result,
+    Span,
 };
 
-use crate::lang::ir::{LitExpr, LitInt, LitNum};
+use crate::{
+    lang::{
+        ir::{LitExpr, LitInt, LitLength, LitNum},
+        parser::ParseError,
+    },
+    opcode::Length,
+};
 
-use super::ParseError;
-
-/// Parse decimal str
-#[inline]
-fn parse_decimal(ctx: &mut ParseContext<'_>) -> Result<Span> {
-    take_while(|c| c.is_digit(10))
-        .ok_or(ParseError::LitDecimal, ctx.span())
-        .parse(ctx)
+enum Prefix {
+    Binary(Span),
+    Hex(Span),
 }
 
-/// Parse hex num str
-#[inline]
-fn parse_hex(ctx: &mut ParseContext<'_>) -> Result<Span> {
-    ensure_keyword("0x").parse(ctx)?;
-
-    take_while(|c| c.is_digit(16))
-        .ok_or(ParseError::LitDecimal, ctx.span())
-        .parse(ctx)
-}
-
-/// Parse hex binary str
-#[inline]
-fn parse_binary(ctx: &mut ParseContext<'_>) -> Result<Span> {
-    ensure_keyword("0b").parse(ctx)?;
-
-    take_while(|c| c.is_digit(2))
-        .ok_or(ParseError::LitDecimal, ctx.span())
-        .parse(ctx)
-}
-
-/// Parse literal expr num or int.
-#[inline]
-pub fn parse_int_or_num(ctx: &mut ParseContext<'_>) -> Result<LitExpr> {
-    parse_int_or_num_ext(false).parse(ctx)
-}
-
-/// Parse literal expr num or int.
-#[inline]
-pub fn parse_int_or_num_ext(parse_length: bool) -> impl Parser<Output = LitExpr> + Clone {
-    move |ctx: &mut ParseContext<'_>| {
-        let start = ctx.span();
-        let sign = ensure_char('+')
-            .map(|_| 1)
-            .or(ensure_char('-').map(|_| -1))
-            .ok()
-            .parse(ctx)?;
-
-        let trunc_parser = parse_hex
-            .map(|span| (span, 16))
-            .or(parse_binary.map(|span| (span, 2)))
-            .or(parse_decimal.map(|span| (span, 10)));
-
-        let ((body, radix), sign) = if let Some(sign) = sign {
-            (trunc_parser.fatal().parse(ctx)?, sign)
-        } else {
-            (trunc_parser.parse(ctx)?, 1)
-        };
-
-        let mut is_float = false;
-
-        let mut end = body;
-
-        if let Some(span) = ensure_char('.').ok().parse(ctx)? {
-            is_float = true;
-            end = parse_decimal
-                .with_context(ParseError::LitNum, span)
-                .fatal()
-                .parse(ctx)?;
-        }
-
-        if !parse_length {
-            if let Some(span) = ensure_char('E').or(ensure_char('e')).ok().parse(ctx)? {
-                is_float = true;
-
-                ensure_char('+').or(ensure_char('-')).ok().parse(ctx)?;
-
-                end = parse_decimal
-                    .with_context(ParseError::LitNum, span)
-                    .fatal()
-                    .parse(ctx)?;
-            }
-        }
-
-        let span = body.extend_to_inclusive(end);
-
-        let body = ctx.as_str(span);
-
-        if is_float {
-            let v = match body.parse::<f32>() {
-                Ok(v) => v,
-                Err(_) => {
-                    ctx.report_error(ParseError::LitNum, span);
-                    return Err(ControlFlow::Fatal);
-                }
-            };
-
-            return Ok(LitExpr::Number(LitNum(
-                start.extend_to_inclusive(end),
-                sign as f32 * v,
-            )));
-        } else {
-            let v = match i32::from_str_radix(body, radix) {
-                Ok(v) => v,
-                Err(_) => {
-                    ctx.report_error(ParseError::LitInt, span);
-                    return Err(ControlFlow::Fatal);
-                }
-            };
-
-            return Ok(LitExpr::Int(LitInt(
-                start.extend_to_inclusive(end),
-                sign * v,
-            )));
+impl Prefix {
+    fn radix(&self) -> u32 {
+        match self {
+            Prefix::Binary(_) => 2,
+            Prefix::Hex(_) => 16,
         }
     }
+
+    fn span(&self) -> Span {
+        match self {
+            Prefix::Binary(span) => *span,
+            Prefix::Hex(span) => *span,
+        }
+    }
+}
+
+fn parse_decimal(ctx: &mut ParseContext<'_>) -> Result<(i32, Span)> {
+    let start = ctx.span();
+
+    if let Some(span) = take_while(|c| c.is_ascii_digit()).parse(ctx)? {
+        if let Ok(v) = i32::from_str_radix(ctx.as_str(span), 10) {
+            return Ok((v, span));
+        } else {
+            ctx.report_error(ParseError::LitIntOverflow, start);
+            return Err(ControlFlow::Fatal);
+        }
+    } else {
+        ctx.report_error(ParseError::LitInt, start);
+        return Err(ControlFlow::Recoverable);
+    }
+}
+
+/// Parse num/int/length.
+pub fn parse_lit_num_int_length(ctx: &mut ParseContext<'_>) -> Result<LitExpr> {
+    let (sign, start, has_sign) = ensure_char('+')
+        .map(|span| (1, span, true))
+        .or(ensure_char('-').map(|span| (-1, span, true)))
+        .ok()
+        .parse(ctx)?
+        .unwrap_or((1, ctx.span(), false));
+
+    let prefix = ensure_keyword("0x")
+        .map(|span| Prefix::Hex(span))
+        .or(ensure_keyword("0b").map(|span| Prefix::Binary(span)))
+        .ok()
+        .parse(ctx)?;
+
+    // binary and hex prefix indicate that this is a literal int type.
+    if let Some(prefix) = prefix {
+        let radix = prefix.radix();
+
+        if let Some(span) = take_while(move |c| c.is_digit(radix)).parse(ctx)? {
+            if let Ok(v) = i32::from_str_radix(ctx.as_str(span), radix) {
+                return Ok(LitExpr::Int(LitInt(
+                    start.extend_to_inclusive(span),
+                    sign * v,
+                )));
+            } else {
+                ctx.report_error(ParseError::LitIntOverflow, prefix.span());
+                return Err(ControlFlow::Fatal);
+            }
+        } else {
+            ctx.report_error(ParseError::LitInt, prefix.span());
+            return Err(ControlFlow::Fatal);
+        }
+    }
+
+    let (trunc, span) = if has_sign {
+        parse_decimal.fatal().parse(ctx)?
+    } else {
+        parse_decimal(ctx)?
+    };
+
+    let mut end = span;
+
+    let franc = if ensure_char('.').ok().parse(ctx)?.is_some() {
+        Some(parse_decimal.fatal().parse(ctx)?)
+    } else {
+        None
+    };
+
+    let mut value = trunc as f32;
+
+    if let Some((franc, span)) = &franc {
+        value += (*franc as f32) / 10f32.powi(span.len() as i32);
+        end = *span;
+    }
+
+    value *= sign as f32;
+
+    let length = ensure_keyword("em")
+        .map(|span| LitLength(Length::Em(value), start.extend_to_inclusive(span)))
+        .or(ensure_keyword("ex")
+            .map(|span| LitLength(Length::Ex(value), start.extend_to_inclusive(span))))
+        .or(ensure_keyword("px")
+            .map(|span| LitLength(Length::Px(value), start.extend_to_inclusive(span))))
+        .or(ensure_keyword("in")
+            .map(|span| LitLength(Length::Inch(value), start.extend_to_inclusive(span))))
+        .or(ensure_keyword("cm")
+            .map(|span| LitLength(Length::Cm(value), start.extend_to_inclusive(span))))
+        .or(ensure_keyword("mm")
+            .map(|span| LitLength(Length::Mm(value), start.extend_to_inclusive(span))))
+        .or(ensure_keyword("pt")
+            .map(|span| LitLength(Length::Pt(value), start.extend_to_inclusive(span))))
+        .or(ensure_keyword("pc")
+            .map(|span| LitLength(Length::Pc(value), start.extend_to_inclusive(span))))
+        .or(ensure_keyword("%")
+            .map(|span| LitLength(Length::Percent(value), start.extend_to_inclusive(span))))
+        .ok()
+        .parse(ctx)?;
+
+    if let Some(length) = length {
+        return Ok(LitExpr::Length(length));
+    }
+
+    if ensure_char('e').ok().parse(ctx)?.is_none() {
+        if franc.is_some() {
+            return Ok(LitExpr::Number(LitNum(
+                start.extend_to_inclusive(end),
+                value,
+            )));
+        }
+
+        return Ok(LitExpr::Int(LitInt(
+            start.extend_to_inclusive(end),
+            sign * trunc,
+        )));
+    }
+
+    let exp_sign = ensure_char('+')
+        .map(|_| 1)
+        .or(ensure_char('-').map(|_| -1))
+        .ok()
+        .parse(ctx)?
+        .unwrap_or(1);
+
+    let (exp_num, end) = parse_decimal.fatal().parse(ctx)?;
+
+    if exp_sign > 0 {
+        value *= 10f32.powi(exp_num);
+    } else {
+        value /= 10f32.powi(exp_num);
+    }
+
+    return Ok(LitExpr::Number(LitNum(
+        start.extend_to_inclusive(end),
+        value,
+    )));
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    use crate::lang::ir::{LitExpr, LitInt};
+
     #[test]
-    fn test_num_int() {
+    fn test_int() {
         assert_eq!(
-            parse_int_or_num(&mut ParseContext::from("-10")),
+            parse_lit_num_int_length(&mut ParseContext::from("-10")),
             Ok(LitExpr::Int(LitInt(Span::new(0, 3, 1, 1), -10)))
         );
 
         assert_eq!(
-            parse_int_or_num(&mut ParseContext::from("+10")),
-            Ok(LitExpr::Int(LitInt(Span::new(0, 3, 1, 1), 10)))
+            parse_lit_num_int_length(&mut ParseContext::from("-0x10")),
+            Ok(LitExpr::Int(LitInt(Span::new(0, 5, 1, 1), -0x10)))
         );
 
         assert_eq!(
-            parse_int_or_num(&mut ParseContext::from("10")),
-            Ok(LitExpr::Int(LitInt(Span::new(0, 2, 1, 1), 10)))
+            parse_lit_num_int_length(&mut ParseContext::from("0b10")),
+            Ok(LitExpr::Int(LitInt(Span::new(0, 4, 1, 1), 0b10)))
         );
 
         assert_eq!(
-            parse_int_or_num(&mut ParseContext::from("- 10")),
-            Err(ControlFlow::Fatal)
+            parse_lit_num_int_length(&mut ParseContext::from("0b10e10")),
+            Ok(LitExpr::Int(LitInt(Span::new(0, 4, 1, 1), 0b10)))
         );
 
         assert_eq!(
-            parse_int_or_num(&mut ParseContext::from("-10e-10")),
-            Ok(LitExpr::Number(LitNum(Span::new(0, 7, 1, 1), -10e-10)))
+            parse_lit_num_int_length(&mut ParseContext::from("0x10e10")),
+            Ok(LitExpr::Int(LitInt(Span::new(0, 7, 1, 1), 0x10e10)))
         );
+    }
 
+    #[test]
+    fn test_number() {
         assert_eq!(
-            parse_int_or_num(&mut ParseContext::from("-10e10")),
-            Ok(LitExpr::Number(LitNum(Span::new(0, 6, 1, 1), -10e10)))
-        );
-
-        assert_eq!(
-            parse_int_or_num(&mut ParseContext::from("-10e 10")),
-            Err(ControlFlow::Fatal)
-        );
-
-        assert_eq!(
-            parse_int_or_num(&mut ParseContext::from("0b13")),
-            Ok(LitExpr::Int(LitInt(Span::new(0, 3, 1, 1), 1)))
-        );
-
-        assert_eq!(
-            parse_int_or_num(&mut ParseContext::from("-0b13")),
-            Ok(LitExpr::Int(LitInt(Span::new(0, 4, 1, 1), -1)))
-        );
-
-        assert_eq!(
-            parse_int_or_num(&mut ParseContext::from("-3.1415e-10")),
+            parse_lit_num_int_length(&mut ParseContext::from("-3.1415e-10")),
             Ok(LitExpr::Number(LitNum(Span::new(0, 11, 1, 1), -3.1415e-10)))
         );
 
         assert_eq!(
-            parse_int_or_num(&mut ParseContext::from("-0x11")),
-            Ok(LitExpr::Int(LitInt(Span::new(0, 5, 1, 1), -0x11)))
+            parse_lit_num_int_length(&mut ParseContext::from("-3e-10")),
+            Ok(LitExpr::Number(LitNum(Span::new(0, 6, 1, 1), -3e-10)))
         );
+
+        assert_eq!(
+            parse_lit_num_int_length(&mut ParseContext::from("3.1415e-10")),
+            Ok(LitExpr::Number(LitNum(Span::new(0, 10, 1, 1), 3.1415e-10)))
+        );
+    }
+
+    #[test]
+    fn test_length() {
+        let tests = [
+            (
+                "ex",
+                LitExpr::Length(LitLength(Length::Ex(2.0), Span::new(0, 3, 1, 1))),
+            ),
+            (
+                "px",
+                LitExpr::Length(LitLength(Length::Px(2.0), Span::new(0, 3, 1, 1))),
+            ),
+            (
+                "in",
+                LitExpr::Length(LitLength(Length::Inch(2.0), Span::new(0, 3, 1, 1))),
+            ),
+            (
+                "cm",
+                LitExpr::Length(LitLength(Length::Cm(2.0), Span::new(0, 3, 1, 1))),
+            ),
+            (
+                "mm",
+                LitExpr::Length(LitLength(Length::Mm(2.0), Span::new(0, 3, 1, 1))),
+            ),
+            (
+                "pt",
+                LitExpr::Length(LitLength(Length::Pt(2.0), Span::new(0, 3, 1, 1))),
+            ),
+            (
+                "pc",
+                LitExpr::Length(LitLength(Length::Pc(2.0), Span::new(0, 3, 1, 1))),
+            ),
+            (
+                "%",
+                LitExpr::Length(LitLength(Length::Percent(2.0), Span::new(0, 2, 1, 1))),
+            ),
+        ];
+
+        for (unit, expect) in tests {
+            assert_eq!(
+                parse_lit_num_int_length(&mut ParseContext::from(format!("2{}", unit).as_str())),
+                Ok(expect),
+                "test {}",
+                unit
+            );
+        }
     }
 }
