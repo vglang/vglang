@@ -19,7 +19,7 @@ divan = {workspace = true}
 [features]
 default = ["serde", "lang"]
 lang = ["parserc", "log"]
-serde = ["dep:serde"]
+serde = ["dep:serde", "parserc/serde"]
 
 [[bench]]
 harness = false

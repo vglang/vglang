@@ -259,7 +259,7 @@ impl<'a> From<&'a str> for ParseContext<'a> {
 
 impl<'a> ParseContext<'a> {
     /// Report a new error.
-    #[inline]
+    #[inline(always)]
     pub fn report_error<E, S>(&mut self, error: E, span: S)
     where
         anyhow::Error: From<E>,
@@ -272,7 +272,7 @@ impl<'a> ParseContext<'a> {
     }
 
     /// if exists, add context information for last error report, otherwise report a new error.
-    #[inline]
+    #[inline(always)]
     pub fn with_context<E, S>(&mut self, error: E, span: S)
     where
         anyhow::Error: From<E>,
@@ -343,7 +343,7 @@ impl<'a> ParseContext<'a> {
     }
 
     /// Convert span into &str.
-    #[inline]
+    #[inline(always)]
     pub fn as_str(&self, span: Span) -> &str {
         &self.source[span.offset..span.offset + span.len]
     }
@@ -351,7 +351,7 @@ impl<'a> ParseContext<'a> {
     /// Seek to the start of the `span`.
     ///
     /// A seek beyond the end of the stream is not allowed, will cause a panic.
-    #[inline]
+    #[inline(always)]
     pub fn seek<S>(&mut self, span: S)
     where
         Span: From<S>,
@@ -416,7 +416,7 @@ impl<'a> ParseContext<'a> {
     }
 
     /// peek up next char in the reading stream.
-    #[inline]
+    #[inline(always)]
     pub fn peek(&mut self) -> (Option<char>, Span) {
         if let Some((_, c)) = self.iter.peek() {
             (
@@ -442,7 +442,7 @@ impl<'a> ParseContext<'a> {
     }
 
     /// Returns the next character and its corresponding [`Span`].
-    #[inline]
+    #[inline(always)]
     pub fn next(&mut self) -> (Option<char>, Span) {
         if let Some((_, c)) = self.iter.next() {
             let span = Span {
