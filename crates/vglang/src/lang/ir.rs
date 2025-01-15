@@ -322,6 +322,18 @@ impl From<Color> for Rgb {
     }
 }
 
+/// An ident token.
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
+pub struct Ident(pub String, pub Span);
+
+/// A literal color value.
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub enum LitColor {
+    Recognized(Span, Color),
+    Rgb(Span, Rgb),
+}
+
 /// A sign part of a literal number.
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]

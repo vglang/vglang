@@ -15,6 +15,7 @@ serde = {workspace = true, optional = true}
 
 [dev-dependencies]
 divan = {workspace = true}
+nom = {workspace = true}
 
 [features]
 default = ["serde", "lang"]

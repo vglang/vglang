@@ -4,4 +4,7 @@
 mod error;
 pub use error::*;
 
+mod color;
 mod num;
+
+mod utils;

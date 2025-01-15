@@ -21,7 +21,7 @@ fn my_text(font_size: length) {
         font_family("Verdana"),
         font_size(font_size),
         text_anchor(Middle),
-    ] 
+    ]
     text(400,200) {
         "Masked text";
     }

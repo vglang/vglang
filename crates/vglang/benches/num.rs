@@ -1,4 +1,5 @@
 use divan::bench;
+use nom::{number::complete::recognize_float, IResult};
 use parserc::{FromSrc, ParseContext};
 use vglang::lang::ir::LitNum;
 
@@ -17,6 +18,15 @@ fn iter_parse_context() {
 #[bench]
 fn parse_num() {
     LitNum::parse(&mut ParseContext::from("-3.1415e-10")).unwrap();
+}
+
+fn nom_parser(input: &str) -> IResult<&str, &str> {
+    recognize_float(input)
+}
+
+#[bench]
+fn nom_num() {
+    nom_parser("-3.1415e-10").unwrap();
 }
 
 #[divan::bench]

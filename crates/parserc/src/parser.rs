@@ -1,6 +1,6 @@
 use std::{fmt::Debug, marker::PhantomData, str::Chars};
 
-use crate::{ControlFlow, Kind, ParseContext, ReportLine, Result, Span};
+use crate::{ControlFlow, ParseContext, ReportLine, Result, Span};
 
 /// A parser produce output by parsing and consuming the source codes.
 pub trait Parser {
@@ -379,18 +379,18 @@ pub fn ensure_char(c: char) -> impl Parser<Output = Span> + Clone {
                 return Ok(span);
             }
 
-            ctx.report_error(Kind::Char(c), span);
+            // ctx.report_error(Kind::Char(c), span);
 
             return Err(ControlFlow::Recoverable);
         }
 
-        ctx.report_error(Kind::Char(c), span);
+        // ctx.report_error(Kind::Char(c), span);
         return Err(ControlFlow::Incomplete);
     }
 }
 
 /// The parser ensue the next token is char `c`.
-pub fn ensure_char_if<F>(tag: &'static str, f: F) -> impl Parser<Output = Span> + Clone
+pub fn ensure_char_if<F>(_tag: &'static str, f: F) -> impl Parser<Output = Span> + Clone
 where
     F: FnOnce(char) -> bool + Clone,
 {
@@ -402,12 +402,12 @@ where
                 return Ok(span);
             }
 
-            ctx.report_error(Kind::CharIf(tag.to_string()), span);
+            // ctx.report_error(Kind::CharIf(tag.to_string()), span);
 
             return Err(ControlFlow::Recoverable);
         }
 
-        ctx.report_error(Kind::CharIf(tag.to_string()), span);
+        // ctx.report_error(Kind::CharIf(tag.to_string()), span);
         return Err(ControlFlow::Incomplete);
     }
 }
@@ -455,6 +455,7 @@ impl Keyword for String {
 /// The parser ensue the next token is a keyword `kw`.
 ///
 /// A keyword is a seqence of chars without spaces.
+#[inline(always)]
 pub fn ensure_keyword<KW: Keyword>(kw: KW) -> impl Parser<Output = Span> + Clone {
     assert!(kw.len() > 0, "keyword length must greate than 0");
     move |ctx: &mut ParseContext<'_>| {
@@ -474,11 +475,11 @@ pub fn ensure_keyword<KW: Keyword>(kw: KW) -> impl Parser<Output = Span> + Clone
 
             if let Some(next) = next {
                 if next != c {
-                    ctx.report_error(Kind::Keyword(kw.into_string()), span);
+                    // ctx.report_error(Kind::Keyword(kw.into_string()), span);
                     return Err(ControlFlow::Recoverable);
                 }
             } else {
-                ctx.report_error(Kind::Keyword(kw.into_string()), span);
+                // ctx.report_error(Kind::Keyword(kw.into_string()), span);
                 return Err(ControlFlow::Incomplete);
             }
         }
@@ -490,6 +491,7 @@ pub fn ensure_keyword<KW: Keyword>(kw: KW) -> impl Parser<Output = Span> + Clone
 }
 
 /// Returns the longest ctx [`Span`] (if any) that matches the predicate.
+#[inline(always)]
 pub fn take_while_indices<F>(f: F) -> impl Parser<Output = Option<Span>>
 where
     F: Fn(usize, char) -> bool,
@@ -526,6 +528,7 @@ where
 }
 
 /// Returns the longest ctx [`Span`] (if any) that matches the predicate.
+#[inline(always)]
 pub fn take_while<F>(f: F) -> impl Parser<Output = Option<Span>>
 where
     F: Fn(char) -> bool,
@@ -534,6 +537,7 @@ where
 }
 
 /// Returns the longest ctx slice (if any) till a predicate is met.
+#[inline(always)]
 pub fn take_till<F>(f: F) -> impl Parser<Output = Option<Span>>
 where
     F: Fn(char) -> bool,
@@ -542,6 +546,7 @@ where
 }
 
 /// Returns the longest ctx slice (if any) till a predicate is met.
+#[inline(always)]
 pub fn take_till_indices<F>(f: F) -> impl Parser<Output = Option<Span>>
 where
     F: Fn(usize, char) -> bool,
