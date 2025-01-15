@@ -57,7 +57,7 @@ pub enum LitExpr {
     Str(LitStr),
     Coords(LitCoords),
     Length(LitLength),
-    Variable(Path, Target),
+    Variable(Path, Target, Span),
 }
 
 /// A custom attribute for function call.
@@ -73,13 +73,13 @@ pub struct Attr {
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 pub struct CallExpr {
     /// The span of this fn call.
-    span: Span,
+    pub span: Span,
     /// custom attributes apply to this fn call.
-    attrs: Vec<Attr>,
+    pub attrs: Vec<Attr>,
     /// call target function name.
-    target: Ident,
+    pub target: Ident,
     /// function call parameter list.
-    params: Vec<LitExpr>,
+    pub params: Vec<LitExpr>,
 }
 
 /// The type of fn parameter.

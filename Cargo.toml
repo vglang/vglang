@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/derive","crates/mlang","crates/parserc","crates/vglang"]
+members = ["crates/derive", "crates/mlang", "crates/parserc", "crates/vglang"]
 resolver = "2"
 
 [workspace.package]
@@ -8,34 +8,35 @@ repository = "https://github.com/vglang/vglang"
 version = "0.1.2"
 
 [workspace.dependencies]
-thiserror = "^2.0"
 anyhow = "1.0.95"
+bson = "2.13.0"
 log = "^0.4"
 pretty_env_logger = "^0.5"
-serde = { version = "^1.0", features = ["derive"] }
+serde = {version = "^1.0", features = ["derive"]}
 serde_json = "^1.0"
-bson = "2.13.0"
+thiserror = "^2.0"
 #futures
+bitmask-enum = "2.2.5"
+clap = "^4.5"
+compute-float = "0.1.0"
+concat-idents = "1.1.5"
+divan = "0.1.14"
 futures = "^0.3"
 futures-test = "^0.3"
-clap = "^4.5"
-divan = "0.1.14"
-quote = "^1"
 heck = "^0.5"
-syn = "^2"
-nom = "^7.1"
-xml_dom = "^0.2"
-xml-builder = "0.5.3"
-oxilangtag = "0.1.5"
-bitmask-enum = "2.2.5"
-proc-macro2 = "^1"
-num = "0.4.3"
-concat-idents = "1.1.5"
 impl-trait-for-tuples = "0.2.3"
+nom = "^7.1"
+num = "0.4.3"
+oxilangtag = "0.1.5"
+proc-macro2 = "^1"
+quote = "^1"
+syn = "^2"
 wasm-bindgen = "0.2.99"
+xml-builder = "0.5.3"
+xml_dom = "^0.2"
 # sub-crates
-vglang-derive = { path = "./crates/derive", version = "^0.1", default-features = false }
-vglang = { path = "./crates/vglang", version = "^0.1", default-features = false }
+vglang = {path = "./crates/vglang", version = "^0.1", default-features = false}
+vglang-derive = {path = "./crates/derive", version = "^0.1", default-features = false}
 
-parserc = { path = "./crates/parserc", version = "^0.1", default-features = false }
-mlang = { path = "./crates/mlang", version = "^0.1", default-features = false }
+mlang = {path = "./crates/mlang", version = "^0.1", default-features = false}
+parserc = {path = "./crates/parserc", version = "^0.1", default-features = false}

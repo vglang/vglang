@@ -30,6 +30,10 @@ workspace = true
 optional = true
 workspace = true
 
+[dependencies.compute-float]
+optional = true
+workspace = true
+
 [dev-dependencies.pretty_env_logger]
 workspace = true
 
@@ -42,7 +46,7 @@ workspace = true
 
 [features]
 default = ["serde", "lang"]
-lang = ["parserc", "log"]
+lang = ["parserc", "log", "compute-float"]
 serde = ["dep:serde"]
 
 [[bench]]

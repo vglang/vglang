@@ -44,4 +44,8 @@ pub enum ParseError {
     /// The error of parsing literal string.
     #[error("Syntax of coords is error, expect `coords.object` or `coords.userspace`")]
     LitLength,
+
+    /// The error of parsing literal string.
+    #[error("Expect call body end `)`")]
+    CallBodyEnd,
 }
