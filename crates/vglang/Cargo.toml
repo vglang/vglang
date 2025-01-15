@@ -1,52 +1,24 @@
 [package]
 description = "Simple and fast vector graphics language (vglang)"
 documentation = "https://docs.rs/vglang"
+edition.workspace = true
 name = "vglang"
+repository.workspace = true
+version.workspace = true
 
-[package.edition]
-workspace = true
+[dependencies]
+thiserror = {workspace = true}
 
-[package.repository]
-workspace = true
+log = {workspace = true, optional = true}
+parserc = {workspace = true, optional = true}
+serde = {workspace = true, optional = true}
 
-[package.version]
-workspace = true
-
-[dependencies.thiserror]
-workspace = true
-
-[dependencies.vglang-derive]
-workspace = true
-
-[dependencies.log]
-optional = true
-workspace = true
-
-[dependencies.serde]
-optional = true
-workspace = true
-
-[dependencies.parserc]
-optional = true
-workspace = true
-
-[dependencies.compute-float]
-optional = true
-workspace = true
-
-[dev-dependencies.pretty_env_logger]
-workspace = true
-
-[dev-dependencies.divan]
-workspace = true
-
-[build-dependencies.mlang]
-features = ["codegen"]
-workspace = true
+[dev-dependencies]
+divan = {workspace = true}
 
 [features]
 default = ["serde", "lang"]
-lang = ["parserc", "log", "compute-float"]
+lang = ["parserc", "log"]
 serde = ["dep:serde"]
 
 [[bench]]

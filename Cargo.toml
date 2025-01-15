@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/derive", "crates/mlang", "crates/parserc", "crates/vglang"]
+members = ["crates/parserc", "crates/vglang"]
 resolver = "2"
 
 [workspace.package]
@@ -35,8 +35,5 @@ wasm-bindgen = "0.2.99"
 xml-builder = "0.5.3"
 xml_dom = "^0.2"
 # sub-crates
-vglang = {path = "./crates/vglang", version = "^0.1", default-features = false}
-vglang-derive = {path = "./crates/derive", version = "^0.1", default-features = false}
-
-mlang = {path = "./crates/mlang", version = "^0.1", default-features = false}
 parserc = {path = "./crates/parserc", version = "^0.1", default-features = false}
+vglang = {path = "./crates/vglang", version = "^0.1", default-features = false}
