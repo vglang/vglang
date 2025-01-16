@@ -4,7 +4,7 @@ use parserc::{
 };
 
 use crate::lang::{
-    ir::{Ident, LitBool, LitEnum, LitStr},
+    ir::{Ident, LitBool, LitEnum, LitStr, NamedRegister},
     parser::{EnumKind, ParseError},
 };
 
@@ -130,11 +130,26 @@ impl FromSrc for LitStr {
     }
 }
 
+impl FromSrc for NamedRegister {
+    fn parse(ctx: &mut ParseContext<'_>) -> Result<Self>
+    where
+        Self: Sized,
+    {
+        let start = ensure_char('$').parse(ctx)?;
+
+        let name = Ident::into_parser()
+            .fatal(ParseError::NamedReigster, start)
+            .parse(ctx)?;
+
+        Ok(Self(start.extend_to_inclusive(name.1), name))
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use parserc::{ControlFlow, FromSrc, ParseContext, Span};
 
-    use crate::lang::ir::{Ident, LitBool, LitEnum, LitStr};
+    use crate::lang::ir::{Ident, LitBool, LitEnum, LitStr, NamedRegister};
 
     #[test]
     fn test_bool() {
@@ -193,5 +208,12 @@ mod tests {
             LitStr::parse(&mut ParseContext::from("\t'hello world'")),
             Err(ControlFlow::Recoverable)
         );
+    }
+    #[test]
+    fn test_named_register() {
+        NamedRegister::parse(&mut ParseContext::from("$hello")).expect("$hello");
+
+        NamedRegister::parse(&mut ParseContext::from("$ hello")).expect_err("$ hello");
+        NamedRegister::parse(&mut ParseContext::from("$1hello")).expect_err("$1hello");
     }
 }

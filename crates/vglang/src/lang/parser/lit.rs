@@ -1,6 +1,6 @@
 use parserc::{FromSrc, IntoParser, Parser, ParserExt};
 
-use crate::lang::ir::{LitBool, LitColor, LitEnum, LitExpr, LitNum, LitStr};
+use crate::lang::ir::{Ident, LitBool, LitColor, LitEnum, LitExpr, LitNum, LitStr, NamedRegister};
 
 impl FromSrc for LitExpr {
     fn parse(ctx: &mut parserc::ParseContext<'_>) -> parserc::Result<Self>
@@ -13,6 +13,8 @@ impl FromSrc for LitExpr {
             .or(LitNum::into_parser().map(|lit| LitExpr::Num(lit)))
             .or(LitEnum::into_parser().map(|lit| LitExpr::Enum(lit)))
             .or(LitColor::into_parser().map(|lit| LitExpr::Color(lit)))
+            .or(NamedRegister::into_parser().map(|lit| LitExpr::Register(lit)))
+            .or(Ident::into_parser().map(|lit| LitExpr::Variable(lit)))
             .parse(ctx)
     }
 }

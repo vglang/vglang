@@ -25,11 +25,26 @@ pub enum ParseError {
 
     #[error("The syntax of call is error, {0}")]
     CallBody(CallBodyKind),
+
+    #[error("The syntax of named register is error, be like: `$hello`")]
+    NamedReigster,
+
+    #[error("The syntax of attr is error, {0}")]
+    Attr(AttrKind),
+}
+
+/// Attr parse error kind.
+#[derive(Debug, thiserror::Error)]
+pub enum AttrKind {
+    #[error("expect `,` or `]`")]
+    End,
 }
 
 /// literal string error.
 #[derive(Debug, thiserror::Error)]
 pub enum CallBodyKind {
+    #[error("expect ','")]
+    Punct,
     #[error("invalid param expr")]
     Param,
     #[error("expect param list start `(`")]
