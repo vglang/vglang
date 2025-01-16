@@ -324,6 +324,7 @@ impl From<Color> for Rgb {
 
 /// An ident token.
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Ident(pub String, pub Span);
 
 /// A literal color value.
@@ -379,4 +380,44 @@ pub struct LitNum {
     pub frac_part: Option<LitRadix>,
     /// The exponent part of this number.
     pub exp_part: Option<LitExp>,
+}
+
+/// A literal enum value reference. in `vglang` all enum type are builtin types.
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct LitEnum {
+    /// The whole span of this enum.
+    pub span: Span,
+    /// enum name,
+    pub target: Ident,
+    /// enum referenced field name.
+    pub field: Ident,
+}
+
+/// A literal enum value reference. in `vglang` all enum type are builtin types.
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct LitStr {
+    /// The whole span of this literal string.
+    pub span: Span,
+    /// Flag for double quote style,
+    pub double_quote: bool,
+    /// string content.
+    pub content: String,
+}
+
+/// Literal integer: integer ::= [+-]? [0-9]+
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct LitBool(pub bool, pub Span);
+
+/// A literal expr,like: `LitEnum`, `LitNum`, LitStr,
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub enum LitExpr {
+    Bool(LitBool),
+    Str(LitStr),
+    Color(LitColor),
+    Num(LitNum),
+    Enum(LitEnum),
 }

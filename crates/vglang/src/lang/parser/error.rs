@@ -13,6 +13,33 @@ pub enum ParseError {
     Number,
     #[error("The syntax of hex colro value is error.")]
     HexColor,
+
     #[error("The syntax of color is error or unknown color value.")]
     RecognizedColor,
+
+    #[error("The syntax of enum is error, {0}")]
+    LitEnum(EnumKind),
+
+    #[error("The syntax of literal str is error, {0}")]
+    LitStr(StrKind),
+}
+
+/// literal string error.
+#[derive(Debug, thiserror::Error)]
+pub enum StrKind {
+    #[error("expect end `'`")]
+    Quote,
+    #[error("expect end `\"`")]
+    DoubleQuote,
+}
+
+/// Enum parse error
+#[derive(Debug, thiserror::Error)]
+pub enum EnumKind {
+    #[error("invalid target name.")]
+    Target,
+    #[error("Miss punct `.`")]
+    Punct,
+    #[error("invalid field name.")]
+    Field,
 }

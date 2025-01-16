@@ -572,7 +572,7 @@ mod tests {
             Err(ControlFlow::Recoverable)
         );
 
-        assert_eq!(ctx.size_hint(), (1, 7));
+        assert_eq!(ctx.size_hint(), (0, 7));
 
         let mut ctx = ParseContext::from("");
 
