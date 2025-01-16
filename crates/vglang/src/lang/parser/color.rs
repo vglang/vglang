@@ -12,14 +12,13 @@ pub fn parse_hex_color(ctx: &mut ParseContext<'_>) -> Result<LitColor> {
     let start = ensure_char('#').parse(ctx)?;
 
     let body = take_while(|c| c.is_ascii_hexdigit())
-        .with_context(ParseError::HexColor, start)
-        .fatal()
+        .fatal(ParseError::HexColor, start)
         .parse(ctx)?;
 
     let body = match body {
         Some(body) => body,
         _ => {
-            ctx.report_error(ParseError::HexColor, start);
+            ctx.on_fatal(ParseError::HexColor, start);
             return Err(ControlFlow::Fatal);
         }
     };
@@ -50,7 +49,7 @@ pub fn parse_hex_color(ctx: &mut ParseContext<'_>) -> Result<LitColor> {
             return Ok(LitColor::Rgb(span, Rgb(r, g, b)));
         }
         _ => {
-            ctx.report_error(ParseError::HexColor, start);
+            ctx.on_fatal(ParseError::HexColor, start);
             return Err(ControlFlow::Fatal);
         }
     }
@@ -63,15 +62,13 @@ pub fn parse_recognized_color(ctx: &mut ParseContext<'_>) -> Result<LitColor> {
     skip_ws(ctx)?;
 
     ensure_char('.')
-        .with_context(ParseError::RecognizedColor, start)
-        .fatal()
+        .fatal(ParseError::RecognizedColor, start)
         .parse(ctx)?;
 
     skip_ws(ctx)?;
 
     let ident = Ident::into_parser()
-        .with_context(ParseError::RecognizedColor, start)
-        .fatal()
+        .fatal(ParseError::RecognizedColor, start)
         .parse(ctx)?;
 
     let color = match ident.0.as_str() {
@@ -223,7 +220,7 @@ pub fn parse_recognized_color(ctx: &mut ParseContext<'_>) -> Result<LitColor> {
         "yellow" => Color::Yellow,
         "yellowgreen" => Color::Yellowgreen,
         _ => {
-            ctx.report_error(ParseError::RecognizedColor, start);
+            ctx.on_fatal(ParseError::RecognizedColor, start);
             return Err(ControlFlow::Fatal);
         }
     };

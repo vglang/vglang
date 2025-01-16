@@ -35,7 +35,7 @@ impl FromSrc for LitRadix {
                     start.extend_to_inclusive(body),
                 ));
             } else {
-                ctx.report_error(ParseError::HexBody, start);
+                ctx.on_fatal(ParseError::HexBody, start);
                 return Err(ControlFlow::Fatal);
             }
         }
@@ -49,7 +49,7 @@ impl FromSrc for LitRadix {
                     start.extend_to_inclusive(body),
                 ));
             } else {
-                ctx.report_error(ParseError::BinaryBody, start);
+                ctx.on_fatal(ParseError::BinaryBody, start);
                 return Err(ControlFlow::Fatal);
             }
         }
@@ -62,8 +62,6 @@ impl FromSrc for LitRadix {
                 body,
             ));
         } else {
-            let start = ctx.span();
-            ctx.report_error(ParseError::Decimal, start);
             return Err(ControlFlow::Recoverable);
         }
     }
@@ -89,7 +87,7 @@ impl FromSrc for LitExp {
             });
         } else {
             let start = ctx.span();
-            ctx.report_error(ParseError::Decimal, start);
+            ctx.on_fatal(ParseError::Decimal, start);
             return Err(ControlFlow::Fatal);
         }
     }
@@ -107,8 +105,7 @@ impl FromSrc for LitNum {
 
         let integer_part = if let Some(sign) = &sign {
             LitRadix::into_parser()
-                .with_context(ParseError::Number, sign.0)
-                .fatal()
+                .fatal(ParseError::Number, sign.0)
                 .parse(ctx)?
         } else {
             LitRadix::into_parser().parse(ctx)?
@@ -128,20 +125,17 @@ impl FromSrc for LitNum {
         }
 
         ensure_char('.')
-            .with_context(ParseError::Number, ctx.span())
-            .fatal()
+            .fatal(ParseError::Number, ctx.span())
             .parse(ctx)?;
 
         let frac_part = LitRadix::into_parser()
             .ok()
-            .with_context(ParseError::Number, ctx.span())
-            .fatal()
+            .fatal(ParseError::Number, ctx.span())
             .parse(ctx)?;
 
         let exp_part = LitExp::into_parser()
             .ok()
-            .with_context(ParseError::Number, ctx.span())
-            .fatal()
+            .fatal(ParseError::Number, ctx.span())
             .parse(ctx)?;
 
         Ok(Self {

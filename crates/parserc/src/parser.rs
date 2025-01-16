@@ -1,6 +1,8 @@
 use std::{fmt::Debug, marker::PhantomData, str::Chars};
 
-use crate::{ControlFlow, ParseContext, ReportLine, Result, Span};
+use anyhow::Error;
+
+use crate::{ControlFlow, ParseContext, Result, Span};
 
 /// A parser produce output by parsing and consuming the source codes.
 pub trait Parser {
@@ -93,24 +95,9 @@ where
 
 /// A combinator for [`fatal`](ParserExt::fatal) function.
 #[derive(Clone)]
-pub struct Fatal<S>(S);
+pub struct Fatal<S, E>(S, E, Span);
 
-impl<S> Parser for Fatal<S>
-where
-    S: Parser,
-{
-    type Output = S::Output;
-
-    fn parse(self, ctx: &mut ParseContext<'_>) -> Result<Self::Output> {
-        self.0.parse(ctx).map_err(|_| ControlFlow::Fatal)
-    }
-}
-
-/// A combinator for [`with_context`](ParserExt::with_context) function.
-#[derive(Clone)]
-pub struct WithContext<S, E>(S, E, Span);
-
-impl<S, E> Parser for WithContext<S, E>
+impl<S, E> Parser for Fatal<S, E>
 where
     S: Parser,
     anyhow::Error: From<E>,
@@ -120,7 +107,7 @@ where
     fn parse(self, ctx: &mut ParseContext<'_>) -> Result<Self::Output> {
         match self.0.parse(ctx) {
             Err(c) => {
-                ctx.with_context(self.1, self.2);
+                ctx.on_fatal(self.1, self.2);
                 return Err(c);
             }
             r => return r,
@@ -143,18 +130,15 @@ where
     fn parse(self, ctx: &mut ParseContext<'_>) -> Result<Self::Output> {
         let output = match self.0.parse(ctx) {
             Ok(output) => output,
-            Err(c) => {
-                let report = ctx
-                    .last_error()
-                    .expect("inner error")
-                    .into_iter()
-                    .enumerate()
-                    .map(|(index, line)| format!("\t{}: {} {}", index, line.0, line.span()))
-                    .collect::<Vec<_>>()
-                    .join("\n");
-
-                panic!("(expect): {}\n{}", c, report)
-            }
+            Err(c) => match c {
+                ControlFlow::Fatal => {
+                    let (span, err) = ctx.last_error().expect("inner error");
+                    panic!("(expect): {}\n{} {}", c, span, err);
+                }
+                c => {
+                    panic!("(expect): {}", c)
+                }
+            },
         };
 
         assert_eq!(output, self.1, "combinator(expect)");
@@ -172,14 +156,14 @@ where
     S: Parser,
     S::Output: PartialEq + Debug,
 {
-    type Output = Vec<ReportLine>;
+    type Output = (Span, Error);
     fn parse(self, ctx: &mut ParseContext<'_>) -> Result<Self::Output> {
         self.0
             .parse(ctx)
             .expect_err("combinator(expect_err): unexpect success.");
 
         Ok(ctx
-            .last_error()
+            .pop_last_error()
             .expect("combinator(expect_err): empty report"))
     }
 }
@@ -228,21 +212,13 @@ pub trait ParserExt: Parser {
         Map(self, op)
     }
 
-    /// Enfore parser to return [`ControlFlow::Fatal`] when some error occurs.
-    fn fatal(self) -> Fatal<Self>
-    where
-        Self: Sized,
-    {
-        Fatal(self)
-    }
-
-    /// Append new error context to this parser when some error occurs.
-    fn with_context<E>(self, error: E, span: Span) -> WithContext<Self, E>
+    /// Convert any ControlFlow error to a fatal error.
+    fn fatal<E>(self, error: E, span: Span) -> Fatal<Self, E>
     where
         anyhow::Error: From<E>,
         Self: Sized,
     {
-        WithContext(self, error, span)
+        Fatal(self, error, span)
     }
 
     /// Assert the parser result equal to `expect`.
@@ -287,7 +263,7 @@ where
         match self.0.parse(ctx) {
             Ok(Some(v)) => return Ok(v),
             Ok(_) => {
-                ctx.with_context(self.1, self.2);
+                ctx.on_fatal(self.1, self.2);
                 return Err(ControlFlow::Fatal);
             }
             Err(c) => {

@@ -17,11 +17,11 @@ impl FromSrc for Ident {
 
         if let Some(c) = c {
             if c != '_' && !c.is_alphabetic() {
-                ctx.report_error(ParseError::Ident, start);
+                ctx.on_fatal(ParseError::Ident, start);
                 return Err(ControlFlow::Recoverable);
             }
         } else {
-            ctx.report_error(ParseError::Ident, start);
+            ctx.on_fatal(ParseError::Ident, start);
             return Err(ControlFlow::Incomplete);
         }
 
