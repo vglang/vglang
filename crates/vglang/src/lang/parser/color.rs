@@ -1,6 +1,6 @@
 use parserc::{
     ensure_char, ensure_keyword, take_while, ControlFlow, FromSrc, IntoParser, ParseContext,
-    Parser, ParserExt, Result,
+    ParseOkOr, Parser, ParserExt, Result,
 };
 
 use crate::lang::ir::{Color, Ident, LitColor, Rgb};
@@ -12,16 +12,8 @@ pub fn parse_hex_color(ctx: &mut ParseContext<'_>) -> Result<LitColor> {
     let start = ensure_char('#').parse(ctx)?;
 
     let body = take_while(|c| c.is_ascii_hexdigit())
-        .fatal(ParseError::HexColor, start)
+        .ok_or(ParseError::HexColor, start)
         .parse(ctx)?;
-
-    let body = match body {
-        Some(body) => body,
-        _ => {
-            ctx.on_fatal(ParseError::HexColor, start);
-            return Err(ControlFlow::Fatal);
-        }
-    };
 
     let span = start.extend_to_inclusive(body);
 
@@ -237,5 +229,20 @@ impl FromSrc for LitColor {
         Self: Sized,
     {
         parse_hex_color.or(parse_recognized_color).parse(ctx)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use parserc::{FromSrc, ParseContext};
+
+    use crate::lang::ir::LitColor;
+
+    #[test]
+    fn test_color() {
+        let mut ctx = ParseContext::from("#a");
+        LitColor::parse(&mut ctx).expect_err("invalid color");
+
+        println!("{:?}", ctx.last_error());
     }
 }

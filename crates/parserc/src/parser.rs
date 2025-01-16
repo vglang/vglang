@@ -1,7 +1,5 @@
 use std::{fmt::Debug, marker::PhantomData, str::Chars};
 
-use anyhow::Error;
-
 use crate::{ControlFlow, ParseContext, Result, Span};
 
 /// A parser produce output by parsing and consuming the source codes.
@@ -156,7 +154,7 @@ where
     S: Parser,
     S::Output: PartialEq + Debug,
 {
-    type Output = (Span, Error);
+    type Output = (Span, anyhow::Error);
     fn parse(self, ctx: &mut ParseContext<'_>) -> Result<Self::Output> {
         self.0
             .parse(ctx)
@@ -348,14 +346,13 @@ impl<'a> ParseExt for ParseContext<'a> {
 /// The parser ensue the next token is char `c`.
 pub fn ensure_char(c: char) -> impl Parser<Output = Span> + Clone {
     move |ctx: &mut ParseContext<'_>| {
-        let (next, span) = ctx.next();
+        let (next, span) = ctx.peek();
 
         if let Some(next) = next {
             if c == next {
+                ctx.next();
                 return Ok(span);
             }
-
-            // ctx.report_error(Kind::Char(c), span);
 
             return Err(ControlFlow::Recoverable);
         }
@@ -504,6 +501,8 @@ where
 }
 
 /// Returns the longest ctx [`Span`] (if any) that matches the predicate.
+///
+/// This parser will never returns an error.
 #[inline(always)]
 pub fn take_while<F>(f: F) -> impl Parser<Output = Option<Span>>
 where
