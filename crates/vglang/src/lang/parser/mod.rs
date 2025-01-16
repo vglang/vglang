@@ -7,5 +7,6 @@ pub use error::*;
 mod color;
 mod num;
 
+mod call;
 mod lit;
 mod utils;

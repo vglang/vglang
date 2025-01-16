@@ -84,8 +84,8 @@ impl FromSrc for LitBool {
         Self: Sized,
     {
         ensure_keyword("true")
-            .map(|span| LitBool(true, span))
-            .or(ensure_keyword("false").map(|span| LitBool(false, span)))
+            .map(|span| LitBool(span, true))
+            .or(ensure_keyword("false").map(|span| LitBool(span, false)))
             .parse(ctx)
     }
 }
@@ -140,12 +140,12 @@ mod tests {
     fn test_bool() {
         assert_eq!(
             LitBool::parse(&mut ParseContext::from("true")),
-            Ok(LitBool(true, Span::new(0, 4, 1, 1)))
+            Ok(LitBool(Span::new(0, 4, 1, 1), true))
         );
 
         assert_eq!(
             LitBool::parse(&mut ParseContext::from("false")),
-            Ok(LitBool(false, Span::new(0, 5, 1, 1)))
+            Ok(LitBool(Span::new(0, 5, 1, 1), false))
         );
     }
 

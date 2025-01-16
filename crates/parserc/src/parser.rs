@@ -346,11 +346,10 @@ impl<'a> ParseExt for ParseContext<'a> {
 /// The parser ensue the next token is char `c`.
 pub fn ensure_char(c: char) -> impl Parser<Output = Span> + Clone {
     move |ctx: &mut ParseContext<'_>| {
-        let (next, span) = ctx.peek();
+        let (next, span) = ctx.next();
 
         if let Some(next) = next {
             if c == next {
-                ctx.next();
                 return Ok(span);
             }
 
@@ -572,7 +571,7 @@ mod tests {
             Err(ControlFlow::Recoverable)
         );
 
-        assert_eq!(ctx.size_hint(), (0, 7));
+        assert_eq!(ctx.size_hint(), (1, 7));
 
         let mut ctx = ParseContext::from("");
 

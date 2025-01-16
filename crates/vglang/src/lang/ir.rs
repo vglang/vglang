@@ -409,7 +409,7 @@ pub struct LitStr {
 /// Literal integer: integer ::= [+-]? [0-9]+
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct LitBool(pub bool, pub Span);
+pub struct LitBool(pub Span, pub bool);
 
 /// A literal expr,like: `LitEnum`, `LitNum`, LitStr,
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -420,4 +420,15 @@ pub enum LitExpr {
     Color(LitColor),
     Num(LitNum),
     Enum(LitEnum),
+}
+
+/// A function call body.
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct CallBody {
+    /// the whole span of this call body.
+    pub span: Span,
+    /// Call target `ident`.
+    pub target: Ident,
+    pub params: Vec<LitExpr>,
 }

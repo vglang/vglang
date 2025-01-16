@@ -22,6 +22,21 @@ pub enum ParseError {
 
     #[error("The syntax of literal str is error, {0}")]
     LitStr(StrKind),
+
+    #[error("The syntax of call is error, {0}")]
+    CallBody(CallBodyKind),
+}
+
+/// literal string error.
+#[derive(Debug, thiserror::Error)]
+pub enum CallBodyKind {
+    #[error("invalid param expr")]
+    Param,
+    #[error("expect param list start `(`")]
+    ParamListStart,
+
+    #[error("expect param list end `)`")]
+    ParamListEnd,
 }
 
 /// literal string error.
