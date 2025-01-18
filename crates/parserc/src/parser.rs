@@ -362,7 +362,7 @@ pub fn ensure_char(c: char) -> impl Parser<Output = Span> + Clone {
 }
 
 /// The parser ensue the next token is char `c`.
-pub fn ensure_char_if<F>(_tag: &'static str, f: F) -> impl Parser<Output = Span> + Clone
+pub fn ensure_char_if<F>(f: F) -> impl Parser<Output = Span> + Clone
 where
     F: FnOnce(char) -> bool + Clone,
 {
@@ -374,12 +374,9 @@ where
                 return Ok(span);
             }
 
-            // ctx.report_error(Kind::CharIf(tag.to_string()), span);
-
             return Err(ControlFlow::Recoverable);
         }
 
-        // ctx.report_error(Kind::CharIf(tag.to_string()), span);
         return Err(ControlFlow::Incomplete);
     }
 }
