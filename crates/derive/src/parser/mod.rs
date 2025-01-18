@@ -1,1 +1,1 @@
-
+//! vglang metadata parser implementation.
