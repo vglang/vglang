@@ -29,7 +29,7 @@ impl SymbolTable {
     /// Add a new symbol to the checker.
     fn add(&mut self, ctx: &mut ParseContext<'_>, index: usize, ident: &Ident) {
         if let Some((span, _)) = self.0.insert(ident.0.clone(), (ident.1, index)) {
-            ctx.report_error(
+            ctx.on_fatal(
                 MlSemanticError::DuplicateSymbol(ident.0.clone(), span),
                 ident.1,
             );
@@ -186,7 +186,7 @@ impl<'a> SemanticAnalyzer<'a> {
         if let Some(index) = self.symbol_table.lookup(ident) {
             if let Opcode::Group(group) = &self.opcodes[index] {
                 if expect_type {
-                    ctx.report_error(
+                    ctx.on_fatal(
                         MlSemanticError::UnexpectGroup(group.ident.0.clone(), group.ident.1),
                         ident.1,
                     );
@@ -197,7 +197,7 @@ impl<'a> SemanticAnalyzer<'a> {
 
             return true;
         } else {
-            ctx.report_error(MlSemanticError::UndeclaredType(ident.0.clone()), ident.1);
+            ctx.on_fatal(MlSemanticError::UndeclaredType(ident.0.clone()), ident.1);
             return false;
         }
     }
@@ -232,7 +232,7 @@ impl<'a> SemanticAnalyzer<'a> {
                     let fields = match fields.append(expand) {
                         Ok(fields) => fields,
                         Err(fields) => {
-                            ctx.report_error(
+                            ctx.on_fatal(
                                 MlSemanticError::UnableMixin(mixin.ident.0.clone(), mixin.ident.1),
                                 node.ident.1,
                             );
@@ -251,7 +251,7 @@ impl<'a> SemanticAnalyzer<'a> {
                     panic!("node_check(mxin): inner error.");
                 }
             } else {
-                ctx.report_error(MlSemanticError::UndeclaredType(mixin.0.clone()), mixin.1);
+                ctx.on_fatal(MlSemanticError::UndeclaredType(mixin.0.clone()), mixin.1);
                 return None;
             }
         }
@@ -281,7 +281,7 @@ impl<'a> SemanticAnalyzer<'a> {
                 panic!("expand_with_group: inner error.");
             }
         } else {
-            ctx.report_error(MlSemanticError::UndeclaredType(ident.0.clone()), ident.1);
+            ctx.on_fatal(MlSemanticError::UndeclaredType(ident.0.clone()), ident.1);
             None
         }
     }

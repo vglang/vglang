@@ -90,6 +90,21 @@ impl Display for Span {
     }
 }
 
+pub trait PrintReport<'a> {
+    fn print_reports(self);
+}
+
+impl<'a, I> PrintReport<'a> for I
+where
+    I: Iterator<Item = &'a (Span, anyhow::Error)>,
+{
+    fn print_reports(self) {
+        for (index, (span, line)) in self.enumerate() {
+            println!("{}: {} {}", index, line, span);
+        }
+    }
+}
+
 /// A seekable source code stream.
 pub struct ParseContext<'a> {
     /// raw source code.

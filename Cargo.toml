@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/parserc", "crates/vglang"]
+members = ["crates/*"]
 resolver = "2"
 
 [workspace.package]
@@ -37,3 +37,4 @@ xml_dom = "^0.2"
 # sub-crates
 parserc = {path = "./crates/parserc", version = "^0.1", default-features = false}
 vglang = {path = "./crates/vglang", version = "^0.1", default-features = false}
+vglang-derive = {path = "./crates/derive", version = "^0.1", default-features = false}
