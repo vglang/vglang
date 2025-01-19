@@ -1,9 +1,9 @@
 [package]
-description = "code generator for vglang."
-documentation = "https://docs.rs/vglang-derive"
+description = "metadata tools for vglang."
+documentation = "https://docs.rs/vglang-metadata"
 edition.workspace = true
 license = "MIT"
-name = "vglang-derive"
+name = "vglang-metadata"
 repository.workspace = true
 version.workspace = true
 

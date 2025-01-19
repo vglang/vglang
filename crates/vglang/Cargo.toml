@@ -14,7 +14,7 @@ parserc = {workspace = true, optional = true}
 serde = {workspace = true, optional = true}
 
 [build-dependencies]
-vglang-derive = {workspace = true, features = ["codegen"]}
+vglang-metadata = {workspace = true, features = ["codegen"]}
 
 [dev-dependencies]
 divan = {workspace = true}
