@@ -224,7 +224,7 @@ impl<'a> SemanticAnalyzer<'a> {
         for property in &node.properties {
             for call in &property.calls {
                 match call.target.1.as_str() {
-                    "option" | "variable" => {
+                    "option" | "variable" | "init" => {
                         if call.params.len() != 0 {
                             ctx.report_err(
                                 AnalyzerError::VariableOption(call.target.1.clone()),
