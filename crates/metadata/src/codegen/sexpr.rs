@@ -303,17 +303,78 @@ impl SexprGen for Enum {
     fn gen_sexpr_source_codes(&self, opcode_mod: &TokenStream) -> TokenStream {
         let mut token_streams = vec![];
 
-        token_streams.append(&mut self.gen_sexpr_ext_traits(opcode_mod));
+        token_streams.push(self.gen_sexpr_init_fns(opcode_mod));
 
-        quote! {}
+        quote! {
+            #(#token_streams)*
+        }
     }
 }
 
 impl Enum {
-    fn gen_sexpr_ext_traits(&self, _: &TokenStream) -> Vec<TokenStream> {
-        let traits = vec![];
+    fn gen_sexpr_init_fns(&self, opcode_mod: &TokenStream) -> TokenStream {
+        let mut fns = vec![];
 
-        traits
+        let sexpr_mod = quote! {};
+
+        for node in &self.fields {
+            if node.fields.is_empty() {
+                continue;
+            }
+
+            let mut generics = vec![];
+            let mut where_clauses = vec![];
+
+            let mut fields = vec![];
+
+            for (index, field) in node.fields.iter().enumerate() {
+                let param_type = format!("P{}", index).parse().unwrap();
+                let param = if let Some(ident) = field.gen_ident() {
+                    ident
+                } else {
+                    format!("p{}", index).parse().unwrap()
+                };
+
+                let from_expr = field.ty().gen_from_expr(&sexpr_mod, &param);
+
+                fields.push(field.gen_init_expr(opcode_mod, from_expr));
+
+                where_clauses.push(field.ty().gen_from_where_clause(
+                    opcode_mod,
+                    &sexpr_mod,
+                    &param_type,
+                ));
+
+                generics.push((param_type, param));
+            }
+
+            let ident = node.ident.field_ident();
+
+            let params = generics
+                .iter()
+                .map(|(ty, param)| quote! { #param: #ty})
+                .collect::<Vec<_>>();
+
+            let impl_generics = generics.iter().map(|(ty, _)| ty).collect::<Vec<_>>();
+
+            let body = node.gen_body_expr(fields);
+
+            let field_ident = node.gen_ident();
+
+            fns.push(quote! {
+                pub fn #ident<#(#impl_generics),*> (#(#params),*) -> Self where #(#where_clauses),* {
+                    Self::#field_ident #body
+                }
+            });
+        }
+
+        let ident = self.gen_ident();
+
+        quote! {
+            impl #opcode_mod #ident {
+                #(#fns)*
+            }
+        }
     }
 }
 
@@ -642,6 +703,16 @@ impl SexprModGen {
                 /// Push a `Pop` opcode.
                 pub fn pop(&mut self) {
                     self.0.push(#opcode_mod Opcode::Pop);
+                }
+
+                /// Build a [`Graphics`] and return result ase a [`Source`].
+                #[cfg(feature = "surface")]
+                #[cfg_attr(docsrs, doc(cfg(feature = "surface")))]
+                pub fn create_source(grapchics: impl Graphics) -> crate::surface::Source<'static> {
+                    let mut builder = Self::default();
+                    grapchics.build(&mut builder);
+
+                    builder.0.into()
                 }
             }
 

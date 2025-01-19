@@ -1,0 +1,15 @@
+[package]
+description = "Standard and official integration test suite for vglang."
+documentation = "https://docs.rs/vglang-spec"
+edition.workspace = true
+license = "MIT"
+name = "vglang-spec"
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+heck = {workspace = true}
+vglang = {workspace = true, features = ["serde", "sexpr", "surface"]}
+
+[dev-dependencies]
+serde_json = {workspace = true}

@@ -159,6 +159,13 @@ impl Fields {
             _ => true,
         }
     }
+
+    pub fn is_empty(&self) -> bool {
+        match &self {
+            Fields::None => true,
+            _ => false,
+        }
+    }
 }
 
 impl Fields {

@@ -23,6 +23,9 @@ pub fn gen<P: AsRef<std::path::Path>>(opcodes: &[crate::ir::Stat], target_dir: P
 
     let mod_content = quote! {
         pub mod opcode;
+
+        #[cfg(feature = "sexpr")]
+        #[cfg_attr(docsrs, doc(cfg(feature = "sexpr")))]
         pub mod sexpr;
     };
 
