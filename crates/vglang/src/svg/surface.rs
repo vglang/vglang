@@ -250,7 +250,7 @@ impl<'a> SvgRendering<'a> {
 }
 
 /// A svg rendering target implementation for vglang.
-pub struct Svg {}
+pub struct Svg;
 
 impl Surface for Svg {
     type Program = SvgRenderer;

@@ -9,7 +9,8 @@ version.workspace = true
 
 [dependencies]
 heck = {workspace = true}
-vglang = {workspace = true, features = ["serde", "sexpr", "surface"]}
+vglang = {workspace = true, features = ["serde", "sexpr", "svg"]}
 
 [dev-dependencies]
+futures = {workspace = true}
 serde_json = {workspace = true}
