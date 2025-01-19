@@ -2469,7 +2469,6 @@ children (Text,TextSpan,TextPath,Characters) of Text;
 children (TextSpan,Characters) of TextSpan;
 children (TextSpan,Characters) of TextPath;
 
-
 children (
     Text,
     ClipPath,

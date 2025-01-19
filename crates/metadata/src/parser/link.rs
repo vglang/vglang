@@ -6,13 +6,15 @@ use crate::ir::{ApplyTo, ChildrenOf, Group, Ident};
 
 use super::{
     utils::{parse_prefix, skip_ws},
-    ApplyToKind, ChildrenOfKind, GroupKind, ParseError,
+    ApplyToKind, ChildrenOfKind, GroupKind, ParseError, TupleKind,
 };
 
 fn parse_tuple_idents(ctx: &mut ParseContext<'_>) -> Result<Vec<Ident>> {
     ensure_char('(')
-        .fatal(ParseError::Group(GroupKind::BodyStart), ctx.span())
+        .fatal(ParseError::Tuple(TupleKind::BodyStart), ctx.span())
         .parse(ctx)?;
+
+    skip_ws(ctx)?;
 
     let mut children = vec![];
 
@@ -29,7 +31,7 @@ fn parse_tuple_idents(ctx: &mut ParseContext<'_>) -> Result<Vec<Ident>> {
     }
 
     ensure_char(')')
-        .fatal(ParseError::Group(GroupKind::BodyEnd), ctx.span())
+        .fatal(ParseError::Tuple(TupleKind::BodyEnd), ctx.span())
         .parse(ctx)?;
 
     Ok(children)

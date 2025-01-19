@@ -214,6 +214,18 @@ impl<'a> ParseContext<'a> {
         self.source.as_bytes().len() - self.offset
     }
 
+    /// Returns the unparsed length.
+    #[inline]
+    pub fn unparsed(&mut self) -> &str {
+        let unparsed = &self.source[self.offset..];
+
+        if unparsed.len() > 20 {
+            &unparsed[..20]
+        } else {
+            unparsed
+        }
+    }
+
     /// peek up next char in the reading stream.
     #[inline(always)]
     pub fn peek(&mut self) -> (Option<char>, Span) {

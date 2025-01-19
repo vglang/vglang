@@ -13,8 +13,6 @@ use crate::{
 fn parse_node_body(ctx: &mut ParseContext<'_>) -> Result<Node> {
     let start = ctx.span();
 
-    let (comments, properties) = parse_prefix(ctx)?;
-
     let ident = Ident::parse(ctx)?;
 
     skip_ws(ctx)?;
@@ -40,15 +38,17 @@ fn parse_node_body(ctx: &mut ParseContext<'_>) -> Result<Node> {
 
     Ok(Node {
         span: start.extend_to(end),
-        comments,
+        comments: vec![],
         mixin,
-        properties,
+        properties: vec![],
         ident,
         fields,
     })
 }
 
 pub(super) fn parse_node(ctx: &mut ParseContext<'_>) -> Result<Stat> {
+    let (comments, properties) = parse_prefix(ctx)?;
+
     let keyword = ensure_keyword("el")
         .or(ensure_keyword("leaf"))
         .or(ensure_keyword("attr"))
@@ -58,7 +58,16 @@ pub(super) fn parse_node(ctx: &mut ParseContext<'_>) -> Result<Stat> {
 
     skip_ws(ctx)?;
 
-    let node = parse_node_body(ctx)?;
+    let mut node = parse_node_body(ctx)?;
+
+    node.comments = comments;
+    node.properties = properties;
+
+    if node.fields.is_tuple() {
+        ensure_char(';')
+            .fatal(ParseError::Node(NodeKind::End), ctx.span())
+            .parse(ctx)?;
+    }
 
     match ctx.as_str(keyword) {
         "el" => Ok(Stat::Element(Box::new(node))),
@@ -95,18 +104,27 @@ impl FromSrc for Enum {
 
         let mut fields = vec![];
 
-        while let Some(field) = parse_node_body.ok().parse(ctx)? {
-            fields.push(field);
+        loop {
+            let (comments, properties) = parse_prefix(ctx)?;
 
-            skip_ws(ctx)?;
+            if let Some(mut field) = parse_node_body.ok().parse(ctx)? {
+                field.comments = comments;
+                field.properties = properties;
 
-            skip_ws.parse(ctx)?;
+                fields.push(field);
 
-            if ensure_char(',').ok().parse(ctx)?.is_none() {
+                skip_ws(ctx)?;
+
+                skip_ws.parse(ctx)?;
+
+                if ensure_char(',').ok().parse(ctx)?.is_none() {
+                    break;
+                }
+
+                skip_ws.parse(ctx)?;
+            } else {
                 break;
             }
-
-            skip_ws.parse(ctx)?;
         }
 
         let end = ensure_char('}')
@@ -120,5 +138,22 @@ impl FromSrc for Enum {
             ident,
             fields,
         })
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use parserc::{FromSrc, ParseContext};
+
+    use crate::ir::Enum;
+
+    #[test]
+    fn test_enum() {
+        Enum::parse(&mut ParseContext::from("enum Hello {a,b,c} ")).unwrap();
+
+        Enum::parse(&mut ParseContext::from(
+            "enum Hello { A { value: uint, name: string },b,c} ",
+        ))
+        .unwrap();
     }
 }

@@ -62,9 +62,7 @@ impl FromSrc for UnnamedField {
 
         skip_ws.parse(ctx)?;
 
-        let ty = Type::into_parser()
-            .fatal(ParseError::UnnamedField, ctx.span())
-            .parse(ctx)?;
+        let ty = Type::into_parser().parse(ctx)?;
 
         Ok(UnnamedField {
             span: start.extend_to_inclusive(*ty.span()),

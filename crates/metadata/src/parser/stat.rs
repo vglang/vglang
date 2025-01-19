@@ -36,12 +36,8 @@ impl FromSrc for Stat {
 
         skip_ws(ctx)?;
 
-        assert_eq!(
-            ctx.remaining(),
-            0,
-            "inner error: unparsed length must be zero."
-        );
+        assert_eq!(ctx.remaining(), 0, "Unparsed codes: {} ...", ctx.unparsed());
 
-        return Err(ControlFlow::Incomplete);
+        return Err(ControlFlow::Recoverable);
     }
 }

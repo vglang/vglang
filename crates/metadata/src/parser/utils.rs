@@ -146,11 +146,8 @@ impl FromSrc for Type {
             ));
         }
 
-        let start = input.span();
-
         // try parse as ident at last.
         Ident::into_parser()
-            .fatal(ParseError::Type(super::TypeKind::Data), start)
             .parse(input)
             .map(|ident| Type::Data(ident))
     }

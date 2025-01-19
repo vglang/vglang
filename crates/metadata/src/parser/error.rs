@@ -1,6 +1,8 @@
 /// Error returns by `parser` mod
 #[derive(Debug, thiserror::Error, PartialEq, PartialOrd)]
 pub enum ParseError {
+    #[error("Expect stat.")]
+    Unparsed,
     #[error("Syntax error of literal number, {0}")]
     Uint(UnitKind),
     #[error("Syntax error of property, {0}")]
@@ -9,7 +11,7 @@ pub enum ParseError {
     #[error("Syntax error of call exp, {0}")]
     Call(CallKind),
 
-    #[error("Syntax error of call exp, {0}")]
+    #[error("Syntax error of type declaration, {0}")]
     Type(TypeKind),
 
     #[error("Syntax error of enum, {0}")]
@@ -30,11 +32,23 @@ pub enum ParseError {
     #[error("Syntax error of group, {0}")]
     Group(GroupKind),
 
+    #[error("Syntax error of tuple, {0}")]
+    Tuple(TupleKind),
+
     #[error("Syntax error of apply ... to ..., {0}")]
     ApplyTo(ApplyToKind),
 
     #[error("Syntax error of children ... of ..., {0}")]
     ChildrenOf(ChildrenOfKind),
+}
+
+/// Error kind of parsing tuple `(ident,...)` stat.
+#[derive(Debug, thiserror::Error, PartialEq, PartialOrd)]
+pub enum TupleKind {
+    #[error("expect `(`.")]
+    BodyStart,
+    #[error("expect `)`.")]
+    BodyEnd,
 }
 
 /// Error kind of parsing children .. of ... stat.
@@ -68,10 +82,6 @@ pub enum ApplyToKind {
 pub enum GroupKind {
     #[error("expect `:=`.")]
     Assign,
-    #[error("expect `(`.")]
-    BodyStart,
-    #[error("expect `)`.")]
-    BodyEnd,
 
     #[error("expect `;`.")]
     End,
@@ -85,6 +95,9 @@ pub enum NodeKind {
 
     #[error("epxect fields.")]
     Fields,
+
+    #[error("expect `;`")]
+    End,
 }
 
 /// Error kind of enum parsing.
