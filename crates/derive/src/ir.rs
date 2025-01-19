@@ -116,6 +116,8 @@ impl Type {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct NamedField {
+    /// The whole span of the named field.
+    pub span: Span,
     /// comment of this field.
     pub comments: Vec<Comment>,
     /// custom propert list.
@@ -130,6 +132,8 @@ pub struct NamedField {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct UnnamedField {
+    /// The whole span of the unnamed field.
+    pub span: Span,
     /// comment of this field.
     pub comments: Vec<Comment>,
     /// custom propert list.
@@ -357,6 +361,8 @@ impl<'a> Iterator for FieldIter<'a> {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Node {
+    /// The span of the whole node block.
+    pub span: Span,
     /// comment of this node
     pub comments: Vec<Comment>,
     /// The ident of the mixin data.
@@ -380,6 +386,7 @@ impl Node {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Enum {
+    pub span: Span,
     /// comment of this node
     pub comments: Vec<Comment>,
     /// custom propert list.
@@ -388,6 +395,22 @@ pub struct Enum {
     pub ident: Ident,
     /// the non-inherited properties
     pub fields: Vec<Node>,
+}
+
+/// Defines a group.
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct Group {
+    /// The span of group.
+    pub span: Span,
+    /// comment of this field.
+    pub comments: Vec<Comment>,
+    /// custom propert list.
+    pub properties: Vec<Property>,
+    /// The name of the group.
+    pub ident: Ident,
+    /// The content of the group.
+    pub children: Vec<Ident>,
 }
 
 /// Defines apply to link
@@ -420,22 +443,6 @@ pub struct ChildrenOf {
     pub from: Vec<Ident>,
     /// parent group.
     pub to: Vec<Ident>,
-}
-
-/// Defines a group.
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Group {
-    /// comment of this field.
-    pub comments: Vec<Comment>,
-    /// custom propert list.
-    pub properties: Vec<Property>,
-    /// The span of group.
-    pub span: Span,
-    /// The name of the group.
-    pub ident: Ident,
-    /// The content of the group.
-    pub children: Vec<Ident>,
 }
 
 /// Defines a vglang metadata stat.

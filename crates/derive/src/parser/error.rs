@@ -11,6 +11,110 @@ pub enum ParseError {
 
     #[error("Syntax error of call exp, {0}")]
     Type(TypeKind),
+
+    #[error("Syntax error of enum, {0}")]
+    Enum(EnumKind),
+
+    #[error("Syntax error of fields, {0}")]
+    Fields(FieldsKind),
+
+    #[error("Syntax error of name field, {0}")]
+    NamedField(NamedFieldKind),
+
+    #[error("Syntax error of unamed field, expect field type declaration.")]
+    UnnamedField,
+
+    #[error("Syntax error of node, {0}")]
+    Node(NodeKind),
+
+    #[error("Syntax error of group, {0}")]
+    Group(GroupKind),
+
+    #[error("Syntax error of apply ... to ..., {0}")]
+    ApplyTo(ApplyToKind),
+
+    #[error("Syntax error of children ... of ..., {0}")]
+    ChildrenOf(ChildrenOfKind),
+}
+
+/// Error kind of parsing children .. of ... stat.
+#[derive(Debug, thiserror::Error, PartialEq, PartialOrd)]
+pub enum ChildrenOfKind {
+    #[error("expect keyword `of`.")]
+    Of,
+    #[error(
+        "expect an `ident` or a group of idents `(ident,...)` following by `children` keyword."
+    )]
+    From,
+    #[error("expect an `ident` or a group of idents `(ident,...)` following by `of` keyword.")]
+    To,
+    #[error("expect `;`.")]
+    End,
+}
+
+/// Error kind of parsing apply .. to ... stat.
+#[derive(Debug, thiserror::Error, PartialEq, PartialOrd)]
+pub enum ApplyToKind {
+    #[error("expect keyword `to`.")]
+    To,
+    #[error("expect an `ident` or a group of idents `(ident,...)` following by `to` keyword.")]
+    Target,
+    #[error("expect `;`.")]
+    End,
+}
+
+/// Error kind of node parsing.
+#[derive(Debug, thiserror::Error, PartialEq, PartialOrd)]
+pub enum GroupKind {
+    #[error("expect `:=`.")]
+    Assign,
+    #[error("expect `(`.")]
+    BodyStart,
+    #[error("expect `)`.")]
+    BodyEnd,
+
+    #[error("expect `;`.")]
+    End,
+}
+
+/// Error kind of node parsing.
+#[derive(Debug, thiserror::Error, PartialEq, PartialOrd)]
+pub enum NodeKind {
+    #[error("epxect mixin `ident`.")]
+    MixinIdent,
+
+    #[error("epxect fields.")]
+    Fields,
+}
+
+/// Error kind of enum parsing.
+#[derive(Debug, thiserror::Error, PartialEq, PartialOrd)]
+pub enum NamedFieldKind {
+    #[error("expect value/type split char `:`")]
+    SemiColons,
+
+    #[error("expect field type declaration.")]
+    Type,
+}
+
+/// Error kind of enum parsing.
+#[derive(Debug, thiserror::Error, PartialEq, PartialOrd)]
+pub enum FieldsKind {
+    #[error("expect end tag `{0}`")]
+    EndTag(char),
+}
+
+/// Error kind of enum parsing.
+#[derive(Debug, thiserror::Error, PartialEq, PartialOrd)]
+pub enum EnumKind {
+    #[error("invalid enum ident.")]
+    Ident,
+
+    #[error("expect `{{`")]
+    BodyStart,
+
+    #[error("expect `}}`")]
+    BodyEnd,
 }
 
 /// Error kind of unit parsing.

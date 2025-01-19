@@ -4,42 +4,9 @@ use parserc::{
 };
 
 use crate::{
-    ir::{Ident, LitStr, LitUint},
+    ir::{LitStr, LitUint},
     parser::{ParseError, UnitKind},
 };
-
-impl FromSrc for Ident {
-    fn parse(ctx: &mut parserc::ParseContext<'_>) -> parserc::Result<Self>
-    where
-        Self: Sized,
-    {
-        let (c, start) = ctx.next();
-
-        if let Some(c) = c {
-            if c != '_' && !c.is_alphabetic() {
-                return Err(ControlFlow::Recoverable);
-            }
-        } else {
-            return Err(ControlFlow::Incomplete);
-        }
-
-        let body = take_while(|c| c == '_' || c.is_alphanumeric()).parse(ctx)?;
-
-        let span = if let Some(body) = body {
-            start.extend_to_inclusive(body)
-        } else {
-            start
-        };
-
-        assert!(span.len() > 0);
-
-        let ident = ctx.as_str(span);
-
-        assert_eq!(ident.len(), span.len());
-
-        Ok(Ident(span, ident.to_string()))
-    }
-}
 
 impl FromSrc for LitUint {
     fn parse(ctx: &mut parserc::ParseContext<'_>) -> parserc::Result<Self>
