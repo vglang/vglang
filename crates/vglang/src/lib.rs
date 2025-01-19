@@ -12,3 +12,7 @@ pub mod sexpr;
 #[cfg(feature = "surface")]
 #[cfg_attr(docsrs, doc(cfg(feature = "surface")))]
 pub mod surface;
+
+#[cfg(feature = "svg")]
+#[cfg_attr(docsrs, doc(cfg(feature = "svg")))]
+pub mod svg;

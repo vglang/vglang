@@ -400,6 +400,19 @@ impl Node {
 
         None
     }
+
+    /// Skip xml codegen.
+    pub fn xml_skip(&self) -> bool {
+        for prop in &self.properties {
+            for param in &prop.calls {
+                if param.target.1 == "xml_skip" {
+                    return true;
+                }
+            }
+        }
+
+        false
+    }
 }
 
 /// Defines an enum data.
@@ -415,6 +428,21 @@ pub struct Enum {
     pub ident: Ident,
     /// the non-inherited properties
     pub fields: Vec<Node>,
+}
+
+impl Enum {
+    /// Skip xml codegen.
+    pub fn xml_skip(&self) -> bool {
+        for prop in &self.properties {
+            for param in &prop.calls {
+                if param.target.1 == "xml_skip" {
+                    return true;
+                }
+            }
+        }
+
+        false
+    }
 }
 
 /// Defines a group.

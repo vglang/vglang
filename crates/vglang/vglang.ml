@@ -251,6 +251,7 @@ enum Channel { R,G,B,A }
 enum ClipRule { Nonzero, EvenOdd }
 
 /// A direction that representation a path drawing commander.
+#[xml_skip]
 enum PathEvent {
     /// Close the current subpath by drawing a straight line from the current point to current subpath's initial point.
     Close,
@@ -321,9 +322,11 @@ enum FillRule {
 }
 
 /// Specifies the shape to be used at the end of open subpaths when they are stroked
+#[xml("stroke-linecap")]
 enum StrokeLineCap { Butt, Round, Square }
 
 /// Specifies the shape to be used at the corners of paths or basic shapes when they are stroked.
+#[xml("stroke-linejoin")]
 enum StrokeLineJoin { Miter(float), Round, Bevel }
 
 /// Indicates what happens if the gradient starts or ends inside the bounds of the target rectangle.
@@ -2051,6 +2054,7 @@ el Group;
 
 /// Paths represent the outline of a shape which can be filled, stroked, used as a clipping path,
 /// or any combination of the three.
+#[xml_skip]
 leaf Path {
     /// The definition of the outline of a shape.
     #[variable]

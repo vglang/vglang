@@ -12,6 +12,7 @@ thiserror = {workspace = true}
 log = {workspace = true, optional = true}
 parserc = {workspace = true, optional = true}
 serde = {workspace = true, optional = true}
+xml-builder = {workspace = true, optional = true}
 
 [build-dependencies]
 vglang-metadata = {workspace = true, features = ["codegen"]}
@@ -25,3 +26,4 @@ lang = ["parserc", "log"]
 serde = ["dep:serde", "parserc/serde"]
 sexpr = []
 surface = []
+svg = ["surface", "xml-builder"]
