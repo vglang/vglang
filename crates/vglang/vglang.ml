@@ -2421,6 +2421,7 @@ el Text mixin MixinText;
 /// The ‘text’ element defines a graphics element consisting of text.
 ///
 /// See [`text`](https://www.w3.org/TR/SVG11/text.html#TextElement)
+#[xml("tspan")]
 el TextSpan mixin MixinText;
 
 /// Text content chars.

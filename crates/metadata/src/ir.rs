@@ -380,6 +380,19 @@ impl Node {
     pub fn is_tuple(&self) -> bool {
         self.fields.is_tuple()
     }
+
+    /// Returns the replacement xml display name.
+    pub fn xml_name(&self) -> Option<&str> {
+        for prop in &self.properties {
+            for param in &prop.params {
+                if param.target.1 == "xml" {
+                    return param.params.first().map(|v| v.1.as_str());
+                }
+            }
+        }
+
+        None
+    }
 }
 
 /// Defines an enum data.
