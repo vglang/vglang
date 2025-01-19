@@ -1,7 +1,6 @@
-use crate::{
-    opcode::{variable::Variable, Color, Length, Mask, PathEvent, Point, Rgb},
-    sexpr::{MapCollect, Number},
-};
+pub use super::codegen::sexpr::*;
+
+use crate::opcode::{variable::Variable, Color, Length, Mask, Paint, PathEvent, Point, Rgb};
 
 /// A trait convert self into [`Length`]
 pub trait Slength {
@@ -430,5 +429,26 @@ where
             height: Some(Variable::Constant(value.3.px())),
             ..Default::default()
         }
+    }
+}
+
+impl<T> From<T> for Paint
+where
+    String: From<T>,
+{
+    fn from(value: T) -> Self {
+        Self::Server(value.into())
+    }
+}
+
+impl From<Color> for Paint {
+    fn from(value: Color) -> Self {
+        Self::Color(value.into())
+    }
+}
+
+impl From<Rgb> for Paint {
+    fn from(value: Rgb) -> Self {
+        Self::Color(value)
     }
 }

@@ -148,9 +148,7 @@
     "Apply": {
       "Fill": {
         "paint": {
-          "Server": {
-            "Path": "Gradient"
-          }
+          "Server": "Gradient"
         },
         "rule": null,
         "opacity": null
@@ -298,15 +296,15 @@
   },
   {
     "Apply": {
-      "WithMask": {
-        "Path": "Gradient"
-      }
+      "WithMask": "Gradient"
     }
   },
   {
     "Leaf": {
       "Use": {
-        "Constant": "Text"
+        "Constant": {
+          "Local": "Text"
+        }
       }
     }
   },
@@ -346,7 +344,9 @@
   {
     "Leaf": {
       "Use": {
-        "Constant": "Text"
+        "Constant": {
+          "Local": "Text"
+        }
       }
     }
   },

@@ -193,51 +193,48 @@ pub enum Color {
 pub struct Rgb(pub u8, pub u8, pub u8);
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Iri(pub String);
-#[doc = " [Ln 188, Col 1]"]
-#[doc = " [Ln 189, Col 1]"]
-#[doc = " [Ln 190, Col 1]"]
-#[derive(Debug, PartialEq, PartialOrd, Clone)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub enum FuncIri {
-    Iri(Iri),
+pub enum Iri {
+    Local(FuncIri),
     Path(String),
 }
+#[doc = " [Ln 191, Col 1]"]
+#[doc = " [Ln 192, Col 1]"]
 #[doc = " [Ln 193, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Point(pub f32, pub f32);
+pub struct FuncIri(pub String);
 #[doc = " [Ln 196, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Percent(pub f32);
+pub struct Point(pub f32, pub f32);
 #[doc = " [Ln 199, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct Percent(pub f32);
+#[doc = " [Ln 202, Col 1]"]
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Paint {
-    #[doc = " [Ln 201, Col 5]"]
+    #[doc = " [Ln 204, Col 5]"]
     Color(Rgb),
-    #[doc = " [Ln 203, Col 5]"]
+    #[doc = " [Ln 206, Col 5]"]
     Server(FuncIri),
 }
-#[doc = " [Ln 207, Col 1]"]
+#[doc = " [Ln 210, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct NumberOptNumber(pub f32, pub Option<f32>);
-#[doc = " [Ln 210, Col 1]"]
-#[doc = " [Ln 211, Col 1]"]
-#[doc = " [Ln 212, Col 1]"]
+#[doc = " [Ln 213, Col 1]"]
+#[doc = " [Ln 214, Col 1]"]
+#[doc = " [Ln 215, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Coords {
-    #[doc = " [Ln 214, Col 5]"]
-    #[doc = " [Ln 215, Col 5]"]
-    #[doc = " [Ln 216, Col 5]"]
     #[doc = " [Ln 217, Col 5]"]
-    UserSpaceOnUse,
+    #[doc = " [Ln 218, Col 5]"]
+    #[doc = " [Ln 219, Col 5]"]
     #[doc = " [Ln 220, Col 5]"]
-    #[doc = " [Ln 221, Col 5]"]
-    #[doc = " [Ln 222, Col 5]"]
+    UserSpaceOnUse,
     #[doc = " [Ln 223, Col 5]"]
     #[doc = " [Ln 224, Col 5]"]
     #[doc = " [Ln 225, Col 5]"]
@@ -246,9 +243,12 @@ pub enum Coords {
     #[doc = " [Ln 228, Col 5]"]
     #[doc = " [Ln 229, Col 5]"]
     #[doc = " [Ln 230, Col 5]"]
+    #[doc = " [Ln 231, Col 5]"]
+    #[doc = " [Ln 232, Col 5]"]
+    #[doc = " [Ln 233, Col 5]"]
     ObjectBoundingBox,
 }
-#[doc = " [Ln 234, Col 1]"]
+#[doc = " [Ln 237, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Transform {
@@ -259,7 +259,7 @@ pub enum Transform {
     SkewX(f32),
     SkewY(f32),
 }
-#[doc = " [Ln 244, Col 1]"]
+#[doc = " [Ln 247, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Channel {
@@ -268,63 +268,63 @@ pub enum Channel {
     B,
     A,
 }
-#[doc = " [Ln 247, Col 1]"]
+#[doc = " [Ln 250, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum ClipRule {
     Nonzero,
     EvenOdd,
 }
-#[doc = " [Ln 250, Col 1]"]
+#[doc = " [Ln 253, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum PathEvent {
-    #[doc = " [Ln 252, Col 5]"]
+    #[doc = " [Ln 255, Col 5]"]
     Close,
-    #[doc = " [Ln 254, Col 5]"]
+    #[doc = " [Ln 257, Col 5]"]
     MoveTo(Point),
-    #[doc = " [Ln 256, Col 5]"]
+    #[doc = " [Ln 259, Col 5]"]
     MoveToRelative(Point),
-    #[doc = " [Ln 258, Col 5]"]
+    #[doc = " [Ln 261, Col 5]"]
     LineTo(Point),
-    #[doc = " [Ln 260, Col 5]"]
+    #[doc = " [Ln 263, Col 5]"]
     LineToRelative(Point),
-    #[doc = " [Ln 262, Col 5]"]
+    #[doc = " [Ln 265, Col 5]"]
     Polyline(Vec<Point>),
-    #[doc = " [Ln 264, Col 5]"]
-    PolylineRelative(Vec<Point>),
-    #[doc = " [Ln 266, Col 5]"]
     #[doc = " [Ln 267, Col 5]"]
-    CubicBezier {
-        ctrl1: Point,
-        ctrl2: Point,
-        to_point: Point,
-    },
+    PolylineRelative(Vec<Point>),
     #[doc = " [Ln 269, Col 5]"]
     #[doc = " [Ln 270, Col 5]"]
-    CubicBezierRelative {
+    CubicBezier {
         ctrl1: Point,
         ctrl2: Point,
         to_point: Point,
     },
     #[doc = " [Ln 272, Col 5]"]
     #[doc = " [Ln 273, Col 5]"]
-    CubicBezierSmooth { ctrl2: Point, to_point: Point },
+    CubicBezierRelative {
+        ctrl1: Point,
+        ctrl2: Point,
+        to_point: Point,
+    },
     #[doc = " [Ln 275, Col 5]"]
     #[doc = " [Ln 276, Col 5]"]
-    CubicBezierSmoothRelative { ctrl2: Point, to_point: Point },
+    CubicBezierSmooth { ctrl2: Point, to_point: Point },
     #[doc = " [Ln 278, Col 5]"]
+    #[doc = " [Ln 279, Col 5]"]
+    CubicBezierSmoothRelative { ctrl2: Point, to_point: Point },
+    #[doc = " [Ln 281, Col 5]"]
     QuadraticBezier { ctrl: Point, to_point: Point },
-    #[doc = " [Ln 280, Col 5]"]
+    #[doc = " [Ln 283, Col 5]"]
     QuadraticBezierRelative { ctrl: Point, to_point: Point },
-    #[doc = " [Ln 282, Col 5]"]
+    #[doc = " [Ln 285, Col 5]"]
     QuadraticBezierSmooth(Point),
-    #[doc = " [Ln 284, Col 5]"]
-    QuadraticBezierSmoothRelative(Point),
-    #[doc = " [Ln 286, Col 5]"]
     #[doc = " [Ln 287, Col 5]"]
-    #[doc = " [Ln 288, Col 5]"]
+    QuadraticBezierSmoothRelative(Point),
     #[doc = " [Ln 289, Col 5]"]
+    #[doc = " [Ln 290, Col 5]"]
+    #[doc = " [Ln 291, Col 5]"]
+    #[doc = " [Ln 292, Col 5]"]
     Arc {
         rx: f32,
         ry: f32,
@@ -333,10 +333,10 @@ pub enum PathEvent {
         sweep: bool,
         to_point: Point,
     },
-    #[doc = " [Ln 294, Col 5]"]
-    #[doc = " [Ln 295, Col 5]"]
-    #[doc = " [Ln 296, Col 5]"]
     #[doc = " [Ln 297, Col 5]"]
+    #[doc = " [Ln 298, Col 5]"]
+    #[doc = " [Ln 299, Col 5]"]
+    #[doc = " [Ln 300, Col 5]"]
     ArcRelative {
         rx: f32,
         ry: f32,
@@ -346,25 +346,25 @@ pub enum PathEvent {
         to_point: Point,
     },
 }
-#[doc = " [Ln 303, Col 1]"]
-#[doc = " [Ln 304, Col 1]"]
-#[doc = " [Ln 305, Col 1]"]
 #[doc = " [Ln 306, Col 1]"]
+#[doc = " [Ln 307, Col 1]"]
+#[doc = " [Ln 308, Col 1]"]
+#[doc = " [Ln 309, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum FillRule {
-    #[doc = " [Ln 308, Col 5]"]
-    #[doc = " [Ln 309, Col 5]"]
-    #[doc = " [Ln 310, Col 5]"]
     #[doc = " [Ln 311, Col 5]"]
     #[doc = " [Ln 312, Col 5]"]
-    Nonzero,
+    #[doc = " [Ln 313, Col 5]"]
     #[doc = " [Ln 314, Col 5]"]
     #[doc = " [Ln 315, Col 5]"]
-    #[doc = " [Ln 316, Col 5]"]
+    Nonzero,
+    #[doc = " [Ln 317, Col 5]"]
+    #[doc = " [Ln 318, Col 5]"]
+    #[doc = " [Ln 319, Col 5]"]
     EvenOdd,
 }
-#[doc = " [Ln 320, Col 1]"]
+#[doc = " [Ln 323, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum StrokeLineCap {
@@ -372,7 +372,7 @@ pub enum StrokeLineCap {
     Round,
     Square,
 }
-#[doc = " [Ln 323, Col 1]"]
+#[doc = " [Ln 326, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum StrokeLineJoin {
@@ -380,12 +380,12 @@ pub enum StrokeLineJoin {
     Round,
     Bevel,
 }
-#[doc = " [Ln 326, Col 1]"]
-#[doc = " [Ln 327, Col 1]"]
-#[doc = " [Ln 328, Col 1]"]
 #[doc = " [Ln 329, Col 1]"]
 #[doc = " [Ln 330, Col 1]"]
 #[doc = " [Ln 331, Col 1]"]
+#[doc = " [Ln 332, Col 1]"]
+#[doc = " [Ln 333, Col 1]"]
+#[doc = " [Ln 334, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum SpreadMethod {
@@ -393,7 +393,7 @@ pub enum SpreadMethod {
     Reflect,
     Repeat,
 }
-#[doc = " [Ln 334, Col 1]"]
+#[doc = " [Ln 337, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum FontStyle {
@@ -401,18 +401,18 @@ pub enum FontStyle {
     Italic,
     Oblique,
 }
-#[doc = " [Ln 337, Col 1]"]
-#[doc = " [Ln 338, Col 1]"]
-#[doc = " [Ln 339, Col 1]"]
 #[doc = " [Ln 340, Col 1]"]
 #[doc = " [Ln 341, Col 1]"]
+#[doc = " [Ln 342, Col 1]"]
+#[doc = " [Ln 343, Col 1]"]
+#[doc = " [Ln 344, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum FontVariant {
     Normal,
     SmallCaps,
 }
-#[doc = " [Ln 344, Col 1]"]
+#[doc = " [Ln 347, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum FontWeight {
@@ -430,7 +430,7 @@ pub enum FontWeight {
     W800,
     W900,
 }
-#[doc = " [Ln 347, Col 1]"]
+#[doc = " [Ln 350, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum FontFamily {
@@ -441,8 +441,8 @@ pub enum FontFamily {
     Monospace,
     Generic(String),
 }
-#[doc = " [Ln 350, Col 1]"]
-#[doc = " [Ln 351, Col 1]"]
+#[doc = " [Ln 353, Col 1]"]
+#[doc = " [Ln 354, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum FontStretch {
@@ -458,20 +458,20 @@ pub enum FontStretch {
     ExtraExpanded,
     UltraExpanded,
 }
-#[doc = " [Ln 366, Col 1]"]
+#[doc = " [Ln 369, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Background {
-    #[doc = " [Ln 368, Col 5]"]
-    #[doc = " [Ln 369, Col 5]"]
-    #[doc = " [Ln 370, Col 5]"]
     #[doc = " [Ln 371, Col 5]"]
     #[doc = " [Ln 372, Col 5]"]
     #[doc = " [Ln 373, Col 5]"]
     #[doc = " [Ln 374, Col 5]"]
     #[doc = " [Ln 375, Col 5]"]
-    Accumulate,
+    #[doc = " [Ln 376, Col 5]"]
+    #[doc = " [Ln 377, Col 5]"]
     #[doc = " [Ln 378, Col 5]"]
+    Accumulate,
+    #[doc = " [Ln 381, Col 5]"]
     New {
         x: Option<f32>,
         y: Option<f32>,
@@ -479,117 +479,114 @@ pub enum Background {
         height: Option<f32>,
     },
 }
-#[doc = " [Ln 391, Col 1]"]
-#[doc = " [Ln 392, Col 1]"]
-#[doc = " [Ln 393, Col 1]"]
 #[doc = " [Ln 394, Col 1]"]
 #[doc = " [Ln 395, Col 1]"]
 #[doc = " [Ln 396, Col 1]"]
 #[doc = " [Ln 397, Col 1]"]
 #[doc = " [Ln 398, Col 1]"]
 #[doc = " [Ln 399, Col 1]"]
+#[doc = " [Ln 400, Col 1]"]
+#[doc = " [Ln 401, Col 1]"]
+#[doc = " [Ln 402, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum FeIn {
-    #[doc = " [Ln 401, Col 5]"]
-    #[doc = " [Ln 402, Col 5]"]
-    #[doc = " [Ln 403, Col 5]"]
     #[doc = " [Ln 404, Col 5]"]
     #[doc = " [Ln 405, Col 5]"]
     #[doc = " [Ln 406, Col 5]"]
-    SourceGraphic,
+    #[doc = " [Ln 407, Col 5]"]
+    #[doc = " [Ln 408, Col 5]"]
     #[doc = " [Ln 409, Col 5]"]
-    #[doc = " [Ln 410, Col 5]"]
-    #[doc = " [Ln 411, Col 5]"]
+    SourceGraphic,
     #[doc = " [Ln 412, Col 5]"]
     #[doc = " [Ln 413, Col 5]"]
-    SourceAlpha,
+    #[doc = " [Ln 414, Col 5]"]
+    #[doc = " [Ln 415, Col 5]"]
     #[doc = " [Ln 416, Col 5]"]
-    #[doc = " [Ln 417, Col 5]"]
-    BackgroundImage,
+    SourceAlpha,
+    #[doc = " [Ln 419, Col 5]"]
     #[doc = " [Ln 420, Col 5]"]
-    BackgroundAlpha,
+    BackgroundImage,
     #[doc = " [Ln 423, Col 5]"]
-    #[doc = " [Ln 424, Col 5]"]
-    #[doc = " [Ln 425, Col 5]"]
+    BackgroundAlpha,
     #[doc = " [Ln 426, Col 5]"]
-    FillPaint,
+    #[doc = " [Ln 427, Col 5]"]
+    #[doc = " [Ln 428, Col 5]"]
     #[doc = " [Ln 429, Col 5]"]
-    #[doc = " [Ln 430, Col 5]"]
-    #[doc = " [Ln 431, Col 5]"]
+    FillPaint,
     #[doc = " [Ln 432, Col 5]"]
-    StrokePaint,
+    #[doc = " [Ln 433, Col 5]"]
+    #[doc = " [Ln 434, Col 5]"]
     #[doc = " [Ln 435, Col 5]"]
+    StrokePaint,
+    #[doc = " [Ln 438, Col 5]"]
     Result(String),
 }
-#[doc = " [Ln 439, Col 1]"]
+#[doc = " [Ln 442, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum FeOut {
     Position,
     Named(String),
 }
-#[doc = " [Ln 442, Col 1]"]
-#[doc = " [Ln 443, Col 1]"]
-#[doc = " [Ln 444, Col 1]"]
 #[doc = " [Ln 445, Col 1]"]
 #[doc = " [Ln 446, Col 1]"]
 #[doc = " [Ln 447, Col 1]"]
 #[doc = " [Ln 448, Col 1]"]
+#[doc = " [Ln 449, Col 1]"]
+#[doc = " [Ln 450, Col 1]"]
+#[doc = " [Ln 451, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum FeBlendMode {
-    #[doc = " [Ln 450, Col 5]"]
+    #[doc = " [Ln 453, Col 5]"]
     Normal,
-    #[doc = " [Ln 452, Col 5]"]
+    #[doc = " [Ln 455, Col 5]"]
     Multiply,
-    #[doc = " [Ln 454, Col 5]"]
+    #[doc = " [Ln 457, Col 5]"]
     Screen,
-    #[doc = " [Ln 456, Col 5]"]
+    #[doc = " [Ln 459, Col 5]"]
     Darken,
-    #[doc = " [Ln 458, Col 5]"]
+    #[doc = " [Ln 461, Col 5]"]
     Lighten,
 }
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum TextLengthAdjust {
-    #[doc = " [Ln 464, Col 5]"]
-    Spacing,
     #[doc = " [Ln 467, Col 5]"]
-    #[doc = " [Ln 468, Col 5]"]
+    Spacing,
+    #[doc = " [Ln 470, Col 5]"]
+    #[doc = " [Ln 471, Col 5]"]
     SpacingAndGlyphs,
 }
-#[doc = " [Ln 472, Col 1]"]
-#[doc = " [Ln 473, Col 1]"]
-#[doc = " [Ln 474, Col 1]"]
 #[doc = " [Ln 475, Col 1]"]
 #[doc = " [Ln 476, Col 1]"]
+#[doc = " [Ln 477, Col 1]"]
+#[doc = " [Ln 478, Col 1]"]
+#[doc = " [Ln 479, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum WritingMode {
-    #[doc = " [Ln 478, Col 5]"]
-    #[doc = " [Ln 479, Col 5]"]
-    #[doc = " [Ln 480, Col 5]"]
     #[doc = " [Ln 481, Col 5]"]
-    LrTb,
+    #[doc = " [Ln 482, Col 5]"]
     #[doc = " [Ln 483, Col 5]"]
     #[doc = " [Ln 484, Col 5]"]
-    RlTb,
+    LrTb,
     #[doc = " [Ln 486, Col 5]"]
     #[doc = " [Ln 487, Col 5]"]
-    #[doc = " [Ln 488, Col 5]"]
+    RlTb,
     #[doc = " [Ln 489, Col 5]"]
-    TbRl,
+    #[doc = " [Ln 490, Col 5]"]
     #[doc = " [Ln 491, Col 5]"]
+    #[doc = " [Ln 492, Col 5]"]
+    TbRl,
+    #[doc = " [Ln 494, Col 5]"]
     Lr,
-    #[doc = " [Ln 493, Col 5]"]
+    #[doc = " [Ln 496, Col 5]"]
     Rl,
-    #[doc = " [Ln 495, Col 5]"]
+    #[doc = " [Ln 498, Col 5]"]
     Tb,
 }
-#[doc = " [Ln 499, Col 1]"]
-#[doc = " [Ln 500, Col 1]"]
-#[doc = " [Ln 501, Col 1]"]
 #[doc = " [Ln 502, Col 1]"]
 #[doc = " [Ln 503, Col 1]"]
 #[doc = " [Ln 504, Col 1]"]
@@ -597,16 +594,19 @@ pub enum WritingMode {
 #[doc = " [Ln 506, Col 1]"]
 #[doc = " [Ln 507, Col 1]"]
 #[doc = " [Ln 508, Col 1]"]
+#[doc = " [Ln 509, Col 1]"]
+#[doc = " [Ln 510, Col 1]"]
+#[doc = " [Ln 511, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum TextDirection {
     Ltr,
     Rtl,
 }
-#[doc = " [Ln 514, Col 1]"]
-#[doc = " [Ln 515, Col 1]"]
-#[doc = " [Ln 516, Col 1]"]
 #[doc = " [Ln 517, Col 1]"]
+#[doc = " [Ln 518, Col 1]"]
+#[doc = " [Ln 519, Col 1]"]
+#[doc = " [Ln 520, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum UnicodeBidi {
@@ -614,39 +614,36 @@ pub enum UnicodeBidi {
     Embed,
     BidiOverride,
 }
-#[doc = " [Ln 524, Col 1]"]
-#[doc = " [Ln 525, Col 1]"]
-#[doc = " [Ln 526, Col 1]"]
 #[doc = " [Ln 527, Col 1]"]
 #[doc = " [Ln 528, Col 1]"]
 #[doc = " [Ln 529, Col 1]"]
 #[doc = " [Ln 530, Col 1]"]
+#[doc = " [Ln 531, Col 1]"]
+#[doc = " [Ln 532, Col 1]"]
+#[doc = " [Ln 533, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum TextAnchor {
-    #[doc = " [Ln 532, Col 5]"]
-    #[doc = " [Ln 533, Col 5]"]
-    #[doc = " [Ln 534, Col 5]"]
     #[doc = " [Ln 535, Col 5]"]
     #[doc = " [Ln 536, Col 5]"]
-    Start,
+    #[doc = " [Ln 537, Col 5]"]
     #[doc = " [Ln 538, Col 5]"]
     #[doc = " [Ln 539, Col 5]"]
-    Middle,
+    Start,
     #[doc = " [Ln 541, Col 5]"]
     #[doc = " [Ln 542, Col 5]"]
-    #[doc = " [Ln 543, Col 5]"]
+    Middle,
     #[doc = " [Ln 544, Col 5]"]
     #[doc = " [Ln 545, Col 5]"]
+    #[doc = " [Ln 546, Col 5]"]
+    #[doc = " [Ln 547, Col 5]"]
+    #[doc = " [Ln 548, Col 5]"]
     End,
 }
-#[doc = " [Ln 549, Col 1]"]
+#[doc = " [Ln 552, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum DominantBaseline {
-    #[doc = " [Ln 551, Col 5]"]
-    #[doc = " [Ln 552, Col 5]"]
-    #[doc = " [Ln 553, Col 5]"]
     #[doc = " [Ln 554, Col 5]"]
     #[doc = " [Ln 555, Col 5]"]
     #[doc = " [Ln 556, Col 5]"]
@@ -654,128 +651,131 @@ pub enum DominantBaseline {
     #[doc = " [Ln 558, Col 5]"]
     #[doc = " [Ln 559, Col 5]"]
     #[doc = " [Ln 560, Col 5]"]
-    Auto,
+    #[doc = " [Ln 561, Col 5]"]
     #[doc = " [Ln 562, Col 5]"]
     #[doc = " [Ln 563, Col 5]"]
-    #[doc = " [Ln 564, Col 5]"]
+    Auto,
     #[doc = " [Ln 565, Col 5]"]
     #[doc = " [Ln 566, Col 5]"]
-    UseScript,
+    #[doc = " [Ln 567, Col 5]"]
     #[doc = " [Ln 568, Col 5]"]
     #[doc = " [Ln 569, Col 5]"]
-    NoChange,
+    UseScript,
     #[doc = " [Ln 571, Col 5]"]
     #[doc = " [Ln 572, Col 5]"]
-    ResetSize,
+    NoChange,
     #[doc = " [Ln 574, Col 5]"]
     #[doc = " [Ln 575, Col 5]"]
-    #[doc = " [Ln 576, Col 5]"]
-    Ideographic,
+    ResetSize,
+    #[doc = " [Ln 577, Col 5]"]
     #[doc = " [Ln 578, Col 5]"]
     #[doc = " [Ln 579, Col 5]"]
-    #[doc = " [Ln 580, Col 5]"]
-    Alphabetic,
+    Ideographic,
+    #[doc = " [Ln 581, Col 5]"]
     #[doc = " [Ln 582, Col 5]"]
     #[doc = " [Ln 583, Col 5]"]
-    #[doc = " [Ln 584, Col 5]"]
-    Hanging,
+    Alphabetic,
+    #[doc = " [Ln 585, Col 5]"]
     #[doc = " [Ln 586, Col 5]"]
     #[doc = " [Ln 587, Col 5]"]
-    #[doc = " [Ln 588, Col 5]"]
-    Mathematical,
+    Hanging,
+    #[doc = " [Ln 589, Col 5]"]
     #[doc = " [Ln 590, Col 5]"]
     #[doc = " [Ln 591, Col 5]"]
-    #[doc = " [Ln 592, Col 5]"]
+    Mathematical,
     #[doc = " [Ln 593, Col 5]"]
-    Central,
+    #[doc = " [Ln 594, Col 5]"]
     #[doc = " [Ln 595, Col 5]"]
     #[doc = " [Ln 596, Col 5]"]
-    #[doc = " [Ln 597, Col 5]"]
+    Central,
     #[doc = " [Ln 598, Col 5]"]
-    Middle,
+    #[doc = " [Ln 599, Col 5]"]
     #[doc = " [Ln 600, Col 5]"]
     #[doc = " [Ln 601, Col 5]"]
-    #[doc = " [Ln 602, Col 5]"]
+    Middle,
     #[doc = " [Ln 603, Col 5]"]
     #[doc = " [Ln 604, Col 5]"]
     #[doc = " [Ln 605, Col 5]"]
     #[doc = " [Ln 606, Col 5]"]
-    TextAfterEdge,
+    #[doc = " [Ln 607, Col 5]"]
     #[doc = " [Ln 608, Col 5]"]
     #[doc = " [Ln 609, Col 5]"]
-    #[doc = " [Ln 610, Col 5]"]
+    TextAfterEdge,
     #[doc = " [Ln 611, Col 5]"]
     #[doc = " [Ln 612, Col 5]"]
     #[doc = " [Ln 613, Col 5]"]
     #[doc = " [Ln 614, Col 5]"]
+    #[doc = " [Ln 615, Col 5]"]
+    #[doc = " [Ln 616, Col 5]"]
+    #[doc = " [Ln 617, Col 5]"]
     TextBeforeEdge,
 }
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum AlignmentBaseline {
-    #[doc = " [Ln 619, Col 5]"]
-    #[doc = " [Ln 620, Col 5]"]
-    Auto,
     #[doc = " [Ln 622, Col 5]"]
     #[doc = " [Ln 623, Col 5]"]
-    Baseline,
+    Auto,
     #[doc = " [Ln 625, Col 5]"]
     #[doc = " [Ln 626, Col 5]"]
-    BeforeEdge,
+    Baseline,
     #[doc = " [Ln 628, Col 5]"]
     #[doc = " [Ln 629, Col 5]"]
-    TextBeforeEdge,
+    BeforeEdge,
     #[doc = " [Ln 631, Col 5]"]
+    #[doc = " [Ln 632, Col 5]"]
+    TextBeforeEdge,
+    #[doc = " [Ln 634, Col 5]"]
     Middle,
-    #[doc = " [Ln 633, Col 5]"]
+    #[doc = " [Ln 636, Col 5]"]
     Central,
-    #[doc = " [Ln 635, Col 5]"]
+    #[doc = " [Ln 638, Col 5]"]
     AfterEdge,
-    #[doc = " [Ln 637, Col 5]"]
+    #[doc = " [Ln 640, Col 5]"]
     TextAfterEdge,
-    #[doc = " [Ln 639, Col 5]"]
+    #[doc = " [Ln 642, Col 5]"]
     Ideographic,
-    #[doc = " [Ln 641, Col 5]"]
+    #[doc = " [Ln 644, Col 5]"]
     Alphabetic,
-    #[doc = " [Ln 643, Col 5]"]
+    #[doc = " [Ln 646, Col 5]"]
     Hanging,
-    #[doc = " [Ln 645, Col 5]"]
+    #[doc = " [Ln 648, Col 5]"]
     Mathematical,
 }
-#[doc = " [Ln 649, Col 1]"]
-#[doc = " [Ln 650, Col 1]"]
-#[doc = " [Ln 651, Col 1]"]
 #[doc = " [Ln 652, Col 1]"]
 #[doc = " [Ln 653, Col 1]"]
+#[doc = " [Ln 654, Col 1]"]
+#[doc = " [Ln 655, Col 1]"]
+#[doc = " [Ln 656, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum BaselineShift {
-    #[doc = " [Ln 655, Col 5]"]
-    Baseline,
-    #[doc = " [Ln 657, Col 5]"]
     #[doc = " [Ln 658, Col 5]"]
-    #[doc = " [Ln 659, Col 5]"]
+    Baseline,
     #[doc = " [Ln 660, Col 5]"]
     #[doc = " [Ln 661, Col 5]"]
     #[doc = " [Ln 662, Col 5]"]
     #[doc = " [Ln 663, Col 5]"]
     #[doc = " [Ln 664, Col 5]"]
-    Sub,
+    #[doc = " [Ln 665, Col 5]"]
     #[doc = " [Ln 666, Col 5]"]
     #[doc = " [Ln 667, Col 5]"]
-    #[doc = " [Ln 668, Col 5]"]
+    Sub,
     #[doc = " [Ln 669, Col 5]"]
     #[doc = " [Ln 670, Col 5]"]
     #[doc = " [Ln 671, Col 5]"]
     #[doc = " [Ln 672, Col 5]"]
     #[doc = " [Ln 673, Col 5]"]
-    Super,
+    #[doc = " [Ln 674, Col 5]"]
     #[doc = " [Ln 675, Col 5]"]
     #[doc = " [Ln 676, Col 5]"]
-    #[doc = " [Ln 677, Col 5]"]
+    Super,
+    #[doc = " [Ln 678, Col 5]"]
+    #[doc = " [Ln 679, Col 5]"]
+    #[doc = " [Ln 680, Col 5]"]
     Value(Length),
 }
-#[doc = " [Ln 681, Col 1]"]
+#[doc = " [Ln 684, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum TextDecoration {
@@ -784,9 +784,6 @@ pub enum TextDecoration {
     LineThrough,
     Blink,
 }
-#[doc = " [Ln 689, Col 1]"]
-#[doc = " [Ln 690, Col 1]"]
-#[doc = " [Ln 691, Col 1]"]
 #[doc = " [Ln 692, Col 1]"]
 #[doc = " [Ln 693, Col 1]"]
 #[doc = " [Ln 694, Col 1]"]
@@ -798,15 +795,15 @@ pub enum TextDecoration {
 #[doc = " [Ln 700, Col 1]"]
 #[doc = " [Ln 701, Col 1]"]
 #[doc = " [Ln 702, Col 1]"]
+#[doc = " [Ln 703, Col 1]"]
+#[doc = " [Ln 704, Col 1]"]
+#[doc = " [Ln 705, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum TextPathMethod {
     Align,
     Stretch,
 }
-#[doc = " [Ln 708, Col 1]"]
-#[doc = " [Ln 709, Col 1]"]
-#[doc = " [Ln 710, Col 1]"]
 #[doc = " [Ln 711, Col 1]"]
 #[doc = " [Ln 712, Col 1]"]
 #[doc = " [Ln 713, Col 1]"]
@@ -814,245 +811,245 @@ pub enum TextPathMethod {
 #[doc = " [Ln 715, Col 1]"]
 #[doc = " [Ln 716, Col 1]"]
 #[doc = " [Ln 717, Col 1]"]
+#[doc = " [Ln 718, Col 1]"]
+#[doc = " [Ln 719, Col 1]"]
+#[doc = " [Ln 720, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum TextPathSpacing {
     Auto,
     Exact,
 }
-#[doc = " [Ln 723, Col 1]"]
-#[doc = " [Ln 724, Col 1]"]
-#[doc = " [Ln 725, Col 1]"]
+#[doc = " [Ln 726, Col 1]"]
+#[doc = " [Ln 727, Col 1]"]
+#[doc = " [Ln 728, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum LetterSpacing {
     Normal,
     Length(Length),
 }
-#[doc = " [Ln 731, Col 1]"]
-#[doc = " [Ln 732, Col 1]"]
-#[doc = " [Ln 733, Col 1]"]
+#[doc = " [Ln 734, Col 1]"]
+#[doc = " [Ln 735, Col 1]"]
+#[doc = " [Ln 736, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum WordSpacing {
     Normal,
     Length(Length),
 }
-#[doc = " [Ln 739, Col 1]"]
-#[doc = " [Ln 740, Col 1]"]
-#[doc = " [Ln 741, Col 1]"]
+#[doc = " [Ln 742, Col 1]"]
+#[doc = " [Ln 743, Col 1]"]
+#[doc = " [Ln 744, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum MeetOrSlice {
     Meet,
     Slice,
 }
-#[doc = " [Ln 747, Col 1]"]
-#[doc = " [Ln 748, Col 1]"]
-#[doc = " [Ln 749, Col 1]"]
 #[doc = " [Ln 750, Col 1]"]
 #[doc = " [Ln 751, Col 1]"]
+#[doc = " [Ln 752, Col 1]"]
+#[doc = " [Ln 753, Col 1]"]
+#[doc = " [Ln 754, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum PreserveAspectRatio {
-    #[doc = " [Ln 753, Col 5]"]
-    #[doc = " [Ln 754, Col 5]"]
-    #[doc = " [Ln 755, Col 5]"]
     #[doc = " [Ln 756, Col 5]"]
-    XMinYMin(MeetOrSlice),
+    #[doc = " [Ln 757, Col 5]"]
     #[doc = " [Ln 758, Col 5]"]
     #[doc = " [Ln 759, Col 5]"]
-    #[doc = " [Ln 760, Col 5]"]
+    XMinYMin(MeetOrSlice),
     #[doc = " [Ln 761, Col 5]"]
-    XMidYMin(MeetOrSlice),
+    #[doc = " [Ln 762, Col 5]"]
     #[doc = " [Ln 763, Col 5]"]
     #[doc = " [Ln 764, Col 5]"]
-    #[doc = " [Ln 765, Col 5]"]
+    XMidYMin(MeetOrSlice),
     #[doc = " [Ln 766, Col 5]"]
-    XMaxYMin(MeetOrSlice),
+    #[doc = " [Ln 767, Col 5]"]
     #[doc = " [Ln 768, Col 5]"]
     #[doc = " [Ln 769, Col 5]"]
-    #[doc = " [Ln 770, Col 5]"]
+    XMaxYMin(MeetOrSlice),
     #[doc = " [Ln 771, Col 5]"]
-    XMinYMid(MeetOrSlice),
+    #[doc = " [Ln 772, Col 5]"]
     #[doc = " [Ln 773, Col 5]"]
     #[doc = " [Ln 774, Col 5]"]
-    #[doc = " [Ln 775, Col 5]"]
+    XMinYMid(MeetOrSlice),
     #[doc = " [Ln 776, Col 5]"]
-    XMidYMid(MeetOrSlice),
+    #[doc = " [Ln 777, Col 5]"]
     #[doc = " [Ln 778, Col 5]"]
     #[doc = " [Ln 779, Col 5]"]
-    #[doc = " [Ln 780, Col 5]"]
+    XMidYMid(MeetOrSlice),
     #[doc = " [Ln 781, Col 5]"]
-    XMaxYMid(MeetOrSlice),
+    #[doc = " [Ln 782, Col 5]"]
     #[doc = " [Ln 783, Col 5]"]
     #[doc = " [Ln 784, Col 5]"]
-    #[doc = " [Ln 785, Col 5]"]
+    XMaxYMid(MeetOrSlice),
     #[doc = " [Ln 786, Col 5]"]
-    XMinYMax(MeetOrSlice),
+    #[doc = " [Ln 787, Col 5]"]
     #[doc = " [Ln 788, Col 5]"]
     #[doc = " [Ln 789, Col 5]"]
-    #[doc = " [Ln 790, Col 5]"]
+    XMinYMax(MeetOrSlice),
     #[doc = " [Ln 791, Col 5]"]
-    XMidYMax(MeetOrSlice),
+    #[doc = " [Ln 792, Col 5]"]
     #[doc = " [Ln 793, Col 5]"]
     #[doc = " [Ln 794, Col 5]"]
-    #[doc = " [Ln 795, Col 5]"]
+    XMidYMax(MeetOrSlice),
     #[doc = " [Ln 796, Col 5]"]
+    #[doc = " [Ln 797, Col 5]"]
+    #[doc = " [Ln 798, Col 5]"]
+    #[doc = " [Ln 799, Col 5]"]
     XMaxYMax(MeetOrSlice),
 }
-#[doc = " [Ln 801, Col 1]"]
-#[doc = " [Ln 802, Col 1]"]
+#[doc = " [Ln 804, Col 1]"]
+#[doc = " [Ln 805, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct TextLayout {
-    #[doc = " [Ln 804, Col 5]"]
-    pub write_mode: Option<WritingMode>,
     #[doc = " [Ln 807, Col 5]"]
+    pub write_mode: Option<WritingMode>,
+    #[doc = " [Ln 810, Col 5]"]
     pub direction: Option<TextDirection>,
-    #[doc = " [Ln 811, Col 5]"]
+    #[doc = " [Ln 814, Col 5]"]
     pub unicode_bidi: Option<UnicodeBidi>,
-    #[doc = " [Ln 815, Col 5]"]
+    #[doc = " [Ln 818, Col 5]"]
     pub anchor: Option<variable::Variable<TextAnchor>>,
-    #[doc = " [Ln 819, Col 5]"]
+    #[doc = " [Ln 822, Col 5]"]
     pub dominant_baseline: Option<variable::Variable<DominantBaseline>>,
-    #[doc = " [Ln 823, Col 5]"]
+    #[doc = " [Ln 826, Col 5]"]
     pub alignment_baseline: Option<variable::Variable<AlignmentBaseline>>,
-    #[doc = " [Ln 827, Col 5]"]
+    #[doc = " [Ln 830, Col 5]"]
     pub baseline_shift: Option<variable::Variable<BaselineShift>>,
-    #[doc = " [Ln 831, Col 5]"]
+    #[doc = " [Ln 834, Col 5]"]
     pub decoration: Option<variable::Variable<TextDecoration>>,
-    #[doc = " [Ln 835, Col 5]"]
+    #[doc = " [Ln 838, Col 5]"]
     pub letter_spacing: Option<variable::Variable<LetterSpacing>>,
-    #[doc = " [Ln 839, Col 5]"]
+    #[doc = " [Ln 842, Col 5]"]
     pub word_spacing: Option<variable::Variable<WordSpacing>>,
 }
-#[doc = " [Ln 844, Col 1]"]
-#[doc = " [Ln 845, Col 1]"]
-#[derive(Debug, PartialEq, PartialOrd, Clone)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct WithTransform(pub Vec<Transform>);
+#[doc = " [Ln 847, Col 1]"]
 #[doc = " [Ln 848, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Id(pub String);
+pub struct WithTransform(pub Vec<Transform>);
 #[doc = " [Ln 851, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct Id(pub String);
+#[doc = " [Ln 854, Col 1]"]
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Fill {
-    #[doc = " [Ln 853, Col 5]"]
-    #[doc = " [Ln 854, Col 5]"]
-    #[doc = " [Ln 855, Col 5]"]
+    #[doc = " [Ln 856, Col 5]"]
+    #[doc = " [Ln 857, Col 5]"]
+    #[doc = " [Ln 858, Col 5]"]
     pub paint: Option<Paint>,
-    #[doc = " [Ln 859, Col 5]"]
-    #[doc = " [Ln 860, Col 5]"]
-    #[doc = " [Ln 861, Col 5]"]
+    #[doc = " [Ln 862, Col 5]"]
+    #[doc = " [Ln 863, Col 5]"]
+    #[doc = " [Ln 864, Col 5]"]
     pub rule: Option<FillRule>,
-    #[doc = " [Ln 865, Col 5]"]
+    #[doc = " [Ln 868, Col 5]"]
     pub opacity: Option<f32>,
 }
-#[doc = " [Ln 871, Col 1]"]
+#[doc = " [Ln 874, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Stroke {
-    #[doc = " [Ln 873, Col 5]"]
-    #[doc = " [Ln 874, Col 5]"]
-    #[doc = " [Ln 875, Col 5]"]
-    pub paint: Option<variable::Variable<Paint>>,
+    #[doc = " [Ln 876, Col 5]"]
+    #[doc = " [Ln 877, Col 5]"]
     #[doc = " [Ln 878, Col 5]"]
-    #[doc = " [Ln 879, Col 5]"]
-    #[doc = " [Ln 880, Col 5]"]
+    pub paint: Option<variable::Variable<Paint>>,
+    #[doc = " [Ln 881, Col 5]"]
+    #[doc = " [Ln 882, Col 5]"]
+    #[doc = " [Ln 883, Col 5]"]
     pub width: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 884, Col 5]"]
-    #[doc = " [Ln 885, Col 5]"]
-    #[doc = " [Ln 886, Col 5]"]
+    #[doc = " [Ln 887, Col 5]"]
+    #[doc = " [Ln 888, Col 5]"]
+    #[doc = " [Ln 889, Col 5]"]
     pub linecap: Option<variable::Variable<StrokeLineCap>>,
-    #[doc = " [Ln 890, Col 5]"]
-    #[doc = " [Ln 891, Col 5]"]
-    #[doc = " [Ln 892, Col 5]"]
+    #[doc = " [Ln 893, Col 5]"]
+    #[doc = " [Ln 894, Col 5]"]
+    #[doc = " [Ln 895, Col 5]"]
     pub linejoin: Option<variable::Variable<StrokeLineJoin>>,
-    #[doc = " [Ln 896, Col 5]"]
-    #[doc = " [Ln 897, Col 5]"]
-    #[doc = " [Ln 898, Col 5]"]
     #[doc = " [Ln 899, Col 5]"]
     #[doc = " [Ln 900, Col 5]"]
     #[doc = " [Ln 901, Col 5]"]
-    pub dasharray: Option<variable::Variable<Vec<Length>>>,
+    #[doc = " [Ln 902, Col 5]"]
+    #[doc = " [Ln 903, Col 5]"]
     #[doc = " [Ln 904, Col 5]"]
-    #[doc = " [Ln 905, Col 5]"]
-    #[doc = " [Ln 906, Col 5]"]
+    pub dasharray: Option<variable::Variable<Vec<Length>>>,
+    #[doc = " [Ln 907, Col 5]"]
+    #[doc = " [Ln 908, Col 5]"]
+    #[doc = " [Ln 909, Col 5]"]
     pub dashoffset: Option<variable::Variable<Length>>,
 }
-#[doc = " [Ln 912, Col 1]"]
+#[doc = " [Ln 915, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Font {
-    #[doc = " [Ln 914, Col 5]"]
-    pub family: Option<variable::Variable<Vec<FontFamily>>>,
     #[doc = " [Ln 917, Col 5]"]
-    pub style: Option<variable::Variable<FontStyle>>,
+    pub family: Option<variable::Variable<Vec<FontFamily>>>,
     #[doc = " [Ln 920, Col 5]"]
-    pub variant: Option<variable::Variable<FontVariant>>,
+    pub style: Option<variable::Variable<FontStyle>>,
     #[doc = " [Ln 923, Col 5]"]
-    pub weight: Option<variable::Variable<FontWeight>>,
+    pub variant: Option<variable::Variable<FontVariant>>,
     #[doc = " [Ln 926, Col 5]"]
-    #[doc = " [Ln 927, Col 5]"]
-    pub size: Option<variable::Variable<Length>>,
+    pub weight: Option<variable::Variable<FontWeight>>,
+    #[doc = " [Ln 929, Col 5]"]
     #[doc = " [Ln 930, Col 5]"]
+    pub size: Option<variable::Variable<Length>>,
+    #[doc = " [Ln 933, Col 5]"]
     pub stretch: Option<variable::Variable<FontStretch>>,
 }
-#[doc = " [Ln 936, Col 1]"]
-#[derive(Debug, PartialEq, PartialOrd, Clone)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct EnableBackground(pub Background);
 #[doc = " [Ln 939, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct WithFilter(pub String);
+pub struct EnableBackground(pub Background);
 #[doc = " [Ln 942, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct WithFilter(pub String);
+#[doc = " [Ln 945, Col 1]"]
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct WithClipPath(pub FuncIri);
-#[doc = " [Ln 946, Col 1]"]
+#[doc = " [Ln 949, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct WithMask(pub FuncIri);
-#[doc = " [Ln 950, Col 1]"]
+#[doc = " [Ln 953, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Opacity(pub f32);
-#[doc = " [Ln 954, Col 1]"]
-#[doc = " [Ln 955, Col 1]"]
+#[doc = " [Ln 957, Col 1]"]
+#[doc = " [Ln 958, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct ViewBox {
-    #[doc = " [Ln 957, Col 5]"]
-    pub minx: variable::Variable<f32>,
     #[doc = " [Ln 960, Col 5]"]
-    pub miny: variable::Variable<f32>,
+    pub minx: variable::Variable<f32>,
     #[doc = " [Ln 963, Col 5]"]
-    pub width: variable::Variable<f32>,
+    pub miny: variable::Variable<f32>,
     #[doc = " [Ln 966, Col 5]"]
-    pub height: variable::Variable<f32>,
+    pub width: variable::Variable<f32>,
     #[doc = " [Ln 969, Col 5]"]
+    pub height: variable::Variable<f32>,
+    #[doc = " [Ln 972, Col 5]"]
     pub aspect: Option<variable::Variable<PreserveAspectRatio>>,
 }
-#[doc = " [Ln 1017, Col 1]"]
+#[doc = " [Ln 1020, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Canvas {
-    #[doc = " [Ln 1019, Col 5]"]
-    pub width: variable::Variable<Length>,
     #[doc = " [Ln 1022, Col 5]"]
+    pub width: variable::Variable<Length>,
+    #[doc = " [Ln 1025, Col 5]"]
     pub height: variable::Variable<Length>,
 }
-#[doc = " [Ln 1027, Col 1]"]
+#[doc = " [Ln 1030, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Mask {
-    #[doc = " [Ln 1029, Col 5]"]
-    #[doc = " [Ln 1030, Col 5]"]
-    #[doc = " [Ln 1031, Col 5]"]
     #[doc = " [Ln 1032, Col 5]"]
     #[doc = " [Ln 1033, Col 5]"]
     #[doc = " [Ln 1034, Col 5]"]
@@ -1060,10 +1057,10 @@ pub struct Mask {
     #[doc = " [Ln 1036, Col 5]"]
     #[doc = " [Ln 1037, Col 5]"]
     #[doc = " [Ln 1038, Col 5]"]
+    #[doc = " [Ln 1039, Col 5]"]
+    #[doc = " [Ln 1040, Col 5]"]
+    #[doc = " [Ln 1041, Col 5]"]
     pub units: Option<variable::Variable<Coords>>,
-    #[doc = " [Ln 1042, Col 5]"]
-    #[doc = " [Ln 1043, Col 5]"]
-    #[doc = " [Ln 1044, Col 5]"]
     #[doc = " [Ln 1045, Col 5]"]
     #[doc = " [Ln 1046, Col 5]"]
     #[doc = " [Ln 1047, Col 5]"]
@@ -1071,40 +1068,40 @@ pub struct Mask {
     #[doc = " [Ln 1049, Col 5]"]
     #[doc = " [Ln 1050, Col 5]"]
     #[doc = " [Ln 1051, Col 5]"]
+    #[doc = " [Ln 1052, Col 5]"]
+    #[doc = " [Ln 1053, Col 5]"]
+    #[doc = " [Ln 1054, Col 5]"]
     pub content_units: Option<variable::Variable<Coords>>,
-    #[doc = " [Ln 1055, Col 5]"]
-    #[doc = " [Ln 1056, Col 5]"]
-    #[doc = " [Ln 1057, Col 5]"]
     #[doc = " [Ln 1058, Col 5]"]
     #[doc = " [Ln 1059, Col 5]"]
+    #[doc = " [Ln 1060, Col 5]"]
+    #[doc = " [Ln 1061, Col 5]"]
+    #[doc = " [Ln 1062, Col 5]"]
     pub x: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1063, Col 5]"]
-    #[doc = " [Ln 1064, Col 5]"]
-    #[doc = " [Ln 1065, Col 5]"]
+    #[doc = " [Ln 1066, Col 5]"]
+    #[doc = " [Ln 1067, Col 5]"]
+    #[doc = " [Ln 1068, Col 5]"]
     pub y: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1069, Col 5]"]
-    #[doc = " [Ln 1070, Col 5]"]
-    #[doc = " [Ln 1071, Col 5]"]
     #[doc = " [Ln 1072, Col 5]"]
     #[doc = " [Ln 1073, Col 5]"]
     #[doc = " [Ln 1074, Col 5]"]
     #[doc = " [Ln 1075, Col 5]"]
+    #[doc = " [Ln 1076, Col 5]"]
+    #[doc = " [Ln 1077, Col 5]"]
+    #[doc = " [Ln 1078, Col 5]"]
     pub width: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1079, Col 5]"]
-    #[doc = " [Ln 1080, Col 5]"]
-    #[doc = " [Ln 1081, Col 5]"]
     #[doc = " [Ln 1082, Col 5]"]
     #[doc = " [Ln 1083, Col 5]"]
+    #[doc = " [Ln 1084, Col 5]"]
+    #[doc = " [Ln 1085, Col 5]"]
+    #[doc = " [Ln 1086, Col 5]"]
     pub height: Option<variable::Variable<Length>>,
 }
-#[doc = " [Ln 1088, Col 1]"]
-#[doc = " [Ln 1089, Col 1]"]
+#[doc = " [Ln 1091, Col 1]"]
+#[doc = " [Ln 1092, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct ClipPath(
-    #[doc = " [Ln 1091, Col 5]"]
-    #[doc = " [Ln 1092, Col 5]"]
-    #[doc = " [Ln 1093, Col 5]"]
     #[doc = " [Ln 1094, Col 5]"]
     #[doc = " [Ln 1095, Col 5]"]
     #[doc = " [Ln 1096, Col 5]"]
@@ -1113,17 +1110,17 @@ pub struct ClipPath(
     #[doc = " [Ln 1099, Col 5]"]
     #[doc = " [Ln 1100, Col 5]"]
     #[doc = " [Ln 1101, Col 5]"]
+    #[doc = " [Ln 1102, Col 5]"]
+    #[doc = " [Ln 1103, Col 5]"]
+    #[doc = " [Ln 1104, Col 5]"]
     pub Option<variable::Variable<Coords>>,
 );
-#[doc = " [Ln 1106, Col 1]"]
-#[doc = " [Ln 1107, Col 1]"]
-#[doc = " [Ln 1108, Col 1]"]
+#[doc = " [Ln 1109, Col 1]"]
+#[doc = " [Ln 1110, Col 1]"]
+#[doc = " [Ln 1111, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Filter {
-    #[doc = " [Ln 1110, Col 5]"]
-    #[doc = " [Ln 1111, Col 5]"]
-    #[doc = " [Ln 1112, Col 5]"]
     #[doc = " [Ln 1113, Col 5]"]
     #[doc = " [Ln 1114, Col 5]"]
     #[doc = " [Ln 1115, Col 5]"]
@@ -1132,10 +1129,10 @@ pub struct Filter {
     #[doc = " [Ln 1118, Col 5]"]
     #[doc = " [Ln 1119, Col 5]"]
     #[doc = " [Ln 1120, Col 5]"]
+    #[doc = " [Ln 1121, Col 5]"]
+    #[doc = " [Ln 1122, Col 5]"]
+    #[doc = " [Ln 1123, Col 5]"]
     pub units: Option<variable::Variable<Coords>>,
-    #[doc = " [Ln 1124, Col 5]"]
-    #[doc = " [Ln 1125, Col 5]"]
-    #[doc = " [Ln 1126, Col 5]"]
     #[doc = " [Ln 1127, Col 5]"]
     #[doc = " [Ln 1128, Col 5]"]
     #[doc = " [Ln 1129, Col 5]"]
@@ -1146,10 +1143,10 @@ pub struct Filter {
     #[doc = " [Ln 1134, Col 5]"]
     #[doc = " [Ln 1135, Col 5]"]
     #[doc = " [Ln 1136, Col 5]"]
+    #[doc = " [Ln 1137, Col 5]"]
+    #[doc = " [Ln 1138, Col 5]"]
+    #[doc = " [Ln 1139, Col 5]"]
     pub primitive_units: Option<variable::Variable<Coords>>,
-    #[doc = " [Ln 1140, Col 5]"]
-    #[doc = " [Ln 1141, Col 5]"]
-    #[doc = " [Ln 1142, Col 5]"]
     #[doc = " [Ln 1143, Col 5]"]
     #[doc = " [Ln 1144, Col 5]"]
     #[doc = " [Ln 1145, Col 5]"]
@@ -1165,16 +1162,16 @@ pub struct Filter {
     #[doc = " [Ln 1155, Col 5]"]
     #[doc = " [Ln 1156, Col 5]"]
     #[doc = " [Ln 1157, Col 5]"]
+    #[doc = " [Ln 1158, Col 5]"]
+    #[doc = " [Ln 1159, Col 5]"]
+    #[doc = " [Ln 1160, Col 5]"]
     pub x: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1161, Col 5]"]
+    #[doc = " [Ln 1164, Col 5]"]
     pub y: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1165, Col 5]"]
+    #[doc = " [Ln 1168, Col 5]"]
     pub width: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1169, Col 5]"]
+    #[doc = " [Ln 1172, Col 5]"]
     pub height: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1173, Col 5]"]
-    #[doc = " [Ln 1174, Col 5]"]
-    #[doc = " [Ln 1175, Col 5]"]
     #[doc = " [Ln 1176, Col 5]"]
     #[doc = " [Ln 1177, Col 5]"]
     #[doc = " [Ln 1178, Col 5]"]
@@ -1184,145 +1181,145 @@ pub struct Filter {
     #[doc = " [Ln 1182, Col 5]"]
     #[doc = " [Ln 1183, Col 5]"]
     #[doc = " [Ln 1184, Col 5]"]
+    #[doc = " [Ln 1185, Col 5]"]
+    #[doc = " [Ln 1186, Col 5]"]
+    #[doc = " [Ln 1187, Col 5]"]
     pub res: Option<variable::Variable<NumberOptNumber>>,
 }
-#[doc = " [Ln 1190, Col 1]"]
-#[doc = " [Ln 1191, Col 1]"]
-#[doc = " [Ln 1192, Col 1]"]
 #[doc = " [Ln 1193, Col 1]"]
 #[doc = " [Ln 1194, Col 1]"]
 #[doc = " [Ln 1195, Col 1]"]
+#[doc = " [Ln 1196, Col 1]"]
+#[doc = " [Ln 1197, Col 1]"]
+#[doc = " [Ln 1198, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeDistantLight {
-    #[doc = " [Ln 1197, Col 5]"]
-    #[doc = " [Ln 1198, Col 5]"]
-    #[doc = " [Ln 1199, Col 5]"]
+    #[doc = " [Ln 1200, Col 5]"]
+    #[doc = " [Ln 1201, Col 5]"]
+    #[doc = " [Ln 1202, Col 5]"]
     pub azimuth: Option<variable::Variable<f32>>,
-    #[doc = " [Ln 1203, Col 5]"]
-    #[doc = " [Ln 1204, Col 5]"]
-    #[doc = " [Ln 1205, Col 5]"]
+    #[doc = " [Ln 1206, Col 5]"]
+    #[doc = " [Ln 1207, Col 5]"]
+    #[doc = " [Ln 1208, Col 5]"]
     pub elevation: Option<variable::Variable<f32>>,
 }
-#[doc = " [Ln 1210, Col 1]"]
-#[doc = " [Ln 1211, Col 1]"]
+#[doc = " [Ln 1213, Col 1]"]
+#[doc = " [Ln 1214, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FePointLight {
-    #[doc = " [Ln 1213, Col 5]"]
-    #[doc = " [Ln 1214, Col 5]"]
-    #[doc = " [Ln 1215, Col 5]"]
+    #[doc = " [Ln 1216, Col 5]"]
+    #[doc = " [Ln 1217, Col 5]"]
+    #[doc = " [Ln 1218, Col 5]"]
     pub x: Option<variable::Variable<f32>>,
-    #[doc = " [Ln 1219, Col 5]"]
-    #[doc = " [Ln 1220, Col 5]"]
-    #[doc = " [Ln 1221, Col 5]"]
+    #[doc = " [Ln 1222, Col 5]"]
+    #[doc = " [Ln 1223, Col 5]"]
+    #[doc = " [Ln 1224, Col 5]"]
     pub y: Option<variable::Variable<f32>>,
-    #[doc = " [Ln 1225, Col 5]"]
-    #[doc = " [Ln 1226, Col 5]"]
-    #[doc = " [Ln 1227, Col 5]"]
     #[doc = " [Ln 1228, Col 5]"]
     #[doc = " [Ln 1229, Col 5]"]
+    #[doc = " [Ln 1230, Col 5]"]
+    #[doc = " [Ln 1231, Col 5]"]
+    #[doc = " [Ln 1232, Col 5]"]
     pub z: Option<variable::Variable<f32>>,
 }
-#[doc = " [Ln 1235, Col 1]"]
-#[doc = " [Ln 1236, Col 1]"]
+#[doc = " [Ln 1238, Col 1]"]
+#[doc = " [Ln 1239, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeSpotLight {
-    #[doc = " [Ln 1238, Col 5]"]
-    #[doc = " [Ln 1239, Col 5]"]
-    #[doc = " [Ln 1240, Col 5]"]
+    #[doc = " [Ln 1241, Col 5]"]
+    #[doc = " [Ln 1242, Col 5]"]
+    #[doc = " [Ln 1243, Col 5]"]
     pub x: Option<variable::Variable<f32>>,
-    #[doc = " [Ln 1244, Col 5]"]
-    #[doc = " [Ln 1245, Col 5]"]
-    #[doc = " [Ln 1246, Col 5]"]
+    #[doc = " [Ln 1247, Col 5]"]
+    #[doc = " [Ln 1248, Col 5]"]
+    #[doc = " [Ln 1249, Col 5]"]
     pub y: Option<variable::Variable<f32>>,
-    #[doc = " [Ln 1250, Col 5]"]
-    #[doc = " [Ln 1251, Col 5]"]
-    #[doc = " [Ln 1252, Col 5]"]
     #[doc = " [Ln 1253, Col 5]"]
     #[doc = " [Ln 1254, Col 5]"]
+    #[doc = " [Ln 1255, Col 5]"]
+    #[doc = " [Ln 1256, Col 5]"]
+    #[doc = " [Ln 1257, Col 5]"]
     pub z: Option<variable::Variable<f32>>,
-    #[doc = " [Ln 1258, Col 5]"]
-    #[doc = " [Ln 1259, Col 5]"]
-    #[doc = " [Ln 1260, Col 5]"]
     #[doc = " [Ln 1261, Col 5]"]
+    #[doc = " [Ln 1262, Col 5]"]
+    #[doc = " [Ln 1263, Col 5]"]
+    #[doc = " [Ln 1264, Col 5]"]
     pub point_at_x: Option<variable::Variable<f32>>,
-    #[doc = " [Ln 1265, Col 5]"]
-    #[doc = " [Ln 1266, Col 5]"]
-    #[doc = " [Ln 1267, Col 5]"]
     #[doc = " [Ln 1268, Col 5]"]
+    #[doc = " [Ln 1269, Col 5]"]
+    #[doc = " [Ln 1270, Col 5]"]
+    #[doc = " [Ln 1271, Col 5]"]
     pub point_at_y: Option<variable::Variable<f32>>,
-    #[doc = " [Ln 1272, Col 5]"]
-    #[doc = " [Ln 1273, Col 5]"]
-    #[doc = " [Ln 1274, Col 5]"]
     #[doc = " [Ln 1275, Col 5]"]
     #[doc = " [Ln 1276, Col 5]"]
+    #[doc = " [Ln 1277, Col 5]"]
+    #[doc = " [Ln 1278, Col 5]"]
+    #[doc = " [Ln 1279, Col 5]"]
     pub point_at_z: Option<variable::Variable<f32>>,
-    #[doc = " [Ln 1280, Col 5]"]
-    #[doc = " [Ln 1281, Col 5]"]
-    #[doc = " [Ln 1282, Col 5]"]
+    #[doc = " [Ln 1283, Col 5]"]
+    #[doc = " [Ln 1284, Col 5]"]
+    #[doc = " [Ln 1285, Col 5]"]
     pub specular_exponent: Option<variable::Variable<f32>>,
-    #[doc = " [Ln 1286, Col 5]"]
-    #[doc = " [Ln 1287, Col 5]"]
-    #[doc = " [Ln 1288, Col 5]"]
     #[doc = " [Ln 1289, Col 5]"]
     #[doc = " [Ln 1290, Col 5]"]
     #[doc = " [Ln 1291, Col 5]"]
+    #[doc = " [Ln 1292, Col 5]"]
+    #[doc = " [Ln 1293, Col 5]"]
+    #[doc = " [Ln 1294, Col 5]"]
     pub limiting_cone_angle: Option<variable::Variable<f32>>,
 }
-#[doc = " [Ln 1296, Col 1]"]
-#[doc = " [Ln 1297, Col 1]"]
+#[doc = " [Ln 1299, Col 1]"]
+#[doc = " [Ln 1300, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeBlend {
-    #[doc = " [Ln 1299, Col 5]"]
+    #[doc = " [Ln 1302, Col 5]"]
     pub mode: Option<variable::Variable<FeBlendMode>>,
-    #[doc = " [Ln 1303, Col 5]"]
+    #[doc = " [Ln 1306, Col 5]"]
     pub r#in: Option<variable::Variable<FeIn>>,
-    #[doc = " [Ln 1307, Col 5]"]
+    #[doc = " [Ln 1310, Col 5]"]
     pub in2: Option<variable::Variable<FeIn>>,
-    #[doc = " [Ln 988, Col 5]"]
+    #[doc = " [Ln 991, Col 5]"]
     pub x: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 992, Col 5]"]
+    #[doc = " [Ln 995, Col 5]"]
     pub y: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 996, Col 5]"]
+    #[doc = " [Ln 999, Col 5]"]
     pub width: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1000, Col 5]"]
+    #[doc = " [Ln 1003, Col 5]"]
     pub height: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1004, Col 5]"]
-    #[doc = " [Ln 1005, Col 5]"]
-    #[doc = " [Ln 1006, Col 5]"]
     #[doc = " [Ln 1007, Col 5]"]
     #[doc = " [Ln 1008, Col 5]"]
     #[doc = " [Ln 1009, Col 5]"]
     #[doc = " [Ln 1010, Col 5]"]
     #[doc = " [Ln 1011, Col 5]"]
     #[doc = " [Ln 1012, Col 5]"]
+    #[doc = " [Ln 1013, Col 5]"]
+    #[doc = " [Ln 1014, Col 5]"]
+    #[doc = " [Ln 1015, Col 5]"]
     pub result: Option<variable::Variable<String>>,
 }
-#[doc = " [Ln 1313, Col 1]"]
+#[doc = " [Ln 1316, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum FeColorMatrixValues {
-    #[doc = " [Ln 1315, Col 5]"]
-    Matrix([f32; 20usize]),
     #[doc = " [Ln 1318, Col 5]"]
-    #[doc = " [Ln 1319, Col 5]"]
-    #[doc = " [Ln 1320, Col 5]"]
-    Saturate(f32),
+    Matrix([f32; 20usize]),
+    #[doc = " [Ln 1321, Col 5]"]
+    #[doc = " [Ln 1322, Col 5]"]
     #[doc = " [Ln 1323, Col 5]"]
-    #[doc = " [Ln 1324, Col 5]"]
-    #[doc = " [Ln 1325, Col 5]"]
-    HueRotate(f32),
+    Saturate(f32),
+    #[doc = " [Ln 1326, Col 5]"]
+    #[doc = " [Ln 1327, Col 5]"]
     #[doc = " [Ln 1328, Col 5]"]
-    #[doc = " [Ln 1329, Col 5]"]
-    #[doc = " [Ln 1330, Col 5]"]
+    HueRotate(f32),
+    #[doc = " [Ln 1331, Col 5]"]
+    #[doc = " [Ln 1332, Col 5]"]
+    #[doc = " [Ln 1333, Col 5]"]
     LuminanceToAlpha,
 }
-#[doc = " [Ln 1335, Col 1]"]
-#[doc = " [Ln 1336, Col 1]"]
-#[doc = " [Ln 1337, Col 1]"]
 #[doc = " [Ln 1338, Col 1]"]
 #[doc = " [Ln 1339, Col 1]"]
 #[doc = " [Ln 1340, Col 1]"]
@@ -1333,43 +1330,43 @@ pub enum FeColorMatrixValues {
 #[doc = " [Ln 1345, Col 1]"]
 #[doc = " [Ln 1346, Col 1]"]
 #[doc = " [Ln 1347, Col 1]"]
+#[doc = " [Ln 1348, Col 1]"]
+#[doc = " [Ln 1349, Col 1]"]
+#[doc = " [Ln 1350, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeColorMatrix {
-    #[doc = " [Ln 1349, Col 5]"]
+    #[doc = " [Ln 1352, Col 5]"]
     pub r#in: variable::Variable<FeIn>,
-    #[doc = " [Ln 1353, Col 5]"]
+    #[doc = " [Ln 1356, Col 5]"]
     pub values: variable::Variable<FeColorMatrixValues>,
-    #[doc = " [Ln 988, Col 5]"]
+    #[doc = " [Ln 991, Col 5]"]
     pub x: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 992, Col 5]"]
+    #[doc = " [Ln 995, Col 5]"]
     pub y: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 996, Col 5]"]
+    #[doc = " [Ln 999, Col 5]"]
     pub width: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1000, Col 5]"]
+    #[doc = " [Ln 1003, Col 5]"]
     pub height: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1004, Col 5]"]
-    #[doc = " [Ln 1005, Col 5]"]
-    #[doc = " [Ln 1006, Col 5]"]
     #[doc = " [Ln 1007, Col 5]"]
     #[doc = " [Ln 1008, Col 5]"]
     #[doc = " [Ln 1009, Col 5]"]
     #[doc = " [Ln 1010, Col 5]"]
     #[doc = " [Ln 1011, Col 5]"]
     #[doc = " [Ln 1012, Col 5]"]
+    #[doc = " [Ln 1013, Col 5]"]
+    #[doc = " [Ln 1014, Col 5]"]
+    #[doc = " [Ln 1015, Col 5]"]
     pub result: Option<variable::Variable<String>>,
 }
-#[doc = " [Ln 1359, Col 1]"]
-#[doc = " [Ln 1360, Col 1]"]
-#[doc = " [Ln 1361, Col 1]"]
+#[doc = " [Ln 1362, Col 1]"]
+#[doc = " [Ln 1363, Col 1]"]
+#[doc = " [Ln 1364, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum FeFunc {
-    #[doc = " [Ln 1363, Col 5]"]
-    Identity,
     #[doc = " [Ln 1366, Col 5]"]
-    #[doc = " [Ln 1367, Col 5]"]
-    #[doc = " [Ln 1368, Col 5]"]
+    Identity,
     #[doc = " [Ln 1369, Col 5]"]
     #[doc = " [Ln 1370, Col 5]"]
     #[doc = " [Ln 1371, Col 5]"]
@@ -1382,10 +1379,10 @@ pub enum FeFunc {
     #[doc = " [Ln 1378, Col 5]"]
     #[doc = " [Ln 1379, Col 5]"]
     #[doc = " [Ln 1380, Col 5]"]
-    Table(Vec<f32>),
+    #[doc = " [Ln 1381, Col 5]"]
+    #[doc = " [Ln 1382, Col 5]"]
     #[doc = " [Ln 1383, Col 5]"]
-    #[doc = " [Ln 1384, Col 5]"]
-    #[doc = " [Ln 1385, Col 5]"]
+    Table(Vec<f32>),
     #[doc = " [Ln 1386, Col 5]"]
     #[doc = " [Ln 1387, Col 5]"]
     #[doc = " [Ln 1388, Col 5]"]
@@ -1398,34 +1395,37 @@ pub enum FeFunc {
     #[doc = " [Ln 1395, Col 5]"]
     #[doc = " [Ln 1396, Col 5]"]
     #[doc = " [Ln 1397, Col 5]"]
-    Discrete(Vec<f32>),
+    #[doc = " [Ln 1398, Col 5]"]
+    #[doc = " [Ln 1399, Col 5]"]
     #[doc = " [Ln 1400, Col 5]"]
-    #[doc = " [Ln 1401, Col 5]"]
-    #[doc = " [Ln 1402, Col 5]"]
+    Discrete(Vec<f32>),
+    #[doc = " [Ln 1403, Col 5]"]
+    #[doc = " [Ln 1404, Col 5]"]
+    #[doc = " [Ln 1405, Col 5]"]
     Linear {
-        #[doc = " [Ln 1404, Col 9]"]
+        #[doc = " [Ln 1407, Col 9]"]
         slope: f32,
-        #[doc = " [Ln 1406, Col 9]"]
+        #[doc = " [Ln 1409, Col 9]"]
         intercept: f32,
     },
-    #[doc = " [Ln 1410, Col 5]"]
-    #[doc = " [Ln 1411, Col 5]"]
-    #[doc = " [Ln 1412, Col 5]"]
+    #[doc = " [Ln 1413, Col 5]"]
+    #[doc = " [Ln 1414, Col 5]"]
+    #[doc = " [Ln 1415, Col 5]"]
     Gamma {
-        #[doc = " [Ln 1414, Col 9]"]
-        #[doc = " [Ln 1415, Col 9]"]
-        amplitude: f32,
         #[doc = " [Ln 1417, Col 9]"]
         #[doc = " [Ln 1418, Col 9]"]
-        exponent: f32,
+        amplitude: f32,
         #[doc = " [Ln 1420, Col 9]"]
         #[doc = " [Ln 1421, Col 9]"]
+        exponent: f32,
+        #[doc = " [Ln 1423, Col 9]"]
+        #[doc = " [Ln 1424, Col 9]"]
         offset: f32,
     },
 }
-#[doc = " [Ln 1426, Col 1]"]
-#[doc = " [Ln 1427, Col 1]"]
-#[doc = " [Ln 1428, Col 1]"]
+#[doc = " [Ln 1429, Col 1]"]
+#[doc = " [Ln 1430, Col 1]"]
+#[doc = " [Ln 1431, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum FeCompositeOperator {
@@ -1435,22 +1435,22 @@ pub enum FeCompositeOperator {
     Atop,
     Xor,
     Arithmetic {
-        #[doc = " [Ln 1436, Col 9]"]
-        #[doc = " [Ln 1437, Col 9]"]
-        k1: f32,
+        #[doc = " [Ln 1439, Col 9]"]
         #[doc = " [Ln 1440, Col 9]"]
-        #[doc = " [Ln 1441, Col 9]"]
-        k2: f32,
+        k1: f32,
+        #[doc = " [Ln 1443, Col 9]"]
         #[doc = " [Ln 1444, Col 9]"]
-        #[doc = " [Ln 1445, Col 9]"]
-        k3: f32,
+        k2: f32,
+        #[doc = " [Ln 1447, Col 9]"]
         #[doc = " [Ln 1448, Col 9]"]
-        #[doc = " [Ln 1449, Col 9]"]
+        k3: f32,
+        #[doc = " [Ln 1451, Col 9]"]
+        #[doc = " [Ln 1452, Col 9]"]
         k4: f32,
     },
 }
-#[doc = " [Ln 1454, Col 1]"]
-#[doc = " [Ln 1455, Col 1]"]
+#[doc = " [Ln 1457, Col 1]"]
+#[doc = " [Ln 1458, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum FeConvolveMatrixEdgeMode {
@@ -1458,41 +1458,38 @@ pub enum FeConvolveMatrixEdgeMode {
     Wrap,
     None,
 }
-#[doc = " [Ln 1462, Col 1]"]
-#[doc = " [Ln 1463, Col 1]"]
+#[doc = " [Ln 1465, Col 1]"]
+#[doc = " [Ln 1466, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum FeMorphologyOperator {
     Erode,
     Dilate,
 }
-#[doc = " [Ln 1470, Col 1]"]
+#[doc = " [Ln 1473, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum FeStitchTiles {
-    #[doc = " [Ln 1472, Col 5]"]
-    #[doc = " [Ln 1473, Col 5]"]
-    #[doc = " [Ln 1474, Col 5]"]
     #[doc = " [Ln 1475, Col 5]"]
     #[doc = " [Ln 1476, Col 5]"]
     #[doc = " [Ln 1477, Col 5]"]
     #[doc = " [Ln 1478, Col 5]"]
-    Stitch,
+    #[doc = " [Ln 1479, Col 5]"]
     #[doc = " [Ln 1480, Col 5]"]
     #[doc = " [Ln 1481, Col 5]"]
+    Stitch,
+    #[doc = " [Ln 1483, Col 5]"]
+    #[doc = " [Ln 1484, Col 5]"]
     NoStitch,
 }
-#[doc = " [Ln 1485, Col 1]"]
-#[doc = " [Ln 1486, Col 1]"]
+#[doc = " [Ln 1488, Col 1]"]
+#[doc = " [Ln 1489, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum FeTurbulenceType {
     FractalNoise,
     Turbulence,
 }
-#[doc = " [Ln 1493, Col 1]"]
-#[doc = " [Ln 1494, Col 1]"]
-#[doc = " [Ln 1495, Col 1]"]
 #[doc = " [Ln 1496, Col 1]"]
 #[doc = " [Ln 1497, Col 1]"]
 #[doc = " [Ln 1498, Col 1]"]
@@ -1501,121 +1498,121 @@ pub enum FeTurbulenceType {
 #[doc = " [Ln 1501, Col 1]"]
 #[doc = " [Ln 1502, Col 1]"]
 #[doc = " [Ln 1503, Col 1]"]
+#[doc = " [Ln 1504, Col 1]"]
+#[doc = " [Ln 1505, Col 1]"]
+#[doc = " [Ln 1506, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeComponentTransfer(pub Option<variable::Variable<FeIn>>);
-#[doc = " [Ln 1506, Col 1]"]
-#[doc = " [Ln 1507, Col 1]"]
-#[doc = " [Ln 1508, Col 1]"]
+#[doc = " [Ln 1509, Col 1]"]
+#[doc = " [Ln 1510, Col 1]"]
+#[doc = " [Ln 1511, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeFuncA(pub FeFunc);
-#[doc = " [Ln 1511, Col 1]"]
-#[doc = " [Ln 1512, Col 1]"]
-#[doc = " [Ln 1513, Col 1]"]
+#[doc = " [Ln 1514, Col 1]"]
+#[doc = " [Ln 1515, Col 1]"]
+#[doc = " [Ln 1516, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeFuncR(pub FeFunc);
-#[doc = " [Ln 1516, Col 1]"]
-#[doc = " [Ln 1517, Col 1]"]
-#[doc = " [Ln 1518, Col 1]"]
+#[doc = " [Ln 1519, Col 1]"]
+#[doc = " [Ln 1520, Col 1]"]
+#[doc = " [Ln 1521, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeFuncG(pub FeFunc);
-#[doc = " [Ln 1521, Col 1]"]
-#[doc = " [Ln 1522, Col 1]"]
-#[doc = " [Ln 1523, Col 1]"]
+#[doc = " [Ln 1524, Col 1]"]
+#[doc = " [Ln 1525, Col 1]"]
+#[doc = " [Ln 1526, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeFuncB(pub FeFunc);
-#[doc = " [Ln 1526, Col 1]"]
-#[doc = " [Ln 1527, Col 1]"]
-#[doc = " [Ln 1528, Col 1]"]
 #[doc = " [Ln 1529, Col 1]"]
 #[doc = " [Ln 1530, Col 1]"]
 #[doc = " [Ln 1531, Col 1]"]
 #[doc = " [Ln 1532, Col 1]"]
 #[doc = " [Ln 1533, Col 1]"]
 #[doc = " [Ln 1534, Col 1]"]
+#[doc = " [Ln 1535, Col 1]"]
+#[doc = " [Ln 1536, Col 1]"]
+#[doc = " [Ln 1537, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeComposite {
-    #[doc = " [Ln 1536, Col 5]"]
+    #[doc = " [Ln 1539, Col 5]"]
     pub r#in: Option<variable::Variable<FeIn>>,
-    #[doc = " [Ln 1540, Col 5]"]
+    #[doc = " [Ln 1543, Col 5]"]
     pub in2: variable::Variable<FeIn>,
-    #[doc = " [Ln 1544, Col 5]"]
+    #[doc = " [Ln 1547, Col 5]"]
     pub operator: Option<variable::Variable<FeCompositeOperator>>,
-    #[doc = " [Ln 988, Col 5]"]
+    #[doc = " [Ln 991, Col 5]"]
     pub x: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 992, Col 5]"]
+    #[doc = " [Ln 995, Col 5]"]
     pub y: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 996, Col 5]"]
+    #[doc = " [Ln 999, Col 5]"]
     pub width: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1000, Col 5]"]
+    #[doc = " [Ln 1003, Col 5]"]
     pub height: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1004, Col 5]"]
-    #[doc = " [Ln 1005, Col 5]"]
-    #[doc = " [Ln 1006, Col 5]"]
     #[doc = " [Ln 1007, Col 5]"]
     #[doc = " [Ln 1008, Col 5]"]
     #[doc = " [Ln 1009, Col 5]"]
     #[doc = " [Ln 1010, Col 5]"]
     #[doc = " [Ln 1011, Col 5]"]
     #[doc = " [Ln 1012, Col 5]"]
+    #[doc = " [Ln 1013, Col 5]"]
+    #[doc = " [Ln 1014, Col 5]"]
+    #[doc = " [Ln 1015, Col 5]"]
     pub result: Option<variable::Variable<String>>,
 }
-#[doc = " [Ln 1550, Col 1]"]
-#[doc = " [Ln 1551, Col 1]"]
-#[doc = " [Ln 1552, Col 1]"]
 #[doc = " [Ln 1553, Col 1]"]
 #[doc = " [Ln 1554, Col 1]"]
 #[doc = " [Ln 1555, Col 1]"]
+#[doc = " [Ln 1556, Col 1]"]
+#[doc = " [Ln 1557, Col 1]"]
+#[doc = " [Ln 1558, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeConvolveMatrix {
-    #[doc = " [Ln 1557, Col 5]"]
+    #[doc = " [Ln 1560, Col 5]"]
     pub r#in: Option<variable::Variable<FeIn>>,
-    #[doc = " [Ln 1561, Col 5]"]
-    #[doc = " [Ln 1562, Col 5]"]
-    #[doc = " [Ln 1563, Col 5]"]
     #[doc = " [Ln 1564, Col 5]"]
     #[doc = " [Ln 1565, Col 5]"]
     #[doc = " [Ln 1566, Col 5]"]
     #[doc = " [Ln 1567, Col 5]"]
     #[doc = " [Ln 1568, Col 5]"]
+    #[doc = " [Ln 1569, Col 5]"]
+    #[doc = " [Ln 1570, Col 5]"]
+    #[doc = " [Ln 1571, Col 5]"]
     pub order: Option<variable::Variable<NumberOptNumber>>,
-    #[doc = " [Ln 1572, Col 5]"]
-    #[doc = " [Ln 1573, Col 5]"]
+    #[doc = " [Ln 1575, Col 5]"]
+    #[doc = " [Ln 1576, Col 5]"]
     pub kernel: variable::Variable<Vec<f32>>,
-    #[doc = " [Ln 1577, Col 5]"]
-    #[doc = " [Ln 1578, Col 5]"]
-    #[doc = " [Ln 1579, Col 5]"]
     #[doc = " [Ln 1580, Col 5]"]
     #[doc = " [Ln 1581, Col 5]"]
+    #[doc = " [Ln 1582, Col 5]"]
+    #[doc = " [Ln 1583, Col 5]"]
+    #[doc = " [Ln 1584, Col 5]"]
     pub divisor: Option<variable::Variable<f32>>,
-    #[doc = " [Ln 1585, Col 5]"]
-    #[doc = " [Ln 1586, Col 5]"]
-    #[doc = " [Ln 1587, Col 5]"]
     #[doc = " [Ln 1588, Col 5]"]
     #[doc = " [Ln 1589, Col 5]"]
+    #[doc = " [Ln 1590, Col 5]"]
+    #[doc = " [Ln 1591, Col 5]"]
+    #[doc = " [Ln 1592, Col 5]"]
     pub bias: Option<variable::Variable<f32>>,
-    #[doc = " [Ln 1593, Col 5]"]
-    #[doc = " [Ln 1594, Col 5]"]
-    #[doc = " [Ln 1595, Col 5]"]
     #[doc = " [Ln 1596, Col 5]"]
     #[doc = " [Ln 1597, Col 5]"]
+    #[doc = " [Ln 1598, Col 5]"]
+    #[doc = " [Ln 1599, Col 5]"]
+    #[doc = " [Ln 1600, Col 5]"]
     pub target_x: Option<variable::Variable<i32>>,
-    #[doc = " [Ln 1601, Col 5]"]
-    #[doc = " [Ln 1602, Col 5]"]
-    #[doc = " [Ln 1603, Col 5]"]
+    #[doc = " [Ln 1604, Col 5]"]
+    #[doc = " [Ln 1605, Col 5]"]
+    #[doc = " [Ln 1606, Col 5]"]
     pub target_y: Option<variable::Variable<i32>>,
-    #[doc = " [Ln 1607, Col 5]"]
-    #[doc = " [Ln 1608, Col 5]"]
+    #[doc = " [Ln 1610, Col 5]"]
+    #[doc = " [Ln 1611, Col 5]"]
     pub edge_mode: variable::Variable<FeConvolveMatrixEdgeMode>,
-    #[doc = " [Ln 1612, Col 5]"]
-    #[doc = " [Ln 1613, Col 5]"]
-    #[doc = " [Ln 1614, Col 5]"]
     #[doc = " [Ln 1615, Col 5]"]
     #[doc = " [Ln 1616, Col 5]"]
     #[doc = " [Ln 1617, Col 5]"]
@@ -1625,47 +1622,47 @@ pub struct FeConvolveMatrix {
     #[doc = " [Ln 1621, Col 5]"]
     #[doc = " [Ln 1622, Col 5]"]
     #[doc = " [Ln 1623, Col 5]"]
+    #[doc = " [Ln 1624, Col 5]"]
+    #[doc = " [Ln 1625, Col 5]"]
+    #[doc = " [Ln 1626, Col 5]"]
     pub kernel_unit_len: Option<variable::Variable<NumberOptNumber>>,
-    #[doc = " [Ln 1627, Col 5]"]
-    #[doc = " [Ln 1628, Col 5]"]
-    #[doc = " [Ln 1629, Col 5]"]
+    #[doc = " [Ln 1630, Col 5]"]
+    #[doc = " [Ln 1631, Col 5]"]
+    #[doc = " [Ln 1632, Col 5]"]
     pub preserve_alpha: variable::Variable<bool>,
-    #[doc = " [Ln 988, Col 5]"]
+    #[doc = " [Ln 991, Col 5]"]
     pub x: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 992, Col 5]"]
+    #[doc = " [Ln 995, Col 5]"]
     pub y: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 996, Col 5]"]
+    #[doc = " [Ln 999, Col 5]"]
     pub width: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1000, Col 5]"]
+    #[doc = " [Ln 1003, Col 5]"]
     pub height: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1004, Col 5]"]
-    #[doc = " [Ln 1005, Col 5]"]
-    #[doc = " [Ln 1006, Col 5]"]
     #[doc = " [Ln 1007, Col 5]"]
     #[doc = " [Ln 1008, Col 5]"]
     #[doc = " [Ln 1009, Col 5]"]
     #[doc = " [Ln 1010, Col 5]"]
     #[doc = " [Ln 1011, Col 5]"]
     #[doc = " [Ln 1012, Col 5]"]
+    #[doc = " [Ln 1013, Col 5]"]
+    #[doc = " [Ln 1014, Col 5]"]
+    #[doc = " [Ln 1015, Col 5]"]
     pub result: Option<variable::Variable<String>>,
 }
-#[doc = " [Ln 1634, Col 1]"]
+#[doc = " [Ln 1637, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeDiffuseLighting {
-    #[doc = " [Ln 1636, Col 5]"]
+    #[doc = " [Ln 1639, Col 5]"]
     pub r#in: variable::Variable<FeIn>,
-    #[doc = " [Ln 1640, Col 5]"]
-    #[doc = " [Ln 1641, Col 5]"]
-    #[doc = " [Ln 1642, Col 5]"]
+    #[doc = " [Ln 1643, Col 5]"]
+    #[doc = " [Ln 1644, Col 5]"]
+    #[doc = " [Ln 1645, Col 5]"]
     pub surface_scale: Option<variable::Variable<f32>>,
-    #[doc = " [Ln 1646, Col 5]"]
-    #[doc = " [Ln 1647, Col 5]"]
-    #[doc = " [Ln 1648, Col 5]"]
+    #[doc = " [Ln 1649, Col 5]"]
+    #[doc = " [Ln 1650, Col 5]"]
+    #[doc = " [Ln 1651, Col 5]"]
     pub diffuse_constant: Option<variable::Variable<f32>>,
-    #[doc = " [Ln 1652, Col 5]"]
-    #[doc = " [Ln 1653, Col 5]"]
-    #[doc = " [Ln 1654, Col 5]"]
     #[doc = " [Ln 1655, Col 5]"]
     #[doc = " [Ln 1656, Col 5]"]
     #[doc = " [Ln 1657, Col 5]"]
@@ -1675,300 +1672,300 @@ pub struct FeDiffuseLighting {
     #[doc = " [Ln 1661, Col 5]"]
     #[doc = " [Ln 1662, Col 5]"]
     #[doc = " [Ln 1663, Col 5]"]
+    #[doc = " [Ln 1664, Col 5]"]
+    #[doc = " [Ln 1665, Col 5]"]
+    #[doc = " [Ln 1666, Col 5]"]
     pub kernel_unit_len: Option<variable::Variable<NumberOptNumber>>,
-    #[doc = " [Ln 988, Col 5]"]
+    #[doc = " [Ln 991, Col 5]"]
     pub x: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 992, Col 5]"]
+    #[doc = " [Ln 995, Col 5]"]
     pub y: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 996, Col 5]"]
+    #[doc = " [Ln 999, Col 5]"]
     pub width: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1000, Col 5]"]
+    #[doc = " [Ln 1003, Col 5]"]
     pub height: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1004, Col 5]"]
-    #[doc = " [Ln 1005, Col 5]"]
-    #[doc = " [Ln 1006, Col 5]"]
     #[doc = " [Ln 1007, Col 5]"]
     #[doc = " [Ln 1008, Col 5]"]
     #[doc = " [Ln 1009, Col 5]"]
     #[doc = " [Ln 1010, Col 5]"]
     #[doc = " [Ln 1011, Col 5]"]
     #[doc = " [Ln 1012, Col 5]"]
+    #[doc = " [Ln 1013, Col 5]"]
+    #[doc = " [Ln 1014, Col 5]"]
+    #[doc = " [Ln 1015, Col 5]"]
     pub result: Option<variable::Variable<String>>,
 }
-#[doc = " [Ln 1669, Col 1]"]
+#[doc = " [Ln 1672, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeDisplacementMap {
-    #[doc = " [Ln 1671, Col 5]"]
+    #[doc = " [Ln 1674, Col 5]"]
     pub r#in: Option<variable::Variable<FeIn>>,
-    #[doc = " [Ln 1675, Col 5]"]
+    #[doc = " [Ln 1678, Col 5]"]
     pub in2: variable::Variable<FeIn>,
-    #[doc = " [Ln 1679, Col 5]"]
-    #[doc = " [Ln 1680, Col 5]"]
-    #[doc = " [Ln 1681, Col 5]"]
     #[doc = " [Ln 1682, Col 5]"]
     #[doc = " [Ln 1683, Col 5]"]
     #[doc = " [Ln 1684, Col 5]"]
+    #[doc = " [Ln 1685, Col 5]"]
+    #[doc = " [Ln 1686, Col 5]"]
+    #[doc = " [Ln 1687, Col 5]"]
     pub scale: Option<variable::Variable<f32>>,
-    #[doc = " [Ln 1688, Col 5]"]
-    #[doc = " [Ln 1689, Col 5]"]
-    #[doc = " [Ln 1690, Col 5]"]
+    #[doc = " [Ln 1691, Col 5]"]
+    #[doc = " [Ln 1692, Col 5]"]
+    #[doc = " [Ln 1693, Col 5]"]
     pub x_channel_selector: Option<variable::Variable<Channel>>,
-    #[doc = " [Ln 1694, Col 5]"]
-    #[doc = " [Ln 1695, Col 5]"]
-    #[doc = " [Ln 1696, Col 5]"]
+    #[doc = " [Ln 1697, Col 5]"]
+    #[doc = " [Ln 1698, Col 5]"]
+    #[doc = " [Ln 1699, Col 5]"]
     pub y_channel_selector: Option<variable::Variable<Channel>>,
-    #[doc = " [Ln 988, Col 5]"]
+    #[doc = " [Ln 991, Col 5]"]
     pub x: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 992, Col 5]"]
+    #[doc = " [Ln 995, Col 5]"]
     pub y: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 996, Col 5]"]
+    #[doc = " [Ln 999, Col 5]"]
     pub width: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1000, Col 5]"]
+    #[doc = " [Ln 1003, Col 5]"]
     pub height: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1004, Col 5]"]
-    #[doc = " [Ln 1005, Col 5]"]
-    #[doc = " [Ln 1006, Col 5]"]
     #[doc = " [Ln 1007, Col 5]"]
     #[doc = " [Ln 1008, Col 5]"]
     #[doc = " [Ln 1009, Col 5]"]
     #[doc = " [Ln 1010, Col 5]"]
     #[doc = " [Ln 1011, Col 5]"]
     #[doc = " [Ln 1012, Col 5]"]
+    #[doc = " [Ln 1013, Col 5]"]
+    #[doc = " [Ln 1014, Col 5]"]
+    #[doc = " [Ln 1015, Col 5]"]
     pub result: Option<variable::Variable<String>>,
 }
-#[doc = " [Ln 1702, Col 1]"]
-#[doc = " [Ln 1703, Col 1]"]
-#[doc = " [Ln 1704, Col 1]"]
+#[doc = " [Ln 1705, Col 1]"]
+#[doc = " [Ln 1706, Col 1]"]
+#[doc = " [Ln 1707, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeFlood {
-    #[doc = " [Ln 1706, Col 5]"]
-    pub color: Option<variable::Variable<Rgb>>,
     #[doc = " [Ln 1709, Col 5]"]
+    pub color: Option<variable::Variable<Rgb>>,
+    #[doc = " [Ln 1712, Col 5]"]
     pub opacity: Option<variable::Variable<f32>>,
-    #[doc = " [Ln 988, Col 5]"]
+    #[doc = " [Ln 991, Col 5]"]
     pub x: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 992, Col 5]"]
+    #[doc = " [Ln 995, Col 5]"]
     pub y: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 996, Col 5]"]
+    #[doc = " [Ln 999, Col 5]"]
     pub width: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1000, Col 5]"]
+    #[doc = " [Ln 1003, Col 5]"]
     pub height: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1004, Col 5]"]
-    #[doc = " [Ln 1005, Col 5]"]
-    #[doc = " [Ln 1006, Col 5]"]
     #[doc = " [Ln 1007, Col 5]"]
     #[doc = " [Ln 1008, Col 5]"]
     #[doc = " [Ln 1009, Col 5]"]
     #[doc = " [Ln 1010, Col 5]"]
     #[doc = " [Ln 1011, Col 5]"]
     #[doc = " [Ln 1012, Col 5]"]
+    #[doc = " [Ln 1013, Col 5]"]
+    #[doc = " [Ln 1014, Col 5]"]
+    #[doc = " [Ln 1015, Col 5]"]
     pub result: Option<variable::Variable<String>>,
 }
-#[doc = " [Ln 1715, Col 1]"]
-#[doc = " [Ln 1716, Col 1]"]
-#[doc = " [Ln 1717, Col 1]"]
+#[doc = " [Ln 1718, Col 1]"]
+#[doc = " [Ln 1719, Col 1]"]
+#[doc = " [Ln 1720, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeGaussianBlur {
-    #[doc = " [Ln 1719, Col 5]"]
+    #[doc = " [Ln 1722, Col 5]"]
     pub r#in: Option<variable::Variable<FeIn>>,
-    #[doc = " [Ln 1723, Col 5]"]
-    #[doc = " [Ln 1724, Col 5]"]
-    #[doc = " [Ln 1725, Col 5]"]
     #[doc = " [Ln 1726, Col 5]"]
     #[doc = " [Ln 1727, Col 5]"]
     #[doc = " [Ln 1728, Col 5]"]
     #[doc = " [Ln 1729, Col 5]"]
     #[doc = " [Ln 1730, Col 5]"]
+    #[doc = " [Ln 1731, Col 5]"]
+    #[doc = " [Ln 1732, Col 5]"]
+    #[doc = " [Ln 1733, Col 5]"]
     pub std_deviation: Option<variable::Variable<NumberOptNumber>>,
-    #[doc = " [Ln 988, Col 5]"]
+    #[doc = " [Ln 991, Col 5]"]
     pub x: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 992, Col 5]"]
+    #[doc = " [Ln 995, Col 5]"]
     pub y: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 996, Col 5]"]
+    #[doc = " [Ln 999, Col 5]"]
     pub width: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1000, Col 5]"]
+    #[doc = " [Ln 1003, Col 5]"]
     pub height: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1004, Col 5]"]
-    #[doc = " [Ln 1005, Col 5]"]
-    #[doc = " [Ln 1006, Col 5]"]
     #[doc = " [Ln 1007, Col 5]"]
     #[doc = " [Ln 1008, Col 5]"]
     #[doc = " [Ln 1009, Col 5]"]
     #[doc = " [Ln 1010, Col 5]"]
     #[doc = " [Ln 1011, Col 5]"]
     #[doc = " [Ln 1012, Col 5]"]
+    #[doc = " [Ln 1013, Col 5]"]
+    #[doc = " [Ln 1014, Col 5]"]
+    #[doc = " [Ln 1015, Col 5]"]
     pub result: Option<variable::Variable<String>>,
 }
-#[doc = " [Ln 1735, Col 1]"]
-#[doc = " [Ln 1736, Col 1]"]
-#[doc = " [Ln 1737, Col 1]"]
 #[doc = " [Ln 1738, Col 1]"]
 #[doc = " [Ln 1739, Col 1]"]
-#[derive(Debug, PartialEq, PartialOrd, Clone)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct FeMerge {
-    #[doc = " [Ln 988, Col 5]"]
-    pub x: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 992, Col 5]"]
-    pub y: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 996, Col 5]"]
-    pub width: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1000, Col 5]"]
-    pub height: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1004, Col 5]"]
-    #[doc = " [Ln 1005, Col 5]"]
-    #[doc = " [Ln 1006, Col 5]"]
-    #[doc = " [Ln 1007, Col 5]"]
-    #[doc = " [Ln 1008, Col 5]"]
-    #[doc = " [Ln 1009, Col 5]"]
-    #[doc = " [Ln 1010, Col 5]"]
-    #[doc = " [Ln 1011, Col 5]"]
-    #[doc = " [Ln 1012, Col 5]"]
-    pub result: Option<variable::Variable<String>>,
-}
+#[doc = " [Ln 1740, Col 1]"]
+#[doc = " [Ln 1741, Col 1]"]
 #[doc = " [Ln 1742, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct FeMergeNode(pub variable::Variable<FeIn>);
-#[doc = " [Ln 1745, Col 1]"]
-#[doc = " [Ln 1746, Col 1]"]
-#[doc = " [Ln 1747, Col 1]"]
-#[doc = " [Ln 1748, Col 1]"]
-#[derive(Debug, PartialEq, PartialOrd, Clone)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct FeImage {
-    #[doc = " [Ln 1750, Col 5]"]
-    pub href: variable::Variable<FuncIri>,
-    #[doc = " [Ln 1754, Col 5]"]
-    pub aspect: Option<variable::Variable<PreserveAspectRatio>>,
-    #[doc = " [Ln 988, Col 5]"]
+pub struct FeMerge {
+    #[doc = " [Ln 991, Col 5]"]
     pub x: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 992, Col 5]"]
+    #[doc = " [Ln 995, Col 5]"]
     pub y: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 996, Col 5]"]
+    #[doc = " [Ln 999, Col 5]"]
     pub width: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1000, Col 5]"]
+    #[doc = " [Ln 1003, Col 5]"]
     pub height: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1004, Col 5]"]
-    #[doc = " [Ln 1005, Col 5]"]
-    #[doc = " [Ln 1006, Col 5]"]
     #[doc = " [Ln 1007, Col 5]"]
     #[doc = " [Ln 1008, Col 5]"]
     #[doc = " [Ln 1009, Col 5]"]
     #[doc = " [Ln 1010, Col 5]"]
     #[doc = " [Ln 1011, Col 5]"]
     #[doc = " [Ln 1012, Col 5]"]
+    #[doc = " [Ln 1013, Col 5]"]
+    #[doc = " [Ln 1014, Col 5]"]
+    #[doc = " [Ln 1015, Col 5]"]
     pub result: Option<variable::Variable<String>>,
 }
-#[doc = " [Ln 1759, Col 1]"]
-#[doc = " [Ln 1760, Col 1]"]
-#[doc = " [Ln 1761, Col 1]"]
+#[doc = " [Ln 1745, Col 1]"]
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct FeMergeNode(pub variable::Variable<FeIn>);
+#[doc = " [Ln 1748, Col 1]"]
+#[doc = " [Ln 1749, Col 1]"]
+#[doc = " [Ln 1750, Col 1]"]
+#[doc = " [Ln 1751, Col 1]"]
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct FeImage {
+    #[doc = " [Ln 1753, Col 5]"]
+    pub href: variable::Variable<FuncIri>,
+    #[doc = " [Ln 1757, Col 5]"]
+    pub aspect: Option<variable::Variable<PreserveAspectRatio>>,
+    #[doc = " [Ln 991, Col 5]"]
+    pub x: Option<variable::Variable<Length>>,
+    #[doc = " [Ln 995, Col 5]"]
+    pub y: Option<variable::Variable<Length>>,
+    #[doc = " [Ln 999, Col 5]"]
+    pub width: Option<variable::Variable<Length>>,
+    #[doc = " [Ln 1003, Col 5]"]
+    pub height: Option<variable::Variable<Length>>,
+    #[doc = " [Ln 1007, Col 5]"]
+    #[doc = " [Ln 1008, Col 5]"]
+    #[doc = " [Ln 1009, Col 5]"]
+    #[doc = " [Ln 1010, Col 5]"]
+    #[doc = " [Ln 1011, Col 5]"]
+    #[doc = " [Ln 1012, Col 5]"]
+    #[doc = " [Ln 1013, Col 5]"]
+    #[doc = " [Ln 1014, Col 5]"]
+    #[doc = " [Ln 1015, Col 5]"]
+    pub result: Option<variable::Variable<String>>,
+}
 #[doc = " [Ln 1762, Col 1]"]
+#[doc = " [Ln 1763, Col 1]"]
+#[doc = " [Ln 1764, Col 1]"]
+#[doc = " [Ln 1765, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeMorphology {
-    #[doc = " [Ln 1764, Col 5]"]
+    #[doc = " [Ln 1767, Col 5]"]
     pub r#in: Option<variable::Variable<FeIn>>,
-    #[doc = " [Ln 1768, Col 5]"]
+    #[doc = " [Ln 1771, Col 5]"]
     pub mode: Option<variable::Variable<FeMorphologyOperator>>,
-    #[doc = " [Ln 1772, Col 5]"]
-    #[doc = " [Ln 1773, Col 5]"]
-    #[doc = " [Ln 1774, Col 5]"]
     #[doc = " [Ln 1775, Col 5]"]
     #[doc = " [Ln 1776, Col 5]"]
     #[doc = " [Ln 1777, Col 5]"]
     #[doc = " [Ln 1778, Col 5]"]
     #[doc = " [Ln 1779, Col 5]"]
     #[doc = " [Ln 1780, Col 5]"]
+    #[doc = " [Ln 1781, Col 5]"]
+    #[doc = " [Ln 1782, Col 5]"]
+    #[doc = " [Ln 1783, Col 5]"]
     pub radius: Option<variable::Variable<NumberOptNumber>>,
-    #[doc = " [Ln 988, Col 5]"]
+    #[doc = " [Ln 991, Col 5]"]
     pub x: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 992, Col 5]"]
+    #[doc = " [Ln 995, Col 5]"]
     pub y: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 996, Col 5]"]
+    #[doc = " [Ln 999, Col 5]"]
     pub width: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1000, Col 5]"]
+    #[doc = " [Ln 1003, Col 5]"]
     pub height: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1004, Col 5]"]
-    #[doc = " [Ln 1005, Col 5]"]
-    #[doc = " [Ln 1006, Col 5]"]
     #[doc = " [Ln 1007, Col 5]"]
     #[doc = " [Ln 1008, Col 5]"]
     #[doc = " [Ln 1009, Col 5]"]
     #[doc = " [Ln 1010, Col 5]"]
     #[doc = " [Ln 1011, Col 5]"]
     #[doc = " [Ln 1012, Col 5]"]
+    #[doc = " [Ln 1013, Col 5]"]
+    #[doc = " [Ln 1014, Col 5]"]
+    #[doc = " [Ln 1015, Col 5]"]
     pub result: Option<variable::Variable<String>>,
 }
-#[doc = " [Ln 1785, Col 1]"]
-#[doc = " [Ln 1786, Col 1]"]
-#[doc = " [Ln 1787, Col 1]"]
 #[doc = " [Ln 1788, Col 1]"]
 #[doc = " [Ln 1789, Col 1]"]
+#[doc = " [Ln 1790, Col 1]"]
+#[doc = " [Ln 1791, Col 1]"]
+#[doc = " [Ln 1792, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeOffset {
-    #[doc = " [Ln 1791, Col 5]"]
+    #[doc = " [Ln 1794, Col 5]"]
     pub r#in: Option<variable::Variable<FeIn>>,
-    #[doc = " [Ln 1795, Col 5]"]
-    #[doc = " [Ln 1796, Col 5]"]
-    #[doc = " [Ln 1797, Col 5]"]
     #[doc = " [Ln 1798, Col 5]"]
+    #[doc = " [Ln 1799, Col 5]"]
+    #[doc = " [Ln 1800, Col 5]"]
+    #[doc = " [Ln 1801, Col 5]"]
     pub dx: Option<variable::Variable<f32>>,
-    #[doc = " [Ln 1802, Col 5]"]
-    #[doc = " [Ln 1803, Col 5]"]
-    #[doc = " [Ln 1804, Col 5]"]
     #[doc = " [Ln 1805, Col 5]"]
+    #[doc = " [Ln 1806, Col 5]"]
+    #[doc = " [Ln 1807, Col 5]"]
+    #[doc = " [Ln 1808, Col 5]"]
     pub dy: Option<variable::Variable<f32>>,
-    #[doc = " [Ln 988, Col 5]"]
+    #[doc = " [Ln 991, Col 5]"]
     pub x: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 992, Col 5]"]
+    #[doc = " [Ln 995, Col 5]"]
     pub y: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 996, Col 5]"]
+    #[doc = " [Ln 999, Col 5]"]
     pub width: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1000, Col 5]"]
+    #[doc = " [Ln 1003, Col 5]"]
     pub height: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1004, Col 5]"]
-    #[doc = " [Ln 1005, Col 5]"]
-    #[doc = " [Ln 1006, Col 5]"]
     #[doc = " [Ln 1007, Col 5]"]
     #[doc = " [Ln 1008, Col 5]"]
     #[doc = " [Ln 1009, Col 5]"]
     #[doc = " [Ln 1010, Col 5]"]
     #[doc = " [Ln 1011, Col 5]"]
     #[doc = " [Ln 1012, Col 5]"]
+    #[doc = " [Ln 1013, Col 5]"]
+    #[doc = " [Ln 1014, Col 5]"]
+    #[doc = " [Ln 1015, Col 5]"]
     pub result: Option<variable::Variable<String>>,
 }
-#[doc = " [Ln 1810, Col 1]"]
-#[doc = " [Ln 1811, Col 1]"]
-#[doc = " [Ln 1812, Col 1]"]
 #[doc = " [Ln 1813, Col 1]"]
 #[doc = " [Ln 1814, Col 1]"]
 #[doc = " [Ln 1815, Col 1]"]
 #[doc = " [Ln 1816, Col 1]"]
+#[doc = " [Ln 1817, Col 1]"]
+#[doc = " [Ln 1818, Col 1]"]
+#[doc = " [Ln 1819, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeSpecularLighting {
-    #[doc = " [Ln 1818, Col 5]"]
+    #[doc = " [Ln 1821, Col 5]"]
     pub r#in: Option<variable::Variable<FeIn>>,
-    #[doc = " [Ln 1822, Col 5]"]
-    #[doc = " [Ln 1823, Col 5]"]
-    #[doc = " [Ln 1824, Col 5]"]
+    #[doc = " [Ln 1825, Col 5]"]
+    #[doc = " [Ln 1826, Col 5]"]
+    #[doc = " [Ln 1827, Col 5]"]
     pub surface_scale: Option<variable::Variable<f32>>,
-    #[doc = " [Ln 1828, Col 5]"]
-    #[doc = " [Ln 1829, Col 5]"]
-    #[doc = " [Ln 1830, Col 5]"]
+    #[doc = " [Ln 1831, Col 5]"]
+    #[doc = " [Ln 1832, Col 5]"]
+    #[doc = " [Ln 1833, Col 5]"]
     pub specular_constant: Option<variable::Variable<f32>>,
-    #[doc = " [Ln 1834, Col 5]"]
-    #[doc = " [Ln 1835, Col 5]"]
-    #[doc = " [Ln 1836, Col 5]"]
+    #[doc = " [Ln 1837, Col 5]"]
+    #[doc = " [Ln 1838, Col 5]"]
+    #[doc = " [Ln 1839, Col 5]"]
     pub specular_exponent: Option<variable::Variable<f32>>,
-    #[doc = " [Ln 1840, Col 5]"]
-    #[doc = " [Ln 1841, Col 5]"]
-    #[doc = " [Ln 1842, Col 5]"]
     #[doc = " [Ln 1843, Col 5]"]
     #[doc = " [Ln 1844, Col 5]"]
     #[doc = " [Ln 1845, Col 5]"]
@@ -1978,249 +1975,249 @@ pub struct FeSpecularLighting {
     #[doc = " [Ln 1849, Col 5]"]
     #[doc = " [Ln 1850, Col 5]"]
     #[doc = " [Ln 1851, Col 5]"]
+    #[doc = " [Ln 1852, Col 5]"]
+    #[doc = " [Ln 1853, Col 5]"]
+    #[doc = " [Ln 1854, Col 5]"]
     pub kernel_unit_len: Option<variable::Variable<NumberOptNumber>>,
-    #[doc = " [Ln 988, Col 5]"]
+    #[doc = " [Ln 991, Col 5]"]
     pub x: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 992, Col 5]"]
+    #[doc = " [Ln 995, Col 5]"]
     pub y: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 996, Col 5]"]
+    #[doc = " [Ln 999, Col 5]"]
     pub width: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1000, Col 5]"]
+    #[doc = " [Ln 1003, Col 5]"]
     pub height: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1004, Col 5]"]
-    #[doc = " [Ln 1005, Col 5]"]
-    #[doc = " [Ln 1006, Col 5]"]
     #[doc = " [Ln 1007, Col 5]"]
     #[doc = " [Ln 1008, Col 5]"]
     #[doc = " [Ln 1009, Col 5]"]
     #[doc = " [Ln 1010, Col 5]"]
     #[doc = " [Ln 1011, Col 5]"]
     #[doc = " [Ln 1012, Col 5]"]
+    #[doc = " [Ln 1013, Col 5]"]
+    #[doc = " [Ln 1014, Col 5]"]
+    #[doc = " [Ln 1015, Col 5]"]
     pub result: Option<variable::Variable<String>>,
 }
-#[doc = " [Ln 1856, Col 1]"]
-#[doc = " [Ln 1857, Col 1]"]
-#[doc = " [Ln 1858, Col 1]"]
 #[doc = " [Ln 1859, Col 1]"]
 #[doc = " [Ln 1860, Col 1]"]
+#[doc = " [Ln 1861, Col 1]"]
+#[doc = " [Ln 1862, Col 1]"]
+#[doc = " [Ln 1863, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeTile {
-    #[doc = " [Ln 1862, Col 5]"]
+    #[doc = " [Ln 1865, Col 5]"]
     pub r#in: Option<variable::Variable<FeIn>>,
-    #[doc = " [Ln 988, Col 5]"]
+    #[doc = " [Ln 991, Col 5]"]
     pub x: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 992, Col 5]"]
+    #[doc = " [Ln 995, Col 5]"]
     pub y: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 996, Col 5]"]
+    #[doc = " [Ln 999, Col 5]"]
     pub width: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1000, Col 5]"]
+    #[doc = " [Ln 1003, Col 5]"]
     pub height: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1004, Col 5]"]
-    #[doc = " [Ln 1005, Col 5]"]
-    #[doc = " [Ln 1006, Col 5]"]
     #[doc = " [Ln 1007, Col 5]"]
     #[doc = " [Ln 1008, Col 5]"]
     #[doc = " [Ln 1009, Col 5]"]
     #[doc = " [Ln 1010, Col 5]"]
     #[doc = " [Ln 1011, Col 5]"]
     #[doc = " [Ln 1012, Col 5]"]
+    #[doc = " [Ln 1013, Col 5]"]
+    #[doc = " [Ln 1014, Col 5]"]
+    #[doc = " [Ln 1015, Col 5]"]
     pub result: Option<variable::Variable<String>>,
 }
-#[doc = " [Ln 1867, Col 1]"]
-#[doc = " [Ln 1868, Col 1]"]
-#[doc = " [Ln 1869, Col 1]"]
 #[doc = " [Ln 1870, Col 1]"]
 #[doc = " [Ln 1871, Col 1]"]
 #[doc = " [Ln 1872, Col 1]"]
+#[doc = " [Ln 1873, Col 1]"]
+#[doc = " [Ln 1874, Col 1]"]
+#[doc = " [Ln 1875, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeTurbulence {
-    #[doc = " [Ln 1874, Col 5]"]
-    #[doc = " [Ln 1875, Col 5]"]
-    #[doc = " [Ln 1876, Col 5]"]
     #[doc = " [Ln 1877, Col 5]"]
     #[doc = " [Ln 1878, Col 5]"]
     #[doc = " [Ln 1879, Col 5]"]
     #[doc = " [Ln 1880, Col 5]"]
+    #[doc = " [Ln 1881, Col 5]"]
+    #[doc = " [Ln 1882, Col 5]"]
+    #[doc = " [Ln 1883, Col 5]"]
     pub base_frequency: Option<variable::Variable<NumberOptNumber>>,
-    #[doc = " [Ln 1884, Col 5]"]
-    #[doc = " [Ln 1885, Col 5]"]
-    #[doc = " [Ln 1886, Col 5]"]
+    #[doc = " [Ln 1887, Col 5]"]
+    #[doc = " [Ln 1888, Col 5]"]
+    #[doc = " [Ln 1889, Col 5]"]
     pub num_octaves: Option<variable::Variable<i32>>,
-    #[doc = " [Ln 1890, Col 5]"]
-    #[doc = " [Ln 1891, Col 5]"]
-    #[doc = " [Ln 1892, Col 5]"]
     #[doc = " [Ln 1893, Col 5]"]
     #[doc = " [Ln 1894, Col 5]"]
+    #[doc = " [Ln 1895, Col 5]"]
+    #[doc = " [Ln 1896, Col 5]"]
+    #[doc = " [Ln 1897, Col 5]"]
     pub seed: Option<variable::Variable<f32>>,
-    #[doc = " [Ln 1898, Col 5]"]
+    #[doc = " [Ln 1901, Col 5]"]
     pub stitch_tiles: Option<variable::Variable<FeStitchTiles>>,
-    #[doc = " [Ln 1902, Col 5]"]
+    #[doc = " [Ln 1905, Col 5]"]
     pub r#type: Option<variable::Variable<FeTurbulenceType>>,
-    #[doc = " [Ln 988, Col 5]"]
+    #[doc = " [Ln 991, Col 5]"]
     pub x: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 992, Col 5]"]
+    #[doc = " [Ln 995, Col 5]"]
     pub y: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 996, Col 5]"]
+    #[doc = " [Ln 999, Col 5]"]
     pub width: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1000, Col 5]"]
+    #[doc = " [Ln 1003, Col 5]"]
     pub height: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1004, Col 5]"]
-    #[doc = " [Ln 1005, Col 5]"]
-    #[doc = " [Ln 1006, Col 5]"]
     #[doc = " [Ln 1007, Col 5]"]
     #[doc = " [Ln 1008, Col 5]"]
     #[doc = " [Ln 1009, Col 5]"]
     #[doc = " [Ln 1010, Col 5]"]
     #[doc = " [Ln 1011, Col 5]"]
     #[doc = " [Ln 1012, Col 5]"]
+    #[doc = " [Ln 1013, Col 5]"]
+    #[doc = " [Ln 1014, Col 5]"]
+    #[doc = " [Ln 1015, Col 5]"]
     pub result: Option<variable::Variable<String>>,
 }
-#[doc = " [Ln 1908, Col 1]"]
+#[doc = " [Ln 1911, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct LinearGradient {
-    #[doc = " [Ln 1910, Col 5]"]
+    #[doc = " [Ln 1913, Col 5]"]
     pub units: Option<variable::Variable<Coords>>,
-    #[doc = " [Ln 1914, Col 5]"]
-    #[doc = " [Ln 1915, Col 5]"]
-    #[doc = " [Ln 1916, Col 5]"]
     #[doc = " [Ln 1917, Col 5]"]
     #[doc = " [Ln 1918, Col 5]"]
     #[doc = " [Ln 1919, Col 5]"]
     #[doc = " [Ln 1920, Col 5]"]
     #[doc = " [Ln 1921, Col 5]"]
     #[doc = " [Ln 1922, Col 5]"]
+    #[doc = " [Ln 1923, Col 5]"]
+    #[doc = " [Ln 1924, Col 5]"]
+    #[doc = " [Ln 1925, Col 5]"]
     pub transform: Option<variable::Variable<Transform>>,
-    #[doc = " [Ln 1926, Col 5]"]
-    #[doc = " [Ln 1927, Col 5]"]
-    #[doc = " [Ln 1928, Col 5]"]
     #[doc = " [Ln 1929, Col 5]"]
     #[doc = " [Ln 1930, Col 5]"]
     #[doc = " [Ln 1931, Col 5]"]
     #[doc = " [Ln 1932, Col 5]"]
+    #[doc = " [Ln 1933, Col 5]"]
+    #[doc = " [Ln 1934, Col 5]"]
+    #[doc = " [Ln 1935, Col 5]"]
     pub x1: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1936, Col 5]"]
+    #[doc = " [Ln 1939, Col 5]"]
     pub y1: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1940, Col 5]"]
+    #[doc = " [Ln 1943, Col 5]"]
     pub x2: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1944, Col 5]"]
+    #[doc = " [Ln 1947, Col 5]"]
     pub y2: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1948, Col 5]"]
+    #[doc = " [Ln 1951, Col 5]"]
     pub spread: Option<variable::Variable<SpreadMethod>>,
 }
-#[doc = " [Ln 1953, Col 1]"]
+#[doc = " [Ln 1956, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct RadialGradient {
-    #[doc = " [Ln 1955, Col 5]"]
+    #[doc = " [Ln 1958, Col 5]"]
     pub unit: Option<variable::Variable<Coords>>,
-    #[doc = " [Ln 1959, Col 5]"]
-    #[doc = " [Ln 1960, Col 5]"]
-    #[doc = " [Ln 1961, Col 5]"]
     #[doc = " [Ln 1962, Col 5]"]
     #[doc = " [Ln 1963, Col 5]"]
     #[doc = " [Ln 1964, Col 5]"]
     #[doc = " [Ln 1965, Col 5]"]
     #[doc = " [Ln 1966, Col 5]"]
     #[doc = " [Ln 1967, Col 5]"]
+    #[doc = " [Ln 1968, Col 5]"]
+    #[doc = " [Ln 1969, Col 5]"]
+    #[doc = " [Ln 1970, Col 5]"]
     pub transform: Option<variable::Variable<Transform>>,
-    #[doc = " [Ln 1971, Col 5]"]
-    #[doc = " [Ln 1972, Col 5]"]
-    #[doc = " [Ln 1973, Col 5]"]
     #[doc = " [Ln 1974, Col 5]"]
     #[doc = " [Ln 1975, Col 5]"]
     #[doc = " [Ln 1976, Col 5]"]
     #[doc = " [Ln 1977, Col 5]"]
+    #[doc = " [Ln 1978, Col 5]"]
+    #[doc = " [Ln 1979, Col 5]"]
+    #[doc = " [Ln 1980, Col 5]"]
     pub cx: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1981, Col 5]"]
-    #[doc = " [Ln 1982, Col 5]"]
+    #[doc = " [Ln 1984, Col 5]"]
+    #[doc = " [Ln 1985, Col 5]"]
     pub cy: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1986, Col 5]"]
-    #[doc = " [Ln 1987, Col 5]"]
-    #[doc = " [Ln 1988, Col 5]"]
     #[doc = " [Ln 1989, Col 5]"]
     #[doc = " [Ln 1990, Col 5]"]
     #[doc = " [Ln 1991, Col 5]"]
     #[doc = " [Ln 1992, Col 5]"]
     #[doc = " [Ln 1993, Col 5]"]
+    #[doc = " [Ln 1994, Col 5]"]
+    #[doc = " [Ln 1995, Col 5]"]
+    #[doc = " [Ln 1996, Col 5]"]
     pub r: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 1997, Col 5]"]
-    #[doc = " [Ln 1998, Col 5]"]
-    #[doc = " [Ln 1999, Col 5]"]
     #[doc = " [Ln 2000, Col 5]"]
     #[doc = " [Ln 2001, Col 5]"]
     #[doc = " [Ln 2002, Col 5]"]
     #[doc = " [Ln 2003, Col 5]"]
     #[doc = " [Ln 2004, Col 5]"]
+    #[doc = " [Ln 2005, Col 5]"]
+    #[doc = " [Ln 2006, Col 5]"]
+    #[doc = " [Ln 2007, Col 5]"]
     pub fx: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 2008, Col 5]"]
-    #[doc = " [Ln 2009, Col 5]"]
-    #[doc = " [Ln 2010, Col 5]"]
     #[doc = " [Ln 2011, Col 5]"]
     #[doc = " [Ln 2012, Col 5]"]
     #[doc = " [Ln 2013, Col 5]"]
     #[doc = " [Ln 2014, Col 5]"]
+    #[doc = " [Ln 2015, Col 5]"]
+    #[doc = " [Ln 2016, Col 5]"]
+    #[doc = " [Ln 2017, Col 5]"]
     pub fy: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 2018, Col 5]"]
+    #[doc = " [Ln 2021, Col 5]"]
     pub spread: Option<variable::Variable<SpreadMethod>>,
 }
-#[doc = " [Ln 2023, Col 1]"]
-#[doc = " [Ln 2024, Col 1]"]
+#[doc = " [Ln 2026, Col 1]"]
+#[doc = " [Ln 2027, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct GradientStop {
-    #[doc = " [Ln 2026, Col 5]"]
-    #[doc = " [Ln 2027, Col 5]"]
-    #[doc = " [Ln 2028, Col 5]"]
     #[doc = " [Ln 2029, Col 5]"]
     #[doc = " [Ln 2030, Col 5]"]
     #[doc = " [Ln 2031, Col 5]"]
     #[doc = " [Ln 2032, Col 5]"]
+    #[doc = " [Ln 2033, Col 5]"]
+    #[doc = " [Ln 2034, Col 5]"]
+    #[doc = " [Ln 2035, Col 5]"]
     pub offset: variable::Variable<f32>,
-    #[doc = " [Ln 2036, Col 5]"]
+    #[doc = " [Ln 2039, Col 5]"]
     pub color: Option<variable::Variable<Rgb>>,
-    #[doc = " [Ln 2040, Col 5]"]
+    #[doc = " [Ln 2043, Col 5]"]
     pub opacity: Option<variable::Variable<f32>>,
 }
-#[doc = " [Ln 2045, Col 1]"]
+#[doc = " [Ln 2048, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Group;
-#[doc = " [Ln 2049, Col 1]"]
-#[doc = " [Ln 2050, Col 1]"]
+#[doc = " [Ln 2052, Col 1]"]
+#[doc = " [Ln 2053, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Path {
-    #[doc = " [Ln 2052, Col 5]"]
+    #[doc = " [Ln 2055, Col 5]"]
     pub events: variable::Variable<Vec<PathEvent>>,
-    #[doc = " [Ln 2056, Col 5]"]
-    #[doc = " [Ln 2057, Col 5]"]
-    #[doc = " [Ln 2058, Col 5]"]
     #[doc = " [Ln 2059, Col 5]"]
     #[doc = " [Ln 2060, Col 5]"]
     #[doc = " [Ln 2061, Col 5]"]
     #[doc = " [Ln 2062, Col 5]"]
     #[doc = " [Ln 2063, Col 5]"]
     #[doc = " [Ln 2064, Col 5]"]
+    #[doc = " [Ln 2065, Col 5]"]
+    #[doc = " [Ln 2066, Col 5]"]
+    #[doc = " [Ln 2067, Col 5]"]
     pub length: variable::Variable<Length>,
 }
-#[doc = " [Ln 2069, Col 1]"]
-#[doc = " [Ln 2070, Col 1]"]
-#[doc = " [Ln 2071, Col 1]"]
 #[doc = " [Ln 2072, Col 1]"]
 #[doc = " [Ln 2073, Col 1]"]
 #[doc = " [Ln 2074, Col 1]"]
 #[doc = " [Ln 2075, Col 1]"]
 #[doc = " [Ln 2076, Col 1]"]
 #[doc = " [Ln 2077, Col 1]"]
+#[doc = " [Ln 2078, Col 1]"]
+#[doc = " [Ln 2079, Col 1]"]
+#[doc = " [Ln 2080, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Pattern {
-    #[doc = " [Ln 2079, Col 5]"]
-    #[doc = " [Ln 2080, Col 5]"]
-    #[doc = " [Ln 2081, Col 5]"]
     #[doc = " [Ln 2082, Col 5]"]
     #[doc = " [Ln 2083, Col 5]"]
     #[doc = " [Ln 2084, Col 5]"]
@@ -2230,10 +2227,10 @@ pub struct Pattern {
     #[doc = " [Ln 2088, Col 5]"]
     #[doc = " [Ln 2089, Col 5]"]
     #[doc = " [Ln 2090, Col 5]"]
-    pub units: Option<variable::Variable<Coords>>,
+    #[doc = " [Ln 2091, Col 5]"]
+    #[doc = " [Ln 2092, Col 5]"]
     #[doc = " [Ln 2093, Col 5]"]
-    #[doc = " [Ln 2094, Col 5]"]
-    #[doc = " [Ln 2095, Col 5]"]
+    pub units: Option<variable::Variable<Coords>>,
     #[doc = " [Ln 2096, Col 5]"]
     #[doc = " [Ln 2097, Col 5]"]
     #[doc = " [Ln 2098, Col 5]"]
@@ -2246,49 +2243,49 @@ pub struct Pattern {
     #[doc = " [Ln 2105, Col 5]"]
     #[doc = " [Ln 2106, Col 5]"]
     #[doc = " [Ln 2107, Col 5]"]
+    #[doc = " [Ln 2108, Col 5]"]
+    #[doc = " [Ln 2109, Col 5]"]
+    #[doc = " [Ln 2110, Col 5]"]
     pub content_units: Option<variable::Variable<Coords>>,
-    #[doc = " [Ln 2111, Col 5]"]
-    #[doc = " [Ln 2112, Col 5]"]
-    #[doc = " [Ln 2113, Col 5]"]
     #[doc = " [Ln 2114, Col 5]"]
     #[doc = " [Ln 2115, Col 5]"]
     #[doc = " [Ln 2116, Col 5]"]
     #[doc = " [Ln 2117, Col 5]"]
+    #[doc = " [Ln 2118, Col 5]"]
+    #[doc = " [Ln 2119, Col 5]"]
+    #[doc = " [Ln 2120, Col 5]"]
     pub transform: Option<variable::Variable<Transform>>,
-    #[doc = " [Ln 2121, Col 5]"]
-    #[doc = " [Ln 2122, Col 5]"]
-    #[doc = " [Ln 2123, Col 5]"]
     #[doc = " [Ln 2124, Col 5]"]
     #[doc = " [Ln 2125, Col 5]"]
     #[doc = " [Ln 2126, Col 5]"]
     #[doc = " [Ln 2127, Col 5]"]
+    #[doc = " [Ln 2128, Col 5]"]
+    #[doc = " [Ln 2129, Col 5]"]
+    #[doc = " [Ln 2130, Col 5]"]
     pub x: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 2131, Col 5]"]
-    #[doc = " [Ln 2132, Col 5]"]
-    #[doc = " [Ln 2133, Col 5]"]
     #[doc = " [Ln 2134, Col 5]"]
     #[doc = " [Ln 2135, Col 5]"]
+    #[doc = " [Ln 2136, Col 5]"]
+    #[doc = " [Ln 2137, Col 5]"]
+    #[doc = " [Ln 2138, Col 5]"]
     pub y: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 2139, Col 5]"]
-    #[doc = " [Ln 2140, Col 5]"]
-    #[doc = " [Ln 2141, Col 5]"]
     #[doc = " [Ln 2142, Col 5]"]
     #[doc = " [Ln 2143, Col 5]"]
+    #[doc = " [Ln 2144, Col 5]"]
+    #[doc = " [Ln 2145, Col 5]"]
+    #[doc = " [Ln 2146, Col 5]"]
     pub width: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 2147, Col 5]"]
-    #[doc = " [Ln 2148, Col 5]"]
-    #[doc = " [Ln 2149, Col 5]"]
     #[doc = " [Ln 2150, Col 5]"]
     #[doc = " [Ln 2151, Col 5]"]
+    #[doc = " [Ln 2152, Col 5]"]
+    #[doc = " [Ln 2153, Col 5]"]
+    #[doc = " [Ln 2154, Col 5]"]
     pub height: Option<variable::Variable<Length>>,
 }
-#[doc = " [Ln 2156, Col 1]"]
+#[doc = " [Ln 2159, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Use(pub variable::Variable<Iri>);
-#[doc = " [Ln 2160, Col 1]"]
-#[doc = " [Ln 2161, Col 1]"]
-#[doc = " [Ln 2162, Col 1]"]
 #[doc = " [Ln 2163, Col 1]"]
 #[doc = " [Ln 2164, Col 1]"]
 #[doc = " [Ln 2165, Col 1]"]
@@ -2300,142 +2297,142 @@ pub struct Use(pub variable::Variable<Iri>);
 #[doc = " [Ln 2171, Col 1]"]
 #[doc = " [Ln 2172, Col 1]"]
 #[doc = " [Ln 2173, Col 1]"]
+#[doc = " [Ln 2174, Col 1]"]
+#[doc = " [Ln 2175, Col 1]"]
+#[doc = " [Ln 2176, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Rect {
-    #[doc = " [Ln 2175, Col 5]"]
-    #[doc = " [Ln 2176, Col 5]"]
-    #[doc = " [Ln 2177, Col 5]"]
     #[doc = " [Ln 2178, Col 5]"]
+    #[doc = " [Ln 2179, Col 5]"]
+    #[doc = " [Ln 2180, Col 5]"]
+    #[doc = " [Ln 2181, Col 5]"]
     pub x: variable::Variable<Length>,
-    #[doc = " [Ln 2182, Col 5]"]
-    #[doc = " [Ln 2183, Col 5]"]
-    #[doc = " [Ln 2184, Col 5]"]
     #[doc = " [Ln 2185, Col 5]"]
+    #[doc = " [Ln 2186, Col 5]"]
+    #[doc = " [Ln 2187, Col 5]"]
+    #[doc = " [Ln 2188, Col 5]"]
     pub y: variable::Variable<Length>,
-    #[doc = " [Ln 2189, Col 5]"]
-    #[doc = " [Ln 2190, Col 5]"]
-    #[doc = " [Ln 2191, Col 5]"]
     #[doc = " [Ln 2192, Col 5]"]
+    #[doc = " [Ln 2193, Col 5]"]
+    #[doc = " [Ln 2194, Col 5]"]
+    #[doc = " [Ln 2195, Col 5]"]
     pub width: variable::Variable<Length>,
-    #[doc = " [Ln 2196, Col 5]"]
-    #[doc = " [Ln 2197, Col 5]"]
-    #[doc = " [Ln 2198, Col 5]"]
     #[doc = " [Ln 2199, Col 5]"]
+    #[doc = " [Ln 2200, Col 5]"]
+    #[doc = " [Ln 2201, Col 5]"]
+    #[doc = " [Ln 2202, Col 5]"]
     pub height: variable::Variable<Length>,
-    #[doc = " [Ln 2203, Col 5]"]
-    #[doc = " [Ln 2204, Col 5]"]
-    #[doc = " [Ln 2205, Col 5]"]
     #[doc = " [Ln 2206, Col 5]"]
+    #[doc = " [Ln 2207, Col 5]"]
+    #[doc = " [Ln 2208, Col 5]"]
+    #[doc = " [Ln 2209, Col 5]"]
     pub rx: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 2210, Col 5]"]
-    #[doc = " [Ln 2211, Col 5]"]
-    #[doc = " [Ln 2212, Col 5]"]
     #[doc = " [Ln 2213, Col 5]"]
+    #[doc = " [Ln 2214, Col 5]"]
+    #[doc = " [Ln 2215, Col 5]"]
+    #[doc = " [Ln 2216, Col 5]"]
     pub ry: Option<variable::Variable<Length>>,
 }
-#[doc = " [Ln 2219, Col 1]"]
+#[doc = " [Ln 2222, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Circle {
-    #[doc = " [Ln 2221, Col 5]"]
-    #[doc = " [Ln 2222, Col 5]"]
-    #[doc = " [Ln 2223, Col 5]"]
     #[doc = " [Ln 2224, Col 5]"]
+    #[doc = " [Ln 2225, Col 5]"]
+    #[doc = " [Ln 2226, Col 5]"]
+    #[doc = " [Ln 2227, Col 5]"]
     pub cx: variable::Variable<Length>,
-    #[doc = " [Ln 2228, Col 5]"]
-    #[doc = " [Ln 2229, Col 5]"]
-    #[doc = " [Ln 2230, Col 5]"]
     #[doc = " [Ln 2231, Col 5]"]
+    #[doc = " [Ln 2232, Col 5]"]
+    #[doc = " [Ln 2233, Col 5]"]
+    #[doc = " [Ln 2234, Col 5]"]
     pub cy: variable::Variable<Length>,
-    #[doc = " [Ln 2235, Col 5]"]
-    #[doc = " [Ln 2236, Col 5]"]
-    #[doc = " [Ln 2237, Col 5]"]
     #[doc = " [Ln 2238, Col 5]"]
+    #[doc = " [Ln 2239, Col 5]"]
+    #[doc = " [Ln 2240, Col 5]"]
+    #[doc = " [Ln 2241, Col 5]"]
     pub r: variable::Variable<Length>,
 }
-#[doc = " [Ln 2243, Col 1]"]
-#[doc = " [Ln 2244, Col 1]"]
+#[doc = " [Ln 2246, Col 1]"]
+#[doc = " [Ln 2247, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Ellipse {
-    #[doc = " [Ln 2246, Col 5]"]
-    #[doc = " [Ln 2247, Col 5]"]
-    #[doc = " [Ln 2248, Col 5]"]
     #[doc = " [Ln 2249, Col 5]"]
+    #[doc = " [Ln 2250, Col 5]"]
+    #[doc = " [Ln 2251, Col 5]"]
+    #[doc = " [Ln 2252, Col 5]"]
     pub cx: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 2253, Col 5]"]
-    #[doc = " [Ln 2254, Col 5]"]
-    #[doc = " [Ln 2255, Col 5]"]
     #[doc = " [Ln 2256, Col 5]"]
+    #[doc = " [Ln 2257, Col 5]"]
+    #[doc = " [Ln 2258, Col 5]"]
+    #[doc = " [Ln 2259, Col 5]"]
     pub cy: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 2260, Col 5]"]
-    #[doc = " [Ln 2261, Col 5]"]
-    #[doc = " [Ln 2262, Col 5]"]
     #[doc = " [Ln 2263, Col 5]"]
+    #[doc = " [Ln 2264, Col 5]"]
+    #[doc = " [Ln 2265, Col 5]"]
+    #[doc = " [Ln 2266, Col 5]"]
     pub rx: variable::Variable<Length>,
-    #[doc = " [Ln 2267, Col 5]"]
-    #[doc = " [Ln 2268, Col 5]"]
-    #[doc = " [Ln 2269, Col 5]"]
     #[doc = " [Ln 2270, Col 5]"]
+    #[doc = " [Ln 2271, Col 5]"]
+    #[doc = " [Ln 2272, Col 5]"]
+    #[doc = " [Ln 2273, Col 5]"]
     pub ry: variable::Variable<Length>,
 }
-#[doc = " [Ln 2275, Col 1]"]
+#[doc = " [Ln 2278, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Line {
-    #[doc = " [Ln 2277, Col 5]"]
-    #[doc = " [Ln 2278, Col 5]"]
-    #[doc = " [Ln 2279, Col 5]"]
     #[doc = " [Ln 2280, Col 5]"]
     #[doc = " [Ln 2281, Col 5]"]
+    #[doc = " [Ln 2282, Col 5]"]
+    #[doc = " [Ln 2283, Col 5]"]
+    #[doc = " [Ln 2284, Col 5]"]
     pub x1: variable::Variable<Length>,
-    #[doc = " [Ln 2285, Col 5]"]
-    #[doc = " [Ln 2286, Col 5]"]
-    #[doc = " [Ln 2287, Col 5]"]
     #[doc = " [Ln 2288, Col 5]"]
     #[doc = " [Ln 2289, Col 5]"]
+    #[doc = " [Ln 2290, Col 5]"]
+    #[doc = " [Ln 2291, Col 5]"]
+    #[doc = " [Ln 2292, Col 5]"]
     pub y1: variable::Variable<Length>,
-    #[doc = " [Ln 2293, Col 5]"]
-    #[doc = " [Ln 2294, Col 5]"]
-    #[doc = " [Ln 2295, Col 5]"]
     #[doc = " [Ln 2296, Col 5]"]
     #[doc = " [Ln 2297, Col 5]"]
+    #[doc = " [Ln 2298, Col 5]"]
+    #[doc = " [Ln 2299, Col 5]"]
+    #[doc = " [Ln 2300, Col 5]"]
     pub x2: variable::Variable<Length>,
-    #[doc = " [Ln 2301, Col 5]"]
-    #[doc = " [Ln 2302, Col 5]"]
-    #[doc = " [Ln 2303, Col 5]"]
     #[doc = " [Ln 2304, Col 5]"]
     #[doc = " [Ln 2305, Col 5]"]
+    #[doc = " [Ln 2306, Col 5]"]
+    #[doc = " [Ln 2307, Col 5]"]
+    #[doc = " [Ln 2308, Col 5]"]
     pub y2: variable::Variable<Length>,
 }
-#[doc = " [Ln 2310, Col 1]"]
+#[doc = " [Ln 2313, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Polyline(
-    #[doc = " [Ln 2312, Col 5]"]
-    #[doc = " [Ln 2313, Col 5]"]
-    #[doc = " [Ln 2314, Col 5]"]
+    #[doc = " [Ln 2315, Col 5]"]
+    #[doc = " [Ln 2316, Col 5]"]
+    #[doc = " [Ln 2317, Col 5]"]
     pub variable::Variable<Vec<Point>>,
 );
-#[doc = " [Ln 2319, Col 1]"]
+#[doc = " [Ln 2322, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Polygon(
-    #[doc = " [Ln 2321, Col 5]"]
-    #[doc = " [Ln 2322, Col 5]"]
-    #[doc = " [Ln 2323, Col 5]"]
+    #[doc = " [Ln 2324, Col 5]"]
+    #[doc = " [Ln 2325, Col 5]"]
+    #[doc = " [Ln 2326, Col 5]"]
     pub variable::Variable<Vec<Point>>,
 );
-#[doc = " [Ln 2416, Col 1]"]
-#[doc = " [Ln 2417, Col 1]"]
-#[doc = " [Ln 2418, Col 1]"]
+#[doc = " [Ln 2419, Col 1]"]
+#[doc = " [Ln 2420, Col 1]"]
+#[doc = " [Ln 2421, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Text {
-    #[doc = " [Ln 2334, Col 5]"]
-    #[doc = " [Ln 2335, Col 5]"]
-    #[doc = " [Ln 2336, Col 5]"]
     #[doc = " [Ln 2337, Col 5]"]
     #[doc = " [Ln 2338, Col 5]"]
     #[doc = " [Ln 2339, Col 5]"]
@@ -2444,36 +2441,36 @@ pub struct Text {
     #[doc = " [Ln 2342, Col 5]"]
     #[doc = " [Ln 2343, Col 5]"]
     #[doc = " [Ln 2344, Col 5]"]
+    #[doc = " [Ln 2345, Col 5]"]
+    #[doc = " [Ln 2346, Col 5]"]
+    #[doc = " [Ln 2347, Col 5]"]
     pub x: Option<variable::Variable<Vec<Length>>>,
-    #[doc = " [Ln 2348, Col 5]"]
-    #[doc = " [Ln 2349, Col 5]"]
-    #[doc = " [Ln 2350, Col 5]"]
     #[doc = " [Ln 2351, Col 5]"]
+    #[doc = " [Ln 2352, Col 5]"]
+    #[doc = " [Ln 2353, Col 5]"]
+    #[doc = " [Ln 2354, Col 5]"]
     pub y: Option<variable::Variable<Vec<Length>>>,
-    #[doc = " [Ln 2355, Col 5]"]
-    #[doc = " [Ln 2356, Col 5]"]
-    #[doc = " [Ln 2357, Col 5]"]
     #[doc = " [Ln 2358, Col 5]"]
     #[doc = " [Ln 2359, Col 5]"]
     #[doc = " [Ln 2360, Col 5]"]
+    #[doc = " [Ln 2361, Col 5]"]
+    #[doc = " [Ln 2362, Col 5]"]
+    #[doc = " [Ln 2363, Col 5]"]
     pub dx: Option<variable::Variable<Vec<Length>>>,
-    #[doc = " [Ln 2364, Col 5]"]
-    #[doc = " [Ln 2365, Col 5]"]
-    #[doc = " [Ln 2366, Col 5]"]
     #[doc = " [Ln 2367, Col 5]"]
     #[doc = " [Ln 2368, Col 5]"]
     #[doc = " [Ln 2369, Col 5]"]
+    #[doc = " [Ln 2370, Col 5]"]
+    #[doc = " [Ln 2371, Col 5]"]
+    #[doc = " [Ln 2372, Col 5]"]
     pub dy: Option<variable::Variable<Vec<Length>>>,
-    #[doc = " [Ln 2373, Col 5]"]
-    #[doc = " [Ln 2374, Col 5]"]
-    #[doc = " [Ln 2375, Col 5]"]
     #[doc = " [Ln 2376, Col 5]"]
     #[doc = " [Ln 2377, Col 5]"]
     #[doc = " [Ln 2378, Col 5]"]
+    #[doc = " [Ln 2379, Col 5]"]
+    #[doc = " [Ln 2380, Col 5]"]
+    #[doc = " [Ln 2381, Col 5]"]
     pub rotate: Option<variable::Variable<Vec<Angle>>>,
-    #[doc = " [Ln 2382, Col 5]"]
-    #[doc = " [Ln 2383, Col 5]"]
-    #[doc = " [Ln 2384, Col 5]"]
     #[doc = " [Ln 2385, Col 5]"]
     #[doc = " [Ln 2386, Col 5]"]
     #[doc = " [Ln 2387, Col 5]"]
@@ -2486,10 +2483,10 @@ pub struct Text {
     #[doc = " [Ln 2394, Col 5]"]
     #[doc = " [Ln 2395, Col 5]"]
     #[doc = " [Ln 2396, Col 5]"]
+    #[doc = " [Ln 2397, Col 5]"]
+    #[doc = " [Ln 2398, Col 5]"]
+    #[doc = " [Ln 2399, Col 5]"]
     pub text_length: Option<variable::Variable<Vec<Length>>>,
-    #[doc = " [Ln 2400, Col 5]"]
-    #[doc = " [Ln 2401, Col 5]"]
-    #[doc = " [Ln 2402, Col 5]"]
     #[doc = " [Ln 2403, Col 5]"]
     #[doc = " [Ln 2404, Col 5]"]
     #[doc = " [Ln 2405, Col 5]"]
@@ -2499,17 +2496,17 @@ pub struct Text {
     #[doc = " [Ln 2409, Col 5]"]
     #[doc = " [Ln 2410, Col 5]"]
     #[doc = " [Ln 2411, Col 5]"]
+    #[doc = " [Ln 2412, Col 5]"]
+    #[doc = " [Ln 2413, Col 5]"]
+    #[doc = " [Ln 2414, Col 5]"]
     pub length_adjust: Option<variable::Variable<TextLengthAdjust>>,
 }
-#[doc = " [Ln 2421, Col 1]"]
-#[doc = " [Ln 2422, Col 1]"]
-#[doc = " [Ln 2423, Col 1]"]
+#[doc = " [Ln 2424, Col 1]"]
+#[doc = " [Ln 2425, Col 1]"]
+#[doc = " [Ln 2426, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct TextSpan {
-    #[doc = " [Ln 2334, Col 5]"]
-    #[doc = " [Ln 2335, Col 5]"]
-    #[doc = " [Ln 2336, Col 5]"]
     #[doc = " [Ln 2337, Col 5]"]
     #[doc = " [Ln 2338, Col 5]"]
     #[doc = " [Ln 2339, Col 5]"]
@@ -2518,36 +2515,36 @@ pub struct TextSpan {
     #[doc = " [Ln 2342, Col 5]"]
     #[doc = " [Ln 2343, Col 5]"]
     #[doc = " [Ln 2344, Col 5]"]
+    #[doc = " [Ln 2345, Col 5]"]
+    #[doc = " [Ln 2346, Col 5]"]
+    #[doc = " [Ln 2347, Col 5]"]
     pub x: Option<variable::Variable<Vec<Length>>>,
-    #[doc = " [Ln 2348, Col 5]"]
-    #[doc = " [Ln 2349, Col 5]"]
-    #[doc = " [Ln 2350, Col 5]"]
     #[doc = " [Ln 2351, Col 5]"]
+    #[doc = " [Ln 2352, Col 5]"]
+    #[doc = " [Ln 2353, Col 5]"]
+    #[doc = " [Ln 2354, Col 5]"]
     pub y: Option<variable::Variable<Vec<Length>>>,
-    #[doc = " [Ln 2355, Col 5]"]
-    #[doc = " [Ln 2356, Col 5]"]
-    #[doc = " [Ln 2357, Col 5]"]
     #[doc = " [Ln 2358, Col 5]"]
     #[doc = " [Ln 2359, Col 5]"]
     #[doc = " [Ln 2360, Col 5]"]
+    #[doc = " [Ln 2361, Col 5]"]
+    #[doc = " [Ln 2362, Col 5]"]
+    #[doc = " [Ln 2363, Col 5]"]
     pub dx: Option<variable::Variable<Vec<Length>>>,
-    #[doc = " [Ln 2364, Col 5]"]
-    #[doc = " [Ln 2365, Col 5]"]
-    #[doc = " [Ln 2366, Col 5]"]
     #[doc = " [Ln 2367, Col 5]"]
     #[doc = " [Ln 2368, Col 5]"]
     #[doc = " [Ln 2369, Col 5]"]
+    #[doc = " [Ln 2370, Col 5]"]
+    #[doc = " [Ln 2371, Col 5]"]
+    #[doc = " [Ln 2372, Col 5]"]
     pub dy: Option<variable::Variable<Vec<Length>>>,
-    #[doc = " [Ln 2373, Col 5]"]
-    #[doc = " [Ln 2374, Col 5]"]
-    #[doc = " [Ln 2375, Col 5]"]
     #[doc = " [Ln 2376, Col 5]"]
     #[doc = " [Ln 2377, Col 5]"]
     #[doc = " [Ln 2378, Col 5]"]
+    #[doc = " [Ln 2379, Col 5]"]
+    #[doc = " [Ln 2380, Col 5]"]
+    #[doc = " [Ln 2381, Col 5]"]
     pub rotate: Option<variable::Variable<Vec<Angle>>>,
-    #[doc = " [Ln 2382, Col 5]"]
-    #[doc = " [Ln 2383, Col 5]"]
-    #[doc = " [Ln 2384, Col 5]"]
     #[doc = " [Ln 2385, Col 5]"]
     #[doc = " [Ln 2386, Col 5]"]
     #[doc = " [Ln 2387, Col 5]"]
@@ -2560,10 +2557,10 @@ pub struct TextSpan {
     #[doc = " [Ln 2394, Col 5]"]
     #[doc = " [Ln 2395, Col 5]"]
     #[doc = " [Ln 2396, Col 5]"]
+    #[doc = " [Ln 2397, Col 5]"]
+    #[doc = " [Ln 2398, Col 5]"]
+    #[doc = " [Ln 2399, Col 5]"]
     pub text_length: Option<variable::Variable<Vec<Length>>>,
-    #[doc = " [Ln 2400, Col 5]"]
-    #[doc = " [Ln 2401, Col 5]"]
-    #[doc = " [Ln 2402, Col 5]"]
     #[doc = " [Ln 2403, Col 5]"]
     #[doc = " [Ln 2404, Col 5]"]
     #[doc = " [Ln 2405, Col 5]"]
@@ -2573,22 +2570,22 @@ pub struct TextSpan {
     #[doc = " [Ln 2409, Col 5]"]
     #[doc = " [Ln 2410, Col 5]"]
     #[doc = " [Ln 2411, Col 5]"]
+    #[doc = " [Ln 2412, Col 5]"]
+    #[doc = " [Ln 2413, Col 5]"]
+    #[doc = " [Ln 2414, Col 5]"]
     pub length_adjust: Option<variable::Variable<TextLengthAdjust>>,
 }
-#[doc = " [Ln 2427, Col 1]"]
+#[doc = " [Ln 2430, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Characters(pub String);
-#[doc = " [Ln 2430, Col 1]"]
-#[doc = " [Ln 2431, Col 1]"]
-#[doc = " [Ln 2432, Col 1]"]
 #[doc = " [Ln 2433, Col 1]"]
+#[doc = " [Ln 2434, Col 1]"]
+#[doc = " [Ln 2435, Col 1]"]
+#[doc = " [Ln 2436, Col 1]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct TextPath {
-    #[doc = " [Ln 2435, Col 5]"]
-    #[doc = " [Ln 2436, Col 5]"]
-    #[doc = " [Ln 2437, Col 5]"]
     #[doc = " [Ln 2438, Col 5]"]
     #[doc = " [Ln 2439, Col 5]"]
     #[doc = " [Ln 2440, Col 5]"]
@@ -2599,14 +2596,17 @@ pub struct TextPath {
     #[doc = " [Ln 2445, Col 5]"]
     #[doc = " [Ln 2446, Col 5]"]
     #[doc = " [Ln 2447, Col 5]"]
+    #[doc = " [Ln 2448, Col 5]"]
+    #[doc = " [Ln 2449, Col 5]"]
+    #[doc = " [Ln 2450, Col 5]"]
     pub start_offset: Option<variable::Variable<Length>>,
-    #[doc = " [Ln 2451, Col 5]"]
+    #[doc = " [Ln 2454, Col 5]"]
     pub method: Option<variable::Variable<TextPathMethod>>,
-    #[doc = " [Ln 2455, Col 5]"]
+    #[doc = " [Ln 2458, Col 5]"]
     pub spacing: Option<variable::Variable<TextPathSpacing>>,
-    #[doc = " [Ln 2459, Col 5]"]
-    #[doc = " [Ln 2460, Col 5]"]
-    #[doc = " [Ln 2461, Col 5]"]
+    #[doc = " [Ln 2462, Col 5]"]
+    #[doc = " [Ln 2463, Col 5]"]
+    #[doc = " [Ln 2464, Col 5]"]
     pub href: variable::Variable<Iri>,
 }
 #[derive(Debug, PartialEq, PartialOrd, Clone)]

@@ -183,12 +183,15 @@ enum Color {
 /// A color represents with read,green and blue components.
 data Rgb(ubyte,ubyte,ubyte);
 
-data Iri(string);
+enum Iri {
+    Local(FuncIri),
+    Path(string),
+}
 
 /// Functional notation for a reference. The syntax for this reference is the same as the [`CSS URI`].
 ///
 /// [`CSS URI`]: https://developer.mozilla.org/en-US/docs/Web/CSS/url_value
-enum FuncIri { Iri(Iri), Path(string) }
+data FuncIri(string);
 
 /// A 2d coordinate point.
 data Point(float,float);
@@ -853,7 +856,7 @@ attr Fill {
     /// paints color.
     ///
     /// `Inherited: yes`
-    #[option,init]
+    #[option]
     paint: Paint,
 
     /// fill painting rule, see [`FillRule`] for more information.

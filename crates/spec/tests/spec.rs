@@ -5,10 +5,10 @@ use vglang_spec::run_spec;
 
 #[test]
 fn test_spec() {
-    run_spec(write_opcodes);
+    run_spec(write_json);
 }
 
-fn write_opcodes(catalog: &str, case: &str, source: Source<'_>) {
+fn write_json(catalog: &str, case: &str, source: Source<'_>) {
     let path: &Path = env!("CARGO_MANIFEST_DIR").as_ref();
 
     let output_dir = path.join("spec").join(catalog);

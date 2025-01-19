@@ -58,10 +58,10 @@ impl Node {
         for field in self.fields.iter() {
             if !field.is_option() {
                 let param_type = format!("P{}", generic_index).parse().unwrap();
-                let param = if let Some(ident) = field.gen_ident() {
-                    ident
+                let param = if non_options > 1 {
+                    format!("value.{}", generic_index).parse().unwrap()
                 } else {
-                    format!("p{}", generic_index).parse().unwrap()
+                    quote! { value }
                 };
 
                 let from_expr = field.ty().gen_from_expr(&sexpr_mod, &param);
@@ -73,7 +73,7 @@ impl Node {
                     &sexpr_mod,
                     &param_type,
                 ));
-                generics.push((param_type, param));
+                generics.push(param_type);
                 generic_index += 1;
             } else {
                 fields.push(field.gen_init_none());
@@ -82,16 +82,29 @@ impl Node {
 
         let body = self.gen_body_expr(fields);
 
-        let impl_generics = generics.iter().map(|(ty, _)| ty).collect::<Vec<_>>();
-
-        let params = generics
-            .iter()
-            .map(|(ty, param)| quote! { #param: #ty})
-            .collect::<Vec<_>>();
+        let (impl_generics, generics) = if generics.len() > 1 {
+            (
+                quote! {
+                    <#(#generics),*>
+                },
+                quote! {
+                    (#(#generics),*)
+                },
+            )
+        } else {
+            (
+                quote! {
+                    <#(#generics),*>
+                },
+                quote! {
+                    #(#generics),*
+                },
+            )
+        };
 
         quote! {
-            impl #ident {
-                pub fn new<#(#impl_generics),*>(#(#params),*) -> Self where #(#where_clauses),* {
+            impl #impl_generics From<#generics> for #ident where #(#where_clauses),* {
+                fn from(value: #generics) -> Self {
                     Self # body
                 }
             }
@@ -603,6 +616,10 @@ impl SexprModGen {
     }
 
     fn gen_map_collect_impls(&self) -> Vec<TokenStream> {
+        let opcode_mod = &self.opcode_mod;
+
+        let skip = quote! { #opcode_mod Point }.to_string();
+
         let sexpr_mod = quote! {};
         let mut impls = vec![];
         for (_, ty) in &self.map_collect_types {
@@ -612,6 +629,10 @@ impl SexprModGen {
                 let mut param_types = vec![];
                 let mut where_clauses = vec![];
                 let mut fields = vec![];
+
+                if ty_ident.to_string() == skip && len == 2 {
+                    continue;
+                }
 
                 for i in 0..len {
                     let param_type: TokenStream = format!("P{}", i).parse().unwrap();
