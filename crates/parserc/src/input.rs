@@ -137,7 +137,7 @@ impl<'a> From<&'a str> for ParseContext<'a> {
 impl<'a> ParseContext<'a> {
     /// Report a new error.
     #[inline(always)]
-    pub fn on_fatal<E, S>(&mut self, error: E, span: S)
+    pub fn report_err<E, S>(&mut self, error: E, span: S)
     where
         anyhow::Error: From<E>,
         Span: From<S>,

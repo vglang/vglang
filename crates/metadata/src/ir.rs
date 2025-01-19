@@ -62,7 +62,7 @@ pub struct CallExpr {
 pub struct Property {
     pub span: Span,
     /// call-expr list.
-    pub params: Vec<CallExpr>,
+    pub calls: Vec<CallExpr>,
 }
 
 /// Defines a `type` of one field.
@@ -310,7 +310,7 @@ impl<'a> Field<'a> {
 
     pub fn is_option(&self) -> bool {
         for property in self.properties() {
-            for callexpr in &property.params {
+            for callexpr in &property.calls {
                 if callexpr.target.1 == "option" {
                     return true;
                 }
@@ -322,7 +322,7 @@ impl<'a> Field<'a> {
 
     pub fn is_variable(&self) -> bool {
         for property in self.properties() {
-            for callexpr in &property.params {
+            for callexpr in &property.calls {
                 if callexpr.target.1 == "variable" {
                     return true;
                 }
@@ -334,7 +334,7 @@ impl<'a> Field<'a> {
 
     pub fn is_init_field(&self) -> bool {
         for property in self.properties() {
-            for callexpr in &property.params {
+            for callexpr in &property.calls {
                 if callexpr.target.1 == "init" {
                     return true;
                 }
@@ -384,7 +384,7 @@ impl Node {
     /// Returns the replacement xml display name.
     pub fn xml_name(&self) -> Option<&str> {
         for prop in &self.properties {
-            for param in &prop.params {
+            for param in &prop.calls {
                 if param.target.1 == "xml" {
                     return param.params.first().map(|v| v.1.as_str());
                 }

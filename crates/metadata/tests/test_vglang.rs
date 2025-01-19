@@ -1,15 +1,22 @@
 use parserc::{ParseContext, PrintReport};
-use vglang_metadata::parser::parse;
+use vglang_metadata::{analyzer::semantic_analyze, parser::parse};
 
 #[test]
 fn test_vglang() {
-    let mut input = ParseContext::from(include_str!("../../vglang/vglang.ml"));
+    let mut ctx = ParseContext::from(include_str!("../../vglang/vglang.ml"));
 
-    let mut _opcodes = match parse(&mut input) {
+    let mut opcodes = match parse(&mut ctx) {
         Ok(opcodes) => opcodes,
         Err(err) => {
-            input.report().print_reports();
+            ctx.report().print_reports();
             panic!("{}", err);
         }
     };
+
+    semantic_analyze(&mut opcodes, &mut ctx);
+
+    if ctx.report_size() > 0 {
+        ctx.report().print_reports();
+        panic!("semantic analyze error");
+    }
 }

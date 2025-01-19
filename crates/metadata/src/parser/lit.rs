@@ -17,7 +17,7 @@ impl FromSrc for LitUint {
             let body = take_while(|c| c.is_ascii_hexdigit())
                 .parse(ctx)?
                 .ok_or_else(|| {
-                    ctx.on_fatal(ParseError::Uint(UnitKind::MissBody), start);
+                    ctx.report_err(ParseError::Uint(UnitKind::MissBody), start);
                     ControlFlow::Fatal
                 })?;
 
@@ -37,7 +37,7 @@ impl FromSrc for LitUint {
         let span = take_while(|c| c.is_ascii_digit())
             .parse(ctx)?
             .ok_or_else(|| {
-                ctx.on_fatal(ParseError::Uint(UnitKind::MissBody), start);
+                ctx.report_err(ParseError::Uint(UnitKind::MissBody), start);
                 ControlFlow::Fatal
             })?;
 

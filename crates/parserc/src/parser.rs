@@ -105,7 +105,7 @@ where
     fn parse(self, ctx: &mut ParseContext<'_>) -> Result<Self::Output> {
         match self.0.parse(ctx) {
             Err(ControlFlow::Incomplete) | Err(ControlFlow::Recoverable) => {
-                ctx.on_fatal(self.1, self.2);
+                ctx.report_err(self.1, self.2);
                 return Err(ControlFlow::Fatal);
             }
             r => return r,
@@ -261,7 +261,7 @@ where
         match self.0.parse(ctx) {
             Ok(Some(v)) => return Ok(v),
             Ok(_) => {
-                ctx.on_fatal(self.1, self.2);
+                ctx.report_err(self.1, self.2);
                 return Err(ControlFlow::Fatal);
             }
             Err(c) => {

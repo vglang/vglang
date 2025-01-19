@@ -160,7 +160,7 @@ mod tests {
                     comments: vec![],
                     properties: vec![Property {
                         span: Span::new(17, 22, 2, 1),
-                        params: vec![
+                        calls: vec![
                             CallExpr {
                                 span: Span::new(19, 6, 2, 3),
                                 target: Ident(Span::new(19, 6, 2, 3), "option".to_string()),

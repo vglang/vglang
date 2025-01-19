@@ -76,7 +76,7 @@ impl FromSrc for Property {
 
         Ok(Self {
             span: start.extend_to_inclusive(end),
-            params,
+            calls: params,
         })
     }
 }
@@ -93,7 +93,7 @@ mod tests {
             Property::parse(&mut ParseContext::from("#[hello]")),
             Ok(Property {
                 span: Span::new(0, 8, 1, 1),
-                params: vec![CallExpr {
+                calls: vec![CallExpr {
                     span: Span::new(2, 5, 1, 3),
                     target: Ident(Span::new(2, 5, 1, 3), "hello".to_string()),
                     params: vec![]
@@ -107,7 +107,7 @@ mod tests {
             )),
             Ok(Property {
                 span: Span::new(0, 45, 1, 1),
-                params: vec![
+                calls: vec![
                     CallExpr {
                         span: Span::new(2, 20, 1, 3),
                         target: Ident(Span::new(2, 5, 1, 3), "hello".to_string()),
