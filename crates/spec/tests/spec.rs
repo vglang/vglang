@@ -9,7 +9,7 @@ use vglang_spec::run_spec;
 
 #[test]
 fn test_spec() {
-    // run_spec(write_json);
+    run_spec(write_json);
     run_spec(write_svg);
 }
 

@@ -387,6 +387,9 @@ impl SvgAttrsWriter for super::opcode::Id {
         C: SvgContext<Error = E>,
         Node: SvgNode<Error = E>,
     {
+        let value = &self.0;
+        let value = value.to_svg_attr_value();
+        node.set_svg_attr("id", &value)?;
         Ok(())
     }
 }
@@ -530,32 +533,6 @@ impl SvgAttrsWriter for super::opcode::Opacity {
         Ok(())
     }
 }
-impl SvgAttrsWriter for super::opcode::ViewBox {
-    #[allow(unused)]
-    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
-    where
-        C: SvgContext<Error = E>,
-        Node: SvgNode<Error = E>,
-    {
-        let value = &self.minx;
-        let value = ctx.valueof(&value)?.to_svg_attr_value();
-        node.set_svg_attr("minx", &value)?;
-        let value = &self.miny;
-        let value = ctx.valueof(&value)?.to_svg_attr_value();
-        node.set_svg_attr("miny", &value)?;
-        let value = &self.width;
-        let value = ctx.valueof(&value)?.to_svg_attr_value();
-        node.set_svg_attr("width", &value)?;
-        let value = &self.height;
-        let value = ctx.valueof(&value)?.to_svg_attr_value();
-        node.set_svg_attr("height", &value)?;
-        if let Some(value) = &self.aspect {
-            let value = ctx.valueof(&value)?.to_svg_attr_value();
-            node.set_svg_attr("aspect", &value)?;
-        }
-        Ok(())
-    }
-}
 impl SvgAttrsWriter for super::opcode::Canvas {
     #[allow(unused)]
     fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
@@ -574,7 +551,7 @@ impl SvgAttrsWriter for super::opcode::Canvas {
 }
 impl SvgNodeWriter for super::opcode::Canvas {
     fn to_svg_node_name(&self) -> &str {
-        "canvas"
+        "svg"
     }
 }
 impl SvgAttrsWriter for super::opcode::Mask {

@@ -756,6 +756,7 @@ enum MeetOrSlice {
 /// that uniform scaling be used for the purposes of preserving
 /// the aspect ratio of the graphics.
 enum PreserveAspectRatio {
+    None,
     /// Force uniform scaling
     ///
     /// Align the `<min-x>` of the element's ‘viewBox’ with the smallest X value of the viewport.
@@ -855,7 +856,7 @@ attr WithTransform(
 );
 
 /// Define a fragment with name.
-attr Id(string);
+attr Id(#[xml("id")] string);
 
 /// The ‘fill’ instruction paints the interior of the given graphical element.
 attr Fill {
@@ -962,6 +963,7 @@ attr Opacity(float);
 
 /// It is often desirable to specify that a given set of graphics stretch to fit a particular container element.
 /// The ‘viewBox’ attribute provides this capability.
+#[xml_skip]
 attr ViewBox {
     /// ViewBox left-top x coordinate,
     #[variable]
@@ -1024,6 +1026,7 @@ mixin FePrimitive {
 }
 
 /// Create a new layer into which the backend render child elements.
+#[xml("svg")]
 el Canvas {
     /// a number (usually an integer) that represents the width of the rendering layer.
     #[variable]

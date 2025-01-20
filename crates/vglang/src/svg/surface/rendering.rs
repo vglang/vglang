@@ -1,39 +1,16 @@
+use std::collections::HashMap;
+
+use xml_builder::{XMLBuilder, XMLElement, XMLVersion, XML};
+
 use crate::{
-    codegen::svg::*,
+    codegen::svg::{SvgAttrsWriter, SvgContext, SvgNode, SvgNodeWriter},
     opcode::{
         variable::{self, Target, Variable},
-        Attr, Path,
+        Attr, Data, Element, Leaf, Opcode,
     },
-    surface::{Source, Surface},
 };
 
-use std::{collections::HashMap, future::Future, pin::Pin};
-
-use crate::{
-    opcode::{Data, Element, Leaf, Opcode},
-    surface::Program,
-};
-use xml_builder::{XMLBuilder, XMLElement, XMLError, XMLVersion, XML};
-
-/// Error raised by this crate.
-#[derive(Debug, thiserror::Error)]
-pub enum SvgRenderingError {
-    #[error(transparent)]
-    XmlError(#[from] XMLError),
-    #[error("Root viewport is missing.")]
-    RootViewPort,
-    #[error("Pop up the wrong {0} elements.")]
-    Pop(usize),
-
-    #[error("Unsatisfied register name")]
-    Register(String),
-
-    #[error("variable({0}) cast error. ")]
-    VariableCast(String),
-
-    #[error(transparent)]
-    FormatError(#[from] std::fmt::Error),
-}
+use super::SvgRenderingError;
 
 impl SvgNode for XMLElement {
     type Error = SvgRenderingError;
@@ -44,44 +21,13 @@ impl SvgNode for XMLElement {
     }
 }
 
-impl SvgAttrsWriter for Path {
-    fn write_svg_attrs<C, Node, E>(&self, _: &C, _: &mut Node) -> Result<(), Node::Error>
-    where
-        C: SvgContext<Error = E>,
-        Node: SvgNode<Error = E>,
-    {
-        Ok(())
-    }
-}
-
-impl SvgNodeWriter for Path {
-    fn to_svg_node_name(&self) -> &str {
-        "path"
-    }
-}
-
 /// A program render vglang into svg image.
-pub struct SvgRenderer(Vec<Opcode>);
+pub struct SvgRenderer(pub(super) Vec<Opcode>);
 
 impl SvgRenderer {
     /// Create a new [`SvgRenderer`] instance with `opcodes`.
     pub fn new(opcodes: Vec<Opcode>) -> Self {
         Self(opcodes)
-    }
-}
-
-impl Program for SvgRenderer {
-    type Output = Vec<u8>;
-
-    type Error = SvgRenderingError;
-
-    type Run<'a>
-        = Pin<Box<dyn Future<Output = Result<Self::Output, Self::Error>> + 'a>>
-    where
-        Self: 'a;
-
-    fn run<'a>(&'a self, registers: &'a std::collections::HashMap<String, Data>) -> Self::Run<'a> {
-        Box::pin(async move { SvgRendering::new(&self.0, registers).render() })
     }
 }
 
@@ -116,7 +62,7 @@ impl<'a> SvgContext for SvgRenderingContext<'a> {
     }
 }
 
-struct SvgRendering<'a> {
+pub struct SvgRendering<'a> {
     /// rendering opcodes.
     opcodes: &'a [Opcode],
     /// The associated register values.
@@ -132,7 +78,8 @@ struct SvgRendering<'a> {
 }
 
 impl<'a> SvgRendering<'a> {
-    fn new(opcodes: &'a [Opcode], registers: &'a HashMap<String, Data>) -> Self {
+    /// Create a new svg rendering instance.
+    pub fn new(opcodes: &'a [Opcode], registers: &'a HashMap<String, Data>) -> Self {
         Self {
             opcodes,
             context: SvgRenderingContext(registers),
@@ -146,7 +93,10 @@ impl<'a> SvgRendering<'a> {
         }
     }
 
-    fn render(mut self) -> Result<Vec<u8>, SvgRenderingError> {
+    /// Calls the real rendering process.
+    pub fn render(mut self) -> Result<Vec<u8>, SvgRenderingError> {
+        let mut els = 0;
+        let mut pops = 0;
         for (idx, opcode) in self.opcodes.iter().enumerate() {
             match opcode {
                 Opcode::Apply(_) => self.attrs += 1,
@@ -168,10 +118,13 @@ impl<'a> SvgRendering<'a> {
                         Element::ClipPath(el) => self.render_element(el),
                         Element::TextPath(el) => self.render_element(el),
                     }
-
+                    els += 1;
                     self.apply_attrs(idx);
                 }
-                Opcode::Pop => self.pop()?,
+                Opcode::Pop => {
+                    pops += 1;
+                    self.pop()?
+                }
                 Opcode::Leaf(shape) => {
                     match shape {
                         Leaf::Use(el) => self.render_element(el),
@@ -219,6 +172,8 @@ impl<'a> SvgRendering<'a> {
                 }
             }
         }
+
+        assert_eq!(pops, els);
 
         let mut writer: Vec<u8> = Vec::new();
         self.document.generate(&mut writer)?;
@@ -277,7 +232,7 @@ impl<'a> SvgRendering<'a> {
         let element = self.els.pop().expect("el stack.");
         let defs = self.defs.pop().expect("defs pop.");
 
-        let element = if defs {
+        let mut element = if defs {
             let mut defs = XMLElement::new("defs");
             defs.add_child(element)?;
             defs
@@ -288,34 +243,11 @@ impl<'a> SvgRendering<'a> {
         if let Some(last) = self.els.last_mut() {
             last.add_child(element)?;
         } else {
+            element.add_attribute("xmlns", "http://www.w3.org/2000/svg");
+            element.add_attribute("version", "1.1");
             self.document.set_root_element(element);
         }
 
         Ok(())
-    }
-}
-
-/// A svg rendering target implementation for vglang.
-pub struct Svg;
-
-impl Surface for Svg {
-    type Program = SvgRenderer;
-
-    type Error = SvgRenderingError;
-
-    type Build<'a>
-        = Pin<Box<dyn Future<Output = Result<Self::Program, Self::Error>> + 'a>>
-    where
-        Self: 'a;
-
-    fn build(&self, source: Source<'_>) -> Self::Build<'_> {
-        match source {
-            Source::Opcode(cow) => {
-                let render = SvgRenderer::new(cow.to_vec());
-
-                Box::pin(async move { Ok(render) })
-            }
-            _ => Box::pin(async move { unimplemented!("compile source(Vgl)") }),
-        }
     }
 }

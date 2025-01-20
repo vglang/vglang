@@ -696,6 +696,11 @@ impl SexprModGen {
                 fn build(self, builder: &mut BuildContext);
             }
 
+            pub trait ElementGraphics: Graphics {
+                /// Generate `Stat`s for specific surface.
+                fn build_element(self, builder: &mut BuildContext);
+            }
+
             /// build context used by [`Graphics`] trait.
             #[derive(Debug, Default)]
             pub struct BuildContext(Vec<#opcode_mod Opcode>);
@@ -799,12 +804,12 @@ impl SexprModGen {
             impl<Attrs, Node, Children> Graphics for ApplyElementChildren<Attrs, Node, Children>
             where
                 Attrs: ApplyTo<Node> + Graphics,
-                Node: Graphics,
+                Node: ElementGraphics,
                 Children: Graphics,
             {
                 fn build(self, builder: &mut BuildContext) {
                     self.attrs.build(builder);
-                    self.node.build(builder);
+                    self.node.build_element(builder);
                     self.children.build(builder);
                     builder.pop();
                 }
@@ -835,11 +840,11 @@ impl SexprModGen {
 
             impl<Node, Children> Graphics for ElementChildren<Node, Children>
             where
-                Node: Graphics,
+                Node: ElementGraphics,
                 Children: Graphics,
             {
                 fn build(self, builder: &mut BuildContext) {
-                    self.node.build(builder);
+                    self.node.build_element(builder);
                     self.children.build(builder);
                     builder.pop();
                 }
@@ -881,6 +886,13 @@ impl SexprModGen {
                 quote! {
                     impl Graphics for #opcode_mod #ident {
                         fn build(self, builder: &mut BuildContext) {
+                            builder.push(#opcode_mod Element::from(self));
+                            builder.pop();
+                        }
+                    }
+
+                    impl ElementGraphics for #opcode_mod #ident {
+                        fn build_element(self, builder: &mut BuildContext) {
                             builder.push(#opcode_mod Element::from(self));
                         }
                     }

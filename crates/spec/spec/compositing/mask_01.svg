@@ -1,0 +1,20 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<svg width="" height="" viewbox="0 0 800 300" xmlns="http://www.w3.org/2000/svg" version="1.1">
+	<defs>
+		<linearGradient units="" x1="" y1="" x2="" y2="" id="Gradient">
+			<gradientStop offset="0" color="" opacity="0" />
+			<gradientStop offset="1" color="" opacity="1" />
+		</linearGradient>
+	</defs>
+	<defs>
+		<mask units="" x="" y="" width="" height="" id="Mask">
+			<rect x="" y="" width="" height="" paint="" />
+		</mask>
+	</defs>
+	<defs>
+		<text x="" y="" id="Text" family="" size="" />
+	</defs>
+	<rect x="" y="" width="" height="" paint="" />
+	<use paint="" />
+	<use paint="" width="" />
+</svg>
