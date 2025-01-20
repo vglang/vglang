@@ -338,7 +338,8 @@
         "linecap": null,
         "linejoin": null,
         "dasharray": null,
-        "dashoffset": null
+        "dashoffset": null,
+        "opacity": null
       }
     }
   },

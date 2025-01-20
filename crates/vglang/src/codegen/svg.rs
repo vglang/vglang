@@ -114,7 +114,155 @@ impl SvgAttrValueWriter for super::opcode::Angle {
 }
 impl SvgAttrValueWriter for super::opcode::Color {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        match self {
+            Self::Aliceblue => "aliceblue".to_string(),
+            Self::Antiquewhite => "antiquewhite".to_string(),
+            Self::Aqua => "aqua".to_string(),
+            Self::Aquamarine => "aquamarine".to_string(),
+            Self::Azure => "azure".to_string(),
+            Self::Beige => "beige".to_string(),
+            Self::Bisque => "bisque".to_string(),
+            Self::Black => "black".to_string(),
+            Self::Blanchedalmond => "blanchedalmond".to_string(),
+            Self::Blue => "blue".to_string(),
+            Self::Blueviolet => "blueviolet".to_string(),
+            Self::Brown => "brown".to_string(),
+            Self::Burlywood => "burlywood".to_string(),
+            Self::Cadetblue => "cadetblue".to_string(),
+            Self::Chartreuse => "chartreuse".to_string(),
+            Self::Chocolate => "chocolate".to_string(),
+            Self::Coral => "coral".to_string(),
+            Self::Cornflowerblue => "cornflowerblue".to_string(),
+            Self::Cornsilk => "cornsilk".to_string(),
+            Self::Crimson => "crimson".to_string(),
+            Self::Cyan => "cyan".to_string(),
+            Self::Darkblue => "darkblue".to_string(),
+            Self::Darkcyan => "darkcyan".to_string(),
+            Self::Darkgoldenrod => "darkgoldenrod".to_string(),
+            Self::Darkgray => "darkgray".to_string(),
+            Self::Darkgreen => "darkgreen".to_string(),
+            Self::Darkgrey => "darkgrey".to_string(),
+            Self::Darkkhaki => "darkkhaki".to_string(),
+            Self::Darkmagenta => "darkmagenta".to_string(),
+            Self::Darkolivegreen => "darkolivegreen".to_string(),
+            Self::Darkorange => "darkorange".to_string(),
+            Self::Darkorchid => "darkorchid".to_string(),
+            Self::Darkred => "darkred".to_string(),
+            Self::Darksalmon => "darksalmon".to_string(),
+            Self::Darkseagreen => "darkseagreen".to_string(),
+            Self::Darkslateblue => "darkslateblue".to_string(),
+            Self::Darkslategray => "darkslategray".to_string(),
+            Self::Darkslategrey => "darkslategrey".to_string(),
+            Self::Darkturquoise => "darkturquoise".to_string(),
+            Self::Darkviolet => "darkviolet".to_string(),
+            Self::Deeppink => "deeppink".to_string(),
+            Self::Deepskyblue => "deepskyblue".to_string(),
+            Self::Dimgray => "dimgray".to_string(),
+            Self::Dimgrey => "dimgrey".to_string(),
+            Self::Dodgerblue => "dodgerblue".to_string(),
+            Self::Firebrick => "firebrick".to_string(),
+            Self::Floralwhite => "floralwhite".to_string(),
+            Self::Forestgreen => "forestgreen".to_string(),
+            Self::Fuchsia => "fuchsia".to_string(),
+            Self::Gainsboro => "gainsboro".to_string(),
+            Self::Ghostwhite => "ghostwhite".to_string(),
+            Self::Gold => "gold".to_string(),
+            Self::Goldenrod => "goldenrod".to_string(),
+            Self::Gray => "gray".to_string(),
+            Self::Grey => "grey".to_string(),
+            Self::Green => "green".to_string(),
+            Self::Greenyellow => "greenyellow".to_string(),
+            Self::Honeydew => "honeydew".to_string(),
+            Self::Hotpink => "hotpink".to_string(),
+            Self::Indianred => "indianred".to_string(),
+            Self::Indigo => "indigo".to_string(),
+            Self::Ivory => "ivory".to_string(),
+            Self::Khaki => "khaki".to_string(),
+            Self::Lavender => "lavender".to_string(),
+            Self::Lavenderblush => "lavenderblush".to_string(),
+            Self::Lawngreen => "lawngreen".to_string(),
+            Self::Lemonchiffon => "lemonchiffon".to_string(),
+            Self::Lightblue => "lightblue".to_string(),
+            Self::Lightcoral => "lightcoral".to_string(),
+            Self::Lightcyan => "lightcyan".to_string(),
+            Self::Lightgoldenrodyellow => "lightgoldenrodyellow".to_string(),
+            Self::Lightgray => "lightgray".to_string(),
+            Self::Lightgreen => "lightgreen".to_string(),
+            Self::Lightgrey => "lightgrey".to_string(),
+            Self::Lightpink => "lightpink".to_string(),
+            Self::Lightsalmon => "lightsalmon".to_string(),
+            Self::Lightseagreen => "lightseagreen".to_string(),
+            Self::Lightskyblue => "lightskyblue".to_string(),
+            Self::Lightslategray => "lightslategray".to_string(),
+            Self::Lightslategrey => "lightslategrey".to_string(),
+            Self::Lightsteelblue => "lightsteelblue".to_string(),
+            Self::Lightyellow => "lightyellow".to_string(),
+            Self::Lime => "lime".to_string(),
+            Self::Limegreen => "limegreen".to_string(),
+            Self::Linen => "linen".to_string(),
+            Self::Magenta => "magenta".to_string(),
+            Self::Maroon => "maroon".to_string(),
+            Self::Mediumaquamarine => "mediumaquamarine".to_string(),
+            Self::Mediumblue => "mediumblue".to_string(),
+            Self::Mediumorchid => "mediumorchid".to_string(),
+            Self::Mediumpurple => "mediumpurple".to_string(),
+            Self::Mediumseagreen => "mediumseagreen".to_string(),
+            Self::Mediumslateblue => "mediumslateblue".to_string(),
+            Self::Mediumspringgreen => "mediumspringgreen".to_string(),
+            Self::Mediumturquoise => "mediumturquoise".to_string(),
+            Self::Mediumvioletred => "mediumvioletred".to_string(),
+            Self::Midnightblue => "midnightblue".to_string(),
+            Self::Mintcream => "mintcream".to_string(),
+            Self::Mistyrose => "mistyrose".to_string(),
+            Self::Moccasin => "moccasin".to_string(),
+            Self::Navajowhite => "navajowhite".to_string(),
+            Self::Navy => "navy".to_string(),
+            Self::Oldlace => "oldlace".to_string(),
+            Self::Olive => "olive".to_string(),
+            Self::Olivedrab => "olivedrab".to_string(),
+            Self::Orange => "orange".to_string(),
+            Self::Orangered => "orangered".to_string(),
+            Self::Orchid => "orchid".to_string(),
+            Self::Palegoldenrod => "palegoldenrod".to_string(),
+            Self::Palegreen => "palegreen".to_string(),
+            Self::Paleturquoise => "paleturquoise".to_string(),
+            Self::Palevioletred => "palevioletred".to_string(),
+            Self::Papayawhip => "papayawhip".to_string(),
+            Self::Peachpuff => "peachpuff".to_string(),
+            Self::Peru => "peru".to_string(),
+            Self::Pink => "pink".to_string(),
+            Self::Plum => "plum".to_string(),
+            Self::Powderblue => "powderblue".to_string(),
+            Self::Purple => "purple".to_string(),
+            Self::Red => "red".to_string(),
+            Self::Rosybrown => "rosybrown".to_string(),
+            Self::Royalblue => "royalblue".to_string(),
+            Self::Saddlebrown => "saddlebrown".to_string(),
+            Self::Salmon => "salmon".to_string(),
+            Self::Sandybrown => "sandybrown".to_string(),
+            Self::Seagreen => "seagreen".to_string(),
+            Self::Seashell => "seashell".to_string(),
+            Self::Sienna => "sienna".to_string(),
+            Self::Silver => "silver".to_string(),
+            Self::Skyblue => "skyblue".to_string(),
+            Self::Slateblue => "slateblue".to_string(),
+            Self::Slategray => "slategray".to_string(),
+            Self::Slategrey => "slategrey".to_string(),
+            Self::Snow => "snow".to_string(),
+            Self::Springgreen => "springgreen".to_string(),
+            Self::Steelblue => "steelblue".to_string(),
+            Self::Tan => "tan".to_string(),
+            Self::Teal => "teal".to_string(),
+            Self::Thistle => "thistle".to_string(),
+            Self::Tomato => "tomato".to_string(),
+            Self::Turquoise => "turquoise".to_string(),
+            Self::Violet => "violet".to_string(),
+            Self::Wheat => "wheat".to_string(),
+            Self::White => "white".to_string(),
+            Self::Whitesmoke => "whitesmoke".to_string(),
+            Self::Yellow => "yellow".to_string(),
+            Self::Yellowgreen => "yellowgreen".to_string(),
+        }
     }
 }
 impl SvgAttrValueWriter for super::opcode::Rgb {
@@ -149,7 +297,10 @@ impl SvgAttrValueWriter for super::opcode::NumberOptNumber {
 }
 impl SvgAttrValueWriter for super::opcode::Coords {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        match self {
+            Self::UserSpaceOnUse => "userSpaceOnUse".to_string(),
+            Self::ObjectBoundingBox => "objectBoundingBox".to_string(),
+        }
     }
 }
 impl SvgAttrValueWriter for super::opcode::Transform {
@@ -159,22 +310,37 @@ impl SvgAttrValueWriter for super::opcode::Transform {
 }
 impl SvgAttrValueWriter for super::opcode::Channel {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        match self {
+            Self::R => "r".to_string(),
+            Self::G => "g".to_string(),
+            Self::B => "b".to_string(),
+            Self::A => "a".to_string(),
+        }
     }
 }
 impl SvgAttrValueWriter for super::opcode::ClipRule {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        match self {
+            Self::Nonzero => "nonzero".to_string(),
+            Self::EvenOdd => "evenOdd".to_string(),
+        }
     }
 }
 impl SvgAttrValueWriter for super::opcode::FillRule {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        match self {
+            Self::Nonzero => "nonzero".to_string(),
+            Self::EvenOdd => "evenOdd".to_string(),
+        }
     }
 }
 impl SvgAttrValueWriter for super::opcode::StrokeLineCap {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        match self {
+            Self::Butt => "butt".to_string(),
+            Self::Round => "round".to_string(),
+            Self::Square => "square".to_string(),
+        }
     }
 }
 impl SvgAttrValueWriter for super::opcode::StrokeLineJoin {
@@ -184,22 +350,47 @@ impl SvgAttrValueWriter for super::opcode::StrokeLineJoin {
 }
 impl SvgAttrValueWriter for super::opcode::SpreadMethod {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        match self {
+            Self::Pad => "pad".to_string(),
+            Self::Reflect => "reflect".to_string(),
+            Self::Repeat => "repeat".to_string(),
+        }
     }
 }
 impl SvgAttrValueWriter for super::opcode::FontStyle {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        match self {
+            Self::Normal => "normal".to_string(),
+            Self::Italic => "italic".to_string(),
+            Self::Oblique => "oblique".to_string(),
+        }
     }
 }
 impl SvgAttrValueWriter for super::opcode::FontVariant {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        match self {
+            Self::Normal => "normal".to_string(),
+            Self::SmallCaps => "smallCaps".to_string(),
+        }
     }
 }
 impl SvgAttrValueWriter for super::opcode::FontWeight {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        match self {
+            Self::Normal => "normal".to_string(),
+            Self::Bold => "bold".to_string(),
+            Self::Bolder => "bolder".to_string(),
+            Self::Lighter => "lighter".to_string(),
+            Self::W100 => "w100".to_string(),
+            Self::W200 => "w200".to_string(),
+            Self::W300 => "w300".to_string(),
+            Self::W400 => "w400".to_string(),
+            Self::W500 => "w500".to_string(),
+            Self::W600 => "w600".to_string(),
+            Self::W700 => "w700".to_string(),
+            Self::W800 => "w800".to_string(),
+            Self::W900 => "w900".to_string(),
+        }
     }
 }
 impl SvgAttrValueWriter for super::opcode::FontFamily {
@@ -209,7 +400,19 @@ impl SvgAttrValueWriter for super::opcode::FontFamily {
 }
 impl SvgAttrValueWriter for super::opcode::FontStretch {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        match self {
+            Self::Normal => "normal".to_string(),
+            Self::Wider => "wider".to_string(),
+            Self::Narrower => "narrower".to_string(),
+            Self::UltraCondensed => "ultraCondensed".to_string(),
+            Self::ExtraCondensed => "extraCondensed".to_string(),
+            Self::Condensed => "condensed".to_string(),
+            Self::SemiCondensed => "semiCondensed".to_string(),
+            Self::SemiExpanded => "semiExpanded".to_string(),
+            Self::Expanded => "expanded".to_string(),
+            Self::ExtraExpanded => "extraExpanded".to_string(),
+            Self::UltraExpanded => "ultraExpanded".to_string(),
+        }
     }
 }
 impl SvgAttrValueWriter for super::opcode::Background {
@@ -229,42 +432,95 @@ impl SvgAttrValueWriter for super::opcode::FeOut {
 }
 impl SvgAttrValueWriter for super::opcode::FeBlendMode {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        match self {
+            Self::Normal => "normal".to_string(),
+            Self::Multiply => "multiply".to_string(),
+            Self::Screen => "screen".to_string(),
+            Self::Darken => "darken".to_string(),
+            Self::Lighten => "lighten".to_string(),
+        }
     }
 }
 impl SvgAttrValueWriter for super::opcode::TextLengthAdjust {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        match self {
+            Self::Spacing => "spacing".to_string(),
+            Self::SpacingAndGlyphs => "spacingAndGlyphs".to_string(),
+        }
     }
 }
 impl SvgAttrValueWriter for super::opcode::WritingMode {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        match self {
+            Self::LrTb => "lrTb".to_string(),
+            Self::RlTb => "rlTb".to_string(),
+            Self::TbRl => "tbRl".to_string(),
+            Self::Lr => "lr".to_string(),
+            Self::Rl => "rl".to_string(),
+            Self::Tb => "tb".to_string(),
+        }
     }
 }
 impl SvgAttrValueWriter for super::opcode::TextDirection {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        match self {
+            Self::Ltr => "ltr".to_string(),
+            Self::Rtl => "rtl".to_string(),
+        }
     }
 }
 impl SvgAttrValueWriter for super::opcode::UnicodeBidi {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        match self {
+            Self::Normal => "normal".to_string(),
+            Self::Embed => "embed".to_string(),
+            Self::BidiOverride => "bidiOverride".to_string(),
+        }
     }
 }
 impl SvgAttrValueWriter for super::opcode::TextAnchor {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        match self {
+            Self::Start => "start".to_string(),
+            Self::Middle => "middle".to_string(),
+            Self::End => "end".to_string(),
+        }
     }
 }
 impl SvgAttrValueWriter for super::opcode::DominantBaseline {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        match self {
+            Self::Auto => "auto".to_string(),
+            Self::UseScript => "useScript".to_string(),
+            Self::NoChange => "noChange".to_string(),
+            Self::ResetSize => "resetSize".to_string(),
+            Self::Ideographic => "ideographic".to_string(),
+            Self::Alphabetic => "alphabetic".to_string(),
+            Self::Hanging => "hanging".to_string(),
+            Self::Mathematical => "mathematical".to_string(),
+            Self::Central => "central".to_string(),
+            Self::Middle => "middle".to_string(),
+            Self::TextAfterEdge => "textAfterEdge".to_string(),
+            Self::TextBeforeEdge => "textBeforeEdge".to_string(),
+        }
     }
 }
 impl SvgAttrValueWriter for super::opcode::AlignmentBaseline {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        match self {
+            Self::Auto => "auto".to_string(),
+            Self::Baseline => "baseline".to_string(),
+            Self::BeforeEdge => "beforeEdge".to_string(),
+            Self::TextBeforeEdge => "textBeforeEdge".to_string(),
+            Self::Middle => "middle".to_string(),
+            Self::Central => "central".to_string(),
+            Self::AfterEdge => "afterEdge".to_string(),
+            Self::TextAfterEdge => "textAfterEdge".to_string(),
+            Self::Ideographic => "ideographic".to_string(),
+            Self::Alphabetic => "alphabetic".to_string(),
+            Self::Hanging => "hanging".to_string(),
+            Self::Mathematical => "mathematical".to_string(),
+        }
     }
 }
 impl SvgAttrValueWriter for super::opcode::BaselineShift {
@@ -274,17 +530,28 @@ impl SvgAttrValueWriter for super::opcode::BaselineShift {
 }
 impl SvgAttrValueWriter for super::opcode::TextDecoration {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        match self {
+            Self::Underline => "underline".to_string(),
+            Self::Overline => "overline".to_string(),
+            Self::LineThrough => "lineThrough".to_string(),
+            Self::Blink => "blink".to_string(),
+        }
     }
 }
 impl SvgAttrValueWriter for super::opcode::TextPathMethod {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        match self {
+            Self::Align => "align".to_string(),
+            Self::Stretch => "stretch".to_string(),
+        }
     }
 }
 impl SvgAttrValueWriter for super::opcode::TextPathSpacing {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        match self {
+            Self::Auto => "auto".to_string(),
+            Self::Exact => "exact".to_string(),
+        }
     }
 }
 impl SvgAttrValueWriter for super::opcode::LetterSpacing {
@@ -299,7 +566,10 @@ impl SvgAttrValueWriter for super::opcode::WordSpacing {
 }
 impl SvgAttrValueWriter for super::opcode::MeetOrSlice {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        match self {
+            Self::Meet => "meet".to_string(),
+            Self::Slice => "slice".to_string(),
+        }
     }
 }
 impl SvgAttrValueWriter for super::opcode::PreserveAspectRatio {
@@ -392,15 +662,15 @@ impl SvgAttrsWriter for super::opcode::Fill {
     {
         if let Some(value) = &self.paint {
             let value = value.to_svg_attr_value();
-            node.set_svg_attr("paint", &value)?;
+            node.set_svg_attr("fill", &value)?;
         }
         if let Some(value) = &self.rule {
             let value = value.to_svg_attr_value();
-            node.set_svg_attr("rule", &value)?;
+            node.set_svg_attr("fill-rule", &value)?;
         }
         if let Some(value) = &self.opacity {
             let value = value.to_svg_attr_value();
-            node.set_svg_attr("opacity", &value)?;
+            node.set_svg_attr("fill-opacity", &value)?;
         }
         Ok(())
     }
@@ -414,27 +684,31 @@ impl SvgAttrsWriter for super::opcode::Stroke {
     {
         if let Some(value) = &self.paint {
             let value = ctx.valueof(&value)?.to_svg_attr_value();
-            node.set_svg_attr("paint", &value)?;
+            node.set_svg_attr("stroke", &value)?;
         }
         if let Some(value) = &self.width {
             let value = ctx.valueof(&value)?.to_svg_attr_value();
-            node.set_svg_attr("width", &value)?;
+            node.set_svg_attr("stroke-width", &value)?;
         }
         if let Some(value) = &self.linecap {
             let value = ctx.valueof(&value)?.to_svg_attr_value();
-            node.set_svg_attr("linecap", &value)?;
+            node.set_svg_attr("stroke-linecap", &value)?;
         }
         if let Some(value) = &self.linejoin {
             let value = ctx.valueof(&value)?.to_svg_attr_value();
-            node.set_svg_attr("linejoin", &value)?;
+            node.set_svg_attr("stroke-linejoin", &value)?;
         }
         if let Some(value) = &self.dasharray {
             let value = ctx.valueof(&value)?.to_svg_attr_value();
-            node.set_svg_attr("dasharray", &value)?;
+            node.set_svg_attr("stroke-dasharray", &value)?;
         }
         if let Some(value) = &self.dashoffset {
             let value = ctx.valueof(&value)?.to_svg_attr_value();
-            node.set_svg_attr("dashoffset", &value)?;
+            node.set_svg_attr("stroke-dashoffset", &value)?;
+        }
+        if let Some(value) = &self.opacity {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("stroke-opacity", &value)?;
         }
         Ok(())
     }
@@ -843,22 +1117,35 @@ impl SvgAttrValueWriter for super::opcode::FeCompositeOperator {
 }
 impl SvgAttrValueWriter for super::opcode::FeConvolveMatrixEdgeMode {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        match self {
+            Self::Duplicate => "duplicate".to_string(),
+            Self::Wrap => "wrap".to_string(),
+            Self::None => "none".to_string(),
+        }
     }
 }
 impl SvgAttrValueWriter for super::opcode::FeMorphologyOperator {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        match self {
+            Self::Erode => "erode".to_string(),
+            Self::Dilate => "dilate".to_string(),
+        }
     }
 }
 impl SvgAttrValueWriter for super::opcode::FeStitchTiles {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        match self {
+            Self::Stitch => "stitch".to_string(),
+            Self::NoStitch => "noStitch".to_string(),
+        }
     }
 }
 impl SvgAttrValueWriter for super::opcode::FeTurbulenceType {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        match self {
+            Self::FractalNoise => "fractalNoise".to_string(),
+            Self::Turbulence => "turbulence".to_string(),
+        }
     }
 }
 impl SvgAttrsWriter for super::opcode::FeComponentTransfer {

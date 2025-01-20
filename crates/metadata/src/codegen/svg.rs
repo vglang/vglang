@@ -1,9 +1,11 @@
+use std::vec;
+
 use heck::ToLowerCamelCase;
 use proc_macro2::TokenStream;
 use quote::quote;
 
 use crate::{
-    codegen::ext::{EnumGen, FieldGen, NodeGen},
+    codegen::ext::{EnumGen, FieldGen, IdentGen, NodeGen},
     ir::{Enum, Node, Stat},
 };
 
@@ -122,10 +124,37 @@ impl SvgAttrValueWriterGen for Enum {
     fn gen_attr_value_writer(&self, opcode_mod: &TokenStream) -> TokenStream {
         let ident = self.gen_ident();
 
+        if self
+            .fields
+            .iter()
+            .find(|node| !node.fields.is_empty())
+            .is_some()
+        {
+            return quote! {
+                impl SvgAttrValueWriter for #opcode_mod #ident {
+                    fn to_svg_attr_value(&self) -> String {
+                        "".to_string()
+                    }
+                }
+            };
+        }
+
+        let mut stats = vec![];
+
+        for field in self.fields.iter() {
+            let ident = field.gen_ident();
+            let value = field.ident.xml_attr_name();
+            stats.push(quote! {
+                Self::#ident => #value.to_string()
+            });
+        }
+
         quote! {
             impl SvgAttrValueWriter for #opcode_mod #ident {
                 fn to_svg_attr_value(&self) -> String {
-                    "".to_string()
+                    match self {
+                        #(#stats),*
+                    }
                 }
             }
         }

@@ -193,6 +193,7 @@ enum Iri {
 /// Functional notation for a reference. The syntax for this reference is the same as the [`CSS URI`].
 ///
 /// [`CSS URI`]: https://developer.mozilla.org/en-US/docs/Web/CSS/url_value
+#[xml_value_transparent]
 data FuncIri(string);
 
 /// A 2d coordinate point.
@@ -204,8 +205,10 @@ data Percent(float);
 /// ‘fill’ and ‘stroke’ take on a value of type [`Paint`], which is specified as follows:
 enum Paint { 
     /// the explicit color to be used to paint the current object
+    #[xml_value_transparent]
     Color(Rgb), 
     /// A reference to a paint server.
+    #[xml_value_transparent]
     Server(FuncIri),
 }
 
@@ -865,17 +868,17 @@ attr Fill {
     /// paints color.
     ///
     /// `Inherited: yes`
-    #[option]
+    #[option,xml("fill")]
     paint: Paint,
 
     /// fill painting rule, see [`FillRule`] for more information.
     ///
     /// `Inherited: yes`
-    #[option]
+    #[option,xml("fill-rule")]
     rule: FillRule,
 
     /// defining the opacity of the paint server
-    #[option]
+    #[option,xml("fill-opacity")]
     opacity: float,
 }
 
@@ -885,24 +888,24 @@ attr Stroke {
     /// paints color paints along the outline of the given graphical element.
     ///
     /// `Inherited: yes`
-    #[option,variable]
+    #[option,variable,xml("stroke")]
     paint: Paint,
     /// This property specifies the width of the stroke on the current object
     ///
     /// `Inherited: yes`
-    #[option,variable]
+    #[option,variable,xml("stroke-width")]
     width: Length,
 
     /// specifies the shape to be used at the end of open subpaths when they are stroked.
     ///
     /// `Inherited: yes`
-    #[option,variable]
+    #[option,variable,xml("stroke-linecap")]
     linecap: StrokeLineCap,
 
     /// specifies the shape to be used at the corners of paths or basic shapes when they are stroked.
     ///
     /// `Inherited: yes`
-    #[option,variable]
+    #[option,variable,xml("stroke-linejoin")]
     linejoin: StrokeLineJoin,
 
     /// controls the pattern of dashes and gaps used to stroke paths. `<dasharray>` contains a list of comma and/or
@@ -911,13 +914,17 @@ attr Stroke {
     /// Thus, stroke-dasharray: 5,3,2 is equivalent to stroke-dasharray: 5,3,2,5,3,2.
     ///
     /// `Inherited: yes`
-    #[option,variable]
+    #[option,variable,xml("stroke-dasharray")]
     dasharray: vec[Length],
     /// specifies the distance into the dash pattern to start the dash
     ///
     /// `Inherited: yes`
-    #[option,variable]
+    #[option,variable,xml("stroke-dashoffset")]
     dashoffset: Length,
+
+    /// specifies the opacity of the painting operation used to stroke the current object.
+    #[option,variable,xml("stroke-opacity")]
+    opacity: float,
 }
 
 
