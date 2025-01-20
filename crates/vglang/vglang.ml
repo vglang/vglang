@@ -182,6 +182,7 @@ enum Color {
 }
 
 /// A color represents with read,green and blue components.
+#[xml_tuple_value]
 data Rgb(ubyte,ubyte,ubyte);
 
 #[xml_skip]
@@ -193,7 +194,6 @@ enum Iri {
 /// Functional notation for a reference. The syntax for this reference is the same as the [`CSS URI`].
 ///
 /// [`CSS URI`]: https://developer.mozilla.org/en-US/docs/Web/CSS/url_value
-#[xml_value_transparent]
 data FuncIri(string);
 
 /// A 2d coordinate point.
@@ -205,10 +205,8 @@ data Percent(float);
 /// ‘fill’ and ‘stroke’ take on a value of type [`Paint`], which is specified as follows:
 enum Paint { 
     /// the explicit color to be used to paint the current object
-    #[xml_value_transparent]
     Color(Rgb), 
     /// A reference to a paint server.
-    #[xml_value_transparent]
     Server(FuncIri),
 }
 

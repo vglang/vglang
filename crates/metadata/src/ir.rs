@@ -375,6 +375,18 @@ impl<'a> Field<'a> {
 
         None
     }
+
+    pub fn xml_tuple_value(&self) -> bool {
+        for prop in self.properties() {
+            for param in &prop.calls {
+                if param.target.1 == "xml_tuple_value" {
+                    return true;
+                }
+            }
+        }
+
+        false
+    }
 }
 
 impl<'a> Iterator for FieldIter<'a> {
@@ -431,6 +443,18 @@ impl Node {
         for prop in &self.properties {
             for param in &prop.calls {
                 if param.target.1 == "xml_skip" {
+                    return true;
+                }
+            }
+        }
+
+        false
+    }
+
+    pub fn xml_tuple_value(&self) -> bool {
+        for prop in &self.properties {
+            for param in &prop.calls {
+                if param.target.1 == "xml_tuple_value" {
                     return true;
                 }
             }

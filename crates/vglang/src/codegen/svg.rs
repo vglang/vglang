@@ -267,22 +267,39 @@ impl SvgAttrValueWriter for super::opcode::Color {
 }
 impl SvgAttrValueWriter for super::opcode::Rgb {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        let mut values = vec![];
+        let value = &self.0;
+        let value = value.to_svg_attr_value();
+        values.push(value.to_svg_attr_value());
+        let value = &self.1;
+        let value = value.to_svg_attr_value();
+        values.push(value.to_svg_attr_value());
+        let value = &self.2;
+        let value = value.to_svg_attr_value();
+        values.push(value.to_svg_attr_value());
+        format!("{}({})", "rgb", values.join(","))
     }
 }
 impl SvgAttrValueWriter for super::opcode::FuncIri {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        self.0.to_svg_attr_value()
     }
 }
 impl SvgAttrValueWriter for super::opcode::Point {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        let mut values = vec![];
+        let value = &self.0;
+        let value = value.to_svg_attr_value();
+        values.push(value.to_svg_attr_value());
+        let value = &self.1;
+        let value = value.to_svg_attr_value();
+        values.push(value.to_svg_attr_value());
+        values.join(",")
     }
 }
 impl SvgAttrValueWriter for super::opcode::Percent {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        self.0.to_svg_attr_value()
     }
 }
 impl SvgAttrValueWriter for super::opcode::Paint {
@@ -292,7 +309,15 @@ impl SvgAttrValueWriter for super::opcode::Paint {
 }
 impl SvgAttrValueWriter for super::opcode::NumberOptNumber {
     fn to_svg_attr_value(&self) -> String {
-        "".to_string()
+        let mut values = vec![];
+        let value = &self.0;
+        let value = value.to_svg_attr_value();
+        values.push(value.to_svg_attr_value());
+        if let Some(value) = &self.1 {
+            let value = value.to_svg_attr_value();
+            values.push(value.to_svg_attr_value());
+        }
+        values.join(",")
     }
 }
 impl SvgAttrValueWriter for super::opcode::Coords {

@@ -2,8 +2,8 @@
 <svg width="8cm" height="3cm" viewbox="0 0 800 300" xmlns="http://www.w3.org/2000/svg" version="1.1">
 	<defs>
 		<linearGradient units="userSpaceOnUse" x1="0px" y1="0px" x2="800px" y2="0px" id="Gradient">
-			<gradientStop offset="0" color="" opacity="0" />
-			<gradientStop offset="1" color="" opacity="1" />
+			<gradientStop offset="0" color="rgb(255,255,255)" opacity="0" />
+			<gradientStop offset="1" color="rgb(255,255,255)" opacity="1" />
 		</linearGradient>
 	</defs>
 	<defs>

@@ -110,10 +110,82 @@ impl SvgAttrValueWriterGen for Node {
     fn gen_attr_value_writer(&self, opcode_mod: &TokenStream) -> TokenStream {
         let ident = self.gen_ident();
 
-        quote! {
-            impl SvgAttrValueWriter for #opcode_mod #ident {
-                fn to_svg_attr_value(&self) -> String {
-                    "".to_string()
+        if !self.fields.is_tuple() {
+            return quote! {
+                impl SvgAttrValueWriter for #opcode_mod #ident {
+                    fn to_svg_attr_value(&self) -> String {
+                        "".to_string()
+                    }
+                }
+            };
+        }
+
+        if self.fields.iter().count() == 1 {
+            return quote! {
+                impl SvgAttrValueWriter for #opcode_mod #ident {
+                    fn to_svg_attr_value(&self) -> String {
+                        self.0.to_svg_attr_value()
+                    }
+                }
+            };
+        }
+
+        let mut stats = vec![];
+
+        for (index, field) in self.fields.iter().enumerate() {
+            let value = if field.is_variable() {
+                quote! {
+                    let value = ctx.valueof(&value)?.to_svg_attr_value();
+                }
+            } else {
+                quote! {
+                    let value = value.to_svg_attr_value();
+                }
+            };
+
+            let field_name: TokenStream = format!("self.{}", index).parse().unwrap();
+
+            stats.push(quote! {});
+
+            if field.is_option() {
+                stats.push(quote! {
+                    if let Some(value) = &#field_name {
+                        #value
+                        values.push(value.to_svg_attr_value());
+                    }
+                });
+            } else {
+                stats.push(quote! {
+                    let value = &#field_name;
+                    #value
+                    values.push(value.to_svg_attr_value());
+                });
+            }
+        }
+
+        if self.xml_tuple_value() {
+            let tuple_name = self
+                .xml_name()
+                .map(|v| v.to_string())
+                .unwrap_or(self.ident.xml_attr_name());
+
+            quote! {
+                impl SvgAttrValueWriter for #opcode_mod #ident {
+                    fn to_svg_attr_value(&self) -> String {
+                        let mut values = vec![];
+                        #(#stats)*
+                        format!("{}({})",#tuple_name, values.join(","))
+                    }
+                }
+            }
+        } else {
+            quote! {
+                impl SvgAttrValueWriter for #opcode_mod #ident {
+                    fn to_svg_attr_value(&self) -> String {
+                        let mut values = vec![];
+                        #(#stats)*
+                        values.join(",")
+                    }
                 }
             }
         }
