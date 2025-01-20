@@ -1,6 +1,6 @@
 use crate::{
     codegen::svg::SvgAttrValueWriter,
-    opcode::{Iri, Length},
+    opcode::{Angle, FuncIri, Iri, Length},
 };
 
 impl SvgAttrValueWriter for Length {
@@ -24,6 +24,22 @@ impl SvgAttrValueWriter for Iri {
         match self {
             Iri::Local(v) => format!("#{}", v),
             Iri::Path(v) => v.clone(),
+        }
+    }
+}
+
+impl SvgAttrValueWriter for FuncIri {
+    fn to_svg_attr_value(&self) -> String {
+        format!("url(#{})", self.0)
+    }
+}
+
+impl SvgAttrValueWriter for Angle {
+    fn to_svg_attr_value(&self) -> String {
+        match self {
+            Angle::Deg(v) => format!("{}deg", v),
+            Angle::Grad(v) => format!("{}grad", v),
+            Angle::Rad(v) => format!("{}rad", v),
         }
     }
 }

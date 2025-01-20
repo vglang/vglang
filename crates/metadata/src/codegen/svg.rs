@@ -145,8 +145,6 @@ impl SvgAttrValueWriterGen for Node {
 
             let field_name: TokenStream = format!("self.{}", index).parse().unwrap();
 
-            stats.push(quote! {});
-
             if field.is_option() {
                 stats.push(quote! {
                     if let Some(value) = &#field_name {
@@ -196,29 +194,71 @@ impl SvgAttrValueWriterGen for Enum {
     fn gen_attr_value_writer(&self, opcode_mod: &TokenStream) -> TokenStream {
         let ident = self.gen_ident();
 
-        if self
-            .fields
-            .iter()
-            .find(|node| !node.fields.is_empty())
-            .is_some()
-        {
-            return quote! {
-                impl SvgAttrValueWriter for #opcode_mod #ident {
-                    fn to_svg_attr_value(&self) -> String {
-                        "".to_string()
-                    }
-                }
-            };
-        }
-
         let mut stats = vec![];
 
-        for field in self.fields.iter() {
-            let ident = field.gen_ident();
-            let value = field.ident.xml_attr_name();
-            stats.push(quote! {
-                Self::#ident => #value.to_string()
-            });
+        for node in self.fields.iter() {
+            if node.fields.is_empty() {
+                let ident = node.gen_ident();
+                let value = node.ident.xml_attr_name();
+                stats.push(quote! {
+                    Self::#ident => #value.to_string()
+                });
+            } else {
+                let ident = node.gen_ident();
+
+                let mut params = vec![];
+
+                let mut to_values = vec![];
+
+                for (indx, field) in node.fields.iter().enumerate() {
+                    if let Some(ident) = field.gen_ident() {
+                        params.push(ident);
+                    } else {
+                        params.push(format!("p{}", indx).parse().unwrap());
+                    }
+
+                    let value = params.last().unwrap();
+
+                    if field.is_option() {
+                        to_values.push(quote! {
+                            if let Some(value) = &#value {
+                                values.push(value.to_svg_attr_value());
+                            }
+                        });
+                    } else {
+                        to_values.push(quote! { values.push(#value.to_svg_attr_value()); });
+                    }
+                }
+
+                let to_values = if node.xml_tuple_value() {
+                    let tuple_name = node
+                        .xml_name()
+                        .map(|v| v.to_string())
+                        .unwrap_or(self.ident.xml_attr_name());
+
+                    quote! {
+                        let mut values = vec![];
+                        #(#to_values)*
+                        format!("{}({})",#tuple_name, values.join(","))
+                    }
+                } else {
+                    quote! {
+                        let mut values = vec![];
+                        #(#to_values)*
+                        values.join(",")
+                    }
+                };
+
+                if node.is_tuple() {
+                    stats.push(quote! {
+                        Self::#ident(#(#params),*) => { #to_values }
+                    });
+                } else {
+                    stats.push(quote! {
+                        Self::#ident{#(#params),*} => { #to_values }
+                    });
+                }
+            }
         }
 
         quote! {
@@ -356,6 +396,12 @@ impl SvgModGen {
             }
 
             impl<T> SvgAttrValueWriter for Vec<T> where T: SvgAttrValueWriter {
+                fn to_svg_attr_value(&self) -> String {
+                    self.iter().map(|v| v.to_svg_attr_value()).collect::<Vec<_>>().join(",")
+                }
+            }
+
+            impl<T,const N: usize> SvgAttrValueWriter for [T;N] where T: SvgAttrValueWriter {
                 fn to_svg_attr_value(&self) -> String {
                     self.iter().map(|v| v.to_svg_attr_value()).collect::<Vec<_>>().join(",")
                 }

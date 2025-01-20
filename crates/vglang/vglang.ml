@@ -1,6 +1,7 @@
 /// Angles are specified in one of two ways depending upon
 /// whether they are used in CSS property syntax or SVG
 /// presentation attribute syntax:
+#[xml_skip]
 enum Angle { deg(float), grad(float), rad(float) }
 
 /// A length is a distance Length, given as a number along with a unit which may be optional.
@@ -194,6 +195,7 @@ enum Iri {
 /// Functional notation for a reference. The syntax for this reference is the same as the [`CSS URI`].
 ///
 /// [`CSS URI`]: https://developer.mozilla.org/en-US/docs/Web/CSS/url_value
+#[xml_skip]
 data FuncIri(string);
 
 /// A 2d coordinate point.
@@ -203,7 +205,8 @@ data Point(float,float);
 data Percent(float);
 
 /// ‘fill’ and ‘stroke’ take on a value of type [`Paint`], which is specified as follows:
-enum Paint { 
+enum Paint {
+    None,
     /// the explicit color to be used to paint the current object
     Color(Rgb), 
     /// A reference to a paint server.
@@ -823,7 +826,7 @@ attr TextLayout {
     unicode_bidi: UnicodeBidi,
 
     /// See [`TextAnchor`]
-    #[option,variable]
+    #[option,variable,xml("text-anchor")]
     anchor: TextAnchor,
 
     /// See [`DominantBaseline`]
@@ -839,7 +842,7 @@ attr TextLayout {
     baseline_shift: BaselineShift,
 
     /// See [`TextDecoration`]
-    #[option,variable]
+    #[option,variable,xml("text-decoration")]
     decoration: TextDecoration,
 
     /// See [`LetterSpacing`]
@@ -929,23 +932,23 @@ attr Stroke {
 /// Shorthand property for setting ‘font-style’, ‘font-variant’, ‘font-weight’, ‘font-size’, ‘line-height’ and ‘font-family’.
 attr Font {
     /// See [`FontFamily`]
-    #[option,variable]
+    #[option,variable,xml("font-family")]
     family: vec[FontFamily],
     /// See [`FontStyle`]
-    #[option,variable]
+    #[option,variable,xml("font-style")]
     style: FontStyle,
     /// See [`FontVariant`]
-    #[option,variable]
+    #[option,variable,xml("font-variant")]
     variant: FontVariant,
     /// See [`FontWeight`]
-    #[option,variable]
+    #[option,variable,xml("font-weight")]
     weight: FontWeight,
     /// This property refers to the size of the font from baseline to baseline when multiple lines of
     /// text are set solid in a multiline layout environment.
-    #[option,variable]
+    #[option,variable,xml("font-size")]
     size: Length,
     /// See [`FontStretch`]
-    #[option,variable]
+    #[option,variable,xml("font-stretch")]
     stretch: FontStretch,
 }
 
@@ -962,7 +965,10 @@ attr WithClipPath(FuncIri);
 
 /// Use mask to a element.
 #[variable]
-attr WithMask(FuncIri);
+attr WithMask(
+    #[xml("mask")]
+    FuncIri
+);
 
 ///Sspecifies object/group opacity
 #[variable]
@@ -1055,7 +1061,7 @@ el Mask {
     /// of the element to which the mask is applied. (See Object bounding box units.)
     ///
     /// If attribute ‘maskUnits’ is not specified, then the effect is as if a value of 'objectBoundingBox' were specified.
-    #[option, variable]
+    #[option, variable,xml("maskUnits")]
     units: Coords,
 
     /// Defines the coordinate system for the contents of the ‘mask’.
@@ -1927,7 +1933,7 @@ leaf FeTurbulence mixin FePrimitive {
 /// Linear gradients are defined by a ‘linearGradient’ element.
 el LinearGradient {
     /// Defines the coordinate system for attributes ‘x1’, ‘y1’, ‘x2’ and ‘y2’.
-    #[option, variable]
+    #[option, variable,xml("gradientUnits")]
     units: Coords,
 
     /// Contains the definition of an optional additional transformation from the gradient coordinate system onto the
@@ -2041,6 +2047,7 @@ el RadialGradient {
 
 /// The ramp of colors to use on a gradient is defined by the ‘stop’ elements that are child elements
 /// to either the ‘linearGradient’ element or the ‘radialGradient’ element.
+#[xml("stop")]
 leaf GradientStop {
     /// The ‘offset’ attribute is either a `<number>` (usually ranging from 0 to 1) or a `<percent>`
     /// (usually ranging from 0% to 100%) which indicates where the gradient stop is placed.
@@ -2053,11 +2060,11 @@ leaf GradientStop {
     offset: float,
 
     /// indicates what color to use at that gradient stop
-    #[option, variable]
+    #[option, variable,xml("stop-color")]
     color: Rgb,
 
     /// Defines the opacity of a given gradient stop.
-    #[option, variable]
+    #[option, variable,xml("stop-opacity")]
     opacity: float,
 }
 

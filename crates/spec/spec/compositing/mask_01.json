@@ -212,6 +212,24 @@
     }
   },
   {
+    "Apply": {
+      "TextLayout": {
+        "write_mode": null,
+        "direction": null,
+        "unicode_bidi": null,
+        "anchor": {
+          "Constant": "Middle"
+        },
+        "dominant_baseline": null,
+        "alignment_baseline": null,
+        "baseline_shift": null,
+        "decoration": null,
+        "letter_spacing": null,
+        "word_spacing": null
+      }
+    }
+  },
+  {
     "Element": {
       "Text": {
         "x": {
@@ -234,6 +252,11 @@
         "text_length": null,
         "length_adjust": null
       }
+    }
+  },
+  {
+    "Leaf": {
+      "Characters": "Masked text"
     }
   },
   "Pop",
@@ -297,7 +320,7 @@
   },
   {
     "Apply": {
-      "WithMask": "Gradient"
+      "WithMask": "Mask"
     }
   },
   {
@@ -312,7 +335,7 @@
   {
     "Apply": {
       "Fill": {
-        "paint": null,
+        "paint": "None",
         "rule": null,
         "opacity": null
       }

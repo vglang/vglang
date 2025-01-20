@@ -1,7 +1,8 @@
 use vglang::{
     opcode::{
-        Canvas, Color, Coords, Fill, Font, FontFamily, GradientStop, Id, Iri, LinearGradient, Mask,
-        Paint, Rect, Rgb, Stroke, Text, Use, ViewBox, WithMask,
+        Canvas, Characters, Color, Coords, Fill, Font, FontFamily, GradientStop, Id, Iri,
+        LinearGradient, Mask, Paint, Rect, Rgb, Stroke, Text, TextAnchor, TextLayout, Use, ViewBox,
+        WithMask,
     },
     sexpr::{Graphics, Slength},
 };
@@ -22,15 +23,18 @@ pub fn mask_01() -> impl Graphics {
                 .units(Coords::UserSpaceOnUse)
                 .apply(Id::from("Mask"))
                 .children(Rect::from((0, 0, 800, 300)).apply(Fill::from_paint("Gradient"))),
-            Text::new(400, 200).apply((
-                Id::from("Text"),
-                Font::from_family(FontFamily::Generic("Verdana".into())).size(100),
-            )),
+            Text::new(400, 200)
+                .apply((
+                    Id::from("Text"),
+                    Font::from_family(FontFamily::Generic("Verdana".into())).size(100),
+                    TextLayout::from_anchor(TextAnchor::Middle),
+                ))
+                .children(Characters::from("Masked text")),
             Rect::from((0, 0, 800, 300)).apply(Fill::from_paint(Rgb::rgb(0xff, 0x80, 0x80))),
             Use::from(Iri::local("Text"))
-                .apply((Fill::from_paint(Color::Blue), WithMask::from("Gradient"))),
+                .apply((Fill::from_paint(Color::Blue), WithMask::from("Mask"))),
             Use::from(Iri::local("Text")).apply((
-                Fill::default(),
+                Fill::from_paint(Paint::None),
                 Stroke::from_paint(Paint::color(Color::Black)).width(2),
             )),
         ))

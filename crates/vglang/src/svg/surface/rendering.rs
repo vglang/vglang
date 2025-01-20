@@ -87,7 +87,7 @@ impl<'a> SvgRendering<'a> {
             els: Default::default(),
             defs: Default::default(),
             document: XMLBuilder::new()
-                .version(XMLVersion::XML1_1)
+                .version(XMLVersion::XML1_0)
                 .encoding("UTF-8".into())
                 .build(),
         }
@@ -245,6 +245,7 @@ impl<'a> SvgRendering<'a> {
         } else {
             element.add_attribute("xmlns", "http://www.w3.org/2000/svg");
             element.add_attribute("version", "1.1");
+            element.add_attribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
             self.document.set_root_element(element);
         }
 

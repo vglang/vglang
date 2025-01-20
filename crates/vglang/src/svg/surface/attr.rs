@@ -20,7 +20,7 @@ impl SvgAttrsWriter for ViewBox {
         Node: SvgNode<Error = E>,
     {
         node.set_svg_attr(
-            "viewbox",
+            "viewBox",
             &format!(
                 "{} {} {} {}",
                 ctx.valueof(&self.minx)?,

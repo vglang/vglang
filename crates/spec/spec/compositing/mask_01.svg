@@ -1,20 +1,20 @@
-<?xml version="1.1" encoding="UTF-8"?>
-<svg width="8cm" height="3cm" viewbox="0 0 800 300" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="8cm" height="3cm" viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
 	<defs>
-		<linearGradient units="userSpaceOnUse" x1="0px" y1="0px" x2="800px" y2="0px" id="Gradient">
-			<gradientStop offset="0" color="rgb(255,255,255)" opacity="0" />
-			<gradientStop offset="1" color="rgb(255,255,255)" opacity="1" />
+		<linearGradient gradientUnits="userSpaceOnUse" x1="0px" y1="0px" x2="800px" y2="0px" id="Gradient">
+			<stop offset="0" stop-color="rgb(255,255,255)" stop-opacity="0" />
+			<stop offset="1" stop-color="rgb(255,255,255)" stop-opacity="1" />
 		</linearGradient>
 	</defs>
 	<defs>
-		<mask units="userSpaceOnUse" x="0px" y="0px" width="800px" height="300px" id="Mask">
-			<rect x="0px" y="0px" width="800px" height="300px" fill="" />
+		<mask maskUnits="userSpaceOnUse" x="0px" y="0px" width="800px" height="300px" id="Mask">
+			<rect x="0px" y="0px" width="800px" height="300px" fill="url(#Gradient)" />
 		</mask>
 	</defs>
 	<defs>
-		<text x="400px" y="200px" id="Text" family="" size="100px" />
+		<text x="400px" y="200px" id="Text" font-family="Verdana" font-size="100px" text-anchor="middle">Masked text</text>
 	</defs>
-	<rect x="0px" y="0px" width="800px" height="300px" fill="" />
-	<use xlink:href="#Text" fill="" />
-	<use xlink:href="#Text" stroke="" stroke-width="2px" />
+	<rect x="0px" y="0px" width="800px" height="300px" fill="rgb(255,128,128)" />
+	<use xlink:href="#Text" fill="rgb(0,0,255)" mask="url(#Mask)" />
+	<use xlink:href="#Text" fill="none" stroke="rgb(0,0,0)" stroke-width="2px" />
 </svg>
