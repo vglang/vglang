@@ -11,17 +11,24 @@ trait SvgCodeGen {
     fn gen_node_writer(&self, opcode_mod: &TokenStream) -> TokenStream;
 
     fn gen_attrs_writer(&self, opcode_mod: &TokenStream) -> TokenStream;
+
+    fn gen_attr_value_writer(&self, opcode_mod: &TokenStream) -> TokenStream;
 }
 
 impl SvgCodeGen for Node {
+    fn gen_attr_value_writer(&self, _: &TokenStream) -> TokenStream {
+        quote! {}
+    }
     fn gen_attrs_writer(&self, opcode_mod: &TokenStream) -> TokenStream {
         let ident = self.gen_ident();
 
         quote! {
             impl SvgAttrsWriter for #opcode_mod #ident {
                 #[allow(unused)]
-                fn write_svg_attrs<Node: SvgNode>(&self, node: &mut Node) -> Result<(),Node::Error> {
-                    todo!()
+                fn write_svg_attrs<C: SvgContext, Node: SvgNode>(&self, ctx: &C, node: &mut Node) -> Result<(),Node::Error> {
+
+
+                    Ok(())
                 }
             }
         }
@@ -37,7 +44,7 @@ impl SvgCodeGen for Node {
         quote! {
             impl SvgAttrsWriter for #opcode_mod #ident {
                 #[allow(unused)]
-                fn write_svg_attrs<Node: SvgNode>(&self, node: &mut Node) -> Result<(),Node::Error> {
+                fn write_svg_attrs<C: SvgContext, Node: SvgNode>(&self, ctx: &C, node: &mut Node) -> Result<(),Node::Error> {
                     todo!()
                 }
             }
@@ -52,6 +59,10 @@ impl SvgCodeGen for Node {
 }
 
 impl SvgCodeGen for Enum {
+    fn gen_attr_value_writer(&self, _: &TokenStream) -> TokenStream {
+        quote! {}
+    }
+
     fn gen_node_writer(&self, _: &TokenStream) -> TokenStream {
         quote! {}
     }
@@ -91,19 +102,19 @@ impl SvgModGen {
                         token_streams.push(node.gen_node_writer(&self.opcode_mod));
                     }
                 }
-                Stat::Data(node) => {
+                Stat::Attr(node) => {
                     if !node.xml_skip() {
                         token_streams.push(node.gen_attrs_writer(&self.opcode_mod));
+                    }
+                }
+                Stat::Data(node) => {
+                    if !node.xml_skip() {
+                        token_streams.push(node.gen_attr_value_writer(&self.opcode_mod));
                     }
                 }
                 Stat::Enum(node) => {
                     if !node.xml_skip() {
-                        token_streams.push(node.gen_attrs_writer(&self.opcode_mod));
-                    }
-                }
-                Stat::Attr(node) => {
-                    if !node.xml_skip() {
-                        token_streams.push(node.gen_attrs_writer(&self.opcode_mod));
+                        token_streams.push(node.gen_attr_value_writer(&self.opcode_mod));
                     }
                 }
                 _ => {}
@@ -116,7 +127,17 @@ impl SvgModGen {
     }
 
     fn gen_base_codes(&self) -> TokenStream {
+        let opcode_mod = &self.opcode_mod;
+
         quote! {
+            /// The trait to access context data.
+            pub trait SvgContext {
+                fn valueof<'a, T>(&'a self, variable: &'a #opcode_mod variable::Variable<T>) -> Option<&'a T>
+                where
+                    #opcode_mod Data: From<T>,
+                    for<'c> &'c T: TryFrom<&'c #opcode_mod Data, Error = ()>;
+            }
+
             /// The abstract of xml `node`.
             #[allow(unused)]
             pub trait SvgNode {
@@ -127,10 +148,17 @@ impl SvgModGen {
                 fn set_svg_attr(&mut self, name: &str, value: &str) -> Result<(),Self::Error>;
             }
 
+
             /// Write self as xml attrs.
             pub trait SvgAttrsWriter {
                 /// write self as a xml node's attribute/value pairs.
-                fn write_svg_attrs<Node: SvgNode>(&self, node: &mut Node) -> Result<(),Node::Error>;
+                fn write_svg_attrs<C: SvgContext, Node: SvgNode>(&self,ctx: &C, node: &mut Node) -> Result<(),Node::Error>;
+            }
+
+            /// Write self as xml attrs.
+            pub trait SvgAttrValueWriter {
+                /// Generate svg attribute value.
+                fn write_svg_attr_value<C: SvgContext>(&self,ctx: &C) -> Option<String>;
             }
 
             /// A trait to generate xml node.

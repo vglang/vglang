@@ -264,9 +264,31 @@ impl OpcodeModGen {
                     }
                 }
 
+                impl<'a> TryFrom<&'a Data> for &'a #ty {
+                    type Error = ();
+
+                    fn try_from(value: &'a Data) -> Result<Self,Self::Error> {
+                        match value {
+                            Data::#ident(v) => Ok(v),
+                            _ => Err(())
+                        }
+                    }
+                }
+
                 impl From<Vec<#ty>> for Data {
                     fn from(value: Vec<#ty>) -> Self {
                         Data::#list_ident(Box::new(value))
+                    }
+                }
+
+                impl<'a> TryFrom<&'a Data> for &'a [#ty] {
+                    type Error = ();
+
+                    fn try_from(value: &'a Data) -> Result<Self,Self::Error> {
+                        match value {
+                            Data::#list_ident(v) => Ok(v),
+                            _ => Err(())
+                        }
                     }
                 }
             });
@@ -286,9 +308,31 @@ impl OpcodeModGen {
                     }
                 }
 
+                impl<'a> TryFrom<&'a Data> for &'a #ident {
+                    type Error = ();
+
+                    fn try_from(value: &'a Data) -> Result<Self,Self::Error> {
+                        match value {
+                            Data::#ident(v) => Ok(v),
+                            _ => Err(())
+                        }
+                    }
+                }
+
                 impl From<Vec<#ident>> for Data {
                     fn from(value: Vec<#ident>) -> Self {
                         Data::#list_ident(Box::new(value))
+                    }
+                }
+
+                impl<'a> TryFrom<&'a Data> for &'a [#ident] {
+                    type Error = ();
+
+                    fn try_from(value: &'a Data) -> Result<Self,Self::Error> {
+                        match value {
+                            Data::#list_ident(v) => Ok(v),
+                            _ => Err(())
+                        }
                     }
                 }
             });

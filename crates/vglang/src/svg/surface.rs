@@ -1,6 +1,9 @@
 use crate::{
     codegen::svg::*,
-    opcode::{Attr, Path},
+    opcode::{
+        variable::{self, Target, Variable},
+        Attr, Path,
+    },
     surface::{Source, Surface},
 };
 
@@ -39,7 +42,11 @@ impl SvgNode for XMLElement {
 }
 
 impl SvgAttrsWriter for Path {
-    fn write_svg_attrs<Node: SvgNode>(&self, _: &mut Node) -> Result<(), Node::Error> {
+    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
+        &self,
+        _: &C,
+        _: &mut Node,
+    ) -> Result<(), Node::Error> {
         todo!()
     }
 }
@@ -75,12 +82,40 @@ impl Program for SvgRenderer {
     }
 }
 
-#[allow(unused)]
+struct SvgRenderingContext<'a>(&'a HashMap<String, Data>);
+
+impl<'a> SvgContext for SvgRenderingContext<'a> {
+    fn valueof<'b, T>(&'b self, variable: &'b Variable<T>) -> Option<&'b T>
+    where
+        Data: From<T>,
+        for<'c> &'c T: TryFrom<&'c Data, Error = ()>,
+    {
+        match variable {
+            Variable::Constant(v) => Some(v),
+            Variable::Reference { path, target } => match target {
+                Target::Register => match path {
+                    variable::Path::Named(name) => {
+                        if let Some(v) = self.0.get(name) {
+                            TryFrom::try_from(v).ok()
+                        } else {
+                            None
+                        }
+                    }
+                    path => unimplemented!("Unsupport variable path {:?}", path),
+                },
+                target => {
+                    unimplemented!("Unsupport variable target {:?}", target);
+                }
+            },
+        }
+    }
+}
+
 struct SvgRendering<'a> {
     /// rendering opcodes.
     opcodes: &'a [Opcode],
     /// The associated register values.
-    registers: &'a HashMap<String, Data>,
+    context: SvgRenderingContext<'a>,
     /// The count of the applied attributes.
     attrs: usize,
     /// rendering xml element stack.
@@ -95,7 +130,7 @@ impl<'a> SvgRendering<'a> {
     fn new(opcodes: &'a [Opcode], registers: &'a HashMap<String, Data>) -> Self {
         Self {
             opcodes,
-            registers,
+            context: SvgRenderingContext(registers),
             attrs: 0,
             els: Default::default(),
             defs: Default::default(),
@@ -189,7 +224,7 @@ impl<'a> SvgRendering<'a> {
     fn render_element<E: SvgNodeWriter>(&mut self, element: &Box<E>) {
         let mut node = xml_builder::XMLElement::new(element.as_svg_node_name());
 
-        element.write_svg_attrs(&mut node).unwrap();
+        element.write_svg_attrs(&self.context, &mut node).unwrap();
 
         self.els.push(node);
     }
@@ -202,21 +237,27 @@ impl<'a> SvgRendering<'a> {
         for idx in (offset - self.attrs)..offset {
             match &self.opcodes[idx] {
                 Opcode::Apply(attr) => match attr {
-                    Attr::Fill(attr) => attr.write_svg_attrs(parent).unwrap(),
-                    Attr::Stroke(attr) => attr.write_svg_attrs(parent).unwrap(),
+                    Attr::Fill(attr) => attr.write_svg_attrs(&self.context, parent).unwrap(),
+                    Attr::Stroke(attr) => attr.write_svg_attrs(&self.context, parent).unwrap(),
                     Attr::Id(attr) => {
-                        attr.write_svg_attrs(parent).unwrap();
+                        attr.write_svg_attrs(&self.context, parent).unwrap();
                         defs = true;
                     }
-                    Attr::Font(attr) => attr.write_svg_attrs(parent).unwrap(),
-                    Attr::ViewBox(attr) => attr.write_svg_attrs(parent).unwrap(),
-                    Attr::WithMask(attr) => attr.write_svg_attrs(parent).unwrap(),
-                    Attr::Opacity(attr) => attr.write_svg_attrs(parent).unwrap(),
-                    Attr::WithClipPath(attr) => attr.write_svg_attrs(parent).unwrap(),
-                    Attr::TextLayout(attr) => attr.write_svg_attrs(parent).unwrap(),
-                    Attr::WithTransform(attr) => attr.write_svg_attrs(parent).unwrap(),
-                    Attr::EnableBackground(attr) => attr.write_svg_attrs(parent).unwrap(),
-                    Attr::WithFilter(attr) => attr.write_svg_attrs(parent).unwrap(),
+                    Attr::Font(attr) => attr.write_svg_attrs(&self.context, parent).unwrap(),
+                    Attr::ViewBox(attr) => attr.write_svg_attrs(&self.context, parent).unwrap(),
+                    Attr::WithMask(attr) => attr.write_svg_attrs(&self.context, parent).unwrap(),
+                    Attr::Opacity(attr) => attr.write_svg_attrs(&self.context, parent).unwrap(),
+                    Attr::WithClipPath(attr) => {
+                        attr.write_svg_attrs(&self.context, parent).unwrap()
+                    }
+                    Attr::TextLayout(attr) => attr.write_svg_attrs(&self.context, parent).unwrap(),
+                    Attr::WithTransform(attr) => {
+                        attr.write_svg_attrs(&self.context, parent).unwrap()
+                    }
+                    Attr::EnableBackground(attr) => {
+                        attr.write_svg_attrs(&self.context, parent).unwrap()
+                    }
+                    Attr::WithFilter(attr) => attr.write_svg_attrs(&self.context, parent).unwrap(),
                 },
                 opcode => {
                     panic!("Apply attrs: {}={:?}", idx, opcode);

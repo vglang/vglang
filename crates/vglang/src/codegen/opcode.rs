@@ -2742,9 +2742,27 @@ impl From<bool> for Data {
         Data::Bool(value)
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a bool {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::Bool(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<bool>> for Data {
     fn from(value: Vec<bool>) -> Self {
         Data::ListOfBool(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [bool] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfBool(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<String> for Data {
@@ -2752,9 +2770,27 @@ impl From<String> for Data {
         Data::String(value)
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a String {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::String(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<String>> for Data {
     fn from(value: Vec<String>) -> Self {
         Data::ListOfString(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [String] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfString(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<i8> for Data {
@@ -2762,9 +2798,27 @@ impl From<i8> for Data {
         Data::Byte(value)
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a i8 {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::Byte(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<i8>> for Data {
     fn from(value: Vec<i8>) -> Self {
         Data::ListOfByte(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [i8] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfByte(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<u8> for Data {
@@ -2772,9 +2826,27 @@ impl From<u8> for Data {
         Data::Ubyte(value)
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a u8 {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::Ubyte(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<u8>> for Data {
     fn from(value: Vec<u8>) -> Self {
         Data::ListOfUbyte(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [u8] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfUbyte(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<i16> for Data {
@@ -2782,9 +2854,27 @@ impl From<i16> for Data {
         Data::Short(value)
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a i16 {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::Short(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<i16>> for Data {
     fn from(value: Vec<i16>) -> Self {
         Data::ListOfShort(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [i16] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfShort(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<u16> for Data {
@@ -2792,9 +2882,27 @@ impl From<u16> for Data {
         Data::Ushort(value)
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a u16 {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::Ushort(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<u16>> for Data {
     fn from(value: Vec<u16>) -> Self {
         Data::ListOfUshort(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [u16] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfUshort(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<i32> for Data {
@@ -2802,9 +2910,27 @@ impl From<i32> for Data {
         Data::Int(value)
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a i32 {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::Int(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<i32>> for Data {
     fn from(value: Vec<i32>) -> Self {
         Data::ListOfInt(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [i32] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfInt(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<u32> for Data {
@@ -2812,9 +2938,27 @@ impl From<u32> for Data {
         Data::Uint(value)
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a u32 {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::Uint(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<u32>> for Data {
     fn from(value: Vec<u32>) -> Self {
         Data::ListOfUint(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [u32] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfUint(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<i64> for Data {
@@ -2822,9 +2966,27 @@ impl From<i64> for Data {
         Data::Long(value)
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a i64 {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::Long(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<i64>> for Data {
     fn from(value: Vec<i64>) -> Self {
         Data::ListOfLong(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [i64] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfLong(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<u64> for Data {
@@ -2832,9 +2994,27 @@ impl From<u64> for Data {
         Data::Ulong(value)
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a u64 {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::Ulong(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<u64>> for Data {
     fn from(value: Vec<u64>) -> Self {
         Data::ListOfUlong(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [u64] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfUlong(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<f32> for Data {
@@ -2842,9 +3022,27 @@ impl From<f32> for Data {
         Data::Float(value)
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a f32 {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::Float(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<f32>> for Data {
     fn from(value: Vec<f32>) -> Self {
         Data::ListOfFloat(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [f32] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfFloat(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<f64> for Data {
@@ -2852,9 +3050,27 @@ impl From<f64> for Data {
         Data::Double(value)
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a f64 {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::Double(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<f64>> for Data {
     fn from(value: Vec<f64>) -> Self {
         Data::ListOfDouble(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [f64] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfDouble(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<Angle> for Data {
@@ -2862,9 +3078,27 @@ impl From<Angle> for Data {
         Data::Angle(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a Angle {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::Angle(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<Angle>> for Data {
     fn from(value: Vec<Angle>) -> Self {
         Data::ListOfAngle(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [Angle] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfAngle(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<Length> for Data {
@@ -2872,9 +3106,27 @@ impl From<Length> for Data {
         Data::Length(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a Length {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::Length(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<Length>> for Data {
     fn from(value: Vec<Length>) -> Self {
         Data::ListOfLength(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [Length] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfLength(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<Color> for Data {
@@ -2882,9 +3134,27 @@ impl From<Color> for Data {
         Data::Color(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a Color {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::Color(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<Color>> for Data {
     fn from(value: Vec<Color>) -> Self {
         Data::ListOfColor(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [Color] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfColor(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<Rgb> for Data {
@@ -2892,9 +3162,27 @@ impl From<Rgb> for Data {
         Data::Rgb(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a Rgb {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::Rgb(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<Rgb>> for Data {
     fn from(value: Vec<Rgb>) -> Self {
         Data::ListOfRgb(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [Rgb] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfRgb(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<Iri> for Data {
@@ -2902,9 +3190,27 @@ impl From<Iri> for Data {
         Data::Iri(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a Iri {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::Iri(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<Iri>> for Data {
     fn from(value: Vec<Iri>) -> Self {
         Data::ListOfIri(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [Iri] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfIri(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<FuncIri> for Data {
@@ -2912,9 +3218,27 @@ impl From<FuncIri> for Data {
         Data::FuncIri(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a FuncIri {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::FuncIri(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<FuncIri>> for Data {
     fn from(value: Vec<FuncIri>) -> Self {
         Data::ListOfFuncIri(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [FuncIri] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfFuncIri(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<Point> for Data {
@@ -2922,9 +3246,27 @@ impl From<Point> for Data {
         Data::Point(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a Point {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::Point(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<Point>> for Data {
     fn from(value: Vec<Point>) -> Self {
         Data::ListOfPoint(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [Point] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfPoint(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<Percent> for Data {
@@ -2932,9 +3274,27 @@ impl From<Percent> for Data {
         Data::Percent(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a Percent {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::Percent(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<Percent>> for Data {
     fn from(value: Vec<Percent>) -> Self {
         Data::ListOfPercent(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [Percent] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfPercent(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<Paint> for Data {
@@ -2942,9 +3302,27 @@ impl From<Paint> for Data {
         Data::Paint(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a Paint {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::Paint(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<Paint>> for Data {
     fn from(value: Vec<Paint>) -> Self {
         Data::ListOfPaint(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [Paint] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfPaint(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<NumberOptNumber> for Data {
@@ -2952,9 +3330,27 @@ impl From<NumberOptNumber> for Data {
         Data::NumberOptNumber(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a NumberOptNumber {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::NumberOptNumber(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<NumberOptNumber>> for Data {
     fn from(value: Vec<NumberOptNumber>) -> Self {
         Data::ListOfNumberOptNumber(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [NumberOptNumber] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfNumberOptNumber(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<Coords> for Data {
@@ -2962,9 +3358,27 @@ impl From<Coords> for Data {
         Data::Coords(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a Coords {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::Coords(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<Coords>> for Data {
     fn from(value: Vec<Coords>) -> Self {
         Data::ListOfCoords(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [Coords] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfCoords(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<Transform> for Data {
@@ -2972,9 +3386,27 @@ impl From<Transform> for Data {
         Data::Transform(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a Transform {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::Transform(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<Transform>> for Data {
     fn from(value: Vec<Transform>) -> Self {
         Data::ListOfTransform(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [Transform] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfTransform(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<Channel> for Data {
@@ -2982,9 +3414,27 @@ impl From<Channel> for Data {
         Data::Channel(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a Channel {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::Channel(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<Channel>> for Data {
     fn from(value: Vec<Channel>) -> Self {
         Data::ListOfChannel(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [Channel] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfChannel(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<ClipRule> for Data {
@@ -2992,9 +3442,27 @@ impl From<ClipRule> for Data {
         Data::ClipRule(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a ClipRule {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ClipRule(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<ClipRule>> for Data {
     fn from(value: Vec<ClipRule>) -> Self {
         Data::ListOfClipRule(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [ClipRule] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfClipRule(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<PathEvent> for Data {
@@ -3002,9 +3470,27 @@ impl From<PathEvent> for Data {
         Data::PathEvent(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a PathEvent {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::PathEvent(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<PathEvent>> for Data {
     fn from(value: Vec<PathEvent>) -> Self {
         Data::ListOfPathEvent(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [PathEvent] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfPathEvent(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<FillRule> for Data {
@@ -3012,9 +3498,27 @@ impl From<FillRule> for Data {
         Data::FillRule(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a FillRule {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::FillRule(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<FillRule>> for Data {
     fn from(value: Vec<FillRule>) -> Self {
         Data::ListOfFillRule(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [FillRule] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfFillRule(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<StrokeLineCap> for Data {
@@ -3022,9 +3526,27 @@ impl From<StrokeLineCap> for Data {
         Data::StrokeLineCap(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a StrokeLineCap {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::StrokeLineCap(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<StrokeLineCap>> for Data {
     fn from(value: Vec<StrokeLineCap>) -> Self {
         Data::ListOfStrokeLineCap(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [StrokeLineCap] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfStrokeLineCap(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<StrokeLineJoin> for Data {
@@ -3032,9 +3554,27 @@ impl From<StrokeLineJoin> for Data {
         Data::StrokeLineJoin(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a StrokeLineJoin {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::StrokeLineJoin(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<StrokeLineJoin>> for Data {
     fn from(value: Vec<StrokeLineJoin>) -> Self {
         Data::ListOfStrokeLineJoin(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [StrokeLineJoin] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfStrokeLineJoin(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<SpreadMethod> for Data {
@@ -3042,9 +3582,27 @@ impl From<SpreadMethod> for Data {
         Data::SpreadMethod(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a SpreadMethod {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::SpreadMethod(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<SpreadMethod>> for Data {
     fn from(value: Vec<SpreadMethod>) -> Self {
         Data::ListOfSpreadMethod(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [SpreadMethod] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfSpreadMethod(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<FontStyle> for Data {
@@ -3052,9 +3610,27 @@ impl From<FontStyle> for Data {
         Data::FontStyle(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a FontStyle {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::FontStyle(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<FontStyle>> for Data {
     fn from(value: Vec<FontStyle>) -> Self {
         Data::ListOfFontStyle(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [FontStyle] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfFontStyle(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<FontVariant> for Data {
@@ -3062,9 +3638,27 @@ impl From<FontVariant> for Data {
         Data::FontVariant(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a FontVariant {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::FontVariant(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<FontVariant>> for Data {
     fn from(value: Vec<FontVariant>) -> Self {
         Data::ListOfFontVariant(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [FontVariant] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfFontVariant(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<FontWeight> for Data {
@@ -3072,9 +3666,27 @@ impl From<FontWeight> for Data {
         Data::FontWeight(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a FontWeight {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::FontWeight(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<FontWeight>> for Data {
     fn from(value: Vec<FontWeight>) -> Self {
         Data::ListOfFontWeight(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [FontWeight] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfFontWeight(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<FontFamily> for Data {
@@ -3082,9 +3694,27 @@ impl From<FontFamily> for Data {
         Data::FontFamily(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a FontFamily {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::FontFamily(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<FontFamily>> for Data {
     fn from(value: Vec<FontFamily>) -> Self {
         Data::ListOfFontFamily(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [FontFamily] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfFontFamily(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<FontStretch> for Data {
@@ -3092,9 +3722,27 @@ impl From<FontStretch> for Data {
         Data::FontStretch(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a FontStretch {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::FontStretch(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<FontStretch>> for Data {
     fn from(value: Vec<FontStretch>) -> Self {
         Data::ListOfFontStretch(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [FontStretch] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfFontStretch(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<Background> for Data {
@@ -3102,9 +3750,27 @@ impl From<Background> for Data {
         Data::Background(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a Background {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::Background(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<Background>> for Data {
     fn from(value: Vec<Background>) -> Self {
         Data::ListOfBackground(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [Background] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfBackground(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<FeIn> for Data {
@@ -3112,9 +3778,27 @@ impl From<FeIn> for Data {
         Data::FeIn(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a FeIn {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::FeIn(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<FeIn>> for Data {
     fn from(value: Vec<FeIn>) -> Self {
         Data::ListOfFeIn(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [FeIn] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfFeIn(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<FeOut> for Data {
@@ -3122,9 +3806,27 @@ impl From<FeOut> for Data {
         Data::FeOut(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a FeOut {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::FeOut(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<FeOut>> for Data {
     fn from(value: Vec<FeOut>) -> Self {
         Data::ListOfFeOut(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [FeOut] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfFeOut(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<FeBlendMode> for Data {
@@ -3132,9 +3834,27 @@ impl From<FeBlendMode> for Data {
         Data::FeBlendMode(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a FeBlendMode {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::FeBlendMode(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<FeBlendMode>> for Data {
     fn from(value: Vec<FeBlendMode>) -> Self {
         Data::ListOfFeBlendMode(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [FeBlendMode] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfFeBlendMode(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<TextLengthAdjust> for Data {
@@ -3142,9 +3862,27 @@ impl From<TextLengthAdjust> for Data {
         Data::TextLengthAdjust(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a TextLengthAdjust {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::TextLengthAdjust(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<TextLengthAdjust>> for Data {
     fn from(value: Vec<TextLengthAdjust>) -> Self {
         Data::ListOfTextLengthAdjust(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [TextLengthAdjust] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfTextLengthAdjust(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<WritingMode> for Data {
@@ -3152,9 +3890,27 @@ impl From<WritingMode> for Data {
         Data::WritingMode(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a WritingMode {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::WritingMode(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<WritingMode>> for Data {
     fn from(value: Vec<WritingMode>) -> Self {
         Data::ListOfWritingMode(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [WritingMode] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfWritingMode(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<TextDirection> for Data {
@@ -3162,9 +3918,27 @@ impl From<TextDirection> for Data {
         Data::TextDirection(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a TextDirection {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::TextDirection(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<TextDirection>> for Data {
     fn from(value: Vec<TextDirection>) -> Self {
         Data::ListOfTextDirection(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [TextDirection] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfTextDirection(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<UnicodeBidi> for Data {
@@ -3172,9 +3946,27 @@ impl From<UnicodeBidi> for Data {
         Data::UnicodeBidi(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a UnicodeBidi {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::UnicodeBidi(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<UnicodeBidi>> for Data {
     fn from(value: Vec<UnicodeBidi>) -> Self {
         Data::ListOfUnicodeBidi(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [UnicodeBidi] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfUnicodeBidi(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<TextAnchor> for Data {
@@ -3182,9 +3974,27 @@ impl From<TextAnchor> for Data {
         Data::TextAnchor(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a TextAnchor {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::TextAnchor(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<TextAnchor>> for Data {
     fn from(value: Vec<TextAnchor>) -> Self {
         Data::ListOfTextAnchor(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [TextAnchor] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfTextAnchor(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<DominantBaseline> for Data {
@@ -3192,9 +4002,27 @@ impl From<DominantBaseline> for Data {
         Data::DominantBaseline(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a DominantBaseline {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::DominantBaseline(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<DominantBaseline>> for Data {
     fn from(value: Vec<DominantBaseline>) -> Self {
         Data::ListOfDominantBaseline(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [DominantBaseline] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfDominantBaseline(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<AlignmentBaseline> for Data {
@@ -3202,9 +4030,27 @@ impl From<AlignmentBaseline> for Data {
         Data::AlignmentBaseline(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a AlignmentBaseline {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::AlignmentBaseline(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<AlignmentBaseline>> for Data {
     fn from(value: Vec<AlignmentBaseline>) -> Self {
         Data::ListOfAlignmentBaseline(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [AlignmentBaseline] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfAlignmentBaseline(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<BaselineShift> for Data {
@@ -3212,9 +4058,27 @@ impl From<BaselineShift> for Data {
         Data::BaselineShift(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a BaselineShift {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::BaselineShift(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<BaselineShift>> for Data {
     fn from(value: Vec<BaselineShift>) -> Self {
         Data::ListOfBaselineShift(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [BaselineShift] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfBaselineShift(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<TextDecoration> for Data {
@@ -3222,9 +4086,27 @@ impl From<TextDecoration> for Data {
         Data::TextDecoration(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a TextDecoration {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::TextDecoration(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<TextDecoration>> for Data {
     fn from(value: Vec<TextDecoration>) -> Self {
         Data::ListOfTextDecoration(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [TextDecoration] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfTextDecoration(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<TextPathMethod> for Data {
@@ -3232,9 +4114,27 @@ impl From<TextPathMethod> for Data {
         Data::TextPathMethod(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a TextPathMethod {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::TextPathMethod(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<TextPathMethod>> for Data {
     fn from(value: Vec<TextPathMethod>) -> Self {
         Data::ListOfTextPathMethod(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [TextPathMethod] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfTextPathMethod(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<TextPathSpacing> for Data {
@@ -3242,9 +4142,27 @@ impl From<TextPathSpacing> for Data {
         Data::TextPathSpacing(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a TextPathSpacing {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::TextPathSpacing(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<TextPathSpacing>> for Data {
     fn from(value: Vec<TextPathSpacing>) -> Self {
         Data::ListOfTextPathSpacing(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [TextPathSpacing] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfTextPathSpacing(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<LetterSpacing> for Data {
@@ -3252,9 +4170,27 @@ impl From<LetterSpacing> for Data {
         Data::LetterSpacing(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a LetterSpacing {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::LetterSpacing(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<LetterSpacing>> for Data {
     fn from(value: Vec<LetterSpacing>) -> Self {
         Data::ListOfLetterSpacing(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [LetterSpacing] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfLetterSpacing(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<WordSpacing> for Data {
@@ -3262,9 +4198,27 @@ impl From<WordSpacing> for Data {
         Data::WordSpacing(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a WordSpacing {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::WordSpacing(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<WordSpacing>> for Data {
     fn from(value: Vec<WordSpacing>) -> Self {
         Data::ListOfWordSpacing(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [WordSpacing] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfWordSpacing(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<MeetOrSlice> for Data {
@@ -3272,9 +4226,27 @@ impl From<MeetOrSlice> for Data {
         Data::MeetOrSlice(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a MeetOrSlice {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::MeetOrSlice(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<MeetOrSlice>> for Data {
     fn from(value: Vec<MeetOrSlice>) -> Self {
         Data::ListOfMeetOrSlice(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [MeetOrSlice] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfMeetOrSlice(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<PreserveAspectRatio> for Data {
@@ -3282,9 +4254,27 @@ impl From<PreserveAspectRatio> for Data {
         Data::PreserveAspectRatio(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a PreserveAspectRatio {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::PreserveAspectRatio(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<PreserveAspectRatio>> for Data {
     fn from(value: Vec<PreserveAspectRatio>) -> Self {
         Data::ListOfPreserveAspectRatio(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [PreserveAspectRatio] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfPreserveAspectRatio(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<FeColorMatrixValues> for Data {
@@ -3292,9 +4282,27 @@ impl From<FeColorMatrixValues> for Data {
         Data::FeColorMatrixValues(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a FeColorMatrixValues {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::FeColorMatrixValues(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<FeColorMatrixValues>> for Data {
     fn from(value: Vec<FeColorMatrixValues>) -> Self {
         Data::ListOfFeColorMatrixValues(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [FeColorMatrixValues] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfFeColorMatrixValues(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<FeFunc> for Data {
@@ -3302,9 +4310,27 @@ impl From<FeFunc> for Data {
         Data::FeFunc(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a FeFunc {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::FeFunc(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<FeFunc>> for Data {
     fn from(value: Vec<FeFunc>) -> Self {
         Data::ListOfFeFunc(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [FeFunc] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfFeFunc(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<FeCompositeOperator> for Data {
@@ -3312,9 +4338,27 @@ impl From<FeCompositeOperator> for Data {
         Data::FeCompositeOperator(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a FeCompositeOperator {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::FeCompositeOperator(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<FeCompositeOperator>> for Data {
     fn from(value: Vec<FeCompositeOperator>) -> Self {
         Data::ListOfFeCompositeOperator(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [FeCompositeOperator] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfFeCompositeOperator(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<FeConvolveMatrixEdgeMode> for Data {
@@ -3322,9 +4366,27 @@ impl From<FeConvolveMatrixEdgeMode> for Data {
         Data::FeConvolveMatrixEdgeMode(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a FeConvolveMatrixEdgeMode {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::FeConvolveMatrixEdgeMode(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<FeConvolveMatrixEdgeMode>> for Data {
     fn from(value: Vec<FeConvolveMatrixEdgeMode>) -> Self {
         Data::ListOfFeConvolveMatrixEdgeMode(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [FeConvolveMatrixEdgeMode] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfFeConvolveMatrixEdgeMode(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<FeMorphologyOperator> for Data {
@@ -3332,9 +4394,27 @@ impl From<FeMorphologyOperator> for Data {
         Data::FeMorphologyOperator(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a FeMorphologyOperator {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::FeMorphologyOperator(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<FeMorphologyOperator>> for Data {
     fn from(value: Vec<FeMorphologyOperator>) -> Self {
         Data::ListOfFeMorphologyOperator(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [FeMorphologyOperator] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfFeMorphologyOperator(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<FeStitchTiles> for Data {
@@ -3342,9 +4422,27 @@ impl From<FeStitchTiles> for Data {
         Data::FeStitchTiles(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a FeStitchTiles {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::FeStitchTiles(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<FeStitchTiles>> for Data {
     fn from(value: Vec<FeStitchTiles>) -> Self {
         Data::ListOfFeStitchTiles(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [FeStitchTiles] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfFeStitchTiles(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 impl From<FeTurbulenceType> for Data {
@@ -3352,9 +4450,27 @@ impl From<FeTurbulenceType> for Data {
         Data::FeTurbulenceType(Box::new(value))
     }
 }
+impl<'a> TryFrom<&'a Data> for &'a FeTurbulenceType {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::FeTurbulenceType(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
 impl From<Vec<FeTurbulenceType>> for Data {
     fn from(value: Vec<FeTurbulenceType>) -> Self {
         Data::ListOfFeTurbulenceType(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a [FeTurbulenceType] {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfFeTurbulenceType(v) => Ok(v),
+            _ => Err(()),
+        }
     }
 }
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
