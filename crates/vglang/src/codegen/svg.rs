@@ -16,25 +16,24 @@ pub trait SvgNode {
     #[doc = r" set a new attribute/value pair."]
     fn set_svg_attr(&mut self, name: &str, value: &str) -> Result<(), Self::Error>;
 }
-#[doc = r" Write self as xml attrs."]
+#[doc = r" All attr node must implement this trait."]
 pub trait SvgAttrsWriter {
-    #[doc = r" write self as a xml node's attribute/value pairs."]
+    #[doc = r" Write node attribute/value pairs."]
     fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
         &self,
         ctx: &C,
         node: &mut Node,
     ) -> Result<(), Node::Error>;
 }
-#[doc = r" Write self as xml attrs."]
-pub trait SvgAttrValueWriter {
-    #[doc = r" Generate svg attribute value."]
-    fn write_svg_attr_value<C: SvgContext>(&self, ctx: &C) -> Option<String>;
-}
-#[doc = r" A trait to generate xml node."]
-#[doc = r""]
-#[doc = r" All `vglang` nodes must implement this trait."]
+#[doc = r" elements/leaves should implement this trait."]
 pub trait SvgNodeWriter: SvgAttrsWriter {
-    fn as_svg_node_name(&self) -> &str;
+    #[doc = r" Returns the name of creating svg node."]
+    fn to_svg_node_name(&self) -> &str;
+}
+#[doc = r" All data types should implement this trait."]
+pub trait SvgAttrValueWriter {
+    #[doc = r" Create a attribute value from data."]
+    fn to_svg_attr_value(&self) -> String;
 }
 impl SvgAttrsWriter for super::opcode::TextLayout {
     #[allow(unused)]
@@ -167,7 +166,7 @@ impl SvgAttrsWriter for super::opcode::Canvas {
     }
 }
 impl SvgNodeWriter for super::opcode::Canvas {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "canvas"
     }
 }
@@ -182,7 +181,7 @@ impl SvgAttrsWriter for super::opcode::Mask {
     }
 }
 impl SvgNodeWriter for super::opcode::Mask {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "mask"
     }
 }
@@ -197,7 +196,7 @@ impl SvgAttrsWriter for super::opcode::ClipPath {
     }
 }
 impl SvgNodeWriter for super::opcode::ClipPath {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "clipPath"
     }
 }
@@ -212,7 +211,7 @@ impl SvgAttrsWriter for super::opcode::Filter {
     }
 }
 impl SvgNodeWriter for super::opcode::Filter {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "filter"
     }
 }
@@ -227,7 +226,7 @@ impl SvgAttrsWriter for super::opcode::FeDistantLight {
     }
 }
 impl SvgNodeWriter for super::opcode::FeDistantLight {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "feDistantLight"
     }
 }
@@ -242,7 +241,7 @@ impl SvgAttrsWriter for super::opcode::FePointLight {
     }
 }
 impl SvgNodeWriter for super::opcode::FePointLight {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "fePointLight"
     }
 }
@@ -257,7 +256,7 @@ impl SvgAttrsWriter for super::opcode::FeSpotLight {
     }
 }
 impl SvgNodeWriter for super::opcode::FeSpotLight {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "feSpotLight"
     }
 }
@@ -272,7 +271,7 @@ impl SvgAttrsWriter for super::opcode::FeBlend {
     }
 }
 impl SvgNodeWriter for super::opcode::FeBlend {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "feBlend"
     }
 }
@@ -287,7 +286,7 @@ impl SvgAttrsWriter for super::opcode::FeColorMatrix {
     }
 }
 impl SvgNodeWriter for super::opcode::FeColorMatrix {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "feColorMatrix"
     }
 }
@@ -302,7 +301,7 @@ impl SvgAttrsWriter for super::opcode::FeComponentTransfer {
     }
 }
 impl SvgNodeWriter for super::opcode::FeComponentTransfer {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "feComponentTransfer"
     }
 }
@@ -317,7 +316,7 @@ impl SvgAttrsWriter for super::opcode::FeFuncA {
     }
 }
 impl SvgNodeWriter for super::opcode::FeFuncA {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "feFuncA"
     }
 }
@@ -332,7 +331,7 @@ impl SvgAttrsWriter for super::opcode::FeFuncR {
     }
 }
 impl SvgNodeWriter for super::opcode::FeFuncR {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "feFuncR"
     }
 }
@@ -347,7 +346,7 @@ impl SvgAttrsWriter for super::opcode::FeFuncG {
     }
 }
 impl SvgNodeWriter for super::opcode::FeFuncG {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "feFuncG"
     }
 }
@@ -362,7 +361,7 @@ impl SvgAttrsWriter for super::opcode::FeFuncB {
     }
 }
 impl SvgNodeWriter for super::opcode::FeFuncB {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "feFuncB"
     }
 }
@@ -377,7 +376,7 @@ impl SvgAttrsWriter for super::opcode::FeComposite {
     }
 }
 impl SvgNodeWriter for super::opcode::FeComposite {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "feComposite"
     }
 }
@@ -392,7 +391,7 @@ impl SvgAttrsWriter for super::opcode::FeConvolveMatrix {
     }
 }
 impl SvgNodeWriter for super::opcode::FeConvolveMatrix {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "feConvolveMatrix"
     }
 }
@@ -407,7 +406,7 @@ impl SvgAttrsWriter for super::opcode::FeDiffuseLighting {
     }
 }
 impl SvgNodeWriter for super::opcode::FeDiffuseLighting {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "feDiffuseLighting"
     }
 }
@@ -422,7 +421,7 @@ impl SvgAttrsWriter for super::opcode::FeDisplacementMap {
     }
 }
 impl SvgNodeWriter for super::opcode::FeDisplacementMap {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "feDisplacementMap"
     }
 }
@@ -437,7 +436,7 @@ impl SvgAttrsWriter for super::opcode::FeFlood {
     }
 }
 impl SvgNodeWriter for super::opcode::FeFlood {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "feFlood"
     }
 }
@@ -452,7 +451,7 @@ impl SvgAttrsWriter for super::opcode::FeGaussianBlur {
     }
 }
 impl SvgNodeWriter for super::opcode::FeGaussianBlur {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "feGaussianBlur"
     }
 }
@@ -467,7 +466,7 @@ impl SvgAttrsWriter for super::opcode::FeMerge {
     }
 }
 impl SvgNodeWriter for super::opcode::FeMerge {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "feMerge"
     }
 }
@@ -482,7 +481,7 @@ impl SvgAttrsWriter for super::opcode::FeMergeNode {
     }
 }
 impl SvgNodeWriter for super::opcode::FeMergeNode {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "feMergeNode"
     }
 }
@@ -497,7 +496,7 @@ impl SvgAttrsWriter for super::opcode::FeImage {
     }
 }
 impl SvgNodeWriter for super::opcode::FeImage {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "feImage"
     }
 }
@@ -512,7 +511,7 @@ impl SvgAttrsWriter for super::opcode::FeMorphology {
     }
 }
 impl SvgNodeWriter for super::opcode::FeMorphology {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "feMorphology"
     }
 }
@@ -527,7 +526,7 @@ impl SvgAttrsWriter for super::opcode::FeOffset {
     }
 }
 impl SvgNodeWriter for super::opcode::FeOffset {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "feOffset"
     }
 }
@@ -542,7 +541,7 @@ impl SvgAttrsWriter for super::opcode::FeSpecularLighting {
     }
 }
 impl SvgNodeWriter for super::opcode::FeSpecularLighting {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "feSpecularLighting"
     }
 }
@@ -557,7 +556,7 @@ impl SvgAttrsWriter for super::opcode::FeTile {
     }
 }
 impl SvgNodeWriter for super::opcode::FeTile {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "feTile"
     }
 }
@@ -572,7 +571,7 @@ impl SvgAttrsWriter for super::opcode::FeTurbulence {
     }
 }
 impl SvgNodeWriter for super::opcode::FeTurbulence {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "feTurbulence"
     }
 }
@@ -587,7 +586,7 @@ impl SvgAttrsWriter for super::opcode::LinearGradient {
     }
 }
 impl SvgNodeWriter for super::opcode::LinearGradient {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "linearGradient"
     }
 }
@@ -602,7 +601,7 @@ impl SvgAttrsWriter for super::opcode::RadialGradient {
     }
 }
 impl SvgNodeWriter for super::opcode::RadialGradient {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "radialGradient"
     }
 }
@@ -617,7 +616,7 @@ impl SvgAttrsWriter for super::opcode::GradientStop {
     }
 }
 impl SvgNodeWriter for super::opcode::GradientStop {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "gradientStop"
     }
 }
@@ -632,7 +631,7 @@ impl SvgAttrsWriter for super::opcode::Group {
     }
 }
 impl SvgNodeWriter for super::opcode::Group {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "group"
     }
 }
@@ -647,7 +646,7 @@ impl SvgAttrsWriter for super::opcode::Pattern {
     }
 }
 impl SvgNodeWriter for super::opcode::Pattern {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "pattern"
     }
 }
@@ -662,7 +661,7 @@ impl SvgAttrsWriter for super::opcode::Use {
     }
 }
 impl SvgNodeWriter for super::opcode::Use {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "use"
     }
 }
@@ -677,7 +676,7 @@ impl SvgAttrsWriter for super::opcode::Rect {
     }
 }
 impl SvgNodeWriter for super::opcode::Rect {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "rect"
     }
 }
@@ -692,7 +691,7 @@ impl SvgAttrsWriter for super::opcode::Circle {
     }
 }
 impl SvgNodeWriter for super::opcode::Circle {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "circle"
     }
 }
@@ -707,7 +706,7 @@ impl SvgAttrsWriter for super::opcode::Ellipse {
     }
 }
 impl SvgNodeWriter for super::opcode::Ellipse {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "ellipse"
     }
 }
@@ -722,7 +721,7 @@ impl SvgAttrsWriter for super::opcode::Line {
     }
 }
 impl SvgNodeWriter for super::opcode::Line {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "line"
     }
 }
@@ -737,7 +736,7 @@ impl SvgAttrsWriter for super::opcode::Polyline {
     }
 }
 impl SvgNodeWriter for super::opcode::Polyline {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "polyline"
     }
 }
@@ -752,7 +751,7 @@ impl SvgAttrsWriter for super::opcode::Polygon {
     }
 }
 impl SvgNodeWriter for super::opcode::Polygon {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "polygon"
     }
 }
@@ -767,7 +766,7 @@ impl SvgAttrsWriter for super::opcode::Text {
     }
 }
 impl SvgNodeWriter for super::opcode::Text {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "text"
     }
 }
@@ -782,7 +781,7 @@ impl SvgAttrsWriter for super::opcode::TextSpan {
     }
 }
 impl SvgNodeWriter for super::opcode::TextSpan {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "tspan"
     }
 }
@@ -797,7 +796,7 @@ impl SvgAttrsWriter for super::opcode::Characters {
     }
 }
 impl SvgNodeWriter for super::opcode::Characters {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "characters"
     }
 }
@@ -812,7 +811,7 @@ impl SvgAttrsWriter for super::opcode::TextPath {
     }
 }
 impl SvgNodeWriter for super::opcode::TextPath {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "textPath"
     }
 }

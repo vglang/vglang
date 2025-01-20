@@ -52,7 +52,7 @@ impl SvgAttrsWriter for Path {
 }
 
 impl SvgNodeWriter for Path {
-    fn as_svg_node_name(&self) -> &str {
+    fn to_svg_node_name(&self) -> &str {
         "path"
     }
 }
@@ -222,7 +222,7 @@ impl<'a> SvgRendering<'a> {
     }
 
     fn render_element<E: SvgNodeWriter>(&mut self, element: &Box<E>) {
-        let mut node = xml_builder::XMLElement::new(element.as_svg_node_name());
+        let mut node = xml_builder::XMLElement::new(element.to_svg_node_name());
 
         element.write_svg_attrs(&self.context, &mut node).unwrap();
 

@@ -26,8 +26,6 @@ impl SvgCodeGen for Node {
             impl SvgAttrsWriter for #opcode_mod #ident {
                 #[allow(unused)]
                 fn write_svg_attrs<C: SvgContext, Node: SvgNode>(&self, ctx: &C, node: &mut Node) -> Result<(),Node::Error> {
-
-
                     Ok(())
                 }
             }
@@ -50,7 +48,7 @@ impl SvgCodeGen for Node {
             }
 
             impl SvgNodeWriter for #opcode_mod #ident {
-                fn as_svg_node_name(&self) -> &str {
+                fn to_svg_node_name(&self) -> &str {
                     #xml_name
                 }
             }
@@ -148,24 +146,22 @@ impl SvgModGen {
                 fn set_svg_attr(&mut self, name: &str, value: &str) -> Result<(),Self::Error>;
             }
 
-
-            /// Write self as xml attrs.
+            /// All attr node must implement this trait.
             pub trait SvgAttrsWriter {
-                /// write self as a xml node's attribute/value pairs.
-                fn write_svg_attrs<C: SvgContext, Node: SvgNode>(&self,ctx: &C, node: &mut Node) -> Result<(),Node::Error>;
+                /// Write node attribute/value pairs.
+                fn write_svg_attrs<C: SvgContext, Node: SvgNode>(&self, ctx: &C, node: &mut Node) -> Result<(),Node::Error>;
             }
 
-            /// Write self as xml attrs.
-            pub trait SvgAttrValueWriter {
-                /// Generate svg attribute value.
-                fn write_svg_attr_value<C: SvgContext>(&self,ctx: &C) -> Option<String>;
-            }
-
-            /// A trait to generate xml node.
-            ///
-            /// All `vglang` nodes must implement this trait.
+            /// elements/leaves should implement this trait.
             pub trait SvgNodeWriter: SvgAttrsWriter {
-                fn as_svg_node_name(&self) -> &str;
+                /// Returns the name of creating svg node.
+                fn to_svg_node_name(&self) -> &str;
+            }
+
+            /// All data types should implement this trait.
+            pub trait SvgAttrValueWriter {
+                /// Create a attribute value from data.
+                fn to_svg_attr_value(&self) -> String;
             }
         }
     }
