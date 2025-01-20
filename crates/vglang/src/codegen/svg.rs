@@ -122,11 +122,6 @@ impl SvgAttrValueWriter for super::opcode::Rgb {
         "".to_string()
     }
 }
-impl SvgAttrValueWriter for super::opcode::Iri {
-    fn to_svg_attr_value(&self) -> String {
-        "".to_string()
-    }
-}
 impl SvgAttrValueWriter for super::opcode::FuncIri {
     fn to_svg_attr_value(&self) -> String {
         "".to_string()
@@ -1765,6 +1760,9 @@ impl SvgAttrsWriter for super::opcode::Use {
         C: SvgContext<Error = E>,
         Node: SvgNode<Error = E>,
     {
+        let value = &self.0;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("xlink:href", &value)?;
         Ok(())
     }
 }

@@ -1,4 +1,7 @@
-use crate::{codegen::svg::SvgAttrValueWriter, opcode::Length};
+use crate::{
+    codegen::svg::SvgAttrValueWriter,
+    opcode::{Iri, Length},
+};
 
 impl SvgAttrValueWriter for Length {
     fn to_svg_attr_value(&self) -> String {
@@ -12,6 +15,15 @@ impl SvgAttrValueWriter for Length {
             Length::Pt(v) => format!("{}pt", v),
             Length::Pc(v) => format!("{}pc", v),
             Length::Percent(v) => format!("{}%", v),
+        }
+    }
+}
+
+impl SvgAttrValueWriter for Iri {
+    fn to_svg_attr_value(&self) -> String {
+        match self {
+            Iri::Local(v) => format!("#{}", v),
+            Iri::Path(v) => v.clone(),
         }
     }
 }

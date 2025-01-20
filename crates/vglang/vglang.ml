@@ -184,8 +184,9 @@ enum Color {
 /// A color represents with read,green and blue components.
 data Rgb(ubyte,ubyte,ubyte);
 
+#[xml_skip]
 enum Iri {
-    Local(FuncIri),
+    Local(string),
     Path(string),
 }
 
@@ -2168,7 +2169,7 @@ el Pattern {
 }
 
 /// Use a fragment by name.
-leaf Use(#[variable] Iri);
+leaf Use(#[variable,xml("xlink:href")] Iri);
 
 
 /// The ‘rect’ element defines a rectangle which is axis-aligned with the current user coordinate system.

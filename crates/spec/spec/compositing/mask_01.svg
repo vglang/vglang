@@ -15,6 +15,6 @@
 		<text x="400px" y="200px" id="Text" family="" size="100px" />
 	</defs>
 	<rect x="0px" y="0px" width="800px" height="300px" paint="" />
-	<use paint="" />
-	<use paint="" width="2px" />
+	<use xlink:href="#Text" paint="" />
+	<use xlink:href="#Text" paint="" width="2px" />
 </svg>
