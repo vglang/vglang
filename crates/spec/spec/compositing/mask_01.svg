@@ -1,20 +1,20 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<svg width="" height="" viewbox="0 0 800 300" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<svg width="8cm" height="3cm" viewbox="0 0 800 300" xmlns="http://www.w3.org/2000/svg" version="1.1">
 	<defs>
-		<linearGradient units="" x1="" y1="" x2="" y2="" id="Gradient">
+		<linearGradient units="" x1="0px" y1="0px" x2="800px" y2="0px" id="Gradient">
 			<gradientStop offset="0" color="" opacity="0" />
 			<gradientStop offset="1" color="" opacity="1" />
 		</linearGradient>
 	</defs>
 	<defs>
-		<mask units="" x="" y="" width="" height="" id="Mask">
-			<rect x="" y="" width="" height="" paint="" />
+		<mask units="" x="0px" y="0px" width="800px" height="300px" id="Mask">
+			<rect x="0px" y="0px" width="800px" height="300px" paint="" />
 		</mask>
 	</defs>
 	<defs>
-		<text x="" y="" id="Text" family="" size="" />
+		<text x="400px" y="200px" id="Text" family="" size="100px" />
 	</defs>
-	<rect x="" y="" width="" height="" paint="" />
+	<rect x="0px" y="0px" width="800px" height="300px" paint="" />
 	<use paint="" />
-	<use paint="" width="" />
+	<use paint="" width="2px" />
 </svg>

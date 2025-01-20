@@ -6,6 +6,7 @@ enum Angle { deg(float), grad(float), rad(float) }
 /// A length is a distance Length, given as a number along with a unit which may be optional.
 ///
 /// See [`length`](https://www.w3.org/TR/SVG11/types.html#DataTypeLength)
+#[xml_skip]
 enum Length { 
     /// Represents the calculated font-size of the element. If used on the font-size property itself,
     /// it represents the inherited font-size of the element.

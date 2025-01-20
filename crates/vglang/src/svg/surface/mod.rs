@@ -2,6 +2,7 @@ mod error;
 pub use error::*;
 
 mod attr;
+mod data;
 mod el;
 
 mod rendering;

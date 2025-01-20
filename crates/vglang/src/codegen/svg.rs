@@ -112,11 +112,6 @@ impl SvgAttrValueWriter for super::opcode::Angle {
         "".to_string()
     }
 }
-impl SvgAttrValueWriter for super::opcode::Length {
-    fn to_svg_attr_value(&self) -> String {
-        "".to_string()
-    }
-}
 impl SvgAttrValueWriter for super::opcode::Color {
     fn to_svg_attr_value(&self) -> String {
         "".to_string()
