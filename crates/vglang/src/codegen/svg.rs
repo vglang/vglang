@@ -1,9 +1,11 @@
 #[doc = r" The trait to access context data."]
 pub trait SvgContext {
+    #[doc = r" Error type returns by this trait."]
+    type Error;
     fn valueof<'a, T>(
         &'a self,
         variable: &'a super::opcode::variable::Variable<T>,
-    ) -> Option<&'a T>
+    ) -> Result<&'a T, Self::Error>
     where
         super::opcode::Data: From<T>,
         for<'c> &'c T: TryFrom<&'c super::opcode::Data, Error = ()>;
@@ -19,11 +21,10 @@ pub trait SvgNode {
 #[doc = r" All attr node must implement this trait."]
 pub trait SvgAttrsWriter {
     #[doc = r" Write node attribute/value pairs."]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error>;
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>;
 }
 #[doc = r" elements/leaves should implement this trait."]
 pub trait SvgNodeWriter: SvgAttrsWriter {
@@ -35,134 +36,187 @@ pub trait SvgAttrValueWriter {
     #[doc = r" Create a attribute value from data."]
     fn to_svg_attr_value(&self) -> String;
 }
+impl SvgAttrValueWriter for bool {
+    fn to_svg_attr_value(&self) -> String {
+        format!("{}", self)
+    }
+}
+impl SvgAttrValueWriter for String {
+    fn to_svg_attr_value(&self) -> String {
+        format!("{}", self)
+    }
+}
+impl SvgAttrValueWriter for i8 {
+    fn to_svg_attr_value(&self) -> String {
+        format!("{}", self)
+    }
+}
+impl SvgAttrValueWriter for u8 {
+    fn to_svg_attr_value(&self) -> String {
+        format!("{}", self)
+    }
+}
+impl SvgAttrValueWriter for i16 {
+    fn to_svg_attr_value(&self) -> String {
+        format!("{}", self)
+    }
+}
+impl SvgAttrValueWriter for u16 {
+    fn to_svg_attr_value(&self) -> String {
+        format!("{}", self)
+    }
+}
+impl SvgAttrValueWriter for i32 {
+    fn to_svg_attr_value(&self) -> String {
+        format!("{}", self)
+    }
+}
+impl SvgAttrValueWriter for u32 {
+    fn to_svg_attr_value(&self) -> String {
+        format!("{}", self)
+    }
+}
+impl SvgAttrValueWriter for i64 {
+    fn to_svg_attr_value(&self) -> String {
+        format!("{}", self)
+    }
+}
+impl SvgAttrValueWriter for u64 {
+    fn to_svg_attr_value(&self) -> String {
+        format!("{}", self)
+    }
+}
+impl SvgAttrValueWriter for f32 {
+    fn to_svg_attr_value(&self) -> String {
+        format!("{}", self)
+    }
+}
+impl SvgAttrValueWriter for f64 {
+    fn to_svg_attr_value(&self) -> String {
+        format!("{}", self)
+    }
+}
 impl SvgAttrsWriter for super::opcode::TextLayout {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
         Ok(())
     }
 }
 impl SvgAttrsWriter for super::opcode::WithTransform {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
         Ok(())
     }
 }
 impl SvgAttrsWriter for super::opcode::Id {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
         Ok(())
     }
 }
 impl SvgAttrsWriter for super::opcode::Fill {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
         Ok(())
     }
 }
 impl SvgAttrsWriter for super::opcode::Stroke {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
         Ok(())
     }
 }
 impl SvgAttrsWriter for super::opcode::Font {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
         Ok(())
     }
 }
 impl SvgAttrsWriter for super::opcode::EnableBackground {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
         Ok(())
     }
 }
 impl SvgAttrsWriter for super::opcode::WithFilter {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
         Ok(())
     }
 }
 impl SvgAttrsWriter for super::opcode::WithClipPath {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
         Ok(())
     }
 }
 impl SvgAttrsWriter for super::opcode::WithMask {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
         Ok(())
     }
 }
 impl SvgAttrsWriter for super::opcode::Opacity {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
         Ok(())
     }
 }
 impl SvgAttrsWriter for super::opcode::ViewBox {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
         Ok(())
     }
 }
 impl SvgAttrsWriter for super::opcode::Canvas {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        let value = &self.width;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("width", &value)?;
+        let value = &self.height;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("height", &value)?;
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::Canvas {
@@ -171,13 +225,36 @@ impl SvgNodeWriter for super::opcode::Canvas {
     }
 }
 impl SvgAttrsWriter for super::opcode::Mask {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        if let Some(value) = &self.units {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("units", &value)?;
+        }
+        if let Some(value) = &self.content_units {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("contentUnits", &value)?;
+        }
+        if let Some(value) = &self.x {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("x", &value)?;
+        }
+        if let Some(value) = &self.y {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("y", &value)?;
+        }
+        if let Some(value) = &self.width {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("width", &value)?;
+        }
+        if let Some(value) = &self.height {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("height", &value)?;
+        }
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::Mask {
@@ -186,13 +263,12 @@ impl SvgNodeWriter for super::opcode::Mask {
     }
 }
 impl SvgAttrsWriter for super::opcode::ClipPath {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::ClipPath {
@@ -201,13 +277,40 @@ impl SvgNodeWriter for super::opcode::ClipPath {
     }
 }
 impl SvgAttrsWriter for super::opcode::Filter {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        if let Some(value) = &self.units {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("units", &value)?;
+        }
+        if let Some(value) = &self.primitive_units {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("primitiveUnits", &value)?;
+        }
+        if let Some(value) = &self.x {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("x", &value)?;
+        }
+        if let Some(value) = &self.y {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("y", &value)?;
+        }
+        if let Some(value) = &self.width {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("width", &value)?;
+        }
+        if let Some(value) = &self.height {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("height", &value)?;
+        }
+        if let Some(value) = &self.res {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("res", &value)?;
+        }
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::Filter {
@@ -216,13 +319,20 @@ impl SvgNodeWriter for super::opcode::Filter {
     }
 }
 impl SvgAttrsWriter for super::opcode::FeDistantLight {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        if let Some(value) = &self.azimuth {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("azimuth", &value)?;
+        }
+        if let Some(value) = &self.elevation {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("elevation", &value)?;
+        }
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::FeDistantLight {
@@ -231,13 +341,24 @@ impl SvgNodeWriter for super::opcode::FeDistantLight {
     }
 }
 impl SvgAttrsWriter for super::opcode::FePointLight {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        if let Some(value) = &self.x {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("x", &value)?;
+        }
+        if let Some(value) = &self.y {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("y", &value)?;
+        }
+        if let Some(value) = &self.z {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("z", &value)?;
+        }
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::FePointLight {
@@ -246,13 +367,44 @@ impl SvgNodeWriter for super::opcode::FePointLight {
     }
 }
 impl SvgAttrsWriter for super::opcode::FeSpotLight {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        if let Some(value) = &self.x {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("x", &value)?;
+        }
+        if let Some(value) = &self.y {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("y", &value)?;
+        }
+        if let Some(value) = &self.z {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("z", &value)?;
+        }
+        if let Some(value) = &self.point_at_x {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("pointAtX", &value)?;
+        }
+        if let Some(value) = &self.point_at_y {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("pointAtY", &value)?;
+        }
+        if let Some(value) = &self.point_at_z {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("pointAtZ", &value)?;
+        }
+        if let Some(value) = &self.specular_exponent {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("specularExponent", &value)?;
+        }
+        if let Some(value) = &self.limiting_cone_angle {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("limitingConeAngle", &value)?;
+        }
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::FeSpotLight {
@@ -261,13 +413,44 @@ impl SvgNodeWriter for super::opcode::FeSpotLight {
     }
 }
 impl SvgAttrsWriter for super::opcode::FeBlend {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        if let Some(value) = &self.mode {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("mode", &value)?;
+        }
+        if let Some(value) = &self.r#in {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("in", &value)?;
+        }
+        if let Some(value) = &self.in2 {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("in2", &value)?;
+        }
+        if let Some(value) = &self.x {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("x", &value)?;
+        }
+        if let Some(value) = &self.y {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("y", &value)?;
+        }
+        if let Some(value) = &self.width {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("width", &value)?;
+        }
+        if let Some(value) = &self.height {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("height", &value)?;
+        }
+        if let Some(value) = &self.result {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("result", &value)?;
+        }
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::FeBlend {
@@ -276,13 +459,38 @@ impl SvgNodeWriter for super::opcode::FeBlend {
     }
 }
 impl SvgAttrsWriter for super::opcode::FeColorMatrix {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        let value = &self.r#in;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("in", &value)?;
+        let value = &self.values;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("values", &value)?;
+        if let Some(value) = &self.x {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("x", &value)?;
+        }
+        if let Some(value) = &self.y {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("y", &value)?;
+        }
+        if let Some(value) = &self.width {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("width", &value)?;
+        }
+        if let Some(value) = &self.height {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("height", &value)?;
+        }
+        if let Some(value) = &self.result {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("result", &value)?;
+        }
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::FeColorMatrix {
@@ -291,13 +499,12 @@ impl SvgNodeWriter for super::opcode::FeColorMatrix {
     }
 }
 impl SvgAttrsWriter for super::opcode::FeComponentTransfer {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::FeComponentTransfer {
@@ -306,13 +513,12 @@ impl SvgNodeWriter for super::opcode::FeComponentTransfer {
     }
 }
 impl SvgAttrsWriter for super::opcode::FeFuncA {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::FeFuncA {
@@ -321,13 +527,12 @@ impl SvgNodeWriter for super::opcode::FeFuncA {
     }
 }
 impl SvgAttrsWriter for super::opcode::FeFuncR {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::FeFuncR {
@@ -336,13 +541,12 @@ impl SvgNodeWriter for super::opcode::FeFuncR {
     }
 }
 impl SvgAttrsWriter for super::opcode::FeFuncG {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::FeFuncG {
@@ -351,13 +555,12 @@ impl SvgNodeWriter for super::opcode::FeFuncG {
     }
 }
 impl SvgAttrsWriter for super::opcode::FeFuncB {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::FeFuncB {
@@ -366,13 +569,43 @@ impl SvgNodeWriter for super::opcode::FeFuncB {
     }
 }
 impl SvgAttrsWriter for super::opcode::FeComposite {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        if let Some(value) = &self.r#in {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("in", &value)?;
+        }
+        let value = &self.in2;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("in2", &value)?;
+        if let Some(value) = &self.operator {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("operator", &value)?;
+        }
+        if let Some(value) = &self.x {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("x", &value)?;
+        }
+        if let Some(value) = &self.y {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("y", &value)?;
+        }
+        if let Some(value) = &self.width {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("width", &value)?;
+        }
+        if let Some(value) = &self.height {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("height", &value)?;
+        }
+        if let Some(value) = &self.result {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("result", &value)?;
+        }
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::FeComposite {
@@ -381,13 +614,69 @@ impl SvgNodeWriter for super::opcode::FeComposite {
     }
 }
 impl SvgAttrsWriter for super::opcode::FeConvolveMatrix {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        if let Some(value) = &self.r#in {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("in", &value)?;
+        }
+        if let Some(value) = &self.order {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("order", &value)?;
+        }
+        let value = &self.kernel;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("kernel", &value)?;
+        if let Some(value) = &self.divisor {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("divisor", &value)?;
+        }
+        if let Some(value) = &self.bias {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("bias", &value)?;
+        }
+        if let Some(value) = &self.target_x {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("targetX", &value)?;
+        }
+        if let Some(value) = &self.target_y {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("targetY", &value)?;
+        }
+        let value = &self.edge_mode;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("edgeMode", &value)?;
+        if let Some(value) = &self.kernel_unit_len {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("kernelUnitLen", &value)?;
+        }
+        let value = &self.preserve_alpha;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("preserveAlpha", &value)?;
+        if let Some(value) = &self.x {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("x", &value)?;
+        }
+        if let Some(value) = &self.y {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("y", &value)?;
+        }
+        if let Some(value) = &self.width {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("width", &value)?;
+        }
+        if let Some(value) = &self.height {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("height", &value)?;
+        }
+        if let Some(value) = &self.result {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("result", &value)?;
+        }
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::FeConvolveMatrix {
@@ -396,13 +685,47 @@ impl SvgNodeWriter for super::opcode::FeConvolveMatrix {
     }
 }
 impl SvgAttrsWriter for super::opcode::FeDiffuseLighting {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        let value = &self.r#in;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("in", &value)?;
+        if let Some(value) = &self.surface_scale {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("surfaceScale", &value)?;
+        }
+        if let Some(value) = &self.diffuse_constant {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("diffuseConstant", &value)?;
+        }
+        if let Some(value) = &self.kernel_unit_len {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("kernelUnitLen", &value)?;
+        }
+        if let Some(value) = &self.x {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("x", &value)?;
+        }
+        if let Some(value) = &self.y {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("y", &value)?;
+        }
+        if let Some(value) = &self.width {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("width", &value)?;
+        }
+        if let Some(value) = &self.height {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("height", &value)?;
+        }
+        if let Some(value) = &self.result {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("result", &value)?;
+        }
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::FeDiffuseLighting {
@@ -411,13 +734,51 @@ impl SvgNodeWriter for super::opcode::FeDiffuseLighting {
     }
 }
 impl SvgAttrsWriter for super::opcode::FeDisplacementMap {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        if let Some(value) = &self.r#in {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("in", &value)?;
+        }
+        let value = &self.in2;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("in2", &value)?;
+        if let Some(value) = &self.scale {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("scale", &value)?;
+        }
+        if let Some(value) = &self.x_channel_selector {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("xChannelSelector", &value)?;
+        }
+        if let Some(value) = &self.y_channel_selector {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("yChannelSelector", &value)?;
+        }
+        if let Some(value) = &self.x {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("x", &value)?;
+        }
+        if let Some(value) = &self.y {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("y", &value)?;
+        }
+        if let Some(value) = &self.width {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("width", &value)?;
+        }
+        if let Some(value) = &self.height {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("height", &value)?;
+        }
+        if let Some(value) = &self.result {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("result", &value)?;
+        }
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::FeDisplacementMap {
@@ -426,13 +787,40 @@ impl SvgNodeWriter for super::opcode::FeDisplacementMap {
     }
 }
 impl SvgAttrsWriter for super::opcode::FeFlood {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        if let Some(value) = &self.color {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("color", &value)?;
+        }
+        if let Some(value) = &self.opacity {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("opacity", &value)?;
+        }
+        if let Some(value) = &self.x {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("x", &value)?;
+        }
+        if let Some(value) = &self.y {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("y", &value)?;
+        }
+        if let Some(value) = &self.width {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("width", &value)?;
+        }
+        if let Some(value) = &self.height {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("height", &value)?;
+        }
+        if let Some(value) = &self.result {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("result", &value)?;
+        }
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::FeFlood {
@@ -441,13 +829,40 @@ impl SvgNodeWriter for super::opcode::FeFlood {
     }
 }
 impl SvgAttrsWriter for super::opcode::FeGaussianBlur {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        if let Some(value) = &self.r#in {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("in", &value)?;
+        }
+        if let Some(value) = &self.std_deviation {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("stdDeviation", &value)?;
+        }
+        if let Some(value) = &self.x {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("x", &value)?;
+        }
+        if let Some(value) = &self.y {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("y", &value)?;
+        }
+        if let Some(value) = &self.width {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("width", &value)?;
+        }
+        if let Some(value) = &self.height {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("height", &value)?;
+        }
+        if let Some(value) = &self.result {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("result", &value)?;
+        }
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::FeGaussianBlur {
@@ -456,13 +871,32 @@ impl SvgNodeWriter for super::opcode::FeGaussianBlur {
     }
 }
 impl SvgAttrsWriter for super::opcode::FeMerge {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        if let Some(value) = &self.x {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("x", &value)?;
+        }
+        if let Some(value) = &self.y {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("y", &value)?;
+        }
+        if let Some(value) = &self.width {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("width", &value)?;
+        }
+        if let Some(value) = &self.height {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("height", &value)?;
+        }
+        if let Some(value) = &self.result {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("result", &value)?;
+        }
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::FeMerge {
@@ -471,13 +905,12 @@ impl SvgNodeWriter for super::opcode::FeMerge {
     }
 }
 impl SvgAttrsWriter for super::opcode::FeMergeNode {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::FeMergeNode {
@@ -486,13 +919,39 @@ impl SvgNodeWriter for super::opcode::FeMergeNode {
     }
 }
 impl SvgAttrsWriter for super::opcode::FeImage {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        let value = &self.href;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("href", &value)?;
+        if let Some(value) = &self.aspect {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("aspect", &value)?;
+        }
+        if let Some(value) = &self.x {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("x", &value)?;
+        }
+        if let Some(value) = &self.y {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("y", &value)?;
+        }
+        if let Some(value) = &self.width {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("width", &value)?;
+        }
+        if let Some(value) = &self.height {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("height", &value)?;
+        }
+        if let Some(value) = &self.result {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("result", &value)?;
+        }
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::FeImage {
@@ -501,13 +960,44 @@ impl SvgNodeWriter for super::opcode::FeImage {
     }
 }
 impl SvgAttrsWriter for super::opcode::FeMorphology {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        if let Some(value) = &self.r#in {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("in", &value)?;
+        }
+        if let Some(value) = &self.mode {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("mode", &value)?;
+        }
+        if let Some(value) = &self.radius {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("radius", &value)?;
+        }
+        if let Some(value) = &self.x {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("x", &value)?;
+        }
+        if let Some(value) = &self.y {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("y", &value)?;
+        }
+        if let Some(value) = &self.width {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("width", &value)?;
+        }
+        if let Some(value) = &self.height {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("height", &value)?;
+        }
+        if let Some(value) = &self.result {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("result", &value)?;
+        }
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::FeMorphology {
@@ -516,13 +1006,44 @@ impl SvgNodeWriter for super::opcode::FeMorphology {
     }
 }
 impl SvgAttrsWriter for super::opcode::FeOffset {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        if let Some(value) = &self.r#in {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("in", &value)?;
+        }
+        if let Some(value) = &self.dx {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("dx", &value)?;
+        }
+        if let Some(value) = &self.dy {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("dy", &value)?;
+        }
+        if let Some(value) = &self.x {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("x", &value)?;
+        }
+        if let Some(value) = &self.y {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("y", &value)?;
+        }
+        if let Some(value) = &self.width {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("width", &value)?;
+        }
+        if let Some(value) = &self.height {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("height", &value)?;
+        }
+        if let Some(value) = &self.result {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("result", &value)?;
+        }
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::FeOffset {
@@ -531,13 +1052,52 @@ impl SvgNodeWriter for super::opcode::FeOffset {
     }
 }
 impl SvgAttrsWriter for super::opcode::FeSpecularLighting {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        if let Some(value) = &self.r#in {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("in", &value)?;
+        }
+        if let Some(value) = &self.surface_scale {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("surfaceScale", &value)?;
+        }
+        if let Some(value) = &self.specular_constant {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("specularConstant", &value)?;
+        }
+        if let Some(value) = &self.specular_exponent {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("specularExponent", &value)?;
+        }
+        if let Some(value) = &self.kernel_unit_len {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("kernelUnitLen", &value)?;
+        }
+        if let Some(value) = &self.x {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("x", &value)?;
+        }
+        if let Some(value) = &self.y {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("y", &value)?;
+        }
+        if let Some(value) = &self.width {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("width", &value)?;
+        }
+        if let Some(value) = &self.height {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("height", &value)?;
+        }
+        if let Some(value) = &self.result {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("result", &value)?;
+        }
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::FeSpecularLighting {
@@ -546,13 +1106,36 @@ impl SvgNodeWriter for super::opcode::FeSpecularLighting {
     }
 }
 impl SvgAttrsWriter for super::opcode::FeTile {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        if let Some(value) = &self.r#in {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("in", &value)?;
+        }
+        if let Some(value) = &self.x {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("x", &value)?;
+        }
+        if let Some(value) = &self.y {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("y", &value)?;
+        }
+        if let Some(value) = &self.width {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("width", &value)?;
+        }
+        if let Some(value) = &self.height {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("height", &value)?;
+        }
+        if let Some(value) = &self.result {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("result", &value)?;
+        }
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::FeTile {
@@ -561,13 +1144,52 @@ impl SvgNodeWriter for super::opcode::FeTile {
     }
 }
 impl SvgAttrsWriter for super::opcode::FeTurbulence {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        if let Some(value) = &self.base_frequency {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("baseFrequency", &value)?;
+        }
+        if let Some(value) = &self.num_octaves {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("numOctaves", &value)?;
+        }
+        if let Some(value) = &self.seed {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("seed", &value)?;
+        }
+        if let Some(value) = &self.stitch_tiles {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("stitchTiles", &value)?;
+        }
+        if let Some(value) = &self.r#type {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("type", &value)?;
+        }
+        if let Some(value) = &self.x {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("x", &value)?;
+        }
+        if let Some(value) = &self.y {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("y", &value)?;
+        }
+        if let Some(value) = &self.width {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("width", &value)?;
+        }
+        if let Some(value) = &self.height {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("height", &value)?;
+        }
+        if let Some(value) = &self.result {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("result", &value)?;
+        }
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::FeTurbulence {
@@ -576,13 +1198,40 @@ impl SvgNodeWriter for super::opcode::FeTurbulence {
     }
 }
 impl SvgAttrsWriter for super::opcode::LinearGradient {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        if let Some(value) = &self.units {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("units", &value)?;
+        }
+        if let Some(value) = &self.transform {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("transform", &value)?;
+        }
+        if let Some(value) = &self.x1 {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("x1", &value)?;
+        }
+        if let Some(value) = &self.y1 {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("y1", &value)?;
+        }
+        if let Some(value) = &self.x2 {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("x2", &value)?;
+        }
+        if let Some(value) = &self.y2 {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("y2", &value)?;
+        }
+        if let Some(value) = &self.spread {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("spread", &value)?;
+        }
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::LinearGradient {
@@ -591,13 +1240,44 @@ impl SvgNodeWriter for super::opcode::LinearGradient {
     }
 }
 impl SvgAttrsWriter for super::opcode::RadialGradient {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        if let Some(value) = &self.unit {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("unit", &value)?;
+        }
+        if let Some(value) = &self.transform {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("transform", &value)?;
+        }
+        if let Some(value) = &self.cx {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("cx", &value)?;
+        }
+        if let Some(value) = &self.cy {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("cy", &value)?;
+        }
+        if let Some(value) = &self.r {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("r", &value)?;
+        }
+        if let Some(value) = &self.fx {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("fx", &value)?;
+        }
+        if let Some(value) = &self.fy {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("fy", &value)?;
+        }
+        if let Some(value) = &self.spread {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("spread", &value)?;
+        }
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::RadialGradient {
@@ -606,13 +1286,23 @@ impl SvgNodeWriter for super::opcode::RadialGradient {
     }
 }
 impl SvgAttrsWriter for super::opcode::GradientStop {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        let value = &self.offset;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("offset", &value)?;
+        if let Some(value) = &self.color {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("color", &value)?;
+        }
+        if let Some(value) = &self.opacity {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("opacity", &value)?;
+        }
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::GradientStop {
@@ -621,13 +1311,12 @@ impl SvgNodeWriter for super::opcode::GradientStop {
     }
 }
 impl SvgAttrsWriter for super::opcode::Group {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::Group {
@@ -636,13 +1325,40 @@ impl SvgNodeWriter for super::opcode::Group {
     }
 }
 impl SvgAttrsWriter for super::opcode::Pattern {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        if let Some(value) = &self.units {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("units", &value)?;
+        }
+        if let Some(value) = &self.content_units {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("contentUnits", &value)?;
+        }
+        if let Some(value) = &self.transform {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("transform", &value)?;
+        }
+        if let Some(value) = &self.x {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("x", &value)?;
+        }
+        if let Some(value) = &self.y {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("y", &value)?;
+        }
+        if let Some(value) = &self.width {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("width", &value)?;
+        }
+        if let Some(value) = &self.height {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("height", &value)?;
+        }
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::Pattern {
@@ -651,13 +1367,12 @@ impl SvgNodeWriter for super::opcode::Pattern {
     }
 }
 impl SvgAttrsWriter for super::opcode::Use {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::Use {
@@ -666,13 +1381,32 @@ impl SvgNodeWriter for super::opcode::Use {
     }
 }
 impl SvgAttrsWriter for super::opcode::Rect {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        let value = &self.x;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("x", &value)?;
+        let value = &self.y;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("y", &value)?;
+        let value = &self.width;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("width", &value)?;
+        let value = &self.height;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("height", &value)?;
+        if let Some(value) = &self.rx {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("rx", &value)?;
+        }
+        if let Some(value) = &self.ry {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("ry", &value)?;
+        }
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::Rect {
@@ -681,13 +1415,21 @@ impl SvgNodeWriter for super::opcode::Rect {
     }
 }
 impl SvgAttrsWriter for super::opcode::Circle {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        let value = &self.cx;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("cx", &value)?;
+        let value = &self.cy;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("cy", &value)?;
+        let value = &self.r;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("r", &value)?;
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::Circle {
@@ -696,13 +1438,26 @@ impl SvgNodeWriter for super::opcode::Circle {
     }
 }
 impl SvgAttrsWriter for super::opcode::Ellipse {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        if let Some(value) = &self.cx {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("cx", &value)?;
+        }
+        if let Some(value) = &self.cy {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("cy", &value)?;
+        }
+        let value = &self.rx;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("rx", &value)?;
+        let value = &self.ry;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("ry", &value)?;
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::Ellipse {
@@ -711,13 +1466,24 @@ impl SvgNodeWriter for super::opcode::Ellipse {
     }
 }
 impl SvgAttrsWriter for super::opcode::Line {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        let value = &self.x1;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("x1", &value)?;
+        let value = &self.y1;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("y1", &value)?;
+        let value = &self.x2;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("x2", &value)?;
+        let value = &self.y2;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("y2", &value)?;
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::Line {
@@ -726,13 +1492,12 @@ impl SvgNodeWriter for super::opcode::Line {
     }
 }
 impl SvgAttrsWriter for super::opcode::Polyline {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::Polyline {
@@ -741,13 +1506,12 @@ impl SvgNodeWriter for super::opcode::Polyline {
     }
 }
 impl SvgAttrsWriter for super::opcode::Polygon {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::Polygon {
@@ -756,13 +1520,40 @@ impl SvgNodeWriter for super::opcode::Polygon {
     }
 }
 impl SvgAttrsWriter for super::opcode::Text {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        if let Some(value) = &self.x {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("x", &value)?;
+        }
+        if let Some(value) = &self.y {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("y", &value)?;
+        }
+        if let Some(value) = &self.dx {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("dx", &value)?;
+        }
+        if let Some(value) = &self.dy {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("dy", &value)?;
+        }
+        if let Some(value) = &self.rotate {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("rotate", &value)?;
+        }
+        if let Some(value) = &self.text_length {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("textLength", &value)?;
+        }
+        if let Some(value) = &self.length_adjust {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("lengthAdjust", &value)?;
+        }
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::Text {
@@ -771,13 +1562,40 @@ impl SvgNodeWriter for super::opcode::Text {
     }
 }
 impl SvgAttrsWriter for super::opcode::TextSpan {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        if let Some(value) = &self.x {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("x", &value)?;
+        }
+        if let Some(value) = &self.y {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("y", &value)?;
+        }
+        if let Some(value) = &self.dx {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("dx", &value)?;
+        }
+        if let Some(value) = &self.dy {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("dy", &value)?;
+        }
+        if let Some(value) = &self.rotate {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("rotate", &value)?;
+        }
+        if let Some(value) = &self.text_length {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("textLength", &value)?;
+        }
+        if let Some(value) = &self.length_adjust {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("lengthAdjust", &value)?;
+        }
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::TextSpan {
@@ -786,13 +1604,12 @@ impl SvgNodeWriter for super::opcode::TextSpan {
     }
 }
 impl SvgAttrsWriter for super::opcode::Characters {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::Characters {
@@ -801,13 +1618,27 @@ impl SvgNodeWriter for super::opcode::Characters {
     }
 }
 impl SvgAttrsWriter for super::opcode::TextPath {
-    #[allow(unused)]
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        ctx: &C,
-        node: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        if let Some(value) = &self.start_offset {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("startOffset", &value)?;
+        }
+        if let Some(value) = &self.method {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("method", &value)?;
+        }
+        if let Some(value) = &self.spacing {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("spacing", &value)?;
+        }
+        let value = &self.href;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("href", &value)?;
+        Ok(())
     }
 }
 impl SvgNodeWriter for super::opcode::TextPath {

@@ -1,6 +1,6 @@
 //! Extension traits to help generate rust code from `ml` opcodes.
 
-use heck::{ToSnakeCase, ToUpperCamelCase};
+use heck::{ToLowerCamelCase, ToSnakeCase, ToUpperCamelCase};
 use proc_macro2::TokenStream;
 use quote::quote;
 
@@ -10,6 +10,7 @@ use crate::ir::{Comment, Enum, Field, Ident, Node, Type};
 pub trait IdentGen {
     fn field_ident(&self) -> TokenStream;
     fn type_ident(&self) -> TokenStream;
+    fn xml_attr_name(&self) -> String;
     fn field_ident_with_prefix(&self, prefix: &str) -> TokenStream;
 }
 
@@ -28,6 +29,10 @@ impl IdentGen for Ident {
 
     fn type_ident(&self) -> TokenStream {
         self.1.to_upper_camel_case().parse().unwrap()
+    }
+
+    fn xml_attr_name(&self) -> String {
+        self.1.to_lower_camel_case()
     }
 }
 
@@ -155,6 +160,9 @@ pub trait FieldGen {
     /// Generate filed ident with keywords escape.
     fn gen_ident(&self) -> Option<TokenStream>;
 
+    /// Generate filed ident with keywords escape.
+    fn gen_xml_attr_name(&self) -> Option<String>;
+
     /// Generate field definition code.
     fn gen_definition(&self, vis: TokenStream) -> TokenStream;
 
@@ -206,6 +214,14 @@ impl<'a> FieldGen for Field<'a> {
 
     fn gen_ident(&self) -> Option<TokenStream> {
         self.ident().map(|ident| ident.field_ident())
+    }
+
+    fn gen_xml_attr_name(&self) -> Option<String> {
+        if let Some(name) = self.xml_name() {
+            Some(name.to_string())
+        } else {
+            self.ident().map(|ident| ident.xml_attr_name())
+        }
     }
 
     fn gen_type_definition(&self, opcode_mod: &TokenStream) -> TokenStream {

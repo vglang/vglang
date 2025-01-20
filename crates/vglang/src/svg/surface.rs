@@ -28,12 +28,15 @@ pub enum SvgRenderingError {
     #[error("Unsatisfied register name")]
     Register(String),
 
+    #[error("variable({0}) cast error. ")]
+    VariableCast(String),
+
     #[error(transparent)]
     FormatError(#[from] std::fmt::Error),
 }
 
 impl SvgNode for XMLElement {
-    type Error = XMLError;
+    type Error = SvgRenderingError;
     fn set_svg_attr(&mut self, name: &str, value: &str) -> Result<(), Self::Error> {
         self.add_attribute(name, value);
 
@@ -42,12 +45,12 @@ impl SvgNode for XMLElement {
 }
 
 impl SvgAttrsWriter for Path {
-    fn write_svg_attrs<C: SvgContext, Node: SvgNode>(
-        &self,
-        _: &C,
-        _: &mut Node,
-    ) -> Result<(), Node::Error> {
-        todo!()
+    fn write_svg_attrs<C, Node, E>(&self, _: &C, _: &mut Node) -> Result<(), Node::Error>
+    where
+        C: SvgContext<Error = E>,
+        Node: SvgNode<Error = E>,
+    {
+        Ok(())
     }
 }
 
@@ -85,20 +88,22 @@ impl Program for SvgRenderer {
 struct SvgRenderingContext<'a>(&'a HashMap<String, Data>);
 
 impl<'a> SvgContext for SvgRenderingContext<'a> {
-    fn valueof<'b, T>(&'b self, variable: &'b Variable<T>) -> Option<&'b T>
+    type Error = SvgRenderingError;
+    fn valueof<'b, T>(&'b self, variable: &'b Variable<T>) -> Result<&'b T, Self::Error>
     where
         Data: From<T>,
         for<'c> &'c T: TryFrom<&'c Data, Error = ()>,
     {
         match variable {
-            Variable::Constant(v) => Some(v),
+            Variable::Constant(v) => Ok(v),
             Variable::Reference { path, target } => match target {
                 Target::Register => match path {
                     variable::Path::Named(name) => {
                         if let Some(v) = self.0.get(name) {
-                            TryFrom::try_from(v).ok()
+                            TryFrom::try_from(v)
+                                .map_err(|_| SvgRenderingError::VariableCast(name.to_string()))
                         } else {
-                            None
+                            Err(SvgRenderingError::Register(name.clone()))
                         }
                     }
                     path => unimplemented!("Unsupport variable path {:?}", path),

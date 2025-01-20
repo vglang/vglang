@@ -350,6 +350,31 @@ impl<'a> Field<'a> {
 
         return false;
     }
+
+    pub fn xml_skip(&self) -> bool {
+        for prop in self.properties() {
+            for param in &prop.calls {
+                if param.target.1 == "xml_skip" {
+                    return true;
+                }
+            }
+        }
+
+        false
+    }
+
+    /// Returns the replacement xml display name.
+    pub fn xml_name(&self) -> Option<&str> {
+        for prop in self.properties() {
+            for param in &prop.calls {
+                if param.target.1 == "xml" {
+                    return param.params.first().map(|v| v.1.as_str());
+                }
+            }
+        }
+
+        None
+    }
 }
 
 impl<'a> Iterator for FieldIter<'a> {
