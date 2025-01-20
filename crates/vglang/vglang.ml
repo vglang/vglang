@@ -849,7 +849,10 @@ attr TextLayout {
 
 /// support for various international writing directions, such as left-to-right (e.g., Latin scripts) and
 /// bidirectional (e.g., Hebrew or Arabic) and vertical (e.g., Asian scripts).
-attr WithTransform(vec[Transform]);
+attr WithTransform(
+    #[xml("transform")]
+    vec[Transform]
+);
 
 /// Define a fragment with name.
 attr Id(string);

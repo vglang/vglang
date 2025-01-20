@@ -3,37 +3,15 @@ use proc_macro2::TokenStream;
 use quote::quote;
 
 use crate::{
-    codegen::ext::{FieldGen, NodeGen},
+    codegen::ext::{EnumGen, FieldGen, NodeGen},
     ir::{Enum, Node, Stat},
 };
 
-trait SvgCodeGen {
+trait SvgNodeWriterGen {
     fn gen_node_writer(&self, opcode_mod: &TokenStream) -> TokenStream;
-
-    fn gen_attrs_writer(&self, opcode_mod: &TokenStream) -> TokenStream;
-
-    fn gen_attr_value_writer(&self, opcode_mod: &TokenStream) -> TokenStream;
 }
 
-impl SvgCodeGen for Node {
-    fn gen_attr_value_writer(&self, _: &TokenStream) -> TokenStream {
-        quote! {}
-    }
-    fn gen_attrs_writer(&self, opcode_mod: &TokenStream) -> TokenStream {
-        let ident = self.gen_ident();
-
-        quote! {
-            impl SvgAttrsWriter for #opcode_mod #ident {
-                fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(),Node::Error>
-                where
-                    C: SvgContext<Error = E>,
-                    Node: SvgNode<Error = E>,
-                {
-                    Ok(())
-                }
-            }
-        }
-    }
+impl SvgNodeWriterGen for Node {
     fn gen_node_writer(&self, opcode_mod: &TokenStream) -> TokenStream {
         let ident = self.gen_ident();
 
@@ -42,7 +20,29 @@ impl SvgCodeGen for Node {
             .map(|name| name.to_string())
             .unwrap_or(self.ident.1.to_lower_camel_case());
 
+        let attrs_writer = self.gen_attrs_writer(opcode_mod);
+
+        quote! {
+            #attrs_writer
+
+            impl SvgNodeWriter for #opcode_mod #ident {
+                fn to_svg_node_name(&self) -> &str {
+                    #xml_name
+                }
+            }
+        }
+    }
+}
+
+trait SvgAttrsWriterGen {
+    fn gen_attrs_writer(&self, opcode_mod: &TokenStream) -> TokenStream;
+}
+
+impl SvgAttrsWriterGen for Node {
+    fn gen_attrs_writer(&self, opcode_mod: &TokenStream) -> TokenStream {
         let mut stats = vec![];
+
+        let ident = self.gen_ident();
 
         for (idx, field) in self.fields.iter().enumerate() {
             let name = match field.gen_xml_attr_name() {
@@ -86,6 +86,7 @@ impl SvgCodeGen for Node {
 
         quote! {
             impl SvgAttrsWriter for #opcode_mod #ident {
+                #[allow(unused)]
                 fn write_svg_attrs<C, Node, E>(&self, ctx: &C, node: &mut Node) -> Result<(),Node::Error>
                 where
                     C: SvgContext<Error = E>,
@@ -95,30 +96,41 @@ impl SvgCodeGen for Node {
                     Ok(())
                 }
             }
+        }
+    }
+}
 
-            impl SvgNodeWriter for #opcode_mod #ident {
-                fn to_svg_node_name(&self) -> &str {
-                    #xml_name
+trait SvgAttrValueWriterGen {
+    fn gen_attr_value_writer(&self, opcode_mod: &TokenStream) -> TokenStream;
+}
+
+impl SvgAttrValueWriterGen for Node {
+    fn gen_attr_value_writer(&self, opcode_mod: &TokenStream) -> TokenStream {
+        let ident = self.gen_ident();
+
+        quote! {
+            impl SvgAttrValueWriter for #opcode_mod #ident {
+                fn to_svg_attr_value(&self) -> String {
+                    "".to_string()
                 }
             }
         }
     }
 }
 
-impl SvgCodeGen for Enum {
-    fn gen_attr_value_writer(&self, _: &TokenStream) -> TokenStream {
-        quote! {}
-    }
+impl SvgAttrValueWriterGen for Enum {
+    fn gen_attr_value_writer(&self, opcode_mod: &TokenStream) -> TokenStream {
+        let ident = self.gen_ident();
 
-    fn gen_node_writer(&self, _: &TokenStream) -> TokenStream {
-        quote! {}
-    }
-
-    fn gen_attrs_writer(&self, _: &TokenStream) -> TokenStream {
-        quote! {}
+        quote! {
+            impl SvgAttrValueWriter for #opcode_mod #ident {
+                fn to_svg_attr_value(&self) -> String {
+                    "".to_string()
+                }
+            }
+        }
     }
 }
-
 /// A generator that create `sexpr` mod for `mlang`.
 #[allow(unused)]
 pub struct SvgModGen {
@@ -240,6 +252,12 @@ impl SvgModGen {
             pub trait SvgAttrValueWriter {
                 /// Create a attribute value from data.
                 fn to_svg_attr_value(&self) -> String;
+            }
+
+            impl<T> SvgAttrValueWriter for Vec<T> where T: SvgAttrValueWriter {
+                fn to_svg_attr_value(&self) -> String {
+                    self.iter().map(|v| v.to_svg_attr_value()).collect::<Vec<_>>().join(",")
+                }
             }
         }
     }

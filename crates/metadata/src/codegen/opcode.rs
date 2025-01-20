@@ -281,7 +281,7 @@ impl OpcodeModGen {
                     }
                 }
 
-                impl<'a> TryFrom<&'a Data> for &'a [#ty] {
+                impl<'a> TryFrom<&'a Data> for &'a Vec<#ty> {
                     type Error = ();
 
                     fn try_from(value: &'a Data) -> Result<Self,Self::Error> {
@@ -325,7 +325,7 @@ impl OpcodeModGen {
                     }
                 }
 
-                impl<'a> TryFrom<&'a Data> for &'a [#ident] {
+                impl<'a> TryFrom<&'a Data> for &'a Vec<#ident> {
                     type Error = ();
 
                     fn try_from(value: &'a Data) -> Result<Self,Self::Error> {
