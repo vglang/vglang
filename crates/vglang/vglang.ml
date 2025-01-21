@@ -183,7 +183,7 @@ enum Color {
 }
 
 /// A color represents with read,green and blue components.
-#[xml_tuple_value]
+#[xml_tuple_value,init_skip]
 data Rgb(ubyte,ubyte,ubyte);
 
 #[xml_skip]
