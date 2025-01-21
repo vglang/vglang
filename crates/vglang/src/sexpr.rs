@@ -1,8 +1,6 @@
 pub use super::codegen::sexpr::*;
 
-use crate::opcode::{
-    variable::Variable, Background, Color, Length, Mask, Paint, PathEvent, Point, Rgb, Transform,
-};
+use crate::opcode::{Background, Color, FuncIri, Length, Paint, PathEvent, Point, Rgb, Transform};
 
 /// A trait convert self into [`Length`]
 pub trait Slength {
@@ -537,24 +535,9 @@ impl From<Color> for Rgb {
     }
 }
 
-impl<X, Y, W, H> From<(X, Y, W, H)> for Mask
-where
-    Number: From<X> + From<Y> + From<W> + From<H>,
-{
-    fn from(value: (X, Y, W, H)) -> Self {
-        Self {
-            x: Some(Variable::Constant(value.0.px())),
-            y: Some(Variable::Constant(value.1.px())),
-            width: Some(Variable::Constant(value.2.px())),
-            height: Some(Variable::Constant(value.3.px())),
-            ..Default::default()
-        }
-    }
-}
-
 impl<T> From<T> for Paint
 where
-    String: From<T>,
+    FuncIri: From<T>,
 {
     fn from(value: T) -> Self {
         Self::Server(value.into())

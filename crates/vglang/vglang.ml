@@ -875,7 +875,7 @@ attr Fill {
     /// paints color.
     ///
     /// `Inherited: yes`
-    #[option,xml("fill")]
+    #[xml("fill")]
     paint: Paint,
 
     /// fill painting rule, see [`FillRule`] for more information.
@@ -895,7 +895,7 @@ attr Stroke {
     /// paints color paints along the outline of the given graphical element.
     ///
     /// `Inherited: yes`
-    #[option,variable,xml("stroke")]
+    #[variable,xml("stroke")]
     paint: Paint,
     /// This property specifies the width of the stroke on the current object
     ///
@@ -1091,13 +1091,13 @@ el Mask {
     /// associated with the given object and the rectangle defined by ‘x’, ‘y’, ‘width’ and ‘height’.
     ///
     /// If the attribute is not specified, the effect is as if a value of '-10%' were specified.
-    #[option, variable]
+    #[option, variable, init]
     x: Length,
 
     /// The y-axis coordinate of one corner of the rectangle for the largest possible offscreen buffer.
     ///
     /// If the attribute is not specified, the effect is as if a value of '-10%' were specified.
-    #[option, variable]
+    #[option, variable, init]
     y: Length,
 
     /// The width of the largest possible offscreen buffer. Note that the clipping path used to render any graphics within the
@@ -1107,7 +1107,7 @@ el Mask {
     /// A negative value is an error (see Error processing). A value of zero disables rendering of the element.
     ///
     /// If the attribute is not specified, the effect is as if a value of '120%' were specified.
-    #[option, variable]
+    #[option, variable, init]
     width: Length,
 
     /// The height of the largest possible offscreen buffer.
@@ -1115,7 +1115,7 @@ el Mask {
     /// A negative value is an error (see Error processing). A value of zero disables rendering of the element.
     ///
     /// If the attribute is not specified, the effect is as if a value of '120%' were specified.
-    #[option, variable]
+    #[option, variable, init]
     height: Length,
 }
 

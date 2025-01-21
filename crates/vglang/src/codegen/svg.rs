@@ -866,10 +866,9 @@ impl SvgAttrsWriter for super::opcode::Fill {
         C: SvgContext<Error = E>,
         Node: SvgNode<Error = E>,
     {
-        if let Some(value) = &self.paint {
-            let value = value.to_svg_attr_value();
-            node.set_svg_attr("fill", &value)?;
-        }
+        let value = &self.paint;
+        let value = value.to_svg_attr_value();
+        node.set_svg_attr("fill", &value)?;
         if let Some(value) = &self.rule {
             let value = value.to_svg_attr_value();
             node.set_svg_attr("fill-rule", &value)?;
@@ -888,10 +887,9 @@ impl SvgAttrsWriter for super::opcode::Stroke {
         C: SvgContext<Error = E>,
         Node: SvgNode<Error = E>,
     {
-        if let Some(value) = &self.paint {
-            let value = ctx.valueof(&value)?.to_svg_attr_value();
-            node.set_svg_attr("stroke", &value)?;
-        }
+        let value = &self.paint;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("stroke", &value)?;
         if let Some(value) = &self.width {
             let value = ctx.valueof(&value)?.to_svg_attr_value();
             node.set_svg_attr("stroke-width", &value)?;

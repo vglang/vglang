@@ -73,6 +73,8 @@ pub struct SvgRendering<'a> {
     els: Vec<XMLElement>,
     /// defs stack.
     defs: Vec<bool>,
+    /// the caching of defs node.
+    defs_node_cache: Vec<XMLElement>,
     /// xml document.
     document: XML,
 }
@@ -86,6 +88,7 @@ impl<'a> SvgRendering<'a> {
             attrs: 0,
             els: Default::default(),
             defs: Default::default(),
+            defs_node_cache: Default::default(),
             document: XMLBuilder::new()
                 .version(XMLVersion::XML1_0)
                 .encoding("UTF-8".into())
@@ -229,23 +232,31 @@ impl<'a> SvgRendering<'a> {
     }
 
     fn pop(&mut self) -> Result<(), SvgRenderingError> {
-        let element = self.els.pop().expect("el stack.");
+        let mut element = self.els.pop().expect("el stack.");
         let defs = self.defs.pop().expect("defs pop.");
 
-        let mut element = if defs {
-            let mut defs = XMLElement::new("defs");
-            defs.add_child(element)?;
-            defs
-        } else {
-            element
-        };
+        if defs {
+            self.defs_node_cache.push(element);
+            return Ok(());
+        }
 
         if let Some(last) = self.els.last_mut() {
             last.add_child(element)?;
         } else {
+            if !self.defs_node_cache.is_empty() {
+                let mut defs = XMLElement::new("defs");
+
+                for node in self.defs_node_cache.drain(..) {
+                    defs.add_child(node)?;
+                }
+
+                element.add_child(defs)?;
+            }
+
             element.add_attribute("xmlns", "http://www.w3.org/2000/svg");
             element.add_attribute("version", "1.1");
             element.add_attribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
+
             self.document.set_root_element(element);
         }
 

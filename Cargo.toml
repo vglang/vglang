@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/*"]
+members = ["crates/metadata", "crates/parserc", "crates/vglang", "crates/spec"]
 resolver = "2"
 
 [workspace.package]

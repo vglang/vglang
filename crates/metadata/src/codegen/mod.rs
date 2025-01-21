@@ -2,6 +2,7 @@ use std::path::Path;
 
 use quote::quote;
 
+#[allow(unused)]
 mod ext;
 mod opcode;
 mod sexpr;
@@ -13,7 +14,7 @@ mod svg;
 pub fn gen<P: AsRef<std::path::Path>>(opcodes: &[crate::ir::Stat], target_dir: P) {
     let opcode_mod = opcode::OpcodeModGen::default().gen(opcodes);
 
-    let sexpr_mod = sexpr::SexprModGen::new("super::opcode::", 40).gen(opcodes);
+    let sexpr_mod = sexpr::SexprModGen::new("super::opcode::", 16).gen(opcodes);
 
     let svg_mod = svg::SvgModGen::new("super::opcode::").gen(opcodes);
 

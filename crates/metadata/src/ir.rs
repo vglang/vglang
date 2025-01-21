@@ -462,6 +462,18 @@ impl Node {
 
         false
     }
+
+    pub fn init_skip(&self) -> bool {
+        for prop in &self.properties {
+            for param in &prop.calls {
+                if param.target.1 == "init_skip" {
+                    return true;
+                }
+            }
+        }
+
+        false
+    }
 }
 
 /// Defines an enum data.

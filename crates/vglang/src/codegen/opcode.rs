@@ -945,7 +945,7 @@ pub struct Fill {
     #[doc = " paints color."]
     #[doc = " "]
     #[doc = " `Inherited: yes`"]
-    pub paint: Option<Paint>,
+    pub paint: Paint,
     #[doc = " fill painting rule, see [`FillRule`] for more information."]
     #[doc = " "]
     #[doc = " `Inherited: yes`"]
@@ -960,7 +960,7 @@ pub struct Stroke {
     #[doc = " paints color paints along the outline of the given graphical element."]
     #[doc = " "]
     #[doc = " `Inherited: yes`"]
-    pub paint: Option<variable::Variable<Paint>>,
+    pub paint: variable::Variable<Paint>,
     #[doc = " This property specifies the width of the stroke on the current object"]
     #[doc = " "]
     #[doc = " `Inherited: yes`"]

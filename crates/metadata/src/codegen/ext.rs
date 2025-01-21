@@ -11,6 +11,7 @@ pub trait IdentGen {
     fn field_ident(&self) -> TokenStream;
     fn type_ident(&self) -> TokenStream;
     fn xml_attr_name(&self) -> String;
+
     fn field_ident_with_prefix(&self, prefix: &str) -> TokenStream;
 }
 
