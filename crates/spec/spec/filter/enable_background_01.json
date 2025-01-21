@@ -1,0 +1,1297 @@
+[
+  {
+    "Apply": {
+      "ViewBox": {
+        "minx": {
+          "Constant": 0.0
+        },
+        "miny": {
+          "Constant": 0.0
+        },
+        "width": {
+          "Constant": 1350.0
+        },
+        "height": {
+          "Constant": 270.0
+        },
+        "aspect": null
+      }
+    }
+  },
+  {
+    "Element": {
+      "Canvas": {
+        "width": {
+          "Constant": {
+            "Cm": 13.5
+          }
+        },
+        "height": {
+          "Constant": {
+            "Cm": 2.7
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Id": "ShiftBGAndBlur"
+    }
+  },
+  {
+    "Element": {
+      "Filter": {
+        "units": {
+          "Constant": "UserSpaceOnUse"
+        },
+        "primitive_units": null,
+        "x": {
+          "Constant": {
+            "Px": 0.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "Px": 0.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 1200.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Px": 400.0
+          }
+        },
+        "res": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "FeOffset": {
+        "in": {
+          "Constant": "BackgroundImage"
+        },
+        "dx": {
+          "Constant": 0.0
+        },
+        "dy": {
+          "Constant": 125.0
+        },
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "result": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "FeGaussianBlur": {
+        "in": null,
+        "std_deviation": {
+          "Constant": [
+            8.0,
+            null
+          ]
+        },
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "result": null
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Id": "ShiftBGAndBlur_WithSourceGraphic"
+    }
+  },
+  {
+    "Element": {
+      "Filter": {
+        "units": {
+          "Constant": "UserSpaceOnUse"
+        },
+        "primitive_units": null,
+        "x": {
+          "Constant": {
+            "Px": 0.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "Px": 0.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 1200.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Px": 400.0
+          }
+        },
+        "res": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "FeOffset": {
+        "in": {
+          "Constant": "BackgroundImage"
+        },
+        "dx": {
+          "Constant": 0.0
+        },
+        "dy": {
+          "Constant": 125.0
+        },
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "result": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "FeGaussianBlur": {
+        "in": null,
+        "std_deviation": {
+          "Constant": [
+            8.0,
+            null
+          ]
+        },
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "result": {
+          "Constant": "blur"
+        }
+      }
+    }
+  },
+  {
+    "Element": {
+      "FeMerge": {
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "result": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "FeMergeNode": {
+        "Constant": {
+          "Result": "blur"
+        }
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "FeMergeNode": {
+        "Constant": "SourceGraphic"
+      }
+    }
+  },
+  "Pop",
+  "Pop",
+  {
+    "Apply": {
+      "WithTransform": [
+        {
+          "Translate": [
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "Element": {
+      "Group": null
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Color": [
+            255,
+            0,
+            0
+          ]
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "Px": 25.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "Px": 25.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 100.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Px": 100.0
+          }
+        },
+        "rx": null,
+        "ry": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Opacity": 0.5
+    }
+  },
+  {
+    "Element": {
+      "Group": null
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Color": [
+            0,
+            128,
+            0
+          ]
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Circle": {
+        "cx": {
+          "Constant": {
+            "Px": 125.0
+          }
+        },
+        "cy": {
+          "Constant": {
+            "Px": 75.0
+          }
+        },
+        "r": {
+          "Constant": {
+            "Px": 45.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Color": [
+            0,
+            0,
+            255
+          ]
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Polygon": {
+        "Constant": [
+          [
+            160.0,
+            25.0
+          ],
+          [
+            160.0,
+            125.0
+          ],
+          [
+            240.0,
+            75.0
+          ]
+        ]
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Fill": {
+        "paint": "None",
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        },
+        "width": null,
+        "linecap": null,
+        "linejoin": null,
+        "dasharray": null,
+        "dashoffset": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "Px": 5.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "Px": 5.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 260.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Px": 260.0
+          }
+        },
+        "rx": null,
+        "ry": null
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "WithTransform": [
+        {
+          "Translate": [
+            270.0,
+            0.0
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "Apply": {
+      "EnableBackground": {
+        "New": {
+          "x": null,
+          "y": null,
+          "width": null,
+          "height": null
+        }
+      }
+    }
+  },
+  {
+    "Element": {
+      "Group": null
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Color": [
+            255,
+            0,
+            0
+          ]
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "Px": 25.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "Px": 25.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 100.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Px": 100.0
+          }
+        },
+        "rx": null,
+        "ry": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Opacity": 0.5
+    }
+  },
+  {
+    "Element": {
+      "Group": null
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Color": [
+            0,
+            128,
+            0
+          ]
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Circle": {
+        "cx": {
+          "Constant": {
+            "Px": 125.0
+          }
+        },
+        "cy": {
+          "Constant": {
+            "Px": 75.0
+          }
+        },
+        "r": {
+          "Constant": {
+            "Px": 45.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Color": [
+            0,
+            0,
+            255
+          ]
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Polygon": {
+        "Constant": [
+          [
+            160.0,
+            25.0
+          ],
+          [
+            160.0,
+            125.0
+          ],
+          [
+            240.0,
+            75.0
+          ]
+        ]
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "WithFilter": "ShiftBGAndBlur"
+    }
+  },
+  {
+    "Element": {
+      "Group": null
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Fill": {
+        "paint": "None",
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        },
+        "width": null,
+        "linecap": null,
+        "linejoin": null,
+        "dasharray": null,
+        "dashoffset": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "Px": 5.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "Px": 5.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 260.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Px": 260.0
+          }
+        },
+        "rx": null,
+        "ry": null
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "EnableBackground": {
+        "New": {
+          "x": null,
+          "y": null,
+          "width": null,
+          "height": null
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "WithTransform": [
+        {
+          "Translate": [
+            270.0,
+            0.0
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "Element": {
+      "Group": null
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Color": [
+            255,
+            0,
+            0
+          ]
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "Px": 25.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "Px": 25.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 100.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Px": 100.0
+          }
+        },
+        "rx": null,
+        "ry": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "WithFilter": "ShiftBGAndBlur"
+    }
+  },
+  {
+    "Apply": {
+      "Opacity": 0.5
+    }
+  },
+  {
+    "Element": {
+      "Group": null
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Color": [
+            0,
+            128,
+            0
+          ]
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Circle": {
+        "cx": {
+          "Constant": {
+            "Px": 125.0
+          }
+        },
+        "cy": {
+          "Constant": {
+            "Px": 75.0
+          }
+        },
+        "r": {
+          "Constant": {
+            "Px": 45.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Color": [
+            0,
+            0,
+            255
+          ]
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Polygon": {
+        "Constant": [
+          [
+            160.0,
+            25.0
+          ],
+          [
+            160.0,
+            125.0
+          ],
+          [
+            240.0,
+            75.0
+          ]
+        ]
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Fill": {
+        "paint": "None",
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        },
+        "width": null,
+        "linecap": null,
+        "linejoin": null,
+        "dasharray": null,
+        "dashoffset": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "Px": 5.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "Px": 5.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 260.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Px": 260.0
+          }
+        },
+        "rx": null,
+        "ry": null
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "EnableBackground": {
+        "New": {
+          "x": null,
+          "y": null,
+          "width": null,
+          "height": null
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "WithTransform": [
+        {
+          "Translate": [
+            270.0,
+            0.0
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "Element": {
+      "Group": null
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Color": [
+            255,
+            0,
+            0
+          ]
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "Px": 25.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "Px": 25.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 100.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Px": 100.0
+          }
+        },
+        "rx": null,
+        "ry": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Opacity": 0.5
+    }
+  },
+  {
+    "Element": {
+      "Group": null
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Color": [
+            0,
+            128,
+            0
+          ]
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Circle": {
+        "cx": {
+          "Constant": {
+            "Px": 125.0
+          }
+        },
+        "cy": {
+          "Constant": {
+            "Px": 75.0
+          }
+        },
+        "r": {
+          "Constant": {
+            "Px": 45.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Color": [
+            0,
+            0,
+            255
+          ]
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "WithFilter": "ShiftBGAndBlur"
+    }
+  },
+  {
+    "Leaf": {
+      "Polygon": {
+        "Constant": [
+          [
+            160.0,
+            25.0
+          ],
+          [
+            160.0,
+            125.0
+          ],
+          [
+            240.0,
+            75.0
+          ]
+        ]
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Fill": {
+        "paint": "None",
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        },
+        "width": null,
+        "linecap": null,
+        "linejoin": null,
+        "dasharray": null,
+        "dashoffset": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "Px": 5.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "Px": 5.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 260.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Px": 260.0
+          }
+        },
+        "rx": null,
+        "ry": null
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "EnableBackground": {
+        "New": {
+          "x": null,
+          "y": null,
+          "width": null,
+          "height": null
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "WithTransform": [
+        {
+          "Translate": [
+            270.0,
+            0.0
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "Element": {
+      "Group": null
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Color": [
+            255,
+            0,
+            0
+          ]
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "Px": 25.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "Px": 25.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 100.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Px": 100.0
+          }
+        },
+        "rx": null,
+        "ry": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Opacity": 0.5
+    }
+  },
+  {
+    "Element": {
+      "Group": null
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Color": [
+            0,
+            128,
+            0
+          ]
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Circle": {
+        "cx": {
+          "Constant": {
+            "Px": 125.0
+          }
+        },
+        "cy": {
+          "Constant": {
+            "Px": 75.0
+          }
+        },
+        "r": {
+          "Constant": {
+            "Px": 45.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Color": [
+            0,
+            0,
+            255
+          ]
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "WithFilter": "ShiftBGAndBlur_WithSourceGraphic"
+    }
+  },
+  {
+    "Leaf": {
+      "Polygon": {
+        "Constant": [
+          [
+            160.0,
+            25.0
+          ],
+          [
+            160.0,
+            125.0
+          ],
+          [
+            240.0,
+            75.0
+          ]
+        ]
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Fill": {
+        "paint": "None",
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        },
+        "width": null,
+        "linecap": null,
+        "linejoin": null,
+        "dasharray": null,
+        "dashoffset": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "Px": 5.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "Px": 5.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 260.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Px": 260.0
+          }
+        },
+        "rx": null,
+        "ry": null
+      }
+    }
+  },
+  "Pop",
+  "Pop"
+]

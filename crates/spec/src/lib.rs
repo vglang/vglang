@@ -1,6 +1,7 @@
 use std::panic::RefUnwindSafe;
 
 pub mod compositing;
+pub mod filter;
 
 /// The main entry of the spec.
 pub fn run_spec<F>(tester: F)
@@ -32,4 +33,6 @@ where
     }
 
     test!(compositing, mask_01);
+    test!(compositing, opacity_01);
+    test!(filter, enable_background_01);
 }

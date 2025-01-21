@@ -1,8 +1,8 @@
 use vglang::{
     opcode::{
-        Canvas, Characters, Color, Coords, Fill, Font, FontFamily, GradientStop, Id, Iri,
-        LinearGradient, Mask, Paint, Rect, Rgb, Stroke, Text, TextAnchor, TextLayout, Use, ViewBox,
-        WithMask,
+        Canvas, Characters, Circle, Color, Coords, Fill, Font, FontFamily, GradientStop, Group, Id,
+        Iri, LinearGradient, Mask, Opacity, Paint, Rect, Rgb, Stroke, Text, TextAnchor, TextLayout,
+        Use, ViewBox, WithMask,
     },
     sexpr::{Graphics, Slength},
 };
@@ -36,6 +36,54 @@ pub fn mask_01() -> impl Graphics {
             Use::from(Iri::local("Text")).apply((
                 Fill::from_paint(Paint::None),
                 Stroke::from_paint(Paint::color(Color::Black)).width(2),
+            )),
+        ))
+}
+
+/// Example from [`opacity_01`](https://www.w3.org/TR/SVG11/images/masking/opacity01.svg)
+pub fn opacity_01() -> impl Graphics {
+    Canvas::from((12.cm(), 3.5.cm()))
+        .apply(ViewBox::from((0, 0, 1200, 350)))
+        .children((
+            Rect::from((1, 1, 1198, 348)).apply((
+                Fill::from_paint(Paint::None),
+                Stroke::from_paint(Color::Blue),
+            )),
+            Rect::from((100, 100, 1000, 150)).apply(Fill::from_paint(Rgb::rgb(0x00, 0x00, 0xff))),
+            Circle::from((200, 100, 50)).apply((Fill::from_paint(Color::Red), Opacity::from(1))),
+            Circle::from((400, 100, 50)).apply((Fill::from_paint(Color::Red), Opacity::from(0.8))),
+            Circle::from((600, 100, 50)).apply((Fill::from_paint(Color::Red), Opacity::from(0.6))),
+            Circle::from((800, 100, 50)).apply((Fill::from_paint(Color::Red), Opacity::from(0.4))),
+            Circle::from((1000, 100, 50)).apply((Fill::from_paint(Color::Red), Opacity::from(0.2))),
+            Group.apply(Opacity::from(1)).children((
+                Circle::from((182.5, 250, 50))
+                    .apply((Fill::from_paint(Color::Red), Opacity::from(1))),
+                Circle::from((217.5, 250, 50))
+                    .apply((Fill::from_paint(Color::Green), Opacity::from(1))),
+            )),
+            Group.apply(Opacity::from(0.5)).children((
+                Circle::from((382.5, 250, 50))
+                    .apply((Fill::from_paint(Color::Red), Opacity::from(1))),
+                Circle::from((417.5, 250, 50))
+                    .apply((Fill::from_paint(Color::Green), Opacity::from(1))),
+            )),
+            Group.apply(Opacity::from(1)).children((
+                Circle::from((582.5, 250, 50))
+                    .apply((Fill::from_paint(Color::Red), Opacity::from(0.5))),
+                Circle::from((617.5, 250, 50))
+                    .apply((Fill::from_paint(Color::Green), Opacity::from(0.5))),
+            )),
+            Group.apply(Opacity::from(1)).children((
+                Circle::from((817.5, 250, 50))
+                    .apply((Fill::from_paint(Color::Green), Opacity::from(0.5))),
+                Circle::from((782.5, 250, 50))
+                    .apply((Fill::from_paint(Color::Red), Opacity::from(0.5))),
+            )),
+            Group.apply(Opacity::from(1)).children((
+                Circle::from((982.5, 250, 50))
+                    .apply((Fill::from_paint(Color::Red), Opacity::from(0.5))),
+                Circle::from((1017.5, 250, 50))
+                    .apply((Fill::from_paint(Color::Green), Opacity::from(0.5))),
             )),
         ))
 }

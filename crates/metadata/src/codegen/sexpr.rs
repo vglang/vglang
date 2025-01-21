@@ -959,8 +959,6 @@ impl SexprModGen {
                 quote! {
                     impl #opcode_mod #ident {
                         pub fn children<C>(self, children: C) -> ElementChildren<Self,C>
-                        where
-                            C: ContentOf<Self>,
                         {
                             ElementChildren { node: self, children }
                         }

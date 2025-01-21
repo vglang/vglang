@@ -44,7 +44,7 @@ pub trait CommentGen {
 
 impl CommentGen for Comment {
     fn gen_comment(&self) -> TokenStream {
-        format!("/// {0}", self.0).parse().unwrap()
+        format!("/// {0}", self.1).parse().unwrap()
     }
 }
 
@@ -262,6 +262,8 @@ pub trait NodeGen {
 
     /// Generate node comment list.
     fn gen_comments(&self) -> Vec<TokenStream>;
+
+    fn gen_xml_attr_name(&self) -> String;
 }
 
 impl NodeGen for Node {
@@ -283,6 +285,12 @@ impl NodeGen for Node {
 
     fn gen_comments(&self) -> Vec<TokenStream> {
         self.comments.iter().map(|c| c.gen_comment()).collect()
+    }
+
+    fn gen_xml_attr_name(&self) -> String {
+        self.xml_name()
+            .map(|v| v.to_string())
+            .unwrap_or(self.ident.xml_attr_name())
     }
 }
 

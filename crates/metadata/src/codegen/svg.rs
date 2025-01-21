@@ -199,7 +199,7 @@ impl SvgAttrValueWriterGen for Enum {
         for node in self.fields.iter() {
             if node.fields.is_empty() {
                 let ident = node.gen_ident();
-                let value = node.ident.xml_attr_name();
+                let value = node.gen_xml_attr_name();
                 stats.push(quote! {
                     Self::#ident => #value.to_string()
                 });

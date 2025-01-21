@@ -540,12 +540,12 @@ impl SvgAttrValueWriter for super::opcode::Background {
 impl SvgAttrValueWriter for super::opcode::FeIn {
     fn to_svg_attr_value(&self) -> String {
         match self {
-            Self::SourceGraphic => "sourceGraphic".to_string(),
-            Self::SourceAlpha => "sourceAlpha".to_string(),
-            Self::BackgroundImage => "backgroundImage".to_string(),
-            Self::BackgroundAlpha => "backgroundAlpha".to_string(),
-            Self::FillPaint => "fillPaint".to_string(),
-            Self::StrokePaint => "strokePaint".to_string(),
+            Self::SourceGraphic => "SourceGraphic".to_string(),
+            Self::SourceAlpha => "SourceAlpha".to_string(),
+            Self::BackgroundImage => "BackgroundImage".to_string(),
+            Self::BackgroundAlpha => "BackgroundAlpha".to_string(),
+            Self::FillPaint => "FillPaint".to_string(),
+            Self::StrokePaint => "StrokePaint".to_string(),
             Self::Result(p0) => {
                 let mut values = vec![];
                 values.push(p0.to_svg_attr_value());
@@ -1003,6 +1003,9 @@ impl SvgAttrsWriter for super::opcode::Opacity {
         C: SvgContext<Error = E>,
         Node: SvgNode<Error = E>,
     {
+        let value = &self.0;
+        let value = value.to_svg_attr_value();
+        node.set_svg_attr("opacity", &value)?;
         Ok(())
     }
 }
@@ -2263,7 +2266,7 @@ impl SvgAttrsWriter for super::opcode::Group {
 }
 impl SvgNodeWriter for super::opcode::Group {
     fn to_svg_node_name(&self) -> &str {
-        "group"
+        "g"
     }
 }
 impl SvgAttrsWriter for super::opcode::Pattern {

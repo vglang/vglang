@@ -416,6 +416,7 @@ enum FeIn {
     /// is specified to be rendered in linear RGBA pixels. The alpha channel of this image captures any
     /// anti-aliasing specified by SVG. (Since the raster is linear, the alpha channel of this image will
     /// represent the exact percent coverage of each pixel.)
+    #[xml("SourceGraphic")]
     SourceGraphic, 
     
     /// This keyword represents the graphics elements that were the original input into the ‘filter’ element.
@@ -423,25 +424,30 @@ enum FeIn {
     /// The input image is an RGBA image consisting of implicitly black color values for the RGB channels,
     /// but whose alpha channel is the same as SourceGraphic. If this option is used, then some implementations
     /// might need to rasterize the graphics elements in order to extract the alpha channel.
+    #[xml("SourceAlpha")]
     SourceAlpha, 
 
     /// This keyword represents an image snapshot of the canvas under the filter region at the time that the
     /// ‘filter’ element was invoked.
+    #[xml("BackgroundImage")]
     BackgroundImage, 
 
     /// Same as BackgroundImage except only the alpha channel is used. See SourceAlpha and Accessing the background image.
+    #[xml("BackgroundAlpha")]
     BackgroundAlpha,
     
     /// This keyword represents the value of the ‘fill’ property on the target element for the filter effect.
     /// The FillPaint image has conceptually infinite extent. Frequently this image is opaque everywhere,
     /// but it might not be if the "paint" itself has alpha, as in the case of a gradient or pattern which
     /// itself includes transparent or semi-transparent parts.
+    #[xml("FillPaint")]
     FillPaint,
 
     /// This keyword represents the value of the ‘stroke’ property on the target element for the filter effect.
     /// The StrokePaint image has conceptually infinite extent. Frequently this image is opaque everywhere,
     /// but it might not be if the "paint" itself has alpha, as in the case of a gradient or pattern which
     /// itself includes transparent or semi-transparent parts. 
+    #[xml("StrokePaint")]
     StrokePaint, 
 
     /// Reference to another filter-primitive result .
@@ -972,7 +978,10 @@ attr WithMask(
 
 ///Sspecifies object/group opacity
 #[variable]
-attr Opacity(float);
+attr Opacity(
+    #[xml("opacity")]
+    float
+);
 
 /// It is often desirable to specify that a given set of graphics stretch to fit a particular container element.
 /// The ‘viewBox’ attribute provides this capability.
@@ -2069,6 +2078,7 @@ leaf GradientStop {
 }
 
 /// A container element for grouping together related graphics elements.
+#[xml("g")]
 el Group;
 
 
