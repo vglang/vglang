@@ -5218,15 +5218,6 @@ where
     P1: ContentOf<E>,
 {
 }
-impl<P0, P1> MapCollect<f32> for (P0, P1)
-where
-    Number: From<P0>,
-    Number: From<P1>,
-{
-    fn map_collect(self) -> Vec<f32> {
-        vec![Number::from(self.0).0, Number::from(self.1).0]
-    }
-}
 impl<P0, P1> MapCollect<super::opcode::Transform> for (P0, P1)
 where
     super::opcode::Transform: From<P0>,
@@ -5234,6 +5225,15 @@ where
 {
     fn map_collect(self) -> Vec<super::opcode::Transform> {
         vec![self.0.into(), self.1.into()]
+    }
+}
+impl<P0, P1> MapCollect<f32> for (P0, P1)
+where
+    Number: From<P0>,
+    Number: From<P1>,
+{
+    fn map_collect(self) -> Vec<f32> {
+        vec![Number::from(self.0).0, Number::from(self.1).0]
     }
 }
 impl<P0, P1> MapCollect<super::opcode::Angle> for (P0, P1)
@@ -5254,21 +5254,21 @@ where
         vec![self.0.into(), self.1.into()]
     }
 }
-impl<P0, P1> MapCollect<super::opcode::PathEvent> for (P0, P1)
-where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-{
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-        vec![self.0.into(), self.1.into()]
-    }
-}
 impl<P0, P1> MapCollect<super::opcode::FontFamily> for (P0, P1)
 where
     super::opcode::FontFamily: From<P0>,
     super::opcode::FontFamily: From<P1>,
 {
     fn map_collect(self) -> Vec<super::opcode::FontFamily> {
+        vec![self.0.into(), self.1.into()]
+    }
+}
+impl<P0, P1> MapCollect<super::opcode::PathEvent> for (P0, P1)
+where
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+{
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![self.0.into(), self.1.into()]
     }
 }
@@ -5298,6 +5298,16 @@ where
     P2: ContentOf<E>,
 {
 }
+impl<P0, P1, P2> MapCollect<super::opcode::Transform> for (P0, P1, P2)
+where
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+    super::opcode::Transform: From<P2>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
+        vec![self.0.into(), self.1.into(), self.2.into()]
+    }
+}
 impl<P0, P1, P2> MapCollect<f32> for (P0, P1, P2)
 where
     Number: From<P0>,
@@ -5310,16 +5320,6 @@ where
             Number::from(self.1).0,
             Number::from(self.2).0,
         ]
-    }
-}
-impl<P0, P1, P2> MapCollect<super::opcode::Transform> for (P0, P1, P2)
-where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-    super::opcode::Transform: From<P2>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
-        vec![self.0.into(), self.1.into(), self.2.into()]
     }
 }
 impl<P0, P1, P2> MapCollect<super::opcode::Angle> for (P0, P1, P2)
@@ -5342,16 +5342,6 @@ where
         vec![self.0.into(), self.1.into(), self.2.into()]
     }
 }
-impl<P0, P1, P2> MapCollect<super::opcode::PathEvent> for (P0, P1, P2)
-where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-{
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-        vec![self.0.into(), self.1.into(), self.2.into()]
-    }
-}
 impl<P0, P1, P2> MapCollect<super::opcode::FontFamily> for (P0, P1, P2)
 where
     super::opcode::FontFamily: From<P0>,
@@ -5359,6 +5349,16 @@ where
     super::opcode::FontFamily: From<P2>,
 {
     fn map_collect(self) -> Vec<super::opcode::FontFamily> {
+        vec![self.0.into(), self.1.into(), self.2.into()]
+    }
+}
+impl<P0, P1, P2> MapCollect<super::opcode::PathEvent> for (P0, P1, P2)
+where
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+{
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![self.0.into(), self.1.into(), self.2.into()]
     }
 }
@@ -5392,6 +5392,17 @@ where
     P3: ContentOf<E>,
 {
 }
+impl<P0, P1, P2, P3> MapCollect<super::opcode::Transform> for (P0, P1, P2, P3)
+where
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+    super::opcode::Transform: From<P2>,
+    super::opcode::Transform: From<P3>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
+        vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
+    }
+}
 impl<P0, P1, P2, P3> MapCollect<f32> for (P0, P1, P2, P3)
 where
     Number: From<P0>,
@@ -5406,17 +5417,6 @@ where
             Number::from(self.2).0,
             Number::from(self.3).0,
         ]
-    }
-}
-impl<P0, P1, P2, P3> MapCollect<super::opcode::Transform> for (P0, P1, P2, P3)
-where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-    super::opcode::Transform: From<P2>,
-    super::opcode::Transform: From<P3>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
-        vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
     }
 }
 impl<P0, P1, P2, P3> MapCollect<super::opcode::Angle> for (P0, P1, P2, P3)
@@ -5441,17 +5441,6 @@ where
         vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
     }
 }
-impl<P0, P1, P2, P3> MapCollect<super::opcode::PathEvent> for (P0, P1, P2, P3)
-where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-{
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-        vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
-    }
-}
 impl<P0, P1, P2, P3> MapCollect<super::opcode::FontFamily> for (P0, P1, P2, P3)
 where
     super::opcode::FontFamily: From<P0>,
@@ -5460,6 +5449,17 @@ where
     super::opcode::FontFamily: From<P3>,
 {
     fn map_collect(self) -> Vec<super::opcode::FontFamily> {
+        vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
+    }
+}
+impl<P0, P1, P2, P3> MapCollect<super::opcode::PathEvent> for (P0, P1, P2, P3)
+where
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+{
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
     }
 }
@@ -5497,24 +5497,6 @@ where
     P4: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4> MapCollect<f32> for (P0, P1, P2, P3, P4)
-where
-    Number: From<P0>,
-    Number: From<P1>,
-    Number: From<P2>,
-    Number: From<P3>,
-    Number: From<P4>,
-{
-    fn map_collect(self) -> Vec<f32> {
-        vec![
-            Number::from(self.0).0,
-            Number::from(self.1).0,
-            Number::from(self.2).0,
-            Number::from(self.3).0,
-            Number::from(self.4).0,
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::Transform> for (P0, P1, P2, P3, P4)
 where
     super::opcode::Transform: From<P0>,
@@ -5530,6 +5512,24 @@ where
             self.2.into(),
             self.3.into(),
             self.4.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4> MapCollect<f32> for (P0, P1, P2, P3, P4)
+where
+    Number: From<P0>,
+    Number: From<P1>,
+    Number: From<P2>,
+    Number: From<P3>,
+    Number: From<P4>,
+{
+    fn map_collect(self) -> Vec<f32> {
+        vec![
+            Number::from(self.0).0,
+            Number::from(self.1).0,
+            Number::from(self.2).0,
+            Number::from(self.3).0,
+            Number::from(self.4).0,
         ]
     }
 }
@@ -5569,24 +5569,6 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::PathEvent> for (P0, P1, P2, P3, P4)
-where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-{
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::FontFamily> for (P0, P1, P2, P3, P4)
 where
     super::opcode::FontFamily: From<P0>,
@@ -5596,6 +5578,24 @@ where
     super::opcode::FontFamily: From<P4>,
 {
     fn map_collect(self) -> Vec<super::opcode::FontFamily> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::PathEvent> for (P0, P1, P2, P3, P4)
+where
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+{
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -5643,26 +5643,6 @@ where
     P5: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5> MapCollect<f32> for (P0, P1, P2, P3, P4, P5)
-where
-    Number: From<P0>,
-    Number: From<P1>,
-    Number: From<P2>,
-    Number: From<P3>,
-    Number: From<P4>,
-    Number: From<P5>,
-{
-    fn map_collect(self) -> Vec<f32> {
-        vec![
-            Number::from(self.0).0,
-            Number::from(self.1).0,
-            Number::from(self.2).0,
-            Number::from(self.3).0,
-            Number::from(self.4).0,
-            Number::from(self.5).0,
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::Transform> for (P0, P1, P2, P3, P4, P5)
 where
     super::opcode::Transform: From<P0>,
@@ -5680,6 +5660,26 @@ where
             self.3.into(),
             self.4.into(),
             self.5.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5> MapCollect<f32> for (P0, P1, P2, P3, P4, P5)
+where
+    Number: From<P0>,
+    Number: From<P1>,
+    Number: From<P2>,
+    Number: From<P3>,
+    Number: From<P4>,
+    Number: From<P5>,
+{
+    fn map_collect(self) -> Vec<f32> {
+        vec![
+            Number::from(self.0).0,
+            Number::from(self.1).0,
+            Number::from(self.2).0,
+            Number::from(self.3).0,
+            Number::from(self.4).0,
+            Number::from(self.5).0,
         ]
     }
 }
@@ -5723,26 +5723,6 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::PathEvent> for (P0, P1, P2, P3, P4, P5)
-where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-{
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::FontFamily> for (P0, P1, P2, P3, P4, P5)
 where
     super::opcode::FontFamily: From<P0>,
@@ -5753,6 +5733,26 @@ where
     super::opcode::FontFamily: From<P5>,
 {
     fn map_collect(self) -> Vec<super::opcode::FontFamily> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::PathEvent> for (P0, P1, P2, P3, P4, P5)
+where
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+{
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -5805,28 +5805,6 @@ where
     P6: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<f32> for (P0, P1, P2, P3, P4, P5, P6)
-where
-    Number: From<P0>,
-    Number: From<P1>,
-    Number: From<P2>,
-    Number: From<P3>,
-    Number: From<P4>,
-    Number: From<P5>,
-    Number: From<P6>,
-{
-    fn map_collect(self) -> Vec<f32> {
-        vec![
-            Number::from(self.0).0,
-            Number::from(self.1).0,
-            Number::from(self.2).0,
-            Number::from(self.3).0,
-            Number::from(self.4).0,
-            Number::from(self.5).0,
-            Number::from(self.6).0,
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::Transform>
     for (P0, P1, P2, P3, P4, P5, P6)
 where
@@ -5847,6 +5825,28 @@ where
             self.4.into(),
             self.5.into(),
             self.6.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<f32> for (P0, P1, P2, P3, P4, P5, P6)
+where
+    Number: From<P0>,
+    Number: From<P1>,
+    Number: From<P2>,
+    Number: From<P3>,
+    Number: From<P4>,
+    Number: From<P5>,
+    Number: From<P6>,
+{
+    fn map_collect(self) -> Vec<f32> {
+        vec![
+            Number::from(self.0).0,
+            Number::from(self.1).0,
+            Number::from(self.2).0,
+            Number::from(self.3).0,
+            Number::from(self.4).0,
+            Number::from(self.5).0,
+            Number::from(self.6).0,
         ]
     }
 }
@@ -5894,29 +5894,6 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::PathEvent>
-    for (P0, P1, P2, P3, P4, P5, P6)
-where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-    super::opcode::PathEvent: From<P6>,
-{
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::FontFamily>
     for (P0, P1, P2, P3, P4, P5, P6)
 where
@@ -5929,6 +5906,29 @@ where
     super::opcode::FontFamily: From<P6>,
 {
     fn map_collect(self) -> Vec<super::opcode::FontFamily> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::PathEvent>
+    for (P0, P1, P2, P3, P4, P5, P6)
+where
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+    super::opcode::PathEvent: From<P6>,
+{
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -5986,30 +5986,6 @@ where
     P7: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<f32> for (P0, P1, P2, P3, P4, P5, P6, P7)
-where
-    Number: From<P0>,
-    Number: From<P1>,
-    Number: From<P2>,
-    Number: From<P3>,
-    Number: From<P4>,
-    Number: From<P5>,
-    Number: From<P6>,
-    Number: From<P7>,
-{
-    fn map_collect(self) -> Vec<f32> {
-        vec![
-            Number::from(self.0).0,
-            Number::from(self.1).0,
-            Number::from(self.2).0,
-            Number::from(self.3).0,
-            Number::from(self.4).0,
-            Number::from(self.5).0,
-            Number::from(self.6).0,
-            Number::from(self.7).0,
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::Transform>
     for (P0, P1, P2, P3, P4, P5, P6, P7)
 where
@@ -6032,6 +6008,30 @@ where
             self.5.into(),
             self.6.into(),
             self.7.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<f32> for (P0, P1, P2, P3, P4, P5, P6, P7)
+where
+    Number: From<P0>,
+    Number: From<P1>,
+    Number: From<P2>,
+    Number: From<P3>,
+    Number: From<P4>,
+    Number: From<P5>,
+    Number: From<P6>,
+    Number: From<P7>,
+{
+    fn map_collect(self) -> Vec<f32> {
+        vec![
+            Number::from(self.0).0,
+            Number::from(self.1).0,
+            Number::from(self.2).0,
+            Number::from(self.3).0,
+            Number::from(self.4).0,
+            Number::from(self.5).0,
+            Number::from(self.6).0,
+            Number::from(self.7).0,
         ]
     }
 }
@@ -6085,31 +6085,6 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::PathEvent>
-    for (P0, P1, P2, P3, P4, P5, P6, P7)
-where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-    super::opcode::PathEvent: From<P6>,
-    super::opcode::PathEvent: From<P7>,
-{
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::FontFamily>
     for (P0, P1, P2, P3, P4, P5, P6, P7)
 where
@@ -6123,6 +6098,31 @@ where
     super::opcode::FontFamily: From<P7>,
 {
     fn map_collect(self) -> Vec<super::opcode::FontFamily> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::PathEvent>
+    for (P0, P1, P2, P3, P4, P5, P6, P7)
+where
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+    super::opcode::PathEvent: From<P6>,
+    super::opcode::PathEvent: From<P7>,
+{
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6185,32 +6185,6 @@ where
     P8: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<f32> for (P0, P1, P2, P3, P4, P5, P6, P7, P8)
-where
-    Number: From<P0>,
-    Number: From<P1>,
-    Number: From<P2>,
-    Number: From<P3>,
-    Number: From<P4>,
-    Number: From<P5>,
-    Number: From<P6>,
-    Number: From<P7>,
-    Number: From<P8>,
-{
-    fn map_collect(self) -> Vec<f32> {
-        vec![
-            Number::from(self.0).0,
-            Number::from(self.1).0,
-            Number::from(self.2).0,
-            Number::from(self.3).0,
-            Number::from(self.4).0,
-            Number::from(self.5).0,
-            Number::from(self.6).0,
-            Number::from(self.7).0,
-            Number::from(self.8).0,
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::Transform>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8)
 where
@@ -6235,6 +6209,32 @@ where
             self.6.into(),
             self.7.into(),
             self.8.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<f32> for (P0, P1, P2, P3, P4, P5, P6, P7, P8)
+where
+    Number: From<P0>,
+    Number: From<P1>,
+    Number: From<P2>,
+    Number: From<P3>,
+    Number: From<P4>,
+    Number: From<P5>,
+    Number: From<P6>,
+    Number: From<P7>,
+    Number: From<P8>,
+{
+    fn map_collect(self) -> Vec<f32> {
+        vec![
+            Number::from(self.0).0,
+            Number::from(self.1).0,
+            Number::from(self.2).0,
+            Number::from(self.3).0,
+            Number::from(self.4).0,
+            Number::from(self.5).0,
+            Number::from(self.6).0,
+            Number::from(self.7).0,
+            Number::from(self.8).0,
         ]
     }
 }
@@ -6292,33 +6292,6 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::PathEvent>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8)
-where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-    super::opcode::PathEvent: From<P6>,
-    super::opcode::PathEvent: From<P7>,
-    super::opcode::PathEvent: From<P8>,
-{
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::FontFamily>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8)
 where
@@ -6333,6 +6306,33 @@ where
     super::opcode::FontFamily: From<P8>,
 {
     fn map_collect(self) -> Vec<super::opcode::FontFamily> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::PathEvent>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8)
+where
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+    super::opcode::PathEvent: From<P6>,
+    super::opcode::PathEvent: From<P7>,
+    super::opcode::PathEvent: From<P8>,
+{
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6402,35 +6402,6 @@ where
     P9: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<f32>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)
-where
-    Number: From<P0>,
-    Number: From<P1>,
-    Number: From<P2>,
-    Number: From<P3>,
-    Number: From<P4>,
-    Number: From<P5>,
-    Number: From<P6>,
-    Number: From<P7>,
-    Number: From<P8>,
-    Number: From<P9>,
-{
-    fn map_collect(self) -> Vec<f32> {
-        vec![
-            Number::from(self.0).0,
-            Number::from(self.1).0,
-            Number::from(self.2).0,
-            Number::from(self.3).0,
-            Number::from(self.4).0,
-            Number::from(self.5).0,
-            Number::from(self.6).0,
-            Number::from(self.7).0,
-            Number::from(self.8).0,
-            Number::from(self.9).0,
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::Transform>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)
 where
@@ -6457,6 +6428,35 @@ where
             self.7.into(),
             self.8.into(),
             self.9.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<f32>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)
+where
+    Number: From<P0>,
+    Number: From<P1>,
+    Number: From<P2>,
+    Number: From<P3>,
+    Number: From<P4>,
+    Number: From<P5>,
+    Number: From<P6>,
+    Number: From<P7>,
+    Number: From<P8>,
+    Number: From<P9>,
+{
+    fn map_collect(self) -> Vec<f32> {
+        vec![
+            Number::from(self.0).0,
+            Number::from(self.1).0,
+            Number::from(self.2).0,
+            Number::from(self.3).0,
+            Number::from(self.4).0,
+            Number::from(self.5).0,
+            Number::from(self.6).0,
+            Number::from(self.7).0,
+            Number::from(self.8).0,
+            Number::from(self.9).0,
         ]
     }
 }
@@ -6518,35 +6518,6 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::PathEvent>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)
-where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-    super::opcode::PathEvent: From<P6>,
-    super::opcode::PathEvent: From<P7>,
-    super::opcode::PathEvent: From<P8>,
-    super::opcode::PathEvent: From<P9>,
-{
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::FontFamily>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)
 where
@@ -6562,6 +6533,35 @@ where
     super::opcode::FontFamily: From<P9>,
 {
     fn map_collect(self) -> Vec<super::opcode::FontFamily> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::PathEvent>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)
+where
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+    super::opcode::PathEvent: From<P6>,
+    super::opcode::PathEvent: From<P7>,
+    super::opcode::PathEvent: From<P8>,
+    super::opcode::PathEvent: From<P9>,
+{
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6637,37 +6637,6 @@ where
     P10: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<f32>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
-where
-    Number: From<P0>,
-    Number: From<P1>,
-    Number: From<P2>,
-    Number: From<P3>,
-    Number: From<P4>,
-    Number: From<P5>,
-    Number: From<P6>,
-    Number: From<P7>,
-    Number: From<P8>,
-    Number: From<P9>,
-    Number: From<P10>,
-{
-    fn map_collect(self) -> Vec<f32> {
-        vec![
-            Number::from(self.0).0,
-            Number::from(self.1).0,
-            Number::from(self.2).0,
-            Number::from(self.3).0,
-            Number::from(self.4).0,
-            Number::from(self.5).0,
-            Number::from(self.6).0,
-            Number::from(self.7).0,
-            Number::from(self.8).0,
-            Number::from(self.9).0,
-            Number::from(self.10).0,
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::Transform>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
 where
@@ -6696,6 +6665,37 @@ where
             self.8.into(),
             self.9.into(),
             self.10.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<f32>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
+where
+    Number: From<P0>,
+    Number: From<P1>,
+    Number: From<P2>,
+    Number: From<P3>,
+    Number: From<P4>,
+    Number: From<P5>,
+    Number: From<P6>,
+    Number: From<P7>,
+    Number: From<P8>,
+    Number: From<P9>,
+    Number: From<P10>,
+{
+    fn map_collect(self) -> Vec<f32> {
+        vec![
+            Number::from(self.0).0,
+            Number::from(self.1).0,
+            Number::from(self.2).0,
+            Number::from(self.3).0,
+            Number::from(self.4).0,
+            Number::from(self.5).0,
+            Number::from(self.6).0,
+            Number::from(self.7).0,
+            Number::from(self.8).0,
+            Number::from(self.9).0,
+            Number::from(self.10).0,
         ]
     }
 }
@@ -6761,37 +6761,6 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::PathEvent>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
-where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-    super::opcode::PathEvent: From<P6>,
-    super::opcode::PathEvent: From<P7>,
-    super::opcode::PathEvent: From<P8>,
-    super::opcode::PathEvent: From<P9>,
-    super::opcode::PathEvent: From<P10>,
-{
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::FontFamily>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
 where
@@ -6808,6 +6777,37 @@ where
     super::opcode::FontFamily: From<P10>,
 {
     fn map_collect(self) -> Vec<super::opcode::FontFamily> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::PathEvent>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
+where
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+    super::opcode::PathEvent: From<P6>,
+    super::opcode::PathEvent: From<P7>,
+    super::opcode::PathEvent: From<P8>,
+    super::opcode::PathEvent: From<P9>,
+    super::opcode::PathEvent: From<P10>,
+{
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6888,39 +6888,6 @@ where
     P11: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<f32>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11)
-where
-    Number: From<P0>,
-    Number: From<P1>,
-    Number: From<P2>,
-    Number: From<P3>,
-    Number: From<P4>,
-    Number: From<P5>,
-    Number: From<P6>,
-    Number: From<P7>,
-    Number: From<P8>,
-    Number: From<P9>,
-    Number: From<P10>,
-    Number: From<P11>,
-{
-    fn map_collect(self) -> Vec<f32> {
-        vec![
-            Number::from(self.0).0,
-            Number::from(self.1).0,
-            Number::from(self.2).0,
-            Number::from(self.3).0,
-            Number::from(self.4).0,
-            Number::from(self.5).0,
-            Number::from(self.6).0,
-            Number::from(self.7).0,
-            Number::from(self.8).0,
-            Number::from(self.9).0,
-            Number::from(self.10).0,
-            Number::from(self.11).0,
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::Transform>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11)
 where
@@ -6951,6 +6918,39 @@ where
             self.9.into(),
             self.10.into(),
             self.11.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<f32>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11)
+where
+    Number: From<P0>,
+    Number: From<P1>,
+    Number: From<P2>,
+    Number: From<P3>,
+    Number: From<P4>,
+    Number: From<P5>,
+    Number: From<P6>,
+    Number: From<P7>,
+    Number: From<P8>,
+    Number: From<P9>,
+    Number: From<P10>,
+    Number: From<P11>,
+{
+    fn map_collect(self) -> Vec<f32> {
+        vec![
+            Number::from(self.0).0,
+            Number::from(self.1).0,
+            Number::from(self.2).0,
+            Number::from(self.3).0,
+            Number::from(self.4).0,
+            Number::from(self.5).0,
+            Number::from(self.6).0,
+            Number::from(self.7).0,
+            Number::from(self.8).0,
+            Number::from(self.9).0,
+            Number::from(self.10).0,
+            Number::from(self.11).0,
         ]
     }
 }
@@ -7020,39 +7020,6 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::PathEvent>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11)
-where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-    super::opcode::PathEvent: From<P6>,
-    super::opcode::PathEvent: From<P7>,
-    super::opcode::PathEvent: From<P8>,
-    super::opcode::PathEvent: From<P9>,
-    super::opcode::PathEvent: From<P10>,
-    super::opcode::PathEvent: From<P11>,
-{
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-            self.11.into(),
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::FontFamily>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11)
 where
@@ -7070,6 +7037,39 @@ where
     super::opcode::FontFamily: From<P11>,
 {
     fn map_collect(self) -> Vec<super::opcode::FontFamily> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+            self.11.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::PathEvent>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11)
+where
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+    super::opcode::PathEvent: From<P6>,
+    super::opcode::PathEvent: From<P7>,
+    super::opcode::PathEvent: From<P8>,
+    super::opcode::PathEvent: From<P9>,
+    super::opcode::PathEvent: From<P10>,
+    super::opcode::PathEvent: From<P11>,
+{
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -7155,41 +7155,6 @@ where
     P12: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<f32>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12)
-where
-    Number: From<P0>,
-    Number: From<P1>,
-    Number: From<P2>,
-    Number: From<P3>,
-    Number: From<P4>,
-    Number: From<P5>,
-    Number: From<P6>,
-    Number: From<P7>,
-    Number: From<P8>,
-    Number: From<P9>,
-    Number: From<P10>,
-    Number: From<P11>,
-    Number: From<P12>,
-{
-    fn map_collect(self) -> Vec<f32> {
-        vec![
-            Number::from(self.0).0,
-            Number::from(self.1).0,
-            Number::from(self.2).0,
-            Number::from(self.3).0,
-            Number::from(self.4).0,
-            Number::from(self.5).0,
-            Number::from(self.6).0,
-            Number::from(self.7).0,
-            Number::from(self.8).0,
-            Number::from(self.9).0,
-            Number::from(self.10).0,
-            Number::from(self.11).0,
-            Number::from(self.12).0,
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::Transform>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12)
 where
@@ -7222,6 +7187,41 @@ where
             self.10.into(),
             self.11.into(),
             self.12.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<f32>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12)
+where
+    Number: From<P0>,
+    Number: From<P1>,
+    Number: From<P2>,
+    Number: From<P3>,
+    Number: From<P4>,
+    Number: From<P5>,
+    Number: From<P6>,
+    Number: From<P7>,
+    Number: From<P8>,
+    Number: From<P9>,
+    Number: From<P10>,
+    Number: From<P11>,
+    Number: From<P12>,
+{
+    fn map_collect(self) -> Vec<f32> {
+        vec![
+            Number::from(self.0).0,
+            Number::from(self.1).0,
+            Number::from(self.2).0,
+            Number::from(self.3).0,
+            Number::from(self.4).0,
+            Number::from(self.5).0,
+            Number::from(self.6).0,
+            Number::from(self.7).0,
+            Number::from(self.8).0,
+            Number::from(self.9).0,
+            Number::from(self.10).0,
+            Number::from(self.11).0,
+            Number::from(self.12).0,
         ]
     }
 }
@@ -7295,41 +7295,6 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::PathEvent>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12)
-where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-    super::opcode::PathEvent: From<P6>,
-    super::opcode::PathEvent: From<P7>,
-    super::opcode::PathEvent: From<P8>,
-    super::opcode::PathEvent: From<P9>,
-    super::opcode::PathEvent: From<P10>,
-    super::opcode::PathEvent: From<P11>,
-    super::opcode::PathEvent: From<P12>,
-{
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-            self.11.into(),
-            self.12.into(),
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::FontFamily>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12)
 where
@@ -7348,6 +7313,41 @@ where
     super::opcode::FontFamily: From<P12>,
 {
     fn map_collect(self) -> Vec<super::opcode::FontFamily> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+            self.11.into(),
+            self.12.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::PathEvent>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12)
+where
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+    super::opcode::PathEvent: From<P6>,
+    super::opcode::PathEvent: From<P7>,
+    super::opcode::PathEvent: From<P8>,
+    super::opcode::PathEvent: From<P9>,
+    super::opcode::PathEvent: From<P10>,
+    super::opcode::PathEvent: From<P11>,
+    super::opcode::PathEvent: From<P12>,
+{
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -7438,43 +7438,6 @@ where
     P13: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13> MapCollect<f32>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13)
-where
-    Number: From<P0>,
-    Number: From<P1>,
-    Number: From<P2>,
-    Number: From<P3>,
-    Number: From<P4>,
-    Number: From<P5>,
-    Number: From<P6>,
-    Number: From<P7>,
-    Number: From<P8>,
-    Number: From<P9>,
-    Number: From<P10>,
-    Number: From<P11>,
-    Number: From<P12>,
-    Number: From<P13>,
-{
-    fn map_collect(self) -> Vec<f32> {
-        vec![
-            Number::from(self.0).0,
-            Number::from(self.1).0,
-            Number::from(self.2).0,
-            Number::from(self.3).0,
-            Number::from(self.4).0,
-            Number::from(self.5).0,
-            Number::from(self.6).0,
-            Number::from(self.7).0,
-            Number::from(self.8).0,
-            Number::from(self.9).0,
-            Number::from(self.10).0,
-            Number::from(self.11).0,
-            Number::from(self.12).0,
-            Number::from(self.13).0,
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13>
     MapCollect<super::opcode::Transform>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13)
@@ -7510,6 +7473,43 @@ where
             self.11.into(),
             self.12.into(),
             self.13.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13> MapCollect<f32>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13)
+where
+    Number: From<P0>,
+    Number: From<P1>,
+    Number: From<P2>,
+    Number: From<P3>,
+    Number: From<P4>,
+    Number: From<P5>,
+    Number: From<P6>,
+    Number: From<P7>,
+    Number: From<P8>,
+    Number: From<P9>,
+    Number: From<P10>,
+    Number: From<P11>,
+    Number: From<P12>,
+    Number: From<P13>,
+{
+    fn map_collect(self) -> Vec<f32> {
+        vec![
+            Number::from(self.0).0,
+            Number::from(self.1).0,
+            Number::from(self.2).0,
+            Number::from(self.3).0,
+            Number::from(self.4).0,
+            Number::from(self.5).0,
+            Number::from(self.6).0,
+            Number::from(self.7).0,
+            Number::from(self.8).0,
+            Number::from(self.9).0,
+            Number::from(self.10).0,
+            Number::from(self.11).0,
+            Number::from(self.12).0,
+            Number::from(self.13).0,
         ]
     }
 }
@@ -7588,44 +7588,6 @@ where
     }
 }
 impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13>
-    MapCollect<super::opcode::PathEvent>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13)
-where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-    super::opcode::PathEvent: From<P6>,
-    super::opcode::PathEvent: From<P7>,
-    super::opcode::PathEvent: From<P8>,
-    super::opcode::PathEvent: From<P9>,
-    super::opcode::PathEvent: From<P10>,
-    super::opcode::PathEvent: From<P11>,
-    super::opcode::PathEvent: From<P12>,
-    super::opcode::PathEvent: From<P13>,
-{
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-            self.11.into(),
-            self.12.into(),
-            self.13.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13>
     MapCollect<super::opcode::FontFamily>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13)
 where
@@ -7645,6 +7607,44 @@ where
     super::opcode::FontFamily: From<P13>,
 {
     fn map_collect(self) -> Vec<super::opcode::FontFamily> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+            self.11.into(),
+            self.12.into(),
+            self.13.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13>
+    MapCollect<super::opcode::PathEvent>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13)
+where
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+    super::opcode::PathEvent: From<P6>,
+    super::opcode::PathEvent: From<P7>,
+    super::opcode::PathEvent: From<P8>,
+    super::opcode::PathEvent: From<P9>,
+    super::opcode::PathEvent: From<P10>,
+    super::opcode::PathEvent: From<P11>,
+    super::opcode::PathEvent: From<P12>,
+    super::opcode::PathEvent: From<P13>,
+{
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -7788,61 +7788,6 @@ where
     P14: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14> MapCollect<f32>
-    for (
-        P0,
-        P1,
-        P2,
-        P3,
-        P4,
-        P5,
-        P6,
-        P7,
-        P8,
-        P9,
-        P10,
-        P11,
-        P12,
-        P13,
-        P14,
-    )
-where
-    Number: From<P0>,
-    Number: From<P1>,
-    Number: From<P2>,
-    Number: From<P3>,
-    Number: From<P4>,
-    Number: From<P5>,
-    Number: From<P6>,
-    Number: From<P7>,
-    Number: From<P8>,
-    Number: From<P9>,
-    Number: From<P10>,
-    Number: From<P11>,
-    Number: From<P12>,
-    Number: From<P13>,
-    Number: From<P14>,
-{
-    fn map_collect(self) -> Vec<f32> {
-        vec![
-            Number::from(self.0).0,
-            Number::from(self.1).0,
-            Number::from(self.2).0,
-            Number::from(self.3).0,
-            Number::from(self.4).0,
-            Number::from(self.5).0,
-            Number::from(self.6).0,
-            Number::from(self.7).0,
-            Number::from(self.8).0,
-            Number::from(self.9).0,
-            Number::from(self.10).0,
-            Number::from(self.11).0,
-            Number::from(self.12).0,
-            Number::from(self.13).0,
-            Number::from(self.14).0,
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
     MapCollect<super::opcode::Transform>
     for (
@@ -7896,6 +7841,61 @@ where
             self.12.into(),
             self.13.into(),
             self.14.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14> MapCollect<f32>
+    for (
+        P0,
+        P1,
+        P2,
+        P3,
+        P4,
+        P5,
+        P6,
+        P7,
+        P8,
+        P9,
+        P10,
+        P11,
+        P12,
+        P13,
+        P14,
+    )
+where
+    Number: From<P0>,
+    Number: From<P1>,
+    Number: From<P2>,
+    Number: From<P3>,
+    Number: From<P4>,
+    Number: From<P5>,
+    Number: From<P6>,
+    Number: From<P7>,
+    Number: From<P8>,
+    Number: From<P9>,
+    Number: From<P10>,
+    Number: From<P11>,
+    Number: From<P12>,
+    Number: From<P13>,
+    Number: From<P14>,
+{
+    fn map_collect(self) -> Vec<f32> {
+        vec![
+            Number::from(self.0).0,
+            Number::from(self.1).0,
+            Number::from(self.2).0,
+            Number::from(self.3).0,
+            Number::from(self.4).0,
+            Number::from(self.5).0,
+            Number::from(self.6).0,
+            Number::from(self.7).0,
+            Number::from(self.8).0,
+            Number::from(self.9).0,
+            Number::from(self.10).0,
+            Number::from(self.11).0,
+            Number::from(self.12).0,
+            Number::from(self.13).0,
+            Number::from(self.14).0,
         ]
     }
 }
@@ -8012,62 +8012,6 @@ where
     }
 }
 impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
-    MapCollect<super::opcode::PathEvent>
-    for (
-        P0,
-        P1,
-        P2,
-        P3,
-        P4,
-        P5,
-        P6,
-        P7,
-        P8,
-        P9,
-        P10,
-        P11,
-        P12,
-        P13,
-        P14,
-    )
-where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-    super::opcode::PathEvent: From<P6>,
-    super::opcode::PathEvent: From<P7>,
-    super::opcode::PathEvent: From<P8>,
-    super::opcode::PathEvent: From<P9>,
-    super::opcode::PathEvent: From<P10>,
-    super::opcode::PathEvent: From<P11>,
-    super::opcode::PathEvent: From<P12>,
-    super::opcode::PathEvent: From<P13>,
-    super::opcode::PathEvent: From<P14>,
-{
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-            self.11.into(),
-            self.12.into(),
-            self.13.into(),
-            self.14.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
     MapCollect<super::opcode::FontFamily>
     for (
         P0,
@@ -8123,12 +8067,60 @@ where
         ]
     }
 }
-impl<P> MapCollect<f32> for P
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
+    MapCollect<super::opcode::PathEvent>
+    for (
+        P0,
+        P1,
+        P2,
+        P3,
+        P4,
+        P5,
+        P6,
+        P7,
+        P8,
+        P9,
+        P10,
+        P11,
+        P12,
+        P13,
+        P14,
+    )
 where
-    Number: From<P>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+    super::opcode::PathEvent: From<P6>,
+    super::opcode::PathEvent: From<P7>,
+    super::opcode::PathEvent: From<P8>,
+    super::opcode::PathEvent: From<P9>,
+    super::opcode::PathEvent: From<P10>,
+    super::opcode::PathEvent: From<P11>,
+    super::opcode::PathEvent: From<P12>,
+    super::opcode::PathEvent: From<P13>,
+    super::opcode::PathEvent: From<P14>,
 {
-    fn map_collect(self) -> Vec<f32> {
-        vec![Number::from(self).0]
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+            self.11.into(),
+            self.12.into(),
+            self.13.into(),
+            self.14.into(),
+        ]
     }
 }
 impl<P> MapCollect<super::opcode::Transform> for P
@@ -8137,6 +8129,14 @@ where
 {
     fn map_collect(self) -> Vec<super::opcode::Transform> {
         vec![self.into()]
+    }
+}
+impl<P> MapCollect<f32> for P
+where
+    Number: From<P>,
+{
+    fn map_collect(self) -> Vec<f32> {
+        vec![Number::from(self).0]
     }
 }
 impl<P> MapCollect<super::opcode::Angle> for P
@@ -8155,19 +8155,19 @@ where
         vec![self.into()]
     }
 }
-impl<P> MapCollect<super::opcode::PathEvent> for P
-where
-    super::opcode::PathEvent: From<P>,
-{
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
-        vec![self.into()]
-    }
-}
 impl<P> MapCollect<super::opcode::FontFamily> for P
 where
     super::opcode::FontFamily: From<P>,
 {
     fn map_collect(self) -> Vec<super::opcode::FontFamily> {
+        vec![self.into()]
+    }
+}
+impl<P> MapCollect<super::opcode::PathEvent> for P
+where
+    super::opcode::PathEvent: From<P>,
+{
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![self.into()]
     }
 }
