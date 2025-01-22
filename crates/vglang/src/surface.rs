@@ -43,7 +43,7 @@ pub trait Surface {
     type Program: Program;
     /// The error type may returns by [`Run`](Program::Run) future.
     type Error;
-    /// Future type returns by [`run`](Surface::run) function.
+    /// Future type returns by [`run`](Surface::build) function.
     type Build<'a>: Future<Output = Result<Self::Program, Self::Error>>
     where
         Self: 'a;

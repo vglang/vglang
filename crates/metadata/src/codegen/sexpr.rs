@@ -667,7 +667,7 @@ impl SexprModGen {
                     self.0.push(#opcode_mod Opcode::Pop);
                 }
 
-                /// Build a [`Graphics`] and return result ase a [`Source`].
+                /// Build a [`Graphics`] and return result as a `Source`.
                 #[cfg(feature = "surface")]
                 #[cfg_attr(docsrs, doc(cfg(feature = "surface")))]
                 pub fn create_source(grapchics: impl Graphics) -> crate::surface::Source<'static> {

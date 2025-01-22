@@ -283,29 +283,29 @@ pub trait FromSrc {
         Self: Sized;
 }
 
-/// A helper trait that convert [`FromInput`] into a [`Parser`].
+/// A helper trait that convert [`FromSrc`] into a [`Parser`].
 pub trait IntoParser: FromSrc {
     /// Conver self into parser.
-    fn into_parser() -> ParserFromInput<Self>
+    fn into_parser() -> FromSrcParser<Self>
     where
         Self: Sized,
     {
-        ParserFromInput(Default::default())
+        FromSrcParser(Default::default())
     }
 }
 
 impl<T> IntoParser for T where T: FromSrc {}
 
-/// A wrapper parser for [`FromInput`] type.
-pub struct ParserFromInput<T>(PhantomData<T>);
+/// A wrapper parser for [`FromSrc`] type.
+pub struct FromSrcParser<T>(PhantomData<T>);
 
-impl<T> Clone for ParserFromInput<T> {
+impl<T> Clone for FromSrcParser<T> {
     fn clone(&self) -> Self {
         Self(Default::default())
     }
 }
 
-impl<T> Parser for ParserFromInput<T>
+impl<T> Parser for FromSrcParser<T>
 where
     T: FromSrc,
 {

@@ -26,6 +26,5 @@ lang = ["parserc", "log"]
 serde = ["dep:serde", "parserc/serde"]
 svg = ["surface", "xml-builder"]
 
-binary = []
 sexpr = []
 surface = []
