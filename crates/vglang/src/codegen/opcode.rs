@@ -761,7 +761,7 @@ pub enum BaselineShift {
     #[doc = " \"alphabetic\" baseline from the position of the subscript. The resulting offset is determined by multiplying"]
     #[doc = " the effective subscript position by the dominant baseline-table font-size. If there is no applicable font"]
     #[doc = " data the user agent may use heuristics to determine the offset."]
-    Sub,
+    SubScripts,
     #[doc = " The dominant-baseline is shifted to the default position for superscripts. The offset to this position is"]
     #[doc = " determined using the font data for the nominal font. Because in most fonts the superscript position is normally"]
     #[doc = " given relative to the \"alphabetic\" baseline, the user agent may compute the effective position for superscripts"]
@@ -770,7 +770,7 @@ pub enum BaselineShift {
     #[doc = " superscript. The resulting offset is determined by multiplying the effective superscript position by the dominant"]
     #[doc = " baseline-table font-size. If there is no applicable font data the user agent may use heuristics to determine the"]
     #[doc = " offset."]
-    Super,
+    SuperScripts,
     #[doc = " The computed value of the property is this percentage multiplied by the computed \"line-height\" of the ‘text’ element."]
     #[doc = " The dominant-baseline is shifted in the shift direction (positive value) or opposite to the shift direction"]
     #[doc = " (negative value) of the parent text content element by the computed value. A value of \"0\" is equivalent to \"baseline\"."]

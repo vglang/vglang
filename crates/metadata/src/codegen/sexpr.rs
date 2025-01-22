@@ -1,10 +1,11 @@
 use std::collections::HashMap;
 
+use heck::{ToLowerCamelCase, ToUpperCamelCase};
 use proc_macro2::TokenStream;
 use quote::quote;
 
 use crate::{
-    codegen::ext::{FieldGen, IdentGen, NodeGen, TypeGen},
+    codegen::ext::{EnumGen, FieldGen, IdentGen, NodeGen, TypeGen},
     ir::{ApplyTo, ChildrenOf, Enum, Node, Stat, Type},
 };
 
@@ -358,8 +359,30 @@ impl SexprDataGen for Node {
 }
 
 impl SexprDataGen for Enum {
-    fn gen_data_sexpr_src(&self, _: &TokenStream) -> TokenStream {
-        quote! {}
+    fn gen_data_sexpr_src(&self, opcode_mod: &TokenStream) -> TokenStream {
+        let mut stats = vec![];
+
+        let enum_ident = self.gen_ident();
+
+        for field in self.fields.iter() {
+            let ident = format!(
+                "S{}{}",
+                self.ident.1.to_lower_camel_case(),
+                field.ident.1.to_upper_camel_case()
+            )
+            .parse::<TokenStream>()
+            .unwrap();
+
+            let field_ident = field.ident.field_ident();
+
+            stats.push(quote! {
+                pub trait #ident {
+                    fn #field_ident(self) -> #opcode_mod #enum_ident;
+                }
+            });
+        }
+
+        quote! { #(#stats)* }
     }
 }
 

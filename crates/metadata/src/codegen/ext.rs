@@ -20,11 +20,11 @@ impl IdentGen for Ident {
         Ident(self.0, format!("{}{}", prefix, self.1)).field_ident()
     }
     fn field_ident(&self) -> TokenStream {
-        match self.1.as_str() {
+        match self.1.to_snake_case().as_str() {
             "type" => "r#type".parse().unwrap(),
             "in" => "r#in".parse().unwrap(),
             "for" => "r#for".parse().unwrap(),
-            ident => ident.to_snake_case().parse().unwrap(),
+            ident => ident.parse().unwrap(),
         }
     }
 

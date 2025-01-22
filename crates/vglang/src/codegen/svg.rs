@@ -663,8 +663,8 @@ impl SvgAttrValueWriter for super::opcode::BaselineShift {
     fn to_svg_attr_value(&self) -> String {
         match self {
             Self::Baseline => "baseline".to_string(),
-            Self::Sub => "sub".to_string(),
-            Self::Super => "super".to_string(),
+            Self::SubScripts => "subScripts".to_string(),
+            Self::SuperScripts => "superScripts".to_string(),
             Self::Value(p0) => {
                 let mut values = vec![];
                 values.push(p0.to_svg_attr_value());
