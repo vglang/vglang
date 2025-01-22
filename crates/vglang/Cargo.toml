@@ -22,6 +22,7 @@ divan = {workspace = true}
 nom = {workspace = true}
 
 [features]
+binary = []
 lang = ["parserc", "log"]
 serde = ["dep:serde", "parserc/serde"]
 sexpr = []

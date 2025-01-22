@@ -1,3 +1,6 @@
+#[cfg(feature = "binary")]
+#[cfg_attr(docsrs, doc(cfg(feature = "binary")))]
+pub mod binary;
 pub mod opcode;
 #[cfg(feature = "sexpr")]
 #[cfg_attr(docsrs, doc(cfg(feature = "sexpr")))]

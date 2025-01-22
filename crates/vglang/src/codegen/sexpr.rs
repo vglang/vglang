@@ -5254,21 +5254,21 @@ where
         vec![self.0.into(), self.1.into()]
     }
 }
-impl<P0, P1> MapCollect<super::opcode::FontFamily> for (P0, P1)
-where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
-{
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![self.0.into(), self.1.into()]
-    }
-}
 impl<P0, P1> MapCollect<super::opcode::PathEvent> for (P0, P1)
 where
     super::opcode::PathEvent: From<P0>,
     super::opcode::PathEvent: From<P1>,
 {
     fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+        vec![self.0.into(), self.1.into()]
+    }
+}
+impl<P0, P1> MapCollect<super::opcode::FontFamily> for (P0, P1)
+where
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![self.0.into(), self.1.into()]
     }
 }
@@ -5342,16 +5342,6 @@ where
         vec![self.0.into(), self.1.into(), self.2.into()]
     }
 }
-impl<P0, P1, P2> MapCollect<super::opcode::FontFamily> for (P0, P1, P2)
-where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
-    super::opcode::FontFamily: From<P2>,
-{
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![self.0.into(), self.1.into(), self.2.into()]
-    }
-}
 impl<P0, P1, P2> MapCollect<super::opcode::PathEvent> for (P0, P1, P2)
 where
     super::opcode::PathEvent: From<P0>,
@@ -5359,6 +5349,16 @@ where
     super::opcode::PathEvent: From<P2>,
 {
     fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+        vec![self.0.into(), self.1.into(), self.2.into()]
+    }
+}
+impl<P0, P1, P2> MapCollect<super::opcode::FontFamily> for (P0, P1, P2)
+where
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+    super::opcode::FontFamily: From<P2>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![self.0.into(), self.1.into(), self.2.into()]
     }
 }
@@ -5441,17 +5441,6 @@ where
         vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
     }
 }
-impl<P0, P1, P2, P3> MapCollect<super::opcode::FontFamily> for (P0, P1, P2, P3)
-where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
-    super::opcode::FontFamily: From<P2>,
-    super::opcode::FontFamily: From<P3>,
-{
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
-    }
-}
 impl<P0, P1, P2, P3> MapCollect<super::opcode::PathEvent> for (P0, P1, P2, P3)
 where
     super::opcode::PathEvent: From<P0>,
@@ -5460,6 +5449,17 @@ where
     super::opcode::PathEvent: From<P3>,
 {
     fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+        vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
+    }
+}
+impl<P0, P1, P2, P3> MapCollect<super::opcode::FontFamily> for (P0, P1, P2, P3)
+where
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+    super::opcode::FontFamily: From<P2>,
+    super::opcode::FontFamily: From<P3>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
     }
 }
@@ -5569,24 +5569,6 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::FontFamily> for (P0, P1, P2, P3, P4)
-where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
-    super::opcode::FontFamily: From<P2>,
-    super::opcode::FontFamily: From<P3>,
-    super::opcode::FontFamily: From<P4>,
-{
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::PathEvent> for (P0, P1, P2, P3, P4)
 where
     super::opcode::PathEvent: From<P0>,
@@ -5596,6 +5578,24 @@ where
     super::opcode::PathEvent: From<P4>,
 {
     fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::FontFamily> for (P0, P1, P2, P3, P4)
+where
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+    super::opcode::FontFamily: From<P2>,
+    super::opcode::FontFamily: From<P3>,
+    super::opcode::FontFamily: From<P4>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -5723,26 +5723,6 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::FontFamily> for (P0, P1, P2, P3, P4, P5)
-where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
-    super::opcode::FontFamily: From<P2>,
-    super::opcode::FontFamily: From<P3>,
-    super::opcode::FontFamily: From<P4>,
-    super::opcode::FontFamily: From<P5>,
-{
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::PathEvent> for (P0, P1, P2, P3, P4, P5)
 where
     super::opcode::PathEvent: From<P0>,
@@ -5753,6 +5733,26 @@ where
     super::opcode::PathEvent: From<P5>,
 {
     fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::FontFamily> for (P0, P1, P2, P3, P4, P5)
+where
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+    super::opcode::FontFamily: From<P2>,
+    super::opcode::FontFamily: From<P3>,
+    super::opcode::FontFamily: From<P4>,
+    super::opcode::FontFamily: From<P5>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -5894,29 +5894,6 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::FontFamily>
-    for (P0, P1, P2, P3, P4, P5, P6)
-where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
-    super::opcode::FontFamily: From<P2>,
-    super::opcode::FontFamily: From<P3>,
-    super::opcode::FontFamily: From<P4>,
-    super::opcode::FontFamily: From<P5>,
-    super::opcode::FontFamily: From<P6>,
-{
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::PathEvent>
     for (P0, P1, P2, P3, P4, P5, P6)
 where
@@ -5929,6 +5906,29 @@ where
     super::opcode::PathEvent: From<P6>,
 {
     fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::FontFamily>
+    for (P0, P1, P2, P3, P4, P5, P6)
+where
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+    super::opcode::FontFamily: From<P2>,
+    super::opcode::FontFamily: From<P3>,
+    super::opcode::FontFamily: From<P4>,
+    super::opcode::FontFamily: From<P5>,
+    super::opcode::FontFamily: From<P6>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6085,31 +6085,6 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::FontFamily>
-    for (P0, P1, P2, P3, P4, P5, P6, P7)
-where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
-    super::opcode::FontFamily: From<P2>,
-    super::opcode::FontFamily: From<P3>,
-    super::opcode::FontFamily: From<P4>,
-    super::opcode::FontFamily: From<P5>,
-    super::opcode::FontFamily: From<P6>,
-    super::opcode::FontFamily: From<P7>,
-{
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::PathEvent>
     for (P0, P1, P2, P3, P4, P5, P6, P7)
 where
@@ -6123,6 +6098,31 @@ where
     super::opcode::PathEvent: From<P7>,
 {
     fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::FontFamily>
+    for (P0, P1, P2, P3, P4, P5, P6, P7)
+where
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+    super::opcode::FontFamily: From<P2>,
+    super::opcode::FontFamily: From<P3>,
+    super::opcode::FontFamily: From<P4>,
+    super::opcode::FontFamily: From<P5>,
+    super::opcode::FontFamily: From<P6>,
+    super::opcode::FontFamily: From<P7>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6292,33 +6292,6 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::FontFamily>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8)
-where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
-    super::opcode::FontFamily: From<P2>,
-    super::opcode::FontFamily: From<P3>,
-    super::opcode::FontFamily: From<P4>,
-    super::opcode::FontFamily: From<P5>,
-    super::opcode::FontFamily: From<P6>,
-    super::opcode::FontFamily: From<P7>,
-    super::opcode::FontFamily: From<P8>,
-{
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::PathEvent>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8)
 where
@@ -6333,6 +6306,33 @@ where
     super::opcode::PathEvent: From<P8>,
 {
     fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::FontFamily>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8)
+where
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+    super::opcode::FontFamily: From<P2>,
+    super::opcode::FontFamily: From<P3>,
+    super::opcode::FontFamily: From<P4>,
+    super::opcode::FontFamily: From<P5>,
+    super::opcode::FontFamily: From<P6>,
+    super::opcode::FontFamily: From<P7>,
+    super::opcode::FontFamily: From<P8>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6518,35 +6518,6 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::FontFamily>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)
-where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
-    super::opcode::FontFamily: From<P2>,
-    super::opcode::FontFamily: From<P3>,
-    super::opcode::FontFamily: From<P4>,
-    super::opcode::FontFamily: From<P5>,
-    super::opcode::FontFamily: From<P6>,
-    super::opcode::FontFamily: From<P7>,
-    super::opcode::FontFamily: From<P8>,
-    super::opcode::FontFamily: From<P9>,
-{
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::PathEvent>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)
 where
@@ -6562,6 +6533,35 @@ where
     super::opcode::PathEvent: From<P9>,
 {
     fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::FontFamily>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)
+where
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+    super::opcode::FontFamily: From<P2>,
+    super::opcode::FontFamily: From<P3>,
+    super::opcode::FontFamily: From<P4>,
+    super::opcode::FontFamily: From<P5>,
+    super::opcode::FontFamily: From<P6>,
+    super::opcode::FontFamily: From<P7>,
+    super::opcode::FontFamily: From<P8>,
+    super::opcode::FontFamily: From<P9>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6761,37 +6761,6 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::FontFamily>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
-where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
-    super::opcode::FontFamily: From<P2>,
-    super::opcode::FontFamily: From<P3>,
-    super::opcode::FontFamily: From<P4>,
-    super::opcode::FontFamily: From<P5>,
-    super::opcode::FontFamily: From<P6>,
-    super::opcode::FontFamily: From<P7>,
-    super::opcode::FontFamily: From<P8>,
-    super::opcode::FontFamily: From<P9>,
-    super::opcode::FontFamily: From<P10>,
-{
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::PathEvent>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
 where
@@ -6808,6 +6777,37 @@ where
     super::opcode::PathEvent: From<P10>,
 {
     fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::FontFamily>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
+where
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+    super::opcode::FontFamily: From<P2>,
+    super::opcode::FontFamily: From<P3>,
+    super::opcode::FontFamily: From<P4>,
+    super::opcode::FontFamily: From<P5>,
+    super::opcode::FontFamily: From<P6>,
+    super::opcode::FontFamily: From<P7>,
+    super::opcode::FontFamily: From<P8>,
+    super::opcode::FontFamily: From<P9>,
+    super::opcode::FontFamily: From<P10>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -7020,39 +7020,6 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::FontFamily>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11)
-where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
-    super::opcode::FontFamily: From<P2>,
-    super::opcode::FontFamily: From<P3>,
-    super::opcode::FontFamily: From<P4>,
-    super::opcode::FontFamily: From<P5>,
-    super::opcode::FontFamily: From<P6>,
-    super::opcode::FontFamily: From<P7>,
-    super::opcode::FontFamily: From<P8>,
-    super::opcode::FontFamily: From<P9>,
-    super::opcode::FontFamily: From<P10>,
-    super::opcode::FontFamily: From<P11>,
-{
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-            self.11.into(),
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::PathEvent>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11)
 where
@@ -7070,6 +7037,39 @@ where
     super::opcode::PathEvent: From<P11>,
 {
     fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+            self.11.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::FontFamily>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11)
+where
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+    super::opcode::FontFamily: From<P2>,
+    super::opcode::FontFamily: From<P3>,
+    super::opcode::FontFamily: From<P4>,
+    super::opcode::FontFamily: From<P5>,
+    super::opcode::FontFamily: From<P6>,
+    super::opcode::FontFamily: From<P7>,
+    super::opcode::FontFamily: From<P8>,
+    super::opcode::FontFamily: From<P9>,
+    super::opcode::FontFamily: From<P10>,
+    super::opcode::FontFamily: From<P11>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -7295,41 +7295,6 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::FontFamily>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12)
-where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
-    super::opcode::FontFamily: From<P2>,
-    super::opcode::FontFamily: From<P3>,
-    super::opcode::FontFamily: From<P4>,
-    super::opcode::FontFamily: From<P5>,
-    super::opcode::FontFamily: From<P6>,
-    super::opcode::FontFamily: From<P7>,
-    super::opcode::FontFamily: From<P8>,
-    super::opcode::FontFamily: From<P9>,
-    super::opcode::FontFamily: From<P10>,
-    super::opcode::FontFamily: From<P11>,
-    super::opcode::FontFamily: From<P12>,
-{
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-            self.11.into(),
-            self.12.into(),
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::PathEvent>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12)
 where
@@ -7348,6 +7313,41 @@ where
     super::opcode::PathEvent: From<P12>,
 {
     fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+            self.11.into(),
+            self.12.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::FontFamily>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12)
+where
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+    super::opcode::FontFamily: From<P2>,
+    super::opcode::FontFamily: From<P3>,
+    super::opcode::FontFamily: From<P4>,
+    super::opcode::FontFamily: From<P5>,
+    super::opcode::FontFamily: From<P6>,
+    super::opcode::FontFamily: From<P7>,
+    super::opcode::FontFamily: From<P8>,
+    super::opcode::FontFamily: From<P9>,
+    super::opcode::FontFamily: From<P10>,
+    super::opcode::FontFamily: From<P11>,
+    super::opcode::FontFamily: From<P12>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -7588,44 +7588,6 @@ where
     }
 }
 impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13>
-    MapCollect<super::opcode::FontFamily>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13)
-where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
-    super::opcode::FontFamily: From<P2>,
-    super::opcode::FontFamily: From<P3>,
-    super::opcode::FontFamily: From<P4>,
-    super::opcode::FontFamily: From<P5>,
-    super::opcode::FontFamily: From<P6>,
-    super::opcode::FontFamily: From<P7>,
-    super::opcode::FontFamily: From<P8>,
-    super::opcode::FontFamily: From<P9>,
-    super::opcode::FontFamily: From<P10>,
-    super::opcode::FontFamily: From<P11>,
-    super::opcode::FontFamily: From<P12>,
-    super::opcode::FontFamily: From<P13>,
-{
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-            self.11.into(),
-            self.12.into(),
-            self.13.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13>
     MapCollect<super::opcode::PathEvent>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13)
 where
@@ -7645,6 +7607,44 @@ where
     super::opcode::PathEvent: From<P13>,
 {
     fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+            self.11.into(),
+            self.12.into(),
+            self.13.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13>
+    MapCollect<super::opcode::FontFamily>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13)
+where
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+    super::opcode::FontFamily: From<P2>,
+    super::opcode::FontFamily: From<P3>,
+    super::opcode::FontFamily: From<P4>,
+    super::opcode::FontFamily: From<P5>,
+    super::opcode::FontFamily: From<P6>,
+    super::opcode::FontFamily: From<P7>,
+    super::opcode::FontFamily: From<P8>,
+    super::opcode::FontFamily: From<P9>,
+    super::opcode::FontFamily: From<P10>,
+    super::opcode::FontFamily: From<P11>,
+    super::opcode::FontFamily: From<P12>,
+    super::opcode::FontFamily: From<P13>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -8012,62 +8012,6 @@ where
     }
 }
 impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
-    MapCollect<super::opcode::FontFamily>
-    for (
-        P0,
-        P1,
-        P2,
-        P3,
-        P4,
-        P5,
-        P6,
-        P7,
-        P8,
-        P9,
-        P10,
-        P11,
-        P12,
-        P13,
-        P14,
-    )
-where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
-    super::opcode::FontFamily: From<P2>,
-    super::opcode::FontFamily: From<P3>,
-    super::opcode::FontFamily: From<P4>,
-    super::opcode::FontFamily: From<P5>,
-    super::opcode::FontFamily: From<P6>,
-    super::opcode::FontFamily: From<P7>,
-    super::opcode::FontFamily: From<P8>,
-    super::opcode::FontFamily: From<P9>,
-    super::opcode::FontFamily: From<P10>,
-    super::opcode::FontFamily: From<P11>,
-    super::opcode::FontFamily: From<P12>,
-    super::opcode::FontFamily: From<P13>,
-    super::opcode::FontFamily: From<P14>,
-{
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-            self.11.into(),
-            self.12.into(),
-            self.13.into(),
-            self.14.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
     MapCollect<super::opcode::PathEvent>
     for (
         P0,
@@ -8123,6 +8067,62 @@ where
         ]
     }
 }
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
+    MapCollect<super::opcode::FontFamily>
+    for (
+        P0,
+        P1,
+        P2,
+        P3,
+        P4,
+        P5,
+        P6,
+        P7,
+        P8,
+        P9,
+        P10,
+        P11,
+        P12,
+        P13,
+        P14,
+    )
+where
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+    super::opcode::FontFamily: From<P2>,
+    super::opcode::FontFamily: From<P3>,
+    super::opcode::FontFamily: From<P4>,
+    super::opcode::FontFamily: From<P5>,
+    super::opcode::FontFamily: From<P6>,
+    super::opcode::FontFamily: From<P7>,
+    super::opcode::FontFamily: From<P8>,
+    super::opcode::FontFamily: From<P9>,
+    super::opcode::FontFamily: From<P10>,
+    super::opcode::FontFamily: From<P11>,
+    super::opcode::FontFamily: From<P12>,
+    super::opcode::FontFamily: From<P13>,
+    super::opcode::FontFamily: From<P14>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+            self.11.into(),
+            self.12.into(),
+            self.13.into(),
+            self.14.into(),
+        ]
+    }
+}
 impl<P> MapCollect<f32> for P
 where
     Number: From<P>,
@@ -8155,19 +8155,19 @@ where
         vec![self.into()]
     }
 }
-impl<P> MapCollect<super::opcode::FontFamily> for P
-where
-    super::opcode::FontFamily: From<P>,
-{
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![self.into()]
-    }
-}
 impl<P> MapCollect<super::opcode::PathEvent> for P
 where
     super::opcode::PathEvent: From<P>,
 {
     fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+        vec![self.into()]
+    }
+}
+impl<P> MapCollect<super::opcode::FontFamily> for P
+where
+    super::opcode::FontFamily: From<P>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![self.into()]
     }
 }
