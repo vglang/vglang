@@ -170,485 +170,156 @@ impl From<f32> for Number {
 pub trait SangleDeg {
     fn deg(self) -> super::opcode::Angle;
 }
+impl<P0> SangleDeg for P0
+where
+    Number: From<P0>,
+{
+    fn deg(self) -> super::opcode::Angle {
+        super::opcode::Angle::Deg(Number::from(self).0)
+    }
+}
 pub trait SangleGrad {
     fn grad(self) -> super::opcode::Angle;
+}
+impl<P0> SangleGrad for P0
+where
+    Number: From<P0>,
+{
+    fn grad(self) -> super::opcode::Angle {
+        super::opcode::Angle::Grad(Number::from(self).0)
+    }
 }
 pub trait SangleRad {
     fn rad(self) -> super::opcode::Angle;
 }
+impl<P0> SangleRad for P0
+where
+    Number: From<P0>,
+{
+    fn rad(self) -> super::opcode::Angle {
+        super::opcode::Angle::Rad(Number::from(self).0)
+    }
+}
 pub trait SlengthEm {
     fn em(self) -> super::opcode::Length;
+}
+impl<P0> SlengthEm for P0
+where
+    Number: From<P0>,
+{
+    fn em(self) -> super::opcode::Length {
+        super::opcode::Length::Em(Number::from(self).0)
+    }
 }
 pub trait SlengthEx {
     fn ex(self) -> super::opcode::Length;
 }
+impl<P0> SlengthEx for P0
+where
+    Number: From<P0>,
+{
+    fn ex(self) -> super::opcode::Length {
+        super::opcode::Length::Ex(Number::from(self).0)
+    }
+}
 pub trait SlengthPx {
     fn px(self) -> super::opcode::Length;
+}
+impl<P0> SlengthPx for P0
+where
+    Number: From<P0>,
+{
+    fn px(self) -> super::opcode::Length {
+        super::opcode::Length::Px(Number::from(self).0)
+    }
 }
 pub trait SlengthInch {
     fn inch(self) -> super::opcode::Length;
 }
+impl<P0> SlengthInch for P0
+where
+    Number: From<P0>,
+{
+    fn inch(self) -> super::opcode::Length {
+        super::opcode::Length::Inch(Number::from(self).0)
+    }
+}
 pub trait SlengthCm {
     fn cm(self) -> super::opcode::Length;
+}
+impl<P0> SlengthCm for P0
+where
+    Number: From<P0>,
+{
+    fn cm(self) -> super::opcode::Length {
+        super::opcode::Length::Cm(Number::from(self).0)
+    }
 }
 pub trait SlengthMm {
     fn mm(self) -> super::opcode::Length;
 }
+impl<P0> SlengthMm for P0
+where
+    Number: From<P0>,
+{
+    fn mm(self) -> super::opcode::Length {
+        super::opcode::Length::Mm(Number::from(self).0)
+    }
+}
 pub trait SlengthPt {
     fn pt(self) -> super::opcode::Length;
+}
+impl<P0> SlengthPt for P0
+where
+    Number: From<P0>,
+{
+    fn pt(self) -> super::opcode::Length {
+        super::opcode::Length::Pt(Number::from(self).0)
+    }
 }
 pub trait SlengthPc {
     fn pc(self) -> super::opcode::Length;
 }
+impl<P0> SlengthPc for P0
+where
+    Number: From<P0>,
+{
+    fn pc(self) -> super::opcode::Length {
+        super::opcode::Length::Pc(Number::from(self).0)
+    }
+}
 pub trait SlengthPercent {
     fn percent(self) -> super::opcode::Length;
 }
-pub trait ScolorAliceblue {
-    fn aliceblue(self) -> super::opcode::Color;
-}
-pub trait ScolorAntiquewhite {
-    fn antiquewhite(self) -> super::opcode::Color;
-}
-pub trait ScolorAqua {
-    fn aqua(self) -> super::opcode::Color;
-}
-pub trait ScolorAquamarine {
-    fn aquamarine(self) -> super::opcode::Color;
-}
-pub trait ScolorAzure {
-    fn azure(self) -> super::opcode::Color;
-}
-pub trait ScolorBeige {
-    fn beige(self) -> super::opcode::Color;
-}
-pub trait ScolorBisque {
-    fn bisque(self) -> super::opcode::Color;
-}
-pub trait ScolorBlack {
-    fn black(self) -> super::opcode::Color;
-}
-pub trait ScolorBlanchedalmond {
-    fn blanchedalmond(self) -> super::opcode::Color;
-}
-pub trait ScolorBlue {
-    fn blue(self) -> super::opcode::Color;
-}
-pub trait ScolorBlueviolet {
-    fn blueviolet(self) -> super::opcode::Color;
-}
-pub trait ScolorBrown {
-    fn brown(self) -> super::opcode::Color;
-}
-pub trait ScolorBurlywood {
-    fn burlywood(self) -> super::opcode::Color;
-}
-pub trait ScolorCadetblue {
-    fn cadetblue(self) -> super::opcode::Color;
-}
-pub trait ScolorChartreuse {
-    fn chartreuse(self) -> super::opcode::Color;
-}
-pub trait ScolorChocolate {
-    fn chocolate(self) -> super::opcode::Color;
-}
-pub trait ScolorCoral {
-    fn coral(self) -> super::opcode::Color;
-}
-pub trait ScolorCornflowerblue {
-    fn cornflowerblue(self) -> super::opcode::Color;
-}
-pub trait ScolorCornsilk {
-    fn cornsilk(self) -> super::opcode::Color;
-}
-pub trait ScolorCrimson {
-    fn crimson(self) -> super::opcode::Color;
-}
-pub trait ScolorCyan {
-    fn cyan(self) -> super::opcode::Color;
-}
-pub trait ScolorDarkblue {
-    fn darkblue(self) -> super::opcode::Color;
-}
-pub trait ScolorDarkcyan {
-    fn darkcyan(self) -> super::opcode::Color;
-}
-pub trait ScolorDarkgoldenrod {
-    fn darkgoldenrod(self) -> super::opcode::Color;
-}
-pub trait ScolorDarkgray {
-    fn darkgray(self) -> super::opcode::Color;
-}
-pub trait ScolorDarkgreen {
-    fn darkgreen(self) -> super::opcode::Color;
-}
-pub trait ScolorDarkgrey {
-    fn darkgrey(self) -> super::opcode::Color;
-}
-pub trait ScolorDarkkhaki {
-    fn darkkhaki(self) -> super::opcode::Color;
-}
-pub trait ScolorDarkmagenta {
-    fn darkmagenta(self) -> super::opcode::Color;
-}
-pub trait ScolorDarkolivegreen {
-    fn darkolivegreen(self) -> super::opcode::Color;
-}
-pub trait ScolorDarkorange {
-    fn darkorange(self) -> super::opcode::Color;
-}
-pub trait ScolorDarkorchid {
-    fn darkorchid(self) -> super::opcode::Color;
-}
-pub trait ScolorDarkred {
-    fn darkred(self) -> super::opcode::Color;
-}
-pub trait ScolorDarksalmon {
-    fn darksalmon(self) -> super::opcode::Color;
-}
-pub trait ScolorDarkseagreen {
-    fn darkseagreen(self) -> super::opcode::Color;
-}
-pub trait ScolorDarkslateblue {
-    fn darkslateblue(self) -> super::opcode::Color;
-}
-pub trait ScolorDarkslategray {
-    fn darkslategray(self) -> super::opcode::Color;
-}
-pub trait ScolorDarkslategrey {
-    fn darkslategrey(self) -> super::opcode::Color;
-}
-pub trait ScolorDarkturquoise {
-    fn darkturquoise(self) -> super::opcode::Color;
-}
-pub trait ScolorDarkviolet {
-    fn darkviolet(self) -> super::opcode::Color;
-}
-pub trait ScolorDeeppink {
-    fn deeppink(self) -> super::opcode::Color;
-}
-pub trait ScolorDeepskyblue {
-    fn deepskyblue(self) -> super::opcode::Color;
-}
-pub trait ScolorDimgray {
-    fn dimgray(self) -> super::opcode::Color;
-}
-pub trait ScolorDimgrey {
-    fn dimgrey(self) -> super::opcode::Color;
-}
-pub trait ScolorDodgerblue {
-    fn dodgerblue(self) -> super::opcode::Color;
-}
-pub trait ScolorFirebrick {
-    fn firebrick(self) -> super::opcode::Color;
-}
-pub trait ScolorFloralwhite {
-    fn floralwhite(self) -> super::opcode::Color;
-}
-pub trait ScolorForestgreen {
-    fn forestgreen(self) -> super::opcode::Color;
-}
-pub trait ScolorFuchsia {
-    fn fuchsia(self) -> super::opcode::Color;
-}
-pub trait ScolorGainsboro {
-    fn gainsboro(self) -> super::opcode::Color;
-}
-pub trait ScolorGhostwhite {
-    fn ghostwhite(self) -> super::opcode::Color;
-}
-pub trait ScolorGold {
-    fn gold(self) -> super::opcode::Color;
-}
-pub trait ScolorGoldenrod {
-    fn goldenrod(self) -> super::opcode::Color;
-}
-pub trait ScolorGray {
-    fn gray(self) -> super::opcode::Color;
-}
-pub trait ScolorGrey {
-    fn grey(self) -> super::opcode::Color;
-}
-pub trait ScolorGreen {
-    fn green(self) -> super::opcode::Color;
-}
-pub trait ScolorGreenyellow {
-    fn greenyellow(self) -> super::opcode::Color;
-}
-pub trait ScolorHoneydew {
-    fn honeydew(self) -> super::opcode::Color;
-}
-pub trait ScolorHotpink {
-    fn hotpink(self) -> super::opcode::Color;
-}
-pub trait ScolorIndianred {
-    fn indianred(self) -> super::opcode::Color;
-}
-pub trait ScolorIndigo {
-    fn indigo(self) -> super::opcode::Color;
-}
-pub trait ScolorIvory {
-    fn ivory(self) -> super::opcode::Color;
-}
-pub trait ScolorKhaki {
-    fn khaki(self) -> super::opcode::Color;
-}
-pub trait ScolorLavender {
-    fn lavender(self) -> super::opcode::Color;
-}
-pub trait ScolorLavenderblush {
-    fn lavenderblush(self) -> super::opcode::Color;
-}
-pub trait ScolorLawngreen {
-    fn lawngreen(self) -> super::opcode::Color;
-}
-pub trait ScolorLemonchiffon {
-    fn lemonchiffon(self) -> super::opcode::Color;
-}
-pub trait ScolorLightblue {
-    fn lightblue(self) -> super::opcode::Color;
-}
-pub trait ScolorLightcoral {
-    fn lightcoral(self) -> super::opcode::Color;
-}
-pub trait ScolorLightcyan {
-    fn lightcyan(self) -> super::opcode::Color;
-}
-pub trait ScolorLightgoldenrodyellow {
-    fn lightgoldenrodyellow(self) -> super::opcode::Color;
-}
-pub trait ScolorLightgray {
-    fn lightgray(self) -> super::opcode::Color;
-}
-pub trait ScolorLightgreen {
-    fn lightgreen(self) -> super::opcode::Color;
-}
-pub trait ScolorLightgrey {
-    fn lightgrey(self) -> super::opcode::Color;
-}
-pub trait ScolorLightpink {
-    fn lightpink(self) -> super::opcode::Color;
-}
-pub trait ScolorLightsalmon {
-    fn lightsalmon(self) -> super::opcode::Color;
-}
-pub trait ScolorLightseagreen {
-    fn lightseagreen(self) -> super::opcode::Color;
-}
-pub trait ScolorLightskyblue {
-    fn lightskyblue(self) -> super::opcode::Color;
-}
-pub trait ScolorLightslategray {
-    fn lightslategray(self) -> super::opcode::Color;
-}
-pub trait ScolorLightslategrey {
-    fn lightslategrey(self) -> super::opcode::Color;
-}
-pub trait ScolorLightsteelblue {
-    fn lightsteelblue(self) -> super::opcode::Color;
-}
-pub trait ScolorLightyellow {
-    fn lightyellow(self) -> super::opcode::Color;
-}
-pub trait ScolorLime {
-    fn lime(self) -> super::opcode::Color;
-}
-pub trait ScolorLimegreen {
-    fn limegreen(self) -> super::opcode::Color;
-}
-pub trait ScolorLinen {
-    fn linen(self) -> super::opcode::Color;
-}
-pub trait ScolorMagenta {
-    fn magenta(self) -> super::opcode::Color;
-}
-pub trait ScolorMaroon {
-    fn maroon(self) -> super::opcode::Color;
-}
-pub trait ScolorMediumaquamarine {
-    fn mediumaquamarine(self) -> super::opcode::Color;
-}
-pub trait ScolorMediumblue {
-    fn mediumblue(self) -> super::opcode::Color;
-}
-pub trait ScolorMediumorchid {
-    fn mediumorchid(self) -> super::opcode::Color;
-}
-pub trait ScolorMediumpurple {
-    fn mediumpurple(self) -> super::opcode::Color;
-}
-pub trait ScolorMediumseagreen {
-    fn mediumseagreen(self) -> super::opcode::Color;
-}
-pub trait ScolorMediumslateblue {
-    fn mediumslateblue(self) -> super::opcode::Color;
-}
-pub trait ScolorMediumspringgreen {
-    fn mediumspringgreen(self) -> super::opcode::Color;
-}
-pub trait ScolorMediumturquoise {
-    fn mediumturquoise(self) -> super::opcode::Color;
-}
-pub trait ScolorMediumvioletred {
-    fn mediumvioletred(self) -> super::opcode::Color;
-}
-pub trait ScolorMidnightblue {
-    fn midnightblue(self) -> super::opcode::Color;
-}
-pub trait ScolorMintcream {
-    fn mintcream(self) -> super::opcode::Color;
-}
-pub trait ScolorMistyrose {
-    fn mistyrose(self) -> super::opcode::Color;
-}
-pub trait ScolorMoccasin {
-    fn moccasin(self) -> super::opcode::Color;
-}
-pub trait ScolorNavajowhite {
-    fn navajowhite(self) -> super::opcode::Color;
-}
-pub trait ScolorNavy {
-    fn navy(self) -> super::opcode::Color;
-}
-pub trait ScolorOldlace {
-    fn oldlace(self) -> super::opcode::Color;
-}
-pub trait ScolorOlive {
-    fn olive(self) -> super::opcode::Color;
-}
-pub trait ScolorOlivedrab {
-    fn olivedrab(self) -> super::opcode::Color;
-}
-pub trait ScolorOrange {
-    fn orange(self) -> super::opcode::Color;
-}
-pub trait ScolorOrangered {
-    fn orangered(self) -> super::opcode::Color;
-}
-pub trait ScolorOrchid {
-    fn orchid(self) -> super::opcode::Color;
-}
-pub trait ScolorPalegoldenrod {
-    fn palegoldenrod(self) -> super::opcode::Color;
-}
-pub trait ScolorPalegreen {
-    fn palegreen(self) -> super::opcode::Color;
-}
-pub trait ScolorPaleturquoise {
-    fn paleturquoise(self) -> super::opcode::Color;
-}
-pub trait ScolorPalevioletred {
-    fn palevioletred(self) -> super::opcode::Color;
-}
-pub trait ScolorPapayawhip {
-    fn papayawhip(self) -> super::opcode::Color;
-}
-pub trait ScolorPeachpuff {
-    fn peachpuff(self) -> super::opcode::Color;
-}
-pub trait ScolorPeru {
-    fn peru(self) -> super::opcode::Color;
-}
-pub trait ScolorPink {
-    fn pink(self) -> super::opcode::Color;
-}
-pub trait ScolorPlum {
-    fn plum(self) -> super::opcode::Color;
-}
-pub trait ScolorPowderblue {
-    fn powderblue(self) -> super::opcode::Color;
-}
-pub trait ScolorPurple {
-    fn purple(self) -> super::opcode::Color;
-}
-pub trait ScolorRed {
-    fn red(self) -> super::opcode::Color;
-}
-pub trait ScolorRosybrown {
-    fn rosybrown(self) -> super::opcode::Color;
-}
-pub trait ScolorRoyalblue {
-    fn royalblue(self) -> super::opcode::Color;
-}
-pub trait ScolorSaddlebrown {
-    fn saddlebrown(self) -> super::opcode::Color;
-}
-pub trait ScolorSalmon {
-    fn salmon(self) -> super::opcode::Color;
-}
-pub trait ScolorSandybrown {
-    fn sandybrown(self) -> super::opcode::Color;
-}
-pub trait ScolorSeagreen {
-    fn seagreen(self) -> super::opcode::Color;
-}
-pub trait ScolorSeashell {
-    fn seashell(self) -> super::opcode::Color;
-}
-pub trait ScolorSienna {
-    fn sienna(self) -> super::opcode::Color;
-}
-pub trait ScolorSilver {
-    fn silver(self) -> super::opcode::Color;
-}
-pub trait ScolorSkyblue {
-    fn skyblue(self) -> super::opcode::Color;
-}
-pub trait ScolorSlateblue {
-    fn slateblue(self) -> super::opcode::Color;
-}
-pub trait ScolorSlategray {
-    fn slategray(self) -> super::opcode::Color;
-}
-pub trait ScolorSlategrey {
-    fn slategrey(self) -> super::opcode::Color;
-}
-pub trait ScolorSnow {
-    fn snow(self) -> super::opcode::Color;
-}
-pub trait ScolorSpringgreen {
-    fn springgreen(self) -> super::opcode::Color;
-}
-pub trait ScolorSteelblue {
-    fn steelblue(self) -> super::opcode::Color;
-}
-pub trait ScolorTan {
-    fn tan(self) -> super::opcode::Color;
-}
-pub trait ScolorTeal {
-    fn teal(self) -> super::opcode::Color;
-}
-pub trait ScolorThistle {
-    fn thistle(self) -> super::opcode::Color;
-}
-pub trait ScolorTomato {
-    fn tomato(self) -> super::opcode::Color;
-}
-pub trait ScolorTurquoise {
-    fn turquoise(self) -> super::opcode::Color;
-}
-pub trait ScolorViolet {
-    fn violet(self) -> super::opcode::Color;
-}
-pub trait ScolorWheat {
-    fn wheat(self) -> super::opcode::Color;
-}
-pub trait ScolorWhite {
-    fn white(self) -> super::opcode::Color;
-}
-pub trait ScolorWhitesmoke {
-    fn whitesmoke(self) -> super::opcode::Color;
-}
-pub trait ScolorYellow {
-    fn yellow(self) -> super::opcode::Color;
-}
-pub trait ScolorYellowgreen {
-    fn yellowgreen(self) -> super::opcode::Color;
+impl<P0> SlengthPercent for P0
+where
+    Number: From<P0>,
+{
+    fn percent(self) -> super::opcode::Length {
+        super::opcode::Length::Percent(Number::from(self).0)
+    }
 }
 pub trait SiriLocal {
     fn local(self) -> super::opcode::Iri;
 }
+impl<P0> SiriLocal for P0
+where
+    String: From<P0>,
+{
+    fn local(self) -> super::opcode::Iri {
+        super::opcode::Iri::Local(self.into())
+    }
+}
 pub trait SiriPath {
     fn path(self) -> super::opcode::Iri;
+}
+impl<P0> SiriPath for P0
+where
+    String: From<P0>,
+{
+    fn path(self) -> super::opcode::Iri {
+        super::opcode::Iri::Path(self.into())
+    }
 }
 impl<P0> From<P0> for super::opcode::FuncIri
 where
@@ -675,14 +346,27 @@ where
         Self(Number::from(value).0)
     }
 }
-pub trait SpaintNone {
-    fn none(self) -> super::opcode::Paint;
-}
 pub trait SpaintColor {
     fn color(self) -> super::opcode::Paint;
 }
+impl<P0> SpaintColor for P0
+where
+    super::opcode::Rgb: From<P0>,
+{
+    fn color(self) -> super::opcode::Paint {
+        super::opcode::Paint::Color(self.into())
+    }
+}
 pub trait SpaintServer {
     fn server(self) -> super::opcode::Paint;
+}
+impl<P0> SpaintServer for P0
+where
+    super::opcode::FuncIri: From<P0>,
+{
+    fn server(self) -> super::opcode::Paint {
+        super::opcode::Paint::Server(self.into())
+    }
 }
 impl<P0> From<P0> for super::opcode::NumberOptNumber
 where
@@ -692,488 +376,487 @@ where
         Self(Number::from(value).0, None)
     }
 }
-pub trait ScoordsUserSpaceOnUse {
-    fn user_space_on_use(self) -> super::opcode::Coords;
-}
-pub trait ScoordsObjectBoundingBox {
-    fn object_bounding_box(self) -> super::opcode::Coords;
-}
 pub trait StransformTranslate {
     fn translate(self) -> super::opcode::Transform;
+}
+impl<P0, P1> StransformTranslate for (P0, P1)
+where
+    Number: From<P0>,
+    Number: From<P1>,
+{
+    fn translate(self) -> super::opcode::Transform {
+        super::opcode::Transform::Translate(Number::from(self.0).0, Number::from(self.1).0)
+    }
 }
 pub trait StransformMatrix {
     fn matrix(self) -> super::opcode::Transform;
 }
+impl<P0> StransformMatrix for P0
+where
+    [f32; 6usize]: From<P0>,
+{
+    fn matrix(self) -> super::opcode::Transform {
+        super::opcode::Transform::Matrix(self.into())
+    }
+}
 pub trait StransformScale {
     fn scale(self) -> super::opcode::Transform;
+}
+impl<P0> StransformScale for P0
+where
+    Number: From<P0>,
+{
+    fn scale(self) -> super::opcode::Transform {
+        super::opcode::Transform::Scale(Number::from(self).0, None)
+    }
 }
 pub trait StransformRotate {
     fn rotate(self) -> super::opcode::Transform;
 }
+impl<Angle, Cx, Cy> StransformRotate for (Angle, Cx, Cy)
+where
+    Number: From<Angle>,
+    Number: From<Cx>,
+    Number: From<Cy>,
+{
+    fn rotate(self) -> super::opcode::Transform {
+        super::opcode::Transform::Rotate {
+            angle: Number::from(self.0).0,
+            cx: Number::from(self.1).0,
+            cy: Number::from(self.2).0,
+        }
+    }
+}
 pub trait StransformSkewX {
     fn skew_x(self) -> super::opcode::Transform;
+}
+impl<P0> StransformSkewX for P0
+where
+    Number: From<P0>,
+{
+    fn skew_x(self) -> super::opcode::Transform {
+        super::opcode::Transform::SkewX(Number::from(self).0)
+    }
 }
 pub trait StransformSkewY {
     fn skew_y(self) -> super::opcode::Transform;
 }
-pub trait SchannelR {
-    fn r(self) -> super::opcode::Channel;
-}
-pub trait SchannelG {
-    fn g(self) -> super::opcode::Channel;
-}
-pub trait SchannelB {
-    fn b(self) -> super::opcode::Channel;
-}
-pub trait SchannelA {
-    fn a(self) -> super::opcode::Channel;
-}
-pub trait SclipRuleNonzero {
-    fn nonzero(self) -> super::opcode::ClipRule;
-}
-pub trait SclipRuleEvenOdd {
-    fn even_odd(self) -> super::opcode::ClipRule;
-}
-pub trait SpathEventClose {
-    fn close(self) -> super::opcode::PathEvent;
+impl<P0> StransformSkewY for P0
+where
+    Number: From<P0>,
+{
+    fn skew_y(self) -> super::opcode::Transform {
+        super::opcode::Transform::SkewY(Number::from(self).0)
+    }
 }
 pub trait SpathEventMoveTo {
     fn move_to(self) -> super::opcode::PathEvent;
 }
+impl<P0> SpathEventMoveTo for P0
+where
+    super::opcode::Point: From<P0>,
+{
+    fn move_to(self) -> super::opcode::PathEvent {
+        super::opcode::PathEvent::MoveTo(self.into())
+    }
+}
 pub trait SpathEventMoveToRelative {
     fn move_to_relative(self) -> super::opcode::PathEvent;
+}
+impl<P0> SpathEventMoveToRelative for P0
+where
+    super::opcode::Point: From<P0>,
+{
+    fn move_to_relative(self) -> super::opcode::PathEvent {
+        super::opcode::PathEvent::MoveToRelative(self.into())
+    }
 }
 pub trait SpathEventLineTo {
     fn line_to(self) -> super::opcode::PathEvent;
 }
+impl<P0> SpathEventLineTo for P0
+where
+    super::opcode::Point: From<P0>,
+{
+    fn line_to(self) -> super::opcode::PathEvent {
+        super::opcode::PathEvent::LineTo(self.into())
+    }
+}
 pub trait SpathEventLineToRelative {
     fn line_to_relative(self) -> super::opcode::PathEvent;
+}
+impl<P0> SpathEventLineToRelative for P0
+where
+    super::opcode::Point: From<P0>,
+{
+    fn line_to_relative(self) -> super::opcode::PathEvent {
+        super::opcode::PathEvent::LineToRelative(self.into())
+    }
 }
 pub trait SpathEventPolyline {
     fn polyline(self) -> super::opcode::PathEvent;
 }
+impl<P0> SpathEventPolyline for P0
+where
+    P0: MapCollect<super::opcode::Point>,
+{
+    fn polyline(self) -> super::opcode::PathEvent {
+        super::opcode::PathEvent::Polyline(self.map_collect())
+    }
+}
 pub trait SpathEventPolylineRelative {
     fn polyline_relative(self) -> super::opcode::PathEvent;
+}
+impl<P0> SpathEventPolylineRelative for P0
+where
+    P0: MapCollect<super::opcode::Point>,
+{
+    fn polyline_relative(self) -> super::opcode::PathEvent {
+        super::opcode::PathEvent::PolylineRelative(self.map_collect())
+    }
 }
 pub trait SpathEventCubicBezier {
     fn cubic_bezier(self) -> super::opcode::PathEvent;
 }
+impl<Ctrl1, Ctrl2, ToPoint> SpathEventCubicBezier for (Ctrl1, Ctrl2, ToPoint)
+where
+    super::opcode::Point: From<Ctrl1>,
+    super::opcode::Point: From<Ctrl2>,
+    super::opcode::Point: From<ToPoint>,
+{
+    fn cubic_bezier(self) -> super::opcode::PathEvent {
+        super::opcode::PathEvent::CubicBezier {
+            ctrl1: self.0.into(),
+            ctrl2: self.1.into(),
+            to_point: self.2.into(),
+        }
+    }
+}
 pub trait SpathEventCubicBezierRelative {
     fn cubic_bezier_relative(self) -> super::opcode::PathEvent;
+}
+impl<Ctrl1, Ctrl2, ToPoint> SpathEventCubicBezierRelative for (Ctrl1, Ctrl2, ToPoint)
+where
+    super::opcode::Point: From<Ctrl1>,
+    super::opcode::Point: From<Ctrl2>,
+    super::opcode::Point: From<ToPoint>,
+{
+    fn cubic_bezier_relative(self) -> super::opcode::PathEvent {
+        super::opcode::PathEvent::CubicBezierRelative {
+            ctrl1: self.0.into(),
+            ctrl2: self.1.into(),
+            to_point: self.2.into(),
+        }
+    }
 }
 pub trait SpathEventCubicBezierSmooth {
     fn cubic_bezier_smooth(self) -> super::opcode::PathEvent;
 }
+impl<Ctrl2, ToPoint> SpathEventCubicBezierSmooth for (Ctrl2, ToPoint)
+where
+    super::opcode::Point: From<Ctrl2>,
+    super::opcode::Point: From<ToPoint>,
+{
+    fn cubic_bezier_smooth(self) -> super::opcode::PathEvent {
+        super::opcode::PathEvent::CubicBezierSmooth {
+            ctrl2: self.0.into(),
+            to_point: self.1.into(),
+        }
+    }
+}
 pub trait SpathEventCubicBezierSmoothRelative {
     fn cubic_bezier_smooth_relative(self) -> super::opcode::PathEvent;
+}
+impl<Ctrl2, ToPoint> SpathEventCubicBezierSmoothRelative for (Ctrl2, ToPoint)
+where
+    super::opcode::Point: From<Ctrl2>,
+    super::opcode::Point: From<ToPoint>,
+{
+    fn cubic_bezier_smooth_relative(self) -> super::opcode::PathEvent {
+        super::opcode::PathEvent::CubicBezierSmoothRelative {
+            ctrl2: self.0.into(),
+            to_point: self.1.into(),
+        }
+    }
 }
 pub trait SpathEventQuadraticBezier {
     fn quadratic_bezier(self) -> super::opcode::PathEvent;
 }
+impl<Ctrl, ToPoint> SpathEventQuadraticBezier for (Ctrl, ToPoint)
+where
+    super::opcode::Point: From<Ctrl>,
+    super::opcode::Point: From<ToPoint>,
+{
+    fn quadratic_bezier(self) -> super::opcode::PathEvent {
+        super::opcode::PathEvent::QuadraticBezier {
+            ctrl: self.0.into(),
+            to_point: self.1.into(),
+        }
+    }
+}
 pub trait SpathEventQuadraticBezierRelative {
     fn quadratic_bezier_relative(self) -> super::opcode::PathEvent;
+}
+impl<Ctrl, ToPoint> SpathEventQuadraticBezierRelative for (Ctrl, ToPoint)
+where
+    super::opcode::Point: From<Ctrl>,
+    super::opcode::Point: From<ToPoint>,
+{
+    fn quadratic_bezier_relative(self) -> super::opcode::PathEvent {
+        super::opcode::PathEvent::QuadraticBezierRelative {
+            ctrl: self.0.into(),
+            to_point: self.1.into(),
+        }
+    }
 }
 pub trait SpathEventQuadraticBezierSmooth {
     fn quadratic_bezier_smooth(self) -> super::opcode::PathEvent;
 }
+impl<P0> SpathEventQuadraticBezierSmooth for P0
+where
+    super::opcode::Point: From<P0>,
+{
+    fn quadratic_bezier_smooth(self) -> super::opcode::PathEvent {
+        super::opcode::PathEvent::QuadraticBezierSmooth(self.into())
+    }
+}
 pub trait SpathEventQuadraticBezierSmoothRelative {
     fn quadratic_bezier_smooth_relative(self) -> super::opcode::PathEvent;
+}
+impl<P0> SpathEventQuadraticBezierSmoothRelative for P0
+where
+    super::opcode::Point: From<P0>,
+{
+    fn quadratic_bezier_smooth_relative(self) -> super::opcode::PathEvent {
+        super::opcode::PathEvent::QuadraticBezierSmoothRelative(self.into())
+    }
 }
 pub trait SpathEventArc {
     fn arc(self) -> super::opcode::PathEvent;
 }
+impl<Rx, Ry, XRotation, LargeArc, Sweep, ToPoint> SpathEventArc
+    for (Rx, Ry, XRotation, LargeArc, Sweep, ToPoint)
+where
+    Number: From<Rx>,
+    Number: From<Ry>,
+    Number: From<XRotation>,
+    bool: From<LargeArc>,
+    bool: From<Sweep>,
+    super::opcode::Point: From<ToPoint>,
+{
+    fn arc(self) -> super::opcode::PathEvent {
+        super::opcode::PathEvent::Arc {
+            rx: Number::from(self.0).0,
+            ry: Number::from(self.1).0,
+            x_rotation: Number::from(self.2).0,
+            large_arc: self.3.into(),
+            sweep: self.4.into(),
+            to_point: self.5.into(),
+        }
+    }
+}
 pub trait SpathEventArcRelative {
     fn arc_relative(self) -> super::opcode::PathEvent;
 }
-pub trait SfillRuleNonzero {
-    fn nonzero(self) -> super::opcode::FillRule;
-}
-pub trait SfillRuleEvenOdd {
-    fn even_odd(self) -> super::opcode::FillRule;
-}
-pub trait SstrokeLineCapButt {
-    fn butt(self) -> super::opcode::StrokeLineCap;
-}
-pub trait SstrokeLineCapRound {
-    fn round(self) -> super::opcode::StrokeLineCap;
-}
-pub trait SstrokeLineCapSquare {
-    fn square(self) -> super::opcode::StrokeLineCap;
+impl<Rx, Ry, XRotation, LargeArc, Sweep, ToPoint> SpathEventArcRelative
+    for (Rx, Ry, XRotation, LargeArc, Sweep, ToPoint)
+where
+    Number: From<Rx>,
+    Number: From<Ry>,
+    Number: From<XRotation>,
+    bool: From<LargeArc>,
+    bool: From<Sweep>,
+    super::opcode::Point: From<ToPoint>,
+{
+    fn arc_relative(self) -> super::opcode::PathEvent {
+        super::opcode::PathEvent::ArcRelative {
+            rx: Number::from(self.0).0,
+            ry: Number::from(self.1).0,
+            x_rotation: Number::from(self.2).0,
+            large_arc: self.3.into(),
+            sweep: self.4.into(),
+            to_point: self.5.into(),
+        }
+    }
 }
 pub trait SstrokeLineJoinMiter {
     fn miter(self) -> super::opcode::StrokeLineJoin;
 }
-pub trait SstrokeLineJoinRound {
-    fn round(self) -> super::opcode::StrokeLineJoin;
-}
-pub trait SstrokeLineJoinBevel {
-    fn bevel(self) -> super::opcode::StrokeLineJoin;
-}
-pub trait SspreadMethodPad {
-    fn pad(self) -> super::opcode::SpreadMethod;
-}
-pub trait SspreadMethodReflect {
-    fn reflect(self) -> super::opcode::SpreadMethod;
-}
-pub trait SspreadMethodRepeat {
-    fn repeat(self) -> super::opcode::SpreadMethod;
-}
-pub trait SfontStyleNormal {
-    fn normal(self) -> super::opcode::FontStyle;
-}
-pub trait SfontStyleItalic {
-    fn italic(self) -> super::opcode::FontStyle;
-}
-pub trait SfontStyleOblique {
-    fn oblique(self) -> super::opcode::FontStyle;
-}
-pub trait SfontVariantNormal {
-    fn normal(self) -> super::opcode::FontVariant;
-}
-pub trait SfontVariantSmallCaps {
-    fn small_caps(self) -> super::opcode::FontVariant;
-}
-pub trait SfontWeightNormal {
-    fn normal(self) -> super::opcode::FontWeight;
-}
-pub trait SfontWeightBold {
-    fn bold(self) -> super::opcode::FontWeight;
-}
-pub trait SfontWeightBolder {
-    fn bolder(self) -> super::opcode::FontWeight;
-}
-pub trait SfontWeightLighter {
-    fn lighter(self) -> super::opcode::FontWeight;
-}
-pub trait SfontWeightW100 {
-    fn w100(self) -> super::opcode::FontWeight;
-}
-pub trait SfontWeightW200 {
-    fn w200(self) -> super::opcode::FontWeight;
-}
-pub trait SfontWeightW300 {
-    fn w300(self) -> super::opcode::FontWeight;
-}
-pub trait SfontWeightW400 {
-    fn w400(self) -> super::opcode::FontWeight;
-}
-pub trait SfontWeightW500 {
-    fn w500(self) -> super::opcode::FontWeight;
-}
-pub trait SfontWeightW600 {
-    fn w600(self) -> super::opcode::FontWeight;
-}
-pub trait SfontWeightW700 {
-    fn w700(self) -> super::opcode::FontWeight;
-}
-pub trait SfontWeightW800 {
-    fn w800(self) -> super::opcode::FontWeight;
-}
-pub trait SfontWeightW900 {
-    fn w900(self) -> super::opcode::FontWeight;
-}
-pub trait SfontFamilySerif {
-    fn serif(self) -> super::opcode::FontFamily;
-}
-pub trait SfontFamilySansSerif {
-    fn sans_serif(self) -> super::opcode::FontFamily;
-}
-pub trait SfontFamilyCursive {
-    fn cursive(self) -> super::opcode::FontFamily;
-}
-pub trait SfontFamilyFantasy {
-    fn fantasy(self) -> super::opcode::FontFamily;
-}
-pub trait SfontFamilyMonospace {
-    fn monospace(self) -> super::opcode::FontFamily;
+impl<P0> SstrokeLineJoinMiter for P0
+where
+    Number: From<P0>,
+{
+    fn miter(self) -> super::opcode::StrokeLineJoin {
+        super::opcode::StrokeLineJoin::Miter(Number::from(self).0)
+    }
 }
 pub trait SfontFamilyGeneric {
     fn generic(self) -> super::opcode::FontFamily;
 }
-pub trait SfontStretchNormal {
-    fn normal(self) -> super::opcode::FontStretch;
-}
-pub trait SfontStretchWider {
-    fn wider(self) -> super::opcode::FontStretch;
-}
-pub trait SfontStretchNarrower {
-    fn narrower(self) -> super::opcode::FontStretch;
-}
-pub trait SfontStretchUltraCondensed {
-    fn ultra_condensed(self) -> super::opcode::FontStretch;
-}
-pub trait SfontStretchExtraCondensed {
-    fn extra_condensed(self) -> super::opcode::FontStretch;
-}
-pub trait SfontStretchCondensed {
-    fn condensed(self) -> super::opcode::FontStretch;
-}
-pub trait SfontStretchSemiCondensed {
-    fn semi_condensed(self) -> super::opcode::FontStretch;
-}
-pub trait SfontStretchSemiExpanded {
-    fn semi_expanded(self) -> super::opcode::FontStretch;
-}
-pub trait SfontStretchExpanded {
-    fn expanded(self) -> super::opcode::FontStretch;
-}
-pub trait SfontStretchExtraExpanded {
-    fn extra_expanded(self) -> super::opcode::FontStretch;
-}
-pub trait SfontStretchUltraExpanded {
-    fn ultra_expanded(self) -> super::opcode::FontStretch;
-}
-pub trait SbackgroundAccumulate {
-    fn accumulate(self) -> super::opcode::Background;
+impl<P0> SfontFamilyGeneric for P0
+where
+    String: From<P0>,
+{
+    fn generic(self) -> super::opcode::FontFamily {
+        super::opcode::FontFamily::Generic(self.into())
+    }
 }
 pub trait SbackgroundNew {
     fn new(self) -> super::opcode::Background;
 }
-pub trait SfeInSourceGraphic {
-    fn source_graphic(self) -> super::opcode::FeIn;
-}
-pub trait SfeInSourceAlpha {
-    fn source_alpha(self) -> super::opcode::FeIn;
-}
-pub trait SfeInBackgroundImage {
-    fn background_image(self) -> super::opcode::FeIn;
-}
-pub trait SfeInBackgroundAlpha {
-    fn background_alpha(self) -> super::opcode::FeIn;
-}
-pub trait SfeInFillPaint {
-    fn fill_paint(self) -> super::opcode::FeIn;
-}
-pub trait SfeInStrokePaint {
-    fn stroke_paint(self) -> super::opcode::FeIn;
-}
 pub trait SfeInResult {
     fn result(self) -> super::opcode::FeIn;
 }
-pub trait SfeOutPosition {
-    fn position(self) -> super::opcode::FeOut;
+impl<P0> SfeInResult for P0
+where
+    String: From<P0>,
+{
+    fn result(self) -> super::opcode::FeIn {
+        super::opcode::FeIn::Result(self.into())
+    }
 }
 pub trait SfeOutNamed {
     fn named(self) -> super::opcode::FeOut;
 }
-pub trait SfeBlendModeNormal {
-    fn normal(self) -> super::opcode::FeBlendMode;
-}
-pub trait SfeBlendModeMultiply {
-    fn multiply(self) -> super::opcode::FeBlendMode;
-}
-pub trait SfeBlendModeScreen {
-    fn screen(self) -> super::opcode::FeBlendMode;
-}
-pub trait SfeBlendModeDarken {
-    fn darken(self) -> super::opcode::FeBlendMode;
-}
-pub trait SfeBlendModeLighten {
-    fn lighten(self) -> super::opcode::FeBlendMode;
-}
-pub trait StextLengthAdjustSpacing {
-    fn spacing(self) -> super::opcode::TextLengthAdjust;
-}
-pub trait StextLengthAdjustSpacingAndGlyphs {
-    fn spacing_and_glyphs(self) -> super::opcode::TextLengthAdjust;
-}
-pub trait SwritingModeLrTb {
-    fn lr_tb(self) -> super::opcode::WritingMode;
-}
-pub trait SwritingModeRlTb {
-    fn rl_tb(self) -> super::opcode::WritingMode;
-}
-pub trait SwritingModeTbRl {
-    fn tb_rl(self) -> super::opcode::WritingMode;
-}
-pub trait SwritingModeLr {
-    fn lr(self) -> super::opcode::WritingMode;
-}
-pub trait SwritingModeRl {
-    fn rl(self) -> super::opcode::WritingMode;
-}
-pub trait SwritingModeTb {
-    fn tb(self) -> super::opcode::WritingMode;
-}
-pub trait StextDirectionLtr {
-    fn ltr(self) -> super::opcode::TextDirection;
-}
-pub trait StextDirectionRtl {
-    fn rtl(self) -> super::opcode::TextDirection;
-}
-pub trait SunicodeBidiNormal {
-    fn normal(self) -> super::opcode::UnicodeBidi;
-}
-pub trait SunicodeBidiEmbed {
-    fn embed(self) -> super::opcode::UnicodeBidi;
-}
-pub trait SunicodeBidiBidiOverride {
-    fn bidi_override(self) -> super::opcode::UnicodeBidi;
-}
-pub trait StextAnchorStart {
-    fn start(self) -> super::opcode::TextAnchor;
-}
-pub trait StextAnchorMiddle {
-    fn middle(self) -> super::opcode::TextAnchor;
-}
-pub trait StextAnchorEnd {
-    fn end(self) -> super::opcode::TextAnchor;
-}
-pub trait SdominantBaselineAuto {
-    fn auto(self) -> super::opcode::DominantBaseline;
-}
-pub trait SdominantBaselineUseScript {
-    fn use_script(self) -> super::opcode::DominantBaseline;
-}
-pub trait SdominantBaselineNoChange {
-    fn no_change(self) -> super::opcode::DominantBaseline;
-}
-pub trait SdominantBaselineResetSize {
-    fn reset_size(self) -> super::opcode::DominantBaseline;
-}
-pub trait SdominantBaselineIdeographic {
-    fn ideographic(self) -> super::opcode::DominantBaseline;
-}
-pub trait SdominantBaselineAlphabetic {
-    fn alphabetic(self) -> super::opcode::DominantBaseline;
-}
-pub trait SdominantBaselineHanging {
-    fn hanging(self) -> super::opcode::DominantBaseline;
-}
-pub trait SdominantBaselineMathematical {
-    fn mathematical(self) -> super::opcode::DominantBaseline;
-}
-pub trait SdominantBaselineCentral {
-    fn central(self) -> super::opcode::DominantBaseline;
-}
-pub trait SdominantBaselineMiddle {
-    fn middle(self) -> super::opcode::DominantBaseline;
-}
-pub trait SdominantBaselineTextAfterEdge {
-    fn text_after_edge(self) -> super::opcode::DominantBaseline;
-}
-pub trait SdominantBaselineTextBeforeEdge {
-    fn text_before_edge(self) -> super::opcode::DominantBaseline;
-}
-pub trait SalignmentBaselineAuto {
-    fn auto(self) -> super::opcode::AlignmentBaseline;
-}
-pub trait SalignmentBaselineBaseline {
-    fn baseline(self) -> super::opcode::AlignmentBaseline;
-}
-pub trait SalignmentBaselineBeforeEdge {
-    fn before_edge(self) -> super::opcode::AlignmentBaseline;
-}
-pub trait SalignmentBaselineTextBeforeEdge {
-    fn text_before_edge(self) -> super::opcode::AlignmentBaseline;
-}
-pub trait SalignmentBaselineMiddle {
-    fn middle(self) -> super::opcode::AlignmentBaseline;
-}
-pub trait SalignmentBaselineCentral {
-    fn central(self) -> super::opcode::AlignmentBaseline;
-}
-pub trait SalignmentBaselineAfterEdge {
-    fn after_edge(self) -> super::opcode::AlignmentBaseline;
-}
-pub trait SalignmentBaselineTextAfterEdge {
-    fn text_after_edge(self) -> super::opcode::AlignmentBaseline;
-}
-pub trait SalignmentBaselineIdeographic {
-    fn ideographic(self) -> super::opcode::AlignmentBaseline;
-}
-pub trait SalignmentBaselineAlphabetic {
-    fn alphabetic(self) -> super::opcode::AlignmentBaseline;
-}
-pub trait SalignmentBaselineHanging {
-    fn hanging(self) -> super::opcode::AlignmentBaseline;
-}
-pub trait SalignmentBaselineMathematical {
-    fn mathematical(self) -> super::opcode::AlignmentBaseline;
-}
-pub trait SbaselineShiftBaseline {
-    fn baseline(self) -> super::opcode::BaselineShift;
-}
-pub trait SbaselineShiftSubScripts {
-    fn sub_scripts(self) -> super::opcode::BaselineShift;
-}
-pub trait SbaselineShiftSuperScripts {
-    fn super_scripts(self) -> super::opcode::BaselineShift;
+impl<P0> SfeOutNamed for P0
+where
+    String: From<P0>,
+{
+    fn named(self) -> super::opcode::FeOut {
+        super::opcode::FeOut::Named(self.into())
+    }
 }
 pub trait SbaselineShiftValue {
     fn value(self) -> super::opcode::BaselineShift;
 }
-pub trait StextDecorationUnderline {
-    fn underline(self) -> super::opcode::TextDecoration;
-}
-pub trait StextDecorationOverline {
-    fn overline(self) -> super::opcode::TextDecoration;
-}
-pub trait StextDecorationLineThrough {
-    fn line_through(self) -> super::opcode::TextDecoration;
-}
-pub trait StextDecorationBlink {
-    fn blink(self) -> super::opcode::TextDecoration;
-}
-pub trait StextPathMethodAlign {
-    fn align(self) -> super::opcode::TextPathMethod;
-}
-pub trait StextPathMethodStretch {
-    fn stretch(self) -> super::opcode::TextPathMethod;
-}
-pub trait StextPathSpacingAuto {
-    fn auto(self) -> super::opcode::TextPathSpacing;
-}
-pub trait StextPathSpacingExact {
-    fn exact(self) -> super::opcode::TextPathSpacing;
-}
-pub trait SletterSpacingNormal {
-    fn normal(self) -> super::opcode::LetterSpacing;
+impl<P0> SbaselineShiftValue for P0
+where
+    super::opcode::Length: From<P0>,
+{
+    fn value(self) -> super::opcode::BaselineShift {
+        super::opcode::BaselineShift::Value(self.into())
+    }
 }
 pub trait SletterSpacingLength {
     fn length(self) -> super::opcode::LetterSpacing;
 }
-pub trait SwordSpacingNormal {
-    fn normal(self) -> super::opcode::WordSpacing;
+impl<P0> SletterSpacingLength for P0
+where
+    super::opcode::Length: From<P0>,
+{
+    fn length(self) -> super::opcode::LetterSpacing {
+        super::opcode::LetterSpacing::Length(self.into())
+    }
 }
 pub trait SwordSpacingLength {
     fn length(self) -> super::opcode::WordSpacing;
 }
-pub trait SmeetOrSliceMeet {
-    fn meet(self) -> super::opcode::MeetOrSlice;
-}
-pub trait SmeetOrSliceSlice {
-    fn slice(self) -> super::opcode::MeetOrSlice;
-}
-pub trait SpreserveAspectRatioNone {
-    fn none(self) -> super::opcode::PreserveAspectRatio;
+impl<P0> SwordSpacingLength for P0
+where
+    super::opcode::Length: From<P0>,
+{
+    fn length(self) -> super::opcode::WordSpacing {
+        super::opcode::WordSpacing::Length(self.into())
+    }
 }
 pub trait SpreserveAspectRatioXMinYMin {
     fn x_min_y_min(self) -> super::opcode::PreserveAspectRatio;
 }
+impl<P0> SpreserveAspectRatioXMinYMin for P0
+where
+    super::opcode::MeetOrSlice: From<P0>,
+{
+    fn x_min_y_min(self) -> super::opcode::PreserveAspectRatio {
+        super::opcode::PreserveAspectRatio::XMinYMin(self.into())
+    }
+}
 pub trait SpreserveAspectRatioXMidYMin {
     fn x_mid_y_min(self) -> super::opcode::PreserveAspectRatio;
+}
+impl<P0> SpreserveAspectRatioXMidYMin for P0
+where
+    super::opcode::MeetOrSlice: From<P0>,
+{
+    fn x_mid_y_min(self) -> super::opcode::PreserveAspectRatio {
+        super::opcode::PreserveAspectRatio::XMidYMin(self.into())
+    }
 }
 pub trait SpreserveAspectRatioXMaxYMin {
     fn x_max_y_min(self) -> super::opcode::PreserveAspectRatio;
 }
+impl<P0> SpreserveAspectRatioXMaxYMin for P0
+where
+    super::opcode::MeetOrSlice: From<P0>,
+{
+    fn x_max_y_min(self) -> super::opcode::PreserveAspectRatio {
+        super::opcode::PreserveAspectRatio::XMaxYMin(self.into())
+    }
+}
 pub trait SpreserveAspectRatioXMinYMid {
     fn x_min_y_mid(self) -> super::opcode::PreserveAspectRatio;
+}
+impl<P0> SpreserveAspectRatioXMinYMid for P0
+where
+    super::opcode::MeetOrSlice: From<P0>,
+{
+    fn x_min_y_mid(self) -> super::opcode::PreserveAspectRatio {
+        super::opcode::PreserveAspectRatio::XMinYMid(self.into())
+    }
 }
 pub trait SpreserveAspectRatioXMidYMid {
     fn x_mid_y_mid(self) -> super::opcode::PreserveAspectRatio;
 }
+impl<P0> SpreserveAspectRatioXMidYMid for P0
+where
+    super::opcode::MeetOrSlice: From<P0>,
+{
+    fn x_mid_y_mid(self) -> super::opcode::PreserveAspectRatio {
+        super::opcode::PreserveAspectRatio::XMidYMid(self.into())
+    }
+}
 pub trait SpreserveAspectRatioXMaxYMid {
     fn x_max_y_mid(self) -> super::opcode::PreserveAspectRatio;
+}
+impl<P0> SpreserveAspectRatioXMaxYMid for P0
+where
+    super::opcode::MeetOrSlice: From<P0>,
+{
+    fn x_max_y_mid(self) -> super::opcode::PreserveAspectRatio {
+        super::opcode::PreserveAspectRatio::XMaxYMid(self.into())
+    }
 }
 pub trait SpreserveAspectRatioXMinYMax {
     fn x_min_y_max(self) -> super::opcode::PreserveAspectRatio;
 }
+impl<P0> SpreserveAspectRatioXMinYMax for P0
+where
+    super::opcode::MeetOrSlice: From<P0>,
+{
+    fn x_min_y_max(self) -> super::opcode::PreserveAspectRatio {
+        super::opcode::PreserveAspectRatio::XMinYMax(self.into())
+    }
+}
 pub trait SpreserveAspectRatioXMidYMax {
     fn x_mid_y_max(self) -> super::opcode::PreserveAspectRatio;
 }
+impl<P0> SpreserveAspectRatioXMidYMax for P0
+where
+    super::opcode::MeetOrSlice: From<P0>,
+{
+    fn x_mid_y_max(self) -> super::opcode::PreserveAspectRatio {
+        super::opcode::PreserveAspectRatio::XMidYMax(self.into())
+    }
+}
 pub trait SpreserveAspectRatioXMaxYMax {
     fn x_max_y_max(self) -> super::opcode::PreserveAspectRatio;
+}
+impl<P0> SpreserveAspectRatioXMaxYMax for P0
+where
+    super::opcode::MeetOrSlice: From<P0>,
+{
+    fn x_max_y_max(self) -> super::opcode::PreserveAspectRatio {
+        super::opcode::PreserveAspectRatio::XMaxYMax(self.into())
+    }
 }
 impl Default for super::opcode::TextLayout {
     fn default() -> Self {
@@ -1727,6 +1410,18 @@ where
         }
     }
 }
+impl Default for super::opcode::Mask {
+    fn default() -> Self {
+        Self {
+            units: None,
+            content_units: None,
+            x: None,
+            y: None,
+            width: None,
+            height: None,
+        }
+    }
+}
 impl super::opcode::Mask {
     pub fn units<T>(mut self, value: T) -> Self
     where
@@ -1861,6 +1556,19 @@ where
             y: Some(super::opcode::variable::Variable::Constant(value.1.into())),
             width: Some(super::opcode::variable::Variable::Constant(value.2.into())),
             height: Some(super::opcode::variable::Variable::Constant(value.3.into())),
+            res: None,
+        }
+    }
+}
+impl Default for super::opcode::Filter {
+    fn default() -> Self {
+        Self {
+            units: None,
+            primitive_units: None,
+            x: None,
+            y: None,
+            width: None,
+            height: None,
             res: None,
         }
     }
@@ -2273,14 +1981,35 @@ impl super::opcode::FeBlend {
 pub trait SfeColorMatrixValuesMatrix {
     fn matrix(self) -> super::opcode::FeColorMatrixValues;
 }
+impl<P0> SfeColorMatrixValuesMatrix for P0
+where
+    [f32; 20usize]: From<P0>,
+{
+    fn matrix(self) -> super::opcode::FeColorMatrixValues {
+        super::opcode::FeColorMatrixValues::Matrix(self.into())
+    }
+}
 pub trait SfeColorMatrixValuesSaturate {
     fn saturate(self) -> super::opcode::FeColorMatrixValues;
+}
+impl<P0> SfeColorMatrixValuesSaturate for P0
+where
+    Number: From<P0>,
+{
+    fn saturate(self) -> super::opcode::FeColorMatrixValues {
+        super::opcode::FeColorMatrixValues::Saturate(Number::from(self).0)
+    }
 }
 pub trait SfeColorMatrixValuesHueRotate {
     fn hue_rotate(self) -> super::opcode::FeColorMatrixValues;
 }
-pub trait SfeColorMatrixValuesLuminanceToAlpha {
-    fn luminance_to_alpha(self) -> super::opcode::FeColorMatrixValues;
+impl<P0> SfeColorMatrixValuesHueRotate for P0
+where
+    Number: From<P0>,
+{
+    fn hue_rotate(self) -> super::opcode::FeColorMatrixValues {
+        super::opcode::FeColorMatrixValues::HueRotate(Number::from(self).0)
+    }
 }
 impl<In, Values> From<(In, Values)> for super::opcode::FeColorMatrix
 where
@@ -2375,65 +2104,78 @@ impl super::opcode::FeColorMatrix {
         ApplyElement { attrs, node: self }
     }
 }
-pub trait SfeFuncIdentity {
-    fn identity(self) -> super::opcode::FeFunc;
-}
 pub trait SfeFuncTable {
     fn table(self) -> super::opcode::FeFunc;
+}
+impl<P0> SfeFuncTable for P0
+where
+    P0: MapCollect<f32>,
+{
+    fn table(self) -> super::opcode::FeFunc {
+        super::opcode::FeFunc::Table(self.map_collect())
+    }
 }
 pub trait SfeFuncDiscrete {
     fn discrete(self) -> super::opcode::FeFunc;
 }
+impl<P0> SfeFuncDiscrete for P0
+where
+    P0: MapCollect<f32>,
+{
+    fn discrete(self) -> super::opcode::FeFunc {
+        super::opcode::FeFunc::Discrete(self.map_collect())
+    }
+}
 pub trait SfeFuncLinear {
     fn linear(self) -> super::opcode::FeFunc;
+}
+impl<Slope, Intercept> SfeFuncLinear for (Slope, Intercept)
+where
+    Number: From<Slope>,
+    Number: From<Intercept>,
+{
+    fn linear(self) -> super::opcode::FeFunc {
+        super::opcode::FeFunc::Linear {
+            slope: Number::from(self.0).0,
+            intercept: Number::from(self.1).0,
+        }
+    }
 }
 pub trait SfeFuncGamma {
     fn gamma(self) -> super::opcode::FeFunc;
 }
-pub trait SfeCompositeOperatorOver {
-    fn over(self) -> super::opcode::FeCompositeOperator;
-}
-pub trait SfeCompositeOperatorIn {
-    fn r#in(self) -> super::opcode::FeCompositeOperator;
-}
-pub trait SfeCompositeOperatorOut {
-    fn out(self) -> super::opcode::FeCompositeOperator;
-}
-pub trait SfeCompositeOperatorAtop {
-    fn atop(self) -> super::opcode::FeCompositeOperator;
-}
-pub trait SfeCompositeOperatorXor {
-    fn xor(self) -> super::opcode::FeCompositeOperator;
+impl<Amplitude, Exponent, Offset> SfeFuncGamma for (Amplitude, Exponent, Offset)
+where
+    Number: From<Amplitude>,
+    Number: From<Exponent>,
+    Number: From<Offset>,
+{
+    fn gamma(self) -> super::opcode::FeFunc {
+        super::opcode::FeFunc::Gamma {
+            amplitude: Number::from(self.0).0,
+            exponent: Number::from(self.1).0,
+            offset: Number::from(self.2).0,
+        }
+    }
 }
 pub trait SfeCompositeOperatorArithmetic {
     fn arithmetic(self) -> super::opcode::FeCompositeOperator;
 }
-pub trait SfeConvolveMatrixEdgeModeDuplicate {
-    fn duplicate(self) -> super::opcode::FeConvolveMatrixEdgeMode;
-}
-pub trait SfeConvolveMatrixEdgeModeWrap {
-    fn wrap(self) -> super::opcode::FeConvolveMatrixEdgeMode;
-}
-pub trait SfeConvolveMatrixEdgeModeNone {
-    fn none(self) -> super::opcode::FeConvolveMatrixEdgeMode;
-}
-pub trait SfeMorphologyOperatorErode {
-    fn erode(self) -> super::opcode::FeMorphologyOperator;
-}
-pub trait SfeMorphologyOperatorDilate {
-    fn dilate(self) -> super::opcode::FeMorphologyOperator;
-}
-pub trait SfeStitchTilesStitch {
-    fn stitch(self) -> super::opcode::FeStitchTiles;
-}
-pub trait SfeStitchTilesNoStitch {
-    fn no_stitch(self) -> super::opcode::FeStitchTiles;
-}
-pub trait SfeTurbulenceTypeFractalNoise {
-    fn fractal_noise(self) -> super::opcode::FeTurbulenceType;
-}
-pub trait SfeTurbulenceTypeTurbulence {
-    fn turbulence(self) -> super::opcode::FeTurbulenceType;
+impl<K1, K2, K3, K4> SfeCompositeOperatorArithmetic for (K1, K2, K3, K4)
+where
+    Number: From<K1>,
+    Number: From<K2>,
+    Number: From<K3>,
+    Number: From<K4>,
+{
+    fn arithmetic(self) -> super::opcode::FeCompositeOperator {
+        super::opcode::FeCompositeOperator::Arithmetic {
+            k1: Number::from(self.0).0,
+            k2: Number::from(self.1).0,
+            k3: Number::from(self.2).0,
+            k4: Number::from(self.3).0,
+        }
+    }
 }
 impl Default for super::opcode::FeComponentTransfer {
     fn default() -> Self {
@@ -3592,6 +3334,20 @@ where
         }
     }
 }
+impl Default for super::opcode::FeOffset {
+    fn default() -> Self {
+        Self {
+            r#in: None,
+            dx: None,
+            dy: None,
+            x: None,
+            y: None,
+            width: None,
+            height: None,
+            result: None,
+        }
+    }
+}
 impl super::opcode::FeOffset {
     pub fn r#in<T>(mut self, value: T) -> Self
     where
@@ -4038,6 +3794,19 @@ where
             y1: Some(super::opcode::variable::Variable::Constant(value.1.into())),
             x2: Some(super::opcode::variable::Variable::Constant(value.2.into())),
             y2: Some(super::opcode::variable::Variable::Constant(value.3.into())),
+            spread: None,
+        }
+    }
+}
+impl Default for super::opcode::LinearGradient {
+    fn default() -> Self {
+        Self {
+            units: None,
+            transform: None,
+            x1: None,
+            y1: None,
+            x2: None,
+            y2: None,
             spread: None,
         }
     }
@@ -4844,6 +4613,19 @@ where
         }
     }
 }
+impl Default for super::opcode::Text {
+    fn default() -> Self {
+        Self {
+            x: None,
+            y: None,
+            dx: None,
+            dy: None,
+            rotate: None,
+            text_length: None,
+            length_adjust: None,
+        }
+    }
+}
 impl super::opcode::Text {
     pub fn x<T>(mut self, value: T) -> Self
     where
@@ -4962,6 +4744,19 @@ where
             y: Some(super::opcode::variable::Variable::Constant(
                 value.1.map_collect(),
             )),
+            dx: None,
+            dy: None,
+            rotate: None,
+            text_length: None,
+            length_adjust: None,
+        }
+    }
+}
+impl Default for super::opcode::TextSpan {
+    fn default() -> Self {
+        Self {
+            x: None,
+            y: None,
             dx: None,
             dy: None,
             rotate: None,
@@ -5176,96 +4971,96 @@ impl super::opcode::TextPath {
     }
 }
 impl ContentOf<super::opcode::Text> for super::opcode::Text {}
-impl ContentOf<super::opcode::TextSpan> for super::opcode::Text {}
-impl ContentOf<super::opcode::TextPath> for super::opcode::Text {}
-impl ContentOf<super::opcode::Characters> for super::opcode::Text {}
+impl ContentOf<super::opcode::Text> for super::opcode::TextSpan {}
+impl ContentOf<super::opcode::Text> for super::opcode::TextPath {}
+impl ContentOf<super::opcode::Text> for super::opcode::Characters {}
 impl ContentOf<super::opcode::TextSpan> for super::opcode::TextSpan {}
-impl ContentOf<super::opcode::Characters> for super::opcode::TextSpan {}
-impl ContentOf<super::opcode::TextSpan> for super::opcode::TextPath {}
-impl ContentOf<super::opcode::Characters> for super::opcode::TextPath {}
-impl ContentOf<super::opcode::Text> for super::opcode::Group {}
-impl ContentOf<super::opcode::ClipPath> for super::opcode::Group {}
-impl ContentOf<super::opcode::Filter> for super::opcode::Group {}
-impl ContentOf<super::opcode::Mask> for super::opcode::Group {}
-impl ContentOf<super::opcode::Group> for super::opcode::Group {}
-impl ContentOf<super::opcode::Canvas> for super::opcode::Group {}
-impl ContentOf<super::opcode::Rect> for super::opcode::Group {}
-impl ContentOf<super::opcode::Circle> for super::opcode::Group {}
-impl ContentOf<super::opcode::Ellipse> for super::opcode::Group {}
-impl ContentOf<super::opcode::Line> for super::opcode::Group {}
-impl ContentOf<super::opcode::Polyline> for super::opcode::Group {}
-impl ContentOf<super::opcode::Polygon> for super::opcode::Group {}
-impl ContentOf<super::opcode::LinearGradient> for super::opcode::Group {}
-impl ContentOf<super::opcode::RadialGradient> for super::opcode::Group {}
-impl ContentOf<super::opcode::Text> for super::opcode::Canvas {}
-impl ContentOf<super::opcode::ClipPath> for super::opcode::Canvas {}
-impl ContentOf<super::opcode::Filter> for super::opcode::Canvas {}
-impl ContentOf<super::opcode::Mask> for super::opcode::Canvas {}
-impl ContentOf<super::opcode::Group> for super::opcode::Canvas {}
-impl ContentOf<super::opcode::Canvas> for super::opcode::Canvas {}
-impl ContentOf<super::opcode::Rect> for super::opcode::Canvas {}
-impl ContentOf<super::opcode::Circle> for super::opcode::Canvas {}
-impl ContentOf<super::opcode::Ellipse> for super::opcode::Canvas {}
-impl ContentOf<super::opcode::Line> for super::opcode::Canvas {}
-impl ContentOf<super::opcode::Polyline> for super::opcode::Canvas {}
-impl ContentOf<super::opcode::Polygon> for super::opcode::Canvas {}
-impl ContentOf<super::opcode::LinearGradient> for super::opcode::Canvas {}
-impl ContentOf<super::opcode::RadialGradient> for super::opcode::Canvas {}
-impl ContentOf<super::opcode::FeBlend> for super::opcode::Filter {}
-impl ContentOf<super::opcode::FeColorMatrix> for super::opcode::Filter {}
-impl ContentOf<super::opcode::FeComponentTransfer> for super::opcode::Filter {}
-impl ContentOf<super::opcode::FeComposite> for super::opcode::Filter {}
-impl ContentOf<super::opcode::FeConvolveMatrix> for super::opcode::Filter {}
-impl ContentOf<super::opcode::FeDiffuseLighting> for super::opcode::Filter {}
-impl ContentOf<super::opcode::FeDisplacementMap> for super::opcode::Filter {}
-impl ContentOf<super::opcode::FeFlood> for super::opcode::Filter {}
-impl ContentOf<super::opcode::FeGaussianBlur> for super::opcode::Filter {}
-impl ContentOf<super::opcode::FeMerge> for super::opcode::Filter {}
-impl ContentOf<super::opcode::FeImage> for super::opcode::Filter {}
-impl ContentOf<super::opcode::FeMorphology> for super::opcode::Filter {}
-impl ContentOf<super::opcode::FeOffset> for super::opcode::Filter {}
-impl ContentOf<super::opcode::FeSpecularLighting> for super::opcode::Filter {}
-impl ContentOf<super::opcode::FeTile> for super::opcode::Filter {}
-impl ContentOf<super::opcode::FeTurbulence> for super::opcode::Filter {}
-impl ContentOf<super::opcode::FeFuncR> for super::opcode::FeComponentTransfer {}
-impl ContentOf<super::opcode::FeFuncG> for super::opcode::FeComponentTransfer {}
-impl ContentOf<super::opcode::FeFuncB> for super::opcode::FeComponentTransfer {}
-impl ContentOf<super::opcode::FeFuncA> for super::opcode::FeComponentTransfer {}
-impl ContentOf<super::opcode::FeMergeNode> for super::opcode::FeMerge {}
-impl ContentOf<super::opcode::FeDistantLight> for super::opcode::FeDiffuseLighting {}
-impl ContentOf<super::opcode::FePointLight> for super::opcode::FeDiffuseLighting {}
-impl ContentOf<super::opcode::FeSpotLight> for super::opcode::FeDiffuseLighting {}
-impl ContentOf<super::opcode::FeDistantLight> for super::opcode::FeSpecularLighting {}
-impl ContentOf<super::opcode::FePointLight> for super::opcode::FeSpecularLighting {}
-impl ContentOf<super::opcode::FeSpotLight> for super::opcode::FeSpecularLighting {}
-impl ContentOf<super::opcode::GradientStop> for super::opcode::LinearGradient {}
-impl ContentOf<super::opcode::GradientStop> for super::opcode::RadialGradient {}
-impl ContentOf<super::opcode::ClipPath> for super::opcode::Pattern {}
-impl ContentOf<super::opcode::Filter> for super::opcode::Pattern {}
-impl ContentOf<super::opcode::Mask> for super::opcode::Pattern {}
-impl ContentOf<super::opcode::Text> for super::opcode::Pattern {}
-impl ContentOf<super::opcode::Rect> for super::opcode::ClipPath {}
-impl ContentOf<super::opcode::Circle> for super::opcode::ClipPath {}
-impl ContentOf<super::opcode::Ellipse> for super::opcode::ClipPath {}
-impl ContentOf<super::opcode::Line> for super::opcode::ClipPath {}
-impl ContentOf<super::opcode::Polyline> for super::opcode::ClipPath {}
-impl ContentOf<super::opcode::Polygon> for super::opcode::ClipPath {}
-impl ContentOf<super::opcode::Text> for super::opcode::ClipPath {}
-impl ContentOf<super::opcode::Use> for super::opcode::ClipPath {}
-impl ContentOf<super::opcode::Text> for super::opcode::Mask {}
-impl ContentOf<super::opcode::ClipPath> for super::opcode::Mask {}
-impl ContentOf<super::opcode::Filter> for super::opcode::Mask {}
+impl ContentOf<super::opcode::TextSpan> for super::opcode::Characters {}
+impl ContentOf<super::opcode::TextPath> for super::opcode::TextSpan {}
+impl ContentOf<super::opcode::TextPath> for super::opcode::Characters {}
+impl ContentOf<super::opcode::Group> for super::opcode::Text {}
+impl ContentOf<super::opcode::Group> for super::opcode::ClipPath {}
+impl ContentOf<super::opcode::Group> for super::opcode::Filter {}
 impl ContentOf<super::opcode::Group> for super::opcode::Mask {}
+impl ContentOf<super::opcode::Group> for super::opcode::Group {}
+impl ContentOf<super::opcode::Group> for super::opcode::Canvas {}
+impl ContentOf<super::opcode::Group> for super::opcode::Rect {}
+impl ContentOf<super::opcode::Group> for super::opcode::Circle {}
+impl ContentOf<super::opcode::Group> for super::opcode::Ellipse {}
+impl ContentOf<super::opcode::Group> for super::opcode::Line {}
+impl ContentOf<super::opcode::Group> for super::opcode::Polyline {}
+impl ContentOf<super::opcode::Group> for super::opcode::Polygon {}
+impl ContentOf<super::opcode::Group> for super::opcode::LinearGradient {}
+impl ContentOf<super::opcode::Group> for super::opcode::RadialGradient {}
+impl ContentOf<super::opcode::Canvas> for super::opcode::Text {}
+impl ContentOf<super::opcode::Canvas> for super::opcode::ClipPath {}
+impl ContentOf<super::opcode::Canvas> for super::opcode::Filter {}
 impl ContentOf<super::opcode::Canvas> for super::opcode::Mask {}
-impl ContentOf<super::opcode::Use> for super::opcode::Mask {}
-impl ContentOf<super::opcode::Rect> for super::opcode::Mask {}
-impl ContentOf<super::opcode::Circle> for super::opcode::Mask {}
-impl ContentOf<super::opcode::Ellipse> for super::opcode::Mask {}
-impl ContentOf<super::opcode::Line> for super::opcode::Mask {}
-impl ContentOf<super::opcode::Polyline> for super::opcode::Mask {}
-impl ContentOf<super::opcode::Polygon> for super::opcode::Mask {}
-impl ContentOf<super::opcode::LinearGradient> for super::opcode::Mask {}
-impl ContentOf<super::opcode::RadialGradient> for super::opcode::Mask {}
+impl ContentOf<super::opcode::Canvas> for super::opcode::Group {}
+impl ContentOf<super::opcode::Canvas> for super::opcode::Canvas {}
+impl ContentOf<super::opcode::Canvas> for super::opcode::Rect {}
+impl ContentOf<super::opcode::Canvas> for super::opcode::Circle {}
+impl ContentOf<super::opcode::Canvas> for super::opcode::Ellipse {}
+impl ContentOf<super::opcode::Canvas> for super::opcode::Line {}
+impl ContentOf<super::opcode::Canvas> for super::opcode::Polyline {}
+impl ContentOf<super::opcode::Canvas> for super::opcode::Polygon {}
+impl ContentOf<super::opcode::Canvas> for super::opcode::LinearGradient {}
+impl ContentOf<super::opcode::Canvas> for super::opcode::RadialGradient {}
+impl ContentOf<super::opcode::Filter> for super::opcode::FeBlend {}
+impl ContentOf<super::opcode::Filter> for super::opcode::FeColorMatrix {}
+impl ContentOf<super::opcode::Filter> for super::opcode::FeComponentTransfer {}
+impl ContentOf<super::opcode::Filter> for super::opcode::FeComposite {}
+impl ContentOf<super::opcode::Filter> for super::opcode::FeConvolveMatrix {}
+impl ContentOf<super::opcode::Filter> for super::opcode::FeDiffuseLighting {}
+impl ContentOf<super::opcode::Filter> for super::opcode::FeDisplacementMap {}
+impl ContentOf<super::opcode::Filter> for super::opcode::FeFlood {}
+impl ContentOf<super::opcode::Filter> for super::opcode::FeGaussianBlur {}
+impl ContentOf<super::opcode::Filter> for super::opcode::FeMerge {}
+impl ContentOf<super::opcode::Filter> for super::opcode::FeImage {}
+impl ContentOf<super::opcode::Filter> for super::opcode::FeMorphology {}
+impl ContentOf<super::opcode::Filter> for super::opcode::FeOffset {}
+impl ContentOf<super::opcode::Filter> for super::opcode::FeSpecularLighting {}
+impl ContentOf<super::opcode::Filter> for super::opcode::FeTile {}
+impl ContentOf<super::opcode::Filter> for super::opcode::FeTurbulence {}
+impl ContentOf<super::opcode::FeComponentTransfer> for super::opcode::FeFuncR {}
+impl ContentOf<super::opcode::FeComponentTransfer> for super::opcode::FeFuncG {}
+impl ContentOf<super::opcode::FeComponentTransfer> for super::opcode::FeFuncB {}
+impl ContentOf<super::opcode::FeComponentTransfer> for super::opcode::FeFuncA {}
+impl ContentOf<super::opcode::FeMerge> for super::opcode::FeMergeNode {}
+impl ContentOf<super::opcode::FeDiffuseLighting> for super::opcode::FeDistantLight {}
+impl ContentOf<super::opcode::FeDiffuseLighting> for super::opcode::FePointLight {}
+impl ContentOf<super::opcode::FeDiffuseLighting> for super::opcode::FeSpotLight {}
+impl ContentOf<super::opcode::FeSpecularLighting> for super::opcode::FeDistantLight {}
+impl ContentOf<super::opcode::FeSpecularLighting> for super::opcode::FePointLight {}
+impl ContentOf<super::opcode::FeSpecularLighting> for super::opcode::FeSpotLight {}
+impl ContentOf<super::opcode::LinearGradient> for super::opcode::GradientStop {}
+impl ContentOf<super::opcode::RadialGradient> for super::opcode::GradientStop {}
+impl ContentOf<super::opcode::Pattern> for super::opcode::ClipPath {}
+impl ContentOf<super::opcode::Pattern> for super::opcode::Filter {}
+impl ContentOf<super::opcode::Pattern> for super::opcode::Mask {}
+impl ContentOf<super::opcode::Pattern> for super::opcode::Text {}
+impl ContentOf<super::opcode::ClipPath> for super::opcode::Rect {}
+impl ContentOf<super::opcode::ClipPath> for super::opcode::Circle {}
+impl ContentOf<super::opcode::ClipPath> for super::opcode::Ellipse {}
+impl ContentOf<super::opcode::ClipPath> for super::opcode::Line {}
+impl ContentOf<super::opcode::ClipPath> for super::opcode::Polyline {}
+impl ContentOf<super::opcode::ClipPath> for super::opcode::Polygon {}
+impl ContentOf<super::opcode::ClipPath> for super::opcode::Text {}
+impl ContentOf<super::opcode::ClipPath> for super::opcode::Use {}
+impl ContentOf<super::opcode::Mask> for super::opcode::Text {}
+impl ContentOf<super::opcode::Mask> for super::opcode::ClipPath {}
+impl ContentOf<super::opcode::Mask> for super::opcode::Filter {}
+impl ContentOf<super::opcode::Mask> for super::opcode::Group {}
+impl ContentOf<super::opcode::Mask> for super::opcode::Canvas {}
+impl ContentOf<super::opcode::Mask> for super::opcode::Use {}
+impl ContentOf<super::opcode::Mask> for super::opcode::Rect {}
+impl ContentOf<super::opcode::Mask> for super::opcode::Circle {}
+impl ContentOf<super::opcode::Mask> for super::opcode::Ellipse {}
+impl ContentOf<super::opcode::Mask> for super::opcode::Line {}
+impl ContentOf<super::opcode::Mask> for super::opcode::Polyline {}
+impl ContentOf<super::opcode::Mask> for super::opcode::Polygon {}
+impl ContentOf<super::opcode::Mask> for super::opcode::LinearGradient {}
+impl ContentOf<super::opcode::Mask> for super::opcode::RadialGradient {}
 impl ApplyTo<super::opcode::Text> for super::opcode::TextLayout {}
 impl ApplyTo<super::opcode::TextSpan> for super::opcode::TextLayout {}
 impl ApplyTo<super::opcode::Text> for super::opcode::Font {}
@@ -5389,12 +5184,21 @@ where
     P1: ContentOf<E>,
 {
 }
-impl<P0, P1> MapCollect<super::opcode::PathEvent> for (P0, P1)
+impl<P0, P1> MapCollect<super::opcode::Angle> for (P0, P1)
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![self.0.into(), self.1.into()]
+    }
+}
+impl<P0, P1> MapCollect<super::opcode::FontFamily> for (P0, P1)
+where
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![self.0.into(), self.1.into()]
     }
 }
@@ -5407,30 +5211,12 @@ where
         vec![Number::from(self.0).0, Number::from(self.1).0]
     }
 }
-impl<P0, P1> MapCollect<super::opcode::FontFamily> for (P0, P1)
+impl<P0, P1> MapCollect<super::opcode::PathEvent> for (P0, P1)
 where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
 {
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![self.0.into(), self.1.into()]
-    }
-}
-impl<P0, P1> MapCollect<super::opcode::Angle> for (P0, P1)
-where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
-        vec![self.0.into(), self.1.into()]
-    }
-}
-impl<P0, P1> MapCollect<super::opcode::Transform> for (P0, P1)
-where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![self.0.into(), self.1.into()]
     }
 }
@@ -5440,6 +5226,15 @@ where
     super::opcode::Length: From<P1>,
 {
     fn map_collect(self) -> Vec<super::opcode::Length> {
+        vec![self.0.into(), self.1.into()]
+    }
+}
+impl<P0, P1> MapCollect<super::opcode::Transform> for (P0, P1)
+where
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
         vec![self.0.into(), self.1.into()]
     }
 }
@@ -5469,13 +5264,23 @@ where
     P2: ContentOf<E>,
 {
 }
-impl<P0, P1, P2> MapCollect<super::opcode::PathEvent> for (P0, P1, P2)
+impl<P0, P1, P2> MapCollect<super::opcode::Angle> for (P0, P1, P2)
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
+    super::opcode::Angle: From<P2>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![self.0.into(), self.1.into(), self.2.into()]
+    }
+}
+impl<P0, P1, P2> MapCollect<super::opcode::FontFamily> for (P0, P1, P2)
+where
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+    super::opcode::FontFamily: From<P2>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![self.0.into(), self.1.into(), self.2.into()]
     }
 }
@@ -5493,33 +5298,13 @@ where
         ]
     }
 }
-impl<P0, P1, P2> MapCollect<super::opcode::FontFamily> for (P0, P1, P2)
+impl<P0, P1, P2> MapCollect<super::opcode::PathEvent> for (P0, P1, P2)
 where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
-    super::opcode::FontFamily: From<P2>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
 {
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![self.0.into(), self.1.into(), self.2.into()]
-    }
-}
-impl<P0, P1, P2> MapCollect<super::opcode::Angle> for (P0, P1, P2)
-where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-    super::opcode::Angle: From<P2>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
-        vec![self.0.into(), self.1.into(), self.2.into()]
-    }
-}
-impl<P0, P1, P2> MapCollect<super::opcode::Transform> for (P0, P1, P2)
-where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-    super::opcode::Transform: From<P2>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![self.0.into(), self.1.into(), self.2.into()]
     }
 }
@@ -5530,6 +5315,16 @@ where
     super::opcode::Length: From<P2>,
 {
     fn map_collect(self) -> Vec<super::opcode::Length> {
+        vec![self.0.into(), self.1.into(), self.2.into()]
+    }
+}
+impl<P0, P1, P2> MapCollect<super::opcode::Transform> for (P0, P1, P2)
+where
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+    super::opcode::Transform: From<P2>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
         vec![self.0.into(), self.1.into(), self.2.into()]
     }
 }
@@ -5563,14 +5358,25 @@ where
     P3: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3> MapCollect<super::opcode::PathEvent> for (P0, P1, P2, P3)
+impl<P0, P1, P2, P3> MapCollect<super::opcode::Angle> for (P0, P1, P2, P3)
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
+    super::opcode::Angle: From<P2>,
+    super::opcode::Angle: From<P3>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
+    }
+}
+impl<P0, P1, P2, P3> MapCollect<super::opcode::FontFamily> for (P0, P1, P2, P3)
+where
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+    super::opcode::FontFamily: From<P2>,
+    super::opcode::FontFamily: From<P3>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
     }
 }
@@ -5590,36 +5396,14 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3> MapCollect<super::opcode::FontFamily> for (P0, P1, P2, P3)
+impl<P0, P1, P2, P3> MapCollect<super::opcode::PathEvent> for (P0, P1, P2, P3)
 where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
-    super::opcode::FontFamily: From<P2>,
-    super::opcode::FontFamily: From<P3>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
 {
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
-    }
-}
-impl<P0, P1, P2, P3> MapCollect<super::opcode::Angle> for (P0, P1, P2, P3)
-where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-    super::opcode::Angle: From<P2>,
-    super::opcode::Angle: From<P3>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
-        vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
-    }
-}
-impl<P0, P1, P2, P3> MapCollect<super::opcode::Transform> for (P0, P1, P2, P3)
-where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-    super::opcode::Transform: From<P2>,
-    super::opcode::Transform: From<P3>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
     }
 }
@@ -5631,6 +5415,17 @@ where
     super::opcode::Length: From<P3>,
 {
     fn map_collect(self) -> Vec<super::opcode::Length> {
+        vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
+    }
+}
+impl<P0, P1, P2, P3> MapCollect<super::opcode::Transform> for (P0, P1, P2, P3)
+where
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+    super::opcode::Transform: From<P2>,
+    super::opcode::Transform: From<P3>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
         vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
     }
 }
@@ -5668,15 +5463,33 @@ where
     P4: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::PathEvent> for (P0, P1, P2, P3, P4)
+impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::Angle> for (P0, P1, P2, P3, P4)
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
+    super::opcode::Angle: From<P2>,
+    super::opcode::Angle: From<P3>,
+    super::opcode::Angle: From<P4>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::FontFamily> for (P0, P1, P2, P3, P4)
+where
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+    super::opcode::FontFamily: From<P2>,
+    super::opcode::FontFamily: From<P3>,
+    super::opcode::FontFamily: From<P4>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -5704,51 +5517,15 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::FontFamily> for (P0, P1, P2, P3, P4)
+impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::PathEvent> for (P0, P1, P2, P3, P4)
 where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
-    super::opcode::FontFamily: From<P2>,
-    super::opcode::FontFamily: From<P3>,
-    super::opcode::FontFamily: From<P4>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
 {
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::Angle> for (P0, P1, P2, P3, P4)
-where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-    super::opcode::Angle: From<P2>,
-    super::opcode::Angle: From<P3>,
-    super::opcode::Angle: From<P4>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::Transform> for (P0, P1, P2, P3, P4)
-where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-    super::opcode::Transform: From<P2>,
-    super::opcode::Transform: From<P3>,
-    super::opcode::Transform: From<P4>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -5767,6 +5544,24 @@ where
     super::opcode::Length: From<P4>,
 {
     fn map_collect(self) -> Vec<super::opcode::Length> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::Transform> for (P0, P1, P2, P3, P4)
+where
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+    super::opcode::Transform: From<P2>,
+    super::opcode::Transform: From<P3>,
+    super::opcode::Transform: From<P4>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -5814,16 +5609,36 @@ where
     P5: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::PathEvent> for (P0, P1, P2, P3, P4, P5)
+impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::Angle> for (P0, P1, P2, P3, P4, P5)
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
+    super::opcode::Angle: From<P2>,
+    super::opcode::Angle: From<P3>,
+    super::opcode::Angle: From<P4>,
+    super::opcode::Angle: From<P5>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::FontFamily> for (P0, P1, P2, P3, P4, P5)
+where
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+    super::opcode::FontFamily: From<P2>,
+    super::opcode::FontFamily: From<P3>,
+    super::opcode::FontFamily: From<P4>,
+    super::opcode::FontFamily: From<P5>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -5854,56 +5669,16 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::FontFamily> for (P0, P1, P2, P3, P4, P5)
+impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::PathEvent> for (P0, P1, P2, P3, P4, P5)
 where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
-    super::opcode::FontFamily: From<P2>,
-    super::opcode::FontFamily: From<P3>,
-    super::opcode::FontFamily: From<P4>,
-    super::opcode::FontFamily: From<P5>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
 {
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::Angle> for (P0, P1, P2, P3, P4, P5)
-where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-    super::opcode::Angle: From<P2>,
-    super::opcode::Angle: From<P3>,
-    super::opcode::Angle: From<P4>,
-    super::opcode::Angle: From<P5>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::Transform> for (P0, P1, P2, P3, P4, P5)
-where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-    super::opcode::Transform: From<P2>,
-    super::opcode::Transform: From<P3>,
-    super::opcode::Transform: From<P4>,
-    super::opcode::Transform: From<P5>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -5924,6 +5699,26 @@ where
     super::opcode::Length: From<P5>,
 {
     fn map_collect(self) -> Vec<super::opcode::Length> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::Transform> for (P0, P1, P2, P3, P4, P5)
+where
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+    super::opcode::Transform: From<P2>,
+    super::opcode::Transform: From<P3>,
+    super::opcode::Transform: From<P4>,
+    super::opcode::Transform: From<P5>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -5976,18 +5771,40 @@ where
     P6: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::PathEvent>
+impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::Angle> for (P0, P1, P2, P3, P4, P5, P6)
+where
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
+    super::opcode::Angle: From<P2>,
+    super::opcode::Angle: From<P3>,
+    super::opcode::Angle: From<P4>,
+    super::opcode::Angle: From<P5>,
+    super::opcode::Angle: From<P6>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::FontFamily>
     for (P0, P1, P2, P3, P4, P5, P6)
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-    super::opcode::PathEvent: From<P6>,
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+    super::opcode::FontFamily: From<P2>,
+    super::opcode::FontFamily: From<P3>,
+    super::opcode::FontFamily: From<P4>,
+    super::opcode::FontFamily: From<P5>,
+    super::opcode::FontFamily: From<P6>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6021,18 +5838,18 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::FontFamily>
+impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::PathEvent>
     for (P0, P1, P2, P3, P4, P5, P6)
 where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
-    super::opcode::FontFamily: From<P2>,
-    super::opcode::FontFamily: From<P3>,
-    super::opcode::FontFamily: From<P4>,
-    super::opcode::FontFamily: From<P5>,
-    super::opcode::FontFamily: From<P6>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+    super::opcode::PathEvent: From<P6>,
 {
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6044,17 +5861,17 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::Angle> for (P0, P1, P2, P3, P4, P5, P6)
+impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::Length> for (P0, P1, P2, P3, P4, P5, P6)
 where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-    super::opcode::Angle: From<P2>,
-    super::opcode::Angle: From<P3>,
-    super::opcode::Angle: From<P4>,
-    super::opcode::Angle: From<P5>,
-    super::opcode::Angle: From<P6>,
+    super::opcode::Length: From<P0>,
+    super::opcode::Length: From<P1>,
+    super::opcode::Length: From<P2>,
+    super::opcode::Length: From<P3>,
+    super::opcode::Length: From<P4>,
+    super::opcode::Length: From<P5>,
+    super::opcode::Length: From<P6>,
 {
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
+    fn map_collect(self) -> Vec<super::opcode::Length> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6078,28 +5895,6 @@ where
     super::opcode::Transform: From<P6>,
 {
     fn map_collect(self) -> Vec<super::opcode::Transform> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::Length> for (P0, P1, P2, P3, P4, P5, P6)
-where
-    super::opcode::Length: From<P0>,
-    super::opcode::Length: From<P1>,
-    super::opcode::Length: From<P2>,
-    super::opcode::Length: From<P3>,
-    super::opcode::Length: From<P4>,
-    super::opcode::Length: From<P5>,
-    super::opcode::Length: From<P6>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Length> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6157,19 +5952,44 @@ where
     P7: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::PathEvent>
+impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::Angle>
     for (P0, P1, P2, P3, P4, P5, P6, P7)
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-    super::opcode::PathEvent: From<P6>,
-    super::opcode::PathEvent: From<P7>,
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
+    super::opcode::Angle: From<P2>,
+    super::opcode::Angle: From<P3>,
+    super::opcode::Angle: From<P4>,
+    super::opcode::Angle: From<P5>,
+    super::opcode::Angle: From<P6>,
+    super::opcode::Angle: From<P7>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::FontFamily>
+    for (P0, P1, P2, P3, P4, P5, P6, P7)
+where
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+    super::opcode::FontFamily: From<P2>,
+    super::opcode::FontFamily: From<P3>,
+    super::opcode::FontFamily: From<P4>,
+    super::opcode::FontFamily: From<P5>,
+    super::opcode::FontFamily: From<P6>,
+    super::opcode::FontFamily: From<P7>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6206,69 +6026,19 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::FontFamily>
+impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::PathEvent>
     for (P0, P1, P2, P3, P4, P5, P6, P7)
 where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
-    super::opcode::FontFamily: From<P2>,
-    super::opcode::FontFamily: From<P3>,
-    super::opcode::FontFamily: From<P4>,
-    super::opcode::FontFamily: From<P5>,
-    super::opcode::FontFamily: From<P6>,
-    super::opcode::FontFamily: From<P7>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+    super::opcode::PathEvent: From<P6>,
+    super::opcode::PathEvent: From<P7>,
 {
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::Angle>
-    for (P0, P1, P2, P3, P4, P5, P6, P7)
-where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-    super::opcode::Angle: From<P2>,
-    super::opcode::Angle: From<P3>,
-    super::opcode::Angle: From<P4>,
-    super::opcode::Angle: From<P5>,
-    super::opcode::Angle: From<P6>,
-    super::opcode::Angle: From<P7>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::Transform>
-    for (P0, P1, P2, P3, P4, P5, P6, P7)
-where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-    super::opcode::Transform: From<P2>,
-    super::opcode::Transform: From<P3>,
-    super::opcode::Transform: From<P4>,
-    super::opcode::Transform: From<P5>,
-    super::opcode::Transform: From<P6>,
-    super::opcode::Transform: From<P7>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6294,6 +6064,31 @@ where
     super::opcode::Length: From<P7>,
 {
     fn map_collect(self) -> Vec<super::opcode::Length> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::Transform>
+    for (P0, P1, P2, P3, P4, P5, P6, P7)
+where
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+    super::opcode::Transform: From<P2>,
+    super::opcode::Transform: From<P3>,
+    super::opcode::Transform: From<P4>,
+    super::opcode::Transform: From<P5>,
+    super::opcode::Transform: From<P6>,
+    super::opcode::Transform: From<P7>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6356,20 +6151,47 @@ where
     P8: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::PathEvent>
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::Angle>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8)
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-    super::opcode::PathEvent: From<P6>,
-    super::opcode::PathEvent: From<P7>,
-    super::opcode::PathEvent: From<P8>,
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
+    super::opcode::Angle: From<P2>,
+    super::opcode::Angle: From<P3>,
+    super::opcode::Angle: From<P4>,
+    super::opcode::Angle: From<P5>,
+    super::opcode::Angle: From<P6>,
+    super::opcode::Angle: From<P7>,
+    super::opcode::Angle: From<P8>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::FontFamily>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8)
+where
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+    super::opcode::FontFamily: From<P2>,
+    super::opcode::FontFamily: From<P3>,
+    super::opcode::FontFamily: From<P4>,
+    super::opcode::FontFamily: From<P5>,
+    super::opcode::FontFamily: From<P6>,
+    super::opcode::FontFamily: From<P7>,
+    super::opcode::FontFamily: From<P8>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6409,74 +6231,20 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::FontFamily>
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::PathEvent>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8)
 where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
-    super::opcode::FontFamily: From<P2>,
-    super::opcode::FontFamily: From<P3>,
-    super::opcode::FontFamily: From<P4>,
-    super::opcode::FontFamily: From<P5>,
-    super::opcode::FontFamily: From<P6>,
-    super::opcode::FontFamily: From<P7>,
-    super::opcode::FontFamily: From<P8>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+    super::opcode::PathEvent: From<P6>,
+    super::opcode::PathEvent: From<P7>,
+    super::opcode::PathEvent: From<P8>,
 {
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::Angle>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8)
-where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-    super::opcode::Angle: From<P2>,
-    super::opcode::Angle: From<P3>,
-    super::opcode::Angle: From<P4>,
-    super::opcode::Angle: From<P5>,
-    super::opcode::Angle: From<P6>,
-    super::opcode::Angle: From<P7>,
-    super::opcode::Angle: From<P8>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::Transform>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8)
-where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-    super::opcode::Transform: From<P2>,
-    super::opcode::Transform: From<P3>,
-    super::opcode::Transform: From<P4>,
-    super::opcode::Transform: From<P5>,
-    super::opcode::Transform: From<P6>,
-    super::opcode::Transform: From<P7>,
-    super::opcode::Transform: From<P8>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6504,6 +6272,33 @@ where
     super::opcode::Length: From<P8>,
 {
     fn map_collect(self) -> Vec<super::opcode::Length> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::Transform>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8)
+where
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+    super::opcode::Transform: From<P2>,
+    super::opcode::Transform: From<P3>,
+    super::opcode::Transform: From<P4>,
+    super::opcode::Transform: From<P5>,
+    super::opcode::Transform: From<P6>,
+    super::opcode::Transform: From<P7>,
+    super::opcode::Transform: From<P8>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6573,21 +6368,50 @@ where
     P9: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::PathEvent>
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::Angle>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-    super::opcode::PathEvent: From<P6>,
-    super::opcode::PathEvent: From<P7>,
-    super::opcode::PathEvent: From<P8>,
-    super::opcode::PathEvent: From<P9>,
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
+    super::opcode::Angle: From<P2>,
+    super::opcode::Angle: From<P3>,
+    super::opcode::Angle: From<P4>,
+    super::opcode::Angle: From<P5>,
+    super::opcode::Angle: From<P6>,
+    super::opcode::Angle: From<P7>,
+    super::opcode::Angle: From<P8>,
+    super::opcode::Angle: From<P9>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::FontFamily>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)
+where
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+    super::opcode::FontFamily: From<P2>,
+    super::opcode::FontFamily: From<P3>,
+    super::opcode::FontFamily: From<P4>,
+    super::opcode::FontFamily: From<P5>,
+    super::opcode::FontFamily: From<P6>,
+    super::opcode::FontFamily: From<P7>,
+    super::opcode::FontFamily: From<P8>,
+    super::opcode::FontFamily: From<P9>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6631,79 +6455,21 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::FontFamily>
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::PathEvent>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)
 where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
-    super::opcode::FontFamily: From<P2>,
-    super::opcode::FontFamily: From<P3>,
-    super::opcode::FontFamily: From<P4>,
-    super::opcode::FontFamily: From<P5>,
-    super::opcode::FontFamily: From<P6>,
-    super::opcode::FontFamily: From<P7>,
-    super::opcode::FontFamily: From<P8>,
-    super::opcode::FontFamily: From<P9>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+    super::opcode::PathEvent: From<P6>,
+    super::opcode::PathEvent: From<P7>,
+    super::opcode::PathEvent: From<P8>,
+    super::opcode::PathEvent: From<P9>,
 {
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::Angle>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)
-where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-    super::opcode::Angle: From<P2>,
-    super::opcode::Angle: From<P3>,
-    super::opcode::Angle: From<P4>,
-    super::opcode::Angle: From<P5>,
-    super::opcode::Angle: From<P6>,
-    super::opcode::Angle: From<P7>,
-    super::opcode::Angle: From<P8>,
-    super::opcode::Angle: From<P9>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::Transform>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)
-where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-    super::opcode::Transform: From<P2>,
-    super::opcode::Transform: From<P3>,
-    super::opcode::Transform: From<P4>,
-    super::opcode::Transform: From<P5>,
-    super::opcode::Transform: From<P6>,
-    super::opcode::Transform: From<P7>,
-    super::opcode::Transform: From<P8>,
-    super::opcode::Transform: From<P9>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6733,6 +6499,35 @@ where
     super::opcode::Length: From<P9>,
 {
     fn map_collect(self) -> Vec<super::opcode::Length> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::Transform>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)
+where
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+    super::opcode::Transform: From<P2>,
+    super::opcode::Transform: From<P3>,
+    super::opcode::Transform: From<P4>,
+    super::opcode::Transform: From<P5>,
+    super::opcode::Transform: From<P6>,
+    super::opcode::Transform: From<P7>,
+    super::opcode::Transform: From<P8>,
+    super::opcode::Transform: From<P9>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6808,22 +6603,53 @@ where
     P10: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::PathEvent>
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::Angle>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-    super::opcode::PathEvent: From<P6>,
-    super::opcode::PathEvent: From<P7>,
-    super::opcode::PathEvent: From<P8>,
-    super::opcode::PathEvent: From<P9>,
-    super::opcode::PathEvent: From<P10>,
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
+    super::opcode::Angle: From<P2>,
+    super::opcode::Angle: From<P3>,
+    super::opcode::Angle: From<P4>,
+    super::opcode::Angle: From<P5>,
+    super::opcode::Angle: From<P6>,
+    super::opcode::Angle: From<P7>,
+    super::opcode::Angle: From<P8>,
+    super::opcode::Angle: From<P9>,
+    super::opcode::Angle: From<P10>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::FontFamily>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
+where
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+    super::opcode::FontFamily: From<P2>,
+    super::opcode::FontFamily: From<P3>,
+    super::opcode::FontFamily: From<P4>,
+    super::opcode::FontFamily: From<P5>,
+    super::opcode::FontFamily: From<P6>,
+    super::opcode::FontFamily: From<P7>,
+    super::opcode::FontFamily: From<P8>,
+    super::opcode::FontFamily: From<P9>,
+    super::opcode::FontFamily: From<P10>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6870,84 +6696,22 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::FontFamily>
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::PathEvent>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
 where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
-    super::opcode::FontFamily: From<P2>,
-    super::opcode::FontFamily: From<P3>,
-    super::opcode::FontFamily: From<P4>,
-    super::opcode::FontFamily: From<P5>,
-    super::opcode::FontFamily: From<P6>,
-    super::opcode::FontFamily: From<P7>,
-    super::opcode::FontFamily: From<P8>,
-    super::opcode::FontFamily: From<P9>,
-    super::opcode::FontFamily: From<P10>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+    super::opcode::PathEvent: From<P6>,
+    super::opcode::PathEvent: From<P7>,
+    super::opcode::PathEvent: From<P8>,
+    super::opcode::PathEvent: From<P9>,
+    super::opcode::PathEvent: From<P10>,
 {
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::Angle>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
-where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-    super::opcode::Angle: From<P2>,
-    super::opcode::Angle: From<P3>,
-    super::opcode::Angle: From<P4>,
-    super::opcode::Angle: From<P5>,
-    super::opcode::Angle: From<P6>,
-    super::opcode::Angle: From<P7>,
-    super::opcode::Angle: From<P8>,
-    super::opcode::Angle: From<P9>,
-    super::opcode::Angle: From<P10>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::Transform>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
-where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-    super::opcode::Transform: From<P2>,
-    super::opcode::Transform: From<P3>,
-    super::opcode::Transform: From<P4>,
-    super::opcode::Transform: From<P5>,
-    super::opcode::Transform: From<P6>,
-    super::opcode::Transform: From<P7>,
-    super::opcode::Transform: From<P8>,
-    super::opcode::Transform: From<P9>,
-    super::opcode::Transform: From<P10>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6979,6 +6743,37 @@ where
     super::opcode::Length: From<P10>,
 {
     fn map_collect(self) -> Vec<super::opcode::Length> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::Transform>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
+where
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+    super::opcode::Transform: From<P2>,
+    super::opcode::Transform: From<P3>,
+    super::opcode::Transform: From<P4>,
+    super::opcode::Transform: From<P5>,
+    super::opcode::Transform: From<P6>,
+    super::opcode::Transform: From<P7>,
+    super::opcode::Transform: From<P8>,
+    super::opcode::Transform: From<P9>,
+    super::opcode::Transform: From<P10>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -7059,23 +6854,56 @@ where
     P11: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::PathEvent>
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::Angle>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11)
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-    super::opcode::PathEvent: From<P6>,
-    super::opcode::PathEvent: From<P7>,
-    super::opcode::PathEvent: From<P8>,
-    super::opcode::PathEvent: From<P9>,
-    super::opcode::PathEvent: From<P10>,
-    super::opcode::PathEvent: From<P11>,
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
+    super::opcode::Angle: From<P2>,
+    super::opcode::Angle: From<P3>,
+    super::opcode::Angle: From<P4>,
+    super::opcode::Angle: From<P5>,
+    super::opcode::Angle: From<P6>,
+    super::opcode::Angle: From<P7>,
+    super::opcode::Angle: From<P8>,
+    super::opcode::Angle: From<P9>,
+    super::opcode::Angle: From<P10>,
+    super::opcode::Angle: From<P11>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+            self.11.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::FontFamily>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11)
+where
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+    super::opcode::FontFamily: From<P2>,
+    super::opcode::FontFamily: From<P3>,
+    super::opcode::FontFamily: From<P4>,
+    super::opcode::FontFamily: From<P5>,
+    super::opcode::FontFamily: From<P6>,
+    super::opcode::FontFamily: From<P7>,
+    super::opcode::FontFamily: From<P8>,
+    super::opcode::FontFamily: From<P9>,
+    super::opcode::FontFamily: From<P10>,
+    super::opcode::FontFamily: From<P11>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -7125,89 +6953,23 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::FontFamily>
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::PathEvent>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11)
 where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
-    super::opcode::FontFamily: From<P2>,
-    super::opcode::FontFamily: From<P3>,
-    super::opcode::FontFamily: From<P4>,
-    super::opcode::FontFamily: From<P5>,
-    super::opcode::FontFamily: From<P6>,
-    super::opcode::FontFamily: From<P7>,
-    super::opcode::FontFamily: From<P8>,
-    super::opcode::FontFamily: From<P9>,
-    super::opcode::FontFamily: From<P10>,
-    super::opcode::FontFamily: From<P11>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+    super::opcode::PathEvent: From<P6>,
+    super::opcode::PathEvent: From<P7>,
+    super::opcode::PathEvent: From<P8>,
+    super::opcode::PathEvent: From<P9>,
+    super::opcode::PathEvent: From<P10>,
+    super::opcode::PathEvent: From<P11>,
 {
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-            self.11.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::Angle>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11)
-where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-    super::opcode::Angle: From<P2>,
-    super::opcode::Angle: From<P3>,
-    super::opcode::Angle: From<P4>,
-    super::opcode::Angle: From<P5>,
-    super::opcode::Angle: From<P6>,
-    super::opcode::Angle: From<P7>,
-    super::opcode::Angle: From<P8>,
-    super::opcode::Angle: From<P9>,
-    super::opcode::Angle: From<P10>,
-    super::opcode::Angle: From<P11>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-            self.11.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::Transform>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11)
-where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-    super::opcode::Transform: From<P2>,
-    super::opcode::Transform: From<P3>,
-    super::opcode::Transform: From<P4>,
-    super::opcode::Transform: From<P5>,
-    super::opcode::Transform: From<P6>,
-    super::opcode::Transform: From<P7>,
-    super::opcode::Transform: From<P8>,
-    super::opcode::Transform: From<P9>,
-    super::opcode::Transform: From<P10>,
-    super::opcode::Transform: From<P11>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -7241,6 +7003,39 @@ where
     super::opcode::Length: From<P11>,
 {
     fn map_collect(self) -> Vec<super::opcode::Length> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+            self.11.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::Transform>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11)
+where
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+    super::opcode::Transform: From<P2>,
+    super::opcode::Transform: From<P3>,
+    super::opcode::Transform: From<P4>,
+    super::opcode::Transform: From<P5>,
+    super::opcode::Transform: From<P6>,
+    super::opcode::Transform: From<P7>,
+    super::opcode::Transform: From<P8>,
+    super::opcode::Transform: From<P9>,
+    super::opcode::Transform: From<P10>,
+    super::opcode::Transform: From<P11>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -7326,24 +7121,59 @@ where
     P12: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::PathEvent>
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::Angle>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12)
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-    super::opcode::PathEvent: From<P6>,
-    super::opcode::PathEvent: From<P7>,
-    super::opcode::PathEvent: From<P8>,
-    super::opcode::PathEvent: From<P9>,
-    super::opcode::PathEvent: From<P10>,
-    super::opcode::PathEvent: From<P11>,
-    super::opcode::PathEvent: From<P12>,
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
+    super::opcode::Angle: From<P2>,
+    super::opcode::Angle: From<P3>,
+    super::opcode::Angle: From<P4>,
+    super::opcode::Angle: From<P5>,
+    super::opcode::Angle: From<P6>,
+    super::opcode::Angle: From<P7>,
+    super::opcode::Angle: From<P8>,
+    super::opcode::Angle: From<P9>,
+    super::opcode::Angle: From<P10>,
+    super::opcode::Angle: From<P11>,
+    super::opcode::Angle: From<P12>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+            self.11.into(),
+            self.12.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::FontFamily>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12)
+where
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+    super::opcode::FontFamily: From<P2>,
+    super::opcode::FontFamily: From<P3>,
+    super::opcode::FontFamily: From<P4>,
+    super::opcode::FontFamily: From<P5>,
+    super::opcode::FontFamily: From<P6>,
+    super::opcode::FontFamily: From<P7>,
+    super::opcode::FontFamily: From<P8>,
+    super::opcode::FontFamily: From<P9>,
+    super::opcode::FontFamily: From<P10>,
+    super::opcode::FontFamily: From<P11>,
+    super::opcode::FontFamily: From<P12>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -7396,94 +7226,24 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::FontFamily>
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::PathEvent>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12)
 where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
-    super::opcode::FontFamily: From<P2>,
-    super::opcode::FontFamily: From<P3>,
-    super::opcode::FontFamily: From<P4>,
-    super::opcode::FontFamily: From<P5>,
-    super::opcode::FontFamily: From<P6>,
-    super::opcode::FontFamily: From<P7>,
-    super::opcode::FontFamily: From<P8>,
-    super::opcode::FontFamily: From<P9>,
-    super::opcode::FontFamily: From<P10>,
-    super::opcode::FontFamily: From<P11>,
-    super::opcode::FontFamily: From<P12>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+    super::opcode::PathEvent: From<P6>,
+    super::opcode::PathEvent: From<P7>,
+    super::opcode::PathEvent: From<P8>,
+    super::opcode::PathEvent: From<P9>,
+    super::opcode::PathEvent: From<P10>,
+    super::opcode::PathEvent: From<P11>,
+    super::opcode::PathEvent: From<P12>,
 {
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-            self.11.into(),
-            self.12.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::Angle>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12)
-where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-    super::opcode::Angle: From<P2>,
-    super::opcode::Angle: From<P3>,
-    super::opcode::Angle: From<P4>,
-    super::opcode::Angle: From<P5>,
-    super::opcode::Angle: From<P6>,
-    super::opcode::Angle: From<P7>,
-    super::opcode::Angle: From<P8>,
-    super::opcode::Angle: From<P9>,
-    super::opcode::Angle: From<P10>,
-    super::opcode::Angle: From<P11>,
-    super::opcode::Angle: From<P12>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-            self.11.into(),
-            self.12.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::Transform>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12)
-where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-    super::opcode::Transform: From<P2>,
-    super::opcode::Transform: From<P3>,
-    super::opcode::Transform: From<P4>,
-    super::opcode::Transform: From<P5>,
-    super::opcode::Transform: From<P6>,
-    super::opcode::Transform: From<P7>,
-    super::opcode::Transform: From<P8>,
-    super::opcode::Transform: From<P9>,
-    super::opcode::Transform: From<P10>,
-    super::opcode::Transform: From<P11>,
-    super::opcode::Transform: From<P12>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -7519,6 +7279,41 @@ where
     super::opcode::Length: From<P12>,
 {
     fn map_collect(self) -> Vec<super::opcode::Length> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+            self.11.into(),
+            self.12.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::Transform>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12)
+where
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+    super::opcode::Transform: From<P2>,
+    super::opcode::Transform: From<P3>,
+    super::opcode::Transform: From<P4>,
+    super::opcode::Transform: From<P5>,
+    super::opcode::Transform: From<P6>,
+    super::opcode::Transform: From<P7>,
+    super::opcode::Transform: From<P8>,
+    super::opcode::Transform: From<P9>,
+    super::opcode::Transform: From<P10>,
+    super::opcode::Transform: From<P11>,
+    super::opcode::Transform: From<P12>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -7609,26 +7404,63 @@ where
     P13: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13>
-    MapCollect<super::opcode::PathEvent>
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13> MapCollect<super::opcode::Angle>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13)
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-    super::opcode::PathEvent: From<P6>,
-    super::opcode::PathEvent: From<P7>,
-    super::opcode::PathEvent: From<P8>,
-    super::opcode::PathEvent: From<P9>,
-    super::opcode::PathEvent: From<P10>,
-    super::opcode::PathEvent: From<P11>,
-    super::opcode::PathEvent: From<P12>,
-    super::opcode::PathEvent: From<P13>,
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
+    super::opcode::Angle: From<P2>,
+    super::opcode::Angle: From<P3>,
+    super::opcode::Angle: From<P4>,
+    super::opcode::Angle: From<P5>,
+    super::opcode::Angle: From<P6>,
+    super::opcode::Angle: From<P7>,
+    super::opcode::Angle: From<P8>,
+    super::opcode::Angle: From<P9>,
+    super::opcode::Angle: From<P10>,
+    super::opcode::Angle: From<P11>,
+    super::opcode::Angle: From<P12>,
+    super::opcode::Angle: From<P13>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+            self.11.into(),
+            self.12.into(),
+            self.13.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13>
+    MapCollect<super::opcode::FontFamily>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13)
+where
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+    super::opcode::FontFamily: From<P2>,
+    super::opcode::FontFamily: From<P3>,
+    super::opcode::FontFamily: From<P4>,
+    super::opcode::FontFamily: From<P5>,
+    super::opcode::FontFamily: From<P6>,
+    super::opcode::FontFamily: From<P7>,
+    super::opcode::FontFamily: From<P8>,
+    super::opcode::FontFamily: From<P9>,
+    super::opcode::FontFamily: From<P10>,
+    super::opcode::FontFamily: From<P11>,
+    super::opcode::FontFamily: From<P12>,
+    super::opcode::FontFamily: From<P13>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -7685,25 +7517,25 @@ where
     }
 }
 impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13>
-    MapCollect<super::opcode::FontFamily>
+    MapCollect<super::opcode::PathEvent>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13)
 where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
-    super::opcode::FontFamily: From<P2>,
-    super::opcode::FontFamily: From<P3>,
-    super::opcode::FontFamily: From<P4>,
-    super::opcode::FontFamily: From<P5>,
-    super::opcode::FontFamily: From<P6>,
-    super::opcode::FontFamily: From<P7>,
-    super::opcode::FontFamily: From<P8>,
-    super::opcode::FontFamily: From<P9>,
-    super::opcode::FontFamily: From<P10>,
-    super::opcode::FontFamily: From<P11>,
-    super::opcode::FontFamily: From<P12>,
-    super::opcode::FontFamily: From<P13>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+    super::opcode::PathEvent: From<P6>,
+    super::opcode::PathEvent: From<P7>,
+    super::opcode::PathEvent: From<P8>,
+    super::opcode::PathEvent: From<P9>,
+    super::opcode::PathEvent: From<P10>,
+    super::opcode::PathEvent: From<P11>,
+    super::opcode::PathEvent: From<P12>,
+    super::opcode::PathEvent: From<P13>,
 {
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -7722,25 +7554,25 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13> MapCollect<super::opcode::Angle>
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13> MapCollect<super::opcode::Length>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13)
 where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-    super::opcode::Angle: From<P2>,
-    super::opcode::Angle: From<P3>,
-    super::opcode::Angle: From<P4>,
-    super::opcode::Angle: From<P5>,
-    super::opcode::Angle: From<P6>,
-    super::opcode::Angle: From<P7>,
-    super::opcode::Angle: From<P8>,
-    super::opcode::Angle: From<P9>,
-    super::opcode::Angle: From<P10>,
-    super::opcode::Angle: From<P11>,
-    super::opcode::Angle: From<P12>,
-    super::opcode::Angle: From<P13>,
+    super::opcode::Length: From<P0>,
+    super::opcode::Length: From<P1>,
+    super::opcode::Length: From<P2>,
+    super::opcode::Length: From<P3>,
+    super::opcode::Length: From<P4>,
+    super::opcode::Length: From<P5>,
+    super::opcode::Length: From<P6>,
+    super::opcode::Length: From<P7>,
+    super::opcode::Length: From<P8>,
+    super::opcode::Length: From<P9>,
+    super::opcode::Length: From<P10>,
+    super::opcode::Length: From<P11>,
+    super::opcode::Length: From<P12>,
+    super::opcode::Length: From<P13>,
 {
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
+    fn map_collect(self) -> Vec<super::opcode::Length> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -7779,43 +7611,6 @@ where
     super::opcode::Transform: From<P13>,
 {
     fn map_collect(self) -> Vec<super::opcode::Transform> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-            self.11.into(),
-            self.12.into(),
-            self.13.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13> MapCollect<super::opcode::Length>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13)
-where
-    super::opcode::Length: From<P0>,
-    super::opcode::Length: From<P1>,
-    super::opcode::Length: From<P2>,
-    super::opcode::Length: From<P3>,
-    super::opcode::Length: From<P4>,
-    super::opcode::Length: From<P5>,
-    super::opcode::Length: From<P6>,
-    super::opcode::Length: From<P7>,
-    super::opcode::Length: From<P8>,
-    super::opcode::Length: From<P9>,
-    super::opcode::Length: From<P10>,
-    super::opcode::Length: From<P11>,
-    super::opcode::Length: From<P12>,
-    super::opcode::Length: From<P13>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Length> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -7960,7 +7755,7 @@ where
 {
 }
 impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
-    MapCollect<super::opcode::PathEvent>
+    MapCollect<super::opcode::Angle>
     for (
         P0,
         P1,
@@ -7979,23 +7774,79 @@ impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
         P14,
     )
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-    super::opcode::PathEvent: From<P6>,
-    super::opcode::PathEvent: From<P7>,
-    super::opcode::PathEvent: From<P8>,
-    super::opcode::PathEvent: From<P9>,
-    super::opcode::PathEvent: From<P10>,
-    super::opcode::PathEvent: From<P11>,
-    super::opcode::PathEvent: From<P12>,
-    super::opcode::PathEvent: From<P13>,
-    super::opcode::PathEvent: From<P14>,
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
+    super::opcode::Angle: From<P2>,
+    super::opcode::Angle: From<P3>,
+    super::opcode::Angle: From<P4>,
+    super::opcode::Angle: From<P5>,
+    super::opcode::Angle: From<P6>,
+    super::opcode::Angle: From<P7>,
+    super::opcode::Angle: From<P8>,
+    super::opcode::Angle: From<P9>,
+    super::opcode::Angle: From<P10>,
+    super::opcode::Angle: From<P11>,
+    super::opcode::Angle: From<P12>,
+    super::opcode::Angle: From<P13>,
+    super::opcode::Angle: From<P14>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+            self.11.into(),
+            self.12.into(),
+            self.13.into(),
+            self.14.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
+    MapCollect<super::opcode::FontFamily>
+    for (
+        P0,
+        P1,
+        P2,
+        P3,
+        P4,
+        P5,
+        P6,
+        P7,
+        P8,
+        P9,
+        P10,
+        P11,
+        P12,
+        P13,
+        P14,
+    )
+where
+    super::opcode::FontFamily: From<P0>,
+    super::opcode::FontFamily: From<P1>,
+    super::opcode::FontFamily: From<P2>,
+    super::opcode::FontFamily: From<P3>,
+    super::opcode::FontFamily: From<P4>,
+    super::opcode::FontFamily: From<P5>,
+    super::opcode::FontFamily: From<P6>,
+    super::opcode::FontFamily: From<P7>,
+    super::opcode::FontFamily: From<P8>,
+    super::opcode::FontFamily: From<P9>,
+    super::opcode::FontFamily: From<P10>,
+    super::opcode::FontFamily: From<P11>,
+    super::opcode::FontFamily: From<P12>,
+    super::opcode::FontFamily: From<P13>,
+    super::opcode::FontFamily: From<P14>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -8071,7 +7922,7 @@ where
     }
 }
 impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
-    MapCollect<super::opcode::FontFamily>
+    MapCollect<super::opcode::PathEvent>
     for (
         P0,
         P1,
@@ -8090,135 +7941,23 @@ impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
         P14,
     )
 where
-    super::opcode::FontFamily: From<P0>,
-    super::opcode::FontFamily: From<P1>,
-    super::opcode::FontFamily: From<P2>,
-    super::opcode::FontFamily: From<P3>,
-    super::opcode::FontFamily: From<P4>,
-    super::opcode::FontFamily: From<P5>,
-    super::opcode::FontFamily: From<P6>,
-    super::opcode::FontFamily: From<P7>,
-    super::opcode::FontFamily: From<P8>,
-    super::opcode::FontFamily: From<P9>,
-    super::opcode::FontFamily: From<P10>,
-    super::opcode::FontFamily: From<P11>,
-    super::opcode::FontFamily: From<P12>,
-    super::opcode::FontFamily: From<P13>,
-    super::opcode::FontFamily: From<P14>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+    super::opcode::PathEvent: From<P6>,
+    super::opcode::PathEvent: From<P7>,
+    super::opcode::PathEvent: From<P8>,
+    super::opcode::PathEvent: From<P9>,
+    super::opcode::PathEvent: From<P10>,
+    super::opcode::PathEvent: From<P11>,
+    super::opcode::PathEvent: From<P12>,
+    super::opcode::PathEvent: From<P13>,
+    super::opcode::PathEvent: From<P14>,
 {
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-            self.11.into(),
-            self.12.into(),
-            self.13.into(),
-            self.14.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
-    MapCollect<super::opcode::Angle>
-    for (
-        P0,
-        P1,
-        P2,
-        P3,
-        P4,
-        P5,
-        P6,
-        P7,
-        P8,
-        P9,
-        P10,
-        P11,
-        P12,
-        P13,
-        P14,
-    )
-where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-    super::opcode::Angle: From<P2>,
-    super::opcode::Angle: From<P3>,
-    super::opcode::Angle: From<P4>,
-    super::opcode::Angle: From<P5>,
-    super::opcode::Angle: From<P6>,
-    super::opcode::Angle: From<P7>,
-    super::opcode::Angle: From<P8>,
-    super::opcode::Angle: From<P9>,
-    super::opcode::Angle: From<P10>,
-    super::opcode::Angle: From<P11>,
-    super::opcode::Angle: From<P12>,
-    super::opcode::Angle: From<P13>,
-    super::opcode::Angle: From<P14>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-            self.11.into(),
-            self.12.into(),
-            self.13.into(),
-            self.14.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
-    MapCollect<super::opcode::Transform>
-    for (
-        P0,
-        P1,
-        P2,
-        P3,
-        P4,
-        P5,
-        P6,
-        P7,
-        P8,
-        P9,
-        P10,
-        P11,
-        P12,
-        P13,
-        P14,
-    )
-where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-    super::opcode::Transform: From<P2>,
-    super::opcode::Transform: From<P3>,
-    super::opcode::Transform: From<P4>,
-    super::opcode::Transform: From<P5>,
-    super::opcode::Transform: From<P6>,
-    super::opcode::Transform: From<P7>,
-    super::opcode::Transform: From<P8>,
-    super::opcode::Transform: From<P9>,
-    super::opcode::Transform: From<P10>,
-    super::opcode::Transform: From<P11>,
-    super::opcode::Transform: From<P12>,
-    super::opcode::Transform: From<P13>,
-    super::opcode::Transform: From<P14>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -8294,11 +8033,75 @@ where
         ]
     }
 }
-impl<P> MapCollect<super::opcode::PathEvent> for P
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
+    MapCollect<super::opcode::Transform>
+    for (
+        P0,
+        P1,
+        P2,
+        P3,
+        P4,
+        P5,
+        P6,
+        P7,
+        P8,
+        P9,
+        P10,
+        P11,
+        P12,
+        P13,
+        P14,
+    )
 where
-    super::opcode::PathEvent: From<P>,
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+    super::opcode::Transform: From<P2>,
+    super::opcode::Transform: From<P3>,
+    super::opcode::Transform: From<P4>,
+    super::opcode::Transform: From<P5>,
+    super::opcode::Transform: From<P6>,
+    super::opcode::Transform: From<P7>,
+    super::opcode::Transform: From<P8>,
+    super::opcode::Transform: From<P9>,
+    super::opcode::Transform: From<P10>,
+    super::opcode::Transform: From<P11>,
+    super::opcode::Transform: From<P12>,
+    super::opcode::Transform: From<P13>,
+    super::opcode::Transform: From<P14>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+            self.11.into(),
+            self.12.into(),
+            self.13.into(),
+            self.14.into(),
+        ]
+    }
+}
+impl<P> MapCollect<super::opcode::Angle> for P
+where
+    super::opcode::Angle: From<P>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![self.into()]
+    }
+}
+impl<P> MapCollect<super::opcode::FontFamily> for P
+where
+    super::opcode::FontFamily: From<P>,
+{
+    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
         vec![self.into()]
     }
 }
@@ -8310,27 +8113,11 @@ where
         vec![Number::from(self).0]
     }
 }
-impl<P> MapCollect<super::opcode::FontFamily> for P
+impl<P> MapCollect<super::opcode::PathEvent> for P
 where
-    super::opcode::FontFamily: From<P>,
+    super::opcode::PathEvent: From<P>,
 {
-    fn map_collect(self) -> Vec<super::opcode::FontFamily> {
-        vec![self.into()]
-    }
-}
-impl<P> MapCollect<super::opcode::Angle> for P
-where
-    super::opcode::Angle: From<P>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
-        vec![self.into()]
-    }
-}
-impl<P> MapCollect<super::opcode::Transform> for P
-where
-    super::opcode::Transform: From<P>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![self.into()]
     }
 }
@@ -8339,6 +8126,14 @@ where
     super::opcode::Length: From<P>,
 {
     fn map_collect(self) -> Vec<super::opcode::Length> {
+        vec![self.into()]
+    }
+}
+impl<P> MapCollect<super::opcode::Transform> for P
+where
+    super::opcode::Transform: From<P>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
         vec![self.into()]
     }
 }

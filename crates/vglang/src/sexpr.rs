@@ -2,67 +2,67 @@ pub use super::codegen::sexpr::*;
 
 use crate::opcode::{Background, Color, FuncIri, Length, Paint, PathEvent, Point, Rgb, Transform};
 
-/// A trait convert self into [`Length`]
-pub trait Slength {
-    fn em(self) -> Length;
+// /// A trait convert self into [`Length`]
+// pub trait Slength {
+//     fn em(self) -> Length;
 
-    fn ex(self) -> Length;
+//     fn ex(self) -> Length;
 
-    fn px(self) -> Length;
+//     fn px(self) -> Length;
 
-    fn r#in(self) -> Length;
+//     fn r#in(self) -> Length;
 
-    fn cm(self) -> Length;
+//     fn cm(self) -> Length;
 
-    fn mm(self) -> Length;
+//     fn mm(self) -> Length;
 
-    fn pt(self) -> Length;
+//     fn pt(self) -> Length;
 
-    fn pc(self) -> Length;
+//     fn pc(self) -> Length;
 
-    fn percent(self) -> Length;
-}
+//     fn percent(self) -> Length;
+// }
 
-impl<T> Slength for T
-where
-    Number: From<T>,
-{
-    fn em(self) -> Length {
-        Length::Em(Number::from(self).0)
-    }
+// impl<T> Slength for T
+// where
+//     Number: From<T>,
+// {
+//     fn em(self) -> Length {
+//         Length::Em(Number::from(self).0)
+//     }
 
-    fn ex(self) -> Length {
-        Length::Ex(Number::from(self).0)
-    }
+//     fn ex(self) -> Length {
+//         Length::Ex(Number::from(self).0)
+//     }
 
-    fn px(self) -> Length {
-        Length::Px(Number::from(self).0)
-    }
+//     fn px(self) -> Length {
+//         Length::Px(Number::from(self).0)
+//     }
 
-    fn r#in(self) -> Length {
-        Length::Inch(Number::from(self).0)
-    }
+//     fn r#in(self) -> Length {
+//         Length::Inch(Number::from(self).0)
+//     }
 
-    fn cm(self) -> Length {
-        Length::Cm(Number::from(self).0)
-    }
+//     fn cm(self) -> Length {
+//         Length::Cm(Number::from(self).0)
+//     }
 
-    fn mm(self) -> Length {
-        Length::Mm(Number::from(self).0)
-    }
+//     fn mm(self) -> Length {
+//         Length::Mm(Number::from(self).0)
+//     }
 
-    fn pt(self) -> Length {
-        Length::Pt(Number::from(self).0)
-    }
+//     fn pt(self) -> Length {
+//         Length::Pt(Number::from(self).0)
+//     }
 
-    fn pc(self) -> Length {
-        Length::Pc(Number::from(self).0)
-    }
+//     fn pc(self) -> Length {
+//         Length::Pc(Number::from(self).0)
+//     }
 
-    fn percent(self) -> Length {
-        Length::Percent(Number::from(self).0)
-    }
-}
+//     fn percent(self) -> Length {
+//         Length::Percent(Number::from(self).0)
+//     }
+// }
 
 impl<T> From<T> for Length
 where

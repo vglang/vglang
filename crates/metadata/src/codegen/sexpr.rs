@@ -103,7 +103,7 @@ impl SexprRestraintGen for ChildrenOf {
             for to in &self.to {
                 let to = to.type_ident();
                 stats.push(quote! {
-                    impl ContentOf<#opcode_mod #from> for #opcode_mod #to {}
+                    impl ContentOf<#opcode_mod #to> for #opcode_mod #from {}
                 });
             }
         }
@@ -205,7 +205,7 @@ impl Node {
         let init_fields = self
             .fields
             .iter()
-            .filter(|field| !field.is_option() || field.is_init_field())
+            .filter(|field| !field.is_option())
             .count();
 
         if init_fields != 0 {
@@ -360,29 +360,117 @@ impl SexprDataGen for Node {
 
 impl SexprDataGen for Enum {
     fn gen_data_sexpr_src(&self, opcode_mod: &TokenStream) -> TokenStream {
-        let mut stats = vec![];
+        let mut impls = vec![];
 
         let enum_ident = self.gen_ident();
 
-        for field in self.fields.iter() {
+        for node in self.fields.iter() {
+            if node.fields.is_empty() {
+                continue;
+            }
+
             let ident = format!(
                 "S{}{}",
                 self.ident.1.to_lower_camel_case(),
-                field.ident.1.to_upper_camel_case()
+                node.ident.1.to_upper_camel_case()
             )
             .parse::<TokenStream>()
             .unwrap();
 
-            let field_ident = field.ident.field_ident();
+            let field_ident = node.ident.field_ident();
 
-            stats.push(quote! {
+            impls.push(quote! {
                 pub trait #ident {
                     fn #field_ident(self) -> #opcode_mod #enum_ident;
                 }
             });
+
+            if node.init_skip() {
+                continue;
+            }
+
+            let init_fields = node
+                .fields
+                .iter()
+                .filter(|field| !field.is_option() || field.is_init_field())
+                .count();
+
+            if init_fields == 0 {
+                continue;
+            }
+
+            let mut stats = vec![];
+            let mut tuple_index = 0;
+            let mut generics = vec![];
+            let mut where_clauses = vec![];
+            let sexpr_mod = quote! {};
+
+            for field in node.fields.iter() {
+                if field.is_option() && !field.is_init_field() {
+                    if let Some(ident) = field.gen_ident() {
+                        stats.push(quote! {
+                            #ident: None
+                        });
+                    } else {
+                        stats.push(quote! { None });
+                    }
+
+                    continue;
+                }
+
+                let value = if init_fields == 1 {
+                    quote! { self }
+                } else {
+                    format!("self.{}", tuple_index).parse().unwrap()
+                };
+
+                let from_expr = field.ty().gen_from_expr(&sexpr_mod, &value);
+
+                let assign_expr = field.gen_assign_expr(opcode_mod, from_expr);
+
+                if let Some(ident) = field.gen_ident() {
+                    stats.push(quote! {
+                        #ident: #assign_expr
+                    });
+                    let ident = field.ident().unwrap().type_ident();
+
+                    generics.push(ident);
+                } else {
+                    stats.push(quote! { #assign_expr });
+                    generics.push(format!("P{}", tuple_index).parse().unwrap());
+                }
+
+                where_clauses.push(field.ty().gen_from_where_clause(
+                    opcode_mod,
+                    &sexpr_mod,
+                    generics.last().unwrap(),
+                ));
+
+                tuple_index += 1;
+            }
+
+            let impl_generics = quote! { #(#generics),* };
+
+            let type_generics = if init_fields == 1 {
+                quote! { #(#generics),* }
+            } else {
+                quote! { (#(#generics),*) }
+            };
+
+            let node_ident = node.gen_ident();
+
+            let body = node.gen_body_expr(stats);
+
+            impls.push(quote! {
+                impl<#impl_generics> #ident for #type_generics where #(#where_clauses),* {
+                    fn #field_ident(self) -> #opcode_mod #enum_ident {
+                        #opcode_mod #enum_ident::#node_ident # body
+                    }
+                }
+            });
         }
 
-        quote! { #(#stats)* }
+        quote! { #(#impls)* }
     }
 }
 
