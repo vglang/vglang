@@ -1,6 +1,6 @@
 use crate::{
     codegen::svg::SvgAttrValueWriter,
-    opcode::{Angle, FuncIri, Iri, Length},
+    opcode::{Angle, Background, FuncIri, Iri, Length},
 };
 
 impl SvgAttrValueWriter for Length {
@@ -40,6 +40,28 @@ impl SvgAttrValueWriter for Angle {
             Angle::Deg(v) => format!("{}deg", v),
             Angle::Grad(v) => format!("{}grad", v),
             Angle::Rad(v) => format!("{}rad", v),
+        }
+    }
+}
+
+impl SvgAttrValueWriter for Background {
+    fn to_svg_attr_value(&self) -> String {
+        match self {
+            Background::Accumulate => "accumulate".to_string(),
+            Background::New {
+                x,
+                y,
+                width,
+                height,
+            } => format!(
+                "new {} {} {} {}",
+                x.map(|v| v.to_string()).unwrap_or("".to_string()),
+                y.map(|v| v.to_string()).unwrap_or("".to_string()),
+                width.map(|v| v.to_string()).unwrap_or("".to_string()),
+                height.map(|v| v.to_string()).unwrap_or("".to_string()),
+            )
+            .trim()
+            .to_string(),
         }
     }
 }

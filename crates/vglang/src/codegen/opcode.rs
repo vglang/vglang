@@ -1012,7 +1012,7 @@ pub struct EnableBackground(pub Background);
 #[doc = " Define a fragment by name."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct WithFilter(pub String);
+pub struct WithFilter(pub FuncIri);
 #[doc = " Use mask to a element."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -1341,7 +1341,7 @@ pub enum FeColorMatrixValues {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeColorMatrix {
     #[doc = " See [`FeIn`]"]
-    pub r#in: variable::Variable<FeIn>,
+    pub r#in: Option<variable::Variable<FeIn>>,
     #[doc = " The contents of ‘values’ depends on the value of attribute ‘type’:"]
     pub values: variable::Variable<FeColorMatrixValues>,
     #[doc = " The minimum x coordinate for the subregion which restricts calculation and rendering of the given filter primitive."]

@@ -348,12 +348,12 @@ impl SvgAttrValueWriter for super::opcode::Transform {
                 let mut values = vec![];
                 values.push(p0.to_svg_attr_value());
                 values.push(p1.to_svg_attr_value());
-                values.join(",")
+                format!("{}({})", "translate", values.join(","))
             }
             Self::Matrix(p0) => {
                 let mut values = vec![];
                 values.push(p0.to_svg_attr_value());
-                values.join(",")
+                format!("{}({})", "matrix", values.join(","))
             }
             Self::Scale(p0, p1) => {
                 let mut values = vec![];
@@ -361,24 +361,24 @@ impl SvgAttrValueWriter for super::opcode::Transform {
                 if let Some(value) = &p1 {
                     values.push(value.to_svg_attr_value());
                 }
-                values.join(",")
+                format!("{}({})", "scale", values.join(","))
             }
             Self::Rotate { angle, cx, cy } => {
                 let mut values = vec![];
                 values.push(angle.to_svg_attr_value());
                 values.push(cx.to_svg_attr_value());
                 values.push(cy.to_svg_attr_value());
-                values.join(",")
+                format!("{}({})", "rotate", values.join(","))
             }
             Self::SkewX(p0) => {
                 let mut values = vec![];
                 values.push(p0.to_svg_attr_value());
-                values.join(",")
+                format!("{}({})", "skewX", values.join(","))
             }
             Self::SkewY(p0) => {
                 let mut values = vec![];
                 values.push(p0.to_svg_attr_value());
-                values.join(",")
+                format!("{}({})", "skewY", values.join(","))
             }
         }
     }
@@ -506,34 +506,6 @@ impl SvgAttrValueWriter for super::opcode::FontStretch {
             Self::Expanded => "expanded".to_string(),
             Self::ExtraExpanded => "extraExpanded".to_string(),
             Self::UltraExpanded => "ultraExpanded".to_string(),
-        }
-    }
-}
-impl SvgAttrValueWriter for super::opcode::Background {
-    fn to_svg_attr_value(&self) -> String {
-        match self {
-            Self::Accumulate => "accumulate".to_string(),
-            Self::New {
-                x,
-                y,
-                width,
-                height,
-            } => {
-                let mut values = vec![];
-                if let Some(value) = &x {
-                    values.push(value.to_svg_attr_value());
-                }
-                if let Some(value) = &y {
-                    values.push(value.to_svg_attr_value());
-                }
-                if let Some(value) = &width {
-                    values.push(value.to_svg_attr_value());
-                }
-                if let Some(value) = &height {
-                    values.push(value.to_svg_attr_value());
-                }
-                values.join(",")
-            }
         }
     }
 }
@@ -958,6 +930,9 @@ impl SvgAttrsWriter for super::opcode::EnableBackground {
         C: SvgContext<Error = E>,
         Node: SvgNode<Error = E>,
     {
+        let value = &self.0;
+        let value = value.to_svg_attr_value();
+        node.set_svg_attr("enable-background", &value)?;
         Ok(())
     }
 }
@@ -968,6 +943,9 @@ impl SvgAttrsWriter for super::opcode::WithFilter {
         C: SvgContext<Error = E>,
         Node: SvgNode<Error = E>,
     {
+        let value = &self.0;
+        let value = value.to_svg_attr_value();
+        node.set_svg_attr("filter", &value)?;
         Ok(())
     }
 }
@@ -978,6 +956,9 @@ impl SvgAttrsWriter for super::opcode::WithClipPath {
         C: SvgContext<Error = E>,
         Node: SvgNode<Error = E>,
     {
+        let value = &self.0;
+        let value = value.to_svg_attr_value();
+        node.set_svg_attr("clip-path", &value)?;
         Ok(())
     }
 }
@@ -1091,7 +1072,7 @@ impl SvgAttrsWriter for super::opcode::Filter {
     {
         if let Some(value) = &self.units {
             let value = ctx.valueof(&value)?.to_svg_attr_value();
-            node.set_svg_attr("units", &value)?;
+            node.set_svg_attr("filterUnits", &value)?;
         }
         if let Some(value) = &self.primitive_units {
             let value = ctx.valueof(&value)?.to_svg_attr_value();
@@ -1298,9 +1279,10 @@ impl SvgAttrsWriter for super::opcode::FeColorMatrix {
         C: SvgContext<Error = E>,
         Node: SvgNode<Error = E>,
     {
-        let value = &self.r#in;
-        let value = ctx.valueof(&value)?.to_svg_attr_value();
-        node.set_svg_attr("in", &value)?;
+        if let Some(value) = &self.r#in {
+            let value = ctx.valueof(&value)?.to_svg_attr_value();
+            node.set_svg_attr("in", &value)?;
+        }
         let value = &self.values;
         let value = ctx.valueof(&value)?.to_svg_attr_value();
         node.set_svg_attr("values", &value)?;
@@ -1843,6 +1825,9 @@ impl SvgAttrsWriter for super::opcode::FeMergeNode {
         C: SvgContext<Error = E>,
         Node: SvgNode<Error = E>,
     {
+        let value = &self.0;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("in", &value)?;
         Ok(())
     }
 }
@@ -2450,6 +2435,9 @@ impl SvgAttrsWriter for super::opcode::Polyline {
         C: SvgContext<Error = E>,
         Node: SvgNode<Error = E>,
     {
+        let value = &self.0;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("points", &value)?;
         Ok(())
     }
 }
@@ -2465,6 +2453,9 @@ impl SvgAttrsWriter for super::opcode::Polygon {
         C: SvgContext<Error = E>,
         Node: SvgNode<Error = E>,
     {
+        let value = &self.0;
+        let value = ctx.valueof(&value)?.to_svg_attr_value();
+        node.set_svg_attr("points", &value)?;
         Ok(())
     }
 }

@@ -234,7 +234,7 @@ impl SvgAttrValueWriterGen for Enum {
                     let tuple_name = node
                         .xml_name()
                         .map(|v| v.to_string())
-                        .unwrap_or(self.ident.xml_attr_name());
+                        .unwrap_or(node.ident.xml_attr_name());
 
                     quote! {
                         let mut values = vec![];

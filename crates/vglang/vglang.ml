@@ -242,11 +242,17 @@ enum Coords {
 
 /// A `transform` matrix type.
 enum Transform {
+    #[xml_tuple_value]
     Translate(float,float), 
-    Matrix([float;6]), 
+    #[xml_tuple_value]
+    Matrix([float;6]),
+    #[xml_tuple_value] 
     Scale(float,#[option] float), 
+    #[xml_tuple_value]
     Rotate { angle: float, cx: float, cy: float },
+    #[xml_tuple_value]
     SkewX(float),
+    #[xml_tuple_value]
     SkewY(float),
 }
 
@@ -376,6 +382,7 @@ enum FontStretch {
 }
 
 /// Data value used by `enable-background` property.
+#[xml_skip]
 enum Background {
     /// A meaning of enable-background: accumulate (the initial/default value) depends on context:
     ///
@@ -960,14 +967,14 @@ attr Font {
 
 
 /// enables access to the background image
-attr EnableBackground(Background);
+attr EnableBackground(#[xml("enable-background")]Background);
 
 /// Define a fragment by name.
-attr WithFilter(string);
+attr WithFilter(#[xml("filter")]FuncIri);
 
 /// Use mask to a element.
 #[variable]
-attr WithClipPath(FuncIri);
+attr WithClipPath(#[xml("clip-path")] FuncIri);
 
 /// Use mask to a element.
 #[variable]
@@ -1152,7 +1159,7 @@ el Filter {
     ///
     /// If attribute units is not specified, then the effect is if a value of 'objectBoundingBox' were
     /// specified.
-    #[option, variable]
+    #[option, variable,xml("filterUnits")]
     units: Coords,
 
     /// Specifies the coordinate system for the various length values within the filter primitives and for the
@@ -1381,7 +1388,7 @@ enum FeColorMatrixValues {
 /// See [`feColorMatrix`](https://www.w3.org/TR/SVG11/filters.html#feColorMatrixElement).
 leaf FeColorMatrix mixin FePrimitive {
     /// See [`FeIn`]
-    #[variable]
+    #[option, variable]
     in: FeIn,
 
     /// The contents of ‘values’ depends on the value of attribute ‘type’:
@@ -1762,7 +1769,7 @@ leaf FeGaussianBlur mixin FePrimitive {
     /// A negative value is an error (see Error processing). A value of zero disables the effect of the given filter
     /// primitive (i.e., the result is the filter input image). If ‘stdDeviation’ is 0 in only one of X or Y, then the
     /// effect is that the blur is only applied in the direction that has a non-zero value.
-    #[option,variable]
+    #[option,variable,init]
     std_deviation: NumberOptNumber,
 }
 
@@ -1774,7 +1781,7 @@ leaf FeGaussianBlur mixin FePrimitive {
 el FeMerge mixin FePrimitive;
 
 /// See [`FeMerge`]
-leaf FeMergeNode(#[variable] FeIn);
+leaf FeMergeNode(#[variable,xml("in")] FeIn);
 
 /// This filter primitive refers to a graphic external to this filter element, which is loaded or rendered into an RGBA
 /// raster and becomes the result of the filter primitive.
@@ -1850,7 +1857,7 @@ leaf FeOffset mixin FePrimitive {
 /// See [`feSpecularLighting`](https://www.w3.org/TR/SVG11/filters.html#feSpecularLightingElement)
 el FeSpecularLighting mixin FePrimitive {
     /// See [`FeIn`]
-    #[option, variable]
+    #[option, variable,init]
     in: FeIn,
 
     /// height of surface when Ain = 1.
@@ -2349,7 +2356,7 @@ leaf Polyline(
     /// The points that make up the polygon. All coordinate values are in the user coordinate system.
     ///
     /// Animatable: yes.
-    #[variable]
+    #[variable,xml("points")]
     vec[Point],
 );
 
@@ -2358,7 +2365,7 @@ leaf Polygon(
     /// The points that make up the polygon. All coordinate values are in the user coordinate system.
     ///
     /// Animatable: yes.
-    #[variable]
+    #[variable,xml("points")]
     vec[Point],
 );
 

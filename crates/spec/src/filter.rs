@@ -16,11 +16,8 @@ pub fn enable_background_01() -> impl Graphics {
                 .units(Coords::UserSpaceOnUse)
                 .apply(Id::from("ShiftBGAndBlur"))
                 .children((
-                    FeOffset::default()
-                        .r#in(FeIn::BackgroundImage)
-                        .dx(0)
-                        .dy(125),
-                    FeGaussianBlur::default().std_deviation(8),
+                    FeOffset::from((0, 125)).r#in(FeIn::BackgroundImage),
+                    FeGaussianBlur::from(8),
                 )),
             Filter::from((0, 0, 1200, 400))
                 .units(Coords::UserSpaceOnUse)
@@ -30,7 +27,7 @@ pub fn enable_background_01() -> impl Graphics {
                         .r#in(FeIn::BackgroundImage)
                         .dx(0)
                         .dy(125),
-                    FeGaussianBlur::default().result("blur").std_deviation(8),
+                    FeGaussianBlur::from(8).result("blur"),
                     FeMerge::default().children((
                         FeMergeNode::from("blur".result()),
                         FeMergeNode::from(FeIn::SourceGraphic),
@@ -68,7 +65,7 @@ pub fn enable_background_01() -> impl Graphics {
             Group
                 .apply((
                     EnableBackground::from(Background::default()),
-                    WithTransform::from((270, 0).translate()),
+                    WithTransform::from((540, 0).translate()),
                 ))
                 .children((
                     Rect::from((25, 25, 100, 100)).apply(Fill::from(Color::Red)),
@@ -86,7 +83,7 @@ pub fn enable_background_01() -> impl Graphics {
             Group
                 .apply((
                     EnableBackground::from(Background::default()),
-                    WithTransform::from((270, 0).translate()),
+                    WithTransform::from((810, 0).translate()),
                 ))
                 .children((
                     Rect::from((25, 25, 100, 100)).apply(Fill::from(Color::Red)),
@@ -102,7 +99,7 @@ pub fn enable_background_01() -> impl Graphics {
             Group
                 .apply((
                     EnableBackground::from(Background::default()),
-                    WithTransform::from((270, 0).translate()),
+                    WithTransform::from((1080, 0).translate()),
                 ))
                 .children((
                     Rect::from((25, 25, 100, 100)).apply(Fill::from(Color::Red)),
