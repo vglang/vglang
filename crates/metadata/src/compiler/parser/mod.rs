@@ -12,7 +12,7 @@ mod utils;
 
 use parserc::{IntoParser, ParseContext, Parser, ParserExt, Result};
 
-use crate::ir::Stat;
+use crate::compiler::ir::Stat;
 
 /// Parse input source code.
 pub fn parse(input: &mut ParseContext<'_>) -> Result<Vec<Stat>> {

@@ -1,7 +1,7 @@
 use proc_macro2::TokenStream;
 use quote::quote;
 
-use crate::ir::Stat;
+use crate::compiler::ir::Stat;
 
 /// `serde.rs` mod generator.
 pub struct SerdeModGen {

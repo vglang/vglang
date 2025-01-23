@@ -11,7 +11,7 @@ pub mod svg;
 /// Generate rust codes to disk file.
 ///
 /// If any error occurs, this fn will raise an panic.
-pub fn gen<P: AsRef<std::path::Path>>(opcodes: &[crate::ir::Stat], target_dir: P) {
+pub fn gen<P: AsRef<std::path::Path>>(opcodes: &[crate::compiler::ir::Stat], target_dir: P) {
     let opcode_mod = opcode::OpcodeModGen::default().gen(opcodes);
 
     let sexpr_mod = sexpr::SexprModGen::new("super::opcode::", 16).gen(opcodes);

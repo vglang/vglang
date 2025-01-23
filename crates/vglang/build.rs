@@ -5,7 +5,7 @@ fn ml_gen() {}
 fn ml_gen() {
     use std::path::PathBuf;
 
-    use vglang_metadata::{
+    use vglang_metadata::compiler::{
         analyzer::semantic_analyze,
         codegen::gen,
         parser::parse,

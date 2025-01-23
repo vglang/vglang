@@ -2,7 +2,7 @@ use parserc::{
     ensure_char, ensure_keyword, FromSrc, IntoParser, ParseContext, Parser, ParserExt, Result,
 };
 
-use crate::ir::{ApplyTo, ChildrenOf, Group, Ident};
+use crate::compiler::ir::{ApplyTo, ChildrenOf, Group, Ident};
 
 use super::{
     utils::{parse_prefix, skip_ws},

@@ -2,7 +2,7 @@ use parserc::{
     ensure_char, ensure_keyword, FromSrc, IntoParser, ParseContext, Parser, ParserExt, Result,
 };
 
-use crate::{
+use crate::compiler::{
     ir::{Enum, Fields, Ident, Node, Stat},
     parser::{
         utils::{parse_prefix, skip_ws},
@@ -145,7 +145,7 @@ impl FromSrc for Enum {
 mod tests {
     use parserc::{FromSrc, ParseContext};
 
-    use crate::ir::Enum;
+    use crate::compiler::ir::Enum;
 
     #[test]
     fn test_enum() {

@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use parserc::{ParseContext, Span};
 
-use crate::ir::*;
+use super::ir::*;
 
 /// Error report by semantic analyze step.
 #[derive(Debug, thiserror::Error)]

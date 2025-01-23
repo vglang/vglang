@@ -4,7 +4,7 @@ use heck::{ToLowerCamelCase, ToUpperCamelCase};
 use proc_macro2::TokenStream;
 use quote::quote;
 
-use crate::{
+use crate::compiler::{
     codegen::ext::{EnumGen, FieldGen, IdentGen, NodeGen, TypeGen},
     ir::{ApplyTo, ChildrenOf, Enum, Node, Stat, Type},
 };

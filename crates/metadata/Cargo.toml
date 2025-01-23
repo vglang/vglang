@@ -21,7 +21,6 @@ serde = {workspace = true, optional = true}
 serde_json = {workspace = true}
 
 [features]
-default = ["serde", "codegen"]
-
 codegen = ["quote", "proc-macro2", "heck"]
+default = ["serde", "codegen"]
 serde = ["dep:serde", "parserc/serde"]

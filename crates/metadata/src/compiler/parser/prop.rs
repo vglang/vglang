@@ -1,6 +1,6 @@
 use parserc::{ensure_char, ensure_keyword, FromSrc, IntoParser, Parser, ParserExt};
 
-use crate::{
+use crate::compiler::{
     ir::{CallExpr, Ident, LitStr, Property},
     parser::{utils::skip_ws, CallKind, ParseError, PropKind},
 };
@@ -85,7 +85,7 @@ impl FromSrc for Property {
 mod tests {
     use parserc::{FromSrc, ParseContext, Span};
 
-    use crate::ir::{CallExpr, Ident, LitStr, Property};
+    use crate::compiler::ir::{CallExpr, Ident, LitStr, Property};
 
     #[test]
     fn test_props() {
