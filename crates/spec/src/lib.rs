@@ -13,11 +13,15 @@ where
             print!("run spec {}({})", stringify!($catalog), stringify!($case));
 
             let result = std::panic::catch_unwind(|| {
-                tester(
-                    stringify!($catalog),
-                    stringify!($case),
-                    vglang::sexpr::BuildContext::create_source($catalog::$case()),
-                )
+                use vglang::sexpr::Graphics;
+
+                let mut ctx = vglang::sexpr::BuildContext::default();
+
+                $catalog::$case().build(&mut ctx);
+
+                let source = vglang::surface::Source::from(ctx.0);
+
+                tester(stringify!($catalog), stringify!($case), source)
             });
 
             match result {

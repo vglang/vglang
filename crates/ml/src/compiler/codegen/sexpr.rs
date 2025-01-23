@@ -622,19 +622,7 @@ impl SexprModGen {
         quote! {
             /// build context used by [`Graphics`] trait.
             #[derive(Debug, Default)]
-            pub struct BuildContext(Vec<#opcode_mod Opcode>);
-
-            impl From<BuildContext> for Vec<#opcode_mod Opcode> {
-                fn from(value: BuildContext) -> Self {
-                    value.0
-                }
-            }
-
-            impl AsRef<[#opcode_mod Opcode]> for BuildContext {
-                fn as_ref(&self) -> &[#opcode_mod Opcode] {
-                    &self.0
-                }
-            }
+            pub struct BuildContext(pub Vec<#opcode_mod Opcode>);
 
             impl BuildContext {
                 /// Push a new `Stat`
@@ -648,16 +636,6 @@ impl SexprModGen {
                 /// Push a `Pop` opcode.
                 pub fn pop(&mut self) {
                     self.0.push(#opcode_mod Opcode::Pop);
-                }
-
-                /// Build a [`Graphics`] and return result as a `Source`.
-                #[cfg(feature = "surface")]
-                #[cfg_attr(docsrs, doc(cfg(feature = "surface")))]
-                pub fn create_source(grapchics: impl Graphics) -> crate::surface::Source<'static> {
-                    let mut builder = Self::default();
-                    grapchics.build(&mut builder);
-
-                    builder.0.into()
                 }
             }
 
