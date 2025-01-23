@@ -1,5 +1,5 @@
+use ml::compiler::{analyzer::semantic_analyze, parser::parse};
 use parserc::{ParseContext, PrintReport};
-use vglang_metadata::compiler::{analyzer::semantic_analyze, parser::parse};
 
 #[test]
 fn test_vglang() {

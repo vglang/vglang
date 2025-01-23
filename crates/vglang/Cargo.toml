@@ -15,7 +15,7 @@ serde = {workspace = true, optional = true}
 xml-builder = {workspace = true, optional = true}
 
 [build-dependencies]
-vglang-metadata = {workspace = true, features = ["codegen"]}
+ml = {workspace = true, features = ["compiler"]}
 
 [dev-dependencies]
 divan = {workspace = true}

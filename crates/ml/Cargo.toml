@@ -1,9 +1,9 @@
 [package]
-description = "metadata tools for vglang."
-documentation = "https://docs.rs/vglang-metadata"
+description = "markup language metadata tool."
+documentation = "https://docs.rs/ml"
 edition.workspace = true
 license = "MIT"
-name = "vglang-metadata"
+name = "ml"
 repository.workspace = true
 version.workspace = true
 
@@ -21,6 +21,8 @@ serde = {workspace = true, optional = true}
 serde_json = {workspace = true}
 
 [features]
-codegen = ["quote", "proc-macro2", "heck"]
-default = ["serde", "codegen"]
+compiler = ["quote", "proc-macro2", "heck"]
+opcode = []
+rt = []
 serde = ["dep:serde", "parserc/serde"]
+sexpr = []
