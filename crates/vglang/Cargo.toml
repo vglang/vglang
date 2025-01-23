@@ -10,10 +10,10 @@ version.workspace = true
 thiserror = {workspace = true}
 
 log = {workspace = true, optional = true}
+ml = {workspace = true, features = ["rt", "opcode"]}
 parserc = {workspace = true, optional = true}
 serde = {workspace = true, optional = true}
 xml-builder = {workspace = true, optional = true}
-
 [build-dependencies]
 ml = {workspace = true, features = ["compiler"]}
 
@@ -23,7 +23,7 @@ nom = {workspace = true}
 
 [features]
 lang = ["parserc", "log"]
-serde = ["dep:serde", "parserc/serde"]
+serde = ["dep:serde", "parserc/serde", "ml/serde"]
 svg = ["surface", "xml-builder"]
 
 sexpr = []

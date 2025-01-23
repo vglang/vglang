@@ -21,8 +21,11 @@ serde = {workspace = true, optional = true}
 serde_json = {workspace = true}
 
 [features]
+default = ["compiler"]
+
 compiler = ["quote", "proc-macro2", "heck"]
+serde = ["dep:serde", "parserc/serde"]
+
 opcode = []
 rt = []
-serde = ["dep:serde", "parserc/serde"]
 sexpr = []

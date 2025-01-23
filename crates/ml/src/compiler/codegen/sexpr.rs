@@ -620,23 +620,6 @@ impl SexprModGen {
     fn gen_common_codes(&self) -> TokenStream {
         let opcode_mod = &self.opcode_mod;
         quote! {
-            /// An attribute that can used as appliable attribute for one element must implement this trait.
-            pub trait ApplyTo<E> {}
-
-            /// An element that can used as container element's child must implement this trait.
-            pub trait ContentOf<E> {}
-
-            /// s-expr combinator must implement this trait.
-            pub trait Graphics {
-                /// Generate `Stat`s for specific surface.
-                fn build(self, builder: &mut BuildContext);
-            }
-
-            pub trait ElementGraphics: Graphics {
-                /// Generate `Stat`s for specific surface.
-                fn build_element(self, builder: &mut BuildContext);
-            }
-
             /// build context used by [`Graphics`] trait.
             #[derive(Debug, Default)]
             pub struct BuildContext(Vec<#opcode_mod Opcode>);
@@ -676,6 +659,23 @@ impl SexprModGen {
 
                     builder.0.into()
                 }
+            }
+
+            /// An attribute that can used as appliable attribute for one element must implement this trait.
+            pub trait ApplyTo<E> {}
+
+            /// An element that can used as container element's child must implement this trait.
+            pub trait ContentOf<E> {}
+
+            /// s-expr combinator must implement this trait.
+            pub trait Graphics {
+                /// Generate `Stat`s for specific surface.
+                fn build(self, builder: &mut BuildContext);
+            }
+
+            pub trait ElementGraphics: Graphics {
+                /// Generate `Stat`s for specific surface.
+                fn build_element(self, builder: &mut BuildContext);
             }
 
             /// A wrapper [`Graphics`] returns by shape's apply function.

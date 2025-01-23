@@ -1,4 +1,4 @@
-use ml::compiler::{analyzer::semantic_analyze, parser::parse};
+use ml::compiler::{analyzer::semantic_analyze, codegen::serde::SerdeModGen, parser::parse};
 use parserc::{ParseContext, PrintReport};
 
 #[test]
@@ -19,4 +19,6 @@ fn test_vglang() {
         ctx.report().print_reports();
         panic!("semantic analyze error");
     }
+
+    SerdeModGen::new("").gen(&opcodes);
 }

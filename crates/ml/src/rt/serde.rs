@@ -1,8 +1,4 @@
-/// Name type used by [`Serializer`]
-pub struct Name<'a> {
-    pub origin: &'a str,
-    pub rename: Option<&'a str>,
-}
+use super::opcode::variable::{Path, Target, Variable};
 
 /// Serializer for Opcodes.
 pub trait Serializer {
@@ -21,37 +17,40 @@ pub trait Serializer {
     /// Serialize a element node.
     fn serialize_el(
         &mut self,
-        type_id: Option<usize>,
-        name: Name<'_>,
+        type_id: usize,
+        name: &str,
     ) -> Result<Self::SerializeNode, Self::Error>;
 
     /// Serialize a leaf node.
     fn serialize_leaf(
         &mut self,
-        type_id: Option<usize>,
-        name: Name<'_>,
+        type_id: usize,
+        name: &str,
     ) -> Result<Self::SerializeNode, Self::Error>;
 
     /// Serialize a attr node.
     fn serialize_attr(
         &mut self,
-        type_id: Option<usize>,
-        name: Name<'_>,
+        type_id: usize,
+        name: &str,
     ) -> Result<Self::SerializeNode, Self::Error>;
 
     /// Serialize a data.
     fn serialize_data(
         &mut self,
-        type_id: Option<usize>,
-        name: Name<'_>,
+        type_id: usize,
+        name: &str,
     ) -> Result<Self::SerializeNode, Self::Error>;
 
     /// Serialize a enum data.
     fn serialize_enum(
         &mut self,
-        type_id: Option<usize>,
-        name: Name<'_>,
+        type_id: usize,
+        name: &str,
     ) -> Result<Self::SerializeEnum, Self::Error>;
+
+    /// Serialize vglang `string`.
+    fn serialize_bool(&mut self, value: bool) -> Result<(), Self::Error>;
 
     /// Serialize vglang `string`.
     fn serialize_string(&mut self, value: &str) -> Result<(), Self::Error>;
@@ -86,6 +85,12 @@ pub trait Serializer {
     /// Serialize vglang `double`.
     fn serialize_double(&mut self, value: f64) -> Result<(), Self::Error>;
 
+    /// Serialize a none value.
+    fn serialize_none(&mut self) -> Result<(), Self::Error>;
+
+    /// Serialize a none value.
+    fn serialize_variable(&mut self, path: &Path, target: &Target) -> Result<(), Self::Error>;
+
     /// Serialize vglang `vec[T]` or `[T;N]`
     fn serialize_seq(&mut self, len: usize) -> Result<Self::SerializeSeq, Self::Error>;
 }
@@ -111,7 +116,7 @@ pub trait SerializeNode {
     fn serialize_field<T>(
         &mut self,
         index: usize,
-        name: Option<Name<'_>>,
+        name: Option<&str>,
         value: &T,
     ) -> Result<(), Self::Error>
     where
@@ -127,7 +132,7 @@ pub trait SerializeEnum {
     type SerializeNode: SerializeNode<Error = Self::Error>;
 
     /// Serialize a enum field node.
-    fn serialize_field(&mut self, name: Name<'_>) -> Result<Self::SerializeNode, Self::Error>;
+    fn serialize_field(&mut self, name: &str) -> Result<Self::SerializeNode, Self::Error>;
 }
 /// A node/enum must implement this trait to support serde framework.
 pub trait Serialize {
@@ -135,6 +140,15 @@ pub trait Serialize {
     fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
     where
         S: Serializer;
+}
+
+impl Serialize for bool {
+    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_bool(*self)
+    }
 }
 
 impl Serialize for String {
@@ -233,5 +247,71 @@ impl Serialize for f64 {
         S: Serializer,
     {
         serializer.serialize_double(*self)
+    }
+}
+
+impl<T> Serialize for Option<T>
+where
+    T: Serialize,
+{
+    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    where
+        S: Serializer,
+    {
+        match self {
+            Some(v) => v.serialize(serializer),
+            None => serializer.serialize_none(),
+        }
+    }
+}
+
+impl<T> Serialize for Variable<T>
+where
+    T: Serialize,
+{
+    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    where
+        S: Serializer,
+    {
+        match self {
+            Variable::Constant(v) => v.serialize(serializer),
+            Variable::Reference { path, target } => serializer.serialize_variable(path, target),
+        }
+    }
+}
+
+impl<T> Serialize for Vec<T>
+where
+    T: Serialize,
+{
+    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    where
+        S: Serializer,
+    {
+        let mut seq = serializer.serialize_seq(self.len())?;
+
+        for item in self.iter() {
+            seq.serialize_element(item)?;
+        }
+
+        seq.end()
+    }
+}
+
+impl<T, const N: usize> Serialize for [T; N]
+where
+    T: Serialize,
+{
+    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    where
+        S: Serializer,
+    {
+        let mut seq = serializer.serialize_seq(self.len())?;
+
+        for item in self.iter() {
+            seq.serialize_element(item)?;
+        }
+
+        seq.end()
     }
 }
