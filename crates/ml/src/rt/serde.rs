@@ -15,77 +15,43 @@ pub trait Serializer {
     /// Type returns by [`serialize_enum`](Serializer::serialize_enum) for serializing the content of a enum data.
     type SerializeEnum: SerializeEnum<Error = Self::Error>;
 
+    /// Returns by [`serialize_seq`](SerializeType::serialize_seq) to help serializing array of vector.
+    type SerializeSeq: SerializeSeq<Error = Self::Error>;
+
     /// Serialize a element node.
     fn serialize_el(
         &mut self,
-        type_id: usize,
+        type_id: Option<usize>,
         name: Name<'_>,
     ) -> Result<Self::SerializeNode, Self::Error>;
 
     /// Serialize a leaf node.
     fn serialize_leaf(
         &mut self,
-        type_id: usize,
+        type_id: Option<usize>,
         name: Name<'_>,
     ) -> Result<Self::SerializeNode, Self::Error>;
 
     /// Serialize a attr node.
     fn serialize_attr(
         &mut self,
-        type_id: usize,
+        type_id: Option<usize>,
         name: Name<'_>,
     ) -> Result<Self::SerializeNode, Self::Error>;
 
     /// Serialize a data.
     fn serialize_data(
         &mut self,
-        type_id: usize,
+        type_id: Option<usize>,
         name: Name<'_>,
     ) -> Result<Self::SerializeNode, Self::Error>;
 
     /// Serialize a enum data.
     fn serialize_enum(
         &mut self,
-        type_id: usize,
+        type_id: Option<usize>,
         name: Name<'_>,
     ) -> Result<Self::SerializeEnum, Self::Error>;
-}
-
-/// A trait to help serialzing a node.
-pub trait SerializeNode {
-    /// Error type returns by this trait.
-    type Error;
-
-    /// Returns by [`serialize_field`](SerializeNode::serialize_field) to help serializing field type.
-    type SerializeType: SerializeType<Error = Self::Error>;
-
-    /// Serialize a field.
-    fn serialize_field(
-        &mut self,
-        index: usize,
-        name: Option<Name<'_>>,
-    ) -> Result<Self::SerializeType, Self::Error>;
-}
-
-/// A trait to help serialzing a enum data.
-pub trait SerializeEnum {
-    /// Error type returns by this trait.
-    type Error;
-
-    /// Returns by [`serialize_field`](SerializeEnum::serialize_field) to help serializing enum field.
-    type SerializeNode: SerializeNode<Error = Self::Error>;
-
-    /// Serialize a enum field node.
-    fn serialize_field(&mut self, name: Name<'_>) -> Result<Self::SerializeNode, Self::Error>;
-}
-
-/// A trait to help serializing vglang types.
-pub trait SerializeType {
-    /// Error type returns by this trait.
-    type Error;
-
-    /// Returns by [`serialize_seq`](SerializeType::serialize_seq) to help serializing array of vector.
-    type SerializeSeq: SerializeSeq<Error = Self::Error>;
 
     /// Serialize vglang `string`.
     fn serialize_string(&mut self, value: &str) -> Result<(), Self::Error>;
@@ -124,17 +90,148 @@ pub trait SerializeType {
     fn serialize_seq(&mut self, len: usize) -> Result<Self::SerializeSeq, Self::Error>;
 }
 
-/// A trait to help serializing vglang `vec[T]` or `[T;N]`.
 pub trait SerializeSeq {
-    /// Error returns by this trait.
     type Error;
 
-    /// Type returns by [`serialize_data`](SerializeSeq::serialize_data), for serializing the data item.
+    /// Serialize next item.
+    fn serialize_element<T>(&mut self, value: &T) -> Result<(), Self::Error>
+    where
+        T: ?Sized + Serialize;
+
+    /// Finish serializing a sequence.
+    fn end(self) -> Result<(), Self::Error>;
+}
+
+/// A trait to help serialzing a node.
+pub trait SerializeNode {
+    /// Error type returns by this trait.
+    type Error;
+
+    /// Serialize a field.
+    fn serialize_field<T>(
+        &mut self,
+        index: usize,
+        name: Option<Name<'_>>,
+        value: &T,
+    ) -> Result<(), Self::Error>
+    where
+        T: ?Sized + Serialize;
+}
+
+/// A trait to help serialzing a enum data.
+pub trait SerializeEnum {
+    /// Error type returns by this trait.
+    type Error;
+
+    /// Returns by [`serialize_field`](SerializeEnum::serialize_field) to help serializing enum field.
     type SerializeNode: SerializeNode<Error = Self::Error>;
 
-    /// Type returns by [`serialize_enum`](SerializeSeq::serialize_data), for serializing the enum data item.
-    type SerializeEnum: SerializeEnum<Error = Self::Error>;
+    /// Serialize a enum field node.
+    fn serialize_field(&mut self, name: Name<'_>) -> Result<Self::SerializeNode, Self::Error>;
+}
+/// A node/enum must implement this trait to support serde framework.
+pub trait Serialize {
+    /// serialize self with `serializer`.
+    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    where
+        S: Serializer;
+}
 
-    /// Returns by [`serialize_type`](SerializeSeq::serialize_type) , for serializing the other type item.
-    type SerializeType: SerializeType<Error = Self::Error>;
+impl Serialize for String {
+    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_string(&self)
+    }
+}
+
+impl Serialize for i8 {
+    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_byte(*self)
+    }
+}
+
+impl Serialize for u8 {
+    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_ubyte(*self)
+    }
+}
+
+impl Serialize for i16 {
+    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_short(*self)
+    }
+}
+
+impl Serialize for u16 {
+    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_ushort(*self)
+    }
+}
+
+impl Serialize for i32 {
+    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_int(*self)
+    }
+}
+
+impl Serialize for u32 {
+    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_uint(*self)
+    }
+}
+
+impl Serialize for i64 {
+    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_long(*self)
+    }
+}
+
+impl Serialize for u64 {
+    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_ulong(*self)
+    }
+}
+
+impl Serialize for f32 {
+    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_float(*self)
+    }
+}
+
+impl Serialize for f64 {
+    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_double(*self)
+    }
 }
