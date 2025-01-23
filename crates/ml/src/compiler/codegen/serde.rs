@@ -41,14 +41,16 @@ impl SerializeGen for Node {
             }
         }
 
+        let fields = stats.len();
+
         quote! {
             impl ml::rt::serde::Serialize for #opcode_mod #ident {
-                fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+                fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
                 where
                     S: ml::rt::serde::Serializer
                 {
                     use ml::rt::serde::SerializeNode;
-                    let mut serializer = serializer.#serialize_fn(#idx,#name)?;
+                    let mut serializer = serializer.#serialize_fn(#idx, #name, #fields)?;
                     #(#stats;)*
 
                     Ok(())
@@ -63,13 +65,13 @@ impl SerializeGen for Enum {
         &self,
         opcode_mod: &TokenStream,
         serialize_fn: TokenStream,
-        idx: usize,
+        type_id: usize,
     ) -> TokenStream {
         let mut stats = vec![];
+        let enum_name = self.gen_ident().to_string();
 
-        for node in self.fields.iter() {
+        for (idx, node) in self.fields.iter().enumerate() {
             let ident = node.gen_ident();
-            let name = ident.to_string();
 
             let mut node_stats = vec![];
             let mut fields = vec![];
@@ -90,11 +92,15 @@ impl SerializeGen for Enum {
                 }
             }
 
+            let field_count = fields.len();
+
             let body = node.gen_body_expr(fields);
+
+            let variant = ident.to_string();
 
             let stat = quote! {
                 Self::#ident #body => {
-                    let mut serializer = serializer.serialize_field(#name)?;
+                    let mut serializer = serializer.#serialize_fn(#type_id, #enum_name, #variant, #idx, #field_count)?;
                     #(#node_stats)*
                     Ok(())
                 }
@@ -104,17 +110,14 @@ impl SerializeGen for Enum {
         }
 
         let ident = self.gen_ident();
-        let name = ident.to_string();
 
         quote! {
             impl ml::rt::serde::Serialize for #opcode_mod #ident {
-                fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+                fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
                 where
                     S: ml::rt::serde::Serializer
                 {
                     use ml::rt::serde::SerializeNode;
-                    use ml::rt::serde::SerializeEnum;
-                    let mut serializer = serializer.#serialize_fn(#idx,#name)?;
                     match self {
                         #(#stats),*
                     }
@@ -143,7 +146,13 @@ impl SerdeModGen {
 
     /// Generate sexpr mod
     pub fn gen(self, stats: &[Stat]) -> TokenStream {
+        let opcode_mod = &self.opcode_mod;
+
         let mut impls: Vec<TokenStream> = vec![];
+
+        let mut els = vec![];
+        let mut leaves = vec![];
+        let mut attrs = vec![];
 
         for (idx, stat) in stats.iter().enumerate() {
             match stat {
@@ -153,6 +162,12 @@ impl SerdeModGen {
                         quote! { serialize_el },
                         idx,
                     ));
+
+                    let ident = node.gen_ident();
+
+                    els.push(quote! {
+                        #opcode_mod Element::#ident(value) => value.serialize(serializer)
+                    });
                 }
                 Stat::Leaf(node) => {
                     impls.push(node.gen_serialize_trait(
@@ -160,6 +175,12 @@ impl SerdeModGen {
                         quote! { serialize_leaf },
                         idx,
                     ));
+
+                    let ident = node.gen_ident();
+
+                    leaves.push(quote! {
+                        #opcode_mod Leaf::#ident(value) => value.serialize(serializer)
+                    });
                 }
                 Stat::Attr(node) => {
                     impls.push(node.gen_serialize_trait(
@@ -167,6 +188,12 @@ impl SerdeModGen {
                         quote! { serialize_attr },
                         idx,
                     ));
+
+                    let ident = node.gen_ident();
+
+                    attrs.push(quote! {
+                        #opcode_mod Attr::#ident(value) => value.serialize(serializer)
+                    });
                 }
                 Stat::Data(node) => {
                     impls.push(node.gen_serialize_trait(
@@ -187,6 +214,35 @@ impl SerdeModGen {
         }
         quote! {
             #(#impls)*
+
+            impl ml::rt::serde::Serialize for #opcode_mod Opcode {
+                fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
+                where
+                    S: ml::rt::serde::Serializer
+                {
+                    match self {
+                        Self::Apply(v) => {
+                            match v {
+                                #(#attrs),*
+                            }
+                        },
+                        Self::Element(v) => {
+                            match v {
+                                #(#els),*
+                            }
+                        },
+                        Self::Leaf(v) => {
+                            match v {
+                                #(#leaves),*
+                            }
+                        }
+                        Self::Pop => {
+                            serializer.serialize_pop()
+                        },
+
+                    }
+                }
+            }
         }
     }
 }

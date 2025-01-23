@@ -8,91 +8,98 @@ pub trait Serializer {
     /// for serializing the content of node.
     type SerializeNode: SerializeNode<Error = Self::Error>;
 
-    /// Type returns by [`serialize_enum`](Serializer::serialize_enum) for serializing the content of a enum data.
-    type SerializeEnum: SerializeEnum<Error = Self::Error>;
-
     /// Returns by [`serialize_seq`](SerializeType::serialize_seq) to help serializing array of vector.
     type SerializeSeq: SerializeSeq<Error = Self::Error>;
 
     /// Serialize a element node.
     fn serialize_el(
-        &mut self,
+        self,
         type_id: usize,
         name: &str,
+        fields: usize,
     ) -> Result<Self::SerializeNode, Self::Error>;
 
     /// Serialize a leaf node.
     fn serialize_leaf(
-        &mut self,
+        self,
         type_id: usize,
         name: &str,
+        fields: usize,
     ) -> Result<Self::SerializeNode, Self::Error>;
 
     /// Serialize a attr node.
     fn serialize_attr(
-        &mut self,
+        self,
         type_id: usize,
         name: &str,
+        fields: usize,
     ) -> Result<Self::SerializeNode, Self::Error>;
 
     /// Serialize a data.
     fn serialize_data(
-        &mut self,
+        self,
         type_id: usize,
         name: &str,
+        fields: usize,
     ) -> Result<Self::SerializeNode, Self::Error>;
 
     /// Serialize a enum data.
     fn serialize_enum(
-        &mut self,
+        self,
         type_id: usize,
         name: &str,
-    ) -> Result<Self::SerializeEnum, Self::Error>;
+        variant: &str,
+        variant_index: usize,
+        fields: usize,
+    ) -> Result<Self::SerializeNode, Self::Error>;
 
     /// Serialize vglang `string`.
-    fn serialize_bool(&mut self, value: bool) -> Result<(), Self::Error>;
+    fn serialize_bool(self, value: bool) -> Result<(), Self::Error>;
 
     /// Serialize vglang `string`.
-    fn serialize_string(&mut self, value: &str) -> Result<(), Self::Error>;
+    fn serialize_string(self, value: &str) -> Result<(), Self::Error>;
 
     /// Serialize vglang `byte`.
-    fn serialize_byte(&mut self, value: i8) -> Result<(), Self::Error>;
+    fn serialize_byte(self, value: i8) -> Result<(), Self::Error>;
 
     /// Serialize vglang `ubyte`.
-    fn serialize_ubyte(&mut self, value: u8) -> Result<(), Self::Error>;
+    fn serialize_ubyte(self, value: u8) -> Result<(), Self::Error>;
 
     /// Serialize vglang `byte`.
-    fn serialize_short(&mut self, value: i16) -> Result<(), Self::Error>;
+    fn serialize_short(self, value: i16) -> Result<(), Self::Error>;
 
     /// Serialize vglang `ubyte`.
-    fn serialize_ushort(&mut self, value: u16) -> Result<(), Self::Error>;
+    fn serialize_ushort(self, value: u16) -> Result<(), Self::Error>;
 
     /// Serialize vglang `int`.
-    fn serialize_int(&mut self, value: i32) -> Result<(), Self::Error>;
+    fn serialize_int(self, value: i32) -> Result<(), Self::Error>;
 
     /// Serialize vglang `uint`.
-    fn serialize_uint(&mut self, value: u32) -> Result<(), Self::Error>;
+    fn serialize_uint(self, value: u32) -> Result<(), Self::Error>;
 
     /// Serialize vglang `long`.
-    fn serialize_long(&mut self, value: i64) -> Result<(), Self::Error>;
+    fn serialize_long(self, value: i64) -> Result<(), Self::Error>;
 
     /// Serialize vglang `ulong`.
-    fn serialize_ulong(&mut self, value: u64) -> Result<(), Self::Error>;
+    fn serialize_ulong(self, value: u64) -> Result<(), Self::Error>;
 
     /// Serialize vglang `long`.
-    fn serialize_float(&mut self, value: f32) -> Result<(), Self::Error>;
+    fn serialize_float(self, value: f32) -> Result<(), Self::Error>;
 
     /// Serialize vglang `double`.
-    fn serialize_double(&mut self, value: f64) -> Result<(), Self::Error>;
+    fn serialize_double(self, value: f64) -> Result<(), Self::Error>;
 
     /// Serialize a none value.
-    fn serialize_none(&mut self) -> Result<(), Self::Error>;
+    fn serialize_none(self) -> Result<(), Self::Error>;
 
     /// Serialize a none value.
-    fn serialize_variable(&mut self, path: &Path, target: &Target) -> Result<(), Self::Error>;
+    fn serialize_variable(self, path: &Path, target: &Target) -> Result<(), Self::Error>;
 
     /// Serialize vglang `vec[T]` or `[T;N]`
-    fn serialize_seq(&mut self, len: usize) -> Result<Self::SerializeSeq, Self::Error>;
+    fn serialize_seq(self, len: usize) -> Result<Self::SerializeSeq, Self::Error>;
+
+    /// Serialize pop directive.
+    fn serialize_pop(self) -> Result<(), Self::Error>;
 }
 
 pub trait SerializeSeq {
@@ -137,13 +144,13 @@ pub trait SerializeEnum {
 /// A node/enum must implement this trait to support serde framework.
 pub trait Serialize {
     /// serialize self with `serializer`.
-    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
         S: Serializer;
 }
 
 impl Serialize for bool {
-    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
         S: Serializer,
     {
@@ -152,7 +159,7 @@ impl Serialize for bool {
 }
 
 impl Serialize for String {
-    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
         S: Serializer,
     {
@@ -161,7 +168,7 @@ impl Serialize for String {
 }
 
 impl Serialize for i8 {
-    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
         S: Serializer,
     {
@@ -170,7 +177,7 @@ impl Serialize for i8 {
 }
 
 impl Serialize for u8 {
-    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
         S: Serializer,
     {
@@ -179,7 +186,7 @@ impl Serialize for u8 {
 }
 
 impl Serialize for i16 {
-    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
         S: Serializer,
     {
@@ -188,7 +195,7 @@ impl Serialize for i16 {
 }
 
 impl Serialize for u16 {
-    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
         S: Serializer,
     {
@@ -197,7 +204,7 @@ impl Serialize for u16 {
 }
 
 impl Serialize for i32 {
-    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
         S: Serializer,
     {
@@ -206,7 +213,7 @@ impl Serialize for i32 {
 }
 
 impl Serialize for u32 {
-    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
         S: Serializer,
     {
@@ -215,7 +222,7 @@ impl Serialize for u32 {
 }
 
 impl Serialize for i64 {
-    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
         S: Serializer,
     {
@@ -224,7 +231,7 @@ impl Serialize for i64 {
 }
 
 impl Serialize for u64 {
-    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
         S: Serializer,
     {
@@ -233,7 +240,7 @@ impl Serialize for u64 {
 }
 
 impl Serialize for f32 {
-    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
         S: Serializer,
     {
@@ -242,7 +249,7 @@ impl Serialize for f32 {
 }
 
 impl Serialize for f64 {
-    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
         S: Serializer,
     {
@@ -254,7 +261,7 @@ impl<T> Serialize for Option<T>
 where
     T: Serialize,
 {
-    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
         S: Serializer,
     {
@@ -269,7 +276,7 @@ impl<T> Serialize for Variable<T>
 where
     T: Serialize,
 {
-    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
         S: Serializer,
     {
@@ -284,7 +291,7 @@ impl<T> Serialize for Vec<T>
 where
     T: Serialize,
 {
-    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
         S: Serializer,
     {
@@ -302,7 +309,7 @@ impl<T, const N: usize> Serialize for [T; N]
 where
     T: Serialize,
 {
-    fn serialize<S>(&self, serializer: &mut S) -> Result<(), S::Error>
+    fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
         S: Serializer,
     {

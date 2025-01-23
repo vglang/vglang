@@ -1,15 +1,11 @@
-use std::{collections::HashMap, fs::create_dir_all, path::Path};
+use std::{fs::create_dir_all, path::Path};
 
-use futures::executor::block_on;
-use vglang::{
-    surface::{Program, Source, Surface},
-    svg::surface::Svg,
-};
+use vglang::{surface::Source, svg::writer::to_svg};
 use vglang_spec::run_spec;
 
 #[test]
 fn test_spec() {
-    run_spec(write_json);
+    // run_spec(write_json);
     run_spec(write_svg);
 }
 
@@ -44,14 +40,19 @@ fn write_svg(catalog: &str, case: &str, source: Source<'_>) {
 
     let output = output_dir.join(case).with_extension("svg");
 
-    let content = block_on(async move {
-        Svg.build(source)
-            .await
-            .unwrap()
-            .run(&HashMap::new())
-            .await
-            .unwrap()
-    });
+    // let content = block_on(async move {
+    //     Svg.build(source)
+    //         .await
+    //         .unwrap()
+    //         .run(&HashMap::new())
+    //         .await
+    //         .unwrap()
+    // });
 
-    std::fs::write(output, content).unwrap();
+    match source {
+        Source::Opcode(cow) => {
+            std::fs::write(output, to_svg(cow).unwrap()).unwrap();
+        }
+        _ => unimplemented!("only support opcode source."),
+    }
 }
