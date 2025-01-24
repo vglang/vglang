@@ -14,8 +14,8 @@ log = {workspace = true, optional = true}
 ml = {workspace = true, features = ["rt", "opcode"]}
 parserc = {workspace = true, optional = true}
 serde = {workspace = true, optional = true}
+varint-rs = {workspace = true, optional = true}
 xml-builder = {workspace = true, optional = true}
-
 [build-dependencies]
 ml = {workspace = true, features = ["compiler"]}
 
@@ -24,9 +24,8 @@ divan = {workspace = true}
 nom = {workspace = true}
 
 [features]
-lang = ["parserc", "log"]
+binary = ["varint-rs"]
 serde = ["dep:serde", "parserc/serde", "ml/serde"]
-svg = ["surface", "xml-builder", "heck", "log"]
-
 sexpr = []
 surface = []
+svg = ["xml-builder", "heck", "log"]

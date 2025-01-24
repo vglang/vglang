@@ -1,58 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg viewBox="0 0 1350 270" width="13.5cm" height="2.7cm" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
 	<g transform="translate(0,0)">
-		<Rect fill="rgb(255,0,0)" x="25" y="25" width="100" height="100" />
+		<rect fill="rgb(255,0,0)" x="25" y="25" width="100" height="100" />
 		<g opacity="0.5">
-			<Circle fill="rgb(0,128,0)" cx="125" cy="75" r="45" />
-			<Polygon fill="rgb(0,0,255)" points="160,25,160,125,240,75" />
+			<circle fill="rgb(0,128,0)" cx="125" cy="75" r="45" />
+			<polygon fill="rgb(0,0,255)" points="160,25,160,125,240,75" />
 		</g>
-		<Rect fill="none" stroke="rgb(0,0,255)" x="5" y="5" width="260" height="260" />
+		<rect fill="none" stroke="rgb(0,0,255)" x="5" y="5" width="260" height="260" />
 	</g>
 	<g transform="translate(270,0)">
-		<Rect fill="rgb(255,0,0)" x="25" y="25" width="100" height="100" />
+		<rect fill="rgb(255,0,0)" x="25" y="25" width="100" height="100" />
 		<g opacity="0.5">
-			<Circle fill="rgb(0,128,0)" cx="125" cy="75" r="45" />
-			<Polygon fill="rgb(0,0,255)" points="160,25,160,125,240,75" />
+			<circle fill="rgb(0,128,0)" cx="125" cy="75" r="45" />
+			<polygon fill="rgb(0,0,255)" points="160,25,160,125,240,75" />
 		</g>
 		<g filter="url(#ShiftBGAndBlur)" />
-		<Rect fill="none" stroke="rgb(0,0,255)" x="5" y="5" width="260" height="260" />
+		<rect fill="none" stroke="rgb(0,0,255)" x="5" y="5" width="260" height="260" />
 	</g>
 	<g transform="translate(540,0)">
-		<Rect fill="rgb(255,0,0)" x="25" y="25" width="100" height="100" />
+		<rect fill="rgb(255,0,0)" x="25" y="25" width="100" height="100" />
 		<g filter="url(#ShiftBGAndBlur)" opacity="0.5">
-			<Circle fill="rgb(0,128,0)" cx="125" cy="75" r="45" />
-			<Polygon fill="rgb(0,0,255)" points="160,25,160,125,240,75" />
+			<circle fill="rgb(0,128,0)" cx="125" cy="75" r="45" />
+			<polygon fill="rgb(0,0,255)" points="160,25,160,125,240,75" />
 		</g>
-		<Rect fill="none" stroke="rgb(0,0,255)" x="5" y="5" width="260" height="260" />
+		<rect fill="none" stroke="rgb(0,0,255)" x="5" y="5" width="260" height="260" />
 	</g>
 	<g transform="translate(810,0)">
-		<Rect fill="rgb(255,0,0)" x="25" y="25" width="100" height="100" />
+		<rect fill="rgb(255,0,0)" x="25" y="25" width="100" height="100" />
 		<g opacity="0.5">
-			<Circle fill="rgb(0,128,0)" cx="125" cy="75" r="45" />
-			<Polygon fill="rgb(0,0,255)" filter="url(#ShiftBGAndBlur)" points="160,25,160,125,240,75" />
+			<circle fill="rgb(0,128,0)" cx="125" cy="75" r="45" />
+			<polygon fill="rgb(0,0,255)" filter="url(#ShiftBGAndBlur)" points="160,25,160,125,240,75" />
 		</g>
-		<Rect fill="none" stroke="rgb(0,0,255)" x="5" y="5" width="260" height="260" />
+		<rect fill="none" stroke="rgb(0,0,255)" x="5" y="5" width="260" height="260" />
 	</g>
 	<g transform="translate(1080,0)">
-		<Rect fill="rgb(255,0,0)" x="25" y="25" width="100" height="100" />
+		<rect fill="rgb(255,0,0)" x="25" y="25" width="100" height="100" />
 		<g opacity="0.5">
-			<Circle fill="rgb(0,128,0)" cx="125" cy="75" r="45" />
-			<Polygon fill="rgb(0,0,255)" filter="url(#ShiftBGAndBlur_WithSourceGraphic)" points="160,25,160,125,240,75" />
+			<circle fill="rgb(0,128,0)" cx="125" cy="75" r="45" />
+			<polygon fill="rgb(0,0,255)" filter="url(#ShiftBGAndBlur_WithSourceGraphic)" points="160,25,160,125,240,75" />
 		</g>
-		<Rect fill="none" stroke="rgb(0,0,255)" x="5" y="5" width="260" height="260" />
+		<rect fill="none" stroke="rgb(0,0,255)" x="5" y="5" width="260" height="260" />
 	</g>
 	<defs>
-		<Filter id="ShiftBGAndBlur" filterUnits="userSpaceOnUse" x="0" y="0" width="1200" height="400">
-			<FeOffset in="backgroundImage" dx="0" dy="125" />
-			<FeGaussianBlur std_deviation="8" />
-		</Filter>
-		<Filter id="ShiftBGAndBlur_WithSourceGraphic" filterUnits="userSpaceOnUse" x="0" y="0" width="1200" height="400">
-			<FeOffset in="backgroundImage" dx="0" dy="125" />
-			<FeGaussianBlur std_deviation="8" result="blur" />
-			<FeMerge>
-				<FeMergeNode in="blur" />
-				<FeMergeNode in="sourceGraphic" />
-			</FeMerge>
-		</Filter>
+		<filter id="ShiftBGAndBlur" filterUnits="userSpaceOnUse" x="0" y="0" width="1200" height="400">
+			<feOffset in="backgroundImage" dx="0" dy="125" />
+			<feGaussianBlur std_deviation="8" />
+		</filter>
+		<filter id="ShiftBGAndBlur_WithSourceGraphic" filterUnits="userSpaceOnUse" x="0" y="0" width="1200" height="400">
+			<feOffset in="backgroundImage" dx="0" dy="125" />
+			<feGaussianBlur std_deviation="8" result="blur" />
+			<feMerge>
+				<feMergeNode in="blur" />
+				<feMergeNode in="sourceGraphic" />
+			</feMerge>
+		</filter>
 	</defs>
 </svg>

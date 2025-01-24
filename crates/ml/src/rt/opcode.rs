@@ -28,8 +28,9 @@ pub mod variable {
     }
 
     /// The type of variable pointed to by [`Path`].
-    #[derive(Debug, PartialEq, PartialOrd, Clone)]
+    #[derive(Debug, PartialEq, PartialOrd, Clone, Copy)]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+    #[repr(u8)]
     pub enum Target {
         /// Target is animation register.
         Register,

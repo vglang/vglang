@@ -430,12 +430,7 @@
   {
     "Apply": {
       "EnableBackground": {
-        "New": {
-          "x": null,
-          "y": null,
-          "width": null,
-          "height": null
-        }
+        "New": null
       }
     }
   },
@@ -642,12 +637,7 @@
   {
     "Apply": {
       "EnableBackground": {
-        "New": {
-          "x": null,
-          "y": null,
-          "width": null,
-          "height": null
-        }
+        "New": null
       }
     }
   },
@@ -860,12 +850,7 @@
   {
     "Apply": {
       "EnableBackground": {
-        "New": {
-          "x": null,
-          "y": null,
-          "width": null,
-          "height": null
-        }
+        "New": null
       }
     }
   },
@@ -1078,12 +1063,7 @@
   {
     "Apply": {
       "EnableBackground": {
-        "New": {
-          "x": null,
-          "y": null,
-          "width": null,
-          "height": null
-        }
+        "New": null
       }
     }
   },

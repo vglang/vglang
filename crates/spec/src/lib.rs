@@ -1,12 +1,14 @@
 use std::panic::RefUnwindSafe;
 
+use vglang::opcode::Opcode;
+
 pub mod compositing;
 pub mod filter;
 
 /// The main entry of the spec.
 pub fn run_spec<F>(tester: F)
 where
-    F: Fn(&str, &str, vglang::surface::Source<'_>) + RefUnwindSafe,
+    F: Fn(&str, &str, &[Opcode]) + RefUnwindSafe,
 {
     macro_rules! test {
         ($catalog: ident, $case: ident) => {
@@ -19,9 +21,7 @@ where
 
                 $catalog::$case().build(&mut ctx);
 
-                let source = vglang::surface::Source::from(ctx.0);
-
-                tester(stringify!($catalog), stringify!($case), source)
+                tester(stringify!($catalog), stringify!($case), &ctx.0)
             });
 
             match result {

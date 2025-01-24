@@ -1,16 +1,16 @@
 use std::{fs::create_dir_all, path::Path};
 
-use vglang::{surface::Source, svg::writer::to_svg};
+use vglang::{binary::writer::to_binary, opcode::Opcode, svg::writer::to_svg};
 use vglang_spec::run_spec;
 
 #[test]
 fn test_spec() {
-    // run_spec(write_json);
+    run_spec(write_json);
+    run_spec(write_binary);
     run_spec(write_svg);
 }
 
-#[allow(unused)]
-fn write_json(catalog: &str, case: &str, source: Source<'_>) {
+fn write_json(catalog: &str, case: &str, opcodes: &[Opcode]) {
     let path: &Path = env!("CARGO_MANIFEST_DIR").as_ref();
 
     let output_dir = path.join("spec").join(catalog);
@@ -21,15 +21,10 @@ fn write_json(catalog: &str, case: &str, source: Source<'_>) {
 
     let output = output_dir.join(case).with_extension("json");
 
-    match source {
-        Source::Opcode(cow) => {
-            std::fs::write(output, serde_json::to_string_pretty(&cow).unwrap()).unwrap();
-        }
-        _ => unimplemented!("only support opcode source."),
-    }
+    std::fs::write(output, serde_json::to_string_pretty(opcodes).unwrap()).unwrap();
 }
 
-fn write_svg(catalog: &str, case: &str, source: Source<'_>) {
+fn write_svg(catalog: &str, case: &str, opcodes: &[Opcode]) {
     let path: &Path = env!("CARGO_MANIFEST_DIR").as_ref();
 
     let output_dir = path.join("spec").join(catalog);
@@ -40,19 +35,19 @@ fn write_svg(catalog: &str, case: &str, source: Source<'_>) {
 
     let output = output_dir.join(case).with_extension("svg");
 
-    // let content = block_on(async move {
-    //     Svg.build(source)
-    //         .await
-    //         .unwrap()
-    //         .run(&HashMap::new())
-    //         .await
-    //         .unwrap()
-    // });
+    std::fs::write(output, to_svg(opcodes).unwrap()).unwrap();
+}
 
-    match source {
-        Source::Opcode(cow) => {
-            std::fs::write(output, to_svg(cow).unwrap()).unwrap();
-        }
-        _ => unimplemented!("only support opcode source."),
+fn write_binary(catalog: &str, case: &str, opcodes: &[Opcode]) {
+    let path: &Path = env!("CARGO_MANIFEST_DIR").as_ref();
+
+    let output_dir = path.join("spec").join(catalog);
+
+    if !output_dir.exists() {
+        create_dir_all(&output_dir).unwrap();
     }
+
+    let output = output_dir.join(case).with_extension("vgb");
+
+    std::fs::write(output, to_binary(opcodes).unwrap()).unwrap();
 }

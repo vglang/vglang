@@ -9,7 +9,7 @@ version.workspace = true
 
 [dependencies]
 heck = {workspace = true}
-vglang = {workspace = true, features = ["serde", "sexpr", "svg"]}
+vglang = {workspace = true, features = ["serde", "sexpr", "svg", "binary"]}
 
 [dev-dependencies]
 futures = {workspace = true}

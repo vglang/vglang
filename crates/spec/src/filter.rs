@@ -4,7 +4,7 @@ use vglang::{
         FeMergeNode, FeOffset, Fill, Filter, Group, Id, Opacity, Paint, Polygon, Rect, Stroke,
         ViewBox, WithFilter, WithTransform,
     },
-    sexpr::{Graphics, SfeInResult, SlengthCm, Stranslate},
+    sexpr::{Graphics, SfeInResult, SlengthCm, StransformTranslate},
 };
 
 /// Example from [`enable-background-01`](https://www.w3.org/TR/SVG11/images/filters/enable-background-01.svg)

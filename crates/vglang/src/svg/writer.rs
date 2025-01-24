@@ -116,9 +116,9 @@ impl<'a> Serializer for &'a mut SvgWriter {
         name: &str,
         _: usize,
     ) -> Result<Self::SerializeNode, Self::Error> {
-        self.state_stack.push(SvgWriterState::El(name.to_string()));
-
-        self.new_xml_element(name);
+        let name = name.to_lower_camel_case();
+        self.new_xml_element(&name);
+        self.state_stack.push(SvgWriterState::El(name));
 
         Ok(self)
     }
@@ -134,9 +134,9 @@ impl<'a> Serializer for &'a mut SvgWriter {
                 self.state_stack.push(SvgWriterState::Characters);
             }
             _ => {
-                self.state_stack
-                    .push(SvgWriterState::Leaf(name.to_string()));
-                self.new_xml_element(name);
+                let name = name.to_lower_camel_case();
+                self.new_xml_element(&name);
+                self.state_stack.push(SvgWriterState::Leaf(name));
             }
         }
 
@@ -155,7 +155,7 @@ impl<'a> Serializer for &'a mut SvgWriter {
             }
             _ => {
                 self.state_stack
-                    .push(SvgWriterState::Attr(name.to_string()));
+                    .push(SvgWriterState::Attr(name.to_lower_camel_case()));
             }
         }
 

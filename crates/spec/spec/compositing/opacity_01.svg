@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg viewBox="0 0 1200 350" width="12cm" height="3.5cm" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
-	<Rect fill="none" stroke="rgb(0,0,255)" x="1" y="1" width="1198" height="348" />
-	<Rect fill="rgb(0,0,255)" x="100" y="100" width="1000" height="150" />
-	<Circle fill="rgb(255,0,0)" opacity="1" cx="200" cy="100" r="50" />
-	<Circle fill="rgb(255,0,0)" opacity="0.8" cx="400" cy="100" r="50" />
-	<Circle fill="rgb(255,0,0)" opacity="0.6" cx="600" cy="100" r="50" />
-	<Circle fill="rgb(255,0,0)" opacity="0.4" cx="800" cy="100" r="50" />
-	<Circle fill="rgb(255,0,0)" opacity="0.2" cx="1000" cy="100" r="50" />
+	<rect fill="none" stroke="rgb(0,0,255)" x="1" y="1" width="1198" height="348" />
+	<rect fill="rgb(0,0,255)" x="100" y="100" width="1000" height="150" />
+	<circle fill="rgb(255,0,0)" opacity="1" cx="200" cy="100" r="50" />
+	<circle fill="rgb(255,0,0)" opacity="0.8" cx="400" cy="100" r="50" />
+	<circle fill="rgb(255,0,0)" opacity="0.6" cx="600" cy="100" r="50" />
+	<circle fill="rgb(255,0,0)" opacity="0.4" cx="800" cy="100" r="50" />
+	<circle fill="rgb(255,0,0)" opacity="0.2" cx="1000" cy="100" r="50" />
 	<g opacity="1">
-		<Circle fill="rgb(255,0,0)" opacity="1" cx="182.5" cy="250" r="50" />
-		<Circle fill="rgb(0,128,0)" opacity="1" cx="217.5" cy="250" r="50" />
+		<circle fill="rgb(255,0,0)" opacity="1" cx="182.5" cy="250" r="50" />
+		<circle fill="rgb(0,128,0)" opacity="1" cx="217.5" cy="250" r="50" />
 	</g>
 	<g opacity="0.5">
-		<Circle fill="rgb(255,0,0)" opacity="1" cx="382.5" cy="250" r="50" />
-		<Circle fill="rgb(0,128,0)" opacity="1" cx="417.5" cy="250" r="50" />
+		<circle fill="rgb(255,0,0)" opacity="1" cx="382.5" cy="250" r="50" />
+		<circle fill="rgb(0,128,0)" opacity="1" cx="417.5" cy="250" r="50" />
 	</g>
 	<g opacity="1">
-		<Circle fill="rgb(255,0,0)" opacity="0.5" cx="582.5" cy="250" r="50" />
-		<Circle fill="rgb(0,128,0)" opacity="0.5" cx="617.5" cy="250" r="50" />
+		<circle fill="rgb(255,0,0)" opacity="0.5" cx="582.5" cy="250" r="50" />
+		<circle fill="rgb(0,128,0)" opacity="0.5" cx="617.5" cy="250" r="50" />
 	</g>
 	<g opacity="1">
-		<Circle fill="rgb(0,128,0)" opacity="0.5" cx="817.5" cy="250" r="50" />
-		<Circle fill="rgb(255,0,0)" opacity="0.5" cx="782.5" cy="250" r="50" />
+		<circle fill="rgb(0,128,0)" opacity="0.5" cx="817.5" cy="250" r="50" />
+		<circle fill="rgb(255,0,0)" opacity="0.5" cx="782.5" cy="250" r="50" />
 	</g>
 	<g opacity="1">
-		<Circle fill="rgb(255,0,0)" opacity="0.5" cx="982.5" cy="250" r="50" />
-		<Circle fill="rgb(0,128,0)" opacity="0.5" cx="1017.5" cy="250" r="50" />
+		<circle fill="rgb(255,0,0)" opacity="0.5" cx="982.5" cy="250" r="50" />
+		<circle fill="rgb(0,128,0)" opacity="0.5" cx="1017.5" cy="250" r="50" />
 	</g>
 </svg>
