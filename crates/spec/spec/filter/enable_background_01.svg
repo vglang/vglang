@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="13.5" height="2.7" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
-	<filter units="userSpaceOnUse" x="0" y="0" width="1200" height="400">
-		<feOffset r#in="backgroundImage" dx="0" dy="125" />
+	<filter filterUnits="userSpaceOnUse" x="0" y="0" width="1200" height="400">
+		<feOffset in="backgroundImage" dx="0" dy="125" />
 		<feGaussianBlur />
 	</filter>
-	<filter units="userSpaceOnUse" x="0" y="0" width="1200" height="400">
-		<feOffset r#in="backgroundImage" dx="0" dy="125" />
+	<filter filterUnits="userSpaceOnUse" x="0" y="0" width="1200" height="400">
+		<feOffset in="backgroundImage" dx="0" dy="125" />
 		<feGaussianBlur result="blur" />
 		<feMerge>
-			<feMergeNode />
-			<feMergeNode />
+			<feMergeNode in="blur" />
+			<feMergeNode in="sourceGraphic" />
 		</feMerge>
 	</filter>
 	<group>
 		<rect x="25" y="25" width="100" height="100" />
 		<group>
 			<circle cx="125" cy="75" r="45" />
-			<polygon />
+			<polygon points="0" />
 		</group>
 		<rect x="5" y="5" width="260" height="260" />
 	</group>
@@ -24,7 +24,7 @@
 		<rect x="25" y="25" width="100" height="100" />
 		<group>
 			<circle cx="125" cy="75" r="45" />
-			<polygon />
+			<polygon points="0" />
 		</group>
 		<group />
 		<rect x="5" y="5" width="260" height="260" />
@@ -33,7 +33,7 @@
 		<rect x="25" y="25" width="100" height="100" />
 		<group>
 			<circle cx="125" cy="75" r="45" />
-			<polygon />
+			<polygon points="0" />
 		</group>
 		<rect x="5" y="5" width="260" height="260" />
 	</group>
@@ -41,7 +41,7 @@
 		<rect x="25" y="25" width="100" height="100" />
 		<group>
 			<circle cx="125" cy="75" r="45" />
-			<polygon />
+			<polygon points="0" />
 		</group>
 		<rect x="5" y="5" width="260" height="260" />
 	</group>
@@ -49,7 +49,7 @@
 		<rect x="25" y="25" width="100" height="100" />
 		<group>
 			<circle cx="125" cy="75" r="45" />
-			<polygon />
+			<polygon points="0" />
 		</group>
 		<rect x="5" y="5" width="260" height="260" />
 	</group>

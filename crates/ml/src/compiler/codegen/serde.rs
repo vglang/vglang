@@ -28,17 +28,21 @@ impl SerializeGen for Node {
         let mut stats = vec![];
 
         for (idx, field) in self.fields.iter().enumerate() {
-            if let Some(ident) = field.gen_ident() {
-                let name = ident.to_string();
-                stats.push(quote! {
-                    serializer.serialize_field(#idx, Some(#name), &self.#ident)?
-                });
+            let value = if let Some(ident) = field.gen_ident() {
+                quote! {self.#ident}
             } else {
-                let ident = format!("self.{}", idx).parse::<TokenStream>().unwrap();
-                stats.push(quote! {
-                    serializer.serialize_field(#idx, None, &#ident)?
-                });
-            }
+                format!("self.{}", idx).parse::<TokenStream>().unwrap()
+            };
+
+            let name = if let Some(name) = field.gen_xml_attr_name() {
+                quote! { Some(#name) }
+            } else {
+                quote! { None }
+            };
+
+            stats.push(quote! {
+                serializer.serialize_field(#idx, #name, &#value)?
+            });
         }
 
         let fields = stats.len();
