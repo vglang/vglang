@@ -23,7 +23,7 @@ impl SerializeGen for Node {
         idx: usize,
     ) -> TokenStream {
         let ident = self.gen_ident();
-        let name = ident.to_string();
+        let name = self.gen_display_name();
 
         let mut stats = vec![];
 
@@ -34,7 +34,7 @@ impl SerializeGen for Node {
                 format!("self.{}", idx).parse::<TokenStream>().unwrap()
             };
 
-            let name = if let Some(name) = field.gen_xml_attr_name() {
+            let name = if let Some(name) = field.gen_display_name() {
                 quote! { Some(#name) }
             } else {
                 quote! { None }
@@ -72,7 +72,7 @@ impl SerializeGen for Enum {
         type_id: usize,
     ) -> TokenStream {
         let mut stats = vec![];
-        let enum_name = self.gen_ident().to_string();
+        let enum_name = self.gen_display_name();
 
         for (idx, node) in self.fields.iter().enumerate() {
             let ident = node.gen_ident();

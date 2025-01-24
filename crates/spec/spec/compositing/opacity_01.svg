@@ -7,24 +7,24 @@
 	<circle cx="600" cy="100" r="50" />
 	<circle cx="800" cy="100" r="50" />
 	<circle cx="1000" cy="100" r="50" />
-	<group>
+	<g>
 		<circle cx="182.5" cy="250" r="50" />
 		<circle cx="217.5" cy="250" r="50" />
-	</group>
-	<group>
+	</g>
+	<g>
 		<circle cx="382.5" cy="250" r="50" />
 		<circle cx="417.5" cy="250" r="50" />
-	</group>
-	<group>
+	</g>
+	<g>
 		<circle cx="582.5" cy="250" r="50" />
 		<circle cx="617.5" cy="250" r="50" />
-	</group>
-	<group>
+	</g>
+	<g>
 		<circle cx="817.5" cy="250" r="50" />
 		<circle cx="782.5" cy="250" r="50" />
-	</group>
-	<group>
+	</g>
+	<g>
 		<circle cx="982.5" cy="250" r="50" />
 		<circle cx="1017.5" cy="250" r="50" />
-	</group>
+	</g>
 </svg>

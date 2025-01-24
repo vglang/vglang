@@ -1,13 +1,11 @@
 /// Angles are specified in one of two ways depending upon
 /// whether they are used in CSS property syntax or SVG
 /// presentation attribute syntax:
-#[xml_skip]
 enum Angle { deg(float), grad(float), rad(float) }
 
 /// A length is a distance Length, given as a number along with a unit which may be optional.
 ///
 /// See [`length`](https://www.w3.org/TR/SVG11/types.html#DataTypeLength)
-#[xml_skip]
 enum Length { 
     /// Represents the calculated font-size of the element. If used on the font-size property itself,
     /// it represents the inherited font-size of the element.
@@ -183,10 +181,8 @@ enum Color {
 }
 
 /// A color represents with read,green and blue components.
-#[xml_tuple_value,init_skip]
 data Rgb(ubyte,ubyte,ubyte);
 
-#[xml_skip]
 enum Iri {
     Local(string),
     Path(string),
@@ -195,7 +191,6 @@ enum Iri {
 /// Functional notation for a reference. The syntax for this reference is the same as the [`CSS URI`].
 ///
 /// [`CSS URI`]: https://developer.mozilla.org/en-US/docs/Web/CSS/url_value
-#[xml_skip]
 data FuncIri(string);
 
 /// A 2d coordinate point.
@@ -242,17 +237,11 @@ enum Coords {
 
 /// A `transform` matrix type.
 enum Transform {
-    #[xml_tuple_value]
     Translate(float,float), 
-    #[xml_tuple_value]
     Matrix([float;6]),
-    #[xml_tuple_value] 
     Scale(float,#[option] float), 
-    #[xml_tuple_value]
     Rotate { angle: float, cx: float, cy: float },
-    #[xml_tuple_value]
     SkewX(float),
-    #[xml_tuple_value]
     SkewY(float),
 }
 
@@ -263,7 +252,6 @@ enum Channel { R,G,B,A }
 enum ClipRule { Nonzero, EvenOdd }
 
 /// A direction that representation a path drawing commander.
-#[xml_skip]
 enum PathEvent {
     /// Close the current subpath by drawing a straight line from the current point to current subpath's initial point.
     Close,
@@ -334,11 +322,11 @@ enum FillRule {
 }
 
 /// Specifies the shape to be used at the end of open subpaths when they are stroked
-#[xml("stroke-linecap")]
+#[rename("stroke-linecap")]
 enum StrokeLineCap { Butt, Round, Square }
 
 /// Specifies the shape to be used at the corners of paths or basic shapes when they are stroked.
-#[xml("stroke-linejoin")]
+#[rename("stroke-linejoin")]
 enum StrokeLineJoin { Miter(float), Round, Bevel }
 
 /// Indicates what happens if the gradient starts or ends inside the bounds of the target rectangle.
@@ -382,7 +370,6 @@ enum FontStretch {
 }
 
 /// Data value used by `enable-background` property.
-#[xml_skip]
 enum Background {
     /// A meaning of enable-background: accumulate (the initial/default value) depends on context:
     ///
@@ -423,7 +410,7 @@ enum FeIn {
     /// is specified to be rendered in linear RGBA pixels. The alpha channel of this image captures any
     /// anti-aliasing specified by SVG. (Since the raster is linear, the alpha channel of this image will
     /// represent the exact percent coverage of each pixel.)
-    #[xml("SourceGraphic")]
+    #[rename("SourceGraphic")]
     SourceGraphic, 
     
     /// This keyword represents the graphics elements that were the original input into the ‘filter’ element.
@@ -431,30 +418,30 @@ enum FeIn {
     /// The input image is an RGBA image consisting of implicitly black color values for the RGB channels,
     /// but whose alpha channel is the same as SourceGraphic. If this option is used, then some implementations
     /// might need to rasterize the graphics elements in order to extract the alpha channel.
-    #[xml("SourceAlpha")]
+    #[rename("SourceAlpha")]
     SourceAlpha, 
 
     /// This keyword represents an image snapshot of the canvas under the filter region at the time that the
     /// ‘filter’ element was invoked.
-    #[xml("BackgroundImage")]
+    #[rename("BackgroundImage")]
     BackgroundImage, 
 
     /// Same as BackgroundImage except only the alpha channel is used. See SourceAlpha and Accessing the background image.
-    #[xml("BackgroundAlpha")]
+    #[rename("BackgroundAlpha")]
     BackgroundAlpha,
     
     /// This keyword represents the value of the ‘fill’ property on the target element for the filter effect.
     /// The FillPaint image has conceptually infinite extent. Frequently this image is opaque everywhere,
     /// but it might not be if the "paint" itself has alpha, as in the case of a gradient or pattern which
     /// itself includes transparent or semi-transparent parts.
-    #[xml("FillPaint")]
+    #[rename("FillPaint")]
     FillPaint,
 
     /// This keyword represents the value of the ‘stroke’ property on the target element for the filter effect.
     /// The StrokePaint image has conceptually infinite extent. Frequently this image is opaque everywhere,
     /// but it might not be if the "paint" itself has alpha, as in the case of a gradient or pattern which
     /// itself includes transparent or semi-transparent parts. 
-    #[xml("StrokePaint")]
+    #[rename("StrokePaint")]
     StrokePaint, 
 
     /// Reference to another filter-primitive result .
@@ -839,7 +826,7 @@ attr TextLayout {
     unicode_bidi: UnicodeBidi,
 
     /// See [`TextAnchor`]
-    #[option,variable,xml("text-anchor")]
+    #[option,variable,rename("text-anchor")]
     anchor: TextAnchor,
 
     /// See [`DominantBaseline`]
@@ -855,7 +842,7 @@ attr TextLayout {
     baseline_shift: BaselineShift,
 
     /// See [`TextDecoration`]
-    #[option,variable,xml("text-decoration")]
+    #[option,variable,rename("text-decoration")]
     decoration: TextDecoration,
 
     /// See [`LetterSpacing`]
@@ -870,29 +857,29 @@ attr TextLayout {
 /// support for various international writing directions, such as left-to-right (e.g., Latin scripts) and
 /// bidirectional (e.g., Hebrew or Arabic) and vertical (e.g., Asian scripts).
 attr WithTransform(
-    #[xml("transform")]
+    #[rename("transform")]
     vec[Transform]
 );
 
 /// Define a fragment with name.
-attr Id(#[xml("id")] string);
+attr Id(#[rename("id")] string);
 
 /// The ‘fill’ instruction paints the interior of the given graphical element.
 attr Fill {
     /// paints color.
     ///
     /// `Inherited: yes`
-    #[xml("fill")]
+    #[rename("fill")]
     paint: Paint,
 
     /// fill painting rule, see [`FillRule`] for more information.
     ///
     /// `Inherited: yes`
-    #[option,xml("fill-rule")]
+    #[option,rename("fill-rule")]
     rule: FillRule,
 
     /// defining the opacity of the paint server
-    #[option,xml("fill-opacity")]
+    #[option,rename("fill-opacity")]
     opacity: float,
 }
 
@@ -902,24 +889,24 @@ attr Stroke {
     /// paints color paints along the outline of the given graphical element.
     ///
     /// `Inherited: yes`
-    #[variable,xml("stroke")]
+    #[variable,rename("stroke")]
     paint: Paint,
     /// This property specifies the width of the stroke on the current object
     ///
     /// `Inherited: yes`
-    #[option,variable,xml("stroke-width")]
+    #[option,variable,rename("stroke-width")]
     width: Length,
 
     /// specifies the shape to be used at the end of open subpaths when they are stroked.
     ///
     /// `Inherited: yes`
-    #[option,variable,xml("stroke-linecap")]
+    #[option,variable,rename("stroke-linecap")]
     linecap: StrokeLineCap,
 
     /// specifies the shape to be used at the corners of paths or basic shapes when they are stroked.
     ///
     /// `Inherited: yes`
-    #[option,variable,xml("stroke-linejoin")]
+    #[option,variable,rename("stroke-linejoin")]
     linejoin: StrokeLineJoin,
 
     /// controls the pattern of dashes and gaps used to stroke paths. `<dasharray>` contains a list of comma and/or
@@ -928,16 +915,16 @@ attr Stroke {
     /// Thus, stroke-dasharray: 5,3,2 is equivalent to stroke-dasharray: 5,3,2,5,3,2.
     ///
     /// `Inherited: yes`
-    #[option,variable,xml("stroke-dasharray")]
+    #[option,variable,rename("stroke-dasharray")]
     dasharray: vec[Length],
     /// specifies the distance into the dash pattern to start the dash
     ///
     /// `Inherited: yes`
-    #[option,variable,xml("stroke-dashoffset")]
+    #[option,variable,rename("stroke-dashoffset")]
     dashoffset: Length,
 
     /// specifies the opacity of the painting operation used to stroke the current object.
-    #[option,variable,xml("stroke-opacity")]
+    #[option,variable,rename("stroke-opacity")]
     opacity: float,
 }
 
@@ -945,54 +932,53 @@ attr Stroke {
 /// Shorthand property for setting ‘font-style’, ‘font-variant’, ‘font-weight’, ‘font-size’, ‘line-height’ and ‘font-family’.
 attr Font {
     /// See [`FontFamily`]
-    #[option,variable,xml("font-family")]
+    #[option,variable,rename("font-family")]
     family: vec[FontFamily],
     /// See [`FontStyle`]
-    #[option,variable,xml("font-style")]
+    #[option,variable,rename("font-style")]
     style: FontStyle,
     /// See [`FontVariant`]
-    #[option,variable,xml("font-variant")]
+    #[option,variable,rename("font-variant")]
     variant: FontVariant,
     /// See [`FontWeight`]
-    #[option,variable,xml("font-weight")]
+    #[option,variable,rename("font-weight")]
     weight: FontWeight,
     /// This property refers to the size of the font from baseline to baseline when multiple lines of
     /// text are set solid in a multiline layout environment.
-    #[option,variable,xml("font-size")]
+    #[option,variable,rename("font-size")]
     size: Length,
     /// See [`FontStretch`]
-    #[option,variable,xml("font-stretch")]
+    #[option,variable,rename("font-stretch")]
     stretch: FontStretch,
 }
 
 
 /// enables access to the background image
-attr EnableBackground(#[xml("enable-background")]Background);
+attr EnableBackground(#[rename("enable-background")]Background);
 
 /// Define a fragment by name.
-attr WithFilter(#[xml("filter")]FuncIri);
+attr WithFilter(#[rename("filter")]FuncIri);
 
 /// Use mask to a element.
 #[variable]
-attr WithClipPath(#[xml("clip-path")] FuncIri);
+attr WithClipPath(#[rename("clip-path")] FuncIri);
 
 /// Use mask to a element.
 #[variable]
 attr WithMask(
-    #[xml("mask")]
+    #[rename("mask")]
     FuncIri
 );
 
 ///Sspecifies object/group opacity
 #[variable]
 attr Opacity(
-    #[xml("opacity")]
+    #[rename("opacity")]
     float
 );
 
 /// It is often desirable to specify that a given set of graphics stretch to fit a particular container element.
 /// The ‘viewBox’ attribute provides this capability.
-#[xml_skip]
 attr ViewBox {
     /// ViewBox left-top x coordinate,
     #[variable]
@@ -1055,7 +1041,7 @@ mixin FePrimitive {
 }
 
 /// Create a new layer into which the backend render child elements.
-#[xml("svg")]
+#[rename("svg")]
 el Canvas {
     /// a number (usually an integer) that represents the width of the rendering layer.
     #[variable]
@@ -1077,7 +1063,7 @@ el Mask {
     /// of the element to which the mask is applied. (See Object bounding box units.)
     ///
     /// If attribute ‘maskUnits’ is not specified, then the effect is as if a value of 'objectBoundingBox' were specified.
-    #[option, variable,xml("maskUnits")]
+    #[option, variable,rename("maskUnits")]
     units: Coords,
 
     /// Defines the coordinate system for the contents of the ‘mask’.
@@ -1159,7 +1145,7 @@ el Filter {
     ///
     /// If attribute units is not specified, then the effect is if a value of 'objectBoundingBox' were
     /// specified.
-    #[option, variable,xml("filterUnits")]
+    #[option, variable,rename("filterUnits")]
     units: Coords,
 
     /// Specifies the coordinate system for the various length values within the filter primitives and for the
@@ -1781,7 +1767,7 @@ leaf FeGaussianBlur mixin FePrimitive {
 el FeMerge mixin FePrimitive;
 
 /// See [`FeMerge`]
-leaf FeMergeNode(#[variable,xml("in")] FeIn);
+leaf FeMergeNode(#[variable,rename("in")] FeIn);
 
 /// This filter primitive refers to a graphic external to this filter element, which is loaded or rendered into an RGBA
 /// raster and becomes the result of the filter primitive.
@@ -1949,7 +1935,7 @@ leaf FeTurbulence mixin FePrimitive {
 /// Linear gradients are defined by a ‘linearGradient’ element.
 el LinearGradient {
     /// Defines the coordinate system for attributes ‘x1’, ‘y1’, ‘x2’ and ‘y2’.
-    #[option, variable,xml("gradientUnits")]
+    #[option, variable,rename("gradientUnits")]
     units: Coords,
 
     /// Contains the definition of an optional additional transformation from the gradient coordinate system onto the
@@ -2063,7 +2049,7 @@ el RadialGradient {
 
 /// The ramp of colors to use on a gradient is defined by the ‘stop’ elements that are child elements
 /// to either the ‘linearGradient’ element or the ‘radialGradient’ element.
-#[xml("stop")]
+#[rename("stop")]
 leaf GradientStop {
     /// The ‘offset’ attribute is either a `<number>` (usually ranging from 0 to 1) or a `<percent>`
     /// (usually ranging from 0% to 100%) which indicates where the gradient stop is placed.
@@ -2076,22 +2062,21 @@ leaf GradientStop {
     offset: float,
 
     /// indicates what color to use at that gradient stop
-    #[option, variable,xml("stop-color")]
+    #[option, variable,rename("stop-color")]
     color: Rgb,
 
     /// Defines the opacity of a given gradient stop.
-    #[option, variable,xml("stop-opacity")]
+    #[option, variable,rename("stop-opacity")]
     opacity: float,
 }
 
 /// A container element for grouping together related graphics elements.
-#[xml("g")]
+#[rename("g")]
 el Group;
 
 
 /// Paths represent the outline of a shape which can be filled, stroked, used as a clipping path,
 /// or any combination of the three.
-#[xml_skip]
 leaf Path {
     /// The definition of the outline of a shape.
     #[variable]
@@ -2198,7 +2183,7 @@ el Pattern {
 }
 
 /// Use a fragment by name.
-leaf Use(#[variable,xml("xlink:href")] Iri);
+leaf Use(#[variable,rename("xlink:href")] Iri);
 
 
 /// The ‘rect’ element defines a rectangle which is axis-aligned with the current user coordinate system.
@@ -2356,7 +2341,7 @@ leaf Polyline(
     /// The points that make up the polygon. All coordinate values are in the user coordinate system.
     ///
     /// Animatable: yes.
-    #[variable,xml("points")]
+    #[variable,rename("points")]
     vec[Point],
 );
 
@@ -2365,7 +2350,7 @@ leaf Polygon(
     /// The points that make up the polygon. All coordinate values are in the user coordinate system.
     ///
     /// Animatable: yes.
-    #[variable,xml("points")]
+    #[variable,rename("points")]
     vec[Point],
 );
 
@@ -2465,7 +2450,7 @@ el Text mixin MixinText;
 /// The ‘text’ element defines a graphics element consisting of text.
 ///
 /// See [`text`](https://www.w3.org/TR/SVG11/text.html#TextElement)
-#[xml("tspan")]
+#[rename("tspan")]
 el TextSpan mixin MixinText;
 
 /// Text content chars.

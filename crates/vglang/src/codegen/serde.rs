@@ -1388,18 +1388,23 @@ impl ml::rt::serde::Serialize for super::opcode::StrokeLineCap {
         match self {
             Self::Butt => {
                 let mut serializer =
-                    serializer.serialize_enum(16usize, "StrokeLineCap", "Butt", 0usize, 0usize)?;
+                    serializer.serialize_enum(16usize, "stroke-linecap", "Butt", 0usize, 0usize)?;
                 Ok(())
             }
             Self::Round => {
-                let mut serializer =
-                    serializer.serialize_enum(16usize, "StrokeLineCap", "Round", 1usize, 0usize)?;
+                let mut serializer = serializer.serialize_enum(
+                    16usize,
+                    "stroke-linecap",
+                    "Round",
+                    1usize,
+                    0usize,
+                )?;
                 Ok(())
             }
             Self::Square => {
                 let mut serializer = serializer.serialize_enum(
                     16usize,
-                    "StrokeLineCap",
+                    "stroke-linecap",
                     "Square",
                     2usize,
                     0usize,
@@ -1419,7 +1424,7 @@ impl ml::rt::serde::Serialize for super::opcode::StrokeLineJoin {
             Self::Miter(p0) => {
                 let mut serializer = serializer.serialize_enum(
                     17usize,
-                    "StrokeLineJoin",
+                    "stroke-linejoin",
                     "Miter",
                     0usize,
                     1usize,
@@ -1430,7 +1435,7 @@ impl ml::rt::serde::Serialize for super::opcode::StrokeLineJoin {
             Self::Round => {
                 let mut serializer = serializer.serialize_enum(
                     17usize,
-                    "StrokeLineJoin",
+                    "stroke-linejoin",
                     "Round",
                     1usize,
                     0usize,
@@ -1440,7 +1445,7 @@ impl ml::rt::serde::Serialize for super::opcode::StrokeLineJoin {
             Self::Bevel => {
                 let mut serializer = serializer.serialize_enum(
                     17usize,
-                    "StrokeLineJoin",
+                    "stroke-linejoin",
                     "Bevel",
                     2usize,
                     0usize,
@@ -2676,16 +2681,16 @@ impl ml::rt::serde::Serialize for super::opcode::TextLayout {
     {
         use ml::rt::serde::SerializeNode;
         let mut serializer = serializer.serialize_attr(43usize, "TextLayout", 10usize)?;
-        serializer.serialize_field(0usize, Some("writeMode"), &self.write_mode)?;
+        serializer.serialize_field(0usize, Some("write_mode"), &self.write_mode)?;
         serializer.serialize_field(1usize, Some("direction"), &self.direction)?;
-        serializer.serialize_field(2usize, Some("unicodeBidi"), &self.unicode_bidi)?;
-        serializer.serialize_field(3usize, Some("text-anchor"), &self.anchor)?;
-        serializer.serialize_field(4usize, Some("dominantBaseline"), &self.dominant_baseline)?;
-        serializer.serialize_field(5usize, Some("alignmentBaseline"), &self.alignment_baseline)?;
-        serializer.serialize_field(6usize, Some("baselineShift"), &self.baseline_shift)?;
-        serializer.serialize_field(7usize, Some("text-decoration"), &self.decoration)?;
-        serializer.serialize_field(8usize, Some("letterSpacing"), &self.letter_spacing)?;
-        serializer.serialize_field(9usize, Some("wordSpacing"), &self.word_spacing)?;
+        serializer.serialize_field(2usize, Some("unicode_bidi"), &self.unicode_bidi)?;
+        serializer.serialize_field(3usize, Some("anchor"), &self.anchor)?;
+        serializer.serialize_field(4usize, Some("dominant_baseline"), &self.dominant_baseline)?;
+        serializer.serialize_field(5usize, Some("alignment_baseline"), &self.alignment_baseline)?;
+        serializer.serialize_field(6usize, Some("baseline_shift"), &self.baseline_shift)?;
+        serializer.serialize_field(7usize, Some("decoration"), &self.decoration)?;
+        serializer.serialize_field(8usize, Some("letter_spacing"), &self.letter_spacing)?;
+        serializer.serialize_field(9usize, Some("word_spacing"), &self.word_spacing)?;
         Ok(())
     }
 }
@@ -2696,7 +2701,7 @@ impl ml::rt::serde::Serialize for super::opcode::WithTransform {
     {
         use ml::rt::serde::SerializeNode;
         let mut serializer = serializer.serialize_attr(44usize, "WithTransform", 1usize)?;
-        serializer.serialize_field(0usize, Some("transform"), &self.0)?;
+        serializer.serialize_field(0usize, None, &self.0)?;
         Ok(())
     }
 }
@@ -2707,7 +2712,7 @@ impl ml::rt::serde::Serialize for super::opcode::Id {
     {
         use ml::rt::serde::SerializeNode;
         let mut serializer = serializer.serialize_attr(45usize, "Id", 1usize)?;
-        serializer.serialize_field(0usize, Some("id"), &self.0)?;
+        serializer.serialize_field(0usize, None, &self.0)?;
         Ok(())
     }
 }
@@ -2718,9 +2723,9 @@ impl ml::rt::serde::Serialize for super::opcode::Fill {
     {
         use ml::rt::serde::SerializeNode;
         let mut serializer = serializer.serialize_attr(46usize, "Fill", 3usize)?;
-        serializer.serialize_field(0usize, Some("fill"), &self.paint)?;
-        serializer.serialize_field(1usize, Some("fill-rule"), &self.rule)?;
-        serializer.serialize_field(2usize, Some("fill-opacity"), &self.opacity)?;
+        serializer.serialize_field(0usize, Some("paint"), &self.paint)?;
+        serializer.serialize_field(1usize, Some("rule"), &self.rule)?;
+        serializer.serialize_field(2usize, Some("opacity"), &self.opacity)?;
         Ok(())
     }
 }
@@ -2731,13 +2736,13 @@ impl ml::rt::serde::Serialize for super::opcode::Stroke {
     {
         use ml::rt::serde::SerializeNode;
         let mut serializer = serializer.serialize_attr(47usize, "Stroke", 7usize)?;
-        serializer.serialize_field(0usize, Some("stroke"), &self.paint)?;
-        serializer.serialize_field(1usize, Some("stroke-width"), &self.width)?;
-        serializer.serialize_field(2usize, Some("stroke-linecap"), &self.linecap)?;
-        serializer.serialize_field(3usize, Some("stroke-linejoin"), &self.linejoin)?;
-        serializer.serialize_field(4usize, Some("stroke-dasharray"), &self.dasharray)?;
-        serializer.serialize_field(5usize, Some("stroke-dashoffset"), &self.dashoffset)?;
-        serializer.serialize_field(6usize, Some("stroke-opacity"), &self.opacity)?;
+        serializer.serialize_field(0usize, Some("paint"), &self.paint)?;
+        serializer.serialize_field(1usize, Some("width"), &self.width)?;
+        serializer.serialize_field(2usize, Some("linecap"), &self.linecap)?;
+        serializer.serialize_field(3usize, Some("linejoin"), &self.linejoin)?;
+        serializer.serialize_field(4usize, Some("dasharray"), &self.dasharray)?;
+        serializer.serialize_field(5usize, Some("dashoffset"), &self.dashoffset)?;
+        serializer.serialize_field(6usize, Some("opacity"), &self.opacity)?;
         Ok(())
     }
 }
@@ -2748,12 +2753,12 @@ impl ml::rt::serde::Serialize for super::opcode::Font {
     {
         use ml::rt::serde::SerializeNode;
         let mut serializer = serializer.serialize_attr(48usize, "Font", 6usize)?;
-        serializer.serialize_field(0usize, Some("font-family"), &self.family)?;
-        serializer.serialize_field(1usize, Some("font-style"), &self.style)?;
-        serializer.serialize_field(2usize, Some("font-variant"), &self.variant)?;
-        serializer.serialize_field(3usize, Some("font-weight"), &self.weight)?;
-        serializer.serialize_field(4usize, Some("font-size"), &self.size)?;
-        serializer.serialize_field(5usize, Some("font-stretch"), &self.stretch)?;
+        serializer.serialize_field(0usize, Some("family"), &self.family)?;
+        serializer.serialize_field(1usize, Some("style"), &self.style)?;
+        serializer.serialize_field(2usize, Some("variant"), &self.variant)?;
+        serializer.serialize_field(3usize, Some("weight"), &self.weight)?;
+        serializer.serialize_field(4usize, Some("size"), &self.size)?;
+        serializer.serialize_field(5usize, Some("stretch"), &self.stretch)?;
         Ok(())
     }
 }
@@ -2764,7 +2769,7 @@ impl ml::rt::serde::Serialize for super::opcode::EnableBackground {
     {
         use ml::rt::serde::SerializeNode;
         let mut serializer = serializer.serialize_attr(49usize, "EnableBackground", 1usize)?;
-        serializer.serialize_field(0usize, Some("enable-background"), &self.0)?;
+        serializer.serialize_field(0usize, None, &self.0)?;
         Ok(())
     }
 }
@@ -2775,7 +2780,7 @@ impl ml::rt::serde::Serialize for super::opcode::WithFilter {
     {
         use ml::rt::serde::SerializeNode;
         let mut serializer = serializer.serialize_attr(50usize, "WithFilter", 1usize)?;
-        serializer.serialize_field(0usize, Some("filter"), &self.0)?;
+        serializer.serialize_field(0usize, None, &self.0)?;
         Ok(())
     }
 }
@@ -2786,7 +2791,7 @@ impl ml::rt::serde::Serialize for super::opcode::WithClipPath {
     {
         use ml::rt::serde::SerializeNode;
         let mut serializer = serializer.serialize_attr(51usize, "WithClipPath", 1usize)?;
-        serializer.serialize_field(0usize, Some("clip-path"), &self.0)?;
+        serializer.serialize_field(0usize, None, &self.0)?;
         Ok(())
     }
 }
@@ -2797,7 +2802,7 @@ impl ml::rt::serde::Serialize for super::opcode::WithMask {
     {
         use ml::rt::serde::SerializeNode;
         let mut serializer = serializer.serialize_attr(52usize, "WithMask", 1usize)?;
-        serializer.serialize_field(0usize, Some("mask"), &self.0)?;
+        serializer.serialize_field(0usize, None, &self.0)?;
         Ok(())
     }
 }
@@ -2808,7 +2813,7 @@ impl ml::rt::serde::Serialize for super::opcode::Opacity {
     {
         use ml::rt::serde::SerializeNode;
         let mut serializer = serializer.serialize_attr(53usize, "Opacity", 1usize)?;
-        serializer.serialize_field(0usize, Some("opacity"), &self.0)?;
+        serializer.serialize_field(0usize, None, &self.0)?;
         Ok(())
     }
 }
@@ -2833,7 +2838,7 @@ impl ml::rt::serde::Serialize for super::opcode::Canvas {
         S: ml::rt::serde::Serializer,
     {
         use ml::rt::serde::SerializeNode;
-        let mut serializer = serializer.serialize_el(56usize, "Canvas", 2usize)?;
+        let mut serializer = serializer.serialize_el(56usize, "svg", 2usize)?;
         serializer.serialize_field(0usize, Some("width"), &self.width)?;
         serializer.serialize_field(1usize, Some("height"), &self.height)?;
         Ok(())
@@ -2846,8 +2851,8 @@ impl ml::rt::serde::Serialize for super::opcode::Mask {
     {
         use ml::rt::serde::SerializeNode;
         let mut serializer = serializer.serialize_el(57usize, "Mask", 6usize)?;
-        serializer.serialize_field(0usize, Some("maskUnits"), &self.units)?;
-        serializer.serialize_field(1usize, Some("contentUnits"), &self.content_units)?;
+        serializer.serialize_field(0usize, Some("units"), &self.units)?;
+        serializer.serialize_field(1usize, Some("content_units"), &self.content_units)?;
         serializer.serialize_field(2usize, Some("x"), &self.x)?;
         serializer.serialize_field(3usize, Some("y"), &self.y)?;
         serializer.serialize_field(4usize, Some("width"), &self.width)?;
@@ -2873,8 +2878,8 @@ impl ml::rt::serde::Serialize for super::opcode::Filter {
     {
         use ml::rt::serde::SerializeNode;
         let mut serializer = serializer.serialize_el(59usize, "Filter", 7usize)?;
-        serializer.serialize_field(0usize, Some("filterUnits"), &self.units)?;
-        serializer.serialize_field(1usize, Some("primitiveUnits"), &self.primitive_units)?;
+        serializer.serialize_field(0usize, Some("units"), &self.units)?;
+        serializer.serialize_field(1usize, Some("primitive_units"), &self.primitive_units)?;
         serializer.serialize_field(2usize, Some("x"), &self.x)?;
         serializer.serialize_field(3usize, Some("y"), &self.y)?;
         serializer.serialize_field(4usize, Some("width"), &self.width)?;
@@ -2918,11 +2923,15 @@ impl ml::rt::serde::Serialize for super::opcode::FeSpotLight {
         serializer.serialize_field(0usize, Some("x"), &self.x)?;
         serializer.serialize_field(1usize, Some("y"), &self.y)?;
         serializer.serialize_field(2usize, Some("z"), &self.z)?;
-        serializer.serialize_field(3usize, Some("pointAtX"), &self.point_at_x)?;
-        serializer.serialize_field(4usize, Some("pointAtY"), &self.point_at_y)?;
-        serializer.serialize_field(5usize, Some("pointAtZ"), &self.point_at_z)?;
-        serializer.serialize_field(6usize, Some("specularExponent"), &self.specular_exponent)?;
-        serializer.serialize_field(7usize, Some("limitingConeAngle"), &self.limiting_cone_angle)?;
+        serializer.serialize_field(3usize, Some("point_at_x"), &self.point_at_x)?;
+        serializer.serialize_field(4usize, Some("point_at_y"), &self.point_at_y)?;
+        serializer.serialize_field(5usize, Some("point_at_z"), &self.point_at_z)?;
+        serializer.serialize_field(6usize, Some("specular_exponent"), &self.specular_exponent)?;
+        serializer.serialize_field(
+            7usize,
+            Some("limiting_cone_angle"),
+            &self.limiting_cone_angle,
+        )?;
         Ok(())
     }
 }
@@ -3349,11 +3358,11 @@ impl ml::rt::serde::Serialize for super::opcode::FeConvolveMatrix {
         serializer.serialize_field(2usize, Some("kernel"), &self.kernel)?;
         serializer.serialize_field(3usize, Some("divisor"), &self.divisor)?;
         serializer.serialize_field(4usize, Some("bias"), &self.bias)?;
-        serializer.serialize_field(5usize, Some("targetX"), &self.target_x)?;
-        serializer.serialize_field(6usize, Some("targetY"), &self.target_y)?;
-        serializer.serialize_field(7usize, Some("edgeMode"), &self.edge_mode)?;
-        serializer.serialize_field(8usize, Some("kernelUnitLen"), &self.kernel_unit_len)?;
-        serializer.serialize_field(9usize, Some("preserveAlpha"), &self.preserve_alpha)?;
+        serializer.serialize_field(5usize, Some("target_x"), &self.target_x)?;
+        serializer.serialize_field(6usize, Some("target_y"), &self.target_y)?;
+        serializer.serialize_field(7usize, Some("edge_mode"), &self.edge_mode)?;
+        serializer.serialize_field(8usize, Some("kernel_unit_len"), &self.kernel_unit_len)?;
+        serializer.serialize_field(9usize, Some("preserve_alpha"), &self.preserve_alpha)?;
         serializer.serialize_field(10usize, Some("x"), &self.x)?;
         serializer.serialize_field(11usize, Some("y"), &self.y)?;
         serializer.serialize_field(12usize, Some("width"), &self.width)?;
@@ -3370,9 +3379,9 @@ impl ml::rt::serde::Serialize for super::opcode::FeDiffuseLighting {
         use ml::rt::serde::SerializeNode;
         let mut serializer = serializer.serialize_el(79usize, "FeDiffuseLighting", 9usize)?;
         serializer.serialize_field(0usize, Some("in"), &self.r#in)?;
-        serializer.serialize_field(1usize, Some("surfaceScale"), &self.surface_scale)?;
-        serializer.serialize_field(2usize, Some("diffuseConstant"), &self.diffuse_constant)?;
-        serializer.serialize_field(3usize, Some("kernelUnitLen"), &self.kernel_unit_len)?;
+        serializer.serialize_field(1usize, Some("surface_scale"), &self.surface_scale)?;
+        serializer.serialize_field(2usize, Some("diffuse_constant"), &self.diffuse_constant)?;
+        serializer.serialize_field(3usize, Some("kernel_unit_len"), &self.kernel_unit_len)?;
         serializer.serialize_field(4usize, Some("x"), &self.x)?;
         serializer.serialize_field(5usize, Some("y"), &self.y)?;
         serializer.serialize_field(6usize, Some("width"), &self.width)?;
@@ -3391,8 +3400,8 @@ impl ml::rt::serde::Serialize for super::opcode::FeDisplacementMap {
         serializer.serialize_field(0usize, Some("in"), &self.r#in)?;
         serializer.serialize_field(1usize, Some("in2"), &self.in2)?;
         serializer.serialize_field(2usize, Some("scale"), &self.scale)?;
-        serializer.serialize_field(3usize, Some("xChannelSelector"), &self.x_channel_selector)?;
-        serializer.serialize_field(4usize, Some("yChannelSelector"), &self.y_channel_selector)?;
+        serializer.serialize_field(3usize, Some("x_channel_selector"), &self.x_channel_selector)?;
+        serializer.serialize_field(4usize, Some("y_channel_selector"), &self.y_channel_selector)?;
         serializer.serialize_field(5usize, Some("x"), &self.x)?;
         serializer.serialize_field(6usize, Some("y"), &self.y)?;
         serializer.serialize_field(7usize, Some("width"), &self.width)?;
@@ -3426,7 +3435,7 @@ impl ml::rt::serde::Serialize for super::opcode::FeGaussianBlur {
         use ml::rt::serde::SerializeNode;
         let mut serializer = serializer.serialize_leaf(82usize, "FeGaussianBlur", 7usize)?;
         serializer.serialize_field(0usize, Some("in"), &self.r#in)?;
-        serializer.serialize_field(1usize, Some("stdDeviation"), &self.std_deviation)?;
+        serializer.serialize_field(1usize, Some("std_deviation"), &self.std_deviation)?;
         serializer.serialize_field(2usize, Some("x"), &self.x)?;
         serializer.serialize_field(3usize, Some("y"), &self.y)?;
         serializer.serialize_field(4usize, Some("width"), &self.width)?;
@@ -3457,7 +3466,7 @@ impl ml::rt::serde::Serialize for super::opcode::FeMergeNode {
     {
         use ml::rt::serde::SerializeNode;
         let mut serializer = serializer.serialize_leaf(84usize, "FeMergeNode", 1usize)?;
-        serializer.serialize_field(0usize, Some("in"), &self.0)?;
+        serializer.serialize_field(0usize, None, &self.0)?;
         Ok(())
     }
 }
@@ -3522,10 +3531,10 @@ impl ml::rt::serde::Serialize for super::opcode::FeSpecularLighting {
         use ml::rt::serde::SerializeNode;
         let mut serializer = serializer.serialize_el(88usize, "FeSpecularLighting", 10usize)?;
         serializer.serialize_field(0usize, Some("in"), &self.r#in)?;
-        serializer.serialize_field(1usize, Some("surfaceScale"), &self.surface_scale)?;
-        serializer.serialize_field(2usize, Some("specularConstant"), &self.specular_constant)?;
-        serializer.serialize_field(3usize, Some("specularExponent"), &self.specular_exponent)?;
-        serializer.serialize_field(4usize, Some("kernelUnitLen"), &self.kernel_unit_len)?;
+        serializer.serialize_field(1usize, Some("surface_scale"), &self.surface_scale)?;
+        serializer.serialize_field(2usize, Some("specular_constant"), &self.specular_constant)?;
+        serializer.serialize_field(3usize, Some("specular_exponent"), &self.specular_exponent)?;
+        serializer.serialize_field(4usize, Some("kernel_unit_len"), &self.kernel_unit_len)?;
         serializer.serialize_field(5usize, Some("x"), &self.x)?;
         serializer.serialize_field(6usize, Some("y"), &self.y)?;
         serializer.serialize_field(7usize, Some("width"), &self.width)?;
@@ -3557,10 +3566,10 @@ impl ml::rt::serde::Serialize for super::opcode::FeTurbulence {
     {
         use ml::rt::serde::SerializeNode;
         let mut serializer = serializer.serialize_leaf(90usize, "FeTurbulence", 10usize)?;
-        serializer.serialize_field(0usize, Some("baseFrequency"), &self.base_frequency)?;
-        serializer.serialize_field(1usize, Some("numOctaves"), &self.num_octaves)?;
+        serializer.serialize_field(0usize, Some("base_frequency"), &self.base_frequency)?;
+        serializer.serialize_field(1usize, Some("num_octaves"), &self.num_octaves)?;
         serializer.serialize_field(2usize, Some("seed"), &self.seed)?;
-        serializer.serialize_field(3usize, Some("stitchTiles"), &self.stitch_tiles)?;
+        serializer.serialize_field(3usize, Some("stitch_tiles"), &self.stitch_tiles)?;
         serializer.serialize_field(4usize, Some("type"), &self.r#type)?;
         serializer.serialize_field(5usize, Some("x"), &self.x)?;
         serializer.serialize_field(6usize, Some("y"), &self.y)?;
@@ -3577,7 +3586,7 @@ impl ml::rt::serde::Serialize for super::opcode::LinearGradient {
     {
         use ml::rt::serde::SerializeNode;
         let mut serializer = serializer.serialize_el(91usize, "LinearGradient", 7usize)?;
-        serializer.serialize_field(0usize, Some("gradientUnits"), &self.units)?;
+        serializer.serialize_field(0usize, Some("units"), &self.units)?;
         serializer.serialize_field(1usize, Some("transform"), &self.transform)?;
         serializer.serialize_field(2usize, Some("x1"), &self.x1)?;
         serializer.serialize_field(3usize, Some("y1"), &self.y1)?;
@@ -3611,10 +3620,10 @@ impl ml::rt::serde::Serialize for super::opcode::GradientStop {
         S: ml::rt::serde::Serializer,
     {
         use ml::rt::serde::SerializeNode;
-        let mut serializer = serializer.serialize_leaf(93usize, "GradientStop", 3usize)?;
+        let mut serializer = serializer.serialize_leaf(93usize, "stop", 3usize)?;
         serializer.serialize_field(0usize, Some("offset"), &self.offset)?;
-        serializer.serialize_field(1usize, Some("stop-color"), &self.color)?;
-        serializer.serialize_field(2usize, Some("stop-opacity"), &self.opacity)?;
+        serializer.serialize_field(1usize, Some("color"), &self.color)?;
+        serializer.serialize_field(2usize, Some("opacity"), &self.opacity)?;
         Ok(())
     }
 }
@@ -3624,7 +3633,7 @@ impl ml::rt::serde::Serialize for super::opcode::Group {
         S: ml::rt::serde::Serializer,
     {
         use ml::rt::serde::SerializeNode;
-        let mut serializer = serializer.serialize_el(94usize, "Group", 0usize)?;
+        let mut serializer = serializer.serialize_el(94usize, "g", 0usize)?;
         Ok(())
     }
 }
@@ -3648,7 +3657,7 @@ impl ml::rt::serde::Serialize for super::opcode::Pattern {
         use ml::rt::serde::SerializeNode;
         let mut serializer = serializer.serialize_el(96usize, "Pattern", 7usize)?;
         serializer.serialize_field(0usize, Some("units"), &self.units)?;
-        serializer.serialize_field(1usize, Some("contentUnits"), &self.content_units)?;
+        serializer.serialize_field(1usize, Some("content_units"), &self.content_units)?;
         serializer.serialize_field(2usize, Some("transform"), &self.transform)?;
         serializer.serialize_field(3usize, Some("x"), &self.x)?;
         serializer.serialize_field(4usize, Some("y"), &self.y)?;
@@ -3664,7 +3673,7 @@ impl ml::rt::serde::Serialize for super::opcode::Use {
     {
         use ml::rt::serde::SerializeNode;
         let mut serializer = serializer.serialize_leaf(97usize, "Use", 1usize)?;
-        serializer.serialize_field(0usize, Some("xlink:href"), &self.0)?;
+        serializer.serialize_field(0usize, None, &self.0)?;
         Ok(())
     }
 }
@@ -3732,7 +3741,7 @@ impl ml::rt::serde::Serialize for super::opcode::Polyline {
     {
         use ml::rt::serde::SerializeNode;
         let mut serializer = serializer.serialize_leaf(102usize, "Polyline", 1usize)?;
-        serializer.serialize_field(0usize, Some("points"), &self.0)?;
+        serializer.serialize_field(0usize, None, &self.0)?;
         Ok(())
     }
 }
@@ -3743,7 +3752,7 @@ impl ml::rt::serde::Serialize for super::opcode::Polygon {
     {
         use ml::rt::serde::SerializeNode;
         let mut serializer = serializer.serialize_leaf(103usize, "Polygon", 1usize)?;
-        serializer.serialize_field(0usize, Some("points"), &self.0)?;
+        serializer.serialize_field(0usize, None, &self.0)?;
         Ok(())
     }
 }
@@ -3759,8 +3768,8 @@ impl ml::rt::serde::Serialize for super::opcode::Text {
         serializer.serialize_field(2usize, Some("dx"), &self.dx)?;
         serializer.serialize_field(3usize, Some("dy"), &self.dy)?;
         serializer.serialize_field(4usize, Some("rotate"), &self.rotate)?;
-        serializer.serialize_field(5usize, Some("textLength"), &self.text_length)?;
-        serializer.serialize_field(6usize, Some("lengthAdjust"), &self.length_adjust)?;
+        serializer.serialize_field(5usize, Some("text_length"), &self.text_length)?;
+        serializer.serialize_field(6usize, Some("length_adjust"), &self.length_adjust)?;
         Ok(())
     }
 }
@@ -3770,14 +3779,14 @@ impl ml::rt::serde::Serialize for super::opcode::TextSpan {
         S: ml::rt::serde::Serializer,
     {
         use ml::rt::serde::SerializeNode;
-        let mut serializer = serializer.serialize_el(106usize, "TextSpan", 7usize)?;
+        let mut serializer = serializer.serialize_el(106usize, "tspan", 7usize)?;
         serializer.serialize_field(0usize, Some("x"), &self.x)?;
         serializer.serialize_field(1usize, Some("y"), &self.y)?;
         serializer.serialize_field(2usize, Some("dx"), &self.dx)?;
         serializer.serialize_field(3usize, Some("dy"), &self.dy)?;
         serializer.serialize_field(4usize, Some("rotate"), &self.rotate)?;
-        serializer.serialize_field(5usize, Some("textLength"), &self.text_length)?;
-        serializer.serialize_field(6usize, Some("lengthAdjust"), &self.length_adjust)?;
+        serializer.serialize_field(5usize, Some("text_length"), &self.text_length)?;
+        serializer.serialize_field(6usize, Some("length_adjust"), &self.length_adjust)?;
         Ok(())
     }
 }
@@ -3799,7 +3808,7 @@ impl ml::rt::serde::Serialize for super::opcode::TextPath {
     {
         use ml::rt::serde::SerializeNode;
         let mut serializer = serializer.serialize_el(108usize, "TextPath", 4usize)?;
-        serializer.serialize_field(0usize, Some("startOffset"), &self.start_offset)?;
+        serializer.serialize_field(0usize, Some("start_offset"), &self.start_offset)?;
         serializer.serialize_field(1usize, Some("method"), &self.method)?;
         serializer.serialize_field(2usize, Some("spacing"), &self.spacing)?;
         serializer.serialize_field(3usize, Some("href"), &self.href)?;

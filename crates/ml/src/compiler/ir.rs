@@ -351,20 +351,8 @@ impl<'a> Field<'a> {
         return false;
     }
 
-    pub fn xml_skip(&self) -> bool {
-        for prop in self.properties() {
-            for param in &prop.calls {
-                if param.target.1 == "xml_skip" {
-                    return true;
-                }
-            }
-        }
-
-        false
-    }
-
-    /// Returns the replacement xml display name.
-    pub fn xml_name(&self) -> Option<&str> {
+    /// Serialize and deserialize this field with the given name instead of its Rust name.
+    pub fn rename(&self) -> Option<&str> {
         for prop in self.properties() {
             for param in &prop.calls {
                 if param.target.1 == "xml" {
@@ -374,18 +362,6 @@ impl<'a> Field<'a> {
         }
 
         None
-    }
-
-    pub fn xml_tuple_value(&self) -> bool {
-        for prop in self.properties() {
-            for param in &prop.calls {
-                if param.target.1 == "xml_tuple_value" {
-                    return true;
-                }
-            }
-        }
-
-        false
     }
 }
 
@@ -425,54 +401,17 @@ impl Node {
         self.fields.is_tuple()
     }
 
-    /// Returns the replacement xml display name.
-    pub fn xml_name(&self) -> Option<&str> {
+    /// Serialize and deserialize this node with the given name instead of its Rust name.
+    pub fn rename(&self) -> Option<&str> {
         for prop in &self.properties {
             for param in &prop.calls {
-                if param.target.1 == "xml" {
+                if param.target.1 == "rename" {
                     return param.params.first().map(|v| v.1.as_str());
                 }
             }
         }
 
         None
-    }
-
-    /// Skip xml codegen.
-    pub fn xml_skip(&self) -> bool {
-        for prop in &self.properties {
-            for param in &prop.calls {
-                if param.target.1 == "xml_skip" {
-                    return true;
-                }
-            }
-        }
-
-        false
-    }
-
-    pub fn xml_tuple_value(&self) -> bool {
-        for prop in &self.properties {
-            for param in &prop.calls {
-                if param.target.1 == "xml_tuple_value" {
-                    return true;
-                }
-            }
-        }
-
-        false
-    }
-
-    pub fn init_skip(&self) -> bool {
-        for prop in &self.properties {
-            for param in &prop.calls {
-                if param.target.1 == "init_skip" {
-                    return true;
-                }
-            }
-        }
-
-        false
     }
 }
 
@@ -492,17 +431,17 @@ pub struct Enum {
 }
 
 impl Enum {
-    /// Skip xml codegen.
-    pub fn xml_skip(&self) -> bool {
+    /// Serialize and deserialize this node with the given name instead of its Rust name.
+    pub fn rename(&self) -> Option<&str> {
         for prop in &self.properties {
             for param in &prop.calls {
-                if param.target.1 == "xml_skip" {
-                    return true;
+                if param.target.1 == "rename" {
+                    return param.params.first().map(|v| v.1.as_str());
                 }
             }
         }
 
-        false
+        None
     }
 }
 

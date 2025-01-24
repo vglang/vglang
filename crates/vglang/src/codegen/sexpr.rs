@@ -281,6 +281,16 @@ where
         super::opcode::Length::Percent(Number::from(self).0)
     }
 }
+impl<P0, P1, P2> From<(P0, P1, P2)> for super::opcode::Rgb
+where
+    u8: From<P0>,
+    u8: From<P1>,
+    u8: From<P2>,
+{
+    fn from(value: (P0, P1, P2)) -> Self {
+        Self(value.0.into(), value.1.into(), value.2.into())
+    }
+}
 pub trait SiriLocal {
     fn local(self) -> super::opcode::Iri;
 }
@@ -5200,30 +5210,12 @@ where
     P1: ContentOf<E>,
 {
 }
-impl<P0, P1> MapCollect<super::opcode::Length> for (P0, P1)
+impl<P0, P1> MapCollect<super::opcode::PathEvent> for (P0, P1)
 where
-    super::opcode::Length: From<P0>,
-    super::opcode::Length: From<P1>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
 {
-    fn map_collect(self) -> Vec<super::opcode::Length> {
-        vec![self.0.into(), self.1.into()]
-    }
-}
-impl<P0, P1> MapCollect<super::opcode::Transform> for (P0, P1)
-where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
-        vec![self.0.into(), self.1.into()]
-    }
-}
-impl<P0, P1> MapCollect<super::opcode::Angle> for (P0, P1)
-where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![self.0.into(), self.1.into()]
     }
 }
@@ -5236,12 +5228,12 @@ where
         vec![self.0.into(), self.1.into()]
     }
 }
-impl<P0, P1> MapCollect<super::opcode::PathEvent> for (P0, P1)
+impl<P0, P1> MapCollect<super::opcode::Length> for (P0, P1)
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
+    super::opcode::Length: From<P0>,
+    super::opcode::Length: From<P1>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Length> {
         vec![self.0.into(), self.1.into()]
     }
 }
@@ -5252,6 +5244,24 @@ where
 {
     fn map_collect(self) -> Vec<f32> {
         vec![Number::from(self.0).0, Number::from(self.1).0]
+    }
+}
+impl<P0, P1> MapCollect<super::opcode::Angle> for (P0, P1)
+where
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![self.0.into(), self.1.into()]
+    }
+}
+impl<P0, P1> MapCollect<super::opcode::Transform> for (P0, P1)
+where
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
+        vec![self.0.into(), self.1.into()]
     }
 }
 impl<P0, P1, P2> Graphics for (P0, P1, P2)
@@ -5280,33 +5290,13 @@ where
     P2: ContentOf<E>,
 {
 }
-impl<P0, P1, P2> MapCollect<super::opcode::Length> for (P0, P1, P2)
+impl<P0, P1, P2> MapCollect<super::opcode::PathEvent> for (P0, P1, P2)
 where
-    super::opcode::Length: From<P0>,
-    super::opcode::Length: From<P1>,
-    super::opcode::Length: From<P2>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
 {
-    fn map_collect(self) -> Vec<super::opcode::Length> {
-        vec![self.0.into(), self.1.into(), self.2.into()]
-    }
-}
-impl<P0, P1, P2> MapCollect<super::opcode::Transform> for (P0, P1, P2)
-where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-    super::opcode::Transform: From<P2>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
-        vec![self.0.into(), self.1.into(), self.2.into()]
-    }
-}
-impl<P0, P1, P2> MapCollect<super::opcode::Angle> for (P0, P1, P2)
-where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-    super::opcode::Angle: From<P2>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![self.0.into(), self.1.into(), self.2.into()]
     }
 }
@@ -5320,13 +5310,13 @@ where
         vec![self.0.into(), self.1.into(), self.2.into()]
     }
 }
-impl<P0, P1, P2> MapCollect<super::opcode::PathEvent> for (P0, P1, P2)
+impl<P0, P1, P2> MapCollect<super::opcode::Length> for (P0, P1, P2)
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
+    super::opcode::Length: From<P0>,
+    super::opcode::Length: From<P1>,
+    super::opcode::Length: From<P2>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Length> {
         vec![self.0.into(), self.1.into(), self.2.into()]
     }
 }
@@ -5342,6 +5332,26 @@ where
             Number::from(self.1).0,
             Number::from(self.2).0,
         ]
+    }
+}
+impl<P0, P1, P2> MapCollect<super::opcode::Angle> for (P0, P1, P2)
+where
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
+    super::opcode::Angle: From<P2>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![self.0.into(), self.1.into(), self.2.into()]
+    }
+}
+impl<P0, P1, P2> MapCollect<super::opcode::Transform> for (P0, P1, P2)
+where
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+    super::opcode::Transform: From<P2>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
+        vec![self.0.into(), self.1.into(), self.2.into()]
     }
 }
 impl<P0, P1, P2, P3> Graphics for (P0, P1, P2, P3)
@@ -5374,36 +5384,14 @@ where
     P3: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3> MapCollect<super::opcode::Length> for (P0, P1, P2, P3)
+impl<P0, P1, P2, P3> MapCollect<super::opcode::PathEvent> for (P0, P1, P2, P3)
 where
-    super::opcode::Length: From<P0>,
-    super::opcode::Length: From<P1>,
-    super::opcode::Length: From<P2>,
-    super::opcode::Length: From<P3>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
 {
-    fn map_collect(self) -> Vec<super::opcode::Length> {
-        vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
-    }
-}
-impl<P0, P1, P2, P3> MapCollect<super::opcode::Transform> for (P0, P1, P2, P3)
-where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-    super::opcode::Transform: From<P2>,
-    super::opcode::Transform: From<P3>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
-        vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
-    }
-}
-impl<P0, P1, P2, P3> MapCollect<super::opcode::Angle> for (P0, P1, P2, P3)
-where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-    super::opcode::Angle: From<P2>,
-    super::opcode::Angle: From<P3>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
     }
 }
@@ -5418,14 +5406,14 @@ where
         vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
     }
 }
-impl<P0, P1, P2, P3> MapCollect<super::opcode::PathEvent> for (P0, P1, P2, P3)
+impl<P0, P1, P2, P3> MapCollect<super::opcode::Length> for (P0, P1, P2, P3)
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
+    super::opcode::Length: From<P0>,
+    super::opcode::Length: From<P1>,
+    super::opcode::Length: From<P2>,
+    super::opcode::Length: From<P3>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Length> {
         vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
     }
 }
@@ -5443,6 +5431,28 @@ where
             Number::from(self.2).0,
             Number::from(self.3).0,
         ]
+    }
+}
+impl<P0, P1, P2, P3> MapCollect<super::opcode::Angle> for (P0, P1, P2, P3)
+where
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
+    super::opcode::Angle: From<P2>,
+    super::opcode::Angle: From<P3>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
+    }
+}
+impl<P0, P1, P2, P3> MapCollect<super::opcode::Transform> for (P0, P1, P2, P3)
+where
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+    super::opcode::Transform: From<P2>,
+    super::opcode::Transform: From<P3>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
+        vec![self.0.into(), self.1.into(), self.2.into(), self.3.into()]
     }
 }
 impl<P0, P1, P2, P3, P4> Graphics for (P0, P1, P2, P3, P4)
@@ -5479,51 +5489,15 @@ where
     P4: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::Length> for (P0, P1, P2, P3, P4)
+impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::PathEvent> for (P0, P1, P2, P3, P4)
 where
-    super::opcode::Length: From<P0>,
-    super::opcode::Length: From<P1>,
-    super::opcode::Length: From<P2>,
-    super::opcode::Length: From<P3>,
-    super::opcode::Length: From<P4>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
 {
-    fn map_collect(self) -> Vec<super::opcode::Length> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::Transform> for (P0, P1, P2, P3, P4)
-where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-    super::opcode::Transform: From<P2>,
-    super::opcode::Transform: From<P3>,
-    super::opcode::Transform: From<P4>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::Angle> for (P0, P1, P2, P3, P4)
-where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-    super::opcode::Angle: From<P2>,
-    super::opcode::Angle: From<P3>,
-    super::opcode::Angle: From<P4>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -5551,15 +5525,15 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::PathEvent> for (P0, P1, P2, P3, P4)
+impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::Length> for (P0, P1, P2, P3, P4)
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
+    super::opcode::Length: From<P0>,
+    super::opcode::Length: From<P1>,
+    super::opcode::Length: From<P2>,
+    super::opcode::Length: From<P3>,
+    super::opcode::Length: From<P4>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Length> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -5584,6 +5558,42 @@ where
             Number::from(self.2).0,
             Number::from(self.3).0,
             Number::from(self.4).0,
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::Angle> for (P0, P1, P2, P3, P4)
+where
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
+    super::opcode::Angle: From<P2>,
+    super::opcode::Angle: From<P3>,
+    super::opcode::Angle: From<P4>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4> MapCollect<super::opcode::Transform> for (P0, P1, P2, P3, P4)
+where
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+    super::opcode::Transform: From<P2>,
+    super::opcode::Transform: From<P3>,
+    super::opcode::Transform: From<P4>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
         ]
     }
 }
@@ -5625,56 +5635,16 @@ where
     P5: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::Length> for (P0, P1, P2, P3, P4, P5)
+impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::PathEvent> for (P0, P1, P2, P3, P4, P5)
 where
-    super::opcode::Length: From<P0>,
-    super::opcode::Length: From<P1>,
-    super::opcode::Length: From<P2>,
-    super::opcode::Length: From<P3>,
-    super::opcode::Length: From<P4>,
-    super::opcode::Length: From<P5>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
 {
-    fn map_collect(self) -> Vec<super::opcode::Length> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::Transform> for (P0, P1, P2, P3, P4, P5)
-where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-    super::opcode::Transform: From<P2>,
-    super::opcode::Transform: From<P3>,
-    super::opcode::Transform: From<P4>,
-    super::opcode::Transform: From<P5>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::Angle> for (P0, P1, P2, P3, P4, P5)
-where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-    super::opcode::Angle: From<P2>,
-    super::opcode::Angle: From<P3>,
-    super::opcode::Angle: From<P4>,
-    super::opcode::Angle: From<P5>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -5705,16 +5675,16 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::PathEvent> for (P0, P1, P2, P3, P4, P5)
+impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::Length> for (P0, P1, P2, P3, P4, P5)
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
+    super::opcode::Length: From<P0>,
+    super::opcode::Length: From<P1>,
+    super::opcode::Length: From<P2>,
+    super::opcode::Length: From<P3>,
+    super::opcode::Length: From<P4>,
+    super::opcode::Length: From<P5>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Length> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -5742,6 +5712,46 @@ where
             Number::from(self.3).0,
             Number::from(self.4).0,
             Number::from(self.5).0,
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::Angle> for (P0, P1, P2, P3, P4, P5)
+where
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
+    super::opcode::Angle: From<P2>,
+    super::opcode::Angle: From<P3>,
+    super::opcode::Angle: From<P4>,
+    super::opcode::Angle: From<P5>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5> MapCollect<super::opcode::Transform> for (P0, P1, P2, P3, P4, P5)
+where
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+    super::opcode::Transform: From<P2>,
+    super::opcode::Transform: From<P3>,
+    super::opcode::Transform: From<P4>,
+    super::opcode::Transform: From<P5>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
         ]
     }
 }
@@ -5787,62 +5797,18 @@ where
     P6: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::Length> for (P0, P1, P2, P3, P4, P5, P6)
-where
-    super::opcode::Length: From<P0>,
-    super::opcode::Length: From<P1>,
-    super::opcode::Length: From<P2>,
-    super::opcode::Length: From<P3>,
-    super::opcode::Length: From<P4>,
-    super::opcode::Length: From<P5>,
-    super::opcode::Length: From<P6>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Length> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::Transform>
+impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::PathEvent>
     for (P0, P1, P2, P3, P4, P5, P6)
 where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-    super::opcode::Transform: From<P2>,
-    super::opcode::Transform: From<P3>,
-    super::opcode::Transform: From<P4>,
-    super::opcode::Transform: From<P5>,
-    super::opcode::Transform: From<P6>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+    super::opcode::PathEvent: From<P6>,
 {
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::Angle> for (P0, P1, P2, P3, P4, P5, P6)
-where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-    super::opcode::Angle: From<P2>,
-    super::opcode::Angle: From<P3>,
-    super::opcode::Angle: From<P4>,
-    super::opcode::Angle: From<P5>,
-    super::opcode::Angle: From<P6>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -5877,18 +5843,17 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::PathEvent>
-    for (P0, P1, P2, P3, P4, P5, P6)
+impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::Length> for (P0, P1, P2, P3, P4, P5, P6)
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-    super::opcode::PathEvent: From<P6>,
+    super::opcode::Length: From<P0>,
+    super::opcode::Length: From<P1>,
+    super::opcode::Length: From<P2>,
+    super::opcode::Length: From<P3>,
+    super::opcode::Length: From<P4>,
+    super::opcode::Length: From<P5>,
+    super::opcode::Length: From<P6>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Length> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -5919,6 +5884,51 @@ where
             Number::from(self.4).0,
             Number::from(self.5).0,
             Number::from(self.6).0,
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::Angle> for (P0, P1, P2, P3, P4, P5, P6)
+where
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
+    super::opcode::Angle: From<P2>,
+    super::opcode::Angle: From<P3>,
+    super::opcode::Angle: From<P4>,
+    super::opcode::Angle: From<P5>,
+    super::opcode::Angle: From<P6>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6> MapCollect<super::opcode::Transform>
+    for (P0, P1, P2, P3, P4, P5, P6)
+where
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+    super::opcode::Transform: From<P2>,
+    super::opcode::Transform: From<P3>,
+    super::opcode::Transform: From<P4>,
+    super::opcode::Transform: From<P5>,
+    super::opcode::Transform: From<P6>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
         ]
     }
 }
@@ -5968,69 +5978,19 @@ where
     P7: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::Length>
+impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::PathEvent>
     for (P0, P1, P2, P3, P4, P5, P6, P7)
 where
-    super::opcode::Length: From<P0>,
-    super::opcode::Length: From<P1>,
-    super::opcode::Length: From<P2>,
-    super::opcode::Length: From<P3>,
-    super::opcode::Length: From<P4>,
-    super::opcode::Length: From<P5>,
-    super::opcode::Length: From<P6>,
-    super::opcode::Length: From<P7>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+    super::opcode::PathEvent: From<P6>,
+    super::opcode::PathEvent: From<P7>,
 {
-    fn map_collect(self) -> Vec<super::opcode::Length> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::Transform>
-    for (P0, P1, P2, P3, P4, P5, P6, P7)
-where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-    super::opcode::Transform: From<P2>,
-    super::opcode::Transform: From<P3>,
-    super::opcode::Transform: From<P4>,
-    super::opcode::Transform: From<P5>,
-    super::opcode::Transform: From<P6>,
-    super::opcode::Transform: From<P7>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::Angle>
-    for (P0, P1, P2, P3, P4, P5, P6, P7)
-where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-    super::opcode::Angle: From<P2>,
-    super::opcode::Angle: From<P3>,
-    super::opcode::Angle: From<P4>,
-    super::opcode::Angle: From<P5>,
-    super::opcode::Angle: From<P6>,
-    super::opcode::Angle: From<P7>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6068,19 +6028,19 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::PathEvent>
+impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::Length>
     for (P0, P1, P2, P3, P4, P5, P6, P7)
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-    super::opcode::PathEvent: From<P6>,
-    super::opcode::PathEvent: From<P7>,
+    super::opcode::Length: From<P0>,
+    super::opcode::Length: From<P1>,
+    super::opcode::Length: From<P2>,
+    super::opcode::Length: From<P3>,
+    super::opcode::Length: From<P4>,
+    super::opcode::Length: From<P5>,
+    super::opcode::Length: From<P6>,
+    super::opcode::Length: From<P7>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Length> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6114,6 +6074,56 @@ where
             Number::from(self.5).0,
             Number::from(self.6).0,
             Number::from(self.7).0,
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::Angle>
+    for (P0, P1, P2, P3, P4, P5, P6, P7)
+where
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
+    super::opcode::Angle: From<P2>,
+    super::opcode::Angle: From<P3>,
+    super::opcode::Angle: From<P4>,
+    super::opcode::Angle: From<P5>,
+    super::opcode::Angle: From<P6>,
+    super::opcode::Angle: From<P7>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7> MapCollect<super::opcode::Transform>
+    for (P0, P1, P2, P3, P4, P5, P6, P7)
+where
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+    super::opcode::Transform: From<P2>,
+    super::opcode::Transform: From<P3>,
+    super::opcode::Transform: From<P4>,
+    super::opcode::Transform: From<P5>,
+    super::opcode::Transform: From<P6>,
+    super::opcode::Transform: From<P7>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
         ]
     }
 }
@@ -6167,74 +6177,20 @@ where
     P8: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::Length>
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::PathEvent>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8)
 where
-    super::opcode::Length: From<P0>,
-    super::opcode::Length: From<P1>,
-    super::opcode::Length: From<P2>,
-    super::opcode::Length: From<P3>,
-    super::opcode::Length: From<P4>,
-    super::opcode::Length: From<P5>,
-    super::opcode::Length: From<P6>,
-    super::opcode::Length: From<P7>,
-    super::opcode::Length: From<P8>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+    super::opcode::PathEvent: From<P6>,
+    super::opcode::PathEvent: From<P7>,
+    super::opcode::PathEvent: From<P8>,
 {
-    fn map_collect(self) -> Vec<super::opcode::Length> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::Transform>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8)
-where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-    super::opcode::Transform: From<P2>,
-    super::opcode::Transform: From<P3>,
-    super::opcode::Transform: From<P4>,
-    super::opcode::Transform: From<P5>,
-    super::opcode::Transform: From<P6>,
-    super::opcode::Transform: From<P7>,
-    super::opcode::Transform: From<P8>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::Angle>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8)
-where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-    super::opcode::Angle: From<P2>,
-    super::opcode::Angle: From<P3>,
-    super::opcode::Angle: From<P4>,
-    super::opcode::Angle: From<P5>,
-    super::opcode::Angle: From<P6>,
-    super::opcode::Angle: From<P7>,
-    super::opcode::Angle: From<P8>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6275,20 +6231,20 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::PathEvent>
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::Length>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8)
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-    super::opcode::PathEvent: From<P6>,
-    super::opcode::PathEvent: From<P7>,
-    super::opcode::PathEvent: From<P8>,
+    super::opcode::Length: From<P0>,
+    super::opcode::Length: From<P1>,
+    super::opcode::Length: From<P2>,
+    super::opcode::Length: From<P3>,
+    super::opcode::Length: From<P4>,
+    super::opcode::Length: From<P5>,
+    super::opcode::Length: From<P6>,
+    super::opcode::Length: From<P7>,
+    super::opcode::Length: From<P8>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Length> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6325,6 +6281,60 @@ where
             Number::from(self.6).0,
             Number::from(self.7).0,
             Number::from(self.8).0,
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::Angle>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8)
+where
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
+    super::opcode::Angle: From<P2>,
+    super::opcode::Angle: From<P3>,
+    super::opcode::Angle: From<P4>,
+    super::opcode::Angle: From<P5>,
+    super::opcode::Angle: From<P6>,
+    super::opcode::Angle: From<P7>,
+    super::opcode::Angle: From<P8>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8> MapCollect<super::opcode::Transform>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8)
+where
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+    super::opcode::Transform: From<P2>,
+    super::opcode::Transform: From<P3>,
+    super::opcode::Transform: From<P4>,
+    super::opcode::Transform: From<P5>,
+    super::opcode::Transform: From<P6>,
+    super::opcode::Transform: From<P7>,
+    super::opcode::Transform: From<P8>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
         ]
     }
 }
@@ -6384,79 +6394,21 @@ where
     P9: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::Length>
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::PathEvent>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)
 where
-    super::opcode::Length: From<P0>,
-    super::opcode::Length: From<P1>,
-    super::opcode::Length: From<P2>,
-    super::opcode::Length: From<P3>,
-    super::opcode::Length: From<P4>,
-    super::opcode::Length: From<P5>,
-    super::opcode::Length: From<P6>,
-    super::opcode::Length: From<P7>,
-    super::opcode::Length: From<P8>,
-    super::opcode::Length: From<P9>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+    super::opcode::PathEvent: From<P6>,
+    super::opcode::PathEvent: From<P7>,
+    super::opcode::PathEvent: From<P8>,
+    super::opcode::PathEvent: From<P9>,
 {
-    fn map_collect(self) -> Vec<super::opcode::Length> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::Transform>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)
-where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-    super::opcode::Transform: From<P2>,
-    super::opcode::Transform: From<P3>,
-    super::opcode::Transform: From<P4>,
-    super::opcode::Transform: From<P5>,
-    super::opcode::Transform: From<P6>,
-    super::opcode::Transform: From<P7>,
-    super::opcode::Transform: From<P8>,
-    super::opcode::Transform: From<P9>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::Angle>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)
-where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-    super::opcode::Angle: From<P2>,
-    super::opcode::Angle: From<P3>,
-    super::opcode::Angle: From<P4>,
-    super::opcode::Angle: From<P5>,
-    super::opcode::Angle: From<P6>,
-    super::opcode::Angle: From<P7>,
-    super::opcode::Angle: From<P8>,
-    super::opcode::Angle: From<P9>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6500,21 +6452,21 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::PathEvent>
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::Length>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-    super::opcode::PathEvent: From<P6>,
-    super::opcode::PathEvent: From<P7>,
-    super::opcode::PathEvent: From<P8>,
-    super::opcode::PathEvent: From<P9>,
+    super::opcode::Length: From<P0>,
+    super::opcode::Length: From<P1>,
+    super::opcode::Length: From<P2>,
+    super::opcode::Length: From<P3>,
+    super::opcode::Length: From<P4>,
+    super::opcode::Length: From<P5>,
+    super::opcode::Length: From<P6>,
+    super::opcode::Length: From<P7>,
+    super::opcode::Length: From<P8>,
+    super::opcode::Length: From<P9>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Length> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6555,6 +6507,64 @@ where
             Number::from(self.7).0,
             Number::from(self.8).0,
             Number::from(self.9).0,
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::Angle>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)
+where
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
+    super::opcode::Angle: From<P2>,
+    super::opcode::Angle: From<P3>,
+    super::opcode::Angle: From<P4>,
+    super::opcode::Angle: From<P5>,
+    super::opcode::Angle: From<P6>,
+    super::opcode::Angle: From<P7>,
+    super::opcode::Angle: From<P8>,
+    super::opcode::Angle: From<P9>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> MapCollect<super::opcode::Transform>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)
+where
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+    super::opcode::Transform: From<P2>,
+    super::opcode::Transform: From<P3>,
+    super::opcode::Transform: From<P4>,
+    super::opcode::Transform: From<P5>,
+    super::opcode::Transform: From<P6>,
+    super::opcode::Transform: From<P7>,
+    super::opcode::Transform: From<P8>,
+    super::opcode::Transform: From<P9>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
         ]
     }
 }
@@ -6619,84 +6629,22 @@ where
     P10: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::Length>
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::PathEvent>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
 where
-    super::opcode::Length: From<P0>,
-    super::opcode::Length: From<P1>,
-    super::opcode::Length: From<P2>,
-    super::opcode::Length: From<P3>,
-    super::opcode::Length: From<P4>,
-    super::opcode::Length: From<P5>,
-    super::opcode::Length: From<P6>,
-    super::opcode::Length: From<P7>,
-    super::opcode::Length: From<P8>,
-    super::opcode::Length: From<P9>,
-    super::opcode::Length: From<P10>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+    super::opcode::PathEvent: From<P6>,
+    super::opcode::PathEvent: From<P7>,
+    super::opcode::PathEvent: From<P8>,
+    super::opcode::PathEvent: From<P9>,
+    super::opcode::PathEvent: From<P10>,
 {
-    fn map_collect(self) -> Vec<super::opcode::Length> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::Transform>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
-where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-    super::opcode::Transform: From<P2>,
-    super::opcode::Transform: From<P3>,
-    super::opcode::Transform: From<P4>,
-    super::opcode::Transform: From<P5>,
-    super::opcode::Transform: From<P6>,
-    super::opcode::Transform: From<P7>,
-    super::opcode::Transform: From<P8>,
-    super::opcode::Transform: From<P9>,
-    super::opcode::Transform: From<P10>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::Angle>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
-where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-    super::opcode::Angle: From<P2>,
-    super::opcode::Angle: From<P3>,
-    super::opcode::Angle: From<P4>,
-    super::opcode::Angle: From<P5>,
-    super::opcode::Angle: From<P6>,
-    super::opcode::Angle: From<P7>,
-    super::opcode::Angle: From<P8>,
-    super::opcode::Angle: From<P9>,
-    super::opcode::Angle: From<P10>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6743,22 +6691,22 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::PathEvent>
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::Length>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-    super::opcode::PathEvent: From<P6>,
-    super::opcode::PathEvent: From<P7>,
-    super::opcode::PathEvent: From<P8>,
-    super::opcode::PathEvent: From<P9>,
-    super::opcode::PathEvent: From<P10>,
+    super::opcode::Length: From<P0>,
+    super::opcode::Length: From<P1>,
+    super::opcode::Length: From<P2>,
+    super::opcode::Length: From<P3>,
+    super::opcode::Length: From<P4>,
+    super::opcode::Length: From<P5>,
+    super::opcode::Length: From<P6>,
+    super::opcode::Length: From<P7>,
+    super::opcode::Length: From<P8>,
+    super::opcode::Length: From<P9>,
+    super::opcode::Length: From<P10>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Length> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -6802,6 +6750,68 @@ where
             Number::from(self.8).0,
             Number::from(self.9).0,
             Number::from(self.10).0,
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::Angle>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
+where
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
+    super::opcode::Angle: From<P2>,
+    super::opcode::Angle: From<P3>,
+    super::opcode::Angle: From<P4>,
+    super::opcode::Angle: From<P5>,
+    super::opcode::Angle: From<P6>,
+    super::opcode::Angle: From<P7>,
+    super::opcode::Angle: From<P8>,
+    super::opcode::Angle: From<P9>,
+    super::opcode::Angle: From<P10>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> MapCollect<super::opcode::Transform>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10)
+where
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+    super::opcode::Transform: From<P2>,
+    super::opcode::Transform: From<P3>,
+    super::opcode::Transform: From<P4>,
+    super::opcode::Transform: From<P5>,
+    super::opcode::Transform: From<P6>,
+    super::opcode::Transform: From<P7>,
+    super::opcode::Transform: From<P8>,
+    super::opcode::Transform: From<P9>,
+    super::opcode::Transform: From<P10>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
         ]
     }
 }
@@ -6870,89 +6880,23 @@ where
     P11: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::Length>
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::PathEvent>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11)
 where
-    super::opcode::Length: From<P0>,
-    super::opcode::Length: From<P1>,
-    super::opcode::Length: From<P2>,
-    super::opcode::Length: From<P3>,
-    super::opcode::Length: From<P4>,
-    super::opcode::Length: From<P5>,
-    super::opcode::Length: From<P6>,
-    super::opcode::Length: From<P7>,
-    super::opcode::Length: From<P8>,
-    super::opcode::Length: From<P9>,
-    super::opcode::Length: From<P10>,
-    super::opcode::Length: From<P11>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+    super::opcode::PathEvent: From<P6>,
+    super::opcode::PathEvent: From<P7>,
+    super::opcode::PathEvent: From<P8>,
+    super::opcode::PathEvent: From<P9>,
+    super::opcode::PathEvent: From<P10>,
+    super::opcode::PathEvent: From<P11>,
 {
-    fn map_collect(self) -> Vec<super::opcode::Length> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-            self.11.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::Transform>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11)
-where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-    super::opcode::Transform: From<P2>,
-    super::opcode::Transform: From<P3>,
-    super::opcode::Transform: From<P4>,
-    super::opcode::Transform: From<P5>,
-    super::opcode::Transform: From<P6>,
-    super::opcode::Transform: From<P7>,
-    super::opcode::Transform: From<P8>,
-    super::opcode::Transform: From<P9>,
-    super::opcode::Transform: From<P10>,
-    super::opcode::Transform: From<P11>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-            self.11.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::Angle>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11)
-where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-    super::opcode::Angle: From<P2>,
-    super::opcode::Angle: From<P3>,
-    super::opcode::Angle: From<P4>,
-    super::opcode::Angle: From<P5>,
-    super::opcode::Angle: From<P6>,
-    super::opcode::Angle: From<P7>,
-    super::opcode::Angle: From<P8>,
-    super::opcode::Angle: From<P9>,
-    super::opcode::Angle: From<P10>,
-    super::opcode::Angle: From<P11>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -7002,23 +6946,23 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::PathEvent>
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::Length>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11)
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-    super::opcode::PathEvent: From<P6>,
-    super::opcode::PathEvent: From<P7>,
-    super::opcode::PathEvent: From<P8>,
-    super::opcode::PathEvent: From<P9>,
-    super::opcode::PathEvent: From<P10>,
-    super::opcode::PathEvent: From<P11>,
+    super::opcode::Length: From<P0>,
+    super::opcode::Length: From<P1>,
+    super::opcode::Length: From<P2>,
+    super::opcode::Length: From<P3>,
+    super::opcode::Length: From<P4>,
+    super::opcode::Length: From<P5>,
+    super::opcode::Length: From<P6>,
+    super::opcode::Length: From<P7>,
+    super::opcode::Length: From<P8>,
+    super::opcode::Length: From<P9>,
+    super::opcode::Length: From<P10>,
+    super::opcode::Length: From<P11>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Length> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -7065,6 +7009,72 @@ where
             Number::from(self.9).0,
             Number::from(self.10).0,
             Number::from(self.11).0,
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::Angle>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11)
+where
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
+    super::opcode::Angle: From<P2>,
+    super::opcode::Angle: From<P3>,
+    super::opcode::Angle: From<P4>,
+    super::opcode::Angle: From<P5>,
+    super::opcode::Angle: From<P6>,
+    super::opcode::Angle: From<P7>,
+    super::opcode::Angle: From<P8>,
+    super::opcode::Angle: From<P9>,
+    super::opcode::Angle: From<P10>,
+    super::opcode::Angle: From<P11>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+            self.11.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> MapCollect<super::opcode::Transform>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11)
+where
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+    super::opcode::Transform: From<P2>,
+    super::opcode::Transform: From<P3>,
+    super::opcode::Transform: From<P4>,
+    super::opcode::Transform: From<P5>,
+    super::opcode::Transform: From<P6>,
+    super::opcode::Transform: From<P7>,
+    super::opcode::Transform: From<P8>,
+    super::opcode::Transform: From<P9>,
+    super::opcode::Transform: From<P10>,
+    super::opcode::Transform: From<P11>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+            self.11.into(),
         ]
     }
 }
@@ -7137,94 +7147,24 @@ where
     P12: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::Length>
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::PathEvent>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12)
 where
-    super::opcode::Length: From<P0>,
-    super::opcode::Length: From<P1>,
-    super::opcode::Length: From<P2>,
-    super::opcode::Length: From<P3>,
-    super::opcode::Length: From<P4>,
-    super::opcode::Length: From<P5>,
-    super::opcode::Length: From<P6>,
-    super::opcode::Length: From<P7>,
-    super::opcode::Length: From<P8>,
-    super::opcode::Length: From<P9>,
-    super::opcode::Length: From<P10>,
-    super::opcode::Length: From<P11>,
-    super::opcode::Length: From<P12>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+    super::opcode::PathEvent: From<P6>,
+    super::opcode::PathEvent: From<P7>,
+    super::opcode::PathEvent: From<P8>,
+    super::opcode::PathEvent: From<P9>,
+    super::opcode::PathEvent: From<P10>,
+    super::opcode::PathEvent: From<P11>,
+    super::opcode::PathEvent: From<P12>,
 {
-    fn map_collect(self) -> Vec<super::opcode::Length> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-            self.11.into(),
-            self.12.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::Transform>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12)
-where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-    super::opcode::Transform: From<P2>,
-    super::opcode::Transform: From<P3>,
-    super::opcode::Transform: From<P4>,
-    super::opcode::Transform: From<P5>,
-    super::opcode::Transform: From<P6>,
-    super::opcode::Transform: From<P7>,
-    super::opcode::Transform: From<P8>,
-    super::opcode::Transform: From<P9>,
-    super::opcode::Transform: From<P10>,
-    super::opcode::Transform: From<P11>,
-    super::opcode::Transform: From<P12>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-            self.11.into(),
-            self.12.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::Angle>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12)
-where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-    super::opcode::Angle: From<P2>,
-    super::opcode::Angle: From<P3>,
-    super::opcode::Angle: From<P4>,
-    super::opcode::Angle: From<P5>,
-    super::opcode::Angle: From<P6>,
-    super::opcode::Angle: From<P7>,
-    super::opcode::Angle: From<P8>,
-    super::opcode::Angle: From<P9>,
-    super::opcode::Angle: From<P10>,
-    super::opcode::Angle: From<P11>,
-    super::opcode::Angle: From<P12>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -7277,24 +7217,24 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::PathEvent>
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::Length>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12)
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-    super::opcode::PathEvent: From<P6>,
-    super::opcode::PathEvent: From<P7>,
-    super::opcode::PathEvent: From<P8>,
-    super::opcode::PathEvent: From<P9>,
-    super::opcode::PathEvent: From<P10>,
-    super::opcode::PathEvent: From<P11>,
-    super::opcode::PathEvent: From<P12>,
+    super::opcode::Length: From<P0>,
+    super::opcode::Length: From<P1>,
+    super::opcode::Length: From<P2>,
+    super::opcode::Length: From<P3>,
+    super::opcode::Length: From<P4>,
+    super::opcode::Length: From<P5>,
+    super::opcode::Length: From<P6>,
+    super::opcode::Length: From<P7>,
+    super::opcode::Length: From<P8>,
+    super::opcode::Length: From<P9>,
+    super::opcode::Length: From<P10>,
+    super::opcode::Length: From<P11>,
+    super::opcode::Length: From<P12>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Length> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -7344,6 +7284,76 @@ where
             Number::from(self.10).0,
             Number::from(self.11).0,
             Number::from(self.12).0,
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::Angle>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12)
+where
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
+    super::opcode::Angle: From<P2>,
+    super::opcode::Angle: From<P3>,
+    super::opcode::Angle: From<P4>,
+    super::opcode::Angle: From<P5>,
+    super::opcode::Angle: From<P6>,
+    super::opcode::Angle: From<P7>,
+    super::opcode::Angle: From<P8>,
+    super::opcode::Angle: From<P9>,
+    super::opcode::Angle: From<P10>,
+    super::opcode::Angle: From<P11>,
+    super::opcode::Angle: From<P12>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+            self.11.into(),
+            self.12.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> MapCollect<super::opcode::Transform>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12)
+where
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+    super::opcode::Transform: From<P2>,
+    super::opcode::Transform: From<P3>,
+    super::opcode::Transform: From<P4>,
+    super::opcode::Transform: From<P5>,
+    super::opcode::Transform: From<P6>,
+    super::opcode::Transform: From<P7>,
+    super::opcode::Transform: From<P8>,
+    super::opcode::Transform: From<P9>,
+    super::opcode::Transform: From<P10>,
+    super::opcode::Transform: From<P11>,
+    super::opcode::Transform: From<P12>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+            self.11.into(),
+            self.12.into(),
         ]
     }
 }
@@ -7420,100 +7430,26 @@ where
     P13: ContentOf<E>,
 {
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13> MapCollect<super::opcode::Length>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13)
-where
-    super::opcode::Length: From<P0>,
-    super::opcode::Length: From<P1>,
-    super::opcode::Length: From<P2>,
-    super::opcode::Length: From<P3>,
-    super::opcode::Length: From<P4>,
-    super::opcode::Length: From<P5>,
-    super::opcode::Length: From<P6>,
-    super::opcode::Length: From<P7>,
-    super::opcode::Length: From<P8>,
-    super::opcode::Length: From<P9>,
-    super::opcode::Length: From<P10>,
-    super::opcode::Length: From<P11>,
-    super::opcode::Length: From<P12>,
-    super::opcode::Length: From<P13>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Length> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-            self.11.into(),
-            self.12.into(),
-            self.13.into(),
-        ]
-    }
-}
 impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13>
-    MapCollect<super::opcode::Transform>
+    MapCollect<super::opcode::PathEvent>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13)
 where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-    super::opcode::Transform: From<P2>,
-    super::opcode::Transform: From<P3>,
-    super::opcode::Transform: From<P4>,
-    super::opcode::Transform: From<P5>,
-    super::opcode::Transform: From<P6>,
-    super::opcode::Transform: From<P7>,
-    super::opcode::Transform: From<P8>,
-    super::opcode::Transform: From<P9>,
-    super::opcode::Transform: From<P10>,
-    super::opcode::Transform: From<P11>,
-    super::opcode::Transform: From<P12>,
-    super::opcode::Transform: From<P13>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+    super::opcode::PathEvent: From<P6>,
+    super::opcode::PathEvent: From<P7>,
+    super::opcode::PathEvent: From<P8>,
+    super::opcode::PathEvent: From<P9>,
+    super::opcode::PathEvent: From<P10>,
+    super::opcode::PathEvent: From<P11>,
+    super::opcode::PathEvent: From<P12>,
+    super::opcode::PathEvent: From<P13>,
 {
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-            self.11.into(),
-            self.12.into(),
-            self.13.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13> MapCollect<super::opcode::Angle>
-    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13)
-where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-    super::opcode::Angle: From<P2>,
-    super::opcode::Angle: From<P3>,
-    super::opcode::Angle: From<P4>,
-    super::opcode::Angle: From<P5>,
-    super::opcode::Angle: From<P6>,
-    super::opcode::Angle: From<P7>,
-    super::opcode::Angle: From<P8>,
-    super::opcode::Angle: From<P9>,
-    super::opcode::Angle: From<P10>,
-    super::opcode::Angle: From<P11>,
-    super::opcode::Angle: From<P12>,
-    super::opcode::Angle: From<P13>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -7570,26 +7506,25 @@ where
         ]
     }
 }
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13>
-    MapCollect<super::opcode::PathEvent>
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13> MapCollect<super::opcode::Length>
     for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13)
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-    super::opcode::PathEvent: From<P6>,
-    super::opcode::PathEvent: From<P7>,
-    super::opcode::PathEvent: From<P8>,
-    super::opcode::PathEvent: From<P9>,
-    super::opcode::PathEvent: From<P10>,
-    super::opcode::PathEvent: From<P11>,
-    super::opcode::PathEvent: From<P12>,
-    super::opcode::PathEvent: From<P13>,
+    super::opcode::Length: From<P0>,
+    super::opcode::Length: From<P1>,
+    super::opcode::Length: From<P2>,
+    super::opcode::Length: From<P3>,
+    super::opcode::Length: From<P4>,
+    super::opcode::Length: From<P5>,
+    super::opcode::Length: From<P6>,
+    super::opcode::Length: From<P7>,
+    super::opcode::Length: From<P8>,
+    super::opcode::Length: From<P9>,
+    super::opcode::Length: From<P10>,
+    super::opcode::Length: From<P11>,
+    super::opcode::Length: From<P12>,
+    super::opcode::Length: From<P13>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Length> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -7642,6 +7577,81 @@ where
             Number::from(self.11).0,
             Number::from(self.12).0,
             Number::from(self.13).0,
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13> MapCollect<super::opcode::Angle>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13)
+where
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
+    super::opcode::Angle: From<P2>,
+    super::opcode::Angle: From<P3>,
+    super::opcode::Angle: From<P4>,
+    super::opcode::Angle: From<P5>,
+    super::opcode::Angle: From<P6>,
+    super::opcode::Angle: From<P7>,
+    super::opcode::Angle: From<P8>,
+    super::opcode::Angle: From<P9>,
+    super::opcode::Angle: From<P10>,
+    super::opcode::Angle: From<P11>,
+    super::opcode::Angle: From<P12>,
+    super::opcode::Angle: From<P13>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+            self.11.into(),
+            self.12.into(),
+            self.13.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13>
+    MapCollect<super::opcode::Transform>
+    for (P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13)
+where
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+    super::opcode::Transform: From<P2>,
+    super::opcode::Transform: From<P3>,
+    super::opcode::Transform: From<P4>,
+    super::opcode::Transform: From<P5>,
+    super::opcode::Transform: From<P6>,
+    super::opcode::Transform: From<P7>,
+    super::opcode::Transform: From<P8>,
+    super::opcode::Transform: From<P9>,
+    super::opcode::Transform: From<P10>,
+    super::opcode::Transform: From<P11>,
+    super::opcode::Transform: From<P12>,
+    super::opcode::Transform: From<P13>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+            self.11.into(),
+            self.12.into(),
+            self.13.into(),
         ]
     }
 }
@@ -7771,7 +7781,7 @@ where
 {
 }
 impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
-    MapCollect<super::opcode::Length>
+    MapCollect<super::opcode::PathEvent>
     for (
         P0,
         P1,
@@ -7790,135 +7800,23 @@ impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
         P14,
     )
 where
-    super::opcode::Length: From<P0>,
-    super::opcode::Length: From<P1>,
-    super::opcode::Length: From<P2>,
-    super::opcode::Length: From<P3>,
-    super::opcode::Length: From<P4>,
-    super::opcode::Length: From<P5>,
-    super::opcode::Length: From<P6>,
-    super::opcode::Length: From<P7>,
-    super::opcode::Length: From<P8>,
-    super::opcode::Length: From<P9>,
-    super::opcode::Length: From<P10>,
-    super::opcode::Length: From<P11>,
-    super::opcode::Length: From<P12>,
-    super::opcode::Length: From<P13>,
-    super::opcode::Length: From<P14>,
+    super::opcode::PathEvent: From<P0>,
+    super::opcode::PathEvent: From<P1>,
+    super::opcode::PathEvent: From<P2>,
+    super::opcode::PathEvent: From<P3>,
+    super::opcode::PathEvent: From<P4>,
+    super::opcode::PathEvent: From<P5>,
+    super::opcode::PathEvent: From<P6>,
+    super::opcode::PathEvent: From<P7>,
+    super::opcode::PathEvent: From<P8>,
+    super::opcode::PathEvent: From<P9>,
+    super::opcode::PathEvent: From<P10>,
+    super::opcode::PathEvent: From<P11>,
+    super::opcode::PathEvent: From<P12>,
+    super::opcode::PathEvent: From<P13>,
+    super::opcode::PathEvent: From<P14>,
 {
-    fn map_collect(self) -> Vec<super::opcode::Length> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-            self.11.into(),
-            self.12.into(),
-            self.13.into(),
-            self.14.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
-    MapCollect<super::opcode::Transform>
-    for (
-        P0,
-        P1,
-        P2,
-        P3,
-        P4,
-        P5,
-        P6,
-        P7,
-        P8,
-        P9,
-        P10,
-        P11,
-        P12,
-        P13,
-        P14,
-    )
-where
-    super::opcode::Transform: From<P0>,
-    super::opcode::Transform: From<P1>,
-    super::opcode::Transform: From<P2>,
-    super::opcode::Transform: From<P3>,
-    super::opcode::Transform: From<P4>,
-    super::opcode::Transform: From<P5>,
-    super::opcode::Transform: From<P6>,
-    super::opcode::Transform: From<P7>,
-    super::opcode::Transform: From<P8>,
-    super::opcode::Transform: From<P9>,
-    super::opcode::Transform: From<P10>,
-    super::opcode::Transform: From<P11>,
-    super::opcode::Transform: From<P12>,
-    super::opcode::Transform: From<P13>,
-    super::opcode::Transform: From<P14>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
-        vec![
-            self.0.into(),
-            self.1.into(),
-            self.2.into(),
-            self.3.into(),
-            self.4.into(),
-            self.5.into(),
-            self.6.into(),
-            self.7.into(),
-            self.8.into(),
-            self.9.into(),
-            self.10.into(),
-            self.11.into(),
-            self.12.into(),
-            self.13.into(),
-            self.14.into(),
-        ]
-    }
-}
-impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
-    MapCollect<super::opcode::Angle>
-    for (
-        P0,
-        P1,
-        P2,
-        P3,
-        P4,
-        P5,
-        P6,
-        P7,
-        P8,
-        P9,
-        P10,
-        P11,
-        P12,
-        P13,
-        P14,
-    )
-where
-    super::opcode::Angle: From<P0>,
-    super::opcode::Angle: From<P1>,
-    super::opcode::Angle: From<P2>,
-    super::opcode::Angle: From<P3>,
-    super::opcode::Angle: From<P4>,
-    super::opcode::Angle: From<P5>,
-    super::opcode::Angle: From<P6>,
-    super::opcode::Angle: From<P7>,
-    super::opcode::Angle: From<P8>,
-    super::opcode::Angle: From<P9>,
-    super::opcode::Angle: From<P10>,
-    super::opcode::Angle: From<P11>,
-    super::opcode::Angle: From<P12>,
-    super::opcode::Angle: From<P13>,
-    super::opcode::Angle: From<P14>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Angle> {
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -7995,7 +7893,7 @@ where
     }
 }
 impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
-    MapCollect<super::opcode::PathEvent>
+    MapCollect<super::opcode::Length>
     for (
         P0,
         P1,
@@ -8014,23 +7912,23 @@ impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
         P14,
     )
 where
-    super::opcode::PathEvent: From<P0>,
-    super::opcode::PathEvent: From<P1>,
-    super::opcode::PathEvent: From<P2>,
-    super::opcode::PathEvent: From<P3>,
-    super::opcode::PathEvent: From<P4>,
-    super::opcode::PathEvent: From<P5>,
-    super::opcode::PathEvent: From<P6>,
-    super::opcode::PathEvent: From<P7>,
-    super::opcode::PathEvent: From<P8>,
-    super::opcode::PathEvent: From<P9>,
-    super::opcode::PathEvent: From<P10>,
-    super::opcode::PathEvent: From<P11>,
-    super::opcode::PathEvent: From<P12>,
-    super::opcode::PathEvent: From<P13>,
-    super::opcode::PathEvent: From<P14>,
+    super::opcode::Length: From<P0>,
+    super::opcode::Length: From<P1>,
+    super::opcode::Length: From<P2>,
+    super::opcode::Length: From<P3>,
+    super::opcode::Length: From<P4>,
+    super::opcode::Length: From<P5>,
+    super::opcode::Length: From<P6>,
+    super::opcode::Length: From<P7>,
+    super::opcode::Length: From<P8>,
+    super::opcode::Length: From<P9>,
+    super::opcode::Length: From<P10>,
+    super::opcode::Length: From<P11>,
+    super::opcode::Length: From<P12>,
+    super::opcode::Length: From<P13>,
+    super::opcode::Length: From<P14>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Length> {
         vec![
             self.0.into(),
             self.1.into(),
@@ -8105,27 +8003,123 @@ where
         ]
     }
 }
-impl<P> MapCollect<super::opcode::Length> for P
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
+    MapCollect<super::opcode::Angle>
+    for (
+        P0,
+        P1,
+        P2,
+        P3,
+        P4,
+        P5,
+        P6,
+        P7,
+        P8,
+        P9,
+        P10,
+        P11,
+        P12,
+        P13,
+        P14,
+    )
 where
-    super::opcode::Length: From<P>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Length> {
-        vec![self.into()]
-    }
-}
-impl<P> MapCollect<super::opcode::Transform> for P
-where
-    super::opcode::Transform: From<P>,
-{
-    fn map_collect(self) -> Vec<super::opcode::Transform> {
-        vec![self.into()]
-    }
-}
-impl<P> MapCollect<super::opcode::Angle> for P
-where
-    super::opcode::Angle: From<P>,
+    super::opcode::Angle: From<P0>,
+    super::opcode::Angle: From<P1>,
+    super::opcode::Angle: From<P2>,
+    super::opcode::Angle: From<P3>,
+    super::opcode::Angle: From<P4>,
+    super::opcode::Angle: From<P5>,
+    super::opcode::Angle: From<P6>,
+    super::opcode::Angle: From<P7>,
+    super::opcode::Angle: From<P8>,
+    super::opcode::Angle: From<P9>,
+    super::opcode::Angle: From<P10>,
+    super::opcode::Angle: From<P11>,
+    super::opcode::Angle: From<P12>,
+    super::opcode::Angle: From<P13>,
+    super::opcode::Angle: From<P14>,
 {
     fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+            self.11.into(),
+            self.12.into(),
+            self.13.into(),
+            self.14.into(),
+        ]
+    }
+}
+impl<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14>
+    MapCollect<super::opcode::Transform>
+    for (
+        P0,
+        P1,
+        P2,
+        P3,
+        P4,
+        P5,
+        P6,
+        P7,
+        P8,
+        P9,
+        P10,
+        P11,
+        P12,
+        P13,
+        P14,
+    )
+where
+    super::opcode::Transform: From<P0>,
+    super::opcode::Transform: From<P1>,
+    super::opcode::Transform: From<P2>,
+    super::opcode::Transform: From<P3>,
+    super::opcode::Transform: From<P4>,
+    super::opcode::Transform: From<P5>,
+    super::opcode::Transform: From<P6>,
+    super::opcode::Transform: From<P7>,
+    super::opcode::Transform: From<P8>,
+    super::opcode::Transform: From<P9>,
+    super::opcode::Transform: From<P10>,
+    super::opcode::Transform: From<P11>,
+    super::opcode::Transform: From<P12>,
+    super::opcode::Transform: From<P13>,
+    super::opcode::Transform: From<P14>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
+        vec![
+            self.0.into(),
+            self.1.into(),
+            self.2.into(),
+            self.3.into(),
+            self.4.into(),
+            self.5.into(),
+            self.6.into(),
+            self.7.into(),
+            self.8.into(),
+            self.9.into(),
+            self.10.into(),
+            self.11.into(),
+            self.12.into(),
+            self.13.into(),
+            self.14.into(),
+        ]
+    }
+}
+impl<P> MapCollect<super::opcode::PathEvent> for P
+where
+    super::opcode::PathEvent: From<P>,
+{
+    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
         vec![self.into()]
     }
 }
@@ -8137,11 +8131,11 @@ where
         vec![self.into()]
     }
 }
-impl<P> MapCollect<super::opcode::PathEvent> for P
+impl<P> MapCollect<super::opcode::Length> for P
 where
-    super::opcode::PathEvent: From<P>,
+    super::opcode::Length: From<P>,
 {
-    fn map_collect(self) -> Vec<super::opcode::PathEvent> {
+    fn map_collect(self) -> Vec<super::opcode::Length> {
         vec![self.into()]
     }
 }
@@ -8151,6 +8145,22 @@ where
 {
     fn map_collect(self) -> Vec<f32> {
         vec![Number::from(self).0]
+    }
+}
+impl<P> MapCollect<super::opcode::Angle> for P
+where
+    super::opcode::Angle: From<P>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Angle> {
+        vec![self.into()]
+    }
+}
+impl<P> MapCollect<super::opcode::Transform> for P
+where
+    super::opcode::Transform: From<P>,
+{
+    fn map_collect(self) -> Vec<super::opcode::Transform> {
+        vec![self.into()]
     }
 }
 impl<P0, P1> MapCollect<super::opcode::Point> for (P0, P1)

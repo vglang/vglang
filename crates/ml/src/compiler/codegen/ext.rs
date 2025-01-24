@@ -10,8 +10,6 @@ use crate::compiler::ir::{Comment, Enum, Field, Ident, Node, Type};
 pub trait IdentGen {
     fn field_ident(&self) -> TokenStream;
     fn type_ident(&self) -> TokenStream;
-    fn xml_attr_name(&self) -> String;
-
     fn field_ident_with_prefix(&self, prefix: &str) -> TokenStream;
 }
 
@@ -30,10 +28,6 @@ impl IdentGen for Ident {
 
     fn type_ident(&self) -> TokenStream {
         self.1.to_upper_camel_case().parse().unwrap()
-    }
-
-    fn xml_attr_name(&self) -> String {
-        self.1.to_lower_camel_case()
     }
 }
 
@@ -161,14 +155,14 @@ pub trait FieldGen {
     /// Generate filed ident with keywords escape.
     fn gen_ident(&self) -> Option<TokenStream>;
 
-    /// Generate filed ident with keywords escape.
-    fn gen_xml_attr_name(&self) -> Option<String>;
-
     /// Generate field definition code.
     fn gen_definition(&self, vis: TokenStream) -> TokenStream;
 
     /// Generate the field type definition code.
     fn gen_type_definition(&self, opcode_mod: &TokenStream) -> TokenStream;
+
+    /// Get the serialize/deserialize name may different to rust name.
+    fn gen_display_name(&self) -> Option<&str>;
 }
 
 impl<'a> FieldGen for Field<'a> {
@@ -217,14 +211,6 @@ impl<'a> FieldGen for Field<'a> {
         self.ident().map(|ident| ident.field_ident())
     }
 
-    fn gen_xml_attr_name(&self) -> Option<String> {
-        if let Some(name) = self.xml_name() {
-            Some(name.to_string())
-        } else {
-            self.ident().map(|ident| ident.xml_attr_name())
-        }
-    }
-
     fn gen_type_definition(&self, opcode_mod: &TokenStream) -> TokenStream {
         let mut ty = self.ty().gen_type_definition(opcode_mod);
 
@@ -251,6 +237,14 @@ impl<'a> FieldGen for Field<'a> {
             quote! { #(#comments)* #vis #ty }
         }
     }
+
+    fn gen_display_name(&self) -> Option<&str> {
+        if let Some(v) = self.rename() {
+            return Some(v);
+        } else {
+            self.ident().map(|v| v.1.as_str())
+        }
+    }
 }
 
 /// An extension trait for [`Node`] to helpe code generating.
@@ -264,7 +258,8 @@ pub trait NodeGen {
     /// Generate node comment list.
     fn gen_comments(&self) -> Vec<TokenStream>;
 
-    fn gen_xml_attr_name(&self) -> String;
+    /// Get the serialize/deserialize name may different to rust name.
+    fn gen_display_name(&self) -> &str;
 }
 
 impl NodeGen for Node {
@@ -288,10 +283,12 @@ impl NodeGen for Node {
         self.comments.iter().map(|c| c.gen_comment()).collect()
     }
 
-    fn gen_xml_attr_name(&self) -> String {
-        self.xml_name()
-            .map(|v| v.to_string())
-            .unwrap_or(self.ident.xml_attr_name())
+    fn gen_display_name(&self) -> &str {
+        if let Some(v) = self.rename() {
+            return v;
+        } else {
+            self.ident.1.as_str()
+        }
     }
 }
 
@@ -300,6 +297,8 @@ pub trait EnumGen {
     fn gen_ident(&self) -> TokenStream;
     /// Generate node comment list.
     fn gen_comments(&self) -> Vec<TokenStream>;
+
+    fn gen_display_name(&self) -> &str;
 }
 
 impl EnumGen for Enum {
@@ -309,5 +308,13 @@ impl EnumGen for Enum {
 
     fn gen_comments(&self) -> Vec<TokenStream> {
         self.comments.iter().map(|c| c.gen_comment()).collect()
+    }
+
+    fn gen_display_name(&self) -> &str {
+        if let Some(v) = self.rename() {
+            return v;
+        } else {
+            self.ident.1.as_str()
+        }
     }
 }

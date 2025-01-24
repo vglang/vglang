@@ -116,10 +116,6 @@ impl SexprRestraintGen for ChildrenOf {
 
 impl Node {
     fn gen_from_fn(&self, opcode_mod: &TokenStream) -> TokenStream {
-        if self.init_skip() {
-            return quote! {};
-        }
-
         let init_fields = self
             .fields
             .iter()
@@ -384,10 +380,6 @@ impl SexprDataGen for Enum {
                     fn #field_ident(self) -> #opcode_mod #enum_ident;
                 }
             });
-
-            if node.init_skip() {
-                continue;
-            }
 
             let init_fields = node
                 .fields
