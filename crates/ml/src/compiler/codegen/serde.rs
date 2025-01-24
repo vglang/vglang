@@ -57,7 +57,7 @@ impl SerializeGen for Node {
                     let mut serializer = serializer.#serialize_fn(#idx, #name, #fields)?;
                     #(#stats;)*
 
-                    Ok(())
+                    serializer.finish()
                 }
             }
         }
@@ -106,7 +106,7 @@ impl SerializeGen for Enum {
                 Self::#ident #body => {
                     let mut serializer = serializer.#serialize_fn(#type_id, #enum_name, #variant, #idx, #field_count)?;
                     #(#node_stats)*
-                    Ok(())
+                    serializer.finish()
                 }
             };
 

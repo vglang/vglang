@@ -53,6 +53,9 @@ pub trait Serializer {
         fields: usize,
     ) -> Result<Self::SerializeNode, Self::Error>;
 
+    /// Serialize vglang `vec[T]` or `[T;N]`
+    fn serialize_seq(self, len: usize) -> Result<Self::SerializeSeq, Self::Error>;
+
     /// Serialize vglang `string`.
     fn serialize_bool(self, value: bool) -> Result<(), Self::Error>;
 
@@ -95,9 +98,6 @@ pub trait Serializer {
     /// Serialize a none value.
     fn serialize_variable(self, path: &Path, target: &Target) -> Result<(), Self::Error>;
 
-    /// Serialize vglang `vec[T]` or `[T;N]`
-    fn serialize_seq(self, len: usize) -> Result<Self::SerializeSeq, Self::Error>;
-
     /// Serialize pop directive.
     fn serialize_pop(self) -> Result<(), Self::Error>;
 }
@@ -111,7 +111,7 @@ pub trait SerializeSeq {
         T: ?Sized + Serialize;
 
     /// Finish serializing a sequence.
-    fn end(self) -> Result<(), Self::Error>;
+    fn finish(self) -> Result<(), Self::Error>;
 }
 
 /// A trait to help serialzing a node.
@@ -128,19 +128,11 @@ pub trait SerializeNode {
     ) -> Result<(), Self::Error>
     where
         T: ?Sized + Serialize;
+
+    /// Finish serializing a sequence.
+    fn finish(self) -> Result<(), Self::Error>;
 }
 
-/// A trait to help serialzing a enum data.
-pub trait SerializeEnum {
-    /// Error type returns by this trait.
-    type Error;
-
-    /// Returns by [`serialize_field`](SerializeEnum::serialize_field) to help serializing enum field.
-    type SerializeNode: SerializeNode<Error = Self::Error>;
-
-    /// Serialize a enum field node.
-    fn serialize_field(&mut self, name: &str) -> Result<Self::SerializeNode, Self::Error>;
-}
 /// A node/enum must implement this trait to support serde framework.
 pub trait Serialize {
     /// serialize self with `serializer`.
@@ -301,7 +293,7 @@ where
             seq.serialize_element(item)?;
         }
 
-        seq.end()
+        seq.finish()
     }
 }
 
@@ -319,6 +311,6 @@ where
             seq.serialize_element(item)?;
         }
 
-        seq.end()
+        seq.finish()
     }
 }

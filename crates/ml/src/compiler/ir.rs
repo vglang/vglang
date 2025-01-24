@@ -355,7 +355,7 @@ impl<'a> Field<'a> {
     pub fn rename(&self) -> Option<&str> {
         for prop in self.properties() {
             for param in &prop.calls {
-                if param.target.1 == "xml" {
+                if param.target.1 == "rename" {
                     return param.params.first().map(|v| v.1.as_str());
                 }
             }

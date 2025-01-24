@@ -49,7 +49,7 @@ pub fn enable_background_01() -> impl Graphics {
             Group
                 .apply((
                     WithTransform::from((270, 0).translate()),
-                    EnableBackground::from(Background::default()),
+                    EnableBackground::from(Background::New(None)),
                 ))
                 .children((
                     Rect::from((25, 25, 100, 100)).apply(Fill::from(Color::Red)),
@@ -64,7 +64,7 @@ pub fn enable_background_01() -> impl Graphics {
             // The third invokes ShiftBGAndBlur on the inner group.
             Group
                 .apply((
-                    EnableBackground::from(Background::default()),
+                    EnableBackground::from(Background::New(None)),
                     WithTransform::from((540, 0).translate()),
                 ))
                 .children((
@@ -82,7 +82,7 @@ pub fn enable_background_01() -> impl Graphics {
             // The fourth invokes ShiftBGAndBlur on the triangle.
             Group
                 .apply((
-                    EnableBackground::from(Background::default()),
+                    EnableBackground::from(Background::New(None)),
                     WithTransform::from((810, 0).translate()),
                 ))
                 .children((
@@ -98,7 +98,7 @@ pub fn enable_background_01() -> impl Graphics {
             // The fifth invokes ShiftBGAndBlur_WithSourceGraphic on the triangle.
             Group
                 .apply((
-                    EnableBackground::from(Background::default()),
+                    EnableBackground::from(Background::New(None)),
                     WithTransform::from((1080, 0).translate()),
                 ))
                 .children((

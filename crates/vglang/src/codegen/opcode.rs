@@ -256,7 +256,7 @@ pub enum Transform {
     Translate(f32, f32),
     Matrix([f32; 6usize]),
     Scale(f32, Option<f32>),
-    Rotate { angle: f32, cx: f32, cy: f32 },
+    Rotate { angle: f32, center: Option<Point> },
     SkewX(f32),
     SkewY(f32),
 }
@@ -473,12 +473,15 @@ pub enum Background {
     #[doc = " elements onto the target device. (No need to render to the background image canvas.)"]
     Accumulate,
     #[doc = " Indicate the subregion of the container element's user space where access to the background image is allowed to happen."]
-    New {
-        x: Option<f32>,
-        y: Option<f32>,
-        width: Option<f32>,
-        height: Option<f32>,
-    },
+    New(Option<BackgroundNew>),
+}
+#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct BackgroundNew {
+    pub x: f32,
+    pub y: f32,
+    pub width: f32,
+    pub height: f32,
 }
 #[doc = " Identifies input for the given filter primitive. The value can be either one of six keywords or"]
 #[doc = " can be a string which matches a previous ‘result’ attribute value within the same ‘filter’ element."]
@@ -2690,6 +2693,8 @@ pub enum Data {
     ListOfFontStretch(Box<Vec<FontStretch>>),
     Background(Box<Background>),
     ListOfBackground(Box<Vec<Background>>),
+    BackgroundNew(Box<BackgroundNew>),
+    ListOfBackgroundNew(Box<Vec<BackgroundNew>>),
     FeIn(Box<FeIn>),
     ListOfFeIn(Box<Vec<FeIn>>),
     FeOut(Box<FeOut>),
@@ -3773,6 +3778,34 @@ impl<'a> TryFrom<&'a Data> for &'a Vec<Background> {
     fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
         match value {
             Data::ListOfBackground(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
+impl From<BackgroundNew> for Data {
+    fn from(value: BackgroundNew) -> Self {
+        Data::BackgroundNew(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a BackgroundNew {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::BackgroundNew(v) => Ok(v),
+            _ => Err(()),
+        }
+    }
+}
+impl From<Vec<BackgroundNew>> for Data {
+    fn from(value: Vec<BackgroundNew>) -> Self {
+        Data::ListOfBackgroundNew(Box::new(value))
+    }
+}
+impl<'a> TryFrom<&'a Data> for &'a Vec<BackgroundNew> {
+    type Error = ();
+    fn try_from(value: &'a Data) -> Result<Self, Self::Error> {
+        match value {
+            Data::ListOfBackgroundNew(v) => Ok(v),
             _ => Err(()),
         }
     }

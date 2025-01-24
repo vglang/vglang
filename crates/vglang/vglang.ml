@@ -240,7 +240,7 @@ enum Transform {
     Translate(float,float), 
     Matrix([float;6]),
     Scale(float,#[option] float), 
-    Rotate { angle: float, cx: float, cy: float },
+    Rotate { angle: float, #[option] center: Point },
     SkewX(float),
     SkewY(float),
 }
@@ -382,16 +382,11 @@ enum Background {
     Accumulate, 
 
     /// Indicate the subregion of the container element's user space where access to the background image is allowed to happen.
-    New {
-        #[option]
-        x: float, 
-        #[option] 
-        y: float, 
-        #[option] 
-        width: float, 
-        #[option] 
-        height: float
-    }
+    New(#[option] BackgroundNew)
+}
+
+data BackgroundNew {
+    x: float, y: float, width: float, height: float,
 }
 
 /// Identifies input for the given filter primitive. The value can be either one of six keywords or

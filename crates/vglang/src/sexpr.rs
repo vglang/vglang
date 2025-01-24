@@ -1,6 +1,6 @@
 pub use super::codegen::sexpr::*;
 
-use crate::opcode::{Background, Color, FuncIri, Length, Paint, PathEvent, Point, Rgb, Transform};
+use crate::opcode::{Color, FuncIri, Length, Paint, PathEvent, Point, Rgb, Transform};
 
 // /// A trait convert self into [`Length`]
 // pub trait Slength {
@@ -122,44 +122,6 @@ impl Sscale for f32 {
 impl Sscale for i32 {
     fn scale(self) -> Transform {
         Transform::Scale(self as f32, None)
-    }
-}
-
-/// Help trait to construct [`Transform::Rotate`]
-pub trait Srotate {
-    fn rotate(self) -> Transform;
-}
-
-impl<X, Y, Z> Srotate for (X, Y, Z)
-where
-    Number: From<X> + From<Y> + From<Z>,
-{
-    fn rotate(self) -> Transform {
-        Transform::Rotate {
-            angle: Number::from(self.0).0,
-            cx: Number::from(self.1).0,
-            cy: Number::from(self.2).0,
-        }
-    }
-}
-
-impl Srotate for f32 {
-    fn rotate(self) -> Transform {
-        Transform::Rotate {
-            angle: self,
-            cx: 0.0,
-            cy: 0.0,
-        }
-    }
-}
-
-impl Srotate for i32 {
-    fn rotate(self) -> Transform {
-        Transform::Rotate {
-            angle: self as f32,
-            cx: 0.0,
-            cy: 0.0,
-        }
     }
 }
 
@@ -553,16 +515,5 @@ impl From<Color> for Paint {
 impl From<Rgb> for Paint {
     fn from(value: Rgb) -> Self {
         Self::Color(value)
-    }
-}
-
-impl Default for Background {
-    fn default() -> Self {
-        Self::New {
-            x: None,
-            y: None,
-            width: None,
-            height: None,
-        }
     }
 }

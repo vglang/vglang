@@ -26,7 +26,7 @@ nom = {workspace = true}
 [features]
 lang = ["parserc", "log"]
 serde = ["dep:serde", "parserc/serde", "ml/serde"]
-svg = ["surface", "xml-builder", "heck"]
+svg = ["surface", "xml-builder", "heck", "log"]
 
 sexpr = []
 surface = []
