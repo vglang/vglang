@@ -68,6 +68,10 @@ impl SvgWriter {
             _ => tag.to_lower_camel_case(),
         }
     }
+
+    fn add_attribute(&mut self, name: &str, value: String) {
+        self.els.last_mut().unwrap().add_attribute(name, &value);
+    }
 }
 
 impl<'a> SerializeNode for &'a mut SvgWriter {
@@ -93,7 +97,7 @@ impl<'a> SerializeNode for &'a mut SvgWriter {
                         .pop()
                         .expect(&format!("process el attr({})", name))
                     {
-                        self.els.last_mut().unwrap().add_attribute(name, &value);
+                        self.add_attribute(name, value);
                     }
                 }
 
@@ -111,7 +115,7 @@ impl<'a> SerializeNode for &'a mut SvgWriter {
                         .pop()
                         .expect(&format!("process leaf attr({})", name))
                     {
-                        self.els.last_mut().unwrap().add_attribute(name, &value);
+                        self.add_attribute(name, value);
                     }
                 }
 
