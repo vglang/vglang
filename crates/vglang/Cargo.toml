@@ -15,7 +15,9 @@ ml = {workspace = true, features = ["rt", "opcode"]}
 parserc = {workspace = true, optional = true}
 serde = {workspace = true, optional = true}
 varint-rs = {workspace = true, optional = true}
+vglang-derive = {workspace = true, optional = true}
 xml-builder = {workspace = true, optional = true}
+
 [build-dependencies]
 ml = {workspace = true, features = ["compiler"]}
 
@@ -26,6 +28,6 @@ nom = {workspace = true}
 [features]
 binary = ["varint-rs"]
 serde = ["dep:serde", "parserc/serde", "ml/serde"]
-sexpr = []
+sexpr = ["vglang-derive"]
 surface = []
 svg = ["xml-builder", "heck", "log"]

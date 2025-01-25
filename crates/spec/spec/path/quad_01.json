@@ -1,0 +1,391 @@
+[
+  {
+    "Apply": {
+      "ViewBox": {
+        "minx": {
+          "Constant": 0.0
+        },
+        "miny": {
+          "Constant": 0.0
+        },
+        "width": {
+          "Constant": 1200.0
+        },
+        "height": {
+          "Constant": 600.0
+        },
+        "aspect": null
+      }
+    }
+  },
+  {
+    "Element": {
+      "Canvas": {
+        "width": {
+          "Constant": {
+            "Cm": 12.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Cm": 6.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": "None",
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 1.0
+          }
+        },
+        "linecap": null,
+        "linejoin": null,
+        "dasharray": null,
+        "dashoffset": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "Px": 1.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "Px": 1.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 1198.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Px": 598.0
+          }
+        },
+        "rx": null,
+        "ry": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": "None",
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              255,
+              0,
+              0
+            ]
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 5.0
+          }
+        },
+        "linecap": null,
+        "linejoin": null,
+        "dasharray": null,
+        "dashoffset": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Path": {
+        "events": {
+          "Constant": [
+            {
+              "MoveTo": [
+                200.0,
+                300.0
+              ]
+            },
+            {
+              "QuadraticBezier": {
+                "ctrl": [
+                  400.0,
+                  50.0
+                ],
+                "to_point": [
+                  600.0,
+                  300.0
+                ]
+              }
+            },
+            {
+              "QuadraticBezierSmooth": [
+                1000.0,
+                300.0
+              ]
+            }
+          ]
+        },
+        "length": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Color": [
+            0,
+            0,
+            0
+          ]
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Element": {
+      "Group": null
+    }
+  },
+  {
+    "Leaf": {
+      "Circle": {
+        "cx": {
+          "Constant": {
+            "Px": 200.0
+          }
+        },
+        "cy": {
+          "Constant": {
+            "Px": 300.0
+          }
+        },
+        "r": {
+          "Constant": {
+            "Px": 10.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Circle": {
+        "cx": {
+          "Constant": {
+            "Px": 600.0
+          }
+        },
+        "cy": {
+          "Constant": {
+            "Px": 300.0
+          }
+        },
+        "r": {
+          "Constant": {
+            "Px": 10.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Circle": {
+        "cx": {
+          "Constant": {
+            "Px": 1000.0
+          }
+        },
+        "cy": {
+          "Constant": {
+            "Px": 300.0
+          }
+        },
+        "r": {
+          "Constant": {
+            "Px": 10.0
+          }
+        }
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Color": [
+            136,
+            136,
+            136
+          ]
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Element": {
+      "Group": null
+    }
+  },
+  {
+    "Leaf": {
+      "Circle": {
+        "cx": {
+          "Constant": {
+            "Px": 400.0
+          }
+        },
+        "cy": {
+          "Constant": {
+            "Px": 50.0
+          }
+        },
+        "r": {
+          "Constant": {
+            "Px": 10.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Circle": {
+        "cx": {
+          "Constant": {
+            "Px": 800.0
+          }
+        },
+        "cy": {
+          "Constant": {
+            "Px": 550.0
+          }
+        },
+        "r": {
+          "Constant": {
+            "Px": 10.0
+          }
+        }
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Fill": {
+        "paint": "None",
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              136,
+              136,
+              136
+            ]
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 2.0
+          }
+        },
+        "linecap": null,
+        "linejoin": null,
+        "dasharray": null,
+        "dashoffset": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Path": {
+        "events": {
+          "Constant": [
+            {
+              "MoveTo": [
+                200.0,
+                300.0
+              ]
+            },
+            {
+              "LineTo": [
+                400.0,
+                50.0
+              ]
+            },
+            {
+              "LineTo": [
+                600.0,
+                300.0
+              ]
+            },
+            {
+              "LineTo": [
+                800.0,
+                550.0
+              ]
+            },
+            {
+              "LineTo": [
+                1000.0,
+                300.0
+              ]
+            }
+          ]
+        },
+        "length": null
+      }
+    }
+  },
+  "Pop"
+]

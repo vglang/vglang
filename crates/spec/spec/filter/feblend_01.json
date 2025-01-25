@@ -1,0 +1,661 @@
+[
+  {
+    "Apply": {
+      "ViewBox": {
+        "minx": {
+          "Constant": 0.0
+        },
+        "miny": {
+          "Constant": 0.0
+        },
+        "width": {
+          "Constant": 500.0
+        },
+        "height": {
+          "Constant": 500.0
+        },
+        "aspect": null
+      }
+    }
+  },
+  {
+    "Element": {
+      "Canvas": {
+        "width": {
+          "Constant": {
+            "Cm": 5.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Cm": 5.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Id": "MyGradient"
+    }
+  },
+  {
+    "Element": {
+      "LinearGradient": {
+        "units": {
+          "Constant": "UserSpaceOnUse"
+        },
+        "transform": null,
+        "x1": {
+          "Constant": {
+            "Px": 100.0
+          }
+        },
+        "y1": {
+          "Constant": {
+            "Px": 0.0
+          }
+        },
+        "x2": {
+          "Constant": {
+            "Px": 300.0
+          }
+        },
+        "y2": {
+          "Constant": {
+            "Px": 0.0
+          }
+        },
+        "spread": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "GradientStop": {
+        "offset": {
+          "Constant": 0.0
+        },
+        "color": {
+          "Constant": [
+            0,
+            0,
+            0
+          ]
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "GradientStop": {
+        "offset": {
+          "Constant": 0.33
+        },
+        "color": {
+          "Constant": [
+            255,
+            255,
+            255
+          ]
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "GradientStop": {
+        "offset": {
+          "Constant": 0.67
+        },
+        "color": {
+          "Constant": [
+            255,
+            0,
+            0
+          ]
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "GradientStop": {
+        "offset": {
+          "Constant": 1.0
+        },
+        "color": {
+          "Constant": [
+            128,
+            128,
+            128
+          ]
+        },
+        "opacity": null
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Id": "Normal"
+    }
+  },
+  {
+    "Element": {
+      "Filter": {
+        "units": null,
+        "primitive_units": null,
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "res": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "FeBlend": {
+        "mode": {
+          "Constant": "Normal"
+        },
+        "in": null,
+        "in2": {
+          "Constant": "BackgroundImage"
+        },
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "result": null
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Id": "Multiply"
+    }
+  },
+  {
+    "Element": {
+      "Filter": {
+        "units": null,
+        "primitive_units": null,
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "res": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "FeBlend": {
+        "mode": {
+          "Constant": "Multiply"
+        },
+        "in": null,
+        "in2": {
+          "Constant": "BackgroundImage"
+        },
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "result": null
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Id": "Screen"
+    }
+  },
+  {
+    "Element": {
+      "Filter": {
+        "units": null,
+        "primitive_units": null,
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "res": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "FeBlend": {
+        "mode": {
+          "Constant": "Screen"
+        },
+        "in": null,
+        "in2": {
+          "Constant": "BackgroundImage"
+        },
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "result": null
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Id": "Darken"
+    }
+  },
+  {
+    "Element": {
+      "Filter": {
+        "units": null,
+        "primitive_units": null,
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "res": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "FeBlend": {
+        "mode": {
+          "Constant": "Darken"
+        },
+        "in": null,
+        "in2": {
+          "Constant": "BackgroundImage"
+        },
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "result": null
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Id": "Lighten"
+    }
+  },
+  {
+    "Element": {
+      "Filter": {
+        "units": null,
+        "primitive_units": null,
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "res": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "FeBlend": {
+        "mode": {
+          "Constant": "Lighten"
+        },
+        "in": null,
+        "in2": {
+          "Constant": "BackgroundImage"
+        },
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null,
+        "result": null
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Fill": {
+        "paint": "None",
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        },
+        "width": null,
+        "linecap": null,
+        "linejoin": null,
+        "dasharray": null,
+        "dashoffset": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "Px": 1.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "Px": 1.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 498.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Px": 498.0
+          }
+        },
+        "rx": null,
+        "ry": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "EnableBackground": {
+        "New": null
+      }
+    }
+  },
+  {
+    "Element": {
+      "Group": null
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Server": "MyGradient"
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "Px": 100.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "Px": 20.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 300.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Px": 460.0
+          }
+        },
+        "rx": null,
+        "ry": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Font": {
+        "family": {
+          "Constant": [
+            {
+              "Generic": "Verdana"
+            }
+          ]
+        },
+        "style": null,
+        "variant": null,
+        "weight": null,
+        "size": {
+          "Constant": {
+            "Px": 75.0
+          }
+        },
+        "stretch": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Color": [
+            136,
+            136,
+            136
+          ]
+        },
+        "rule": null,
+        "opacity": 0.6
+      }
+    }
+  },
+  {
+    "Element": {
+      "Group": null
+    }
+  },
+  {
+    "Apply": {
+      "WithFilter": "Normal"
+    }
+  },
+  {
+    "Element": {
+      "Text": {
+        "x": {
+          "Constant": [
+            {
+              "Px": 50.0
+            }
+          ]
+        },
+        "y": {
+          "Constant": [
+            {
+              "Px": 90.0
+            }
+          ]
+        },
+        "dx": null,
+        "dy": null,
+        "rotate": null,
+        "text_length": null,
+        "length_adjust": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Characters": "Normal"
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "WithFilter": "Multiply"
+    }
+  },
+  {
+    "Element": {
+      "Text": {
+        "x": {
+          "Constant": [
+            {
+              "Px": 50.0
+            }
+          ]
+        },
+        "y": {
+          "Constant": [
+            {
+              "Px": 180.0
+            }
+          ]
+        },
+        "dx": null,
+        "dy": null,
+        "rotate": null,
+        "text_length": null,
+        "length_adjust": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Characters": "Multiply"
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "WithFilter": "Screen"
+    }
+  },
+  {
+    "Element": {
+      "Text": {
+        "x": {
+          "Constant": [
+            {
+              "Px": 50.0
+            }
+          ]
+        },
+        "y": {
+          "Constant": [
+            {
+              "Px": 270.0
+            }
+          ]
+        },
+        "dx": null,
+        "dy": null,
+        "rotate": null,
+        "text_length": null,
+        "length_adjust": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Characters": "Screen"
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "WithFilter": "Darken"
+    }
+  },
+  {
+    "Element": {
+      "Text": {
+        "x": {
+          "Constant": [
+            {
+              "Px": 50.0
+            }
+          ]
+        },
+        "y": {
+          "Constant": [
+            {
+              "Px": 360.0
+            }
+          ]
+        },
+        "dx": null,
+        "dy": null,
+        "rotate": null,
+        "text_length": null,
+        "length_adjust": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Characters": "Darken"
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "WithFilter": "Lighten"
+    }
+  },
+  {
+    "Element": {
+      "Text": {
+        "x": {
+          "Constant": [
+            {
+              "Px": 50.0
+            }
+          ]
+        },
+        "y": {
+          "Constant": [
+            {
+              "Px": 450.0
+            }
+          ]
+        },
+        "dx": null,
+        "dy": null,
+        "rotate": null,
+        "text_length": null,
+        "length_adjust": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Characters": "Lighten"
+    }
+  },
+  "Pop",
+  "Pop",
+  "Pop",
+  "Pop"
+]

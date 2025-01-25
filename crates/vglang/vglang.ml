@@ -1975,7 +1975,7 @@ el LinearGradient {
 /// Radial gradients are defined by a ‘radialGradient’ element.
 el RadialGradient {
     /// Defines the coordinate system for attributes ‘x1’, ‘y1’, ‘x2’ and ‘y2’.
-    #[option, variable]
+    #[option, variable, rename("gradientUnits")]
     unit: Coords,
 
     /// Contains the definition of an optional additional transformation from the gradient coordinate system onto the
@@ -1997,12 +1997,12 @@ el RadialGradient {
     /// If the attribute is not specified, the effect is as if a value of '50%' were specified.
     ///
     /// Variable: yes.
-    #[option, variable]
+    #[option, variable,init]
     cx: Length,
 
     /// See [`cx`](RadialGradient::cx)
     /// If the attribute is not specified, the effect is as if a value of '50%' were specified.
-    #[option, variable]
+    #[option, variable,init]
     cy: Length,
 
     /// See [`cx`](RadialGradient::cx)
@@ -2013,7 +2013,7 @@ el RadialGradient {
     /// If the attribute is not specified, the effect is as if a value of '50%' were specified.
     ///
     /// Variable: yes.
-    #[option, variable]
+    #[option, variable,init]
     r: Length,
 
     /// ‘fx’ and ‘fy’ define the focal point for the radial gradient. The gradient will be drawn such that the
@@ -2024,7 +2024,7 @@ el RadialGradient {
     /// is inherited from the referenced element.
     ///
     /// Variable: yes.
-    #[option, variable]
+    #[option, variable,init]
     fx: Length,
 
     /// See [`fx`](RadialGradient::fx)
@@ -2034,7 +2034,7 @@ el RadialGradient {
     /// is inherited from the referenced element.
     ///
     /// Variable: yes.
-    #[option, variable]
+    #[option, variable,init]
     fy: Length,
 
     /// Indicates what happens if the gradient starts or ends inside the bounds of the target rectangle.
@@ -2074,7 +2074,7 @@ el Group;
 /// or any combination of the three.
 leaf Path {
     /// The definition of the outline of a shape.
-    #[variable]
+    #[variable,rename("d")]
     events: vec[PathEvent],
 
     /// The author's computation of the total length of the path, in user units.
@@ -2086,7 +2086,7 @@ leaf Path {
     /// operations.
     ///
     /// A negative value is an error (see Error processing).
-    #[variable]
+    #[option, variable]
     length: Length,
 }
 
@@ -2582,6 +2582,7 @@ children (
 apply (
     TextLayout,
     Font,
+    WithFilter,
 ) to (Text,TextSpan);
 
 apply (
@@ -2593,6 +2594,7 @@ apply (
     WithClipPath,
     WithMask,
     Opacity,
+    Font,
 ) to (
     Group,
     Canvas,
@@ -2600,16 +2602,18 @@ apply (
     Mask,
     Shape,
     Use,
+    Path,
 );
 
 apply Id to (
+    RadialGradient,
     LinearGradient,
     Group,
     Canvas,
     Filter,
     Mask,
     Text,
-    TextSpan
+    TextSpan,
 );
 
 apply ViewBox to Canvas;

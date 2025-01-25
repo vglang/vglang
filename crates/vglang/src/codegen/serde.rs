@@ -3608,7 +3608,7 @@ impl ml::rt::serde::Serialize for super::opcode::RadialGradient {
     {
         use ml::rt::serde::SerializeNode;
         let mut serializer = serializer.serialize_el(93usize, "RadialGradient", 8usize)?;
-        serializer.serialize_field(0usize, Some("unit"), &self.unit)?;
+        serializer.serialize_field(0usize, Some("gradientUnits"), &self.unit)?;
         serializer.serialize_field(1usize, Some("transform"), &self.transform)?;
         serializer.serialize_field(2usize, Some("cx"), &self.cx)?;
         serializer.serialize_field(3usize, Some("cy"), &self.cy)?;
@@ -3649,7 +3649,7 @@ impl ml::rt::serde::Serialize for super::opcode::Path {
     {
         use ml::rt::serde::SerializeNode;
         let mut serializer = serializer.serialize_leaf(96usize, "Path", 2usize)?;
-        serializer.serialize_field(0usize, Some("events"), &self.events)?;
+        serializer.serialize_field(0usize, Some("d"), &self.events)?;
         serializer.serialize_field(1usize, Some("length"), &self.length)?;
         serializer.finish()
     }

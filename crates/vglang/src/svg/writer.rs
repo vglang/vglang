@@ -250,7 +250,8 @@ impl<'a> Serializer for &'a mut SvgWriter {
     }
 
     fn serialize_bool(self, value: bool) -> Result<(), Self::Error> {
-        self.values.push(Some(format!("{}", value)));
+        self.values
+            .push(Some(format!("{}", if value { 1 } else { 0 })));
         Ok(())
     }
 
@@ -472,7 +473,209 @@ impl<'a> SerializeNode for &'a mut SvgWriter {
                     self.values.push(Some(format!("{} {}", variant, value)));
                 }
             },
-            SvgWriterState::PathEvent(_) => todo!(),
+            SvgWriterState::PathEvent(variant) => match variant.as_str() {
+                "Close" => {
+                    self.values.push(Some("Z".to_string()));
+                }
+                "MoveTo" => {
+                    let value = self
+                        .values
+                        .pop()
+                        .expect("path(moveto) fields == 1.")
+                        .expect("path(moveto) field 0 is none");
+
+                    self.values.push(Some(format!("M {}", value)));
+                }
+                "MoveToRelative" => {
+                    let value = self
+                        .values
+                        .pop()
+                        .expect("path(moveto relative) fields == 1.")
+                        .expect("path(moveto relative) field 0 is none");
+
+                    self.values.push(Some(format!("m {}", value)));
+                }
+                "LineTo" => {
+                    let value = self
+                        .values
+                        .pop()
+                        .expect("path(lineto) fields == 1.")
+                        .expect("path(lineto) field 0 is none");
+
+                    self.values.push(Some(format!("L {}", value)));
+                }
+                "LineToRelative" => {
+                    let value = self
+                        .values
+                        .pop()
+                        .expect("path(lineto relative) fields == 1.")
+                        .expect("path(lineto relative) field 0 is none");
+
+                    self.values.push(Some(format!("l {}", value)));
+                }
+                "Polyline" => {
+                    let value = self
+                        .values
+                        .pop()
+                        .expect("path(polyline) fields == 1.")
+                        .expect("path(polyline) field 0 is none");
+
+                    self.values.push(Some(format!("L {}", value)));
+                }
+                "PolylineRelative" => {
+                    let value = self
+                        .values
+                        .pop()
+                        .expect("path(polyline relative) fields == 1.")
+                        .expect("path(polyline relative) field 0 is none");
+
+                    self.values.push(Some(format!("l {}", value)));
+                }
+                "CubicBezier" => {
+                    assert!(self.values.len() >= 3, "path(cubic) fields == 3");
+                    let values = self.values.split_off(self.values.len() - 3);
+
+                    self.values.push(Some(format!(
+                        "C {} {} {}",
+                        values[0].as_ref().expect("path(cubic) value 0 is none"),
+                        values[1].as_ref().expect("path(cubic) value 1 is none"),
+                        values[2].as_ref().expect("path(cubic) value 2 is none"),
+                    )));
+                }
+                "CubicBezierRelative" => {
+                    assert!(self.values.len() >= 3, "path(cubic,relative) fields == 3");
+                    let values = self.values.split_off(self.values.len() - 3);
+
+                    self.values.push(Some(format!(
+                        "c {} {} {}",
+                        values[0]
+                            .as_ref()
+                            .expect("path(cubic,relative) value 0 is none"),
+                        values[1]
+                            .as_ref()
+                            .expect("path(cubic,relative) value 1 is none"),
+                        values[2]
+                            .as_ref()
+                            .expect("path(cubic,relative) value 2 is none"),
+                    )));
+                }
+                "CubicBezierSmooth" => {
+                    assert!(self.values.len() >= 2, "path(cubic,smooth) fields == 2");
+                    let values = self.values.split_off(self.values.len() - 2);
+
+                    self.values.push(Some(format!(
+                        "S {} {}",
+                        values[0]
+                            .as_ref()
+                            .expect("path(cubic,smooth) value 0 is none"),
+                        values[1]
+                            .as_ref()
+                            .expect("path(cubic,smooth) value 1 is none"),
+                    )));
+                }
+                "CubicBezierSmoothRelative" => {
+                    assert!(
+                        self.values.len() >= 2,
+                        "path(cubic,smooth,relative) fields == 2"
+                    );
+                    let values = self.values.split_off(self.values.len() - 2);
+
+                    self.values.push(Some(format!(
+                        "s {} {}",
+                        values[0]
+                            .as_ref()
+                            .expect("path(cubic,smooth,relative) value 0 is none"),
+                        values[1]
+                            .as_ref()
+                            .expect("path(cubic,smooth,relative) value 1 is none"),
+                    )));
+                }
+                "QuadraticBezier" => {
+                    assert!(self.values.len() >= 2, "path(quad) fields == 2");
+                    let values = self.values.split_off(self.values.len() - 2);
+
+                    self.values.push(Some(format!(
+                        "Q {} {}",
+                        values[0].as_ref().expect("path(quad) value 0 is none"),
+                        values[1].as_ref().expect("path(quad) value 1 is none"),
+                    )));
+                }
+                "QuadraticBezierRelative" => {
+                    assert!(self.values.len() >= 2, "path(quad,relative) fields == 2");
+                    let values = self.values.split_off(self.values.len() - 2);
+
+                    self.values.push(Some(format!(
+                        "q {} {}",
+                        values[0]
+                            .as_ref()
+                            .expect("path(quad,relative) value 0 is none"),
+                        values[1]
+                            .as_ref()
+                            .expect("path(quad,relative) value 1 is none"),
+                    )));
+                }
+                "QuadraticBezierSmooth" => {
+                    let value = self
+                        .values
+                        .pop()
+                        .expect("path(quad,smooth) fields == 1.")
+                        .expect("path(quad,smooth) field 0 is none");
+
+                    self.values.push(Some(format!("T {}", value)));
+                }
+                "QuadraticBezierSmoothRelative" => {
+                    let value = self
+                        .values
+                        .pop()
+                        .expect("path(quad,smooth,releative) fields == 1.")
+                        .expect("path(quad,smooth,releative) field 0 is none");
+
+                    self.values.push(Some(format!("t {}", value)));
+                }
+                "Arc" => {
+                    assert!(self.values.len() >= 6, "path(arc) fields == 6");
+                    let values = self.values.split_off(self.values.len() - 6);
+
+                    self.values.push(Some(format!(
+                        "A {} {} {} {} {} {}",
+                        values[0].as_ref().expect("path(arc) value 0 is none"),
+                        values[1].as_ref().expect("path(arc) value 1 is none"),
+                        values[2].as_ref().expect("path(arc) value 2 is none"),
+                        values[3].as_ref().expect("path(arc) value 3 is none"),
+                        values[4].as_ref().expect("path(arc) value 4 is none"),
+                        values[5].as_ref().expect("path(arc) value 5 is none"),
+                    )));
+                }
+                "ArcRelative" => {
+                    assert!(self.values.len() >= 6, "path(arc,relative) fields == 6");
+                    let values = self.values.split_off(self.values.len() - 6);
+
+                    self.values.push(Some(format!(
+                        "a {} {} {} {} {} {}",
+                        values[0]
+                            .as_ref()
+                            .expect("path(arc,relative) value 0 is none"),
+                        values[1]
+                            .as_ref()
+                            .expect("path(arc,relative) value 1 is none"),
+                        values[2]
+                            .as_ref()
+                            .expect("path(arc,relative) value 2 is none"),
+                        values[3]
+                            .as_ref()
+                            .expect("path(arc,relative) value 3 is none"),
+                        values[4]
+                            .as_ref()
+                            .expect("path(arc,relative) value 4 is none"),
+                        values[5]
+                            .as_ref()
+                            .expect("path(arc,relative) value 5 is none"),
+                    )));
+                }
+                _ => {
+                    panic!("Unsupport path event `{}`", variant);
+                }
+            },
             SvgWriterState::Transform(variant) => match variant.as_str() {
                 "matrix" => {
                     assert!(self.values.len() >= 6, "matrix fields == 6");

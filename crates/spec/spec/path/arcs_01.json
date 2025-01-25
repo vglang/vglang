@@ -1,0 +1,387 @@
+[
+  {
+    "Apply": {
+      "ViewBox": {
+        "minx": {
+          "Constant": 0.0
+        },
+        "miny": {
+          "Constant": 0.0
+        },
+        "width": {
+          "Constant": 1200.0
+        },
+        "height": {
+          "Constant": 400.0
+        },
+        "aspect": null
+      }
+    }
+  },
+  {
+    "Element": {
+      "Canvas": {
+        "width": {
+          "Constant": {
+            "Cm": 12.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Cm": 5.25
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": "None",
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 1.0
+          }
+        },
+        "linecap": null,
+        "linejoin": null,
+        "dasharray": null,
+        "dashoffset": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "Px": 1.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "Px": 1.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 1198.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Px": 398.0
+          }
+        },
+        "rx": null,
+        "ry": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Color": [
+            255,
+            0,
+            0
+          ]
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 5.0
+          }
+        },
+        "linecap": null,
+        "linejoin": null,
+        "dasharray": null,
+        "dashoffset": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Path": {
+        "events": {
+          "Constant": [
+            {
+              "MoveTo": [
+                300.0,
+                200.0
+              ]
+            },
+            {
+              "LineToRelative": [
+                -150.0,
+                0.0
+              ]
+            },
+            {
+              "ArcRelative": {
+                "rx": 150.0,
+                "ry": 150.0,
+                "x_rotation": 0.0,
+                "large_arc": true,
+                "sweep": false,
+                "to_point": [
+                  150.0,
+                  -150.0
+                ]
+              }
+            },
+            "Close"
+          ]
+        },
+        "length": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Color": [
+            255,
+            255,
+            0
+          ]
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 5.0
+          }
+        },
+        "linecap": null,
+        "linejoin": null,
+        "dasharray": null,
+        "dashoffset": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Path": {
+        "events": {
+          "Constant": [
+            {
+              "MoveTo": [
+                275.0,
+                175.0
+              ]
+            },
+            {
+              "LineToRelative": [
+                0.0,
+                -150.0
+              ]
+            },
+            {
+              "ArcRelative": {
+                "rx": 150.0,
+                "ry": 150.0,
+                "x_rotation": 0.0,
+                "large_arc": false,
+                "sweep": false,
+                "to_point": [
+                  -150.0,
+                  150.0
+                ]
+              }
+            },
+            "Close"
+          ]
+        },
+        "length": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": "None",
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              255,
+              0,
+              0
+            ]
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 5.0
+          }
+        },
+        "linecap": null,
+        "linejoin": null,
+        "dasharray": null,
+        "dashoffset": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Path": {
+        "events": {
+          "Constant": [
+            {
+              "MoveTo": [
+                600.0,
+                350.0
+              ]
+            },
+            {
+              "LineToRelative": [
+                50.0,
+                -25.0
+              ]
+            },
+            {
+              "ArcRelative": {
+                "rx": 25.0,
+                "ry": 25.0,
+                "x_rotation": -30.0,
+                "large_arc": false,
+                "sweep": true,
+                "to_point": [
+                  50.0,
+                  -25.0
+                ]
+              }
+            },
+            {
+              "LineToRelative": [
+                50.0,
+                -25.0
+              ]
+            },
+            {
+              "ArcRelative": {
+                "rx": 25.0,
+                "ry": 50.0,
+                "x_rotation": -30.0,
+                "large_arc": false,
+                "sweep": true,
+                "to_point": [
+                  50.0,
+                  -25.0
+                ]
+              }
+            },
+            {
+              "LineToRelative": [
+                50.0,
+                -25.0
+              ]
+            },
+            {
+              "ArcRelative": {
+                "rx": 25.0,
+                "ry": 75.0,
+                "x_rotation": -30.0,
+                "large_arc": false,
+                "sweep": true,
+                "to_point": [
+                  50.0,
+                  -25.0
+                ]
+              }
+            },
+            {
+              "LineToRelative": [
+                50.0,
+                -25.0
+              ]
+            },
+            {
+              "ArcRelative": {
+                "rx": 25.0,
+                "ry": 100.0,
+                "x_rotation": -30.0,
+                "large_arc": false,
+                "sweep": true,
+                "to_point": [
+                  50.0,
+                  -25.0
+                ]
+              }
+            },
+            {
+              "LineToRelative": [
+                50.0,
+                -25.0
+              ]
+            }
+          ]
+        },
+        "length": null
+      }
+    }
+  },
+  "Pop"
+]

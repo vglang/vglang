@@ -2211,7 +2211,7 @@ pub struct Path {
     #[doc = " operations."]
     #[doc = " "]
     #[doc = " A negative value is an error (see Error processing)."]
-    pub length: variable::Variable<Length>,
+    pub length: Option<variable::Variable<Length>>,
 }
 #[doc = " A pattern is used to fill or stroke an object using a pre-defined graphic object which can be replicated (\"tiled\")"]
 #[doc = " at fixed intervals in x and y to cover the areas to be painted. Patterns are defined using a ‘pattern’ element and"]

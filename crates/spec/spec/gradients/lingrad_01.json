@@ -1,0 +1,209 @@
+[
+  {
+    "Apply": {
+      "ViewBox": {
+        "minx": {
+          "Constant": 0.0
+        },
+        "miny": {
+          "Constant": 0.0
+        },
+        "width": {
+          "Constant": 800.0
+        },
+        "height": {
+          "Constant": 400.0
+        },
+        "aspect": null
+      }
+    }
+  },
+  {
+    "Element": {
+      "Canvas": {
+        "width": {
+          "Constant": {
+            "Cm": 8.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Cm": 4.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Id": "MyGradient"
+    }
+  },
+  {
+    "Element": {
+      "LinearGradient": {
+        "units": null,
+        "transform": null,
+        "x1": null,
+        "y1": null,
+        "x2": null,
+        "y2": null,
+        "spread": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "GradientStop": {
+        "offset": {
+          "Constant": 0.05
+        },
+        "color": {
+          "Constant": [
+            255,
+            102,
+            0
+          ]
+        },
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "GradientStop": {
+        "offset": {
+          "Constant": 0.95
+        },
+        "color": {
+          "Constant": [
+            255,
+            255,
+            102
+          ]
+        },
+        "opacity": null
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        },
+        "width": null,
+        "linecap": null,
+        "linejoin": null,
+        "dasharray": null,
+        "dashoffset": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": "None",
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "Px": 1.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "Px": 1.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 798.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Px": 398.0
+          }
+        },
+        "rx": null,
+        "ry": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "width": null,
+        "linecap": null,
+        "linejoin": null,
+        "dasharray": null,
+        "dashoffset": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Server": "MyGradient"
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "Px": 100.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "Px": 100.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 600.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Px": 200.0
+          }
+        },
+        "rx": null,
+        "ry": null
+      }
+    }
+  },
+  "Pop"
+]

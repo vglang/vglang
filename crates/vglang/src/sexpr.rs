@@ -1,6 +1,7 @@
 pub use super::codegen::sexpr::*;
+pub use vglang_derive::rgb;
 
-use crate::opcode::{Color, FuncIri, Length, Paint, Rgb};
+use crate::opcode::{Color, FeIn, FontFamily, FuncIri, Length, Paint, Rgb};
 
 impl<T> From<T> for Length
 where
@@ -190,5 +191,28 @@ impl From<Color> for Paint {
 impl From<Rgb> for Paint {
     fn from(value: Rgb) -> Self {
         Self::Color(value)
+    }
+}
+
+impl From<&str> for FontFamily {
+    fn from(value: &str) -> Self {
+        Self::Generic(value.into())
+    }
+}
+impl From<String> for FontFamily {
+    fn from(value: String) -> Self {
+        Self::Generic(value)
+    }
+}
+
+impl From<&str> for FeIn {
+    fn from(value: &str) -> Self {
+        Self::Result(value.into())
+    }
+}
+
+impl From<String> for FeIn {
+    fn from(value: String) -> Self {
+        Self::Result(value)
     }
 }
