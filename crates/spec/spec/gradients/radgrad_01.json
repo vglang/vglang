@@ -151,7 +151,9 @@
   {
     "Apply": {
       "Fill": {
-        "paint": "None",
+        "paint": {
+          "Constant": "None"
+        },
         "rule": null,
         "opacity": null
       }
@@ -210,7 +212,9 @@
     "Apply": {
       "Fill": {
         "paint": {
-          "Server": "MyGradient"
+          "Constant": {
+            "Server": "MyGradient"
+          }
         },
         "rule": null,
         "opacity": null

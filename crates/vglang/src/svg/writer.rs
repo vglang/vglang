@@ -3,15 +3,17 @@ use ml::rt::{
     opcode::variable::{self, Path, Target},
     serde::{Serialize, SerializeNode, SerializeSeq, Serializer},
 };
+use xml_dom::level2::{
+    ext::{get_implementation_ext, DocumentDecl, XmlDecl},
+    Document, Element, Node,
+};
 
 use crate::opcode::Opcode;
-
-use xml_builder::{XMLBuilder, XMLElement, XMLError, XMLVersion, XML};
 
 #[derive(Debug, thiserror::Error)]
 pub enum SvgWriteError {
     #[error(transparent)]
-    XmlError(#[from] XMLError),
+    XmlError(#[from] xml_dom::level2::Error),
     #[error("Unsafisfied variable path={0:?}, target={1:?}")]
     Unsatisfied(variable::Path, variable::Target),
 }
@@ -45,9 +47,9 @@ enum SvgWriterState {
 
 struct SvgWriter {
     /// rendering xml element stack.
-    els: Vec<XMLElement>,
+    els: Vec<xml_dom::level2::RefNode>,
     /// xml document.
-    document: XML,
+    document: xml_dom::level2::RefNode,
     /// event processing stack.
     state_stack: Vec<SvgWriterState>,
     /// Applying attribute/value pairs.
@@ -57,17 +59,28 @@ struct SvgWriter {
     /// defs stack.
     defs: Vec<bool>,
     /// the caching of defs node.
-    defs_node_cache: Vec<XMLElement>,
+    defs_node_cache: Vec<xml_dom::level2::RefNode>,
 }
 
 impl SvgWriter {
     fn new() -> Self {
+        let implementation = get_implementation_ext();
+
+        let mut document = implementation
+            .create_document(None, Some("svg"), None)
+            .unwrap();
+
+        let decl = XmlDecl::new(
+            xml_dom::level2::ext::XmlVersion::V10,
+            Some("utf-8".to_string()),
+            Some(true),
+        );
+
+        document.set_xml_declaration(decl).unwrap();
+
         Self {
             els: Default::default(),
-            document: XMLBuilder::new()
-                .version(XMLVersion::XML1_0)
-                .encoding("UTF-8".into())
-                .build(),
+            document,
             state_stack: Default::default(),
             attrs: Default::default(),
             values: Default::default(),
@@ -78,14 +91,17 @@ impl SvgWriter {
     fn end(self) -> Result<Vec<u8>, SvgWriteError> {
         assert_eq!(self.els.len(), 0);
         assert_eq!(self.defs_node_cache.len(), 0);
-        let mut writer: Vec<u8> = Vec::new();
-        self.document.generate(&mut writer)?;
 
-        Ok(writer)
+        Ok(self.document.to_string().as_bytes().to_vec())
     }
 
     fn new_xml_element(&mut self, name: &str) {
-        let mut el = XMLElement::new(name);
+        let mut el = if self.els.is_empty() {
+            assert_eq!(name, "svg", "root element must `svg`");
+            self.document.document_element().unwrap()
+        } else {
+            self.document.create_element(name).unwrap()
+        };
 
         let mut defs = false;
 
@@ -94,7 +110,7 @@ impl SvgWriter {
                 defs = true;
             }
 
-            el.add_attribute(&name, &value);
+            el.set_attribute(&name, &value).unwrap();
         }
 
         self.defs.push(defs);
@@ -329,23 +345,21 @@ impl<'a> Serializer for &'a mut SvgWriter {
         }
 
         if let Some(last) = self.els.last_mut() {
-            last.add_child(element)?;
+            last.append_child(element)?;
         } else {
             if !self.defs_node_cache.is_empty() {
-                let mut defs = XMLElement::new("defs");
+                let mut defs = self.document.create_element("defs")?;
 
                 for node in self.defs_node_cache.drain(..) {
-                    defs.add_child(node)?;
+                    defs.append_child(node)?;
                 }
 
-                element.add_child(defs)?;
+                element.append_child(defs)?;
             }
 
-            element.add_attribute("xmlns", "http://www.w3.org/2000/svg");
-            element.add_attribute("version", "1.1");
-            element.add_attribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
-
-            self.document.set_root_element(element);
+            element.set_attribute("xmlns", "http://www.w3.org/2000/svg")?;
+            element.set_attribute("version", "1.1")?;
+            element.set_attribute("xmlns:xlink", "http://www.w3.org/1999/xlink")?;
         }
 
         Ok(())
@@ -371,7 +385,7 @@ impl<'a> SerializeNode for &'a mut SvgWriter {
                 if let Some(name) = name {
                     value.serialize(&mut **self)?;
                     if let Some(value) = self.values.pop().expect("serialize value,inner error.") {
-                        self.els.last_mut().unwrap().add_attribute(name, &value);
+                        self.els.last_mut().unwrap().set_attribute(name, &value)?;
                     } else {
                         log::info!("skip serialize {}:{}, value is none.", ty, name);
                     }
@@ -731,13 +745,13 @@ impl<'a> SerializeNode for &'a mut SvgWriter {
 
                     if let Some(v2) = &values[1] {
                         self.values.push(Some(format!(
-                            "scale({},{})",
+                            "rotate({},{})",
                             values[0].as_ref().expect("rotate value 0 is none"),
                             v2,
                         )));
                     } else {
                         self.values.push(Some(format!(
-                            "scale({})",
+                            "rotate({})",
                             values[0].as_ref().expect("rotate value 0 is none"),
                         )));
                     }
@@ -831,7 +845,7 @@ impl<'a> SerializeNode for &'a mut SvgWriter {
                 self.els
                     .last_mut()
                     .expect("Characters is root")
-                    .add_text(value)?;
+                    .append_child(self.document.create_text_node(&value))?;
             }
             SvgWriterState::Leaf(_) => {
                 self.serialize_pop()?;

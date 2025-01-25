@@ -864,17 +864,17 @@ attr Fill {
     /// paints color.
     ///
     /// `Inherited: yes`
-    #[rename("fill")]
+    #[option, variable, init, rename("fill")]
     paint: Paint,
 
     /// fill painting rule, see [`FillRule`] for more information.
     ///
     /// `Inherited: yes`
-    #[option,rename("fill-rule")]
+    #[option, variable, rename("fill-rule")]
     rule: FillRule,
 
     /// defining the opacity of the paint server
-    #[option,rename("fill-opacity")]
+    #[option, variable, rename("fill-opacity")]
     opacity: float,
 }
 
@@ -884,12 +884,12 @@ attr Stroke {
     /// paints color paints along the outline of the given graphical element.
     ///
     /// `Inherited: yes`
-    #[variable,rename("stroke")]
+    #[option, variable, init, rename("stroke")]
     paint: Paint,
     /// This property specifies the width of the stroke on the current object
     ///
     /// `Inherited: yes`
-    #[option,variable,rename("stroke-width")]
+    #[option, variable, rename("stroke-width")]
     width: Length,
 
     /// specifies the shape to be used at the end of open subpaths when they are stroked.
@@ -2112,7 +2112,7 @@ el Pattern {
     /// or ‘stroke’ property) and then applying the transform specified by attribute ‘patternTransform’.
     ///
     /// If attribute `units` is not specified, then the effect is as if a value of 'objectBoundingBox' were specified.
-    #[option, variable]
+    #[option, variable, rename("patternUnits")]
     units: Coords,
     /// Defines the coordinate system for the contents of the ‘pattern’. Note that this attribute has no effect
     /// if attribute ‘viewBox’ is specified.
@@ -2149,7 +2149,7 @@ el Pattern {
     /// If the attribute is not specified, the effect is as if a value of zero were specified.
     ///
     /// Animatable: yes.
-    #[option, variable]
+    #[option, variable, init]
     x: Length,
 
     /// See [`x`](Self::x).
@@ -2157,7 +2157,7 @@ el Pattern {
     /// If the attribute is not specified, the effect is as if a value of zero were specified.
     ///
     /// Animatable: yes.
-    #[option, variable]
+    #[option, variable, init]
     y: Length,
 
     /// See [`x`](Self::x).
@@ -2165,7 +2165,7 @@ el Pattern {
     /// If the attribute is not specified, the effect is as if a value of zero were specified.
     ///
     /// Animatable: yes.
-    #[option, variable]
+    #[option, variable, init]
     width: Length,
 
     /// See [`x`](Self::x).
@@ -2173,7 +2173,7 @@ el Pattern {
     /// If the attribute is not specified, the effect is as if a value of zero were specified.
     ///
     /// Animatable: yes.
-    #[option, variable]
+    #[option, variable, init]
     height: Length,
 }
 
@@ -2583,6 +2583,8 @@ apply (
     TextLayout,
     Font,
     WithFilter,
+    Fill,
+    Stroke,
 ) to (Text,TextSpan);
 
 apply (
@@ -2614,6 +2616,8 @@ apply Id to (
     Mask,
     Text,
     TextSpan,
+    Pattern,
+    Path,
 );
 
 apply ViewBox to Canvas;

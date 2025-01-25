@@ -1,0 +1,286 @@
+[
+  {
+    "Apply": {
+      "ViewBox": {
+        "minx": {
+          "Constant": 0.0
+        },
+        "miny": {
+          "Constant": 0.0
+        },
+        "width": {
+          "Constant": 1000.0
+        },
+        "height": {
+          "Constant": 300.0
+        },
+        "aspect": null
+      }
+    }
+  },
+  {
+    "Element": {
+      "Canvas": {
+        "width": {
+          "Constant": {
+            "Cm": 12.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Cm": 3.6
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Id": "MyPath"
+    }
+  },
+  {
+    "Leaf": {
+      "Path": {
+        "events": {
+          "Constant": [
+            {
+              "MoveTo": [
+                100.0,
+                200.0
+              ]
+            },
+            {
+              "CubicBezier": {
+                "ctrl1": [
+                  200.0,
+                  100.0
+                ],
+                "ctrl2": [
+                  300.0,
+                  0.0
+                ],
+                "to_point": [
+                  400.0,
+                  100.0
+                ]
+              }
+            },
+            {
+              "CubicBezier": {
+                "ctrl1": [
+                  500.0,
+                  200.0
+                ],
+                "ctrl2": [
+                  600.0,
+                  300.0
+                ],
+                "to_point": [
+                  700.0,
+                  200.0
+                ]
+              }
+            },
+            {
+              "CubicBezier": {
+                "ctrl1": [
+                  800.0,
+                  100.0
+                ],
+                "ctrl2": [
+                  900.0,
+                  100.0
+                ],
+                "to_point": [
+                  900.0,
+                  100.0
+                ]
+              }
+            }
+          ]
+        },
+        "length": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": null,
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              255,
+              0,
+              0
+            ]
+          }
+        },
+        "width": null,
+        "linecap": null,
+        "linejoin": null,
+        "dasharray": null,
+        "dashoffset": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Use": {
+        "Constant": {
+          "Local": "MyPath"
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Font": {
+        "family": {
+          "Constant": [
+            {
+              "Generic": "Verdana"
+            }
+          ]
+        },
+        "style": null,
+        "variant": null,
+        "weight": null,
+        "size": {
+          "Constant": {
+            "Px": 42.5
+          }
+        },
+        "stretch": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Element": {
+      "Text": {
+        "x": null,
+        "y": null,
+        "dx": null,
+        "dy": null,
+        "rotate": null,
+        "text_length": null,
+        "length_adjust": null
+      }
+    }
+  },
+  {
+    "Element": {
+      "TextPath": {
+        "start_offset": {
+          "Constant": {
+            "Percent": 10.0
+          }
+        },
+        "method": null,
+        "spacing": null,
+        "href": {
+          "Constant": {
+            "Local": "MyPath"
+          }
+        }
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Characters": "We go up, then we go down, then up again"
+    }
+  },
+  "Pop",
+  "Pop",
+  {
+    "Apply": {
+      "Fill": {
+        "paint": null,
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 2.0
+          }
+        },
+        "linecap": null,
+        "linejoin": null,
+        "dasharray": null,
+        "dashoffset": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "Px": 1.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "Px": 1.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 998.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Px": 298.0
+          }
+        },
+        "rx": null,
+        "ry": null
+      }
+    }
+  },
+  "Pop"
+]

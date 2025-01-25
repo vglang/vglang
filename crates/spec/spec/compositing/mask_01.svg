@@ -1,16 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg viewBox="0 0 800 300" width="8cm" height="3cm" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
-	<rect fill="rgb(255,128,128)" x="0" y="0" width="800" height="300" />
-	<use fill="rgb(0,0,255)" mask="url(#Mask)" xlink:href="#Text" />
-	<use fill="none" stroke="rgb(0,0,0)" stroke-width="2" xlink:href="#Text" />
-	<defs>
-		<linearGradient id="Gradient" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="800" y2="0">
-			<stop offset="0" stop-color="rgb(255,255,255)" stop-opacity="0" />
-			<stop offset="1" stop-color="rgb(255,255,255)" stop-opacity="1" />
-		</linearGradient>
-		<mask id="Mask" maskUnits="userSpaceOnUse" x="0" y="0" width="800" height="300">
-			<rect fill="url(#Gradient)" x="0" y="0" width="800" height="300" />
-		</mask>
-		<text id="Text" font-family="Verdana" font-size="100" text-anchor="middle" x="400" y="200">Masked text</text>
-	</defs>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<svg version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+    height="3cm" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" width="8cm">
+    <rect height="300" y="0" fill="rgb(255,128,128)" width="800" x="0"></rect>
+    <use xlink:href="#Text" mask="url(#Mask)" fill="rgb(0,0,255)"></use>
+    <use xlink:href="#Text" stroke-width="2" fill="none" stroke="rgb(0,0,0)"></use>
+    <defs>
+        <linearGradient y2="0" x2="800" y1="0" gradientUnits="userSpaceOnUse" id="Gradient" x1="0">
+            <stop stop-color="rgb(255,255,255)" stop-opacity="0" offset="0"></stop>
+            <stop offset="1" stop-color="rgb(255,255,255)" stop-opacity="1"></stop>
+        </linearGradient>
+        <mask width="800" maskUnits="userSpaceOnUse" height="300" x="0" id="Mask" y="0">
+            <rect fill="url(#Gradient)" height="300" y="0" width="800" x="0"></rect>
+        </mask><text font-size="100" x="400" y="200" id="Text" text-anchor="middle" font-family="Verdana">Masked
+            text</text>
+    </defs>
 </svg>

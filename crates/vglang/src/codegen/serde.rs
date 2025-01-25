@@ -3661,7 +3661,7 @@ impl ml::rt::serde::Serialize for super::opcode::Pattern {
     {
         use ml::rt::serde::SerializeNode;
         let mut serializer = serializer.serialize_el(97usize, "Pattern", 7usize)?;
-        serializer.serialize_field(0usize, Some("units"), &self.units)?;
+        serializer.serialize_field(0usize, Some("patternUnits"), &self.units)?;
         serializer.serialize_field(1usize, Some("content_units"), &self.content_units)?;
         serializer.serialize_field(2usize, Some("transform"), &self.transform)?;
         serializer.serialize_field(3usize, Some("x"), &self.x)?;

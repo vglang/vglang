@@ -148,7 +148,9 @@
     "Apply": {
       "Fill": {
         "paint": {
-          "Server": "Gradient"
+          "Constant": {
+            "Server": "Gradient"
+          }
         },
         "rule": null,
         "opacity": null
@@ -264,11 +266,13 @@
     "Apply": {
       "Fill": {
         "paint": {
-          "Color": [
-            255,
-            128,
-            128
-          ]
+          "Constant": {
+            "Color": [
+              255,
+              128,
+              128
+            ]
+          }
         },
         "rule": null,
         "opacity": null
@@ -307,11 +311,13 @@
     "Apply": {
       "Fill": {
         "paint": {
-          "Color": [
-            0,
-            0,
-            255
-          ]
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
         },
         "rule": null,
         "opacity": null
@@ -335,7 +341,9 @@
   {
     "Apply": {
       "Fill": {
-        "paint": "None",
+        "paint": {
+          "Constant": "None"
+        },
         "rule": null,
         "opacity": null
       }

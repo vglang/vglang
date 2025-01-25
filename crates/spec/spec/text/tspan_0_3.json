@@ -1,0 +1,202 @@
+[
+  {
+    "Apply": {
+      "ViewBox": {
+        "minx": {
+          "Constant": 0.0
+        },
+        "miny": {
+          "Constant": 0.0
+        },
+        "width": {
+          "Constant": 1000.0
+        },
+        "height": {
+          "Constant": 300.0
+        },
+        "aspect": null
+      }
+    }
+  },
+  {
+    "Element": {
+      "Canvas": {
+        "width": {
+          "Constant": {
+            "Cm": 10.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Cm": 3.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Font": {
+        "family": {
+          "Constant": [
+            {
+              "Generic": "Verdana"
+            }
+          ]
+        },
+        "style": null,
+        "variant": null,
+        "weight": null,
+        "size": {
+          "Constant": {
+            "Px": 45.0
+          }
+        },
+        "stretch": null
+      }
+    }
+  },
+  {
+    "Element": {
+      "Group": null
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              255,
+              164,
+              0
+            ]
+          }
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Element": {
+      "Text": {
+        "x": null,
+        "y": null,
+        "dx": null,
+        "dy": null,
+        "rotate": null,
+        "text_length": null,
+        "length_adjust": null
+      }
+    }
+  },
+  {
+    "Element": {
+      "TextSpan": {
+        "x": {
+          "Constant": [
+            {
+              "Px": 375.0
+            },
+            {
+              "Px": 425.0
+            },
+            {
+              "Px": 475.0
+            },
+            {
+              "Px": 525.0
+            },
+            {
+              "Px": 575.0
+            }
+          ]
+        },
+        "y": {
+          "Constant": [
+            {
+              "Px": 200.0
+            }
+          ]
+        },
+        "dx": null,
+        "dy": null,
+        "rotate": null,
+        "text_length": null,
+        "length_adjust": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Characters": "fuzzy"
+    }
+  },
+  "Pop",
+  "Pop",
+  "Pop",
+  {
+    "Apply": {
+      "Fill": {
+        "paint": null,
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 2.0
+          }
+        },
+        "linecap": null,
+        "linejoin": null,
+        "dasharray": null,
+        "dashoffset": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "Px": 1.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "Px": 1.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 998.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Px": 298.0
+          }
+        },
+        "rx": null,
+        "ry": null
+      }
+    }
+  },
+  "Pop"
+]

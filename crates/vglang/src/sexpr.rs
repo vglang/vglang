@@ -1,7 +1,7 @@
 pub use super::codegen::sexpr::*;
 pub use vglang_derive::rgb;
 
-use crate::opcode::{Color, FeIn, FontFamily, FuncIri, Length, Paint, Rgb};
+use crate::opcode::{Angle, Color, FeIn, FontFamily, FuncIri, Length, Paint, Rgb};
 
 impl<T> From<T> for Length
 where
@@ -9,6 +9,15 @@ where
 {
     fn from(value: T) -> Self {
         Self::Px(Number::from(value).0)
+    }
+}
+
+impl<T> From<T> for Angle
+where
+    Number: From<T>,
+{
+    fn from(value: T) -> Self {
+        Self::Deg(Number::from(value).0)
     }
 }
 

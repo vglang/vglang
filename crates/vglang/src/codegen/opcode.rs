@@ -948,13 +948,13 @@ pub struct Fill {
     #[doc = " paints color."]
     #[doc = " "]
     #[doc = " `Inherited: yes`"]
-    pub paint: Paint,
+    pub paint: Option<variable::Variable<Paint>>,
     #[doc = " fill painting rule, see [`FillRule`] for more information."]
     #[doc = " "]
     #[doc = " `Inherited: yes`"]
-    pub rule: Option<FillRule>,
+    pub rule: Option<variable::Variable<FillRule>>,
     #[doc = " defining the opacity of the paint server"]
-    pub opacity: Option<f32>,
+    pub opacity: Option<variable::Variable<f32>>,
 }
 #[doc = " This property affect how an element is stroked."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -963,7 +963,7 @@ pub struct Stroke {
     #[doc = " paints color paints along the outline of the given graphical element."]
     #[doc = " "]
     #[doc = " `Inherited: yes`"]
-    pub paint: variable::Variable<Paint>,
+    pub paint: Option<variable::Variable<Paint>>,
     #[doc = " This property specifies the width of the stroke on the current object"]
     #[doc = " "]
     #[doc = " `Inherited: yes`"]

@@ -1,5 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg viewBox="0 0 400 400" width="4em" height="4em" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
-	<rect fill="none" stroke="rgb(0,0,255)" x="1" y="1" width="398" height="398" />
-	<path fill="rgb(255,0,0)" stroke="rgb(0,0,255)" stroke-width="3" d="M 100,100,L 300,100,L 200,300,Z" />
-</svg>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><svg version="1.1" viewBox="0 0 400 400" height="4em" width="4em" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><rect width="398" height="398" x="1" stroke="rgb(0,0,255)" y="1" fill="none"></rect><path fill="rgb(255,0,0)" stroke="rgb(0,0,255)" stroke-width="3" d="M 100,100,L 300,100,L 200,300,Z"></path></svg>

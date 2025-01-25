@@ -1,0 +1,286 @@
+[
+  {
+    "Apply": {
+      "ViewBox": {
+        "minx": {
+          "Constant": 0.0
+        },
+        "miny": {
+          "Constant": 0.0
+        },
+        "width": {
+          "Constant": 800.0
+        },
+        "height": {
+          "Constant": 400.0
+        },
+        "aspect": null
+      }
+    }
+  },
+  {
+    "Element": {
+      "Canvas": {
+        "width": {
+          "Constant": {
+            "Cm": 8.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Cm": 4.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Id": "TrianglePattern"
+    }
+  },
+  {
+    "Apply": {
+      "ViewBox": {
+        "minx": {
+          "Constant": 0.0
+        },
+        "miny": {
+          "Constant": 0.0
+        },
+        "width": {
+          "Constant": 10.0
+        },
+        "height": {
+          "Constant": 10.0
+        },
+        "aspect": null
+      }
+    }
+  },
+  {
+    "Element": {
+      "Pattern": {
+        "units": {
+          "Constant": "UserSpaceOnUse"
+        },
+        "content_units": null,
+        "transform": null,
+        "x": {
+          "Constant": {
+            "Px": 0.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "Px": 0.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 100.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Px": 100.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              255,
+              0,
+              0
+            ]
+          }
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        },
+        "width": null,
+        "linecap": null,
+        "linejoin": null,
+        "dasharray": null,
+        "dashoffset": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Path": {
+        "events": {
+          "Constant": [
+            {
+              "MoveTo": [
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "LineTo": [
+                7.0,
+                0.0
+              ]
+            },
+            {
+              "LineTo": [
+                3.5,
+                7.0
+              ]
+            },
+            "Close"
+          ]
+        },
+        "length": null
+      }
+    }
+  },
+  "Pop",
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        },
+        "width": null,
+        "linecap": null,
+        "linejoin": null,
+        "dasharray": null,
+        "dashoffset": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": "None"
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "Px": 1.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "Px": 1.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 798.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Px": 398.0
+          }
+        },
+        "rx": null,
+        "ry": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 5.0
+          }
+        },
+        "linecap": null,
+        "linejoin": null,
+        "dasharray": null,
+        "dashoffset": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Server": "TrianglePattern"
+          }
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Ellipse": {
+        "cx": {
+          "Constant": {
+            "Px": 400.0
+          }
+        },
+        "cy": {
+          "Constant": {
+            "Px": 200.0
+          }
+        },
+        "rx": {
+          "Constant": {
+            "Px": 350.0
+          }
+        },
+        "ry": {
+          "Constant": {
+            "Px": 150.0
+          }
+        }
+      }
+    }
+  },
+  "Pop"
+]

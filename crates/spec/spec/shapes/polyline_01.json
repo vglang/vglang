@@ -1,0 +1,226 @@
+[
+  {
+    "Apply": {
+      "ViewBox": {
+        "minx": {
+          "Constant": 0.0
+        },
+        "miny": {
+          "Constant": 0.0
+        },
+        "width": {
+          "Constant": 1200.0
+        },
+        "height": {
+          "Constant": 400.0
+        },
+        "aspect": null
+      }
+    }
+  },
+  {
+    "Element": {
+      "Canvas": {
+        "width": {
+          "Constant": {
+            "Cm": 12.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Cm": 4.0
+          }
+        }
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": "None"
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        },
+        "width": null,
+        "linecap": null,
+        "linejoin": null,
+        "dasharray": null,
+        "dashoffset": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Rect": {
+        "x": {
+          "Constant": {
+            "Px": 1.0
+          }
+        },
+        "y": {
+          "Constant": {
+            "Px": 1.0
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 1198.0
+          }
+        },
+        "height": {
+          "Constant": {
+            "Px": 398.0
+          }
+        },
+        "rx": null,
+        "ry": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": "None"
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Apply": {
+      "Stroke": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              0,
+              0,
+              255
+            ]
+          }
+        },
+        "width": {
+          "Constant": {
+            "Px": 10.0
+          }
+        },
+        "linecap": null,
+        "linejoin": null,
+        "dasharray": null,
+        "dashoffset": null,
+        "opacity": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Polyline": {
+        "Constant": [
+          [
+            150.0,
+            375.0
+          ],
+          [
+            150.0,
+            325.0
+          ],
+          [
+            250.0,
+            325.0
+          ],
+          [
+            250.0,
+            375.0
+          ],
+          [
+            350.0,
+            375.0
+          ],
+          [
+            350.0,
+            250.0
+          ],
+          [
+            450.0,
+            250.0
+          ],
+          [
+            450.0,
+            375.0
+          ],
+          [
+            550.0,
+            375.0
+          ],
+          [
+            550.0,
+            175.0
+          ],
+          [
+            650.0,
+            175.0
+          ],
+          [
+            650.0,
+            375.0
+          ],
+          [
+            750.0,
+            375.0
+          ],
+          [
+            750.0,
+            100.0
+          ],
+          [
+            850.0,
+            100.0
+          ],
+          [
+            850.0,
+            375.0
+          ],
+          [
+            950.0,
+            375.0
+          ],
+          [
+            950.0,
+            25.0
+          ],
+          [
+            1050.0,
+            25.0
+          ],
+          [
+            1050.0,
+            375.0
+          ],
+          [
+            1150.0,
+            375.0
+          ]
+        ]
+      }
+    }
+  },
+  "Pop"
+]

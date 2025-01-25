@@ -37,7 +37,9 @@
   {
     "Apply": {
       "Fill": {
-        "paint": "None",
+        "paint": {
+          "Constant": "None"
+        },
         "rule": null,
         "opacity": null
       }
@@ -99,7 +101,9 @@
   {
     "Apply": {
       "Fill": {
-        "paint": "None",
+        "paint": {
+          "Constant": "None"
+        },
         "rule": null,
         "opacity": null
       }
@@ -149,7 +153,9 @@
   {
     "Apply": {
       "Fill": {
-        "paint": "None",
+        "paint": {
+          "Constant": "None"
+        },
         "rule": null,
         "opacity": null
       }
@@ -199,7 +205,9 @@
   {
     "Apply": {
       "Fill": {
-        "paint": "None",
+        "paint": {
+          "Constant": "None"
+        },
         "rule": null,
         "opacity": null
       }
@@ -249,7 +257,9 @@
   {
     "Apply": {
       "Fill": {
-        "paint": "None",
+        "paint": {
+          "Constant": "None"
+        },
         "rule": null,
         "opacity": null
       }
@@ -299,7 +309,9 @@
   {
     "Apply": {
       "Fill": {
-        "paint": "None",
+        "paint": {
+          "Constant": "None"
+        },
         "rule": null,
         "opacity": null
       }
@@ -378,7 +390,9 @@
   {
     "Apply": {
       "Fill": {
-        "paint": "None",
+        "paint": {
+          "Constant": "None"
+        },
         "rule": null,
         "opacity": null
       }
@@ -433,7 +447,9 @@
   {
     "Apply": {
       "Fill": {
-        "paint": "None",
+        "paint": {
+          "Constant": "None"
+        },
         "rule": null,
         "opacity": null
       }
@@ -488,7 +504,9 @@
   {
     "Apply": {
       "Fill": {
-        "paint": "None",
+        "paint": {
+          "Constant": "None"
+        },
         "rule": null,
         "opacity": null
       }
@@ -544,11 +562,13 @@
     "Apply": {
       "Fill": {
         "paint": {
-          "Color": [
-            136,
-            136,
-            136
-          ]
+          "Constant": {
+            "Color": [
+              136,
+              136,
+              136
+            ]
+          }
         },
         "rule": null,
         "opacity": null
@@ -595,11 +615,13 @@
     "Apply": {
       "Fill": {
         "paint": {
-          "Color": [
-            136,
-            136,
-            136
-          ]
+          "Constant": {
+            "Color": [
+              136,
+              136,
+              136
+            ]
+          }
         },
         "rule": null,
         "opacity": null
@@ -646,11 +668,13 @@
     "Apply": {
       "Fill": {
         "paint": {
-          "Color": [
-            136,
-            136,
-            136
-          ]
+          "Constant": {
+            "Color": [
+              136,
+              136,
+              136
+            ]
+          }
         },
         "rule": null,
         "opacity": null
@@ -696,7 +720,9 @@
   {
     "Apply": {
       "Fill": {
-        "paint": "None",
+        "paint": {
+          "Constant": "None"
+        },
         "rule": null,
         "opacity": null
       }

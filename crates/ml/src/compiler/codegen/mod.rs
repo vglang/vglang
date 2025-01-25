@@ -14,7 +14,7 @@ pub mod sexpr;
 pub fn gen<P: AsRef<std::path::Path>>(opcodes: &[crate::compiler::ir::Stat], target_dir: P) {
     let opcode_mod = opcode::OpcodeModGen::default().gen(opcodes);
 
-    let sexpr_mod = sexpr::SexprModGen::new("super::opcode::", 16).gen(opcodes);
+    let sexpr_mod = sexpr::SexprModGen::new("super::opcode::", 42).gen(opcodes);
 
     let serde_mod = serde::SerdeModGen::new("super::opcode::").gen(opcodes);
 
