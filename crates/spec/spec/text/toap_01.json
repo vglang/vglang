@@ -107,7 +107,9 @@
   {
     "Apply": {
       "Fill": {
-        "paint": null,
+        "paint": {
+          "Constant": "None"
+        },
         "rule": null,
         "opacity": null
       }
@@ -223,7 +225,9 @@
   {
     "Apply": {
       "Fill": {
-        "paint": null,
+        "paint": {
+          "Constant": "None"
+        },
         "rule": null,
         "opacity": null
       }

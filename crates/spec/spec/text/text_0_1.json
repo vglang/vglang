@@ -19,6 +19,17 @@
     }
   },
   {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": "None"
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
+  {
     "Element": {
       "Canvas": {
         "width": {
@@ -104,15 +115,6 @@
     }
   },
   "Pop",
-  {
-    "Apply": {
-      "Fill": {
-        "paint": null,
-        "rule": null,
-        "opacity": null
-      }
-    }
-  },
   {
     "Apply": {
       "Stroke": {

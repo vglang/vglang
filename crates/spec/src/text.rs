@@ -3,7 +3,7 @@ use vglang::{opcode::*, sexpr::*};
 /// Example from [`text01`](https://www.w3.org/TR/SVG11/images/text/text01.svg)
 pub fn text_0_1() -> impl Graphics {
     Canvas::from((10.cm(), 3.cm()))
-        .apply(ViewBox::from((0, 0, 1000, 300)))
+        .apply((ViewBox::from((0, 0, 1000, 300)), Fill::from(Paint::None)))
         .children((
             Text::from((250, 150))
                 .apply((
@@ -11,8 +11,7 @@ pub fn text_0_1() -> impl Graphics {
                     Fill::from(Color::Blue),
                 ))
                 .children(Characters::from("Hello, out there")),
-            Rect::from((1, 1, 998, 298))
-                .apply((Fill::default(), Stroke::from(Color::Blue).width(2))),
+            Rect::from((1, 1, 998, 298)).apply(Stroke::from(Color::Blue).width(2)),
         ))
 }
 
@@ -38,7 +37,7 @@ pub fn tspan_0_1() -> impl Graphics {
                         )),
                 ),
             Rect::from((1, 1, 998, 298))
-                .apply((Fill::default(), Stroke::from(Color::Blue).width(2))),
+                .apply((Fill::from(Paint::None), Stroke::from(Color::Blue).width(2))),
         ))
 }
 
@@ -68,7 +67,7 @@ pub fn tspan_0_2() -> impl Graphics {
                         )),
                 ),
             Rect::from((1, 1, 998, 298))
-                .apply((Fill::default(), Stroke::from(Color::Blue).width(2))),
+                .apply((Fill::from(Paint::None), Stroke::from(Color::Blue).width(2))),
         ))
 }
 
@@ -82,15 +81,19 @@ pub fn tspan_0_3() -> impl Graphics {
                 .children(
                     Text::default()
                         .apply(Fill::from(Rgb::rgb(255, 164, 0)))
-                        .children(
+                        .children((
+                            TextSpan::default()
+                                .x((300, 350, 400, 450, 500, 550, 600, 650))
+                                .y(100)
+                                .children(Characters::from("Cute and")),
                             TextSpan::default()
                                 .x((375, 425, 475, 525, 575))
                                 .y(200)
                                 .children(Characters::from("fuzzy")),
-                        ),
+                        )),
                 ),
             Rect::from((1, 1, 998, 298))
-                .apply((Fill::default(), Stroke::from(Color::Blue).width(2))),
+                .apply((Fill::from(Paint::None), Stroke::from(Color::Blue).width(2))),
         ))
 }
 
@@ -111,7 +114,7 @@ pub fn tspan_0_4() -> impl Graphics {
                         .children(Characters::from("Hello, out there")),
                 ),
             Rect::from((1, 1, 998, 298))
-                .apply((Fill::default(), Stroke::from(Color::Blue).width(2))),
+                .apply((Fill::from(Paint::None), Stroke::from(Color::Blue).width(2))),
         ))
 }
 
@@ -149,8 +152,8 @@ pub fn tspan_0_5() -> impl Graphics {
                         .children(Characters::from("specified")),
                     Characters::from("rotation"),
                 )),
-            Rect::from((1, 1, 998, 298))
-                .apply((Fill::default(), Stroke::from(Color::Blue).width(2))),
+            Rect::from((1, 1, 498, 118))
+                .apply((Fill::from(Paint::None), Stroke::from(Color::Blue).width(2))),
         ))
 }
 
@@ -230,7 +233,7 @@ pub fn toap_01() -> impl Graphics {
                 ((800, 100), (900, 100), (900, 100)).cubic_bezier(),
             ))
             .apply(Id::from("MyPath")),
-            Use::from("MyPath".local()).apply((Fill::default(), Stroke::from(Color::Red))),
+            Use::from("MyPath".local()).apply((Fill::from(Paint::None), Stroke::from(Color::Red))),
             Text::default()
                 .apply((
                     Font::default().family("Verdana").size(42.5),
@@ -242,6 +245,6 @@ pub fn toap_01() -> impl Graphics {
                         .children(Characters::from("We go up, then we go down, then up again")),
                 ),
             Rect::from((1, 1, 998, 298))
-                .apply((Fill::default(), Stroke::from(Color::Blue).width(2))),
+                .apply((Fill::from(Paint::None), Stroke::from(Color::Blue).width(2))),
         ))
 }

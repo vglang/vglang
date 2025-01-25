@@ -97,6 +97,58 @@
         "x": {
           "Constant": [
             {
+              "Px": 300.0
+            },
+            {
+              "Px": 350.0
+            },
+            {
+              "Px": 400.0
+            },
+            {
+              "Px": 450.0
+            },
+            {
+              "Px": 500.0
+            },
+            {
+              "Px": 550.0
+            },
+            {
+              "Px": 600.0
+            },
+            {
+              "Px": 650.0
+            }
+          ]
+        },
+        "y": {
+          "Constant": [
+            {
+              "Px": 100.0
+            }
+          ]
+        },
+        "dx": null,
+        "dy": null,
+        "rotate": null,
+        "text_length": null,
+        "length_adjust": null
+      }
+    }
+  },
+  {
+    "Leaf": {
+      "Characters": "Cute and"
+    }
+  },
+  "Pop",
+  {
+    "Element": {
+      "TextSpan": {
+        "x": {
+          "Constant": [
+            {
               "Px": 375.0
             },
             {
@@ -139,7 +191,9 @@
   {
     "Apply": {
       "Fill": {
-        "paint": null,
+        "paint": {
+          "Constant": "None"
+        },
         "rule": null,
         "opacity": null
       }

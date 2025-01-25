@@ -168,7 +168,9 @@
   {
     "Apply": {
       "Fill": {
-        "paint": null,
+        "paint": {
+          "Constant": "None"
+        },
         "rule": null,
         "opacity": null
       }
