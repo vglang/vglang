@@ -314,3 +314,8 @@ where
         seq.finish()
     }
 }
+
+/// Text-based format deserializer
+pub trait TextDeserializer<'a> {
+    fn read_next_node(&self) -> &str;
+}

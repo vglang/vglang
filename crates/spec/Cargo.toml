@@ -12,5 +12,10 @@ heck = {workspace = true}
 vglang = {workspace = true, features = ["serde", "sexpr", "svg", "binary"]}
 
 [dev-dependencies]
+divan = {workspace = true}
 futures = {workspace = true}
 serde_json = {workspace = true}
+
+[[bench]]
+harness = false
+name = "svg"

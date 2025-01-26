@@ -422,7 +422,12 @@ impl<'a> SerializeNode for &'a mut SvgWriter {
                         .pop()
                         .expect("serialize length,inner error.")
                         .expect("length field can not be none.");
-                    self.values.push(Some(format!("{}{}", value, variant)));
+
+                    if variant == "percent" {
+                        self.values.push(Some(format!("{}%", value)));
+                    } else {
+                        self.values.push(Some(format!("{}{}", value, variant)));
+                    }
                 }
             }
             _ => {
