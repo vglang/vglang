@@ -1,7 +1,7 @@
 use proc_macro2::TokenStream;
 use quote::quote;
 
-use crate::compiler::{
+use crate::lang::{
     codegen::ext::{EnumGen, FieldGen, NodeGen},
     ir::{Enum, Node, Stat},
 };

@@ -2,8 +2,8 @@
 
 #![cfg_attr(docsrs, feature(doc_cfg))]
 
-mod codegen;
-pub use codegen::opcode;
+mod ml;
+pub use ml::opcode;
 
 #[cfg(feature = "sexpr")]
 #[cfg_attr(docsrs, doc(cfg(feature = "sexpr")))]
@@ -13,10 +13,4 @@ pub mod sexpr;
 #[cfg_attr(docsrs, doc(cfg(feature = "surface")))]
 pub mod surface;
 
-#[cfg(feature = "svg")]
-#[cfg_attr(docsrs, doc(cfg(feature = "svg")))]
-pub mod svg;
-
-#[cfg(feature = "binary")]
-#[cfg_attr(docsrs, doc(cfg(feature = "binary")))]
-pub mod binary;
+pub mod targets;

@@ -1,6 +1,6 @@
 use parserc::{ControlFlow, FromSrc, IntoParser, Parser, ParserExt};
 
-use crate::compiler::{
+use crate::lang::{
     ir::{ApplyTo, ChildrenOf, Enum, Group, Stat},
     parser::{node::parse_node, utils::skip_ws},
 };

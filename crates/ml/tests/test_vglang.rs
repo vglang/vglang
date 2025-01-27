@@ -1,4 +1,4 @@
-use ml::compiler::{analyzer::semantic_analyze, codegen::serde::SerdeModGen, parser::parse};
+use ml::lang::{analyzer::semantic_analyze, codegen::serde::SerdeModGen, parser::parse};
 use parserc::{ParseContext, PrintReport};
 
 #[test]

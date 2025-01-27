@@ -1,5 +1,1 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<svg width="100%" viewBox="0 0 400 400"
-    xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" version="1.1" height="100%"><text
-        x="40" y="40" font-size="20">כתובת MAC:&#38;#x200F;<tspan direction="ltr" unicode_bidi="embed">00-24-AF-2A-55-FC
-        </tspan></text></svg>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><svg version="1.1" viewBox="0 0 400 400" height="100%" xmlns="http://www.w3.org/2000/svg" width="100%" xmlns:xlink="http://www.w3.org/1999/xlink"><text x="40" font-size="20" y="40">כתובת MAC:&#38;#x200F;<tspan unicode_bidi="embed" direction="ltr">00-24-AF-2A-55-FC</tspan></text></svg>

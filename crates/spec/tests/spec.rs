@@ -1,6 +1,6 @@
 use std::{fs::create_dir_all, path::Path};
 
-use vglang::{binary::writer::to_binary, opcode::Opcode, svg::writer::to_svg};
+use vglang::{opcode::Opcode, targets::binary::writer::to_binary, targets::svg::writer::to_svg};
 use vglang_spec::run_spec;
 
 #[test]

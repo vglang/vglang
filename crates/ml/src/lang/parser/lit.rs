@@ -3,7 +3,7 @@ use parserc::{
     Result,
 };
 
-use crate::compiler::{
+use crate::lang::{
     ir::{LitStr, LitUint},
     parser::{ParseError, UnitKind},
 };
@@ -81,7 +81,7 @@ impl FromSrc for LitStr {
 mod tests {
     use parserc::{FromSrc, ParseContext, Span};
 
-    use crate::compiler::ir::LitUint;
+    use crate::lang::ir::LitUint;
 
     #[test]
     fn test_num() {

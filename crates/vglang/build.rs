@@ -5,7 +5,7 @@ fn ml_gen() {}
 fn ml_gen() {
     use std::path::PathBuf;
 
-    use ml::compiler::{
+    use ml::lang::{
         analyzer::semantic_analyze,
         codegen::gen,
         parser::parse,
@@ -28,7 +28,7 @@ fn ml_gen() {
         panic!("semantic anlayze failed: vglang.ml");
     }
 
-    let codegen = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("src/codegen");
+    let codegen = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("src/ml");
 
     gen(&opcodes, codegen);
 }

@@ -1,6 +1,6 @@
 use parserc::{ensure_char, FromSrc, IntoParser, ParseContext, Parser, ParserExt, Result};
 
-use crate::compiler::{
+use crate::lang::{
     ir::{Fields, Ident, NamedField, Type, UnnamedField},
     parser::{FieldsKind, ParseError},
 };
@@ -137,7 +137,7 @@ impl FromSrc for Fields {
 mod tests {
     use parserc::{FromSrc, ParseContext, Span};
 
-    use crate::compiler::ir::{CallExpr, Fields, Ident, LitStr, NamedField, Property, Type};
+    use crate::lang::ir::{CallExpr, Fields, Ident, LitStr, NamedField, Property, Type};
 
     #[test]
     fn test_fields() {

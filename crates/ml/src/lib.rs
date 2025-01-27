@@ -4,7 +4,7 @@
 
 #[cfg(feature = "compiler")]
 #[cfg_attr(docsrs, doc(cfg(feature = "compiler")))]
-pub mod compiler;
+pub mod lang;
 
 #[cfg(feature = "rt")]
 #[cfg_attr(docsrs, doc(cfg(feature = "rt")))]

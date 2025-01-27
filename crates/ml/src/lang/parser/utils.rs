@@ -3,7 +3,7 @@ use parserc::{
     ParseContext, Parser, ParserExt, Result, Span,
 };
 
-use crate::compiler::ir::{Comment, Ident, LitUint, Property, Type};
+use crate::lang::ir::{Comment, Ident, LitUint, Property, Type};
 
 use super::ParseError;
 

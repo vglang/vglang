@@ -4,7 +4,7 @@ use heck::{ToLowerCamelCase, ToSnakeCase, ToUpperCamelCase};
 use proc_macro2::TokenStream;
 use quote::quote;
 
-use crate::compiler::ir::{Comment, Enum, Field, Ident, Node, Type};
+use crate::lang::ir::{Comment, Enum, Field, Ident, Node, Type};
 
 /// An extension trait for [`Ident`] to helper rust codes generating.
 pub trait IdentGen {
