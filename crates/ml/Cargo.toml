@@ -21,9 +21,9 @@ serde = {workspace = true, optional = true}
 serde_json = {workspace = true}
 
 [features]
-default = ["compiler"]
+default = ["lang"]
 
-compiler = ["quote", "proc-macro2", "heck"]
+lang = ["quote", "proc-macro2", "heck"]
 serde = ["dep:serde", "parserc/serde"]
 
 opcode = []

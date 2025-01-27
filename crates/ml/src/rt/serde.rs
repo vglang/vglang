@@ -8,7 +8,7 @@ pub trait Serializer {
     /// for serializing the content of node.
     type SerializeNode: SerializeNode<Error = Self::Error>;
 
-    /// Returns by [`serialize_seq`](SerializeType::serialize_seq) to help serializing array of vector.
+    /// Returns by [`serialize_seq`](Serializer::serialize_seq) to help serializing array of vector.
     type SerializeSeq: SerializeSeq<Error = Self::Error>;
 
     /// Serialize a element node.

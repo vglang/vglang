@@ -19,7 +19,7 @@ vglang-derive = {workspace = true, optional = true}
 xml_dom = {workspace = true, optional = true}
 
 [build-dependencies]
-ml = {workspace = true, features = ["compiler"]}
+ml = {workspace = true, features = ["lang"]}
 
 [dev-dependencies]
 divan = {workspace = true}
