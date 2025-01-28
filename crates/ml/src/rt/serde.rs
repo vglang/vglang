@@ -314,16 +314,3 @@ where
         seq.finish()
     }
 }
-
-/// A visitor walks through the derserializer.
-pub trait Visitor {
-    /// Error type returns by this visitor.
-    type Error;
-
-    /// Type returns by [`visit_el`](Visitor::visit_el) or [`visit_el_by_name`](Visitor::visit_el_by_name).
-    type VisitEl;
-
-    fn visit_el(self, type_id: usize) -> Result<Self::VisitEl, Self::Error>;
-
-    fn visit_el_by_name(self, name: &str) -> Result<Self::VisitEl, Self::Error>;
-}
