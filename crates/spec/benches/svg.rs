@@ -1,7 +1,7 @@
 use divan::Bencher;
 use vglang::{
+    encoding::svg::writer::to_svg,
     sexpr::{BuildContext, Graphics},
-    targets::svg::writer::to_svg,
 };
 use vglang_spec::filter::fecolormatrix_01;
 

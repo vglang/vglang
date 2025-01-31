@@ -13,4 +13,4 @@ pub mod sexpr;
 #[cfg_attr(docsrs, doc(cfg(feature = "surface")))]
 pub mod surface;
 
-pub mod targets;
+pub mod encoding;
