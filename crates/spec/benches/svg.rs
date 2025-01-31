@@ -11,9 +11,15 @@ fn main() {
 }
 
 #[divan::bench]
-fn filter(bencher: Bencher) {
+fn filter_to_svg(bencher: Bencher) {
     let mut builder = BuildContext::default();
     fecolormatrix_01().build(&mut builder);
 
     bencher.bench(|| to_svg(&builder.0).unwrap());
+}
+
+#[divan::bench]
+fn filter_build() {
+    let mut builder = BuildContext::default();
+    fecolormatrix_01().build(&mut builder);
 }
