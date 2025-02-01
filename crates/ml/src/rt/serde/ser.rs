@@ -1,4 +1,4 @@
-use super::opcode::variable::{Path, Target, Variable};
+use crate::rt::opcode::variable::{Path, Target, Variable};
 
 /// Serializer for Opcodes.
 pub trait Serializer {

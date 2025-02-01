@@ -1,7 +1,7 @@
 use heck::ToLowerCamelCase;
 use ml::rt::{
     opcode::variable::{self, Path, Target},
-    serde::{Serialize, SerializeNode, SerializeSeq, Serializer},
+    serde::ser::{Serialize, SerializeNode, SerializeSeq, Serializer},
 };
 use xml_dom::level2::{
     ext::{get_implementation_ext, DocumentDecl, XmlDecl},

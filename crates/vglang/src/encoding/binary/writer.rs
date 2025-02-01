@@ -2,7 +2,7 @@
 
 use std::io::{Cursor, Write};
 
-use ml::rt::serde::{Serialize, SerializeNode, SerializeSeq, Serializer};
+use ml::rt::serde::ser::{Serialize, SerializeNode, SerializeSeq, Serializer};
 use varint_rs::VarintWriter;
 
 use crate::opcode::Opcode;
@@ -231,7 +231,7 @@ impl<'a> SerializeNode for &'a mut BinaryWriter {
         value: &T,
     ) -> Result<(), Self::Error>
     where
-        T: ?Sized + ml::rt::serde::Serialize,
+        T: ?Sized + ml::rt::serde::ser::Serialize,
     {
         self.write_buf.write_u8_varint(index as u8)?;
         value.serialize(&mut **self)?;
@@ -249,7 +249,7 @@ impl<'a> SerializeSeq for &'a mut BinaryWriter {
 
     fn serialize_element<T>(&mut self, value: &T) -> Result<(), Self::Error>
     where
-        T: ?Sized + ml::rt::serde::Serialize,
+        T: ?Sized + ml::rt::serde::ser::Serialize,
     {
         value.serialize(&mut **self)?;
 

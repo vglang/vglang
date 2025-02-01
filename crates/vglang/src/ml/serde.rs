@@ -1,9 +1,9 @@
-impl ml::rt::serde::Serialize for super::opcode::Angle {
+impl ml::rt::serde::ser::Serialize for super::opcode::Angle {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Deg(p0) => {
                 let mut serializer =
@@ -26,12 +26,12 @@ impl ml::rt::serde::Serialize for super::opcode::Angle {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Length {
+impl ml::rt::serde::ser::Serialize for super::opcode::Length {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Em(p0) => {
                 let mut serializer =
@@ -90,12 +90,12 @@ impl ml::rt::serde::Serialize for super::opcode::Length {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Color {
+impl ml::rt::serde::ser::Serialize for super::opcode::Color {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Aliceblue => {
                 let mut serializer =
@@ -910,12 +910,12 @@ impl ml::rt::serde::Serialize for super::opcode::Color {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Rgb {
+impl ml::rt::serde::ser::Serialize for super::opcode::Rgb {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_data(3usize, "Rgb", 3usize)?;
         serializer.serialize_field(0usize, None, &self.0)?;
         serializer.serialize_field(1usize, None, &self.1)?;
@@ -923,12 +923,12 @@ impl ml::rt::serde::Serialize for super::opcode::Rgb {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Iri {
+impl ml::rt::serde::ser::Serialize for super::opcode::Iri {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Local(p0) => {
                 let mut serializer =
@@ -945,46 +945,46 @@ impl ml::rt::serde::Serialize for super::opcode::Iri {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FuncIri {
+impl ml::rt::serde::ser::Serialize for super::opcode::FuncIri {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_data(5usize, "FuncIri", 1usize)?;
         serializer.serialize_field(0usize, None, &self.0)?;
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Point {
+impl ml::rt::serde::ser::Serialize for super::opcode::Point {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_data(6usize, "Point", 2usize)?;
         serializer.serialize_field(0usize, None, &self.0)?;
         serializer.serialize_field(1usize, None, &self.1)?;
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Percent {
+impl ml::rt::serde::ser::Serialize for super::opcode::Percent {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_data(7usize, "Percent", 1usize)?;
         serializer.serialize_field(0usize, None, &self.0)?;
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Paint {
+impl ml::rt::serde::ser::Serialize for super::opcode::Paint {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::None => {
                 let mut serializer =
@@ -1006,24 +1006,24 @@ impl ml::rt::serde::Serialize for super::opcode::Paint {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::NumberOptNumber {
+impl ml::rt::serde::ser::Serialize for super::opcode::NumberOptNumber {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_data(9usize, "NumberOptNumber", 2usize)?;
         serializer.serialize_field(0usize, None, &self.0)?;
         serializer.serialize_field(1usize, None, &self.1)?;
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Coords {
+impl ml::rt::serde::ser::Serialize for super::opcode::Coords {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::UserSpaceOnUse => {
                 let mut serializer = serializer.serialize_enum(
@@ -1048,12 +1048,12 @@ impl ml::rt::serde::Serialize for super::opcode::Coords {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Transform {
+impl ml::rt::serde::ser::Serialize for super::opcode::Transform {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Translate(p0, p1) => {
                 let mut serializer =
@@ -1097,12 +1097,12 @@ impl ml::rt::serde::Serialize for super::opcode::Transform {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Channel {
+impl ml::rt::serde::ser::Serialize for super::opcode::Channel {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::R => {
                 let mut serializer =
@@ -1127,12 +1127,12 @@ impl ml::rt::serde::Serialize for super::opcode::Channel {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::ClipRule {
+impl ml::rt::serde::ser::Serialize for super::opcode::ClipRule {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Nonzero => {
                 let mut serializer =
@@ -1147,12 +1147,12 @@ impl ml::rt::serde::Serialize for super::opcode::ClipRule {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::PathEvent {
+impl ml::rt::serde::ser::Serialize for super::opcode::PathEvent {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Close => {
                 let mut serializer =
@@ -1358,12 +1358,12 @@ impl ml::rt::serde::Serialize for super::opcode::PathEvent {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FillRule {
+impl ml::rt::serde::ser::Serialize for super::opcode::FillRule {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Nonzero => {
                 let mut serializer =
@@ -1378,12 +1378,12 @@ impl ml::rt::serde::Serialize for super::opcode::FillRule {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::StrokeLineCap {
+impl ml::rt::serde::ser::Serialize for super::opcode::StrokeLineCap {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Butt => {
                 let mut serializer =
@@ -1413,12 +1413,12 @@ impl ml::rt::serde::Serialize for super::opcode::StrokeLineCap {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::StrokeLineJoin {
+impl ml::rt::serde::ser::Serialize for super::opcode::StrokeLineJoin {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Miter(p0) => {
                 let mut serializer = serializer.serialize_enum(
@@ -1454,12 +1454,12 @@ impl ml::rt::serde::Serialize for super::opcode::StrokeLineJoin {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::SpreadMethod {
+impl ml::rt::serde::ser::Serialize for super::opcode::SpreadMethod {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Pad => {
                 let mut serializer =
@@ -1484,12 +1484,12 @@ impl ml::rt::serde::Serialize for super::opcode::SpreadMethod {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FontStyle {
+impl ml::rt::serde::ser::Serialize for super::opcode::FontStyle {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Normal => {
                 let mut serializer =
@@ -1509,12 +1509,12 @@ impl ml::rt::serde::Serialize for super::opcode::FontStyle {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FontVariant {
+impl ml::rt::serde::ser::Serialize for super::opcode::FontVariant {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Normal => {
                 let mut serializer =
@@ -1534,12 +1534,12 @@ impl ml::rt::serde::Serialize for super::opcode::FontVariant {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FontWeight {
+impl ml::rt::serde::ser::Serialize for super::opcode::FontWeight {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Normal => {
                 let mut serializer =
@@ -1609,12 +1609,12 @@ impl ml::rt::serde::Serialize for super::opcode::FontWeight {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FontFamily {
+impl ml::rt::serde::ser::Serialize for super::opcode::FontFamily {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Serif => {
                 let mut serializer =
@@ -1660,12 +1660,12 @@ impl ml::rt::serde::Serialize for super::opcode::FontFamily {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FontStretch {
+impl ml::rt::serde::ser::Serialize for super::opcode::FontStretch {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Normal => {
                 let mut serializer =
@@ -1770,12 +1770,12 @@ impl ml::rt::serde::Serialize for super::opcode::FontStretch {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Background {
+impl ml::rt::serde::ser::Serialize for super::opcode::Background {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Accumulate => {
                 let mut serializer = serializer.serialize_enum(
@@ -1796,12 +1796,12 @@ impl ml::rt::serde::Serialize for super::opcode::Background {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::BackgroundNew {
+impl ml::rt::serde::ser::Serialize for super::opcode::BackgroundNew {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_data(25usize, "BackgroundNew", 4usize)?;
         serializer.serialize_field(0usize, Some("x"), &self.x)?;
         serializer.serialize_field(1usize, Some("y"), &self.y)?;
@@ -1810,12 +1810,12 @@ impl ml::rt::serde::Serialize for super::opcode::BackgroundNew {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeIn {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeIn {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::SourceGraphic => {
                 let mut serializer =
@@ -1866,12 +1866,12 @@ impl ml::rt::serde::Serialize for super::opcode::FeIn {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeOut {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeOut {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Position => {
                 let mut serializer =
@@ -1887,12 +1887,12 @@ impl ml::rt::serde::Serialize for super::opcode::FeOut {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeBlendMode {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeBlendMode {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Normal => {
                 let mut serializer =
@@ -1927,12 +1927,12 @@ impl ml::rt::serde::Serialize for super::opcode::FeBlendMode {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::TextLengthAdjust {
+impl ml::rt::serde::ser::Serialize for super::opcode::TextLengthAdjust {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Spacing => {
                 let mut serializer = serializer.serialize_enum(
@@ -1957,12 +1957,12 @@ impl ml::rt::serde::Serialize for super::opcode::TextLengthAdjust {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::WritingMode {
+impl ml::rt::serde::ser::Serialize for super::opcode::WritingMode {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::LrTb => {
                 let mut serializer =
@@ -1997,12 +1997,12 @@ impl ml::rt::serde::Serialize for super::opcode::WritingMode {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::TextDirection {
+impl ml::rt::serde::ser::Serialize for super::opcode::TextDirection {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Ltr => {
                 let mut serializer =
@@ -2017,12 +2017,12 @@ impl ml::rt::serde::Serialize for super::opcode::TextDirection {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::UnicodeBidi {
+impl ml::rt::serde::ser::Serialize for super::opcode::UnicodeBidi {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Normal => {
                 let mut serializer =
@@ -2047,12 +2047,12 @@ impl ml::rt::serde::Serialize for super::opcode::UnicodeBidi {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::TextAnchor {
+impl ml::rt::serde::ser::Serialize for super::opcode::TextAnchor {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Start => {
                 let mut serializer =
@@ -2072,12 +2072,12 @@ impl ml::rt::serde::Serialize for super::opcode::TextAnchor {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::DominantBaseline {
+impl ml::rt::serde::ser::Serialize for super::opcode::DominantBaseline {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Auto => {
                 let mut serializer = serializer.serialize_enum(
@@ -2202,12 +2202,12 @@ impl ml::rt::serde::Serialize for super::opcode::DominantBaseline {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::AlignmentBaseline {
+impl ml::rt::serde::ser::Serialize for super::opcode::AlignmentBaseline {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Auto => {
                 let mut serializer = serializer.serialize_enum(
@@ -2332,12 +2332,12 @@ impl ml::rt::serde::Serialize for super::opcode::AlignmentBaseline {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::BaselineShift {
+impl ml::rt::serde::ser::Serialize for super::opcode::BaselineShift {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Baseline => {
                 let mut serializer = serializer.serialize_enum(
@@ -2378,12 +2378,12 @@ impl ml::rt::serde::Serialize for super::opcode::BaselineShift {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::TextDecoration {
+impl ml::rt::serde::ser::Serialize for super::opcode::TextDecoration {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Underline => {
                 let mut serializer = serializer.serialize_enum(
@@ -2428,12 +2428,12 @@ impl ml::rt::serde::Serialize for super::opcode::TextDecoration {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::TextPathMethod {
+impl ml::rt::serde::ser::Serialize for super::opcode::TextPathMethod {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Align => {
                 let mut serializer = serializer.serialize_enum(
@@ -2458,12 +2458,12 @@ impl ml::rt::serde::Serialize for super::opcode::TextPathMethod {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::TextPathSpacing {
+impl ml::rt::serde::ser::Serialize for super::opcode::TextPathSpacing {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Auto => {
                 let mut serializer = serializer.serialize_enum(
@@ -2488,12 +2488,12 @@ impl ml::rt::serde::Serialize for super::opcode::TextPathSpacing {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::LetterSpacing {
+impl ml::rt::serde::ser::Serialize for super::opcode::LetterSpacing {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Normal => {
                 let mut serializer = serializer.serialize_enum(
@@ -2519,12 +2519,12 @@ impl ml::rt::serde::Serialize for super::opcode::LetterSpacing {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::WordSpacing {
+impl ml::rt::serde::ser::Serialize for super::opcode::WordSpacing {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Normal => {
                 let mut serializer =
@@ -2540,12 +2540,12 @@ impl ml::rt::serde::Serialize for super::opcode::WordSpacing {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::MeetOrSlice {
+impl ml::rt::serde::ser::Serialize for super::opcode::MeetOrSlice {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Meet => {
                 let mut serializer =
@@ -2560,12 +2560,12 @@ impl ml::rt::serde::Serialize for super::opcode::MeetOrSlice {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::PreserveAspectRatio {
+impl ml::rt::serde::ser::Serialize for super::opcode::PreserveAspectRatio {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::None => {
                 let mut serializer = serializer.serialize_enum(
@@ -2679,12 +2679,12 @@ impl ml::rt::serde::Serialize for super::opcode::PreserveAspectRatio {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::TextLayout {
+impl ml::rt::serde::ser::Serialize for super::opcode::TextLayout {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_attr(44usize, "TextLayout", 10usize)?;
         serializer.serialize_field(0usize, Some("write_mode"), &self.write_mode)?;
         serializer.serialize_field(1usize, Some("direction"), &self.direction)?;
@@ -2699,34 +2699,34 @@ impl ml::rt::serde::Serialize for super::opcode::TextLayout {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::WithTransform {
+impl ml::rt::serde::ser::Serialize for super::opcode::WithTransform {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_attr(45usize, "WithTransform", 1usize)?;
         serializer.serialize_field(0usize, Some("transform"), &self.0)?;
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Id {
+impl ml::rt::serde::ser::Serialize for super::opcode::Id {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_attr(46usize, "Id", 1usize)?;
         serializer.serialize_field(0usize, Some("id"), &self.0)?;
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Fill {
+impl ml::rt::serde::ser::Serialize for super::opcode::Fill {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_attr(47usize, "Fill", 3usize)?;
         serializer.serialize_field(0usize, Some("fill"), &self.paint)?;
         serializer.serialize_field(1usize, Some("fill-rule"), &self.rule)?;
@@ -2734,12 +2734,12 @@ impl ml::rt::serde::Serialize for super::opcode::Fill {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Stroke {
+impl ml::rt::serde::ser::Serialize for super::opcode::Stroke {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_attr(48usize, "Stroke", 7usize)?;
         serializer.serialize_field(0usize, Some("stroke"), &self.paint)?;
         serializer.serialize_field(1usize, Some("stroke-width"), &self.width)?;
@@ -2751,12 +2751,12 @@ impl ml::rt::serde::Serialize for super::opcode::Stroke {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Font {
+impl ml::rt::serde::ser::Serialize for super::opcode::Font {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_attr(49usize, "Font", 6usize)?;
         serializer.serialize_field(0usize, Some("font-family"), &self.family)?;
         serializer.serialize_field(1usize, Some("font-style"), &self.style)?;
@@ -2767,67 +2767,67 @@ impl ml::rt::serde::Serialize for super::opcode::Font {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::EnableBackground {
+impl ml::rt::serde::ser::Serialize for super::opcode::EnableBackground {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_attr(50usize, "EnableBackground", 1usize)?;
         serializer.serialize_field(0usize, Some("enable-background"), &self.0)?;
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::WithFilter {
+impl ml::rt::serde::ser::Serialize for super::opcode::WithFilter {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_attr(51usize, "WithFilter", 1usize)?;
         serializer.serialize_field(0usize, Some("filter"), &self.0)?;
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::WithClipPath {
+impl ml::rt::serde::ser::Serialize for super::opcode::WithClipPath {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_attr(52usize, "WithClipPath", 1usize)?;
         serializer.serialize_field(0usize, Some("clip-path"), &self.0)?;
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::WithMask {
+impl ml::rt::serde::ser::Serialize for super::opcode::WithMask {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_attr(53usize, "WithMask", 1usize)?;
         serializer.serialize_field(0usize, Some("mask"), &self.0)?;
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Opacity {
+impl ml::rt::serde::ser::Serialize for super::opcode::Opacity {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_attr(54usize, "Opacity", 1usize)?;
         serializer.serialize_field(0usize, Some("opacity"), &self.0)?;
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::ViewBox {
+impl ml::rt::serde::ser::Serialize for super::opcode::ViewBox {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_attr(55usize, "ViewBox", 5usize)?;
         serializer.serialize_field(0usize, Some("minx"), &self.minx)?;
         serializer.serialize_field(1usize, Some("miny"), &self.miny)?;
@@ -2837,24 +2837,24 @@ impl ml::rt::serde::Serialize for super::opcode::ViewBox {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Canvas {
+impl ml::rt::serde::ser::Serialize for super::opcode::Canvas {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_el(57usize, "svg", 2usize)?;
         serializer.serialize_field(0usize, Some("width"), &self.width)?;
         serializer.serialize_field(1usize, Some("height"), &self.height)?;
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Mask {
+impl ml::rt::serde::ser::Serialize for super::opcode::Mask {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_el(58usize, "Mask", 6usize)?;
         serializer.serialize_field(0usize, Some("maskUnits"), &self.units)?;
         serializer.serialize_field(1usize, Some("content_units"), &self.content_units)?;
@@ -2865,23 +2865,23 @@ impl ml::rt::serde::Serialize for super::opcode::Mask {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::ClipPath {
+impl ml::rt::serde::ser::Serialize for super::opcode::ClipPath {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_el(59usize, "ClipPath", 1usize)?;
         serializer.serialize_field(0usize, None, &self.0)?;
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Filter {
+impl ml::rt::serde::ser::Serialize for super::opcode::Filter {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_el(60usize, "Filter", 7usize)?;
         serializer.serialize_field(0usize, Some("filterUnits"), &self.units)?;
         serializer.serialize_field(1usize, Some("primitive_units"), &self.primitive_units)?;
@@ -2893,24 +2893,24 @@ impl ml::rt::serde::Serialize for super::opcode::Filter {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeDistantLight {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeDistantLight {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(61usize, "FeDistantLight", 2usize)?;
         serializer.serialize_field(0usize, Some("azimuth"), &self.azimuth)?;
         serializer.serialize_field(1usize, Some("elevation"), &self.elevation)?;
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FePointLight {
+impl ml::rt::serde::ser::Serialize for super::opcode::FePointLight {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(62usize, "FePointLight", 3usize)?;
         serializer.serialize_field(0usize, Some("x"), &self.x)?;
         serializer.serialize_field(1usize, Some("y"), &self.y)?;
@@ -2918,12 +2918,12 @@ impl ml::rt::serde::Serialize for super::opcode::FePointLight {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeSpotLight {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeSpotLight {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(63usize, "FeSpotLight", 8usize)?;
         serializer.serialize_field(0usize, Some("x"), &self.x)?;
         serializer.serialize_field(1usize, Some("y"), &self.y)?;
@@ -2940,12 +2940,12 @@ impl ml::rt::serde::Serialize for super::opcode::FeSpotLight {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeBlend {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeBlend {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(64usize, "FeBlend", 8usize)?;
         serializer.serialize_field(0usize, Some("mode"), &self.mode)?;
         serializer.serialize_field(1usize, Some("in"), &self.r#in)?;
@@ -2958,12 +2958,12 @@ impl ml::rt::serde::Serialize for super::opcode::FeBlend {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeColorMatrixValues {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeColorMatrixValues {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Matrix(p0) => {
                 let mut serializer = serializer.serialize_enum(
@@ -3011,12 +3011,12 @@ impl ml::rt::serde::Serialize for super::opcode::FeColorMatrixValues {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeColorMatrix {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeColorMatrix {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(66usize, "FeColorMatrix", 7usize)?;
         serializer.serialize_field(0usize, Some("in"), &self.r#in)?;
         serializer.serialize_field(1usize, Some("values"), &self.values)?;
@@ -3028,12 +3028,12 @@ impl ml::rt::serde::Serialize for super::opcode::FeColorMatrix {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeFunc {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeFunc {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Identity => {
                 let mut serializer =
@@ -3074,12 +3074,12 @@ impl ml::rt::serde::Serialize for super::opcode::FeFunc {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeCompositeOperator {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeCompositeOperator {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Over => {
                 let mut serializer = serializer.serialize_enum(
@@ -3148,12 +3148,12 @@ impl ml::rt::serde::Serialize for super::opcode::FeCompositeOperator {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeConvolveMatrixEdgeMode {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeConvolveMatrixEdgeMode {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Duplicate => {
                 let mut serializer = serializer.serialize_enum(
@@ -3188,12 +3188,12 @@ impl ml::rt::serde::Serialize for super::opcode::FeConvolveMatrixEdgeMode {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeMorphologyOperator {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeMorphologyOperator {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Erode => {
                 let mut serializer = serializer.serialize_enum(
@@ -3218,12 +3218,12 @@ impl ml::rt::serde::Serialize for super::opcode::FeMorphologyOperator {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeStitchTiles {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeStitchTiles {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::Stitch => {
                 let mut serializer = serializer.serialize_enum(
@@ -3248,12 +3248,12 @@ impl ml::rt::serde::Serialize for super::opcode::FeStitchTiles {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeTurbulenceType {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeTurbulenceType {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         match self {
             Self::FractalNoise => {
                 let mut serializer = serializer.serialize_enum(
@@ -3278,67 +3278,67 @@ impl ml::rt::serde::Serialize for super::opcode::FeTurbulenceType {
         }
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeComponentTransfer {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeComponentTransfer {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_el(73usize, "FeComponentTransfer", 1usize)?;
         serializer.serialize_field(0usize, None, &self.0)?;
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeFuncA {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeFuncA {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(74usize, "FeFuncA", 1usize)?;
         serializer.serialize_field(0usize, None, &self.0)?;
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeFuncR {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeFuncR {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(75usize, "FeFuncR", 1usize)?;
         serializer.serialize_field(0usize, None, &self.0)?;
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeFuncG {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeFuncG {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(76usize, "FeFuncG", 1usize)?;
         serializer.serialize_field(0usize, None, &self.0)?;
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeFuncB {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeFuncB {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(77usize, "FeFuncB", 1usize)?;
         serializer.serialize_field(0usize, None, &self.0)?;
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeComposite {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeComposite {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(78usize, "FeComposite", 8usize)?;
         serializer.serialize_field(0usize, Some("in"), &self.r#in)?;
         serializer.serialize_field(1usize, Some("in2"), &self.in2)?;
@@ -3351,12 +3351,12 @@ impl ml::rt::serde::Serialize for super::opcode::FeComposite {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeConvolveMatrix {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeConvolveMatrix {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(79usize, "FeConvolveMatrix", 15usize)?;
         serializer.serialize_field(0usize, Some("in"), &self.r#in)?;
         serializer.serialize_field(1usize, Some("order"), &self.order)?;
@@ -3376,12 +3376,12 @@ impl ml::rt::serde::Serialize for super::opcode::FeConvolveMatrix {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeDiffuseLighting {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeDiffuseLighting {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_el(80usize, "FeDiffuseLighting", 9usize)?;
         serializer.serialize_field(0usize, Some("in"), &self.r#in)?;
         serializer.serialize_field(1usize, Some("surface_scale"), &self.surface_scale)?;
@@ -3395,12 +3395,12 @@ impl ml::rt::serde::Serialize for super::opcode::FeDiffuseLighting {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeDisplacementMap {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeDisplacementMap {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(81usize, "FeDisplacementMap", 10usize)?;
         serializer.serialize_field(0usize, Some("in"), &self.r#in)?;
         serializer.serialize_field(1usize, Some("in2"), &self.in2)?;
@@ -3415,12 +3415,12 @@ impl ml::rt::serde::Serialize for super::opcode::FeDisplacementMap {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeFlood {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeFlood {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(82usize, "FeFlood", 7usize)?;
         serializer.serialize_field(0usize, Some("color"), &self.color)?;
         serializer.serialize_field(1usize, Some("opacity"), &self.opacity)?;
@@ -3432,12 +3432,12 @@ impl ml::rt::serde::Serialize for super::opcode::FeFlood {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeGaussianBlur {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeGaussianBlur {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(83usize, "FeGaussianBlur", 7usize)?;
         serializer.serialize_field(0usize, Some("in"), &self.r#in)?;
         serializer.serialize_field(1usize, Some("std_deviation"), &self.std_deviation)?;
@@ -3449,12 +3449,12 @@ impl ml::rt::serde::Serialize for super::opcode::FeGaussianBlur {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeMerge {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeMerge {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_el(84usize, "FeMerge", 5usize)?;
         serializer.serialize_field(0usize, Some("x"), &self.x)?;
         serializer.serialize_field(1usize, Some("y"), &self.y)?;
@@ -3464,23 +3464,23 @@ impl ml::rt::serde::Serialize for super::opcode::FeMerge {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeMergeNode {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeMergeNode {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(85usize, "FeMergeNode", 1usize)?;
         serializer.serialize_field(0usize, Some("in"), &self.0)?;
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeImage {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeImage {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(86usize, "FeImage", 7usize)?;
         serializer.serialize_field(0usize, Some("href"), &self.href)?;
         serializer.serialize_field(1usize, Some("aspect"), &self.aspect)?;
@@ -3492,12 +3492,12 @@ impl ml::rt::serde::Serialize for super::opcode::FeImage {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeMorphology {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeMorphology {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(87usize, "FeMorphology", 8usize)?;
         serializer.serialize_field(0usize, Some("in"), &self.r#in)?;
         serializer.serialize_field(1usize, Some("mode"), &self.mode)?;
@@ -3510,12 +3510,12 @@ impl ml::rt::serde::Serialize for super::opcode::FeMorphology {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeOffset {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeOffset {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(88usize, "FeOffset", 8usize)?;
         serializer.serialize_field(0usize, Some("in"), &self.r#in)?;
         serializer.serialize_field(1usize, Some("dx"), &self.dx)?;
@@ -3528,12 +3528,12 @@ impl ml::rt::serde::Serialize for super::opcode::FeOffset {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeSpecularLighting {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeSpecularLighting {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_el(89usize, "FeSpecularLighting", 10usize)?;
         serializer.serialize_field(0usize, Some("in"), &self.r#in)?;
         serializer.serialize_field(1usize, Some("surface_scale"), &self.surface_scale)?;
@@ -3548,12 +3548,12 @@ impl ml::rt::serde::Serialize for super::opcode::FeSpecularLighting {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeTile {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeTile {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(90usize, "FeTile", 6usize)?;
         serializer.serialize_field(0usize, Some("in"), &self.r#in)?;
         serializer.serialize_field(1usize, Some("x"), &self.x)?;
@@ -3564,12 +3564,12 @@ impl ml::rt::serde::Serialize for super::opcode::FeTile {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::FeTurbulence {
+impl ml::rt::serde::ser::Serialize for super::opcode::FeTurbulence {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(91usize, "FeTurbulence", 10usize)?;
         serializer.serialize_field(0usize, Some("base_frequency"), &self.base_frequency)?;
         serializer.serialize_field(1usize, Some("num_octaves"), &self.num_octaves)?;
@@ -3584,12 +3584,12 @@ impl ml::rt::serde::Serialize for super::opcode::FeTurbulence {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::LinearGradient {
+impl ml::rt::serde::ser::Serialize for super::opcode::LinearGradient {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_el(92usize, "LinearGradient", 7usize)?;
         serializer.serialize_field(0usize, Some("gradientUnits"), &self.units)?;
         serializer.serialize_field(1usize, Some("transform"), &self.transform)?;
@@ -3601,12 +3601,12 @@ impl ml::rt::serde::Serialize for super::opcode::LinearGradient {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::RadialGradient {
+impl ml::rt::serde::ser::Serialize for super::opcode::RadialGradient {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_el(93usize, "RadialGradient", 8usize)?;
         serializer.serialize_field(0usize, Some("gradientUnits"), &self.unit)?;
         serializer.serialize_field(1usize, Some("transform"), &self.transform)?;
@@ -3619,12 +3619,12 @@ impl ml::rt::serde::Serialize for super::opcode::RadialGradient {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::GradientStop {
+impl ml::rt::serde::ser::Serialize for super::opcode::GradientStop {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(94usize, "stop", 3usize)?;
         serializer.serialize_field(0usize, Some("offset"), &self.offset)?;
         serializer.serialize_field(1usize, Some("stop-color"), &self.color)?;
@@ -3632,34 +3632,34 @@ impl ml::rt::serde::Serialize for super::opcode::GradientStop {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Group {
+impl ml::rt::serde::ser::Serialize for super::opcode::Group {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_el(95usize, "g", 0usize)?;
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Path {
+impl ml::rt::serde::ser::Serialize for super::opcode::Path {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(96usize, "Path", 2usize)?;
         serializer.serialize_field(0usize, Some("d"), &self.events)?;
         serializer.serialize_field(1usize, Some("length"), &self.length)?;
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Pattern {
+impl ml::rt::serde::ser::Serialize for super::opcode::Pattern {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_el(97usize, "Pattern", 7usize)?;
         serializer.serialize_field(0usize, Some("patternUnits"), &self.units)?;
         serializer.serialize_field(1usize, Some("content_units"), &self.content_units)?;
@@ -3671,23 +3671,23 @@ impl ml::rt::serde::Serialize for super::opcode::Pattern {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Use {
+impl ml::rt::serde::ser::Serialize for super::opcode::Use {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(98usize, "Use", 1usize)?;
         serializer.serialize_field(0usize, Some("xlink:href"), &self.0)?;
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Rect {
+impl ml::rt::serde::ser::Serialize for super::opcode::Rect {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(99usize, "Rect", 6usize)?;
         serializer.serialize_field(0usize, Some("x"), &self.x)?;
         serializer.serialize_field(1usize, Some("y"), &self.y)?;
@@ -3698,12 +3698,12 @@ impl ml::rt::serde::Serialize for super::opcode::Rect {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Circle {
+impl ml::rt::serde::ser::Serialize for super::opcode::Circle {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(100usize, "Circle", 3usize)?;
         serializer.serialize_field(0usize, Some("cx"), &self.cx)?;
         serializer.serialize_field(1usize, Some("cy"), &self.cy)?;
@@ -3711,12 +3711,12 @@ impl ml::rt::serde::Serialize for super::opcode::Circle {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Ellipse {
+impl ml::rt::serde::ser::Serialize for super::opcode::Ellipse {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(101usize, "Ellipse", 4usize)?;
         serializer.serialize_field(0usize, Some("cx"), &self.cx)?;
         serializer.serialize_field(1usize, Some("cy"), &self.cy)?;
@@ -3725,12 +3725,12 @@ impl ml::rt::serde::Serialize for super::opcode::Ellipse {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Line {
+impl ml::rt::serde::ser::Serialize for super::opcode::Line {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(102usize, "Line", 4usize)?;
         serializer.serialize_field(0usize, Some("x1"), &self.x1)?;
         serializer.serialize_field(1usize, Some("y1"), &self.y1)?;
@@ -3739,34 +3739,34 @@ impl ml::rt::serde::Serialize for super::opcode::Line {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Polyline {
+impl ml::rt::serde::ser::Serialize for super::opcode::Polyline {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(103usize, "Polyline", 1usize)?;
         serializer.serialize_field(0usize, Some("points"), &self.0)?;
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Polygon {
+impl ml::rt::serde::ser::Serialize for super::opcode::Polygon {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(104usize, "Polygon", 1usize)?;
         serializer.serialize_field(0usize, Some("points"), &self.0)?;
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Text {
+impl ml::rt::serde::ser::Serialize for super::opcode::Text {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_el(106usize, "Text", 7usize)?;
         serializer.serialize_field(0usize, Some("x"), &self.x)?;
         serializer.serialize_field(1usize, Some("y"), &self.y)?;
@@ -3778,12 +3778,12 @@ impl ml::rt::serde::Serialize for super::opcode::Text {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::TextSpan {
+impl ml::rt::serde::ser::Serialize for super::opcode::TextSpan {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_el(107usize, "tspan", 7usize)?;
         serializer.serialize_field(0usize, Some("x"), &self.x)?;
         serializer.serialize_field(1usize, Some("y"), &self.y)?;
@@ -3795,23 +3795,23 @@ impl ml::rt::serde::Serialize for super::opcode::TextSpan {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Characters {
+impl ml::rt::serde::ser::Serialize for super::opcode::Characters {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_leaf(108usize, "Characters", 1usize)?;
         serializer.serialize_field(0usize, None, &self.0)?;
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::TextPath {
+impl ml::rt::serde::ser::Serialize for super::opcode::TextPath {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
-        use ml::rt::serde::SerializeNode;
+        use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_el(109usize, "TextPath", 4usize)?;
         serializer.serialize_field(0usize, Some("start_offset"), &self.start_offset)?;
         serializer.serialize_field(1usize, Some("method"), &self.method)?;
@@ -3820,10 +3820,10 @@ impl ml::rt::serde::Serialize for super::opcode::TextPath {
         serializer.finish()
     }
 }
-impl ml::rt::serde::Serialize for super::opcode::Opcode {
+impl ml::rt::serde::ser::Serialize for super::opcode::Opcode {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
-        S: ml::rt::serde::Serializer,
+        S: ml::rt::serde::ser::Serializer,
     {
         match self {
             Self::Apply(v) => match v {

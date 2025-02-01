@@ -48,12 +48,12 @@ impl SerializeGen for Node {
         let fields = stats.len();
 
         quote! {
-            impl ml::rt::serde::Serialize for #opcode_mod #ident {
+            impl ml::rt::serde::ser::Serialize for #opcode_mod #ident {
                 fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
                 where
-                    S: ml::rt::serde::Serializer
+                    S: ml::rt::serde::ser::Serializer
                 {
-                    use ml::rt::serde::SerializeNode;
+                    use ml::rt::serde::ser::SerializeNode;
                     let mut serializer = serializer.#serialize_fn(#idx, #name, #fields)?;
                     #(#stats;)*
 
@@ -116,12 +116,12 @@ impl SerializeGen for Enum {
         let ident = self.gen_ident();
 
         quote! {
-            impl ml::rt::serde::Serialize for #opcode_mod #ident {
+            impl ml::rt::serde::ser::Serialize for #opcode_mod #ident {
                 fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
                 where
-                    S: ml::rt::serde::Serializer
+                    S: ml::rt::serde::ser::Serializer
                 {
-                    use ml::rt::serde::SerializeNode;
+                    use ml::rt::serde::ser::SerializeNode;
                     match self {
                         #(#stats),*
                     }
@@ -219,10 +219,10 @@ impl SerdeModGen {
         quote! {
             #(#impls)*
 
-            impl ml::rt::serde::Serialize for #opcode_mod Opcode {
+            impl ml::rt::serde::ser::Serialize for #opcode_mod Opcode {
                 fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
                 where
-                    S: ml::rt::serde::Serializer
+                    S: ml::rt::serde::ser::Serializer
                 {
                     match self {
                         Self::Apply(v) => {
