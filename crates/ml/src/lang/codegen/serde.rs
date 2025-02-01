@@ -131,6 +131,47 @@ impl SerializeGen for Enum {
     }
 }
 
+trait DeserializeGen {
+    fn gen_deserialize_trait(&self, opcode_mod: &TokenStream, idx: usize) -> TokenStream;
+}
+
+#[allow(unused)]
+impl DeserializeGen for Node {
+    fn gen_deserialize_trait(&self, opcode_mod: &TokenStream, idx: usize) -> TokenStream {
+        let ident = self.gen_ident();
+
+        let visitor_ident = format!("{}Visitor", self.ident.1)
+            .parse::<TokenStream>()
+            .unwrap();
+
+        quote! {
+
+
+            impl<'de> ml::rt::serde::de::Deserialize<'de> for #opcode_mod #ident {
+                fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+                where
+                    D: ml::rt::serde::de::Deserializer<'de>,
+                {
+                    struct Visitor;
+
+                    impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+                        type Value = #opcode_mod #ident;
+                    }
+
+                    todo!()
+                }
+            }
+        }
+    }
+}
+
+#[allow(unused)]
+impl DeserializeGen for Enum {
+    fn gen_deserialize_trait(&self, opcode_mod: &TokenStream, idx: usize) -> TokenStream {
+        quote! {}
+    }
+}
+
 /// `serde.rs` mod generator.
 pub struct SerdeModGen {
     #[allow(unused)]
@@ -154,7 +195,7 @@ impl SerdeModGen {
 
         let mut impls: Vec<TokenStream> = vec![];
 
-        let mut els = vec![];
+        let mut sers = vec![];
         let mut leaves = vec![];
         let mut attrs = vec![];
 
@@ -167,9 +208,11 @@ impl SerdeModGen {
                         idx,
                     ));
 
+                    impls.push(node.gen_deserialize_trait(&self.opcode_mod, idx));
+
                     let ident = node.gen_ident();
 
-                    els.push(quote! {
+                    sers.push(quote! {
                         #opcode_mod Element::#ident(value) => value.serialize(serializer)
                     });
                 }
@@ -179,6 +222,8 @@ impl SerdeModGen {
                         quote! { serialize_leaf },
                         idx,
                     ));
+
+                    impls.push(node.gen_deserialize_trait(&self.opcode_mod, idx));
 
                     let ident = node.gen_ident();
 
@@ -193,6 +238,8 @@ impl SerdeModGen {
                         idx,
                     ));
 
+                    impls.push(node.gen_deserialize_trait(&self.opcode_mod, idx));
+
                     let ident = node.gen_ident();
 
                     attrs.push(quote! {
@@ -205,6 +252,8 @@ impl SerdeModGen {
                         quote! { serialize_data },
                         idx,
                     ));
+
+                    impls.push(node.gen_deserialize_trait(&self.opcode_mod, idx));
                 }
                 Stat::Enum(node) => {
                     impls.push(node.gen_serialize_trait(
@@ -212,6 +261,8 @@ impl SerdeModGen {
                         quote! { serialize_enum },
                         idx,
                     ));
+
+                    impls.push(node.gen_deserialize_trait(&self.opcode_mod, idx));
                 }
                 _ => {}
             }
@@ -232,7 +283,7 @@ impl SerdeModGen {
                         },
                         Self::Element(v) => {
                             match v {
-                                #(#els),*
+                                #(#sers),*
                             }
                         },
                         Self::Leaf(v) => {

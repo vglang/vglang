@@ -59,7 +59,7 @@ pub trait Visitor<'de>: Sized {
     type Value;
 
     /// visit bool value
-    fn visit_bool<E>(self, value: bool) -> Result<(), E>
+    fn visit_bool<E>(self, value: bool) -> Result<Self::Value, E>
     where
         E: From<Error>,
     {
@@ -69,7 +69,7 @@ pub trait Visitor<'de>: Sized {
     }
 
     /// Visit vglang `string`.
-    fn visit_string<E>(self, value: &str) -> Result<(), E>
+    fn visit_string<E>(self, value: &str) -> Result<Self::Value, E>
     where
         E: From<Error>,
     {
@@ -79,7 +79,7 @@ pub trait Visitor<'de>: Sized {
     }
 
     /// Visit vglang `byte`.
-    fn visit_byte<E>(self, value: i8) -> Result<(), E>
+    fn visit_byte<E>(self, value: i8) -> Result<Self::Value, E>
     where
         E: From<Error>,
     {
@@ -89,7 +89,7 @@ pub trait Visitor<'de>: Sized {
     }
 
     /// Visit vglang `ubyte`.
-    fn visit_ubyte<E>(self, value: u8) -> Result<(), E>
+    fn visit_ubyte<E>(self, value: u8) -> Result<Self::Value, E>
     where
         E: From<Error>,
     {
@@ -99,7 +99,7 @@ pub trait Visitor<'de>: Sized {
     }
 
     /// Visit vglang `byte`.
-    fn visit_short<E>(self, value: i16) -> Result<(), E>
+    fn visit_short<E>(self, value: i16) -> Result<Self::Value, E>
     where
         E: From<Error>,
     {
@@ -109,7 +109,7 @@ pub trait Visitor<'de>: Sized {
     }
 
     /// Visit vglang `ubyte`.
-    fn visit_ushort<E>(self, value: u16) -> Result<(), E>
+    fn visit_ushort<E>(self, value: u16) -> Result<Self::Value, E>
     where
         E: From<Error>,
     {
@@ -119,7 +119,7 @@ pub trait Visitor<'de>: Sized {
     }
 
     /// Visit vglang `int`.
-    fn visit_int<E>(self, value: i32) -> Result<(), E>
+    fn visit_int<E>(self, value: i32) -> Result<Self::Value, E>
     where
         E: From<Error>,
     {
@@ -129,7 +129,7 @@ pub trait Visitor<'de>: Sized {
     }
 
     /// Visit vglang `uint`.
-    fn visit_uint<E>(self, value: u32) -> Result<(), E>
+    fn visit_uint<E>(self, value: u32) -> Result<Self::Value, E>
     where
         E: From<Error>,
     {
@@ -139,7 +139,7 @@ pub trait Visitor<'de>: Sized {
     }
 
     /// Visit vglang `long`.
-    fn visit_long<E>(self, value: i64) -> Result<(), E>
+    fn visit_long<E>(self, value: i64) -> Result<Self::Value, E>
     where
         E: From<Error>,
     {
@@ -149,7 +149,7 @@ pub trait Visitor<'de>: Sized {
     }
 
     /// Visit vglang `ulong`.
-    fn visit_ulong<E>(self, value: u64) -> Result<(), E>
+    fn visit_ulong<E>(self, value: u64) -> Result<Self::Value, E>
     where
         E: From<Error>,
     {
@@ -159,7 +159,7 @@ pub trait Visitor<'de>: Sized {
     }
 
     /// Visit vglang `long`.
-    fn visit_float<E>(self, value: f32) -> Result<(), E>
+    fn visit_float<E>(self, value: f32) -> Result<Self::Value, E>
     where
         E: From<Error>,
     {
@@ -169,7 +169,7 @@ pub trait Visitor<'de>: Sized {
     }
 
     /// Visit vglang `double`.
-    fn visit_double<E>(self, value: f64) -> Result<(), E>
+    fn visit_double<E>(self, value: f64) -> Result<Self::Value, E>
     where
         E: From<Error>,
     {
@@ -179,7 +179,7 @@ pub trait Visitor<'de>: Sized {
     }
 
     /// Visit a none value.
-    fn visit_none<E>(self) -> Result<(), E>
+    fn visit_none<E>(self) -> Result<Self::Value, E>
     where
         E: From<Error>,
     {
@@ -187,7 +187,7 @@ pub trait Visitor<'de>: Sized {
     }
 
     /// Visit a none value.
-    fn visit_variable<E>(self, path: &Path, target: &Target) -> Result<(), E>
+    fn visit_variable<E>(self, path: &Path, target: &Target) -> Result<Self::Value, E>
     where
         E: From<Error>,
     {
@@ -198,7 +198,7 @@ pub trait Visitor<'de>: Sized {
     }
 
     /// Visit pop directive.
-    fn visit_pop<E>(self) -> Result<(), E>
+    fn visit_pop<E>(self) -> Result<Self::Value, E>
     where
         E: From<Error>,
     {
@@ -206,7 +206,7 @@ pub trait Visitor<'de>: Sized {
     }
 
     /// Visit node fields.
-    fn visit_node<A>(self, type_id: usize, node: A) -> Result<(), A::Error>
+    fn visit_node<A>(self, type_id: usize, node: A) -> Result<Self::Value, A::Error>
     where
         A: NodeAccess<'de>,
     {
@@ -216,7 +216,7 @@ pub trait Visitor<'de>: Sized {
     }
 
     /// Visit node fields.
-    fn visit_node_by_name<A>(self, name: &str, node: A) -> Result<(), A::Error>
+    fn visit_node_by_name<A>(self, name: &str, node: A) -> Result<Self::Value, A::Error>
     where
         A: NodeAccess<'de>,
     {
@@ -232,7 +232,7 @@ pub trait Visitor<'de>: Sized {
         variant: Option<&str>,
         variant_index: Option<usize>,
         node: A,
-    ) -> Result<(), A::Error>
+    ) -> Result<Self::Value, A::Error>
     where
         A: NodeAccess<'de>,
     {
@@ -251,7 +251,7 @@ pub trait Visitor<'de>: Sized {
         variant: Option<&str>,
         variant_index: Option<usize>,
         node: A,
-    ) -> Result<(), A::Error>
+    ) -> Result<Self::Value, A::Error>
     where
         A: NodeAccess<'de>,
     {
@@ -263,7 +263,7 @@ pub trait Visitor<'de>: Sized {
     }
 
     /// Visit node field.
-    fn visit_node_field<A>(self, index: usize, node: A) -> Result<(), A::Error>
+    fn visit_node_field<A>(self, index: usize, node: A) -> Result<Self::Value, A::Error>
     where
         A: NodeAccess<'de>,
     {
@@ -273,7 +273,7 @@ pub trait Visitor<'de>: Sized {
     }
 
     /// Visit node field.
-    fn visit_node_field_by_name<A>(self, name: &str, node: A) -> Result<(), A::Error>
+    fn visit_node_field_by_name<A>(self, name: &str, node: A) -> Result<Self::Value, A::Error>
     where
         A: NodeAccess<'de>,
     {
@@ -281,6 +281,24 @@ pub trait Visitor<'de>: Sized {
         let _ = node;
         Err(Error::Unexpect(Kind::Node).into())
     }
+
+    /// Visit sequence type.
+    fn visit_seq<S>(self, name: &str, seq: S) -> Result<Self::Value, S::Error>
+    where
+        S: SeqAccess<'de>,
+    {
+        let _ = name;
+        let _ = seq;
+        Err(Error::Unexpect(Kind::Node).into())
+    }
+}
+
+/// Provides a Visitor access to sequence items.
+pub trait SeqAccess<'de>: Deserializer<'de> {
+    /// deserialize node fields.
+    fn next_item<V>(&mut self, visitor: V) -> Result<V::Value, Self::Error>
+    where
+        V: Visitor<'de>;
 }
 
 /// Provides a Visitor access to each field of a node in the input.
@@ -375,4 +393,10 @@ pub trait Deserializer<'de>: Sized {
     fn deserialize_double<V>(self, visitor: V) -> Result<V::Value, Self::Error>
     where
         V: Visitor<'de>;
+}
+
+pub trait Deserialize<'de>: Sized {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>;
 }

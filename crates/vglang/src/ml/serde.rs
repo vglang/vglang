@@ -923,6 +923,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::Rgb {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::Rgb {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::Rgb;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::Iri {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -956,6 +968,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::FuncIri {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::FuncIri {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::FuncIri;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::Point {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -968,6 +992,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::Point {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::Point {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::Point;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::Percent {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -977,6 +1013,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::Percent {
         let mut serializer = serializer.serialize_data(7usize, "Percent", 1usize)?;
         serializer.serialize_field(0usize, None, &self.0)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::Percent {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::Percent;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::Paint {
@@ -1016,6 +1064,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::NumberOptNumber {
         serializer.serialize_field(0usize, None, &self.0)?;
         serializer.serialize_field(1usize, None, &self.1)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::NumberOptNumber {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::NumberOptNumber;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::Coords {
@@ -1808,6 +1868,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::BackgroundNew {
         serializer.serialize_field(2usize, Some("width"), &self.width)?;
         serializer.serialize_field(3usize, Some("height"), &self.height)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::BackgroundNew {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::BackgroundNew;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::FeIn {
@@ -2699,6 +2771,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::TextLayout {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::TextLayout {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::TextLayout;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::WithTransform {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -2708,6 +2792,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::WithTransform {
         let mut serializer = serializer.serialize_attr(45usize, "WithTransform", 1usize)?;
         serializer.serialize_field(0usize, Some("transform"), &self.0)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::WithTransform {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::WithTransform;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::Id {
@@ -2721,6 +2817,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::Id {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::Id {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::Id;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::Fill {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -2732,6 +2840,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::Fill {
         serializer.serialize_field(1usize, Some("fill-rule"), &self.rule)?;
         serializer.serialize_field(2usize, Some("fill-opacity"), &self.opacity)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::Fill {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::Fill;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::Stroke {
@@ -2751,6 +2871,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::Stroke {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::Stroke {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::Stroke;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::Font {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -2767,6 +2899,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::Font {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::Font {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::Font;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::EnableBackground {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -2776,6 +2920,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::EnableBackground {
         let mut serializer = serializer.serialize_attr(50usize, "EnableBackground", 1usize)?;
         serializer.serialize_field(0usize, Some("enable-background"), &self.0)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::EnableBackground {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::EnableBackground;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::WithFilter {
@@ -2789,6 +2945,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::WithFilter {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::WithFilter {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::WithFilter;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::WithClipPath {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -2798,6 +2966,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::WithClipPath {
         let mut serializer = serializer.serialize_attr(52usize, "WithClipPath", 1usize)?;
         serializer.serialize_field(0usize, Some("clip-path"), &self.0)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::WithClipPath {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::WithClipPath;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::WithMask {
@@ -2811,6 +2991,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::WithMask {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::WithMask {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::WithMask;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::Opacity {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -2820,6 +3012,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::Opacity {
         let mut serializer = serializer.serialize_attr(54usize, "Opacity", 1usize)?;
         serializer.serialize_field(0usize, Some("opacity"), &self.0)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::Opacity {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::Opacity;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::ViewBox {
@@ -2837,6 +3041,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::ViewBox {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::ViewBox {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::ViewBox;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::Canvas {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -2847,6 +3063,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::Canvas {
         serializer.serialize_field(0usize, Some("width"), &self.width)?;
         serializer.serialize_field(1usize, Some("height"), &self.height)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::Canvas {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::Canvas;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::Mask {
@@ -2865,6 +3093,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::Mask {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::Mask {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::Mask;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::ClipPath {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -2874,6 +3114,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::ClipPath {
         let mut serializer = serializer.serialize_el(59usize, "ClipPath", 1usize)?;
         serializer.serialize_field(0usize, None, &self.0)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::ClipPath {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::ClipPath;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::Filter {
@@ -2893,6 +3145,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::Filter {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::Filter {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::Filter;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::FeDistantLight {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -2903,6 +3167,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::FeDistantLight {
         serializer.serialize_field(0usize, Some("azimuth"), &self.azimuth)?;
         serializer.serialize_field(1usize, Some("elevation"), &self.elevation)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::FeDistantLight {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::FeDistantLight;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::FePointLight {
@@ -2916,6 +3192,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::FePointLight {
         serializer.serialize_field(1usize, Some("y"), &self.y)?;
         serializer.serialize_field(2usize, Some("z"), &self.z)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::FePointLight {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::FePointLight;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::FeSpotLight {
@@ -2940,6 +3228,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::FeSpotLight {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::FeSpotLight {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::FeSpotLight;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::FeBlend {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -2956,6 +3256,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::FeBlend {
         serializer.serialize_field(6usize, Some("height"), &self.height)?;
         serializer.serialize_field(7usize, Some("result"), &self.result)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::FeBlend {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::FeBlend;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::FeColorMatrixValues {
@@ -3026,6 +3338,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::FeColorMatrix {
         serializer.serialize_field(5usize, Some("height"), &self.height)?;
         serializer.serialize_field(6usize, Some("result"), &self.result)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::FeColorMatrix {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::FeColorMatrix;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::FeFunc {
@@ -3289,6 +3613,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::FeComponentTransfer {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::FeComponentTransfer {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::FeComponentTransfer;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::FeFuncA {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -3298,6 +3634,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::FeFuncA {
         let mut serializer = serializer.serialize_leaf(74usize, "FeFuncA", 1usize)?;
         serializer.serialize_field(0usize, None, &self.0)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::FeFuncA {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::FeFuncA;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::FeFuncR {
@@ -3311,6 +3659,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::FeFuncR {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::FeFuncR {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::FeFuncR;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::FeFuncG {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -3322,6 +3682,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::FeFuncG {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::FeFuncG {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::FeFuncG;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::FeFuncB {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -3331,6 +3703,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::FeFuncB {
         let mut serializer = serializer.serialize_leaf(77usize, "FeFuncB", 1usize)?;
         serializer.serialize_field(0usize, None, &self.0)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::FeFuncB {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::FeFuncB;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::FeComposite {
@@ -3349,6 +3733,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::FeComposite {
         serializer.serialize_field(6usize, Some("height"), &self.height)?;
         serializer.serialize_field(7usize, Some("result"), &self.result)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::FeComposite {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::FeComposite;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::FeConvolveMatrix {
@@ -3376,6 +3772,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::FeConvolveMatrix {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::FeConvolveMatrix {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::FeConvolveMatrix;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::FeDiffuseLighting {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -3393,6 +3801,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::FeDiffuseLighting {
         serializer.serialize_field(7usize, Some("height"), &self.height)?;
         serializer.serialize_field(8usize, Some("result"), &self.result)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::FeDiffuseLighting {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::FeDiffuseLighting;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::FeDisplacementMap {
@@ -3415,6 +3835,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::FeDisplacementMap {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::FeDisplacementMap {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::FeDisplacementMap;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::FeFlood {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -3430,6 +3862,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::FeFlood {
         serializer.serialize_field(5usize, Some("height"), &self.height)?;
         serializer.serialize_field(6usize, Some("result"), &self.result)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::FeFlood {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::FeFlood;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::FeGaussianBlur {
@@ -3449,6 +3893,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::FeGaussianBlur {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::FeGaussianBlur {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::FeGaussianBlur;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::FeMerge {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -3464,6 +3920,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::FeMerge {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::FeMerge {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::FeMerge;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::FeMergeNode {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -3473,6 +3941,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::FeMergeNode {
         let mut serializer = serializer.serialize_leaf(85usize, "FeMergeNode", 1usize)?;
         serializer.serialize_field(0usize, Some("in"), &self.0)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::FeMergeNode {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::FeMergeNode;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::FeImage {
@@ -3490,6 +3970,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::FeImage {
         serializer.serialize_field(5usize, Some("height"), &self.height)?;
         serializer.serialize_field(6usize, Some("result"), &self.result)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::FeImage {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::FeImage;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::FeMorphology {
@@ -3510,6 +4002,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::FeMorphology {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::FeMorphology {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::FeMorphology;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::FeOffset {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -3526,6 +4030,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::FeOffset {
         serializer.serialize_field(6usize, Some("height"), &self.height)?;
         serializer.serialize_field(7usize, Some("result"), &self.result)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::FeOffset {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::FeOffset;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::FeSpecularLighting {
@@ -3548,6 +4064,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::FeSpecularLighting {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::FeSpecularLighting {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::FeSpecularLighting;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::FeTile {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -3562,6 +4090,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::FeTile {
         serializer.serialize_field(4usize, Some("height"), &self.height)?;
         serializer.serialize_field(5usize, Some("result"), &self.result)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::FeTile {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::FeTile;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::FeTurbulence {
@@ -3584,6 +4124,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::FeTurbulence {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::FeTurbulence {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::FeTurbulence;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::LinearGradient {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -3599,6 +4151,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::LinearGradient {
         serializer.serialize_field(5usize, Some("y2"), &self.y2)?;
         serializer.serialize_field(6usize, Some("spread"), &self.spread)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::LinearGradient {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::LinearGradient;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::RadialGradient {
@@ -3619,6 +4183,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::RadialGradient {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::RadialGradient {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::RadialGradient;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::GradientStop {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -3632,6 +4208,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::GradientStop {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::GradientStop {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::GradientStop;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::Group {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -3640,6 +4228,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::Group {
         use ml::rt::serde::ser::SerializeNode;
         let mut serializer = serializer.serialize_el(95usize, "g", 0usize)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::Group {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::Group;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::Path {
@@ -3652,6 +4252,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::Path {
         serializer.serialize_field(0usize, Some("d"), &self.events)?;
         serializer.serialize_field(1usize, Some("length"), &self.length)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::Path {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::Path;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::Pattern {
@@ -3671,6 +4283,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::Pattern {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::Pattern {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::Pattern;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::Use {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -3680,6 +4304,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::Use {
         let mut serializer = serializer.serialize_leaf(98usize, "Use", 1usize)?;
         serializer.serialize_field(0usize, Some("xlink:href"), &self.0)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::Use {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::Use;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::Rect {
@@ -3698,6 +4334,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::Rect {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::Rect {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::Rect;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::Circle {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -3709,6 +4357,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::Circle {
         serializer.serialize_field(1usize, Some("cy"), &self.cy)?;
         serializer.serialize_field(2usize, Some("r"), &self.r)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::Circle {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::Circle;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::Ellipse {
@@ -3725,6 +4385,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::Ellipse {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::Ellipse {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::Ellipse;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::Line {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -3739,6 +4411,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::Line {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::Line {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::Line;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::Polyline {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -3750,6 +4434,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::Polyline {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::Polyline {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::Polyline;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::Polygon {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -3759,6 +4455,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::Polygon {
         let mut serializer = serializer.serialize_leaf(104usize, "Polygon", 1usize)?;
         serializer.serialize_field(0usize, Some("points"), &self.0)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::Polygon {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::Polygon;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::Text {
@@ -3778,6 +4486,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::Text {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::Text {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::Text;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::TextSpan {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -3795,6 +4515,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::TextSpan {
         serializer.finish()
     }
 }
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::TextSpan {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::TextSpan;
+        }
+        todo!()
+    }
+}
 impl ml::rt::serde::ser::Serialize for super::opcode::Characters {
     fn serialize<S>(&self, serializer: S) -> Result<(), S::Error>
     where
@@ -3804,6 +4536,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::Characters {
         let mut serializer = serializer.serialize_leaf(108usize, "Characters", 1usize)?;
         serializer.serialize_field(0usize, None, &self.0)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::Characters {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::Characters;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::TextPath {
@@ -3818,6 +4562,18 @@ impl ml::rt::serde::ser::Serialize for super::opcode::TextPath {
         serializer.serialize_field(2usize, Some("spacing"), &self.spacing)?;
         serializer.serialize_field(3usize, Some("href"), &self.href)?;
         serializer.finish()
+    }
+}
+impl<'de> ml::rt::serde::de::Deserialize<'de> for super::opcode::TextPath {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: ml::rt::serde::de::Deserializer<'de>,
+    {
+        struct Visitor;
+        impl<'de> ml::rt::serde::de::Visitor<'de> for Visitor {
+            type Value = super::opcode::TextPath;
+        }
+        todo!()
     }
 }
 impl ml::rt::serde::ser::Serialize for super::opcode::Opcode {
