@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/*"]
+members = ["crates/ml", "crates/parserc"]
 resolver = "2"
 
 [workspace.package]
@@ -24,7 +24,6 @@ divan = "0.1.14"
 futures = "^0.3"
 futures-test = "^0.3"
 heck = "^0.5"
-nom = "^7.1"
 num = "0.4.3"
 oxilangtag = "0.1.5"
 proc-macro2 = "^1"
