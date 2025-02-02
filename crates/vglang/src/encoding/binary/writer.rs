@@ -2,7 +2,7 @@
 
 use std::io::{Cursor, Write};
 
-use ml::rt::serde::ser::{Serialize, SerializeNode, SerializeSeq, Serializer};
+use mlang::rt::serde::ser::{Serialize, SerializeNode, SerializeSeq, Serializer};
 use varint_rs::VarintWriter;
 
 use crate::opcode::Opcode;
@@ -196,15 +196,15 @@ impl<'a> Serializer for &'a mut BinaryWriter {
 
     fn serialize_variable(
         self,
-        path: &ml::rt::opcode::variable::Path,
-        target: &ml::rt::opcode::variable::Target,
+        path: &mlang::rt::opcode::Path,
+        target: &mlang::rt::opcode::Target,
     ) -> Result<(), Self::Error> {
         self.write_buf.write_u8_varint(Tag::Variable as u8)?;
         match path {
-            ml::rt::opcode::variable::Path::Named(v) => {
+            mlang::rt::opcode::Path::Named(v) => {
                 self.serialize_string(v)?;
             }
-            ml::rt::opcode::variable::Path::Index(v) => {
+            mlang::rt::opcode::Path::Index(v) => {
                 self.serialize_uint(*v as u32)?;
             }
         }
@@ -231,7 +231,7 @@ impl<'a> SerializeNode for &'a mut BinaryWriter {
         value: &T,
     ) -> Result<(), Self::Error>
     where
-        T: ?Sized + ml::rt::serde::ser::Serialize,
+        T: ?Sized + mlang::rt::serde::ser::Serialize,
     {
         self.write_buf.write_u8_varint(index as u8)?;
         value.serialize(&mut **self)?;
@@ -249,7 +249,7 @@ impl<'a> SerializeSeq for &'a mut BinaryWriter {
 
     fn serialize_element<T>(&mut self, value: &T) -> Result<(), Self::Error>
     where
-        T: ?Sized + ml::rt::serde::ser::Serialize,
+        T: ?Sized + mlang::rt::serde::ser::Serialize,
     {
         value.serialize(&mut **self)?;
 

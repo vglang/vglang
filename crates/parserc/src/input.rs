@@ -100,7 +100,7 @@ where
 {
     fn print_reports(self) {
         for (index, (span, line)) in self.enumerate() {
-            println!("{}: {} {}", index, line, span);
+            eprintln!("{}: {} {}", index, line, span);
         }
     }
 }

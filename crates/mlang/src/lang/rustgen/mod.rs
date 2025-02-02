@@ -4,21 +4,47 @@ pub mod mapping;
 
 mod opcode;
 pub use opcode::*;
+mod serde;
+pub use serde::*;
+mod sexpr;
+pub use sexpr::*;
 
 mod ext {
-    use std::{io::Result, path::Path};
+    use std::{
+        io::{Error, ErrorKind, Result},
+        path::Path,
+    };
 
     use proc_macro2::TokenStream;
     use quote::quote;
 
     use crate::lang::{ir::Stat, rustgen::gen_opcode_mod};
 
+    use super::{gen_serde_mod, gen_sexpr_mod};
+
     fn write_and_fmt_rs<C: AsRef<[u8]>, P: AsRef<Path>>(path: P, content: C) -> Result<()> {
-        std::fs::write(path.as_ref(), content)?;
+        println!("codegen({:?}):", path.as_ref());
+
+        std::fs::write(path.as_ref(), content).map_err(|err| {
+            Error::new(
+                ErrorKind::Other,
+                format!("write file {:?} error: {}", path.as_ref(), err),
+            )
+        })?;
+
+        println!("    write file ... ok");
 
         std::process::Command::new("rustfmt")
             .arg(path.as_ref())
-            .output()?;
+            .output()
+            .map_err(|err| {
+                Error::new(
+                    ErrorKind::Other,
+                    format!("run rustfmt for {:?} error: {}", path.as_ref(), err),
+                )
+            })?;
+
+        println!("    run rustfmt ... ok");
 
         Ok(())
     }
@@ -29,16 +55,20 @@ mod ext {
         target: impl AsRef<Path>,
         without_ext: bool,
     ) -> Result<()> {
-        let mods = vec![("opcode", |stats: &[Stat]| gen_opcode_mod(stats))];
+        let mut mods = vec![("opcode", gen_opcode_mod(stats.as_ref()))];
 
-        if !without_ext {}
+        if !without_ext {
+            mods.push(("sexpr", gen_sexpr_mod(stats.as_ref())));
+            mods.push(("serde", gen_serde_mod(stats.as_ref())));
+        }
 
         let mut impls = vec![];
 
-        for (name, gen) in mods {
-            let codes = gen(stats.as_ref());
-
-            let target_file = target.as_ref().join(format!("{}.rs", name));
+        for (name, codes) in mods {
+            let target_file = target
+                .as_ref()
+                .join(format!("{}.rs", name))
+                .canonicalize()?;
 
             write_and_fmt_rs(target_file, codes.to_string())?;
 
@@ -55,7 +85,7 @@ mod ext {
             #(#impls)*
         };
 
-        let target_file = target.as_ref().join("mod.rs");
+        let target_file = target.as_ref().join("mod.rs").canonicalize()?;
 
         write_and_fmt_rs(target_file, codes.to_string())?;
 

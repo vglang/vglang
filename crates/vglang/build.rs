@@ -5,32 +5,11 @@ fn ml_gen() {}
 fn ml_gen() {
     use std::path::PathBuf;
 
-    use ml::lang::{
-        analyzer::semantic_analyze,
-        codegen::gen,
-        parser::parse,
-        parserc::{ParseContext, PrintReport},
-    };
+    use mlang::lang::compile;
 
-    let mut input = ParseContext::from(include_str!("./vglang.ml"));
-    let mut opcodes = match parse(&mut input) {
-        Ok(opcodes) => opcodes,
-        Err(err) => {
-            input.report().print_reports();
-            panic!("parser vglang.ml failed: {}", err);
-        }
-    };
+    let target = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("src/ml");
 
-    semantic_analyze(&mut opcodes, &mut input);
-
-    if input.report_size() > 0 {
-        input.report().print_reports();
-        panic!("semantic anlayze failed: vglang.ml");
-    }
-
-    let codegen = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("src/ml");
-
-    gen(&opcodes, codegen);
+    compile(include_str!("./vglang.ml"), target, false).unwrap();
 }
 
 fn main() {

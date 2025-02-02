@@ -1,6 +1,6 @@
 use heck::ToLowerCamelCase;
-use ml::rt::{
-    opcode::variable::{self, Path, Target},
+use mlang::rt::{
+    opcode::{Path, Target},
     serde::ser::{Serialize, SerializeNode, SerializeSeq, Serializer},
 };
 use xml_dom::level2::{
@@ -15,7 +15,7 @@ pub enum SvgWriteError {
     #[error(transparent)]
     XmlError(#[from] xml_dom::level2::Error),
     #[error("Unsafisfied variable path={0:?}, target={1:?}")]
-    Unsatisfied(variable::Path, variable::Target),
+    Unsatisfied(mlang::rt::opcode::Path, mlang::rt::opcode::Target),
 }
 
 /// Processing state of the writer.

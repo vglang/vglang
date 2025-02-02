@@ -11,7 +11,7 @@ thiserror = {workspace = true}
 
 heck = {workspace = true, optional = true}
 log = {workspace = true, optional = true}
-ml = {workspace = true, features = ["rt", "opcode"]}
+mlang = {workspace = true, features = ["rt"]}
 parserc = {workspace = true, optional = true}
 serde = {workspace = true, optional = true}
 varint-rs = {workspace = true, optional = true}
@@ -19,15 +19,14 @@ vglang-derive = {workspace = true, optional = true}
 xml_dom = {workspace = true, optional = true}
 
 [build-dependencies]
-ml = {workspace = true, features = ["lang"]}
+mlang = {workspace = true, features = ["lang"]}
 
 [dev-dependencies]
 divan = {workspace = true}
-nom = {workspace = true}
 
 [features]
 binary = ["varint-rs"]
-serde = ["dep:serde", "parserc/serde", "ml/serde"]
+serde = ["dep:serde", "parserc/serde", "mlang/serde"]
 sexpr = ["vglang-derive"]
 surface = []
 svg = ["xml_dom", "heck", "log"]

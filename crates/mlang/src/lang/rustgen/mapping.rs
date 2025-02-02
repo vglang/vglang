@@ -29,7 +29,12 @@ pub trait IdentMapping {
 
 impl IdentMapping for Ident {
     fn to_field_name(&self) -> TokenStream {
-        self.1.to_snake_case().parse().expect("to_field_name")
+        match self.1.to_snake_case().as_str() {
+            "type" => "r#type".parse().expect("to_field_name"),
+            "in" => "r#in".parse().expect("to_field_name"),
+            "for" => "r#for".parse().expect("to_field_name"),
+            ident => ident.parse().expect("to_field_name"),
+        }
     }
 
     fn to_type_name(&self) -> TokenStream {
