@@ -1,4 +1,4 @@
-//! A code generation tool to help developing `vglang`.
+//! `mlang` is a document type definition language, originally developed for the contruction of `vglang`.
 
 #![cfg_attr(docsrs, feature(doc_cfg))]
 

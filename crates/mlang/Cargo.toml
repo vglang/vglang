@@ -1,9 +1,9 @@
 [package]
 description = "markup language metadata tool."
-documentation = "https://docs.rs/ml"
+documentation = "https://docs.rs/mlang"
 edition.workspace = true
 license = "MIT"
-name = "ml"
+name = "mlang"
 repository.workspace = true
 version.workspace = true
 
