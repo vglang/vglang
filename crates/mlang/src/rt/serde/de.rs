@@ -1,6 +1,6 @@
 use std::path::Path;
 
-use crate::rt::opcode::variable::Target;
+use crate::rt::opcode::Target;
 
 /// Error used by [`Visitor`]
 #[derive(Debug, thiserror::Error)]

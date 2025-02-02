@@ -1,3 +1,5 @@
+//! semantic analyzer for `mlang`.
+
 use std::collections::HashMap;
 
 use parserc::{ParseContext, Span};

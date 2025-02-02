@@ -1,3 +1,5 @@
+//! The intermediate representation for `mlang`.
+
 use std::slice::{Iter, IterMut};
 
 use parserc::Span;

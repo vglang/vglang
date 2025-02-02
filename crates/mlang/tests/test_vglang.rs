@@ -1,4 +1,4 @@
-use mlang::lang::ext::compile;
+use mlang::lang::compile;
 
 #[test]
 fn test_vglang() {
