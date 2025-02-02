@@ -20,7 +20,7 @@ impl DefinitionGen for Node {
         let fields = self
             .fields
             .iter()
-            .map(|field| field.gen_definition(quote! {pub}))
+            .map(|field| field.gen_definition(quote! {pub}, None))
             .collect::<Vec<_>>();
 
         let body = self.gen_body_expr(fields);
@@ -55,7 +55,7 @@ impl DefinitionGen for Enum {
                 let fields = node
                     .fields
                     .iter()
-                    .map(|field| field.gen_definition(quote! {}))
+                    .map(|field| field.gen_definition(quote! {}, None))
                     .collect::<Vec<_>>();
 
                 let body = node.gen_body_expr(fields);

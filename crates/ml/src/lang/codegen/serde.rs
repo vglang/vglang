@@ -144,9 +144,17 @@ impl DeserializeGen for Node {
             .parse::<TokenStream>()
             .unwrap();
 
+        let mut fields = vec![];
+
+        for field in self.fields.iter() {
+            let ty = field.gen_type_definition(opcode_mod);
+
+            fields.push(field.gen_definition(quote! {}, Some(quote! { Option<#ty> })));
+        }
+
+        let body = self.gen_body_expr(fields);
+
         quote! {
-
-
             impl<'de> ml::rt::serde::de::Deserialize<'de> for #opcode_mod #ident {
                 fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
                 where

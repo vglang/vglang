@@ -156,7 +156,7 @@ pub trait FieldGen {
     fn gen_ident(&self) -> Option<TokenStream>;
 
     /// Generate field definition code.
-    fn gen_definition(&self, vis: TokenStream) -> TokenStream;
+    fn gen_definition(&self, vis: TokenStream, ty: Option<TokenStream>) -> TokenStream;
 
     /// Generate the field type definition code.
     fn gen_type_definition(&self, opcode_mod: &TokenStream) -> TokenStream;
@@ -227,10 +227,11 @@ impl<'a> FieldGen for Field<'a> {
         ty
     }
 
-    fn gen_definition(&self, vis: TokenStream) -> TokenStream {
+    fn gen_definition(&self, vis: TokenStream, ty: Option<TokenStream>) -> TokenStream {
         let comments = self.gen_comments();
 
-        let ty = self.gen_type_definition(&quote! {});
+        let ty = ty.unwrap_or_else(|| self.gen_type_definition(&quote! {}));
+
         if let Some(ident) = self.gen_ident() {
             quote! { #(#comments)* #vis #ident: #ty }
         } else {
