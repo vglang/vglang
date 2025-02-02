@@ -22,8 +22,8 @@ pub enum AnalyzerError {
     #[error("Custom property `{0}`, expect empty call list.")]
     VariableOption(String),
 
-    #[error("Custom property `xml`, expect one `literial str` as call list.")]
-    Xml,
+    #[error("Custom property `rename`, expect one `literial str` as call list.")]
+    Rename,
 }
 
 #[derive(Default)]
@@ -224,7 +224,7 @@ impl<'a> SemanticAnalyzer<'a> {
         for property in &node.properties {
             for call in &property.calls {
                 match call.target.1.as_str() {
-                    "option" | "variable" | "init" | "xml_skip" => {
+                    "option" | "variable" | "init" => {
                         if call.params.len() != 0 {
                             ctx.report_err(
                                 AnalyzerError::VariableOption(call.target.1.clone()),
@@ -232,9 +232,9 @@ impl<'a> SemanticAnalyzer<'a> {
                             );
                         }
                     }
-                    "xml" => {
+                    "rename" => {
                         if call.params.len() != 1 {
-                            ctx.report_err(AnalyzerError::Xml, call.target.0);
+                            ctx.report_err(AnalyzerError::Rename, call.target.0);
                         }
                     }
                     _ => {}
