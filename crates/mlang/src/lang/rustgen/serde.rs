@@ -40,7 +40,7 @@ impl<'a> SerdeDisplayName for Field<'a> {
     }
 }
 
-trait TraitImplCodeGen {
+trait SerializeCodeGen {
     fn gen_serialize_trait(
         &self,
         opcode_mod: &TokenStream,
@@ -49,7 +49,7 @@ trait TraitImplCodeGen {
     ) -> TokenStream;
 }
 
-impl TraitImplCodeGen for Node {
+impl SerializeCodeGen for Node {
     fn gen_serialize_trait(
         &self,
         opcode_mod: &TokenStream,
@@ -104,7 +104,7 @@ impl TraitImplCodeGen for Node {
     }
 }
 
-impl TraitImplCodeGen for Enum {
+impl SerializeCodeGen for Enum {
     fn gen_serialize_trait(
         &self,
         opcode_mod: &TokenStream,
@@ -177,6 +177,157 @@ impl TraitImplCodeGen for Enum {
     }
 }
 
+trait DeserializeElCodeGen {
+    fn gen_deserialize_el(&self, opcode_mod: &TokenStream, type_id: usize) -> TokenStream;
+}
+
+impl DeserializeElCodeGen for Node {
+    fn gen_deserialize_el(&self, opcode_mod: &TokenStream, type_id: usize) -> TokenStream {
+        let _ = opcode_mod;
+        let _ = type_id;
+
+        let ident = self.to_ident();
+
+        quote! {
+            impl<'de> mlang::rt::serde::de::Deserialize<'de> for #opcode_mod #ident {
+
+                type Value = Vec<#opcode_mod Opcode>;
+
+                fn deserialize<D>(deserializer: D) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+                where
+                    D: mlang::rt::serde::de::Deserializer<'de>
+                {
+                    let _ = deserializer;
+                    todo!()
+                }
+            }
+        }
+    }
+}
+
+trait DeserializeLeafCodeGen {
+    fn gen_deserialize_leaf(&self, opcode_mod: &TokenStream, type_id: usize) -> TokenStream;
+}
+
+impl DeserializeLeafCodeGen for Node {
+    fn gen_deserialize_leaf(&self, opcode_mod: &TokenStream, type_id: usize) -> TokenStream {
+        let _ = opcode_mod;
+        let _ = type_id;
+
+        let ident = self.to_ident();
+
+        quote! {
+            impl<'de> mlang::rt::serde::de::Deserialize<'de> for #opcode_mod #ident {
+
+                type Value = Vec<#opcode_mod Opcode>;
+
+                fn deserialize<D>(deserializer: D) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+                where
+                    D: mlang::rt::serde::de::Deserializer<'de>
+                {
+                    let _ = deserializer;
+                    todo!()
+                }
+            }
+        }
+    }
+}
+
+trait DeserializeAttrCodeGen {
+    fn gen_deserialize_attr(&self, opcode_mod: &TokenStream, type_id: usize) -> TokenStream;
+}
+
+impl DeserializeAttrCodeGen for Node {
+    fn gen_deserialize_attr(&self, opcode_mod: &TokenStream, type_id: usize) -> TokenStream {
+        let _ = opcode_mod;
+        let _ = type_id;
+
+        let ident = self.to_ident();
+
+        let mut fields = vec![];
+
+        for field in self.fields.iter() {
+            let param = field.to_type_definition(opcode_mod);
+
+            fields.push(field.to_definition_clause(&quote! {}, &quote! { Option<#param> }));
+        }
+
+        let body = self.to_struct_body(fields);
+        let semi_token = self.to_semi_token();
+
+        quote! {
+            impl<'de> mlang::rt::serde::de::Deserialize<'de> for #opcode_mod #ident {
+
+                type Value = Self;
+
+                fn deserialize<D>(deserializer: D) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+                where
+                    D: mlang::rt::serde::de::Deserializer<'de>
+                {
+                    let _ = deserializer;
+
+                    #[allow(unused)]
+                    struct Visitor #body #semi_token
+
+                    todo!()
+                }
+            }
+        }
+    }
+}
+
+trait DeserializeDataCodeGen {
+    fn gen_deserialize_data(&self, opcode_mod: &TokenStream, type_id: usize) -> TokenStream;
+}
+
+impl DeserializeDataCodeGen for Node {
+    fn gen_deserialize_data(&self, opcode_mod: &TokenStream, type_id: usize) -> TokenStream {
+        let _ = opcode_mod;
+        let _ = type_id;
+
+        let ident = self.to_ident();
+
+        quote! {
+            impl<'de> mlang::rt::serde::de::Deserialize<'de> for #opcode_mod #ident {
+
+                type Value = Self;
+
+                fn deserialize<D>(deserializer: D) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+                where
+                    D: mlang::rt::serde::de::Deserializer<'de>
+                {
+                    let _ = deserializer;
+                    todo!()
+                }
+            }
+        }
+    }
+}
+
+impl DeserializeDataCodeGen for Enum {
+    fn gen_deserialize_data(&self, opcode_mod: &TokenStream, type_id: usize) -> TokenStream {
+        let _ = opcode_mod;
+        let _ = type_id;
+
+        let ident = self.to_ident();
+
+        quote! {
+            impl<'de> mlang::rt::serde::de::Deserialize<'de> for #opcode_mod #ident {
+
+                type Value = Self;
+
+                fn deserialize<D>(deserializer: D) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+                where
+                    D: mlang::rt::serde::de::Deserializer<'de>
+                {
+                    let _ = deserializer;
+                    todo!()
+                }
+            }
+        }
+    }
+}
+
 struct CodeGen(TokenStream);
 
 impl CodeGen {
@@ -191,18 +342,19 @@ impl CodeGen {
 
         let mut impls: Vec<TokenStream> = vec![];
 
-        let mut sers = vec![];
-        let mut leaves = vec![];
-        let mut attrs = vec![];
+        let mut ser_els = vec![];
+        let mut ser_leaves = vec![];
+        let mut ser_attrs = vec![];
 
         for (idx, stat) in stats.iter().enumerate() {
             match stat {
                 Stat::Element(node) => {
                     impls.push(node.gen_serialize_trait(opcode_mod, quote! { serialize_el }, idx));
+                    impls.push(node.gen_deserialize_el(opcode_mod, idx));
 
                     let ident = node.to_ident();
 
-                    sers.push(quote! {
+                    ser_els.push(quote! {
                         #opcode_mod Element::#ident(value) => value.serialize(serializer)
                     });
                 }
@@ -213,9 +365,11 @@ impl CodeGen {
                         idx,
                     ));
 
+                    impls.push(node.gen_deserialize_leaf(opcode_mod, idx));
+
                     let ident = node.to_ident();
 
-                    leaves.push(quote! {
+                    ser_leaves.push(quote! {
                         #opcode_mod Leaf::#ident(value) => value.serialize(serializer)
                     });
                 }
@@ -226,9 +380,11 @@ impl CodeGen {
                         idx,
                     ));
 
+                    impls.push(node.gen_deserialize_attr(opcode_mod, idx));
+
                     let ident = node.to_ident();
 
-                    attrs.push(quote! {
+                    ser_attrs.push(quote! {
                         #opcode_mod Attr::#ident(value) => value.serialize(serializer)
                     });
                 }
@@ -238,6 +394,8 @@ impl CodeGen {
                         quote! { serialize_data },
                         idx,
                     ));
+
+                    impls.push(node.gen_deserialize_data(opcode_mod, idx));
                 }
                 Stat::Enum(node) => {
                     impls.push(node.gen_serialize_trait(
@@ -245,6 +403,8 @@ impl CodeGen {
                         quote! { serialize_enum },
                         idx,
                     ));
+
+                    impls.push(node.gen_deserialize_data(opcode_mod, idx));
                 }
                 _ => {}
             }
@@ -260,17 +420,17 @@ impl CodeGen {
                     match self {
                         Self::Apply(v) => {
                             match v {
-                                #(#attrs),*
+                                #(#ser_attrs),*
                             }
                         },
                         Self::Element(v) => {
                             match v {
-                                #(#sers),*
+                                #(#ser_els),*
                             }
                         },
                         Self::Leaf(v) => {
                             match v {
-                                #(#leaves),*
+                                #(#ser_leaves),*
                             }
                         }
                         Self::Pop => {
