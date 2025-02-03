@@ -787,7 +787,11 @@ impl CodeGen {
             stats.push(self.gen_tuple_map_collect_impl(i));
         }
 
-        for (_, ty) in &self.map_collect_types {
+        let mut types = self.map_collect_types.values().collect::<Vec<_>>();
+
+        types.sort();
+
+        for ty in types {
             let ty_ident = ty.to_definition(&self.opcode_mod);
 
             let param_type: TokenStream = quote! { P };
@@ -817,7 +821,11 @@ impl CodeGen {
     fn gen_tuple_map_collect_impl(&self, len: usize) -> TokenStream {
         let mut impls = vec![];
 
-        for (_, ty) in &self.map_collect_types {
+        let mut types = self.map_collect_types.values().collect::<Vec<_>>();
+
+        types.sort();
+
+        for ty in types {
             let ty_ident = ty.to_definition(&self.opcode_mod);
             let mut param_types = vec![];
             let mut where_clauses = vec![];
