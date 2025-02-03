@@ -40,7 +40,7 @@ impl<'a> SerdeDisplayName for Field<'a> {
     }
 }
 
-trait SerializeCodeGen {
+trait TraitImplCodeGen {
     fn gen_serialize_trait(
         &self,
         opcode_mod: &TokenStream,
@@ -49,7 +49,7 @@ trait SerializeCodeGen {
     ) -> TokenStream;
 }
 
-impl SerializeCodeGen for Node {
+impl TraitImplCodeGen for Node {
     fn gen_serialize_trait(
         &self,
         opcode_mod: &TokenStream,
@@ -104,7 +104,7 @@ impl SerializeCodeGen for Node {
     }
 }
 
-impl SerializeCodeGen for Enum {
+impl TraitImplCodeGen for Enum {
     fn gen_serialize_trait(
         &self,
         opcode_mod: &TokenStream,
