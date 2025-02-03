@@ -26,13 +26,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Angle {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Angle {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::Angle {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -102,13 +102,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Length {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Length {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::Length {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -934,13 +934,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Color {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Color {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::Color {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -959,13 +959,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Rgb {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Rgb {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::Rgb {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -993,13 +993,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Iri {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Iri {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::Iri {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -1016,13 +1016,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FuncIri {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FuncIri {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::FuncIri {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -1040,13 +1040,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Point {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Point {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::Point {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -1063,13 +1063,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Percent {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Percent {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::Percent {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -1102,13 +1102,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Paint {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Paint {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::Paint {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -1126,13 +1126,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::NumberOptNumber {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::NumberOptNumber {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::NumberOptNumber {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -1168,13 +1168,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Coords {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Coords {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::Coords {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -1229,13 +1229,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Transform {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Transform {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::Transform {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -1271,13 +1271,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Channel {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Channel {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::Channel {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -1303,13 +1303,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::ClipRule {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::ClipRule {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::ClipRule {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -1526,13 +1526,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::PathEvent {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::PathEvent {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::PathEvent {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -1558,13 +1558,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FillRule {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FillRule {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::FillRule {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -1605,13 +1605,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::StrokeLineCap {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::StrokeLineCap {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::StrokeLineCap {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -1658,13 +1658,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::StrokeLineJoin {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::StrokeLineJoin {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::StrokeLineJoin {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -1700,13 +1700,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::SpreadMethod {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::SpreadMethod {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::SpreadMethod {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -1737,13 +1737,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FontStyle {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FontStyle {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::FontStyle {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -1774,13 +1774,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FontVariant {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FontVariant {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::FontVariant {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -1861,13 +1861,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FontWeight {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FontWeight {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::FontWeight {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -1924,13 +1924,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FontFamily {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FontFamily {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::FontFamily {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -2046,13 +2046,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FontStretch {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FontStretch {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::FontStretch {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -2084,13 +2084,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Background {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Background {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::Background {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -2110,13 +2110,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::BackgroundNew {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::BackgroundNew {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::BackgroundNew {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -2178,13 +2178,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeIn {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeIn {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::FeIn {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -2211,13 +2211,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeOut {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeOut {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::FeOut {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -2263,13 +2263,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeBlendMode {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeBlendMode {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::FeBlendMode {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -2305,13 +2305,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::TextLengthAdjust {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::TextLengthAdjust {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::TextLengthAdjust {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -2357,13 +2357,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::WritingMode {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::WritingMode {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::WritingMode {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -2389,13 +2389,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::TextDirection {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::TextDirection {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::TextDirection {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -2431,13 +2431,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::UnicodeBidi {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::UnicodeBidi {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::UnicodeBidi {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -2468,13 +2468,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::TextAnchor {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::TextAnchor {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::TextAnchor {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -2610,13 +2610,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::DominantBaseline {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::DominantBaseline {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::DominantBaseline {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -2752,13 +2752,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::AlignmentBaseline {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::AlignmentBaseline {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::AlignmentBaseline {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -2810,13 +2810,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::BaselineShift {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::BaselineShift {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::BaselineShift {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -2872,13 +2872,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::TextDecoration {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::TextDecoration {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::TextDecoration {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -2914,13 +2914,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::TextPathMethod {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::TextPathMethod {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::TextPathMethod {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -2956,13 +2956,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::TextPathSpacing {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::TextPathSpacing {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::TextPathSpacing {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -2999,13 +2999,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::LetterSpacing {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::LetterSpacing {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::LetterSpacing {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -3032,13 +3032,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::WordSpacing {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::WordSpacing {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::WordSpacing {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -3064,13 +3064,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::MeetOrSlice {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::MeetOrSlice {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::MeetOrSlice {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -3195,13 +3195,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::PreserveAspectRatio {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::PreserveAspectRatio {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::PreserveAspectRatio {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -3227,13 +3227,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::TextLayout {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::TextLayout {
+impl<'de> mlang::rt::serde::de::DeserializeAttr<'de> for super::opcode::TextLayout {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeAttr<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::AttrAccess<'de>,
     {
         let _ = deserializer;
         #[allow(unused)]
@@ -3267,13 +3267,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::WithTransform {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::WithTransform {
+impl<'de> mlang::rt::serde::de::DeserializeAttr<'de> for super::opcode::WithTransform {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeAttr<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::AttrAccess<'de>,
     {
         let _ = deserializer;
         #[allow(unused)]
@@ -3292,13 +3292,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Id {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Id {
+impl<'de> mlang::rt::serde::de::DeserializeAttr<'de> for super::opcode::Id {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeAttr<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::AttrAccess<'de>,
     {
         let _ = deserializer;
         #[allow(unused)]
@@ -3319,13 +3319,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Fill {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Fill {
+impl<'de> mlang::rt::serde::de::DeserializeAttr<'de> for super::opcode::Fill {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeAttr<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::AttrAccess<'de>,
     {
         let _ = deserializer;
         #[allow(unused)]
@@ -3354,13 +3354,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Stroke {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Stroke {
+impl<'de> mlang::rt::serde::de::DeserializeAttr<'de> for super::opcode::Stroke {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeAttr<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::AttrAccess<'de>,
     {
         let _ = deserializer;
         #[allow(unused)]
@@ -3392,13 +3392,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Font {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Font {
+impl<'de> mlang::rt::serde::de::DeserializeAttr<'de> for super::opcode::Font {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeAttr<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::AttrAccess<'de>,
     {
         let _ = deserializer;
         #[allow(unused)]
@@ -3424,13 +3424,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::EnableBackground {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::EnableBackground {
+impl<'de> mlang::rt::serde::de::DeserializeAttr<'de> for super::opcode::EnableBackground {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeAttr<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::AttrAccess<'de>,
     {
         let _ = deserializer;
         #[allow(unused)]
@@ -3449,13 +3449,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::WithFilter {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::WithFilter {
+impl<'de> mlang::rt::serde::de::DeserializeAttr<'de> for super::opcode::WithFilter {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeAttr<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::AttrAccess<'de>,
     {
         let _ = deserializer;
         #[allow(unused)]
@@ -3474,13 +3474,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::WithClipPath {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::WithClipPath {
+impl<'de> mlang::rt::serde::de::DeserializeAttr<'de> for super::opcode::WithClipPath {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeAttr<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::AttrAccess<'de>,
     {
         let _ = deserializer;
         #[allow(unused)]
@@ -3499,13 +3499,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::WithMask {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::WithMask {
+impl<'de> mlang::rt::serde::de::DeserializeAttr<'de> for super::opcode::WithMask {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeAttr<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::AttrAccess<'de>,
     {
         let _ = deserializer;
         #[allow(unused)]
@@ -3524,13 +3524,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Opacity {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Opacity {
+impl<'de> mlang::rt::serde::de::DeserializeAttr<'de> for super::opcode::Opacity {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeAttr<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::AttrAccess<'de>,
     {
         let _ = deserializer;
         #[allow(unused)]
@@ -3553,13 +3553,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::ViewBox {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::ViewBox {
+impl<'de> mlang::rt::serde::de::DeserializeAttr<'de> for super::opcode::ViewBox {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeAttr<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::AttrAccess<'de>,
     {
         let _ = deserializer;
         #[allow(unused)]
@@ -3585,13 +3585,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Canvas {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Canvas {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeElement<'de> for super::opcode::Canvas {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeElement<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::ElementAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -3613,13 +3613,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Mask {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Mask {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeElement<'de> for super::opcode::Mask {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeElement<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::ElementAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -3636,13 +3636,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::ClipPath {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::ClipPath {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeElement<'de> for super::opcode::ClipPath {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeElement<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::ElementAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -3665,13 +3665,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Filter {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Filter {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeElement<'de> for super::opcode::Filter {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeElement<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::ElementAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -3689,13 +3689,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeDistantLight {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeDistantLight {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::FeDistantLight {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -3714,13 +3714,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FePointLight {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FePointLight {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::FePointLight {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -3748,13 +3748,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeSpotLight {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeSpotLight {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::FeSpotLight {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -3778,13 +3778,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeBlend {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeBlend {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::FeBlend {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -3843,13 +3843,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeColorMatrixValues {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeColorMatrixValues {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::FeColorMatrixValues {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -3872,13 +3872,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeColorMatrix {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeColorMatrix {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::FeColorMatrix {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -3930,13 +3930,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeFunc {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeFunc {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::FeFunc {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4016,13 +4016,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeCompositeOperator {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeCompositeOperator {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::FeCompositeOperator {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4068,13 +4068,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeConvolveMatrixEdgeMod
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeConvolveMatrixEdgeMode {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::FeConvolveMatrixEdgeMode {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4110,13 +4110,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeMorphologyOperator {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeMorphologyOperator {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::FeMorphologyOperator {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4152,13 +4152,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeStitchTiles {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeStitchTiles {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::FeStitchTiles {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4194,13 +4194,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeTurbulenceType {
         }
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeTurbulenceType {
+impl<'de> mlang::rt::serde::de::DeserializeData<'de> for super::opcode::FeTurbulenceType {
     type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::DataAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4217,13 +4217,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeComponentTransfer {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeComponentTransfer {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeElement<'de> for super::opcode::FeComponentTransfer {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeElement<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::ElementAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4240,13 +4240,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeFuncA {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeFuncA {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::FeFuncA {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4263,13 +4263,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeFuncR {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeFuncR {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::FeFuncR {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4286,13 +4286,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeFuncG {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeFuncG {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::FeFuncG {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4309,13 +4309,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeFuncB {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeFuncB {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::FeFuncB {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4339,13 +4339,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeComposite {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeComposite {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::FeComposite {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4376,13 +4376,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeConvolveMatrix {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeConvolveMatrix {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::FeConvolveMatrix {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4407,13 +4407,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeDiffuseLighting {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeDiffuseLighting {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeElement<'de> for super::opcode::FeDiffuseLighting {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeElement<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::ElementAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4439,13 +4439,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeDisplacementMap {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeDisplacementMap {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::FeDisplacementMap {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4468,13 +4468,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeFlood {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeFlood {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::FeFlood {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4497,13 +4497,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeGaussianBlur {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeGaussianBlur {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::FeGaussianBlur {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4524,13 +4524,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeMerge {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeMerge {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeElement<'de> for super::opcode::FeMerge {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeElement<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::ElementAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4547,13 +4547,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeMergeNode {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeMergeNode {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::FeMergeNode {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4576,13 +4576,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeImage {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeImage {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::FeImage {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4606,13 +4606,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeMorphology {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeMorphology {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::FeMorphology {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4636,13 +4636,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeOffset {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeOffset {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::FeOffset {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4668,13 +4668,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeSpecularLighting {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeSpecularLighting {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeElement<'de> for super::opcode::FeSpecularLighting {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeElement<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::ElementAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4696,13 +4696,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeTile {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeTile {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::FeTile {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4728,13 +4728,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::FeTurbulence {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::FeTurbulence {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::FeTurbulence {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4757,13 +4757,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::LinearGradient {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::LinearGradient {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeElement<'de> for super::opcode::LinearGradient {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeElement<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::ElementAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4787,13 +4787,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::RadialGradient {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::RadialGradient {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeElement<'de> for super::opcode::RadialGradient {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeElement<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::ElementAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4812,13 +4812,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::GradientStop {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::GradientStop {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::GradientStop {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4834,13 +4834,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Group {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Group {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeElement<'de> for super::opcode::Group {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeElement<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::ElementAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4858,13 +4858,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Path {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Path {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::Path {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4887,13 +4887,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Pattern {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Pattern {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeElement<'de> for super::opcode::Pattern {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeElement<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::ElementAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4910,13 +4910,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Use {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Use {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::Use {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4938,13 +4938,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Rect {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Rect {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::Rect {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4963,13 +4963,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Circle {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Circle {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::Circle {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -4989,13 +4989,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Ellipse {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Ellipse {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::Ellipse {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -5015,13 +5015,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Line {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Line {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::Line {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -5038,13 +5038,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Polyline {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Polyline {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::Polyline {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -5061,13 +5061,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Polygon {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Polygon {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::Polygon {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -5090,13 +5090,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Text {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Text {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeElement<'de> for super::opcode::Text {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeElement<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::ElementAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -5119,13 +5119,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::TextSpan {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::TextSpan {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeElement<'de> for super::opcode::TextSpan {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeElement<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::ElementAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -5142,13 +5142,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::Characters {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::Characters {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for super::opcode::Characters {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::LeafAccess<'de>,
     {
         let _ = deserializer;
         todo!()
@@ -5168,13 +5168,13 @@ impl mlang::rt::serde::ser::Serialize for super::opcode::TextPath {
         serializer.finish()
     }
 }
-impl<'de> mlang::rt::serde::de::Deserialize<'de> for super::opcode::TextPath {
-    type Value = Vec<super::opcode::Opcode>;
+impl<'de> mlang::rt::serde::de::DeserializeElement<'de> for super::opcode::TextPath {
+    type Value = Self;
     fn deserialize<D>(
         deserializer: D,
-    ) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+    ) -> Result<<Self as mlang::rt::serde::de::DeserializeElement<'de>>::Value, D::Error>
     where
-        D: mlang::rt::serde::de::Deserializer<'de>,
+        D: mlang::rt::serde::de::ElementAccess<'de>,
     {
         let _ = deserializer;
         todo!()

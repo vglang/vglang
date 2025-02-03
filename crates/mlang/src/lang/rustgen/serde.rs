@@ -189,15 +189,16 @@ impl DeserializeElCodeGen for Node {
         let ident = self.to_ident();
 
         quote! {
-            impl<'de> mlang::rt::serde::de::Deserialize<'de> for #opcode_mod #ident {
+            impl<'de> mlang::rt::serde::de::DeserializeElement<'de> for #opcode_mod #ident {
 
-                type Value = Vec<#opcode_mod Opcode>;
+                type Value = Self;
 
-                fn deserialize<D>(deserializer: D) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+                fn deserialize<D>(deserializer: D) -> Result<<Self as mlang::rt::serde::de::DeserializeElement<'de>>::Value, D::Error>
                 where
-                    D: mlang::rt::serde::de::Deserializer<'de>
+                    D: mlang::rt::serde::de::ElementAccess<'de>
                 {
                     let _ = deserializer;
+
                     todo!()
                 }
             }
@@ -217,15 +218,16 @@ impl DeserializeLeafCodeGen for Node {
         let ident = self.to_ident();
 
         quote! {
-            impl<'de> mlang::rt::serde::de::Deserialize<'de> for #opcode_mod #ident {
+            impl<'de> mlang::rt::serde::de::DeserializeLeaf<'de> for #opcode_mod #ident {
 
-                type Value = Vec<#opcode_mod Opcode>;
+                type Value = Self;
 
-                fn deserialize<D>(deserializer: D) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+                fn deserialize<D>(deserializer: D) -> Result<<Self as mlang::rt::serde::de::DeserializeLeaf<'de>>::Value, D::Error>
                 where
-                    D: mlang::rt::serde::de::Deserializer<'de>
+                    D: mlang::rt::serde::de::LeafAccess<'de>
                 {
                     let _ = deserializer;
+
                     todo!()
                 }
             }
@@ -256,13 +258,13 @@ impl DeserializeAttrCodeGen for Node {
         let semi_token = self.to_semi_token();
 
         quote! {
-            impl<'de> mlang::rt::serde::de::Deserialize<'de> for #opcode_mod #ident {
+            impl<'de> mlang::rt::serde::de::DeserializeAttr<'de> for #opcode_mod #ident {
 
                 type Value = Self;
 
-                fn deserialize<D>(deserializer: D) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+                fn deserialize<D>(deserializer: D) -> Result<<Self as mlang::rt::serde::de::DeserializeAttr<'de>>::Value, D::Error>
                 where
-                    D: mlang::rt::serde::de::Deserializer<'de>
+                    D: mlang::rt::serde::de::AttrAccess<'de>
                 {
                     let _ = deserializer;
 
@@ -288,15 +290,16 @@ impl DeserializeDataCodeGen for Node {
         let ident = self.to_ident();
 
         quote! {
-            impl<'de> mlang::rt::serde::de::Deserialize<'de> for #opcode_mod #ident {
+            impl<'de> mlang::rt::serde::de::DeserializeData<'de> for #opcode_mod #ident {
 
                 type Value = Self;
 
-                fn deserialize<D>(deserializer: D) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+                fn deserialize<D>(deserializer: D) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
                 where
-                    D: mlang::rt::serde::de::Deserializer<'de>
+                    D: mlang::rt::serde::de::DataAccess<'de>
                 {
                     let _ = deserializer;
+
                     todo!()
                 }
             }
@@ -312,15 +315,16 @@ impl DeserializeDataCodeGen for Enum {
         let ident = self.to_ident();
 
         quote! {
-            impl<'de> mlang::rt::serde::de::Deserialize<'de> for #opcode_mod #ident {
+            impl<'de> mlang::rt::serde::de::DeserializeData<'de> for #opcode_mod #ident {
 
                 type Value = Self;
 
-                fn deserialize<D>(deserializer: D) -> Result<<Self as mlang::rt::serde::de::Deserialize<'de>>::Value, D::Error>
+                fn deserialize<D>(deserializer: D) -> Result<<Self as mlang::rt::serde::de::DeserializeData<'de>>::Value, D::Error>
                 where
-                    D: mlang::rt::serde::de::Deserializer<'de>
+                    D: mlang::rt::serde::de::DataAccess<'de>
                 {
                     let _ = deserializer;
+
                     todo!()
                 }
             }

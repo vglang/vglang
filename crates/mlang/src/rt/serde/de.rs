@@ -55,46 +55,40 @@ pub enum Kind {
 }
 
 pub trait OpcodeVisitor<'de> {
-    /// Error type used by this trait.
-    type Error: From<Error>;
-
     /// The value produced by this visitor.
     type Opcode;
 
     /// visit element by type_id.
-    fn visit_el<A>(self, type_id: usize, el: A) -> Result<Vec<Self::Opcode>, Self::Error>
+    fn visit_el<A>(self, type_id: usize, el: A) -> Result<Vec<Self::Opcode>, A::Error>
     where
-        A: ElementAccess<'de, Error = Self::Error>;
+        A: ElementAccess<'de>;
 
     /// visit element by display name.
-    fn visit_el_with<A>(self, name: &str, el: A) -> Result<Vec<Self::Opcode>, Self::Error>
+    fn visit_el_with<A>(self, name: &str, el: A) -> Result<Vec<Self::Opcode>, A::Error>
     where
-        A: ElementAccess<'de, Error = Self::Error>;
+        A: ElementAccess<'de>;
 
     /// visit leaf by type_id.
-    fn visit_leaf<A>(self, type_id: usize, el: A) -> Result<Vec<Self::Opcode>, Self::Error>
+    fn visit_leaf<A>(self, type_id: usize, el: A) -> Result<Vec<Self::Opcode>, A::Error>
     where
-        A: LeafAccess<'de, Error = Self::Error>;
+        A: LeafAccess<'de>;
 
     /// visit leaf by display name.
-    fn visit_leaf_with<A>(self, name: &str, el: A) -> Result<Vec<Self::Opcode>, Self::Error>
+    fn visit_leaf_with<A>(self, name: &str, el: A) -> Result<Vec<Self::Opcode>, A::Error>
     where
-        A: LeafAccess<'de, Error = Self::Error>;
+        A: LeafAccess<'de>;
 
-    fn visit_pop(self) -> Result<Self::Opcode, Self::Error>;
+    fn visit_pop(self) -> Self::Opcode;
 }
 
 pub trait DataVisitor<'de>: Sized {
-    /// Error type used by this trait.
-    type Error: From<Error>;
-
     /// The value produced by this visitor.
     type Value;
 
     /// visit complex data value.
-    fn visit_data<A>(self, data: A) -> Result<Self::Value, Self::Error>
+    fn visit_data<A>(self, data: A) -> Result<Self::Value, A::Error>
     where
-        A: DataAccess<'de, Error = Self::Error>,
+        A: DataAccess<'de>,
     {
         let _ = data;
 
@@ -247,9 +241,9 @@ pub trait DataVisitor<'de>: Sized {
         variant: Option<&str>,
         variant_index: Option<usize>,
         node: A,
-    ) -> Result<Self::Value, Self::Error>
+    ) -> Result<Self::Value, A::Error>
     where
-        A: EnumAccess<'de, Error = Self::Error>,
+        A: EnumAccess<'de>,
     {
         let _ = type_id;
         let _ = variant;
@@ -266,9 +260,9 @@ pub trait DataVisitor<'de>: Sized {
         variant: Option<&str>,
         variant_index: Option<usize>,
         node: A,
-    ) -> Result<Self::Value, Self::Error>
+    ) -> Result<Self::Value, A::Error>
     where
-        A: EnumAccess<'de, Error = Self::Error>,
+        A: EnumAccess<'de>,
     {
         let _ = name;
         let _ = variant;
@@ -280,7 +274,7 @@ pub trait DataVisitor<'de>: Sized {
     /// Visit sequence type.
     fn visit_seq<S>(self, name: &str, seq: S) -> Result<Self::Value, S::Error>
     where
-        S: SeqAccess<'de, Error = Self::Error>,
+        S: SeqAccess<'de>,
     {
         let _ = name;
         let _ = seq;
@@ -295,7 +289,7 @@ pub trait SeqAccess<'de> {
     /// deserialize node fields.
     fn next_item<V>(&mut self, visitor: V) -> Result<V::Value, Self::Error>
     where
-        V: DataVisitor<'de, Error = Self::Error>;
+        V: DataVisitor<'de>;
 }
 
 /// Provides a Visitor access to each entry of an attribute node in the input.
@@ -311,7 +305,7 @@ pub trait DataAccess<'de> {
         visitor: V,
     ) -> Result<Option<V::Value>, Self::Error>
     where
-        V: DataVisitor<'de, Error = Self::Error>;
+        V: DataVisitor<'de>;
 }
 
 /// Provides a Visitor access to each entry of an attribute node in the input.
@@ -327,7 +321,7 @@ pub trait AttrAccess<'de> {
         visitor: V,
     ) -> Result<Option<V::Value>, Self::Error>
     where
-        V: DataVisitor<'de, Error = Self::Error>;
+        V: DataVisitor<'de>;
 }
 
 /// Provides a Visitor access to each entry of an enum field node in the input.
@@ -343,7 +337,7 @@ pub trait EnumAccess<'de> {
         visitor: V,
     ) -> Result<Option<V::Value>, Self::Error>
     where
-        V: DataVisitor<'de, Error = Self::Error>;
+        V: DataVisitor<'de>;
 }
 
 /// Provides a Visitor access to each entry of an element node in the input.
@@ -352,7 +346,7 @@ pub trait ElementAccess<'de> {
     type Error: From<Error>;
 
     /// [`AttrAccess`] type returns by [`deserialize_attr`](ElementAccess::deserialize_attr)
-    type AttrAccess: AttrAccess<'de, Error = Self::Error>;
+    type AttrAccess: AttrAccess<'de>;
 
     /// deserialize a field.
     fn deserialize_field<V>(
@@ -362,7 +356,7 @@ pub trait ElementAccess<'de> {
         visitor: V,
     ) -> Result<Option<V::Value>, Self::Error>
     where
-        V: DataVisitor<'de, Error = Self::Error>;
+        V: DataVisitor<'de>;
 
     /// Deserialize a attr node.
     fn deserialize_attr(
@@ -378,7 +372,7 @@ pub trait LeafAccess<'de> {
     type Error: From<Error>;
 
     /// [`AttrAccess`] type returns by [`deserialize_attr`](ElementAccess::deserialize_attr)
-    type AttrAccess: AttrAccess<'de, Error = Self::Error>;
+    type AttrAccess: AttrAccess<'de>;
 
     /// deserialize a field.
     fn deserialize_field<V>(
@@ -388,7 +382,7 @@ pub trait LeafAccess<'de> {
         visitor: V,
     ) -> Result<Option<V::Value>, Self::Error>
     where
-        V: DataVisitor<'de, Error = Self::Error>;
+        V: DataVisitor<'de>;
 
     /// Deserialize a attr node.
     fn deserialize_attr(
@@ -439,11 +433,4 @@ pub trait DeserializeData<'de>: Sized {
     fn deserialize<A>(deserializer: A) -> Result<Self::Value, A::Error>
     where
         A: DataAccess<'de>;
-}
-
-pub trait Deserialize<'de>: Sized {
-    type Value;
-    fn deserialize<D>(deserializer: D) -> Result<Self::Value, D::Error>
-    where
-        D: Deserializer<'de>;
 }
