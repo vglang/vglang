@@ -107,7 +107,7 @@ mod ext {
             }
 
             if self.with_serde {
-                mods.push(("serde", gen_serde_mod(stats.as_ref())));
+                mods.push(("serde", gen_serde_mod(stats.as_ref(), "super::opcode::")));
             }
 
             let mut impls = vec![];

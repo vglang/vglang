@@ -132,7 +132,7 @@
           "Constant": {
             "Color": [
               255,
-              255,
+              165,
               0
             ]
           }
@@ -152,25 +152,16 @@
         "rotate": {
           "Constant": [
             {
-              "Deg": 70.0
+              "Deg": -10.0
             },
             {
-              "Deg": 60.0
+              "Deg": -20.0
             },
             {
-              "Deg": 50.0
+              "Deg": -30.0
             },
             {
-              "Deg": 40.0
-            },
-            {
-              "Deg": 30.0
-            },
-            {
-              "Deg": 20.0
-            },
-            {
-              "Deg": 10.0
+              "Deg": -40.0
             }
           ]
         },
@@ -238,7 +229,6 @@
       }
     }
   },
-  "Pop",
   {
     "Leaf": {
       "Characters": "in"
@@ -263,6 +253,24 @@
     }
   },
   "Pop",
+  "Pop",
+  {
+    "Apply": {
+      "Fill": {
+        "paint": {
+          "Constant": {
+            "Color": [
+              255,
+              165,
+              0
+            ]
+          }
+        },
+        "rule": null,
+        "opacity": null
+      }
+    }
+  },
   {
     "Element": {
       "TextSpan": {

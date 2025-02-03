@@ -134,16 +134,20 @@ pub fn tspan_0_5() -> impl Graphics {
                 .children((
                     Characters::from("Not"),
                     TextSpan::default()
-                        .rotate((70, 60, 50, 40, 30, 20, 10))
-                        .apply(Fill::from(Color::Yellow))
+                        .rotate((-10, -20, -30, -40))
+                        .apply(Fill::from(Color::Orange))
                         .children((
                             Characters::from("all characters"),
                             TextSpan::default()
                                 .rotate((70, 60, 50, 40, 30, 20, 10))
-                                .apply(Fill::from(Color::Yellow)),
-                            Characters::from("in"),
-                            TextSpan::default().children(Characters::from("the")),
-                            TextSpan::from((40, 90)).children(Characters::from("text")),
+                                .apply(Fill::from(Color::Yellow))
+                                .children((
+                                    Characters::from("in"),
+                                    TextSpan::default().children(Characters::from("the")),
+                                )),
+                            TextSpan::from((40, 90))
+                                .apply(Fill::from(Color::Orange))
+                                .children(Characters::from("text")),
                             Characters::from("have a"),
                         )),
                     TextSpan::default()
