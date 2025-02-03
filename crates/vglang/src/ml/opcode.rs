@@ -190,7 +190,7 @@ pub enum Color {
 #[doc = " A color represents with read,green and blue components."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Rgb(u8, u8, u8);
+pub struct Rgb(pub u8, pub u8, pub u8);
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Iri {
@@ -202,15 +202,15 @@ pub enum Iri {
 #[doc = " [`CSS URI`]: https://developer.mozilla.org/en-US/docs/Web/CSS/url_value"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct FuncIri(String);
+pub struct FuncIri(pub String);
 #[doc = " A 2d coordinate point."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Point(f32, f32);
+pub struct Point(pub f32, pub f32);
 #[doc = " Percentages are specified as a number followed by a \"%\" character:"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Percent(f32);
+pub struct Percent(pub f32);
 #[doc = " ‘fill’ and ‘stroke’ take on a value of type [`Paint`], which is specified as follows:"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -224,7 +224,7 @@ pub enum Paint {
 #[doc = " A pair of `number`s, where the second `number` is optional."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct NumberOptNumber(f32, Option<f32>);
+pub struct NumberOptNumber(pub f32, pub Option<f32>);
 #[doc = " Defines the coordinate system for attributes ‘x1’, ‘y1’, ‘x2’ and ‘y2’."]
 #[doc = " "]
 #[doc = " If attribute ‘gradientUnits’ is not specified, then the effect is as if a value of 'objectBoundingBox' were specified."]
@@ -478,10 +478,10 @@ pub enum Background {
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct BackgroundNew {
-    x: f32,
-    y: f32,
-    width: f32,
-    height: f32,
+    pub x: f32,
+    pub y: f32,
+    pub width: f32,
+    pub height: f32,
 }
 #[doc = " Identifies input for the given filter primitive. The value can be either one of six keywords or"]
 #[doc = " can be a string which matches a previous ‘result’ attribute value within the same ‘filter’ element."]
@@ -911,124 +911,124 @@ pub enum PreserveAspectRatio {
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct TextLayout {
-    write_mode: Option<WritingMode>,
-    direction: Option<TextDirection>,
-    unicode_bidi: Option<UnicodeBidi>,
-    anchor: Option<mlang::rt::opcode::Variable<TextAnchor>>,
-    dominant_baseline: Option<mlang::rt::opcode::Variable<DominantBaseline>>,
-    alignment_baseline: Option<mlang::rt::opcode::Variable<AlignmentBaseline>>,
-    baseline_shift: Option<mlang::rt::opcode::Variable<BaselineShift>>,
-    decoration: Option<mlang::rt::opcode::Variable<TextDecoration>>,
-    letter_spacing: Option<mlang::rt::opcode::Variable<LetterSpacing>>,
-    word_spacing: Option<mlang::rt::opcode::Variable<WordSpacing>>,
+    pub write_mode: Option<WritingMode>,
+    pub direction: Option<TextDirection>,
+    pub unicode_bidi: Option<UnicodeBidi>,
+    pub anchor: Option<mlang::rt::opcode::Variable<TextAnchor>>,
+    pub dominant_baseline: Option<mlang::rt::opcode::Variable<DominantBaseline>>,
+    pub alignment_baseline: Option<mlang::rt::opcode::Variable<AlignmentBaseline>>,
+    pub baseline_shift: Option<mlang::rt::opcode::Variable<BaselineShift>>,
+    pub decoration: Option<mlang::rt::opcode::Variable<TextDecoration>>,
+    pub letter_spacing: Option<mlang::rt::opcode::Variable<LetterSpacing>>,
+    pub word_spacing: Option<mlang::rt::opcode::Variable<WordSpacing>>,
 }
 #[doc = " support for various international writing directions, such as left-to-right (e.g., Latin scripts) and"]
 #[doc = " bidirectional (e.g., Hebrew or Arabic) and vertical (e.g., Asian scripts)."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct WithTransform(Vec<Transform>);
+pub struct WithTransform(pub Vec<Transform>);
 #[doc = " Define a fragment with name."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Id(String);
+pub struct Id(pub String);
 #[doc = " The ‘fill’ instruction paints the interior of the given graphical element."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Fill {
-    paint: Option<mlang::rt::opcode::Variable<Paint>>,
-    rule: Option<mlang::rt::opcode::Variable<FillRule>>,
-    opacity: Option<mlang::rt::opcode::Variable<f32>>,
+    pub paint: Option<mlang::rt::opcode::Variable<Paint>>,
+    pub rule: Option<mlang::rt::opcode::Variable<FillRule>>,
+    pub opacity: Option<mlang::rt::opcode::Variable<f32>>,
 }
 #[doc = " This property affect how an element is stroked."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Stroke {
-    paint: Option<mlang::rt::opcode::Variable<Paint>>,
-    width: Option<mlang::rt::opcode::Variable<Length>>,
-    linecap: Option<mlang::rt::opcode::Variable<StrokeLineCap>>,
-    linejoin: Option<mlang::rt::opcode::Variable<StrokeLineJoin>>,
-    dasharray: Option<mlang::rt::opcode::Variable<Vec<Length>>>,
-    dashoffset: Option<mlang::rt::opcode::Variable<Length>>,
-    opacity: Option<mlang::rt::opcode::Variable<f32>>,
+    pub paint: Option<mlang::rt::opcode::Variable<Paint>>,
+    pub width: Option<mlang::rt::opcode::Variable<Length>>,
+    pub linecap: Option<mlang::rt::opcode::Variable<StrokeLineCap>>,
+    pub linejoin: Option<mlang::rt::opcode::Variable<StrokeLineJoin>>,
+    pub dasharray: Option<mlang::rt::opcode::Variable<Vec<Length>>>,
+    pub dashoffset: Option<mlang::rt::opcode::Variable<Length>>,
+    pub opacity: Option<mlang::rt::opcode::Variable<f32>>,
 }
 #[doc = " Shorthand property for setting ‘font-style’, ‘font-variant’, ‘font-weight’, ‘font-size’, ‘line-height’ and ‘font-family’."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Font {
-    family: Option<mlang::rt::opcode::Variable<Vec<FontFamily>>>,
-    style: Option<mlang::rt::opcode::Variable<FontStyle>>,
-    variant: Option<mlang::rt::opcode::Variable<FontVariant>>,
-    weight: Option<mlang::rt::opcode::Variable<FontWeight>>,
-    size: Option<mlang::rt::opcode::Variable<Length>>,
-    stretch: Option<mlang::rt::opcode::Variable<FontStretch>>,
+    pub family: Option<mlang::rt::opcode::Variable<Vec<FontFamily>>>,
+    pub style: Option<mlang::rt::opcode::Variable<FontStyle>>,
+    pub variant: Option<mlang::rt::opcode::Variable<FontVariant>>,
+    pub weight: Option<mlang::rt::opcode::Variable<FontWeight>>,
+    pub size: Option<mlang::rt::opcode::Variable<Length>>,
+    pub stretch: Option<mlang::rt::opcode::Variable<FontStretch>>,
 }
 #[doc = " enables access to the background image"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct EnableBackground(Background);
+pub struct EnableBackground(pub Background);
 #[doc = " Define a fragment by name."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct WithFilter(FuncIri);
+pub struct WithFilter(pub FuncIri);
 #[doc = " Use mask to a element."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct WithClipPath(FuncIri);
+pub struct WithClipPath(pub FuncIri);
 #[doc = " Use mask to a element."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct WithMask(FuncIri);
+pub struct WithMask(pub FuncIri);
 #[doc = " Sspecifies object/group opacity"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Opacity(f32);
+pub struct Opacity(pub f32);
 #[doc = " It is often desirable to specify that a given set of graphics stretch to fit a particular container element."]
 #[doc = " The ‘viewBox’ attribute provides this capability."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct ViewBox {
-    minx: mlang::rt::opcode::Variable<f32>,
-    miny: mlang::rt::opcode::Variable<f32>,
-    width: mlang::rt::opcode::Variable<f32>,
-    height: mlang::rt::opcode::Variable<f32>,
-    aspect: Option<mlang::rt::opcode::Variable<PreserveAspectRatio>>,
+    pub minx: mlang::rt::opcode::Variable<f32>,
+    pub miny: mlang::rt::opcode::Variable<f32>,
+    pub width: mlang::rt::opcode::Variable<f32>,
+    pub height: mlang::rt::opcode::Variable<f32>,
+    pub aspect: Option<mlang::rt::opcode::Variable<PreserveAspectRatio>>,
 }
 #[doc = " Create a new layer into which the backend render child elements."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Canvas {
-    width: mlang::rt::opcode::Variable<Length>,
-    height: mlang::rt::opcode::Variable<Length>,
+    pub width: mlang::rt::opcode::Variable<Length>,
+    pub height: mlang::rt::opcode::Variable<Length>,
 }
 #[doc = " used as an alpha mask for compositing the current object into the background."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Mask {
-    units: Option<mlang::rt::opcode::Variable<Coords>>,
-    content_units: Option<mlang::rt::opcode::Variable<Coords>>,
-    x: Option<mlang::rt::opcode::Variable<Length>>,
-    y: Option<mlang::rt::opcode::Variable<Length>>,
-    width: Option<mlang::rt::opcode::Variable<Length>>,
-    height: Option<mlang::rt::opcode::Variable<Length>>,
+    pub units: Option<mlang::rt::opcode::Variable<Coords>>,
+    pub content_units: Option<mlang::rt::opcode::Variable<Coords>>,
+    pub x: Option<mlang::rt::opcode::Variable<Length>>,
+    pub y: Option<mlang::rt::opcode::Variable<Length>>,
+    pub width: Option<mlang::rt::opcode::Variable<Length>>,
+    pub height: Option<mlang::rt::opcode::Variable<Length>>,
 }
 #[doc = " A clipping path is defined with a ‘clipPath’ element."]
 #[doc = " A clipping path is used/referenced using the ‘clip-path’ property."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct ClipPath(Option<mlang::rt::opcode::Variable<Coords>>);
+pub struct ClipPath(pub Option<mlang::rt::opcode::Variable<Coords>>);
 #[doc = " A filter effect consists of a series of graphics operations that are applied to a given source graphic to"]
 #[doc = " produce a modified graphical result. The result of the filter effect is rendered to the target device"]
 #[doc = " instead of the original source graphic. The following illustrates the process:"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Filter {
-    units: Option<mlang::rt::opcode::Variable<Coords>>,
-    primitive_units: Option<mlang::rt::opcode::Variable<Coords>>,
-    x: Option<mlang::rt::opcode::Variable<Length>>,
-    y: Option<mlang::rt::opcode::Variable<Length>>,
-    width: Option<mlang::rt::opcode::Variable<Length>>,
-    height: Option<mlang::rt::opcode::Variable<Length>>,
-    res: Option<mlang::rt::opcode::Variable<NumberOptNumber>>,
+    pub units: Option<mlang::rt::opcode::Variable<Coords>>,
+    pub primitive_units: Option<mlang::rt::opcode::Variable<Coords>>,
+    pub x: Option<mlang::rt::opcode::Variable<Length>>,
+    pub y: Option<mlang::rt::opcode::Variable<Length>>,
+    pub width: Option<mlang::rt::opcode::Variable<Length>>,
+    pub height: Option<mlang::rt::opcode::Variable<Length>>,
+    pub res: Option<mlang::rt::opcode::Variable<NumberOptNumber>>,
 }
 #[doc = " Defines a distant light source that can be used within a lighting filter primitive:"]
 #[doc = " [`FeDiffuseLighting`] or [`FeSpecularLighting`]."]
@@ -1039,45 +1039,45 @@ pub struct Filter {
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeDistantLight {
-    azimuth: Option<mlang::rt::opcode::Variable<f32>>,
-    elevation: Option<mlang::rt::opcode::Variable<f32>>,
+    pub azimuth: Option<mlang::rt::opcode::Variable<f32>>,
+    pub elevation: Option<mlang::rt::opcode::Variable<f32>>,
 }
 #[doc = " Defines a point light source that can be used within a lighting filter primitive:"]
 #[doc = " [`FeDiffuseLighting`] or [`FeSpecularLighting`]."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FePointLight {
-    x: Option<mlang::rt::opcode::Variable<f32>>,
-    y: Option<mlang::rt::opcode::Variable<f32>>,
-    z: Option<mlang::rt::opcode::Variable<f32>>,
+    pub x: Option<mlang::rt::opcode::Variable<f32>>,
+    pub y: Option<mlang::rt::opcode::Variable<f32>>,
+    pub z: Option<mlang::rt::opcode::Variable<f32>>,
 }
 #[doc = " Defines a spot light source that can be used within a lighting filter primitive:"]
 #[doc = " [`FeDiffuseLighting`] or [`FeSpecularLighting`]."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeSpotLight {
-    x: Option<mlang::rt::opcode::Variable<f32>>,
-    y: Option<mlang::rt::opcode::Variable<f32>>,
-    z: Option<mlang::rt::opcode::Variable<f32>>,
-    point_at_x: Option<mlang::rt::opcode::Variable<f32>>,
-    point_at_y: Option<mlang::rt::opcode::Variable<f32>>,
-    point_at_z: Option<mlang::rt::opcode::Variable<f32>>,
-    specular_exponent: Option<mlang::rt::opcode::Variable<f32>>,
-    limiting_cone_angle: Option<mlang::rt::opcode::Variable<f32>>,
+    pub x: Option<mlang::rt::opcode::Variable<f32>>,
+    pub y: Option<mlang::rt::opcode::Variable<f32>>,
+    pub z: Option<mlang::rt::opcode::Variable<f32>>,
+    pub point_at_x: Option<mlang::rt::opcode::Variable<f32>>,
+    pub point_at_y: Option<mlang::rt::opcode::Variable<f32>>,
+    pub point_at_z: Option<mlang::rt::opcode::Variable<f32>>,
+    pub specular_exponent: Option<mlang::rt::opcode::Variable<f32>>,
+    pub limiting_cone_angle: Option<mlang::rt::opcode::Variable<f32>>,
 }
 #[doc = " This filter composites two objects together using commonly used imaging software blending modes."]
 #[doc = " It performs a pixel-wise combination of two input images."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeBlend {
-    mode: Option<mlang::rt::opcode::Variable<FeBlendMode>>,
-    r#in: Option<mlang::rt::opcode::Variable<FeIn>>,
-    in2: Option<mlang::rt::opcode::Variable<FeIn>>,
-    x: Option<mlang::rt::opcode::Variable<Length>>,
-    y: Option<mlang::rt::opcode::Variable<Length>>,
-    width: Option<mlang::rt::opcode::Variable<Length>>,
-    height: Option<mlang::rt::opcode::Variable<Length>>,
-    result: Option<mlang::rt::opcode::Variable<String>>,
+    pub mode: Option<mlang::rt::opcode::Variable<FeBlendMode>>,
+    pub r#in: Option<mlang::rt::opcode::Variable<FeIn>>,
+    pub in2: Option<mlang::rt::opcode::Variable<FeIn>>,
+    pub x: Option<mlang::rt::opcode::Variable<Length>>,
+    pub y: Option<mlang::rt::opcode::Variable<Length>>,
+    pub width: Option<mlang::rt::opcode::Variable<Length>>,
+    pub height: Option<mlang::rt::opcode::Variable<Length>>,
+    pub result: Option<mlang::rt::opcode::Variable<String>>,
 }
 #[doc = " Values of FeColorMatrix."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -1114,13 +1114,13 @@ pub enum FeColorMatrixValues {
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeColorMatrix {
-    r#in: Option<mlang::rt::opcode::Variable<FeIn>>,
-    values: mlang::rt::opcode::Variable<FeColorMatrixValues>,
-    x: Option<mlang::rt::opcode::Variable<Length>>,
-    y: Option<mlang::rt::opcode::Variable<Length>>,
-    width: Option<mlang::rt::opcode::Variable<Length>>,
-    height: Option<mlang::rt::opcode::Variable<Length>>,
-    result: Option<mlang::rt::opcode::Variable<String>>,
+    pub r#in: Option<mlang::rt::opcode::Variable<FeIn>>,
+    pub values: mlang::rt::opcode::Variable<FeColorMatrixValues>,
+    pub x: Option<mlang::rt::opcode::Variable<Length>>,
+    pub y: Option<mlang::rt::opcode::Variable<Length>>,
+    pub width: Option<mlang::rt::opcode::Variable<Length>>,
+    pub height: Option<mlang::rt::opcode::Variable<Length>>,
+    pub result: Option<mlang::rt::opcode::Variable<String>>,
 }
 #[doc = " transfer functions for the rgba channels."]
 #[doc = " "]
@@ -1242,31 +1242,31 @@ pub enum FeTurbulenceType {
 #[doc = " for every pixel. It allows operations like brightness adjustment, contrast adjustment, color balance or thresholding."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct FeComponentTransfer(Option<mlang::rt::opcode::Variable<FeIn>>);
+pub struct FeComponentTransfer(pub Option<mlang::rt::opcode::Variable<FeIn>>);
 #[doc = " transfer function for the alpha component of the input graphic"]
 #[doc = " "]
 #[doc = " See [`FeFunc`], [`FeComponentTransfer`]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct FeFuncA(FeFunc);
+pub struct FeFuncA(pub FeFunc);
 #[doc = " transfer function for the red component of the input graphic"]
 #[doc = " "]
 #[doc = " See [`FeFunc`], [`FeComponentTransfer`]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct FeFuncR(FeFunc);
+pub struct FeFuncR(pub FeFunc);
 #[doc = " transfer function for the green component of the input graphic"]
 #[doc = " "]
 #[doc = " See [`FeFunc`], [`FeComponentTransfer`]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct FeFuncG(FeFunc);
+pub struct FeFuncG(pub FeFunc);
 #[doc = " transfer function for the blue component of the input graphic"]
 #[doc = " "]
 #[doc = " See [`FeFunc`], [`FeComponentTransfer`]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct FeFuncB(FeFunc);
+pub struct FeFuncB(pub FeFunc);
 #[doc = " This filter performs the combination of the two input images pixel-wise in image space using one of the Porter-Duff [`PORTERDUFF`]"]
 #[doc = " compositing operations: over, in, atop, out, xor [`SVG-COMPOSITING`]. Additionally, a component-wise arithmetic operation (with"]
 #[doc = " the result clamped between [0..1]) can be applied."]
@@ -1279,14 +1279,14 @@ pub struct FeFuncB(FeFunc);
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeComposite {
-    r#in: Option<mlang::rt::opcode::Variable<FeIn>>,
-    in2: mlang::rt::opcode::Variable<FeIn>,
-    operator: Option<mlang::rt::opcode::Variable<FeCompositeOperator>>,
-    x: Option<mlang::rt::opcode::Variable<Length>>,
-    y: Option<mlang::rt::opcode::Variable<Length>>,
-    width: Option<mlang::rt::opcode::Variable<Length>>,
-    height: Option<mlang::rt::opcode::Variable<Length>>,
-    result: Option<mlang::rt::opcode::Variable<String>>,
+    pub r#in: Option<mlang::rt::opcode::Variable<FeIn>>,
+    pub in2: mlang::rt::opcode::Variable<FeIn>,
+    pub operator: Option<mlang::rt::opcode::Variable<FeCompositeOperator>>,
+    pub x: Option<mlang::rt::opcode::Variable<Length>>,
+    pub y: Option<mlang::rt::opcode::Variable<Length>>,
+    pub width: Option<mlang::rt::opcode::Variable<Length>>,
+    pub height: Option<mlang::rt::opcode::Variable<Length>>,
+    pub result: Option<mlang::rt::opcode::Variable<String>>,
 }
 #[doc = " feConvolveMatrix applies a matrix convolution filter effect. A convolution combines pixels"]
 #[doc = " in the input image with neighboring pixels to produce a resulting image. A wide variety"]
@@ -1297,50 +1297,50 @@ pub struct FeComposite {
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeConvolveMatrix {
-    r#in: Option<mlang::rt::opcode::Variable<FeIn>>,
-    order: Option<mlang::rt::opcode::Variable<NumberOptNumber>>,
-    kernel: mlang::rt::opcode::Variable<Vec<f32>>,
-    divisor: Option<mlang::rt::opcode::Variable<f32>>,
-    bias: Option<mlang::rt::opcode::Variable<f32>>,
-    target_x: Option<mlang::rt::opcode::Variable<i32>>,
-    target_y: Option<mlang::rt::opcode::Variable<i32>>,
-    edge_mode: mlang::rt::opcode::Variable<FeConvolveMatrixEdgeMode>,
-    kernel_unit_len: Option<mlang::rt::opcode::Variable<NumberOptNumber>>,
-    preserve_alpha: mlang::rt::opcode::Variable<bool>,
-    x: Option<mlang::rt::opcode::Variable<Length>>,
-    y: Option<mlang::rt::opcode::Variable<Length>>,
-    width: Option<mlang::rt::opcode::Variable<Length>>,
-    height: Option<mlang::rt::opcode::Variable<Length>>,
-    result: Option<mlang::rt::opcode::Variable<String>>,
+    pub r#in: Option<mlang::rt::opcode::Variable<FeIn>>,
+    pub order: Option<mlang::rt::opcode::Variable<NumberOptNumber>>,
+    pub kernel: mlang::rt::opcode::Variable<Vec<f32>>,
+    pub divisor: Option<mlang::rt::opcode::Variable<f32>>,
+    pub bias: Option<mlang::rt::opcode::Variable<f32>>,
+    pub target_x: Option<mlang::rt::opcode::Variable<i32>>,
+    pub target_y: Option<mlang::rt::opcode::Variable<i32>>,
+    pub edge_mode: mlang::rt::opcode::Variable<FeConvolveMatrixEdgeMode>,
+    pub kernel_unit_len: Option<mlang::rt::opcode::Variable<NumberOptNumber>>,
+    pub preserve_alpha: mlang::rt::opcode::Variable<bool>,
+    pub x: Option<mlang::rt::opcode::Variable<Length>>,
+    pub y: Option<mlang::rt::opcode::Variable<Length>>,
+    pub width: Option<mlang::rt::opcode::Variable<Length>>,
+    pub height: Option<mlang::rt::opcode::Variable<Length>>,
+    pub result: Option<mlang::rt::opcode::Variable<String>>,
 }
 #[doc = " See [`feConvolveMatrix`](https://www.w3.org/TR/SVG11/filters.html#feDiffuseLightingElement)"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeDiffuseLighting {
-    r#in: mlang::rt::opcode::Variable<FeIn>,
-    surface_scale: Option<mlang::rt::opcode::Variable<f32>>,
-    diffuse_constant: Option<mlang::rt::opcode::Variable<f32>>,
-    kernel_unit_len: Option<mlang::rt::opcode::Variable<NumberOptNumber>>,
-    x: Option<mlang::rt::opcode::Variable<Length>>,
-    y: Option<mlang::rt::opcode::Variable<Length>>,
-    width: Option<mlang::rt::opcode::Variable<Length>>,
-    height: Option<mlang::rt::opcode::Variable<Length>>,
-    result: Option<mlang::rt::opcode::Variable<String>>,
+    pub r#in: mlang::rt::opcode::Variable<FeIn>,
+    pub surface_scale: Option<mlang::rt::opcode::Variable<f32>>,
+    pub diffuse_constant: Option<mlang::rt::opcode::Variable<f32>>,
+    pub kernel_unit_len: Option<mlang::rt::opcode::Variable<NumberOptNumber>>,
+    pub x: Option<mlang::rt::opcode::Variable<Length>>,
+    pub y: Option<mlang::rt::opcode::Variable<Length>>,
+    pub width: Option<mlang::rt::opcode::Variable<Length>>,
+    pub height: Option<mlang::rt::opcode::Variable<Length>>,
+    pub result: Option<mlang::rt::opcode::Variable<String>>,
 }
 #[doc = " This filter primitive uses the pixels values from the image from ‘in2’ to spatially displace the image from ‘in’."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeDisplacementMap {
-    r#in: Option<mlang::rt::opcode::Variable<FeIn>>,
-    in2: mlang::rt::opcode::Variable<FeIn>,
-    scale: Option<mlang::rt::opcode::Variable<f32>>,
-    x_channel_selector: Option<mlang::rt::opcode::Variable<Channel>>,
-    y_channel_selector: Option<mlang::rt::opcode::Variable<Channel>>,
-    x: Option<mlang::rt::opcode::Variable<Length>>,
-    y: Option<mlang::rt::opcode::Variable<Length>>,
-    width: Option<mlang::rt::opcode::Variable<Length>>,
-    height: Option<mlang::rt::opcode::Variable<Length>>,
-    result: Option<mlang::rt::opcode::Variable<String>>,
+    pub r#in: Option<mlang::rt::opcode::Variable<FeIn>>,
+    pub in2: mlang::rt::opcode::Variable<FeIn>,
+    pub scale: Option<mlang::rt::opcode::Variable<f32>>,
+    pub x_channel_selector: Option<mlang::rt::opcode::Variable<Channel>>,
+    pub y_channel_selector: Option<mlang::rt::opcode::Variable<Channel>>,
+    pub x: Option<mlang::rt::opcode::Variable<Length>>,
+    pub y: Option<mlang::rt::opcode::Variable<Length>>,
+    pub width: Option<mlang::rt::opcode::Variable<Length>>,
+    pub height: Option<mlang::rt::opcode::Variable<Length>>,
+    pub result: Option<mlang::rt::opcode::Variable<String>>,
 }
 #[doc = " This filter primitive creates a rectangle filled with the color and opacity values from properties ‘flood-color’ a ‘flood-opacity’."]
 #[doc = " The rectangle is as large as the filter primitive subregion established by the ‘x’, ‘y’, ‘width’ and ‘height’ attributes on the"]
@@ -1348,13 +1348,13 @@ pub struct FeDisplacementMap {
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeFlood {
-    color: Option<mlang::rt::opcode::Variable<Rgb>>,
-    opacity: Option<mlang::rt::opcode::Variable<f32>>,
-    x: Option<mlang::rt::opcode::Variable<Length>>,
-    y: Option<mlang::rt::opcode::Variable<Length>>,
-    width: Option<mlang::rt::opcode::Variable<Length>>,
-    height: Option<mlang::rt::opcode::Variable<Length>>,
-    result: Option<mlang::rt::opcode::Variable<String>>,
+    pub color: Option<mlang::rt::opcode::Variable<Rgb>>,
+    pub opacity: Option<mlang::rt::opcode::Variable<f32>>,
+    pub x: Option<mlang::rt::opcode::Variable<Length>>,
+    pub y: Option<mlang::rt::opcode::Variable<Length>>,
+    pub width: Option<mlang::rt::opcode::Variable<Length>>,
+    pub height: Option<mlang::rt::opcode::Variable<Length>>,
+    pub result: Option<mlang::rt::opcode::Variable<String>>,
 }
 #[doc = " This filter primitive performs a Gaussian blur on the input image."]
 #[doc = " "]
@@ -1362,13 +1362,13 @@ pub struct FeFlood {
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeGaussianBlur {
-    r#in: Option<mlang::rt::opcode::Variable<FeIn>>,
-    std_deviation: Option<mlang::rt::opcode::Variable<NumberOptNumber>>,
-    x: Option<mlang::rt::opcode::Variable<Length>>,
-    y: Option<mlang::rt::opcode::Variable<Length>>,
-    width: Option<mlang::rt::opcode::Variable<Length>>,
-    height: Option<mlang::rt::opcode::Variable<Length>>,
-    result: Option<mlang::rt::opcode::Variable<String>>,
+    pub r#in: Option<mlang::rt::opcode::Variable<FeIn>>,
+    pub std_deviation: Option<mlang::rt::opcode::Variable<NumberOptNumber>>,
+    pub x: Option<mlang::rt::opcode::Variable<Length>>,
+    pub y: Option<mlang::rt::opcode::Variable<Length>>,
+    pub width: Option<mlang::rt::opcode::Variable<Length>>,
+    pub height: Option<mlang::rt::opcode::Variable<Length>>,
+    pub result: Option<mlang::rt::opcode::Variable<String>>,
 }
 #[doc = " This filter primitive composites input image layers on top of each other using the over operator with Input1"]
 #[doc = " (corresponding to the first ‘feMergeNode’ child element) on the bottom and the last specified input, InputN"]
@@ -1378,16 +1378,16 @@ pub struct FeGaussianBlur {
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeMerge {
-    x: Option<mlang::rt::opcode::Variable<Length>>,
-    y: Option<mlang::rt::opcode::Variable<Length>>,
-    width: Option<mlang::rt::opcode::Variable<Length>>,
-    height: Option<mlang::rt::opcode::Variable<Length>>,
-    result: Option<mlang::rt::opcode::Variable<String>>,
+    pub x: Option<mlang::rt::opcode::Variable<Length>>,
+    pub y: Option<mlang::rt::opcode::Variable<Length>>,
+    pub width: Option<mlang::rt::opcode::Variable<Length>>,
+    pub height: Option<mlang::rt::opcode::Variable<Length>>,
+    pub result: Option<mlang::rt::opcode::Variable<String>>,
 }
 #[doc = " See [`FeMerge`]"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct FeMergeNode(mlang::rt::opcode::Variable<FeIn>);
+pub struct FeMergeNode(pub mlang::rt::opcode::Variable<FeIn>);
 #[doc = " This filter primitive refers to a graphic external to this filter element, which is loaded or rendered into an RGBA"]
 #[doc = " raster and becomes the result of the filter primitive."]
 #[doc = " "]
@@ -1395,13 +1395,13 @@ pub struct FeMergeNode(mlang::rt::opcode::Variable<FeIn>);
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeImage {
-    href: mlang::rt::opcode::Variable<FuncIri>,
-    aspect: Option<mlang::rt::opcode::Variable<PreserveAspectRatio>>,
-    x: Option<mlang::rt::opcode::Variable<Length>>,
-    y: Option<mlang::rt::opcode::Variable<Length>>,
-    width: Option<mlang::rt::opcode::Variable<Length>>,
-    height: Option<mlang::rt::opcode::Variable<Length>>,
-    result: Option<mlang::rt::opcode::Variable<String>>,
+    pub href: mlang::rt::opcode::Variable<FuncIri>,
+    pub aspect: Option<mlang::rt::opcode::Variable<PreserveAspectRatio>>,
+    pub x: Option<mlang::rt::opcode::Variable<Length>>,
+    pub y: Option<mlang::rt::opcode::Variable<Length>>,
+    pub width: Option<mlang::rt::opcode::Variable<Length>>,
+    pub height: Option<mlang::rt::opcode::Variable<Length>>,
+    pub result: Option<mlang::rt::opcode::Variable<String>>,
 }
 #[doc = " This filter primitive performs \"fattening\" or \"thinning\" of artwork."]
 #[doc = " It is particularly useful for fattening or thinning an alpha channel."]
@@ -1410,14 +1410,14 @@ pub struct FeImage {
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeMorphology {
-    r#in: Option<mlang::rt::opcode::Variable<FeIn>>,
-    mode: Option<mlang::rt::opcode::Variable<FeMorphologyOperator>>,
-    radius: Option<mlang::rt::opcode::Variable<NumberOptNumber>>,
-    x: Option<mlang::rt::opcode::Variable<Length>>,
-    y: Option<mlang::rt::opcode::Variable<Length>>,
-    width: Option<mlang::rt::opcode::Variable<Length>>,
-    height: Option<mlang::rt::opcode::Variable<Length>>,
-    result: Option<mlang::rt::opcode::Variable<String>>,
+    pub r#in: Option<mlang::rt::opcode::Variable<FeIn>>,
+    pub mode: Option<mlang::rt::opcode::Variable<FeMorphologyOperator>>,
+    pub radius: Option<mlang::rt::opcode::Variable<NumberOptNumber>>,
+    pub x: Option<mlang::rt::opcode::Variable<Length>>,
+    pub y: Option<mlang::rt::opcode::Variable<Length>>,
+    pub width: Option<mlang::rt::opcode::Variable<Length>>,
+    pub height: Option<mlang::rt::opcode::Variable<Length>>,
+    pub result: Option<mlang::rt::opcode::Variable<String>>,
 }
 #[doc = " This filter primitive offsets the input image relative to its current position in the image space by the specified vector."]
 #[doc = " "]
@@ -1427,14 +1427,14 @@ pub struct FeMorphology {
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeOffset {
-    r#in: Option<mlang::rt::opcode::Variable<FeIn>>,
-    dx: Option<mlang::rt::opcode::Variable<f32>>,
-    dy: Option<mlang::rt::opcode::Variable<f32>>,
-    x: Option<mlang::rt::opcode::Variable<Length>>,
-    y: Option<mlang::rt::opcode::Variable<Length>>,
-    width: Option<mlang::rt::opcode::Variable<Length>>,
-    height: Option<mlang::rt::opcode::Variable<Length>>,
-    result: Option<mlang::rt::opcode::Variable<String>>,
+    pub r#in: Option<mlang::rt::opcode::Variable<FeIn>>,
+    pub dx: Option<mlang::rt::opcode::Variable<f32>>,
+    pub dy: Option<mlang::rt::opcode::Variable<f32>>,
+    pub x: Option<mlang::rt::opcode::Variable<Length>>,
+    pub y: Option<mlang::rt::opcode::Variable<Length>>,
+    pub width: Option<mlang::rt::opcode::Variable<Length>>,
+    pub height: Option<mlang::rt::opcode::Variable<Length>>,
+    pub result: Option<mlang::rt::opcode::Variable<String>>,
 }
 #[doc = " This filter primitive lights a source graphic using the alpha channel as a bump map."]
 #[doc = " The resulting image is an RGBA image based on the light color. The lighting calculation follows the standard specular component of"]
@@ -1446,16 +1446,16 @@ pub struct FeOffset {
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeSpecularLighting {
-    r#in: Option<mlang::rt::opcode::Variable<FeIn>>,
-    surface_scale: Option<mlang::rt::opcode::Variable<f32>>,
-    specular_constant: Option<mlang::rt::opcode::Variable<f32>>,
-    specular_exponent: Option<mlang::rt::opcode::Variable<f32>>,
-    kernel_unit_len: Option<mlang::rt::opcode::Variable<NumberOptNumber>>,
-    x: Option<mlang::rt::opcode::Variable<Length>>,
-    y: Option<mlang::rt::opcode::Variable<Length>>,
-    width: Option<mlang::rt::opcode::Variable<Length>>,
-    height: Option<mlang::rt::opcode::Variable<Length>>,
-    result: Option<mlang::rt::opcode::Variable<String>>,
+    pub r#in: Option<mlang::rt::opcode::Variable<FeIn>>,
+    pub surface_scale: Option<mlang::rt::opcode::Variable<f32>>,
+    pub specular_constant: Option<mlang::rt::opcode::Variable<f32>>,
+    pub specular_exponent: Option<mlang::rt::opcode::Variable<f32>>,
+    pub kernel_unit_len: Option<mlang::rt::opcode::Variable<NumberOptNumber>>,
+    pub x: Option<mlang::rt::opcode::Variable<Length>>,
+    pub y: Option<mlang::rt::opcode::Variable<Length>>,
+    pub width: Option<mlang::rt::opcode::Variable<Length>>,
+    pub height: Option<mlang::rt::opcode::Variable<Length>>,
+    pub result: Option<mlang::rt::opcode::Variable<String>>,
 }
 #[doc = " This filter primitive fills a target rectangle with a repeated, tiled pattern of an input image. The target rectangle is"]
 #[doc = " as large as the filter primitive subregion established by the ‘x’, ‘y’, ‘width’ and ‘height’ attributes on the ‘feTile’"]
@@ -1465,12 +1465,12 @@ pub struct FeSpecularLighting {
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeTile {
-    r#in: Option<mlang::rt::opcode::Variable<FeIn>>,
-    x: Option<mlang::rt::opcode::Variable<Length>>,
-    y: Option<mlang::rt::opcode::Variable<Length>>,
-    width: Option<mlang::rt::opcode::Variable<Length>>,
-    height: Option<mlang::rt::opcode::Variable<Length>>,
-    result: Option<mlang::rt::opcode::Variable<String>>,
+    pub r#in: Option<mlang::rt::opcode::Variable<FeIn>>,
+    pub x: Option<mlang::rt::opcode::Variable<Length>>,
+    pub y: Option<mlang::rt::opcode::Variable<Length>>,
+    pub width: Option<mlang::rt::opcode::Variable<Length>>,
+    pub height: Option<mlang::rt::opcode::Variable<Length>>,
+    pub result: Option<mlang::rt::opcode::Variable<String>>,
 }
 #[doc = " This filter primitive creates an image using the Perlin turbulence function."]
 #[doc = " It allows the synthesis of artificial textures like clouds or marble. For a detailed description the of the Perlin turbulence"]
@@ -1481,50 +1481,50 @@ pub struct FeTile {
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct FeTurbulence {
-    base_frequency: Option<mlang::rt::opcode::Variable<NumberOptNumber>>,
-    num_octaves: Option<mlang::rt::opcode::Variable<i32>>,
-    seed: Option<mlang::rt::opcode::Variable<f32>>,
-    stitch_tiles: Option<mlang::rt::opcode::Variable<FeStitchTiles>>,
-    r#type: Option<mlang::rt::opcode::Variable<FeTurbulenceType>>,
-    x: Option<mlang::rt::opcode::Variable<Length>>,
-    y: Option<mlang::rt::opcode::Variable<Length>>,
-    width: Option<mlang::rt::opcode::Variable<Length>>,
-    height: Option<mlang::rt::opcode::Variable<Length>>,
-    result: Option<mlang::rt::opcode::Variable<String>>,
+    pub base_frequency: Option<mlang::rt::opcode::Variable<NumberOptNumber>>,
+    pub num_octaves: Option<mlang::rt::opcode::Variable<i32>>,
+    pub seed: Option<mlang::rt::opcode::Variable<f32>>,
+    pub stitch_tiles: Option<mlang::rt::opcode::Variable<FeStitchTiles>>,
+    pub r#type: Option<mlang::rt::opcode::Variable<FeTurbulenceType>>,
+    pub x: Option<mlang::rt::opcode::Variable<Length>>,
+    pub y: Option<mlang::rt::opcode::Variable<Length>>,
+    pub width: Option<mlang::rt::opcode::Variable<Length>>,
+    pub height: Option<mlang::rt::opcode::Variable<Length>>,
+    pub result: Option<mlang::rt::opcode::Variable<String>>,
 }
 #[doc = " Linear gradients are defined by a ‘linearGradient’ element."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct LinearGradient {
-    units: Option<mlang::rt::opcode::Variable<Coords>>,
-    transform: Option<mlang::rt::opcode::Variable<Transform>>,
-    x1: Option<mlang::rt::opcode::Variable<Length>>,
-    y1: Option<mlang::rt::opcode::Variable<Length>>,
-    x2: Option<mlang::rt::opcode::Variable<Length>>,
-    y2: Option<mlang::rt::opcode::Variable<Length>>,
-    spread: Option<mlang::rt::opcode::Variable<SpreadMethod>>,
+    pub units: Option<mlang::rt::opcode::Variable<Coords>>,
+    pub transform: Option<mlang::rt::opcode::Variable<Transform>>,
+    pub x1: Option<mlang::rt::opcode::Variable<Length>>,
+    pub y1: Option<mlang::rt::opcode::Variable<Length>>,
+    pub x2: Option<mlang::rt::opcode::Variable<Length>>,
+    pub y2: Option<mlang::rt::opcode::Variable<Length>>,
+    pub spread: Option<mlang::rt::opcode::Variable<SpreadMethod>>,
 }
 #[doc = " Radial gradients are defined by a ‘radialGradient’ element."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct RadialGradient {
-    unit: Option<mlang::rt::opcode::Variable<Coords>>,
-    transform: Option<mlang::rt::opcode::Variable<Transform>>,
-    cx: Option<mlang::rt::opcode::Variable<Length>>,
-    cy: Option<mlang::rt::opcode::Variable<Length>>,
-    r: Option<mlang::rt::opcode::Variable<Length>>,
-    fx: Option<mlang::rt::opcode::Variable<Length>>,
-    fy: Option<mlang::rt::opcode::Variable<Length>>,
-    spread: Option<mlang::rt::opcode::Variable<SpreadMethod>>,
+    pub unit: Option<mlang::rt::opcode::Variable<Coords>>,
+    pub transform: Option<mlang::rt::opcode::Variable<Transform>>,
+    pub cx: Option<mlang::rt::opcode::Variable<Length>>,
+    pub cy: Option<mlang::rt::opcode::Variable<Length>>,
+    pub r: Option<mlang::rt::opcode::Variable<Length>>,
+    pub fx: Option<mlang::rt::opcode::Variable<Length>>,
+    pub fy: Option<mlang::rt::opcode::Variable<Length>>,
+    pub spread: Option<mlang::rt::opcode::Variable<SpreadMethod>>,
 }
 #[doc = " The ramp of colors to use on a gradient is defined by the ‘stop’ elements that are child elements"]
 #[doc = " to either the ‘linearGradient’ element or the ‘radialGradient’ element."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct GradientStop {
-    offset: mlang::rt::opcode::Variable<f32>,
-    color: Option<mlang::rt::opcode::Variable<Rgb>>,
-    opacity: Option<mlang::rt::opcode::Variable<f32>>,
+    pub offset: mlang::rt::opcode::Variable<f32>,
+    pub color: Option<mlang::rt::opcode::Variable<Rgb>>,
+    pub opacity: Option<mlang::rt::opcode::Variable<f32>>,
 }
 #[doc = " A container element for grouping together related graphics elements."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
@@ -1535,8 +1535,8 @@ pub struct Group;
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Path {
-    events: mlang::rt::opcode::Variable<Vec<PathEvent>>,
-    length: Option<mlang::rt::opcode::Variable<Length>>,
+    pub events: mlang::rt::opcode::Variable<Vec<PathEvent>>,
+    pub length: Option<mlang::rt::opcode::Variable<Length>>,
 }
 #[doc = " A pattern is used to fill or stroke an object using a pre-defined graphic object which can be replicated (\"tiled\")"]
 #[doc = " at fixed intervals in x and y to cover the areas to be painted. Patterns are defined using a ‘pattern’ element and"]
@@ -1550,18 +1550,18 @@ pub struct Path {
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Pattern {
-    units: Option<mlang::rt::opcode::Variable<Coords>>,
-    content_units: Option<mlang::rt::opcode::Variable<Coords>>,
-    transform: Option<mlang::rt::opcode::Variable<Transform>>,
-    x: Option<mlang::rt::opcode::Variable<Length>>,
-    y: Option<mlang::rt::opcode::Variable<Length>>,
-    width: Option<mlang::rt::opcode::Variable<Length>>,
-    height: Option<mlang::rt::opcode::Variable<Length>>,
+    pub units: Option<mlang::rt::opcode::Variable<Coords>>,
+    pub content_units: Option<mlang::rt::opcode::Variable<Coords>>,
+    pub transform: Option<mlang::rt::opcode::Variable<Transform>>,
+    pub x: Option<mlang::rt::opcode::Variable<Length>>,
+    pub y: Option<mlang::rt::opcode::Variable<Length>>,
+    pub width: Option<mlang::rt::opcode::Variable<Length>>,
+    pub height: Option<mlang::rt::opcode::Variable<Length>>,
 }
 #[doc = " Use a fragment by name."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Use(mlang::rt::opcode::Variable<Iri>);
+pub struct Use(pub mlang::rt::opcode::Variable<Iri>);
 #[doc = " The ‘rect’ element defines a rectangle which is axis-aligned with the current user coordinate system."]
 #[doc = " Rounded rectangles can be achieved by setting appropriate values for attributes ‘rx’ and ‘ry’."]
 #[doc = " "]
@@ -1579,61 +1579,61 @@ pub struct Use(mlang::rt::opcode::Variable<Iri>);
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Rect {
-    x: mlang::rt::opcode::Variable<Length>,
-    y: mlang::rt::opcode::Variable<Length>,
-    width: mlang::rt::opcode::Variable<Length>,
-    height: mlang::rt::opcode::Variable<Length>,
-    rx: Option<mlang::rt::opcode::Variable<Length>>,
-    ry: Option<mlang::rt::opcode::Variable<Length>>,
+    pub x: mlang::rt::opcode::Variable<Length>,
+    pub y: mlang::rt::opcode::Variable<Length>,
+    pub width: mlang::rt::opcode::Variable<Length>,
+    pub height: mlang::rt::opcode::Variable<Length>,
+    pub rx: Option<mlang::rt::opcode::Variable<Length>>,
+    pub ry: Option<mlang::rt::opcode::Variable<Length>>,
 }
 #[doc = " The ‘circle’ element defines a circle based on a center point and a radius."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Circle {
-    cx: mlang::rt::opcode::Variable<Length>,
-    cy: mlang::rt::opcode::Variable<Length>,
-    r: mlang::rt::opcode::Variable<Length>,
+    pub cx: mlang::rt::opcode::Variable<Length>,
+    pub cy: mlang::rt::opcode::Variable<Length>,
+    pub r: mlang::rt::opcode::Variable<Length>,
 }
 #[doc = " The ‘ellipse’ element defines an ellipse which is axis-aligned with the current user coordinate"]
 #[doc = " system based on a center point and two radii."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Ellipse {
-    cx: Option<mlang::rt::opcode::Variable<Length>>,
-    cy: Option<mlang::rt::opcode::Variable<Length>>,
-    rx: mlang::rt::opcode::Variable<Length>,
-    ry: mlang::rt::opcode::Variable<Length>,
+    pub cx: Option<mlang::rt::opcode::Variable<Length>>,
+    pub cy: Option<mlang::rt::opcode::Variable<Length>>,
+    pub rx: mlang::rt::opcode::Variable<Length>,
+    pub ry: mlang::rt::opcode::Variable<Length>,
 }
 #[doc = " The ‘line’ element defines a line segment that starts at one point and ends at another."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Line {
-    x1: mlang::rt::opcode::Variable<Length>,
-    y1: mlang::rt::opcode::Variable<Length>,
-    x2: mlang::rt::opcode::Variable<Length>,
-    y2: mlang::rt::opcode::Variable<Length>,
+    pub x1: mlang::rt::opcode::Variable<Length>,
+    pub y1: mlang::rt::opcode::Variable<Length>,
+    pub x2: mlang::rt::opcode::Variable<Length>,
+    pub y2: mlang::rt::opcode::Variable<Length>,
 }
 #[doc = " The ‘polyline’ element defines a set of connected straight line segments. Typically, ‘polyline’ elements define open shapes."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Polyline(mlang::rt::opcode::Variable<Vec<Point>>);
+pub struct Polyline(pub mlang::rt::opcode::Variable<Vec<Point>>);
 #[doc = " The ‘polygon’ element defines a closed shape consisting of a set of connected straight line segments."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Polygon(mlang::rt::opcode::Variable<Vec<Point>>);
+pub struct Polygon(pub mlang::rt::opcode::Variable<Vec<Point>>);
 #[doc = " The ‘text’ element defines a graphics element consisting of text."]
 #[doc = " "]
 #[doc = " See [`text`](https://www.w3.org/TR/SVG11/text.html#TextElement)"]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Text {
-    x: Option<mlang::rt::opcode::Variable<Vec<Length>>>,
-    y: Option<mlang::rt::opcode::Variable<Vec<Length>>>,
-    dx: Option<mlang::rt::opcode::Variable<Vec<Length>>>,
-    dy: Option<mlang::rt::opcode::Variable<Vec<Length>>>,
-    rotate: Option<mlang::rt::opcode::Variable<Vec<Angle>>>,
-    text_length: Option<mlang::rt::opcode::Variable<Vec<Length>>>,
-    length_adjust: Option<mlang::rt::opcode::Variable<TextLengthAdjust>>,
+    pub x: Option<mlang::rt::opcode::Variable<Vec<Length>>>,
+    pub y: Option<mlang::rt::opcode::Variable<Vec<Length>>>,
+    pub dx: Option<mlang::rt::opcode::Variable<Vec<Length>>>,
+    pub dy: Option<mlang::rt::opcode::Variable<Vec<Length>>>,
+    pub rotate: Option<mlang::rt::opcode::Variable<Vec<Angle>>>,
+    pub text_length: Option<mlang::rt::opcode::Variable<Vec<Length>>>,
+    pub length_adjust: Option<mlang::rt::opcode::Variable<TextLengthAdjust>>,
 }
 #[doc = " The ‘text’ element defines a graphics element consisting of text."]
 #[doc = " "]
@@ -1641,18 +1641,18 @@ pub struct Text {
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct TextSpan {
-    x: Option<mlang::rt::opcode::Variable<Vec<Length>>>,
-    y: Option<mlang::rt::opcode::Variable<Vec<Length>>>,
-    dx: Option<mlang::rt::opcode::Variable<Vec<Length>>>,
-    dy: Option<mlang::rt::opcode::Variable<Vec<Length>>>,
-    rotate: Option<mlang::rt::opcode::Variable<Vec<Angle>>>,
-    text_length: Option<mlang::rt::opcode::Variable<Vec<Length>>>,
-    length_adjust: Option<mlang::rt::opcode::Variable<TextLengthAdjust>>,
+    pub x: Option<mlang::rt::opcode::Variable<Vec<Length>>>,
+    pub y: Option<mlang::rt::opcode::Variable<Vec<Length>>>,
+    pub dx: Option<mlang::rt::opcode::Variable<Vec<Length>>>,
+    pub dy: Option<mlang::rt::opcode::Variable<Vec<Length>>>,
+    pub rotate: Option<mlang::rt::opcode::Variable<Vec<Angle>>>,
+    pub text_length: Option<mlang::rt::opcode::Variable<Vec<Length>>>,
+    pub length_adjust: Option<mlang::rt::opcode::Variable<TextLengthAdjust>>,
 }
 #[doc = " Text content chars."]
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct Characters(String);
+pub struct Characters(pub String);
 #[doc = " In addition to text drawn in a straight line, SVG also includes the ability to place text along the"]
 #[doc = " shape of a ‘path’ element. To specify that a block of text is to be rendered along the shape of a ‘path’,"]
 #[doc = " include the given text within a ‘textPath’ element which includes an href’ attribute with an IRI"]
@@ -1660,10 +1660,10 @@ pub struct Characters(String);
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct TextPath {
-    start_offset: Option<mlang::rt::opcode::Variable<Length>>,
-    method: Option<mlang::rt::opcode::Variable<TextPathMethod>>,
-    spacing: Option<mlang::rt::opcode::Variable<TextPathSpacing>>,
-    href: mlang::rt::opcode::Variable<Iri>,
+    pub start_offset: Option<mlang::rt::opcode::Variable<Length>>,
+    pub method: Option<mlang::rt::opcode::Variable<TextPathMethod>>,
+    pub spacing: Option<mlang::rt::opcode::Variable<TextPathSpacing>>,
+    pub href: mlang::rt::opcode::Variable<Iri>,
 }
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]

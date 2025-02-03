@@ -48,10 +48,15 @@ pub trait TypeMapping {
     fn to_definition(&self, ty_mod: &TokenStream) -> TokenStream;
 
     /// Convert [`Type`] to rust where clause.
-    fn to_from_where_clause(&self, ty_mod: &TokenStream, generic_ty: &TokenStream) -> TokenStream;
+    fn to_from_where_clause(
+        &self,
+        ty_mod: &TokenStream,
+        sexpr_mod: &TokenStream,
+        generic_ty: &TokenStream,
+    ) -> TokenStream;
 
     /// Generate rust from clause for this type.
-    fn to_from_clause(&self, param: &TokenStream) -> TokenStream;
+    fn to_from_clause(&self, sexpr_mod: &TokenStream, param: &TokenStream) -> TokenStream;
 }
 
 impl TypeMapping for Type {
@@ -90,7 +95,12 @@ impl TypeMapping for Type {
         }
     }
 
-    fn to_from_where_clause(&self, ty_mod: &TokenStream, generic_ty: &TokenStream) -> TokenStream {
+    fn to_from_where_clause(
+        &self,
+        ty_mod: &TokenStream,
+        sexpr_mod: &TokenStream,
+        generic_ty: &TokenStream,
+    ) -> TokenStream {
         match self {
             Type::Data(ident) => {
                 let ty = ident.to_type_name();
@@ -104,12 +114,12 @@ impl TypeMapping for Type {
                 let ty = component.to_definition(ty_mod);
                 let generic_ty = generic_ty;
                 quote! {
-                    #generic_ty: mlang::rt::sexpr::MapCollect<#ty>
+                    #generic_ty: #sexpr_mod MapCollect<#ty>
                 }
             }
             Type::Float(_) => {
                 let generic_ty = generic_ty;
-                quote! { mlang::rt::sexpr::Number: From<#generic_ty> }
+                quote! { #sexpr_mod Number: From<#generic_ty> }
             }
             _ => {
                 let ty = self.to_definition(ty_mod);
@@ -121,7 +131,7 @@ impl TypeMapping for Type {
         }
     }
 
-    fn to_from_clause(&self, param: &TokenStream) -> TokenStream {
+    fn to_from_clause(&self, sexpr_mod: &TokenStream, param: &TokenStream) -> TokenStream {
         let param = param;
 
         match self {
@@ -131,7 +141,7 @@ impl TypeMapping for Type {
                 }
             }
             Type::Float(_) => {
-                quote! { mlang::rt::sexpr::Number::from(#param).0 }
+                quote! { #sexpr_mod Number::from(#param).0 }
             }
             _ => {
                 quote! {
@@ -145,7 +155,7 @@ impl TypeMapping for Type {
 /// A trait to help mapping [`Field`] to rust field clause.
 pub trait FieldMapping: CommentMapping {
     /// Generate rust from clause for this field: Some(value) or Variable::Constant(value)
-    fn to_from_clause(&self, param: &TokenStream) -> TokenStream;
+    fn to_from_clause(&self, sexpr_mod: &TokenStream, param: &TokenStream) -> TokenStream;
 
     /// Generate rust struct field init clause: `a: 1usize` or `b: value.0`.
     fn to_init_clause(&self, param: &TokenStream) -> TokenStream;
@@ -167,8 +177,8 @@ impl<'a> CommentMapping for Field<'a> {
 }
 
 impl<'a> FieldMapping for Field<'a> {
-    fn to_from_clause(&self, param: &TokenStream) -> TokenStream {
-        let mut param = param.clone();
+    fn to_from_clause(&self, sexpr_mod: &TokenStream, param: &TokenStream) -> TokenStream {
+        let mut param = self.ty().to_from_clause(sexpr_mod, param);
 
         if self.is_variable() {
             param = quote! { mlang::rt::opcode::Variable::Constant(#param) };

@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/mlang", "crates/parserc"]
+members = ["crates/mlang", "crates/parserc", "crates/vglang"]
 resolver = "2"
 
 [workspace.package]

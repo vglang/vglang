@@ -22,7 +22,7 @@ impl TypeDefinitionCodeGen for Node {
             .map(|field| {
                 let ty = field.to_type_definition(&quote! {});
 
-                field.to_definition_clause(&quote! {}, &ty)
+                field.to_definition_clause(&quote! { pub }, &ty)
             })
             .collect::<Vec<_>>();
 

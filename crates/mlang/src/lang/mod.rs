@@ -8,18 +8,13 @@ pub mod rustgen;
 mod ext {
 
     use parserc::{ParseContext, PrintReport, Result};
-    use std::path::Path;
 
-    use super::{analyzer::semantic_analyze, parser::parse, rustgen::codegen};
+    use super::{analyzer::semantic_analyze, parser::parse, rustgen::CodeGen};
 
     /// Compile `mlang` source code and generate rust source code.
     ///
     /// This function will output any errors encountered during compilation directly to the terminal
-    pub fn compile<S: AsRef<str>, T: AsRef<Path>>(
-        source: S,
-        target: T,
-        without_ext: bool,
-    ) -> Result<()> {
+    pub fn compile<S: AsRef<str>>(source: S, codegen: CodeGen) -> Result<()> {
         let mut ctx = ParseContext::from(source.as_ref());
 
         let mut stats = match parse(&mut ctx) {
@@ -37,7 +32,7 @@ mod ext {
             return Err(parserc::ControlFlow::Fatal);
         }
 
-        match codegen(stats, target, without_ext) {
+        match codegen.gen(stats) {
             Err(err) => {
                 eprintln!("codegen: {}", err);
                 return Err(parserc::ControlFlow::Fatal);

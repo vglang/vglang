@@ -11,7 +11,7 @@ thiserror = {workspace = true}
 
 heck = {workspace = true, optional = true}
 log = {workspace = true, optional = true}
-mlang = {workspace = true, features = ["rt"]}
+mlang = {workspace = true, features = ["rt", "rt_serde"]}
 parserc = {workspace = true, optional = true}
 serde = {workspace = true, optional = true}
 varint-rs = {workspace = true, optional = true}
@@ -25,6 +25,8 @@ mlang = {workspace = true, features = ["lang"]}
 divan = {workspace = true}
 
 [features]
+default = ["sexpr", "svg", "serde", "binary"]
+
 binary = ["varint-rs"]
 serde = ["dep:serde", "parserc/serde", "mlang/serde"]
 sexpr = ["vglang-derive"]

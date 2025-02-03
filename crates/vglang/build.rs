@@ -5,11 +5,15 @@ fn ml_gen() {}
 fn ml_gen() {
     use std::path::PathBuf;
 
-    use mlang::lang::compile;
+    use mlang::lang::{compile, rustgen::CodeGen};
 
     let target = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("src/ml");
 
-    compile(include_str!("./vglang.ml"), target, false).unwrap();
+    compile(
+        include_str!("./vglang.ml"),
+        CodeGen::default().target(target),
+    )
+    .unwrap();
 }
 
 fn main() {
