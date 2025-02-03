@@ -11,7 +11,7 @@ fn test_spec() {
 }
 
 fn write_json(catalog: &str, case: &str, opcodes: &[Opcode]) {
-    let path: &Path = env!("CARGO_MANIFEST_DIR").as_ref();
+    let path: &Path = env!("CARGO_TARGET_TMPDIR").as_ref();
 
     let output_dir = path.join("spec").join(catalog);
 
@@ -25,7 +25,7 @@ fn write_json(catalog: &str, case: &str, opcodes: &[Opcode]) {
 }
 
 fn write_svg(catalog: &str, case: &str, opcodes: &[Opcode]) {
-    let path: &Path = env!("CARGO_MANIFEST_DIR").as_ref();
+    let path: &Path = env!("CARGO_TARGET_TMPDIR").as_ref();
 
     let output_dir = path.join("spec").join(catalog);
 
@@ -39,7 +39,7 @@ fn write_svg(catalog: &str, case: &str, opcodes: &[Opcode]) {
 }
 
 fn write_binary(catalog: &str, case: &str, opcodes: &[Opcode]) {
-    let path: &Path = env!("CARGO_MANIFEST_DIR").as_ref();
+    let path: &Path = env!("CARGO_TARGET_TMPDIR").as_ref();
 
     let output_dir = path.join("spec").join(catalog);
 
