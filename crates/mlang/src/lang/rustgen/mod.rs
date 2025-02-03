@@ -97,6 +97,10 @@ mod ext {
 
         /// invoke real rust code generation processing.
         pub fn gen(self, stats: impl AsRef<[Stat]>) -> Result<()> {
+            if !self.target.exists() {
+                std::fs::create_dir_all(&self.target)?;
+            }
+
             let mut mods = vec![("opcode", gen_opcode_mod(stats.as_ref()))];
 
             if self.with_sexpr {
@@ -113,7 +117,7 @@ mod ext {
             let mut impls = vec![];
 
             for (name, codes) in mods {
-                let target_file = self.target.join(format!("{}.rs", name)).canonicalize()?;
+                let target_file = self.target.join(format!("{}.rs", name));
 
                 write_and_fmt_rs(target_file, codes.to_string())?;
 
@@ -130,7 +134,7 @@ mod ext {
                 #(#impls)*
             };
 
-            let target_file = self.target.join("mod.rs").canonicalize()?;
+            let target_file = self.target.join("mod.rs");
 
             write_and_fmt_rs(target_file, codes.to_string())?;
 
